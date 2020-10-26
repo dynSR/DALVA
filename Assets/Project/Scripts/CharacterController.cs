@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(LineRenderer))]
 public class CharacterController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 5f;
@@ -17,6 +18,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private LayerMask walkableLayer;
     [SerializeField] private GameObject movementFeedback;
 
+    private LineRenderer lineRenderer;
+
     private Animator animator;
 
     public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
@@ -27,6 +30,8 @@ public class CharacterController : MonoBehaviour
         navMeshAgent.speed = MovementSpeed;
 
         animator = transform.GetChild(0).GetComponent<Animator>();
+
+        lineRenderer = GetComponent<LineRenderer>();
     }
 
     protected virtual void Update()
@@ -39,6 +44,19 @@ public class CharacterController : MonoBehaviour
         }
 
         HandleAnimation("isMoving", !PathComplete());
+
+        if (navMeshAgent.hasPath)
+        {
+            HandleRotation();
+
+            lineRenderer.positionCount = navMeshAgent.path.corners.Length;
+            lineRenderer.SetPositions(navMeshAgent.path.corners);
+            lineRenderer.enabled = true;
+        }
+        else
+        {
+            lineRenderer.enabled = false;
+        }
     }
 
     void HandleRayCast()
@@ -50,6 +68,11 @@ public class CharacterController : MonoBehaviour
             navMeshDestination = cursorRaycastHit.point;
             MovementFeedbackInstantiation(movementFeedback, navMeshDestination);
         }
+    }
+
+    void HandleRotation()
+    {
+        //transform.LookAt(navMeshAgent.nextPosition);
     }
 
     void Move(Vector3 destinationToMove)

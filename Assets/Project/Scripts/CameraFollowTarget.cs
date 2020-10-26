@@ -6,6 +6,7 @@ public class CameraFollowTarget : MonoBehaviour
 {
     [SerializeField] private Transform targetToFollow;
     [SerializeField] private float followingSpeed;
+    [Tooltip("Il faut mettre la moitié de la valeur de l'axe Y (en négatif) sur l'axe Z pour avoir le personnage visé par la caméra au centre de l'écran")]
     [SerializeField] private Vector3 cameraOffset;
 
     void Update()

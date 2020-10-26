@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterController
 {
-    void Start()
+    protected override void Start()
     {
-        
+        base.Start();
     }
 
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
     }
 }

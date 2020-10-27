@@ -13,4 +13,9 @@ public class PlayerController : CharacterController
     {
         base.Update();
     }
+
+    //protected override void FixedUpdate()
+    //{
+    //    base.FixedUpdate();
+    //}
 }

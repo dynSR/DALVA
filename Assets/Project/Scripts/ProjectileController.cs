@@ -5,15 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ProjectileController : MonoBehaviour
 {
-    private Transform projectileEmiter;
-
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float projectileLifeTime;
     [SerializeField] private float projectileDamage;
     [SerializeField] private GameObject onHitEffect;
 
     private Rigidbody rb;
-    public Transform ProjectileEmiter { get => projectileEmiter; set => projectileEmiter = value; }
 
     private void Awake()
     {
@@ -30,7 +27,7 @@ public class ProjectileController : MonoBehaviour
         rb.MovePosition(transform.position += transform.forward * projectileSpeed);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
         //InstantiateHitEffect(onHitEffect);
         Destroy(gameObject);

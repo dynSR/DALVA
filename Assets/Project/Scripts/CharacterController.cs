@@ -10,32 +10,31 @@ using UnityEngine.UIElements;
 //Enemies + players inherits from
 public class CharacterController : MonoBehaviour
 {
+    [Header("CHARACTER RENDERER")]
+    [SerializeField] private GameObject rendererGameObject;
+
     [Header("MOVEMENT PARAMETERS")]
     [Range(0,1)]
     [SerializeField] private float movementSpeed = 5f;
-    private NavMeshAgent navMeshAgent;
-    private Rigidbody rb;
-
     Ray ray;
     RaycastHit cursorRaycastHit;
 
     [SerializeField] private LayerMask walkableLayer;
     [SerializeField] private GameObject movementFeedback;
+    
+    [SerializeField] private GameObject pathLandmark;
     private LineRenderer lineRenderer;
-    private Vector3 moveVelocity = Vector3.zero;
-
-    [SerializeField] private Transform projectileEmiterLocation;
 
     private Animator animator;
 
     public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
-    public Transform ProjectileEmiterLocation { get => projectileEmiterLocation; }
+    public NavMeshAgent NavMeshAgent { get; set; }
+    public GameObject PathLandmark { get => pathLandmark; }
+    public GameObject RendererGameObject { get => rendererGameObject; }
 
     protected virtual void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
-        //navMeshAgent.speed = MovementSpeed;
+        NavMeshAgent = GetComponent<NavMeshAgent>();
 
         animator = transform.GetChild(0).GetComponent<Animator>();
 
@@ -50,54 +49,63 @@ public class CharacterController : MonoBehaviour
             SetNavMeshDestinationWithRayCast();
         }
 
-        Move();
+        MoveWithMouseClick();
         DebugPathing(lineRenderer);
     }
 
-    //protected virtual void FixedUpdate()
-    //{
-    //    Move();
-    //}
-
     #region Handle Movement 
-    void SetNavMeshDestinationWithRayCast()
+    private void SetNavMeshDestinationWithRayCast()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out cursorRaycastHit, 100f, walkableLayer))
         {
             MovementFeedbackInstantiation(movementFeedback, cursorRaycastHit.point);
-            navMeshAgent.SetDestination(cursorRaycastHit.point);
+            NavMeshAgent.SetDestination(cursorRaycastHit.point);
         }
     }
 
-    void Move()
+    private void MoveWithMouseClick()
     {
-        if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+        if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
         {
             //NavMeshAgent
-            navMeshAgent.Move(navMeshAgent.desiredVelocity * MovementSpeed * Time.deltaTime);
+            NavMeshAgent.Move(NavMeshAgent.desiredVelocity * MovementSpeed * Time.deltaTime);
 
-            //Rigidbody
-            //moveVelocity = navMeshAgent.pathEndPosition * MovementSpeed;
-            //rb.MovePosition(moveVelocity * Time.fixedDeltaTime);
+            rendererGameObject.transform.LookAt(pathLandmark.transform);
+
+            HandleAnimation("isMoving", true);
+        }
+        else
+        {
+            NavMeshAgent.Move(Vector3.zero);
+            HandleAnimation("isMoving", false);
+        }
+    }
+
+    public void MoveAgentToSpecificDestination(Transform destination)
+    {
+        if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
+        {
+            //NavMeshAgent
+            NavMeshAgent.destination = destination.position;
 
 
             HandleAnimation("isMoving", true);
         }
         else
         {
-            navMeshAgent.Move(Vector3.zero);
+            NavMeshAgent.Move(Vector3.zero);
             HandleAnimation("isMoving", false);
         }
     }
 
-    void DebugPathing(LineRenderer line)
+    private void DebugPathing(LineRenderer line)
     {
-        if (navMeshAgent.hasPath)
+        if (NavMeshAgent.hasPath)
         {
-            line.positionCount = navMeshAgent.path.corners.Length;
-            line.SetPositions(navMeshAgent.path.corners);
+            line.positionCount = NavMeshAgent.path.corners.Length;
+            line.SetPositions(NavMeshAgent.path.corners);
             line.enabled = true;
         }
         else
@@ -106,14 +114,14 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    void MovementFeedbackInstantiation(GameObject _movementFeedback, Vector3 pos)
+    private void MovementFeedbackInstantiation(GameObject _movementFeedback, Vector3 pos)
     {
         if (_movementFeedback != null)
             Instantiate(_movementFeedback, pos, Quaternion.identity);
     }
     #endregion
 
-    void HandleAnimation(string boolName, bool value)
+    private void HandleAnimation(string boolName, bool value)
     {
         animator.SetBool(boolName, value);
     }

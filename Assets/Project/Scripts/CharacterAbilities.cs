@@ -1,30 +1,63 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Profiling;
 using UnityEngine;
 
 public class CharacterAbilities : MonoBehaviour
 {
-    private PlayerController player;
+    private PlayerController playerController;
+    private LaunchGameObject launchGameObject;
 
-    [Header("CHARACTER SPELLS")]
+    [Header("CHARACTER ABILITIES")]
     [SerializeField] private Ability[] characterAbilities;
+    public bool abilityOneCanBeUsed = true;
+    public bool abilityOneHasBeenTrigger = false;
+    private float cd1;
+
+    [Header("ABILITIES INPUTS")]
+    [SerializeField] private KeyCode[] abilitiesInputs;
 
     private void Start()
     {
-        player = GetComponent<PlayerController>();
+        launchGameObject = GetComponent<LaunchGameObject>();
+        playerController = GetComponent<PlayerController>();
     }
 
     void Update()
     {
-        ProcessAbilityInputs(KeyCode.A, characterAbilities[0]);
+        //A - Q
+        if (Input.GetKeyDown(abilitiesInputs[0]))
+        {
+            ProcessAbilityInputs(characterAbilities[0], abilityOneCanBeUsed);
+        }
+
+        ApplyCooldownToAbilityOne(characterAbilities[0]);
     }
 
-    void ProcessAbilityInputs(KeyCode keyPressed, Ability abilityUsed)
+    void ProcessAbilityInputs(Ability abilityUsed, bool abilityCanBeUsed)
     {
-        if (Input.GetKeyDown(keyPressed))
+        if (!abilityCanBeUsed) return;
+
+        abilityOneHasBeenTrigger = true;
+        playerController.NavMeshAgent.ResetPath();
+        cd1 = abilityUsed.AbilityCooldown;
+        UseAbility(abilityUsed);
+    }
+
+    void ApplyCooldownToAbilityOne(Ability abilityUsed)
+    {
+        if (abilityOneHasBeenTrigger)
         {
-            Debug.Log("Using An Ability");
-            UseAbility(abilityUsed);
+            abilityOneCanBeUsed = false;
+
+            cd1 -= Time.deltaTime;
+
+            if (cd1 <= 0)
+            {
+                abilityOneCanBeUsed = true;
+                abilityOneHasBeenTrigger = false;
+            }
         }
     }
 
@@ -40,9 +73,10 @@ public class CharacterAbilities : MonoBehaviour
             case AbilityType.Debuff:
                 break;
             case AbilityType.Projectile:
-                abilityUsed.ThrowProjectile(abilityUsed.AbilityPrefab, player.ProjectileEmiterLocation);
+                launchGameObject.TurnCharacterTowardsLaunchDirection();
+                launchGameObject.LaunchProjectile(abilityUsed.AbilityPrefab, launchGameObject.EmmiterPosition);
                 break;
-            case AbilityType.CC:
+            case AbilityType.CrowdControl:
                 break;
             case AbilityType.Movement:
                 break;

@@ -1313,7 +1313,10 @@ GameObject:
   - component: {fileID: 5737913358908120141}
   - component: {fileID: 5737913358908120137}
   - component: {fileID: 5737913358908120136}
-  - component: {fileID: 5737913358908120140}
+  - component: {fileID: 100138253934018671}
+  - component: {fileID: 4559479745538197101}
+  - component: {fileID: 7411786655245905718}
+  - component: {fileID: 7593861764630399677}
   - component: {fileID: 5737913358908120142}
   - component: {fileID: 5737913358908120139}
   m_Layer: 0
@@ -1330,7 +1333,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5737913358908120134}
-  m_LocalRotation: {x: -0.004362773, y: -0, z: -0, w: 0.9999905}
+  m_LocalRotation: {x: -0.004363368, y: 0, z: 0, w: 0.9999905}
   m_LocalPosition: {x: 0, y: -0.004336536, z: 0.0057044625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1351,7 +1354,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.5
-  m_Speed: 5
+  m_Speed: 6.5
   m_Acceleration: 999
   avoidancePriority: 50
   m_AngularSpeed: 999
@@ -1406,13 +1409,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rendererGameObject: {fileID: 5437776796742266854}
-  movementSpeed: 0.25
   walkableLayer:
     serializedVersion: 2
     m_Bits: 256
   movementFeedback: {fileID: 7402422878013587743, guid: f40d96916f2427a4ca6960735a860773, type: 3}
   pathLandmark: {fileID: 5737913360510178683}
---- !u!114 &5737913358908120140
+--- !u!114 &100138253934018671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1421,14 +1423,63 @@ MonoBehaviour:
   m_GameObject: {fileID: 5737913358908120134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca406b232c14ce45b1b430cd784c8d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e52b521eb2686443b75c83180aeef0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterAbilities:
-  - {fileID: 11400000, guid: 0461f04bcc67eaf41be7358c2334ab81, type: 2}
-  abilityOneCanBeUsed: 1
-  abilityOneHasBeenTrigger: 0
-  abilitiesInputs: 61000000
+  abilitiesOnCooldown: []
+--- !u!114 &4559479745538197101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737913358908120134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f42c4ccd8782c43439181fed2c0bed61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusEffectOnCooldown: []
+--- !u!114 &7411786655245905718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737913358908120134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edbca51a557010c4bbd32e2bcaeb316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusEffectName: MovementSpeedBuff
+  statusEffectDescription: Speed the entity for a short duration
+  statusEffectDuration: 1.5
+  statusEffectIcon: {fileID: 0}
+  statusEffectPrefab: {fileID: 0}
+--- !u!114 &7593861764630399677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737913358908120134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed0a35dbfe00dfe47b4ff8ab67078b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: Fire Ball
+  abilityDescription: Launch a fire ball in a direction. It explodes when touching
+    something
+  abilityType: 3
+  abilityKey: 97
+  abilityPrefab: {fileID: 7698714164152369823, guid: f8f0cfca40865cf4fbd1d233068c1efd, type: 3}
+  isInstantCast: 0
+  abilityCooldown: 2
+  abilityDamage: 15
+  abilityRange: 0
+  abilityAreaOfEffect: 0
 --- !u!114 &5737913358908120142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1445,6 +1496,7 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 256
+  rotationSpeed: 150
 --- !u!120 &5737913358908120139
 LineRenderer:
   m_ObjectHideFlags: 0

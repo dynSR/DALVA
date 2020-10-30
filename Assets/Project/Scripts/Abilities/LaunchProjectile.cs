@@ -1,21 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class LaunchGameObject : MonoBehaviour
+public class LaunchProjectile : MonoBehaviour
 {
     [SerializeField] private Transform emmiterPosition;
     [SerializeField] private LayerMask layer;
-    
+    [Range(100, 200)]
+    [SerializeField] private int rotationSpeed = 150;
+
     public Transform EmmiterPosition { get => emmiterPosition; }
 
-    public void LaunchProjectile(GameObject projectile, Transform spawnLocation)
+    public void LaunchAProjectile(GameObject projectile, Transform spawnLocation)
     {
+        TurnCharacterTowardsLaunchDirection();
         Instantiate(projectile, spawnLocation.position, spawnLocation.rotation);
     }
 
-    public void TurnCharacterTowardsLaunchDirection()
+    private void TurnCharacterTowardsLaunchDirection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -24,12 +24,11 @@ public class LaunchGameObject : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100f, layer))
         {
-
             Vector3 targetPoint = ray.GetPoint(hit.distance);
             Quaternion targetRotation = Quaternion.LookRotation(targetPoint - renderer.transform.position);
             targetRotation.x = 0;
             targetRotation.z = 0;
-            renderer.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 150f * Time.deltaTime);
+            renderer.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, (float)rotationSpeed * Time.deltaTime);
         }
     }
 }

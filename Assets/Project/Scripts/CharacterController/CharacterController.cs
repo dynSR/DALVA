@@ -13,9 +13,6 @@ public class CharacterController : MonoBehaviour
     [Header("CHARACTER RENDERER")]
     [SerializeField] private GameObject rendererGameObject;
 
-    [Header("MOVEMENT PARAMETERS")]
-    [Range(0,1)]
-    [SerializeField] private float movementSpeed = 5f;
     Ray ray;
     RaycastHit cursorRaycastHit;
 
@@ -27,7 +24,6 @@ public class CharacterController : MonoBehaviour
 
     private Animator animator;
 
-    public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
     public NavMeshAgent NavMeshAgent { get; set; }
     public GameObject PathLandmark { get => pathLandmark; }
     public GameObject RendererGameObject { get => rendererGameObject; }
@@ -70,7 +66,7 @@ public class CharacterController : MonoBehaviour
         if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
         {
             //NavMeshAgent
-            NavMeshAgent.Move(NavMeshAgent.desiredVelocity * MovementSpeed * Time.deltaTime);
+            NavMeshAgent.Move(NavMeshAgent.desiredVelocity * 0.25f * Time.deltaTime);
 
             rendererGameObject.transform.LookAt(pathLandmark.transform);
 
@@ -89,8 +85,6 @@ public class CharacterController : MonoBehaviour
         {
             //NavMeshAgent
             NavMeshAgent.destination = destination.position;
-
-
             HandleAnimation("isMoving", true);
         }
         else

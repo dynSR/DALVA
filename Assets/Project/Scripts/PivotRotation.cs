@@ -18,15 +18,8 @@ public class PivotRotation : MonoBehaviour
         }
     }
 
-
     public void RotateAroundAPivot(Vector3 pointToRotateTowards)
     {
-        //direction = pointToRotateTowards - transform.position;
-
-        //angleToRotate = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
-
-        //transform.eulerAngles = new Vector3(0, 0, angleToRotate);
-
         pointToRotateTowards = new Vector3(pointToRotateTowards.x, transform.position.y, pointToRotateTowards.z);
         transform.LookAt(pointToRotateTowards);
     }

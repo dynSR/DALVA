@@ -26,6 +26,7 @@ namespace ProtoNetwork
                 Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
 
                 LoadArena();
+                Debug.LogFormat("Room name is : ", PhotonNetwork.CurrentRoom.Name);
             }
         }
 
@@ -40,6 +41,7 @@ namespace ProtoNetwork
 
 
                 LoadArena();
+                Debug.LogFormat("Room name is : ", PhotonNetwork.CurrentRoom.Name);
             }
         }
 

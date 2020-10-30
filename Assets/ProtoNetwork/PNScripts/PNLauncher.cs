@@ -92,6 +92,7 @@ namespace ProtoNetwork
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
                 Debug.Log("We load the 'Room for 1' ");
+                Debug.Log("Room name is : " + PhotonNetwork.CurrentRoom.Name);
 
                 // #Critical
                 // Load the Room Level.

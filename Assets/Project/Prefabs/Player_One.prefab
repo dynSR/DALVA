@@ -1409,6 +1409,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rendererGameObject: {fileID: 5437776796742266854}
+  initialSpeed: 0
+  currentSpeed: 0
   walkableLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -1454,9 +1456,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectName: MovementSpeedBuff
   statusEffectDescription: Speed the entity for a short duration
-  statusEffectDuration: 1.5
   statusEffectIcon: {fileID: 0}
-  statusEffectPrefab: {fileID: 0}
+  targets: []
+  statusEffectPrefab: {fileID: 5737913358908120134}
+  statusEffectDuration: 15
+  currentCharacterControllers: []
 --- !u!114 &7593861764630399677
 MonoBehaviour:
   m_ObjectHideFlags: 0

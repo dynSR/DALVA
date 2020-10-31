@@ -25,11 +25,34 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        
+        StatusEffectCooldownHandler.OnAddingStatusEffect += UpdateStatuesEffectUI;
+        StatusEffectCooldownHandler.OnRemovingStatusEffect += RemoveStatuesEffectFromUI;
     }
 
     void Update()
     {
         
+    }
+
+    void UpdateStatuesEffectUI(StatusEffect statusEffect)
+    {
+        GameObject statusEffectFeedbackInstance = Instantiate(statusEffectGameObject);
+        statusEffectFeedbackInstance.transform.SetParent(statusEffectLayoutGroup);
+        statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>().StatuesEffect = statusEffect;
+        statusEffectFeedbackInstance.GetComponent<Image>().sprite = statusEffect.StatusEffectIcon;
+    }
+    void RemoveStatuesEffectFromUI(StatusEffect statusEffect)
+    {
+        int childcount = statusEffectLayoutGroup.childCount;
+        Debug.Log(statusEffectLayoutGroup.childCount);
+
+        for (int i = childcount - 1; i >= 0; i--)
+        {
+            if (statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainer>().StatuesEffect == statusEffect)
+            {
+                Debug.Log("Destroy Expired StatusEffect");
+                Destroy(statusEffectLayoutGroup.GetChild(i).gameObject);
+            }
+        }
     }
 }

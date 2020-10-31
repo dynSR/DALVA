@@ -16,9 +16,13 @@ public class CharacterController : MonoBehaviour
     Ray ray;
     RaycastHit cursorRaycastHit;
 
+    [Header("MOVEMENTS PARAMETERS")]
+    [SerializeField] private float initialSpeed;
+    [SerializeField] private float currentSpeed;
     [SerializeField] private LayerMask walkableLayer;
-    [SerializeField] private GameObject movementFeedback;
     
+    [Header("MOVEMENTS FEEDBACK PARAMETERS")]
+    [SerializeField] private GameObject movementFeedback;
     [SerializeField] private GameObject pathLandmark;
     private LineRenderer lineRenderer;
 
@@ -27,6 +31,8 @@ public class CharacterController : MonoBehaviour
     public NavMeshAgent NavMeshAgent { get; set; }
     public GameObject PathLandmark { get => pathLandmark; }
     public GameObject RendererGameObject { get => rendererGameObject; }
+    public float InitialSpeed { get => initialSpeed; private set => initialSpeed = value; }
+    public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
 
     protected virtual void Start()
     {
@@ -35,6 +41,9 @@ public class CharacterController : MonoBehaviour
         animator = transform.GetChild(0).GetComponent<Animator>();
 
         lineRenderer = GetComponent<LineRenderer>();
+
+        InitialSpeed = NavMeshAgent.speed;
+        CurrentSpeed = InitialSpeed;
     }
 
     protected virtual void Update()

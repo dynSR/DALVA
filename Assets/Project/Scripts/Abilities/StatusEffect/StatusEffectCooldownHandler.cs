@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class StatusEffectCooldownHandler : MonoBehaviour
 {
+    public delegate void StatusEffectAction(StatusEffect statusEffect);
+    public static event StatusEffectAction OnAddingStatusEffect;
+    public static event StatusEffectAction OnRemovingStatusEffect;
+
     [SerializeField] private List<CooldownData> statusEffectOnCooldown = new List<CooldownData>();
 
     [System.Serializable]
@@ -28,29 +32,24 @@ public class StatusEffectCooldownHandler : MonoBehaviour
         }
 
         RemoveStatusEffect();
-        //for (int i = statusEffectOnCooldown.Count - 1; i >= 0; i--)
-        //{
-        //    if (statusEffectOnCooldown[i].buffDuration <= 0)
-        //    {
-        //        statusEffectOnCooldown.RemoveAt(i);
-        //    }
-        //}
     }
 
-    public void ApplyStatusEffect(StatusEffect statusEffect)
+    public void ApplyStatusEffectDuration(StatusEffect statusEffect)
     {
-        statusEffectOnCooldown.Add(new CooldownData(statusEffect, statusEffect.StatusEffectDuration));
+        OnAddingStatusEffect?.Invoke(statusEffect);
 
+        statusEffectOnCooldown.Add(new CooldownData(statusEffect, statusEffect.StatusEffectDuration));
         //Add UI
     }
 
     private void RemoveStatusEffect()
     {
-        for (int i = 0; i < statusEffectOnCooldown.Count; i++)
+        for (int i = statusEffectOnCooldown.Count - 1; i >= 0; i--)
         {
             if (statusEffectOnCooldown[i].buffDuration <= 0)
             {
-                //Remove UI
+                OnRemovingStatusEffect?.Invoke(statusEffectOnCooldown[i].statusEffect);
+
                 statusEffectOnCooldown[i].statusEffect.RemoveStatusEffect();
                 statusEffectOnCooldown.RemoveAt(i);
             }

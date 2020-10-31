@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8535481788273412595}
   - component: {fileID: 3288457113021864588}
   - component: {fileID: 1594118469978174636}
+  - component: {fileID: 5165164428356947275}
   m_Layer: 5
-  m_Name: StatusEffectIcon
+  m_Name: StatusEffectContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +68,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5165164428356947275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577717832280687710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58602f2110b76264ab22f7dab134ff0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statuesEffect: {fileID: 0}

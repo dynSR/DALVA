@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(LineRenderer))]
 //Enemies + players inherits from
 public class CharacterController : MonoBehaviour
@@ -13,34 +12,38 @@ public class CharacterController : MonoBehaviour
     [Header("CHARACTER RENDERER")]
     [SerializeField] private GameObject rendererGameObject;
 
+    //Raycast used for movements
     Ray ray;
     RaycastHit cursorRaycastHit;
-
+    
     [Header("MOVEMENTS PARAMETERS")]
-    [SerializeField] private float initialSpeed;
-    [SerializeField] private float currentSpeed;
     [SerializeField] private LayerMask walkableLayer;
     
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
     [SerializeField] private GameObject pathLandmark;
-    private LineRenderer lineRenderer;
-
-    private Animator animator;
+    private LineRenderer LineRenderer => GetComponent<LineRenderer>();
+    private Animator Animator
+    {
+        get => transform.GetChild(0).GetComponent<Animator>();
+        set
+        {
+            if (transform.GetChild(0).GetComponent<Animator>() == null)
+            {
+                transform.GetChild(0).gameObject.AddComponent<Animator>();
+            }
+        }
+    }
 
     public NavMeshAgent NavMeshAgent { get; set; }
     public GameObject PathLandmark { get => pathLandmark; }
     public GameObject RendererGameObject { get => rendererGameObject; }
-    public float InitialSpeed { get => initialSpeed; private set => initialSpeed = value; }
-    public float CurrentSpeed { get => currentSpeed; set => currentSpeed = value; }
+    public float InitialSpeed { get; private set; }
+    public float CurrentSpeed { get => NavMeshAgent.speed; set => NavMeshAgent.speed = value; }
 
     protected virtual void Start()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
-
-        animator = transform.GetChild(0).GetComponent<Animator>();
-
-        lineRenderer = GetComponent<LineRenderer>();
 
         InitialSpeed = NavMeshAgent.speed;
         CurrentSpeed = InitialSpeed;
@@ -55,7 +58,7 @@ public class CharacterController : MonoBehaviour
         }
 
         MoveWithMouseClick();
-        DebugPathing(lineRenderer);
+        DebugPathing(LineRenderer);
     }
 
     #region Handle Movement 
@@ -74,7 +77,6 @@ public class CharacterController : MonoBehaviour
     {
         if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
         {
-            //NavMeshAgent
             NavMeshAgent.Move(NavMeshAgent.desiredVelocity * 0.25f * Time.deltaTime);
 
             rendererGameObject.transform.LookAt(pathLandmark.transform);
@@ -92,7 +94,6 @@ public class CharacterController : MonoBehaviour
     {
         if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
         {
-            //NavMeshAgent
             NavMeshAgent.destination = destination.position;
             HandleAnimation("isMoving", true);
         }
@@ -126,6 +127,6 @@ public class CharacterController : MonoBehaviour
 
     private void HandleAnimation(string boolName, bool value)
     {
-        animator.SetBool(boolName, value);
+        Animator.SetBool(boolName, value);
     }
 }

@@ -1312,11 +1312,13 @@ GameObject:
   - component: {fileID: 5737913358908120138}
   - component: {fileID: 5737913358908120141}
   - component: {fileID: 5737913358908120137}
+  - component: {fileID: 1206663021003341322}
   - component: {fileID: 5737913358908120136}
   - component: {fileID: 100138253934018671}
-  - component: {fileID: 4559479745538197101}
-  - component: {fileID: 7411786655245905718}
   - component: {fileID: 7593861764630399677}
+  - component: {fileID: 4922416421485161287}
+  - component: {fileID: 7411786655245905718}
+  - component: {fileID: 4366718997651616474}
   - component: {fileID: 5737913358908120142}
   - component: {fileID: 5737913358908120139}
   m_Layer: 0
@@ -1334,7 +1336,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5737913358908120134}
   m_LocalRotation: {x: -0.004363368, y: 0, z: 0, w: 0.9999905}
-  m_LocalPosition: {x: 0, y: -0.004336536, z: 0.0057044625}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4628870849290532188}
@@ -1396,6 +1398,24 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1206663021003341322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737913358908120134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba0c6fe9fcb4d6a4891f9126ab818599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 
+  characterClass: 0
+  maxHealth: 0
+  maxMana: 0
+  healthRegeneration: 0
+  manaRegeneration: 0
 --- !u!114 &5737913358908120136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1409,8 +1429,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rendererGameObject: {fileID: 5437776796742266854}
-  initialSpeed: 0
-  currentSpeed: 0
   walkableLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -1429,38 +1447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitiesOnCooldown: []
---- !u!114 &4559479745538197101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5737913358908120134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f42c4ccd8782c43439181fed2c0bed61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusEffectOnCooldown: []
---- !u!114 &7411786655245905718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5737913358908120134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edbca51a557010c4bbd32e2bcaeb316f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusEffectName: MovementSpeedBuff
-  statusEffectDescription: Speed the entity for a short duration
-  statusEffectIcon: {fileID: 0}
-  targets: []
-  statusEffectPrefab: {fileID: 5737913358908120134}
-  statusEffectDuration: 15
-  currentCharacterControllers: []
+  statusEffectApplied: []
 --- !u!114 &7593861764630399677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1474,16 +1461,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityName: Fire Ball
-  abilityDescription: Launch a fire ball in a direction. It explodes when touching
+  abilityDescription: Launches a fire ball in a direction. It explodes when touching
     something
   abilityType: 3
   abilityKey: 97
   abilityPrefab: {fileID: 7698714164152369823, guid: f8f0cfca40865cf4fbd1d233068c1efd, type: 3}
   isInstantCast: 0
-  abilityCooldown: 2
+  abilityCooldown: 0.5
   abilityDamage: 15
   abilityRange: 0
   abilityAreaOfEffect: 0
+--- !u!114 &4922416421485161287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737913358908120134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9cf2beed839c64fbbb775e549bb797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: Ice Ball
+  abilityDescription: Launches an ice ball in a direction. It explodes when touching
+    something
+  abilityType: 3
+  abilityKey: 122
+  abilityPrefab: {fileID: 100000, guid: 9c6977a9ecda14e4e96ea3a71c749c2c, type: 3}
+  isInstantCast: 0
+  abilityCooldown: 5
+  abilityDamage: 30
+  abilityRange: 0
+  abilityAreaOfEffect: 0
+--- !u!114 &7411786655245905718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737913358908120134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edbca51a557010c4bbd32e2bcaeb316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusEffectName: Movement Speed Buff
+  statusEffectDescription: Speed the entity for a short duration
+  statusEffectIcon: {fileID: 21300000, guid: 7a950e38b89c3e747835fb223034b54f, type: 3}
+  targets:
+  - {fileID: 5737913358908120135}
+  statusEffectPrefab: {fileID: 0}
+  statusEffectDuration: 15
+  currentCharacterControllers: []
+--- !u!114 &4366718997651616474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737913358908120134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976a8890a01cd8d4b9d9dd2751fc594b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusEffectName: Movement Speed Debuff
+  statusEffectDescription: Decreases the speed of an entity for a short duration
+  statusEffectIcon: {fileID: 21300000, guid: 3535df5948f8a994a93d3fe5ff9b07e5, type: 3}
+  targets:
+  - {fileID: 5737913358908120135}
+  statusEffectPrefab: {fileID: 0}
+  statusEffectDuration: 10
+  currentCharacterControllers: []
 --- !u!114 &5737913358908120142
 MonoBehaviour:
   m_ObjectHideFlags: 0

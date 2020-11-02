@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(CooldownHandler))]
 public abstract class Ability : MonoBehaviour
 {
     [Header("CORE PARAMETERS")]
@@ -11,8 +13,8 @@ public abstract class Ability : MonoBehaviour
     [SerializeField] private AbilityType abilityType;
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private GameObject abilityPrefab;
-    private CharacterController characterController;
-    private AbilityCooldownHandler cooldownHandler;
+    private CharacterController CharacterController => GetComponent<CharacterController>();
+    private CooldownHandler CooldownHandler => GetComponent<CooldownHandler>();
 
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private bool isInstantCast = false;
@@ -34,21 +36,15 @@ public abstract class Ability : MonoBehaviour
 
     protected abstract void Cast();
 
-    protected virtual void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-        cooldownHandler = GetComponent<AbilityCooldownHandler>();
-    }
-
     protected virtual void Update()
     {
         if (Input.GetKeyDown(abilityKey))
         {
-            if (cooldownHandler.IsOnCooldown(this)) return;
+            if (CooldownHandler.IsAbilityOnCooldown(this)) return;
 
             HandleCharacterBehaviourBeforeCasting();
             Cast();
-            cooldownHandler.PutOnCooldown(this);
+            CooldownHandler.PutAbilityOnCooldown(this);
         }
     }
 
@@ -56,7 +52,7 @@ public abstract class Ability : MonoBehaviour
     {
         if (!IsInstantCast)
         {
-            characterController.NavMeshAgent.ResetPath();
+            CharacterController.NavMeshAgent.ResetPath();
         }
     }
 }

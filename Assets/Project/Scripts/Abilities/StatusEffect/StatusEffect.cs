@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum TypeOfEffect { EffectToMovementSpeed, EffectToDamage, EffectToSomethingElse }
+
+
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(CharacterCaracteristics))]
+[RequireComponent(typeof(CooldownHandler))]
 public abstract class StatusEffect : MonoBehaviour
 {
     [Header("CORE PARAMETERS")]
@@ -20,18 +26,11 @@ public abstract class StatusEffect : MonoBehaviour
     public GameObject StatusEffectPrefab { get => statusEffectPrefab; }
     public float StatusEffectDuration { get => statusEffectDuration; set => statusEffectDuration = value; }
     public Sprite StatusEffectIcon { get => statusEffectIcon; }
-    public CharacterController CharacterController { get; private set; }
-    public CharacterCaracteristics CharacterCharacteristics { get; private set; }
-    public StatusEffectCooldownHandler StatusEffectCooldownHandler { get; set; }
     public List<Transform> Targets { get => targets; set => targets = value; }
+    public CooldownHandler StatusEffectDurationHandler => GetComponent<CooldownHandler>();
 
-    protected virtual void Start()
-    {
-        CharacterController = GetComponent<CharacterController>();
-        StatusEffectCooldownHandler = GetComponent<StatusEffectCooldownHandler>();
-        CharacterCharacteristics = GetComponent<CharacterCaracteristics>();
-    }
-
+    public TypeOfEffect TypeOfEffect { get => TypeOfEffect; }
+    
     protected abstract void ApplyStatusEffect();
     public abstract void RemoveStatusEffect();
     public abstract void SetTarget();

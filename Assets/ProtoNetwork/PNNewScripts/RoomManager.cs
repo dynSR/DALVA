@@ -7,94 +7,79 @@ using TMPro;
 
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace GameNetwork
 {
-    public class RoomManager : MonoBehaviourPunCallbacks, IPunObservable
+    public class RoomManager : MonoBehaviourPunCallbacks
     {
         #region Fields
 
         [Tooltip("The list of all UI text for players' name")]
         [SerializeField]
-        public List<TextMeshProUGUI> playerList;
+        public List<TextMeshProUGUI> playerListTMPro;
+        public List<string> playerList = new List<string>();
 
         #endregion
 
         #region Callbacks
 
+        private void Start()
+        {
+            
+        }
+
         public override void OnCreatedRoom()
         {
-            base.OnCreatedRoom();
-            foreach (TextMeshProUGUI item in playerList)
-            {
-                if (item.text == "")
-                {
-                    item.text = PhotonNetwork.NickName;
-                    Debug.Log("OK");
-                    return;
-                }
-                else
-                {
-                    Debug.Log("notOK");
-                }
-            }
+            playerList.Add(PhotonNetwork.NickName);
+            UpdatePlayerList();
+        }
+
+        public override void OnJoinedRoom()
+        {
+
         }
 
         public override void OnPlayerEnteredRoom(Player other)
         {
-            Debug.Log("Entered room");
-
-            foreach (TextMeshProUGUI item in playerList)
-            {
-                if (item.text == "")
-                {
-                    item.text = other.NickName;
-                    Debug.Log("OK");
-                    return;
-                }
-                else
-                {
-                    Debug.Log("notOK");
-                }
-            }
-
+            Debug.Log(other.NickName + " entered room");
+            
             if (PhotonNetwork.IsMasterClient)
             {
-                
+                playerList.Add(other.NickName);
+                GetComponent<PhotonView>().RPC("UpdateOtherNameList", RpcTarget.Others, playerList);
             }
         }
 
         public override void OnPlayerLeftRoom(Player other)
         {
-            foreach (TextMeshProUGUI item in playerList)
-            {
-                if (item.text == other.NickName)
-                {
-                    item.text = "";
-                }
-            }
-
+            Debug.Log(other.NickName + " leaved room");
             if (PhotonNetwork.IsMasterClient)
             {
-                
+                playerList.Remove(other.NickName);
+                GetComponent<PhotonView>().RPC("UpdateOtherNameList", RpcTarget.Others, playerList);
             }
         }
 
         #endregion
 
-        #region Observable callbacks
+        #region Methods
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        [PunRPC]
+        void UpdateOtherNameList(List<string> newList)
         {
-            if (stream.IsWriting)
+            playerList = newList;
+            UpdatePlayerList();
+        }
+
+        private void UpdatePlayerList()
+        {
+            for (int i = 0; i < playerList.Count; i++)
             {
-                // We own this player: send the others our data
-                stream.SendNext(playerList);
-            }
-            else
-            {
-                // Network player, receive data
-                this.playerList = (List<TextMeshProUGUI>)stream.ReceiveNext();
+                if(playerListTMPro[i].text != playerList[i])
+                {
+                    playerListTMPro[i].text = playerList[i];
+                }
             }
         }
 

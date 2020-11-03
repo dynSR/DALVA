@@ -8,7 +8,6 @@ public class MovementSpeedDebuff_Test : StatusEffect
 
     public override void RemoveStatusEffect()
     {
-        Debug.Log("Remove");
         for (int i = currentCharacterControllers.Count - 1; i >= 0; i--)
         {
             currentCharacterControllers[i].CurrentSpeed = currentCharacterControllers[i].InitialSpeed;
@@ -26,7 +25,6 @@ public class MovementSpeedDebuff_Test : StatusEffect
 
     protected override void ApplyStatusEffect()
     {
-        Debug.Log("Apply");
         for (int i = 0; i < currentCharacterControllers.Count; i++)
         {
             currentCharacterControllers[i].CurrentSpeed /= 2;
@@ -39,6 +37,9 @@ public class MovementSpeedDebuff_Test : StatusEffect
         if (Input.GetKeyDown(KeyCode.N))
         {
             if (StatusEffectDurationHandler.IsDurationOfStatusEffectApplied(this)) return;
+
+            if (StatusEffectDurationHandler.CheckForSimilarExistingStatusEffect(this))
+                base.CheckForExistingStatusEffect();
 
             SetTarget();
             ApplyStatusEffect();

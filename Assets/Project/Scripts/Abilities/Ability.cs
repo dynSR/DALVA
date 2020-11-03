@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
 
 [RequireComponent(typeof(CharacterController))]
@@ -12,6 +14,7 @@ public abstract class Ability : MonoBehaviour
     [SerializeField] private string abilityDescription;
     [SerializeField] private AbilityType abilityType;
     [SerializeField] private KeyCode abilityKey;
+    [SerializeField] private Sprite abilityIcon;
     [SerializeField] private GameObject abilityPrefab;
     private CharacterController CharacterController => GetComponent<CharacterController>();
     private CooldownHandler CooldownHandler => GetComponent<CooldownHandler>();
@@ -33,12 +36,14 @@ public abstract class Ability : MonoBehaviour
     public float AbilityRange { get => abilityRange; }
     public float AbilityAreaOfEffect { get => abilityAreaOfEffect; }
     public bool IsInstantCast { get => isInstantCast; }
+    public Sprite AbilityIcon { get => abilityIcon; }
+    public KeyCode AbilityKey { get => abilityKey; }
 
     protected abstract void Cast();
 
     protected virtual void Update()
     {
-        if (Input.GetKeyDown(abilityKey))
+        if (Input.GetKeyDown(AbilityKey))
         {
             if (CooldownHandler.IsAbilityOnCooldown(this)) return;
 

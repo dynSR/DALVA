@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public enum TypeOfEffect { EffectToMovementSpeed, EffectToDamage, EffectToSomethingElse }
 
-
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(CharacterCaracteristics))]
 [RequireComponent(typeof(CooldownHandler))]
@@ -17,6 +16,7 @@ public abstract class StatusEffect : MonoBehaviour
     [SerializeField] private Sprite statusEffectIcon;
     [SerializeField] private List<Transform> targets = new List<Transform>();
     [SerializeField] private GameObject statusEffectPrefab;
+    [SerializeField] private TypeOfEffect typeOfEffect;
 
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private float statusEffectDuration;
@@ -28,10 +28,15 @@ public abstract class StatusEffect : MonoBehaviour
     public Sprite StatusEffectIcon { get => statusEffectIcon; }
     public List<Transform> Targets { get => targets; set => targets = value; }
     public CooldownHandler StatusEffectDurationHandler => GetComponent<CooldownHandler>();
+    public TypeOfEffect TypeOfEffect { get => typeOfEffect; set => typeOfEffect = value; }
+    public StatusEffectContainer StatusEffectContainer { get; set; }
 
-    public TypeOfEffect TypeOfEffect { get => TypeOfEffect; }
-    
     protected abstract void ApplyStatusEffect();
     public abstract void RemoveStatusEffect();
     public abstract void SetTarget();
+
+    public virtual void CheckForExistingStatusEffect()
+    {
+        StatusEffectDurationHandler.CheckForSimilarExistingStatusEffect(this);
+    }
 }

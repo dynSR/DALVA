@@ -7,7 +7,6 @@ public class Ability_ProjectileTest01 : Ability
 {
     private LaunchProjectile LaunchProjectile => GetComponent<LaunchProjectile>();
 
-
     protected override void Update()
     {
         base.Update();

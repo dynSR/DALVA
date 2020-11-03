@@ -6,6 +6,12 @@ public class CooldownHandler : MonoBehaviour
 {
     public delegate void StatusEffectAction(StatusEffect statusEffect);
     public static event StatusEffectAction OnAddingStatusEffect;
+    public static event StatusEffectAction OnRemovingStatusEffect;
+
+    public delegate void AbilityUsedAction(Ability abilityUsed);
+    public static event AbilityUsedAction OnAbitilityUsed;
+
+    private bool IsThereMoreThanOneStatusEffectApplied => statusEffectApplied.Count > 0;
 
     [SerializeField] private List<AbilityCooldownData> abilitiesOnCooldown = new List<AbilityCooldownData>();
 
@@ -49,6 +55,7 @@ public class CooldownHandler : MonoBehaviour
     #region Abilities Cooldown Handler Section
     public void PutAbilityOnCooldown(Ability ability)
     {
+        OnAbitilityUsed?.Invoke(ability);
         abilitiesOnCooldown.Add(new AbilityCooldownData(ability, ability.AbilityCooldown));
     }
 
@@ -100,6 +107,34 @@ public class CooldownHandler : MonoBehaviour
         {
             statusEffectApplied[i].duration -= Time.deltaTime;
         }
+    }
+
+    public bool CheckForSimilarExistingStatusEffect(StatusEffect statusEffect)
+    {
+        //for (int i = 0; i < statusEffectApplied.Count; i++)
+        //{
+        //    if (IsThereMoreThanOneStatusEffectApplied && statusEffectApplied[i].statusEffect.TypeOfEffect == statusEffect.TypeOfEffect && statusEffectApplied[i].statusEffect.StatusEffectName != statusEffect.StatusEffectName)
+        //    {
+        //        Debug.Log(statusEffect.StatusEffectName + " is the same that " + statusEffectApplied[i].statusEffect.StatusEffectName);
+        //        statusEffectApplied[i].statusEffect.RemoveStatusEffect();
+        //    }
+        //}
+
+        foreach (StatusEffectDurationData durationData in statusEffectApplied)
+        {
+            if (IsThereMoreThanOneStatusEffectApplied && durationData.statusEffect.TypeOfEffect == statusEffect.TypeOfEffect && durationData.statusEffect.StatusEffectName != statusEffect.StatusEffectName)
+            {
+                Debug.Log(statusEffect.StatusEffectName + " is the same that " + durationData.statusEffect.StatusEffectName);
+
+                durationData.statusEffect.RemoveStatusEffect();
+                durationData.statusEffect.StatusEffectContainer.DestroyContainer();
+                statusEffectApplied.Remove(durationData);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void CheckForExpiredStatusEffectDuration()

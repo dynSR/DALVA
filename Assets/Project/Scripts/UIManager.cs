@@ -23,14 +23,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        CooldownHandler.OnAddingStatusEffect -= UpdateStatusEffectUI;
+    }
+
     void Start()
     {
         CooldownHandler.OnAddingStatusEffect += UpdateStatusEffectUI;
-    }
-
-    void Update()
-    {
-        
     }
 
     void UpdateStatusEffectUI(StatusEffect statusEffect)
@@ -39,5 +39,6 @@ public class UIManager : MonoBehaviour
         statusEffectFeedbackInstance.transform.SetParent(statusEffectLayoutGroup);
 
         statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>().StatusEffect = statusEffect;
+        statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>();
     }
 }

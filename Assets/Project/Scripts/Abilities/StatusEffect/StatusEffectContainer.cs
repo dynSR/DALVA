@@ -22,7 +22,7 @@ public class StatusEffectContainer : MonoBehaviour
 
     private void Update()
     {
-        CheckForStatusEffectToBeRemovedFromUI();
+        CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired();
     }
 
     void SetStatusEffectDurationTextAndTheDuration()
@@ -34,14 +34,19 @@ public class StatusEffectContainer : MonoBehaviour
         StatusEffectDurationText.text = timer;
     }
 
-    void CheckForStatusEffectToBeRemovedFromUI()
+    public void DestroyContainer()
+    {
+        Destroy(gameObject);
+    }
+
+    void CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired()
     {
         localTimer -= Time.deltaTime;
         SetStatusEffectDurationTextAndTheDuration();
 
         if (localTimer <= 0)
         {
-            Destroy(gameObject);
+            DestroyContainer();
         }
     }
 }

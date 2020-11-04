@@ -31,13 +31,14 @@ namespace GameNetwork
 
         public override void OnCreatedRoom()
         {
-            playerList.Add(PhotonNetwork.NickName);
+            //playerList.Add(PhotonNetwork.NickName);
+            //GetComponent<PhotonView>().RPC("UpdateOtherNameList", RpcTarget.OthersBuffered, PhotonNetwork.NickName);
             UpdatePlayerList();
         }
 
         public override void OnJoinedRoom()
         {
-
+            
         }
 
         public override void OnPlayerEnteredRoom(Player other)
@@ -46,18 +47,17 @@ namespace GameNetwork
             
             if (PhotonNetwork.IsMasterClient)
             {
-                playerList.Add(other.NickName);
-                GetComponent<PhotonView>().RPC("UpdateOtherNameList", RpcTarget.Others, playerList);
+                GetComponent<PhotonView>().RPC("PUNUpdateOtherNameList", RpcTarget.All);
             }
         }
 
         public override void OnPlayerLeftRoom(Player other)
         {
             Debug.Log(other.NickName + " leaved room");
+
             if (PhotonNetwork.IsMasterClient)
             {
-                playerList.Remove(other.NickName);
-                GetComponent<PhotonView>().RPC("UpdateOtherNameList", RpcTarget.Others, playerList);
+                GetComponent<PhotonView>().RPC("PUNUpdateOtherNameList", RpcTarget.All);
             }
         }
 
@@ -66,19 +66,31 @@ namespace GameNetwork
         #region Methods
 
         [PunRPC]
-        void UpdateOtherNameList(List<string> newList)
+        void PUNUpdateOtherNameList()
         {
-            playerList = newList;
             UpdatePlayerList();
         }
 
         private void UpdatePlayerList()
         {
-            for (int i = 0; i < playerList.Count; i++)
+            playerList.Clear();
+            foreach (Player item in PhotonNetwork.PlayerList)
             {
-                if(playerListTMPro[i].text != playerList[i])
+                playerList.Add(item.NickName);
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                if(i < playerList.Count)
                 {
-                    playerListTMPro[i].text = playerList[i];
+                    if (playerListTMPro[i].text != playerList[i])
+                    {
+                        playerListTMPro[i].text = playerList[i];
+                    }
+                }
+                else
+                {
+                    playerListTMPro[i].text = "";
                 }
             }
         }

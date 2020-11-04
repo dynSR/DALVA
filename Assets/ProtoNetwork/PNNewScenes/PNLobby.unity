@@ -5354,6 +5354,7 @@ MonoBehaviour:
   - {fileID: 2146520294}
   - {fileID: 97186043}
   - {fileID: 662716142}
+  playerList: []
 --- !u!4 &1391656495
 Transform:
   m_ObjectHideFlags: 0
@@ -5879,7 +5880,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 564485128}
         m_TargetAssemblyTypeName: GameNetwork.Launcher, Assembly-CSharp
-        m_MethodName: RandomConnect
+        m_MethodName: ConnectRandom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

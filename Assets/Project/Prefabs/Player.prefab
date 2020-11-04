@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &518733570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 518733571}
+  - component: {fileID: 518733572}
+  m_Layer: 5
+  m_Name: StatusEffect_LayoutGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &518733571
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518733570}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2647935188816457787}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 37, y: -36}
+  m_SizeDelta: {x: 1000, y: 50}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &518733572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518733570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 50, y: 50}
+  m_Spacing: {x: 20, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 1
 --- !u!1 &1727908173
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,7 +94,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 16.000061}
+  m_AnchoredPosition: {x: 0, y: 16}
   m_SizeDelta: {x: 880, y: 155}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1727908175
@@ -75,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 826d0e6057cdb7f458a3a614f3c0cea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfAbilities: 4
+  numberOfAbilities: 2
   keys: 610000007a0000006500000072000000
   abilityContainerPrefab: {fileID: 6129259527572988802, guid: 0176f44eafff48147a8c0ea5ead4fdd2, type: 3}
   abilityContainers: []
@@ -1396,8 +1456,6 @@ GameObject:
   - component: {fileID: 100138253934018671}
   - component: {fileID: 7593861764630399677}
   - component: {fileID: 4922416421485161287}
-  - component: {fileID: 7411786655245905718}
-  - component: {fileID: 4366718997651616474}
   - component: {fileID: 5737913358908120142}
   - component: {fileID: 5737913358908120139}
   m_Layer: 0
@@ -1513,6 +1571,7 @@ MonoBehaviour:
   walkableLayer:
     serializedVersion: 2
     m_Bits: 256
+  rotationSpeed: 10
   movementFeedback: {fileID: 7402422878013587743, guid: f40d96916f2427a4ca6960735a860773, type: 3}
   pathLandmark: {fileID: 5737913360510178683}
 --- !u!114 &100138253934018671
@@ -1527,8 +1586,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e52b521eb2686443b75c83180aeef0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilitiesOnCooldown: []
-  statusEffectApplied: []
+  allAbilitiesOnCooldown: []
+  allStatusEffectApplied: []
 --- !u!114 &7593861764630399677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1577,46 +1636,6 @@ MonoBehaviour:
   abilityDamage: 30
   abilityRange: 0
   abilityAreaOfEffect: 0
---- !u!114 &7411786655245905718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5737913358908120134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edbca51a557010c4bbd32e2bcaeb316f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusEffectName: Movement Speed Buff
-  statusEffectDescription: Speed the entity for a short duration
-  statusEffectIcon: {fileID: 21300000, guid: 7a950e38b89c3e747835fb223034b54f, type: 3}
-  targets:
-  - {fileID: 5737913358908120135}
-  statusEffectPrefab: {fileID: 0}
-  statusEffectDuration: 15
-  currentCharacterControllers: []
---- !u!114 &4366718997651616474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5737913358908120134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 976a8890a01cd8d4b9d9dd2751fc594b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusEffectName: Movement Speed Debuff
-  statusEffectDescription: Decreases the speed of an entity for a short duration
-  statusEffectIcon: {fileID: 21300000, guid: 3535df5948f8a994a93d3fe5ff9b07e5, type: 3}
-  targets:
-  - {fileID: 5737913358908120135}
-  statusEffectPrefab: {fileID: 0}
-  statusEffectDuration: 10
-  currentCharacterControllers: []
 --- !u!114 &5737913358908120142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2507,6 +2526,7 @@ GameObject:
   - component: {fileID: 5807991730987698947}
   - component: {fileID: 5860456984379792426}
   - component: {fileID: 5078964145738101924}
+  - component: {fileID: 9119594309841109989}
   m_Layer: 0
   m_Name: PlayerHUD
   m_TagString: Untagged
@@ -2526,6 +2546,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1727908174}
+  - {fileID: 518733571}
   m_Father: {fileID: 5737913358908120135}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2551,7 +2572,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2594,6 +2615,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &9119594309841109989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7628143800965783597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7f1e72aeca257489ceb778ae2cc7ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusEffectLayoutGroup: {fileID: 518733571}
+  statusEffectGameObject: {fileID: 3577717832280687710, guid: 2800ad184e127b545ab57bcc37bb4781, type: 3}
 --- !u!1 &7796490722390186138
 GameObject:
   m_ObjectHideFlags: 0

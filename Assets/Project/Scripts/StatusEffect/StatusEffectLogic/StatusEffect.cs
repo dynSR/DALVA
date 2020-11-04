@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public enum TypeOfEffect { EffectToMovementSpeed, EffectToDamage, EffectToSomethingElse }
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(CharacterCaracteristics))]
-[RequireComponent(typeof(CooldownHandler))]
 public abstract class StatusEffect : MonoBehaviour
 {
     [Header("CORE PARAMETERS")]
@@ -16,6 +13,7 @@ public abstract class StatusEffect : MonoBehaviour
     [SerializeField] private Sprite statusEffectIcon;
     [SerializeField] private List<Transform> targets = new List<Transform>();
     [SerializeField] private GameObject statusEffectPrefab;
+    [SerializeField] private bool doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying;
     [SerializeField] private TypeOfEffect typeOfEffect;
 
     [Header("NUMERIC PARAMETERS")]
@@ -30,13 +28,14 @@ public abstract class StatusEffect : MonoBehaviour
     public CooldownHandler StatusEffectDurationHandler => GetComponent<CooldownHandler>();
     public TypeOfEffect TypeOfEffect { get => typeOfEffect; set => typeOfEffect = value; }
     public StatusEffectContainer StatusEffectContainer { get; set; }
+    public bool DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying { get => doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying; }
 
-    protected abstract void ApplyStatusEffect();
+    public abstract void SetTargetAndApplyStatusEffectOnIt();
     public abstract void RemoveStatusEffect();
-    public abstract void SetTarget();
-
-    public virtual void CheckForExistingStatusEffect()
+    
+    public virtual void CheckForExistingStatusEffect(CooldownHandler cooldownHandler)
     {
-        StatusEffectDurationHandler.CheckForSimilarExistingStatusEffect(this);
+        if (cooldownHandler.AreThereSimilarExistingStatusEffectApplied(this))
+            cooldownHandler.RemoveStatusEffectOfSameTypeThatHasAlreadyBeenApplied();
     }
 }

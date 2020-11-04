@@ -1,27 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class PlayerHUD : MonoBehaviour
 {
     [Header("STATUS EFFECT PARAMETERS")]
     [SerializeField] private Transform statusEffectLayoutGroup;
     [SerializeField] private GameObject statusEffectGameObject;
-
-    public static UIManager Instance;
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void OnDestroy()
     {
@@ -38,7 +23,7 @@ public class UIManager : MonoBehaviour
         GameObject statusEffectFeedbackInstance = Instantiate(statusEffectGameObject) as GameObject;
         statusEffectFeedbackInstance.transform.SetParent(statusEffectLayoutGroup);
 
-        statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>().StatusEffect = statusEffect;
+        statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>().ContainedStatusEffect = statusEffect;
         statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>();
     }
 }

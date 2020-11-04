@@ -18,7 +18,8 @@ public class CharacterController : MonoBehaviour
     
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
-    
+    [SerializeField] private float rotationSpeed;
+
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
     [SerializeField] private GameObject pathLandmark;

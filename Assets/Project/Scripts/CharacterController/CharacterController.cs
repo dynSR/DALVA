@@ -19,6 +19,7 @@ public class CharacterController : MonoBehaviour
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private Camera characterCamera;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
@@ -41,6 +42,11 @@ public class CharacterController : MonoBehaviour
     public GameObject RendererGameObject { get => rendererGameObject; }
     public float InitialSpeed { get; private set; }
     public float CurrentSpeed { get => NavMeshAgent.speed; set => NavMeshAgent.speed = value; }
+
+    protected virtual void Awake()
+    {
+        InstantiateCharacterCameraAtStartOfTheGame();
+    }
 
     protected virtual void Start()
     {
@@ -73,7 +79,6 @@ public class CharacterController : MonoBehaviour
             NavMeshAgent.SetDestination(cursorRaycastHit.point);
         }
     }
-
     private void MoveWithMouseClick()
     {
         if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
@@ -129,5 +134,11 @@ public class CharacterController : MonoBehaviour
     private void HandleAnimation(string boolName, bool value)
     {
         Animator.SetBool(boolName, value);
+    }
+
+    private void InstantiateCharacterCameraAtStartOfTheGame()
+    {
+        GameObject cameraInstance = Instantiate(characterCamera.gameObject, characterCamera.transform.position, characterCamera.transform.rotation) as GameObject;
+        cameraInstance.GetComponent<CameraController>().TargetToFollow = this.transform;
     }
 }

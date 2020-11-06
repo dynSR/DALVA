@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(CooldownHandler))]
-public abstract class Ability : MonoBehaviour
+public abstract class Ability : MonoBehaviourPun
 {
     [Header("CORE PARAMETERS")]
     [SerializeField] private string abilityName;
@@ -43,6 +44,11 @@ public abstract class Ability : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(AbilityKey))
         {
             if (CooldownHandler.IsAbilityOnCooldown(this)) return;

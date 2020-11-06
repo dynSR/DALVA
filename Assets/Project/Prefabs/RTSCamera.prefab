@@ -167,10 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4531d6da2759b843a52f2e5d4b8997e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraState: 0
-  changeCameraStateKey: 9
-  boundary: 50
-  cameraSpeed: 50
+  cameraLockState: 0
+  changeCameraLockStateKey: 9
+  cameraFocusOnTargetKey: 50
+  screenEdgesThreshold: 50
+  cameraMovementSpeed: 15
   targetToFollow: {fileID: 0}
-  followingSpeed: 5
+  cameraFollowingSpeed: 1
   cameraOffset: {x: 0, y: 12, z: -6}

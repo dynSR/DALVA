@@ -50,14 +50,14 @@ public class CharacterController : MonoBehaviourPun
     protected virtual void Awake()
     {
         //Reseau
-        if (photonView != null && photonView.IsMine)
+        if (/*photonView != null && */photonView.IsMine)
         {
             CharacterController.LocalPlayerInstance = this.gameObject;
             InstantiateCharacterCameraAtStartOfTheGame();
         }
-        //Local
-        else
-            InstantiateCharacterCameraAtStartOfTheGame();
+        ////Local
+        //else
+        //    InstantiateCharacterCameraAtStartOfTheGame();
     }
 
     protected virtual void Start()

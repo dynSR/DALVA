@@ -25,17 +25,29 @@ public class MovementSpeedDebuff_Test : StatusEffect
 
             if (targetCooldownHandler.IsDurationOfStatusEffectAlreadyApplied(this)) return;
 
-            currentCharacterControllers.Add(Targets[i].GetComponent<CharacterController>());
+            CharacterController targetCharacterController = Targets[i].GetComponent<CharacterController>();
+
+            //currentCharacterControllers.Add(Targets[i].GetComponent<CharacterController>());
+
             base.CheckForExistingStatusEffect(targetCooldownHandler);
-            currentCharacterControllers[i].CurrentSpeed /= 2;
+
+            targetCharacterController.CurrentSpeed /= 2;
+
+            //currentCharacterControllers[i].CurrentSpeed /= 2;
+
+            PlayerHUD targetHUD = Targets[i].GetComponentInChildren<PlayerHUD>();
+            targetHUD.UpdateStatusEffectUI(this);
+
             targetCooldownHandler.ApplyNewStatusEffectDuration(this);
         }
     }
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (other.CompareTag("Player"))
         {
+            Debug.Log("Player is in trigger");
+            Targets.Add(other.transform);
             SetTargetAndApplyStatusEffectOnIt();
         }
     }

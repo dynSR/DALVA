@@ -41,13 +41,13 @@ public class CameraController : MonoBehaviour
 
         if (cameraLockState == CameraLockState.Lock)
         {
-            Debug.Log("Camera is locked and it's following a target");
+            //Debug.Log("Camera is locked and it's following a target");
             FollowATarget(TargetToFollow);
         }
             
         else if (cameraLockState == CameraLockState.Unlocked)
         {
-            Debug.Log("Camera is unlocked and it's scrolling with edges or directionnal arrows");
+            //Debug.Log("Camera is unlocked and it's scrolling with edges or directionnal arrows");
             MoveCameraWithDirectionnalArrows();
             MoveCameraWithMouse();
 

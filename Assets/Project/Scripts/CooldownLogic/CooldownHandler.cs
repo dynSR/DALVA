@@ -5,7 +5,6 @@ public class CooldownHandler : MonoBehaviour
 {
     public delegate void StatusEffectAction(StatusEffect statusEffect);
     public static event StatusEffectAction OnAddingStatusEffect;
-    public static event StatusEffectAction OnRemovingStatusEffect;
 
     public delegate void AbilityUsedAction(Ability abilityUsed);
     public static event AbilityUsedAction OnAbitilityUsed;
@@ -95,7 +94,7 @@ public class CooldownHandler : MonoBehaviour
     #region Status Effect Duration Handler Section
     public void ApplyNewStatusEffectDuration(StatusEffect newStatusEffect)
     {
-        OnAddingStatusEffect?.Invoke(newStatusEffect);
+        //OnAddingStatusEffect?.Invoke(newStatusEffect);
         allStatusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffectDuration));
     }
 

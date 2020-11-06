@@ -38,7 +38,7 @@ public class CharacterController : MonoBehaviourPun
         }
     }
 
-    public NavMeshAgent NavMeshAgent { get; set; }
+    public NavMeshAgent NavMeshAgent => GetComponent<NavMeshAgent>();
     public GameObject PathLandmark { get => pathLandmark; }
     public GameObject RendererGameObject { get => rendererGameObject; }
     public float InitialSpeed { get; private set; }
@@ -49,16 +49,20 @@ public class CharacterController : MonoBehaviourPun
 
     protected virtual void Awake()
     {
-        if (photonView.IsMine)
+        //Reseau
+        if (photonView != null && photonView.IsMine)
         {
             CharacterController.LocalPlayerInstance = this.gameObject;
             InstantiateCharacterCameraAtStartOfTheGame();
         }
+        //Local
+        else
+            InstantiateCharacterCameraAtStartOfTheGame();
     }
 
     protected virtual void Start()
     {
-        NavMeshAgent = GetComponent<NavMeshAgent>();
+        //NavMeshAgent = GetComponent<NavMeshAgent>();
 
         InitialSpeed = NavMeshAgent.speed;
         CurrentSpeed = InitialSpeed;

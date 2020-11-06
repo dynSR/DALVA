@@ -94,7 +94,7 @@ public class CooldownHandler : MonoBehaviour
     #region Status Effect Duration Handler Section
     public void ApplyNewStatusEffectDuration(StatusEffect newStatusEffect)
     {
-        //OnAddingStatusEffect?.Invoke(newStatusEffect);
+        OnAddingStatusEffect?.Invoke(newStatusEffect);
         allStatusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffectDuration));
     }
 

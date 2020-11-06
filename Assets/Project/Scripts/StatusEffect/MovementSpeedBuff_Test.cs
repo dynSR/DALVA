@@ -15,7 +15,7 @@ public class MovementSpeedBuff_Test : StatusEffect
             if (targetCooldownHandler.IsDurationOfStatusEffectAlreadyApplied(this)) return;
 
             CharacterController targetCharacterController = Targets[i].GetComponent<CharacterController>();
-           
+
             //currentCharacterControllers.Add(Targets[i].GetComponent<CharacterController>());
 
             base.CheckForExistingStatusEffect(targetCooldownHandler);
@@ -23,9 +23,6 @@ public class MovementSpeedBuff_Test : StatusEffect
             targetCharacterController.CurrentSpeed *= 2;
 
             //currentCharacterControllers[i].CurrentSpeed *= 2;
-
-            PlayerHUD targetHUD = Targets[i].GetComponentInChildren<PlayerHUD>();
-            targetHUD.UpdateStatusEffectUI(this);
 
             targetCooldownHandler.ApplyNewStatusEffectDuration(this);
         }

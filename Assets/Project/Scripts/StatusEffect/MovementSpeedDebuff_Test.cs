@@ -35,9 +35,6 @@ public class MovementSpeedDebuff_Test : StatusEffect
 
             //currentCharacterControllers[i].CurrentSpeed /= 2;
 
-            PlayerHUD targetHUD = Targets[i].GetComponentInChildren<PlayerHUD>();
-            targetHUD.UpdateStatusEffectUI(this);
-
             targetCooldownHandler.ApplyNewStatusEffectDuration(this);
         }
     }

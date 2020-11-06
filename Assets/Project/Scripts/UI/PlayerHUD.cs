@@ -10,12 +10,12 @@ public class PlayerHUD : MonoBehaviour
 
     private void OnDestroy()
     {
-        //CooldownHandler.OnAddingStatusEffect -= UpdateStatusEffectUI;
+        CooldownHandler.OnAddingStatusEffect -= UpdateStatusEffectUI;
     }
 
     void Start()
     {
-        //CooldownHandler.OnAddingStatusEffect += UpdateStatusEffectUI;
+        CooldownHandler.OnAddingStatusEffect += UpdateStatusEffectUI;
     }
 
     public void UpdateStatusEffectUI(StatusEffect statusEffect)

@@ -9,7 +9,7 @@ using Photon.Realtime;
 
 namespace GameNetwork
 {
-    public class Launcher : MonoBehaviourPunCallbacks
+    public class MainMenuNetworking : MonoBehaviourPunCallbacks
     {
 
         #region Fields 
@@ -172,6 +172,13 @@ namespace GameNetwork
             {
                 isConnecting = PhotonNetwork.ConnectUsingSettings();
             }
+        }
+
+        public void LeaveRoom()
+        {
+            roomPanel.SetActive(false);
+            createOrJoinWindow.SetActive(true);
+            PhotonNetwork.LeaveRoom();
         }
         #endregion
 

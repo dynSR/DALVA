@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using TMPro;
 
 using Photon.Pun;
 using Photon.Realtime;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace GameNetwork
 {
-    public class RoomManager : MonoBehaviourPunCallbacks
+    public class LobbyManager : MonoBehaviourPunCallbacks
     {
         #region Fields
 
@@ -19,26 +19,17 @@ namespace GameNetwork
         [SerializeField]
         public List<TextMeshProUGUI> playerListTMPro;
         public List<string> playerList = new List<string>();
+        [Tooltip("The button to start a game (master only)")]
+        [SerializeField]
+        public Button startGameButton;
 
         #endregion
 
         #region Callbacks
 
-        private void Start()
-        {
-            
-        }
-
         public override void OnCreatedRoom()
         {
-            //playerList.Add(PhotonNetwork.NickName);
-            //GetComponent<PhotonView>().RPC("UpdateOtherNameList", RpcTarget.OthersBuffered, PhotonNetwork.NickName);
             UpdatePlayerList();
-        }
-
-        public override void OnJoinedRoom()
-        {
-            
         }
 
         public override void OnPlayerEnteredRoom(Player other)
@@ -48,6 +39,15 @@ namespace GameNetwork
             if (PhotonNetwork.IsMasterClient)
             {
                 GetComponent<PhotonView>().RPC("PUNUpdateOtherNameList", RpcTarget.All);
+                startGameButton.interactable = true;
+                /*if(PhotonNetwork.PlayerList.Length == 6)
+                {
+                    startGameButton.interactable = true;
+                }
+                else
+                {
+                    startGameButton.interactable = false;
+                }*/
             }
         }
 
@@ -58,6 +58,8 @@ namespace GameNetwork
             if (PhotonNetwork.IsMasterClient)
             {
                 GetComponent<PhotonView>().RPC("PUNUpdateOtherNameList", RpcTarget.All);
+
+                //startGameButton.interactable = false;
             }
         }
 
@@ -92,6 +94,14 @@ namespace GameNetwork
                 {
                     playerListTMPro[i].text = "";
                 }
+            }
+        }
+
+        public void StartGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LoadLevel("PNSandbox");
             }
         }
 

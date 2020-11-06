@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(LineRenderer))]
 //Enemies + players inherits from
-public class CharacterController : MonoBehaviour
+public class CharacterController : MonoBehaviourPun
 {
     [Header("CHARACTER RENDERER")]
     [SerializeField] private GameObject rendererGameObject;
@@ -43,9 +44,16 @@ public class CharacterController : MonoBehaviour
     public float InitialSpeed { get; private set; }
     public float CurrentSpeed { get => NavMeshAgent.speed; set => NavMeshAgent.speed = value; }
 
+    [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+    public static GameObject LocalPlayerInstance;
+
     protected virtual void Awake()
     {
-        InstantiateCharacterCameraAtStartOfTheGame();
+        if (photonView.IsMine)
+        {
+            CharacterController.LocalPlayerInstance = this.gameObject;
+            InstantiateCharacterCameraAtStartOfTheGame();
+        }
     }
 
     protected virtual void Start()
@@ -58,6 +66,11 @@ public class CharacterController : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(1))
         {
             Debug.Log("Process Moving character");

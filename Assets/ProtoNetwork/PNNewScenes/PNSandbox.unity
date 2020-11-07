@@ -440,12 +440,11 @@ MonoBehaviour:
   statusEffectName: 
   statusEffectDescription: 
   statusEffectIcon: {fileID: 21300000, guid: 56bbc6b42271d4177ac313247f47ac1f, type: 3}
-  targets: []
+  target: {fileID: 0}
   statusEffectPrefab: {fileID: 0}
   doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying: 0
   typeOfEffect: 0
   statusEffectDuration: 10
-  currentCharacterControllers: []
 --- !u!135 &538070122
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -974,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e6478caa91d114e9ed9d92fdda1be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 9098752904120244182, guid: 439510e596ed9d948a9c83cd90bee100, type: 3}
+  playerPrefab: {fileID: 9098752904120244182, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
 --- !u!4 &901743658
 Transform:
   m_ObjectHideFlags: 0
@@ -1697,12 +1696,11 @@ MonoBehaviour:
   statusEffectName: Movement Speed Buff
   statusEffectDescription: Speed the entity for a short duration
   statusEffectIcon: {fileID: 21300000, guid: 7a950e38b89c3e747835fb223034b54f, type: 3}
-  targets: []
+  target: {fileID: 0}
   statusEffectPrefab: {fileID: 0}
   doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying: 1
   typeOfEffect: 0
   statusEffectDuration: 75
-  currentCharacterControllers: []
 --- !u!23 &1959430787
 MeshRenderer:
   m_ObjectHideFlags: 0

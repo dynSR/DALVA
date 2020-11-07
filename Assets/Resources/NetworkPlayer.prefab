@@ -115,7 +115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9098752903657886092
 RectTransform:
   m_ObjectHideFlags: 0
@@ -503,6 +503,7 @@ GameObject:
   - component: {fileID: 9098752904120244174}
   - component: {fileID: 9098752904120244173}
   - component: {fileID: 9098752904120244172}
+  - component: {fileID: 6589107790219068035}
   - component: {fileID: 9098752904120244179}
   - component: {fileID: 3521843888695352992}
   - component: {fileID: 9098752904120244178}
@@ -628,6 +629,19 @@ MonoBehaviour:
   characterCamera: {fileID: 4870440920835100793, guid: 2bd77cbbb24eb14468f24fbe8a11da1c, type: 3}
   movementFeedback: {fileID: 7402422878013587743, guid: f40d96916f2427a4ca6960735a860773, type: 3}
   pathLandmark: {fileID: 9098752905517555559}
+--- !u!114 &6589107790219068035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098752904120244182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d28aa1b9d3a4e3468089bc3660c1c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHUD: {fileID: 9098752903657886099}
 --- !u!114 &9098752904120244179
 MonoBehaviour:
   m_ObjectHideFlags: 0

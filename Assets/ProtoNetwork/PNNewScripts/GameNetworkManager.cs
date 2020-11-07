@@ -27,7 +27,7 @@ namespace GameNetwork
             }
             else
             {
-                if (CharacterController.LocalPlayerInstance == null)
+                if (PlayerManager.localPlayerInstance == null)
                 {
                     PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
                 }

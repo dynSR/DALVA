@@ -44,22 +44,10 @@ public class CharacterController : MonoBehaviourPun
     public float InitialSpeed { get; private set; }
     public float CurrentSpeed { get => NavMeshAgent.speed; set => NavMeshAgent.speed = value; }
 
-    [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-    public static GameObject LocalPlayerInstance;
-
     protected virtual void Awake()
     {
-        //Reseau
-        if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
-        {
-            CharacterController.LocalPlayerInstance = this.gameObject;
-            InstantiateCharacterCameraAtStartOfTheGame();
-        }
-        ////Local
-        else if(GameObject.Find("GameNetworkManager") == null)
-            InstantiateCharacterCameraAtStartOfTheGame();
+        
     }
-
     protected virtual void Start()
     {
         InitialSpeed = NavMeshAgent.speed;
@@ -151,7 +139,7 @@ public class CharacterController : MonoBehaviourPun
         Animator.SetBool(boolName, value);
     }
 
-    private void InstantiateCharacterCameraAtStartOfTheGame()
+    public void InstantiateCharacterCameraAtStartOfTheGame()
     {
         GameObject cameraInstance = Instantiate(characterCamera.gameObject, characterCamera.transform.position, characterCamera.transform.rotation) as GameObject;
         cameraInstance.GetComponent<CameraController>().TargetToFollow = this.transform;

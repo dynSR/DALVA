@@ -50,7 +50,7 @@ public abstract class StatusEffect : MonoBehaviour
             Debug.Log("Player is in trigger");
             if(Target == null)
                 Target = other.transform;
-            else if(Target != null && Target != other)
+            else if(Target != null && Target != other.transform)
                 Target = other.transform;
 
             //if (Targets.Count <= 0)

@@ -10,21 +10,21 @@ public class MovementSpeedBuff_Test : StatusEffect
     {
         for (int i = 0; i < Targets.Count; i++)
         {
-            CooldownHandler targetCooldownHandler = Targets[i].GetComponent<CooldownHandler>();
+            StatusEffectHandler targetStatusEffectHandler = Targets[i].GetComponent<StatusEffectHandler>();
 
-            if (targetCooldownHandler.IsDurationOfStatusEffectAlreadyApplied(this)) return;
+            if (targetStatusEffectHandler.IsDurationOfStatusEffectAlreadyApplied(this)) return;
 
             CharacterController targetCharacterController = Targets[i].GetComponent<CharacterController>();
 
             //currentCharacterControllers.Add(Targets[i].GetComponent<CharacterController>());
 
-            base.CheckForExistingStatusEffect(targetCooldownHandler);
+            base.CheckForExistingStatusEffect(targetStatusEffectHandler);
 
             targetCharacterController.CurrentSpeed *= 2;
 
             //currentCharacterControllers[i].CurrentSpeed *= 2;
 
-            targetCooldownHandler.ApplyNewStatusEffectDuration(this);
+            targetStatusEffectHandler.ApplyNewStatusEffectDuration(this);
         }
     }
 
@@ -44,7 +44,19 @@ public class MovementSpeedBuff_Test : StatusEffect
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player is in trigger");
-            Targets.Add(other.transform);
+            if (Targets.Count <= 0)
+            {
+                Targets.Add(other.transform);
+            }
+            else
+            {
+                for (int i = 0; i < Targets.Count; i++)
+                {
+                    if (other.transform != Targets[i])
+                        Targets.Add(other.transform);
+                }
+            }
+
             SetTargetAndApplyStatusEffectOnIt();
         }
     }

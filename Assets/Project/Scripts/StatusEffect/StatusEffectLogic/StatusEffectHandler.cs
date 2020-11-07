@@ -1,32 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CooldownHandler : MonoBehaviour
+public class StatusEffectHandler : MonoBehaviour
 {
     public delegate void StatusEffectAction(StatusEffect statusEffect);
     public static event StatusEffectAction OnAddingStatusEffect;
 
-    public delegate void AbilityUsedAction(Ability abilityUsed);
-    public static event AbilityUsedAction OnAbitilityUsed;
-
     private bool IsThereMoreThanOneStatusEffectApplied => allStatusEffectApplied.Count > 0;
 
-    [SerializeField] private List<AbilityCooldownData> allAbilitiesOnCooldown = new List<AbilityCooldownData>();
-
     [SerializeField] private List<StatusEffectDurationData> allStatusEffectApplied = new List<StatusEffectDurationData>();
-
-    [System.Serializable]
-    private class AbilityCooldownData
-    {
-        public Ability ability;
-        public float cooldown;
-
-        public AbilityCooldownData(Ability ability, float cooldown)
-        {
-            this.ability = ability;
-            this.cooldown = cooldown;
-        }
-    }
 
     [System.Serializable]
     private class StatusEffectDurationData
@@ -41,55 +24,11 @@ public class CooldownHandler : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
-        ApplyAbilityCooldown();
-        CheckForExpiredAbilityCooldown();
-
         ApplyStatusEffectDurationOverTime();
         CheckForExpiredStatusEffectDuration();
     }
-
-    #region Abilities Cooldown Handler Section
-    public void PutAbilityOnCooldown(Ability ability)
-    {
-        OnAbitilityUsed?.Invoke(ability);
-        allAbilitiesOnCooldown.Add(new AbilityCooldownData(ability, ability.AbilityCooldown));
-    }
-
-    private void ApplyAbilityCooldown()
-    {
-        for (int i = 0; i < allAbilitiesOnCooldown.Count; i++)
-        {
-            allAbilitiesOnCooldown[i].cooldown -= Time.deltaTime;
-        }
-    }
-
-    private void CheckForExpiredAbilityCooldown()
-    {
-        for (int i = allAbilitiesOnCooldown.Count - 1; i >= 0; i--)
-        {
-            if (allAbilitiesOnCooldown[i].cooldown <= 0)
-            {
-                allAbilitiesOnCooldown.RemoveAt(i);
-            }
-        }
-    }
-
-    public bool IsAbilityOnCooldown(Ability ability)
-    {
-        foreach (AbilityCooldownData cooldownData in allAbilitiesOnCooldown)
-        {
-            if (cooldownData.ability == ability)
-            {
-                Debug.Log(ability.AbilityName + " is on cooldown for " + cooldownData.cooldown.ToString("0.0") + " seconds");
-                return true;
-            }
-        }
-
-        return false;
-    }
-    #endregion
 
     #region Status Effect Duration Handler Section
     public void ApplyNewStatusEffectDuration(StatusEffect newStatusEffect)

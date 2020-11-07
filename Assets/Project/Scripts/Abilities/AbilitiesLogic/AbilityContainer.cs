@@ -27,9 +27,7 @@ public class AbilityContainer : MonoBehaviour
 
     protected void SetTheAbilityUI(Ability containedAbility)
     {
-        //Set ability icon
-        //ContainedAbilityIcon.sprite = containedAbility.AbilityIcon;
-        //Set ability key
+        //Set ability key + Input UI
         abilityKey = containedAbility.AbilityKey;
         keyText.text = abilityKey.ToString();
     }

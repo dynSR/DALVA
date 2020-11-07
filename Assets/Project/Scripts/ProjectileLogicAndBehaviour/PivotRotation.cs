@@ -10,7 +10,7 @@ public class PivotRotation : MonoBehaviourPun
 
     void Update()
     {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
             return;
         }

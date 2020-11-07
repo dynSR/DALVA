@@ -25,7 +25,7 @@ public abstract class StatusEffect : MonoBehaviour
     public float StatusEffectDuration { get => statusEffectDuration; set => statusEffectDuration = value; }
     public Sprite StatusEffectIcon { get => statusEffectIcon; }
     public List<Transform> Targets { get => targets; set => targets = value; }
-    public CooldownHandler StatusEffectDurationHandler => GetComponent<CooldownHandler>();
+    public StatusEffectHandler StatusEffectHandler => GetComponent<StatusEffectHandler>();
     public TypeOfEffect TypeOfEffect { get => typeOfEffect; set => typeOfEffect = value; }
     public StatusEffectContainer StatusEffectContainer { get; set; }
     public bool DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying { get => doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying; }
@@ -33,9 +33,9 @@ public abstract class StatusEffect : MonoBehaviour
     public abstract void SetTargetAndApplyStatusEffectOnIt();
     public abstract void RemoveStatusEffect();
     
-    public virtual void CheckForExistingStatusEffect(CooldownHandler cooldownHandler)
+    public virtual void CheckForExistingStatusEffect(StatusEffectHandler statusEffectHandler)
     {
-        if (cooldownHandler.AreThereSimilarExistingStatusEffectApplied(this))
-            cooldownHandler.RemoveStatusEffectOfSameTypeThatHasAlreadyBeenApplied();
+        if (statusEffectHandler.AreThereSimilarExistingStatusEffectApplied(this))
+            statusEffectHandler.RemoveStatusEffectOfSameTypeThatHasAlreadyBeenApplied();
     }
 }

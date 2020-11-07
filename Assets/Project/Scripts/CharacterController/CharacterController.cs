@@ -50,27 +50,25 @@ public class CharacterController : MonoBehaviourPun
     protected virtual void Awake()
     {
         //Reseau
-        if (/*photonView != null && */photonView.IsMine)
+        if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
         {
             CharacterController.LocalPlayerInstance = this.gameObject;
             InstantiateCharacterCameraAtStartOfTheGame();
         }
         ////Local
-        //else
-        //    InstantiateCharacterCameraAtStartOfTheGame();
+        else if(GameObject.Find("GameNetworkManager") == null)
+            InstantiateCharacterCameraAtStartOfTheGame();
     }
 
     protected virtual void Start()
     {
-        //NavMeshAgent = GetComponent<NavMeshAgent>();
-
         InitialSpeed = NavMeshAgent.speed;
         CurrentSpeed = InitialSpeed;
     }
 
     protected virtual void Update()
     {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
             return;
         }

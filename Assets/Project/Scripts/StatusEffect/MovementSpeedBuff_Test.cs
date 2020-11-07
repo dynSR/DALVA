@@ -4,60 +4,32 @@ using UnityEngine;
 
 public class MovementSpeedBuff_Test : StatusEffect
 {
-    public List<CharacterController> currentCharacterControllers = new List<CharacterController>();
-
-    public override void SetTargetAndApplyStatusEffectOnIt()
+    protected override void ApplyStatusEffectOnTarget(Transform target)
     {
-        for (int i = 0; i < Targets.Count; i++)
-        {
-            StatusEffectHandler targetStatusEffectHandler = Targets[i].GetComponent<StatusEffectHandler>();
+        if (GetTargetStatusEffectHandler(target).IsDurationOfStatusEffectAlreadyApplied(this)) return;
 
-            if (targetStatusEffectHandler.IsDurationOfStatusEffectAlreadyApplied(this)) return;
+        base.CheckForExistingStatusEffect(GetTargetStatusEffectHandler(target));
 
-            CharacterController targetCharacterController = Targets[i].GetComponent<CharacterController>();
+        GetTargetCharacterController(target).CurrentSpeed *= 2;
 
-            //currentCharacterControllers.Add(Targets[i].GetComponent<CharacterController>());
-
-            base.CheckForExistingStatusEffect(targetStatusEffectHandler);
-
-            targetCharacterController.CurrentSpeed *= 2;
-
-            //currentCharacterControllers[i].CurrentSpeed *= 2;
-
-            targetStatusEffectHandler.ApplyNewStatusEffectDuration(this);
-        }
+        GetTargetStatusEffectHandler(target).ApplyNewStatusEffectDuration(this);
     }
 
     public override void RemoveStatusEffect()
     {
-        for (int i = currentCharacterControllers.Count - 1; i >= 0; i--)
-        {
-            if (DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying)
-                currentCharacterControllers[i].CurrentSpeed = currentCharacterControllers[i].InitialSpeed;
+        if (!DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying) return;
 
-            currentCharacterControllers.RemoveAt(i);
-        }
+        if (DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying)
+            GetTargetCharacterController(Target).CurrentSpeed = GetTargetCharacterController(Target).InitialSpeed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player is in trigger");
-            if (Targets.Count <= 0)
-            {
-                Targets.Add(other.transform);
-            }
-            else
-            {
-                for (int i = 0; i < Targets.Count; i++)
-                {
-                    if (other.transform != Targets[i])
-                        Targets.Add(other.transform);
-                }
-            }
+        base.OnTriggerEnter(other);
+    }
 
-            SetTargetAndApplyStatusEffectOnIt();
-        }
+    protected override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
     }
 }

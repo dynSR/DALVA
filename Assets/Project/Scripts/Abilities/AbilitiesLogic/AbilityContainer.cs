@@ -21,7 +21,7 @@ public class AbilityContainer : MonoBehaviour
 
     void Start()
     {
-        CooldownHandler.OnAbitilityUsed += UpdateAbilityCooldownUI;
+        AbilitiesCooldownHandler.OnAbitilityUsed += UpdateAbilityCooldownUI;
         SetTheAbilityUI(this.ContainedAbility);
     }
 

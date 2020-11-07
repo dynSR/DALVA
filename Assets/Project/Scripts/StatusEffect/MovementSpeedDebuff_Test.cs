@@ -4,60 +4,32 @@ using UnityEngine;
 
 public class MovementSpeedDebuff_Test : StatusEffect
 {
-    public List<CharacterController> currentCharacterControllers = new List<CharacterController>();
+    protected override void ApplyStatusEffectOnTarget(Transform target)
+    {
+        if (GetTargetStatusEffectHandler(target).IsDurationOfStatusEffectAlreadyApplied(this)) return;
+
+        base.CheckForExistingStatusEffect(GetTargetStatusEffectHandler(target));
+
+        GetTargetCharacterController(target).CurrentSpeed /= 2;
+
+        GetTargetStatusEffectHandler(target).ApplyNewStatusEffectDuration(this);
+    }
 
     public override void RemoveStatusEffect()
     {
-        for (int i = currentCharacterControllers.Count - 1; i >= 0; i--)
-        {
-            if(DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying)
-                currentCharacterControllers[i].CurrentSpeed = currentCharacterControllers[i].InitialSpeed;
+        if (!DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying) return;
 
-            currentCharacterControllers.RemoveAt(i);
-        }
+        if (DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying)
+            GetTargetCharacterController(Target).CurrentSpeed = GetTargetCharacterController(Target).InitialSpeed;
     }
 
-    public override void SetTargetAndApplyStatusEffectOnIt()
+    protected override void OnTriggerEnter(Collider other)
     {
-        for (int i = 0; i < Targets.Count; i++)
-        {
-            StatusEffectHandler targetStatusEffectHandler = Targets[i].GetComponent<StatusEffectHandler>();
-
-            if (targetStatusEffectHandler.IsDurationOfStatusEffectAlreadyApplied(this)) return;
-
-            CharacterController targetCharacterController = Targets[i].GetComponent<CharacterController>();
-
-            //currentCharacterControllers.Add(Targets[i].GetComponent<CharacterController>());
-
-            base.CheckForExistingStatusEffect(targetStatusEffectHandler);
-
-            targetCharacterController.CurrentSpeed /= 2;
-
-            //currentCharacterControllers[i].CurrentSpeed /= 2;
-
-            targetStatusEffectHandler.ApplyNewStatusEffectDuration(this);
-        }
+        base.OnTriggerEnter(other);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player is in trigger");
-            if (Targets.Count <= 0)
-            {
-                Targets.Add(other.transform);
-            }
-            else
-            {
-                for (int i = 0; i < Targets.Count; i++)
-                {
-                    if (other.transform != Targets[i])
-                        Targets.Add(other.transform);
-                }
-            }
-            
-            SetTargetAndApplyStatusEffectOnIt();
-        }
+        base.OnTriggerExit(other);
     }
 }

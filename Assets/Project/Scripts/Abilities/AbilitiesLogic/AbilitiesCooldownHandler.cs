@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CooldownHandler : MonoBehaviour
+public class AbilitiesCooldownHandler : MonoBehaviour
 {
     public delegate void AbilityUsedAction(Ability abilityUsed);
     public static event AbilityUsedAction OnAbitilityUsed;

@@ -7,7 +7,7 @@ using Photon.Pun;
 public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(CooldownHandler))]
+[RequireComponent(typeof(AbilitiesCooldownHandler))]
 public abstract class Ability : MonoBehaviourPun
 {
     [Header("CORE PARAMETERS")]
@@ -18,7 +18,7 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private Sprite abilityIcon;
     [SerializeField] private GameObject abilityPrefab;
     private CharacterController CharacterController => GetComponent<CharacterController>();
-    private CooldownHandler CooldownHandler => GetComponent<CooldownHandler>();
+    private AbilitiesCooldownHandler CooldownHandler => GetComponent<AbilitiesCooldownHandler>();
 
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private bool isInstantCast = false;

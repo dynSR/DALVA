@@ -44,10 +44,6 @@ public class CharacterController : MonoBehaviourPun
     public float InitialSpeed { get; private set; }
     public float CurrentSpeed { get => NavMeshAgent.speed; set => NavMeshAgent.speed = value; }
 
-    protected virtual void Awake()
-    {
-        
-    }
     protected virtual void Start()
     {
         InitialSpeed = NavMeshAgent.speed;
@@ -56,10 +52,7 @@ public class CharacterController : MonoBehaviourPun
 
     protected virtual void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
-            return;
-        }
+        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true){ return; }
 
         if (Input.GetMouseButtonDown(1))
         {

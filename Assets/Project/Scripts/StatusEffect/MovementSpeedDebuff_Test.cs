@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovementSpeedDebuff_Test : StatusEffect
 {
@@ -15,7 +13,7 @@ public class MovementSpeedDebuff_Test : StatusEffect
             GetTargetCharacterController(target).CurrentSpeed /= 2;
 
             GetTargetStatusEffectHandler(target).ApplyNewStatusEffectDuration(this);
-        } 
+        }
     }
 
     public override void RemoveStatusEffect()

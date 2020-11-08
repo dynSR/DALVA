@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +32,9 @@ public class StatusEffectContainer : MonoBehaviour
         //string timer = string.Format("{0:0}:{1:00}", minutes, seconds);
 
         StatusEffectDurationText.text = localTimer.ToString("0");
+
+        if (localTimer <= 1)
+            StatusEffectDurationText.text = localTimer.ToString("0.0");
     }
 
     public void DestroyContainer()

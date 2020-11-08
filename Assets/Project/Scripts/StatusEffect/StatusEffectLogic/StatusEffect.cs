@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public enum TypeOfEffect { EffectToMovementSpeed, EffectToDamage, EffectToSomethingElse }
 
@@ -19,7 +16,6 @@ public abstract class StatusEffect : MonoBehaviour
 
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private float statusEffectDuration;
-
     public string StatusEffectDescription { get => statusEffectDescription; }
     public string StatusEffectName { get => statusEffectName; }
     public GameObject StatusEffectPrefab { get => statusEffectPrefab; }
@@ -31,7 +27,8 @@ public abstract class StatusEffect : MonoBehaviour
     public TypeOfEffect TypeOfEffect { get => typeOfEffect; set => typeOfEffect = value; }
     public StatusEffectContainer StatusEffectContainer { get; set; }
     public bool DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying { get => doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying; }
-    
+    private bool TargetWasNotFound => Target == null;
+
 
     protected abstract void ApplyStatusEffectOnTarget(Transform targetFound);
     public abstract void RemoveStatusEffect();
@@ -48,9 +45,9 @@ public abstract class StatusEffect : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player is in trigger");
-            if(Target == null)
+            if (TargetWasNotFound)
                 Target = other.transform;
-            else if(Target != null && Target != other.transform)
+            else if (Target != other.transform)
                 Target = other.transform;
 
             //if (Targets.Count <= 0)
@@ -90,17 +87,12 @@ public abstract class StatusEffect : MonoBehaviour
 
     public CharacterController GetTargetCharacterController(Transform targetFound)
     {
-        if (targetFound != null)
-            return targetFound.GetComponent<CharacterController>();
-        else
-            return null;
+        return targetFound.GetComponent<CharacterController>();
     }
 
     public StatusEffectHandler GetTargetStatusEffectHandler(Transform targetFound)
     {
-        if (targetFound != null)
-            return targetFound.GetComponent<StatusEffectHandler>();
-        else
-            return null;
+        return targetFound.GetComponent<StatusEffectHandler>();
     }
 }
+

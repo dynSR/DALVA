@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class PlayerController : CharacterController
 {
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     protected override void Start()
     {
         base.Start();

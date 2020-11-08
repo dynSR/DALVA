@@ -10,15 +10,11 @@ public class PivotRotation : MonoBehaviourPun
 
     void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
-            return;
-        }
+        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true) { return; }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 100f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
             RotateAroundAPivot(hit.point);
         }

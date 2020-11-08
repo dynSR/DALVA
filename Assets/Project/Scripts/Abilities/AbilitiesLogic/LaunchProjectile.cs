@@ -18,11 +18,9 @@ public class LaunchProjectile : MonoBehaviour
     private void TurnCharacterTowardsLaunchDirection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
         GameObject renderer = transform.GetChild(0).gameObject;
 
-        if (Physics.Raycast(ray, out hit, 100f, layer))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, layer))
         {
             Vector3 targetPoint = ray.GetPoint(hit.distance);
             Quaternion targetRotation = Quaternion.LookRotation(targetPoint - renderer.transform.position);

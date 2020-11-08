@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -27,3 +25,4 @@ public class PlayerHUD : MonoBehaviour
         statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>();
     }
 }
+

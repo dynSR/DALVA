@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using Photon.Pun;
+using Dalva_Project;
 
 
 namespace GameNetwork
@@ -25,8 +23,12 @@ namespace GameNetwork
             }
             ////Local
             else if (GameObject.Find("GameNetworkManager") == null)
-                localPlayerInstance.GetComponent<CharacterController>().InstantiateCharacterCameraAtStartOfTheGame();
+            {
+                GetComponent<CharacterController>().InstantiateCharacterCameraAtStartOfTheGame();
+                playerHUD.SetActive(true);
+            }   
         }
+
         private void Start()
         {
             //Everything that belong to the local player
@@ -35,7 +37,6 @@ namespace GameNetwork
                 playerHUD.SetActive(true);
             }
         }
-
     }
 }
 

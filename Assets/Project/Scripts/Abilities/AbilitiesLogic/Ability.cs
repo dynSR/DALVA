@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using Photon.Pun;
 
 public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
@@ -44,10 +41,7 @@ public abstract class Ability : MonoBehaviourPun
 
     protected virtual void Update()
     {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
-            return;
-        }
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true){ return; }
 
         if (Input.GetKeyDown(AbilityKey))
         {
@@ -62,8 +56,7 @@ public abstract class Ability : MonoBehaviourPun
     private void HandleCharacterBehaviourBeforeCasting()
     {
         if (!IsInstantCast)
-        {
             CharacterController.NavMeshAgent.ResetPath();
-        }
     }
 }
+

@@ -20,11 +20,14 @@ public class CameraController : MonoBehaviour
     [Tooltip("Il faut mettre la moitié de la valeur de l'axe Y (en négatif) sur l'axe Z pour avoir le personnage visé par la caméra au centre de l'écran")]
     [SerializeField] private Vector3 cameraOffset;
 
+    private bool CameraIsLocked => cameraLockState == CameraLockState.Lock;
+    private bool CameraIsUnlocked => cameraLockState == CameraLockState.Unlocked;
+
     public Transform TargetToFollow { get => targetToFollow; set => targetToFollow = value; }
 
     void Update()
     {
-        if(Input.GetKeyDown(changeCameraLockStateKey))
+        if(HasKeyBeenPressed(changeCameraLockStateKey))
         {
             switch (cameraLockState)
             {
@@ -39,19 +42,19 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        if (cameraLockState == CameraLockState.Lock)
+        if (CameraIsLocked)
         {
             //Debug.Log("Camera is locked and it's following a target");
             FollowATarget(TargetToFollow);
         }
             
-        else if (cameraLockState == CameraLockState.Unlocked)
+        else if (CameraIsUnlocked)
         {
             //Debug.Log("Camera is unlocked and it's scrolling with edges or directionnal arrows");
             MoveCameraWithDirectionnalArrows();
             MoveCameraWithMouse();
 
-            if (Input.GetKey(cameraFocusOnTargetKey))
+            if (HasKeyBeenPressed(cameraFocusOnTargetKey))
             {
                 FollowATarget(TargetToFollow);
             }
@@ -117,5 +120,11 @@ public class CameraController : MonoBehaviour
         }
 
         transform.position = cameraPosition;
+    }
+
+    bool HasKeyBeenPressed(KeyCode key)
+    {
+        if (Input.GetKeyDown(key)) return true;
+        else return false;
     }
 }

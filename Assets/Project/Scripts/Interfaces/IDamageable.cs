@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDamageable<T>
+public interface IDamageable
 {
-    void TakeDamage(T damageTaken);
+    void TakeDamage(float physicalDamageTaken, float magicDamageTaken);
 }

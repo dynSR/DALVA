@@ -29,7 +29,7 @@ public class AbilityContainer : MonoBehaviour
     {
         //Set ability key + Input UI
         abilityKey = containedAbility.AbilityKey;
-        keyText.text = abilityKey.ToString();
+        keyText.SetText(abilityKey.ToString());
     }
 
     private void UpdateAbilityCooldownUI(Ability containedAbility)
@@ -53,7 +53,7 @@ public class AbilityContainer : MonoBehaviour
             storedCooldown -= Time.deltaTime;
 
             //Mettre à jour le timer text
-            cooldownText.text = storedCooldown.ToString("0.0");
+            cooldownText.SetText(storedCooldown.ToString("0.0"));
             //Update l'image filled
             cooldownFiller.fillAmount = storedCooldown / containedAbility.AbilityCooldown;
 

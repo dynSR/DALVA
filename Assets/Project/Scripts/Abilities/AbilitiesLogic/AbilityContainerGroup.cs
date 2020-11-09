@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityContainerGroup : MonoBehaviour
 {
-    private CharacterCaracteristics CharacterCharacteristics => transform.parent.GetComponentInParent<CharacterCaracteristics>();
+    private Character CharacterCharacteristics => transform.parent.GetComponentInParent<Character>();
 
     [SerializeField] private int numberOfAbilities = 4;
     [SerializeField] private List<KeyCode> keys;

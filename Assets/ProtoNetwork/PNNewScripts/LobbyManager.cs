@@ -32,7 +32,7 @@ namespace GameNetwork
             UpdatePlayerList();
         }
 
-        public override void OnPlayerEnteredRoom(Player other)
+        public override void OnPlayerEnteredRoom(Photon.Realtime.Player other)
         {
             Debug.Log(other.NickName + " entered room");
             
@@ -51,7 +51,7 @@ namespace GameNetwork
             }
         }
 
-        public override void OnPlayerLeftRoom(Player other)
+        public override void OnPlayerLeftRoom(Photon.Realtime.Player other)
         {
             Debug.Log(other.NickName + " leaved room");
 
@@ -76,7 +76,7 @@ namespace GameNetwork
         private void UpdatePlayerList()
         {
             playerList.Clear();
-            foreach (Player item in PhotonNetwork.PlayerList)
+            foreach (Photon.Realtime.Player item in PhotonNetwork.PlayerList)
             {
                 playerList.Add(item.NickName);
             }

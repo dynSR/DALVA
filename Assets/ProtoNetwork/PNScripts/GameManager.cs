@@ -17,7 +17,7 @@ namespace ProtoNetwork
             SceneManager.LoadScene("PNLauncher");
         }
 
-        public override void OnPlayerEnteredRoom(Player other)
+        public override void OnPlayerEnteredRoom(Photon.Realtime.Player other)
         {
             Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
 
@@ -30,7 +30,7 @@ namespace ProtoNetwork
             }
         }
 
-        public override void OnPlayerLeftRoom(Player other)
+        public override void OnPlayerLeftRoom(Photon.Realtime.Player other)
         {
             Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
 

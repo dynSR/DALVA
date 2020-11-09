@@ -88,7 +88,7 @@ namespace GameNetwork
             Debug.Log("There is no room to join");
         }
 
-        public override void OnPlayerEnteredRoom(Player other)
+        public override void OnPlayerEnteredRoom(Photon.Realtime.Player other)
         {
             Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName);
         }

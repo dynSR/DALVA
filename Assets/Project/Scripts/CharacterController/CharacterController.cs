@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 using Photon.Pun;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -14,13 +11,13 @@ public class CharacterController : MonoBehaviourPun
     [SerializeField] private GameObject rendererGameObject;
 
     //Raycast used for movements
-    Ray ray;
-    RaycastHit cursorRaycastHit;
+    Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
     
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private Camera characterCamera;
+    private Vector3 destinationToGo = Vector3.zero;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
@@ -39,6 +36,7 @@ public class CharacterController : MonoBehaviourPun
     }
 
     public NavMeshAgent NavMeshAgent => GetComponent<NavMeshAgent>();
+    private Character CharacterStats => GetComponent<Character>();
     public GameObject PathLandmark { get => pathLandmark; }
     public GameObject RendererGameObject { get => rendererGameObject; }
     public float InitialSpeed { get; private set; }
@@ -56,10 +54,10 @@ public class CharacterController : MonoBehaviourPun
 
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("Process Moving character");
             SetNavMeshDestinationWithRayCast();
         }
 
+        MoveAgentToAttackDestination(destinationToGo);
         MoveWithMouseClick();
         DebugPathing(LineRenderer);
     }
@@ -67,14 +65,18 @@ public class CharacterController : MonoBehaviourPun
     #region Handle Movement 
     private void SetNavMeshDestinationWithRayCast()
     {
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out cursorRaycastHit, 100f, walkableLayer))
+        if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, 100f, walkableLayer))
         {
-            MovementFeedbackInstantiation(movementFeedback, cursorRaycastHit.point);
-            NavMeshAgent.SetDestination(cursorRaycastHit.point);
+            MovementFeedbackInstantiation(movementFeedback, hit.point);
+            NavMeshAgent.SetDestination(hit.point);
+        }
+        else if (Physics.Raycast(RayFromCameraToMousePosition, out hit, 100f) && hit.transform.CompareTag("Enemy"))
+        {
+            destinationToGo = hit.transform.position;
+            MoveAgentToAttackDestination(destinationToGo);
         }
     }
+
     private void MoveWithMouseClick()
     {
         if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
@@ -92,17 +94,22 @@ public class CharacterController : MonoBehaviourPun
         }
     }
 
-    public void MoveAgentToSpecificDestination(Transform destination)
+    public void MoveAgentToAttackDestination(Vector3 hitPoint)
     {
-        if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
+        float distance = Vector3.Distance(transform.position, hitPoint);
+
+        if (distance > CharacterStats.AttackRange)
         {
-            NavMeshAgent.destination = destination.position;
+            NavMeshAgent.Move(NavMeshAgent.desiredVelocity * 0.25f * Time.deltaTime);
             HandleAnimation("isMoving", true);
+            //Debug.Log("Move To Specific Destination");
         }
-        else
+        else if (distance <= CharacterStats.AttackRange)
         {
             NavMeshAgent.Move(Vector3.zero);
-            HandleAnimation("isMoving", false);
+            TryToAttack();
+            //HandleAnimation("isAttacking", false);
+            //Debug.Log("Specific Destination Reached");
         }
     }
 
@@ -127,7 +134,12 @@ public class CharacterController : MonoBehaviourPun
     }
     #endregion
 
-    private void HandleAnimation(string boolName, bool value)
+    void TryToAttack()
+    {
+        Debug.Log("Can Perform Attack");
+    }
+
+    public void HandleAnimation(string boolName, bool value)
     {
         Animator.SetBool(boolName, value);
     }

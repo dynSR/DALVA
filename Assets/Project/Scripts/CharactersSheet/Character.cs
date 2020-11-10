@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CharacterClass { Warrior, Marksman, Mage, Healer }
+enum DefaultAttackType { Melee, Distance }
 public class Character : MonoBehaviour, IDamageable, IKillable
 {
     [Header("CORE PARAMETERS")]
     [SerializeField] private string characterName;
     [SerializeField] private CharacterClass characterClass;
     [SerializeField] private List<Ability> characterAbilities;
+    [SerializeField] private DefaultAttackType defaultAttackType;
 
     [Header("HEALTH PARAMETERS")]
     private float currentHealth;

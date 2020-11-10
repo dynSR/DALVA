@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class StatusEffectHandler : MonoBehaviour
 {
-    public delegate void StatusEffectAction(StatusEffect statusEffect);
-    public static event StatusEffectAction OnAddingStatusEffect;
-
     private bool IsThereMoreThanOneStatusEffectApplied => allStatusEffectApplied.Count > 0;
 
     [SerializeField] private List<StatusEffectDurationData> allStatusEffectApplied = new List<StatusEffectDurationData>();
@@ -32,8 +29,10 @@ public class StatusEffectHandler : MonoBehaviour
     #region Status Effect Duration Handler Section
     public void ApplyNewStatusEffectDuration(StatusEffect newStatusEffect)
     {
-        OnAddingStatusEffect?.Invoke(newStatusEffect);
         allStatusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffectDuration));
+
+        PlayerHUD targetHUD = newStatusEffect.GetTargetHUD(newStatusEffect.Target);
+        targetHUD.UpdateStatusEffectUI(newStatusEffect);
     }
 
     private void ApplyStatusEffectDurationOverTime()

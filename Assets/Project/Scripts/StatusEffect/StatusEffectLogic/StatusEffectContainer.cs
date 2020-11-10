@@ -21,7 +21,7 @@ public class StatusEffectContainer : MonoBehaviour
 
     private void Update()
     {
-        CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired();
+        CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(ContainedStatusEffect);
     }
 
     void SetUIForContainedStatusEffect()
@@ -39,16 +39,17 @@ public class StatusEffectContainer : MonoBehaviour
 
     public void DestroyContainer()
     {
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 
-    void CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired()
+    void CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(StatusEffect statusEffect)
     {
         localTimer -= Time.deltaTime;
         SetUIForContainedStatusEffect();
 
         if (localTimer <= 0)
         {
+            statusEffect.RemoveStatusEffect();
             DestroyContainer();
         }
     }

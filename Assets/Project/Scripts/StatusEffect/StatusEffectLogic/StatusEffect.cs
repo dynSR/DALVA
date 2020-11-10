@@ -94,5 +94,10 @@ public abstract class StatusEffect : MonoBehaviour
     {
         return targetFound.GetComponent<StatusEffectHandler>();
     }
+
+    public PlayerHUD GetTargetHUD(Transform targetFound)
+    {
+        return targetFound.Find("PlayerHUD").GetComponent<PlayerHUD>();
+    }
 }
 

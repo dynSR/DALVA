@@ -969,7 +969,7 @@ MonoBehaviour:
   statusEffectPrefab: {fileID: 0}
   doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying: 1
   typeOfEffect: 0
-  statusEffectDuration: 75
+  statusEffectDuration: 5
 --- !u!4 &1060877849
 Transform:
   m_ObjectHideFlags: 0
@@ -1015,6 +1015,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1075243797}
   - component: {fileID: 1075243798}
+  - component: {fileID: 1075243799}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Enemy
@@ -1051,6 +1052,36 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &1075243799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075243796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfad91e9dbb75e48b333a1ee6c00bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 
+  characterClass: 0
+  characterAbilities: []
+  defaultAttackType: 0
+  maxHealth: 50000
+  healthRegeneration: 0
+  baseCooldownReduction: 0
+  maxCooldownReduction: 0
+  baseArmor: 10
+  baseMagicResistance: 10
+  baseAttackDamage: 0
+  baseMagicDamage: 0
+  attackRange: 0
+  baseAttackSpeed: 0
+  baseCriticalStrikeChance: 0
+  timeToRespawn: 0
+  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  deathHUD: {fileID: 0}
 --- !u!1 &1104062390
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,23 +7,19 @@ using Photon.Pun;
 //Enemies + players inherits from
 public class CharacterController : MonoBehaviourPun
 {
-    [Header("CHARACTER RENDERER")]
-    [SerializeField] private GameObject rendererGameObject;
-
-    //Raycast used for movements
     Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
     
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
-    [SerializeField] private float rotationSpeed;
     [SerializeField] private Camera characterCamera;
-    private Vector3 destinationToGo = Vector3.zero;
+    [SerializeField] private float rotateSpeedMovement = 0.1f;
+    private float motionSmoothTime = .1f;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
     [SerializeField] private GameObject pathLandmark;
     private LineRenderer LineRenderer => GetComponent<LineRenderer>();
-    private Animator Animator
+    [HideInInspector] public Animator CharacterAnimator
     {
         get => transform.GetChild(0).GetComponent<Animator>();
         set
@@ -35,16 +31,17 @@ public class CharacterController : MonoBehaviourPun
         }
     }
 
-    public NavMeshAgent NavMeshAgent => GetComponent<NavMeshAgent>();
-    private Character CharacterStats => GetComponent<Character>();
+    private Stats CharacterStats => GetComponent<Stats>();
+    private CombatBehaviour CharacterCombatBehaviour => GetComponent<CombatBehaviour>();
+    public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public GameObject PathLandmark { get => pathLandmark; }
-    public GameObject RendererGameObject { get => rendererGameObject; }
     public float InitialSpeed { get; private set; }
-    public float CurrentSpeed { get => NavMeshAgent.speed; set => NavMeshAgent.speed = value; }
+    public float CurrentSpeed { get => Agent.speed ; set => Agent.speed = value; }
+    public float RotateVelocity { get; set; }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        InitialSpeed = NavMeshAgent.speed;
+        InitialSpeed = Agent.speed;
         CurrentSpeed = InitialSpeed;
     }
 
@@ -52,73 +49,56 @@ public class CharacterController : MonoBehaviourPun
     {
         if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true){ return; }
 
+        if (CharacterStats.IsDead) return;
+
         if (Input.GetMouseButtonDown(1))
         {
             SetNavMeshDestinationWithRayCast();
         }
 
-        MoveAgentToAttackDestination(destinationToGo);
-        MoveWithMouseClick();
+        HandleMotionAnimation();
         DebugPathing(LineRenderer);
     }
 
     #region Handle Movement 
     private void SetNavMeshDestinationWithRayCast()
     {
-        if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, 100f, walkableLayer))
+        if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity, walkableLayer))
         {
             MovementFeedbackInstantiation(movementFeedback, hit.point);
-            NavMeshAgent.SetDestination(hit.point);
-        }
-        else if (Physics.Raycast(RayFromCameraToMousePosition, out hit, 100f) && hit.transform.CompareTag("Enemy"))
-        {
-            destinationToGo = hit.transform.position;
-            MoveAgentToAttackDestination(destinationToGo);
+            Agent.SetDestination(hit.point);
+
+            //Agent.stoppingDistance = 0;
+            //CharacterCombatBehaviour.TargetedEnemy = null;
+
+            HandleCharacterRotation(hit.point, RotateVelocity, rotateSpeedMovement);
         }
     }
 
-    private void MoveWithMouseClick()
+    private void HandleMotionAnimation()
     {
-        if (NavMeshAgent.remainingDistance > NavMeshAgent.stoppingDistance)
-        {
-            NavMeshAgent.Move(NavMeshAgent.desiredVelocity * 0.25f * Time.deltaTime);
-
-            rendererGameObject.transform.LookAt(pathLandmark.transform);
-
-            HandleAnimation("isMoving", true);
-        }
-        else
-        {
-            NavMeshAgent.Move(Vector3.zero);
-            HandleAnimation("isMoving", false);
-        }
+        float speed = Agent.velocity.magnitude / Agent.speed;
+        CharacterAnimator.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);
     }
 
-    public void MoveAgentToAttackDestination(Vector3 hitPoint)
+    public void HandleCharacterRotation(Vector3 target, float rotateVelocity, float rotateSpeed)
     {
-        float distance = Vector3.Distance(transform.position, hitPoint);
+        Quaternion rotationToLookAt = Quaternion.LookRotation(target - transform.position);
 
-        if (distance > CharacterStats.AttackRange)
-        {
-            NavMeshAgent.Move(NavMeshAgent.desiredVelocity * 0.25f * Time.deltaTime);
-            HandleAnimation("isMoving", true);
-            //Debug.Log("Move To Specific Destination");
-        }
-        else if (distance <= CharacterStats.AttackRange)
-        {
-            NavMeshAgent.Move(Vector3.zero);
-            TryToAttack();
-            //HandleAnimation("isAttacking", false);
-            //Debug.Log("Specific Destination Reached");
-        }
+        float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, 
+            rotationToLookAt.eulerAngles.y, 
+            ref rotateVelocity, 
+            rotateSpeed * (Time.deltaTime * 5));
+
+        transform.eulerAngles = new Vector3(0, rotationY, 0);
     }
 
     private void DebugPathing(LineRenderer line)
     {
-        if (NavMeshAgent.hasPath)
+        if (Agent.hasPath)
         {
-            line.positionCount = NavMeshAgent.path.corners.Length;
-            line.SetPositions(NavMeshAgent.path.corners);
+            line.positionCount = Agent.path.corners.Length;
+            line.SetPositions(Agent.path.corners);
             line.enabled = true;
         }
         else
@@ -133,16 +113,6 @@ public class CharacterController : MonoBehaviourPun
             Instantiate(_movementFeedback, pos, Quaternion.identity);
     }
     #endregion
-
-    void TryToAttack()
-    {
-        Debug.Log("Can Perform Attack");
-    }
-
-    public void HandleAnimation(string boolName, bool value)
-    {
-        Animator.SetBool(boolName, value);
-    }
 
     public void InstantiateCharacterCameraAtStartOfTheGame()
     {

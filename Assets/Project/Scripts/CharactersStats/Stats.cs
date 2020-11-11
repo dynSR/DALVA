@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CharacterClass { Warrior, Marksman, Mage, Healer }
-enum DefaultAttackType { Melee, Distance }
-public class Character : MonoBehaviour, IDamageable, IKillable
+enum DefaultAttackType { Melee, Ranged }
+public class Stats : MonoBehaviour, IDamageable, IKillable
 {
     [Header("CORE PARAMETERS")]
     [SerializeField] private string characterName;
@@ -36,32 +36,40 @@ public class Character : MonoBehaviour, IDamageable, IKillable
     [Header("DEATH PARAMETERS")]
     [SerializeField] private float timeToRespawn;
 
-    [Header("DAMAGE POPUP PARAMETERS")]
+    [Header("UI PARAMETERS")]
     [SerializeField] private GameObject damagePopUp;
-    private Vector3 inFrontOfCharacter => transform.position + new Vector3(-0.5f, 0, 0.45f);
+    [SerializeField] private GameObject deathHUD;
 
+    private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
+
+    //Health
     public float MaxHealth { get => maxHealth; set => maxHealth = value; }
     public float CurrentHealth { get => currentHealth; set => currentHealth = Mathf.Clamp(value, 0, MaxHealth); }
     public float HealthRegeneration { get => healthRegeneration; set => healthRegeneration = value; }
 
+    //Cooldown
     public float MaxCooldownReduction { get => maxCooldownReduction; set => maxCooldownReduction = value; }
     public float CurrentCooldownReduction { get => currentCooldownReduction; set => currentCooldownReduction = Mathf.Clamp(value, 0, MaxCooldownReduction); }
+    public bool IsCooldownReductionCapped => CurrentCooldownReduction == MaxCooldownReduction;
 
+    //Armor
     public float CurrentArmor { get; set; }
     public float CurrentMagicResistance { get; set; }
 
+    //Attack
     public float CurrentAttackDamage { get; set; }
     public float CurrentMagicDamage { get; set; }
     public float AttackRange { get => attackRange; set => attackRange = value; }
     public float CurrentAttackSpeed { get; set; }
     public float CurrentCriticalStrikeChance { get; set; }
     
+    //Death
     public bool IsDead => CurrentHealth <= 0;
-    public bool IsCooldownReductionCapped => CurrentCooldownReduction == MaxCooldownReduction;
-
-    public List<Ability> CharacterAbilities { get => characterAbilities; }
     public float TimeToRespawn { get => timeToRespawn; set => timeToRespawn = value; }
-    public Transform Target { get; set; }
+    
+    //Abilities
+    public List<Ability> CharacterAbilities { get => characterAbilities; }
+    
 
     protected virtual void Awake()
     {
@@ -70,56 +78,66 @@ public class Character : MonoBehaviour, IDamageable, IKillable
 
     protected virtual void Start()
     {
-        //Health
-        SetHealthAtStartOfTheGame(MaxHealth);
-        //Defense
-        SetArmorAtStartOfTheGame(baseArmor);
-        SetMagicResistanceAtStartOfTheGame(baseMagicResistance);
-        //Misc
-        SetCooldownReductionAtStartOfTheGame(baseCooldownReduction);
-        //Attack
-        SetAttackDamageAtStartOfTheGame(baseAttackDamage);
-        SetMagicDamageAtStartOfTheGame(baseMagicDamage);
-        SetAttackSpeedAtStartOfTheGame(baseAttackSpeed);
-        SetCriticalStrikeChanceAtStartOfTheGame(baseCriticalStrikeChance);
+        //deathHUD.SetActive(false);
+
+        //CARACTERISTICS
+
+        //- Health
+        SetHealthAtStartOfTheGameIsEqualTo(MaxHealth);
+        //- Defense
+        SetArmorAtStartOfTheGameIsEqualTo(baseArmor);
+        SetMagicResistanceAtStartOfTheGameIsEqualTo(baseMagicResistance);
+        //- Cooldown
+        SetCooldownReductionAtStartOfTheGameIsEqualTo(baseCooldownReduction);
+        //- Attack
+        SetAttackDamageAtStartOfTheGameIsEqualTo(baseAttackDamage);
+        SetMagicDamageAtStartOfTheGameIsEqualTo(baseMagicDamage);
+        SetAttackSpeedAtStartOfTheGameIsEqualTo(baseAttackSpeed);
+        SetCriticalStrikeChanceAtStartOfTheGameIsEqualTo(baseCriticalStrikeChance);
+    }
+
+    protected virtual void Update()
+    {
+        if (IsDead)
+            OnDeath();
     }
 
     #region Settings at start of the game
-    private void SetHealthAtStartOfTheGame(float characterMaxHealth)
+    private void SetHealthAtStartOfTheGameIsEqualTo(float characterMaxHealth)
     {
         CurrentHealth = characterMaxHealth;
     }
 
-    private void SetArmorAtStartOfTheGame(float armorValueAtStart)
+    private void SetArmorAtStartOfTheGameIsEqualTo(float armorValueAtStart)
     {
         CurrentArmor = armorValueAtStart;
     }
 
-    private void SetMagicResistanceAtStartOfTheGame(float magicResistanceValueAtStart)
+    private void SetMagicResistanceAtStartOfTheGameIsEqualTo(float magicResistanceValueAtStart)
     {
         CurrentMagicResistance = magicResistanceValueAtStart;
     }
 
-    private void SetCooldownReductionAtStartOfTheGame(float cooldownValueAtStart)
+    private void SetCooldownReductionAtStartOfTheGameIsEqualTo(float cooldownValueAtStart)
     {
         CurrentCooldownReduction = cooldownValueAtStart;
     }
-    private void SetAttackDamageAtStartOfTheGame(float attackDamageAtStart)
+    private void SetAttackDamageAtStartOfTheGameIsEqualTo(float attackDamageAtStart)
     {
         CurrentCooldownReduction = attackDamageAtStart;
     }
 
-    private void SetMagicDamageAtStartOfTheGame(float magicDamageAtStart)
+    private void SetMagicDamageAtStartOfTheGameIsEqualTo(float magicDamageAtStart)
     {
         CurrentCooldownReduction = magicDamageAtStart;
     }
 
-    private void SetCriticalStrikeChanceAtStartOfTheGame(float criticalStrikeChanceValueAtStart)
+    private void SetCriticalStrikeChanceAtStartOfTheGameIsEqualTo(float criticalStrikeChanceValueAtStart)
     {
         CurrentCooldownReduction = criticalStrikeChanceValueAtStart;
     }
 
-    private void SetAttackSpeedAtStartOfTheGame(float attackSpeedValueAtStart)
+    private void SetAttackSpeedAtStartOfTheGameIsEqualTo(float attackSpeedValueAtStart)
     {
         CurrentCooldownReduction = attackSpeedValueAtStart;
     }
@@ -148,7 +166,7 @@ public class Character : MonoBehaviour, IDamageable, IKillable
                 Debug.Log("Armor is over 0 / " + " Physical Damage " + (int)physicalDamageTaken);
             }
 
-            DamagePopUp.Create(inFrontOfCharacter, damagePopUp, physicalDamageTaken, DamageType.Physical);
+            DamagePopUp.Create(InFrontOfCharacter, damagePopUp, physicalDamageTaken, DamageType.Physical);
         }
 
         if (magicDamageTaken > 0)
@@ -168,7 +186,7 @@ public class Character : MonoBehaviour, IDamageable, IKillable
             if (physicalDamageTaken > 0) 
                 StartCoroutine(CreateDamagePopUpWithDelay(0.15f, magicDamageTaken, DamageType.Magic));
             else
-                DamagePopUp.Create(inFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
+                DamagePopUp.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
         }
 
         CurrentHealth -= (int)physicalDamageTaken + (int)magicDamageTaken;
@@ -180,7 +198,7 @@ public class Character : MonoBehaviour, IDamageable, IKillable
     {
         yield return new WaitForSeconds(delay);
 
-        DamagePopUp.Create(inFrontOfCharacter, damagePopUp, damageTaken, damageType);
+        DamagePopUp.Create(InFrontOfCharacter, damagePopUp, damageTaken, damageType);
     }
 
     #region Death and respawn
@@ -189,15 +207,20 @@ public class Character : MonoBehaviour, IDamageable, IKillable
         //Bloquer les inputs pour les compétences
 
         //Afficher le HUD de mort pendant le temps de la mort
+        //deathHUD.SetActive(true);
 
         //Start une coroutine de respawn -> après un temps t le personnage réapparaît à son point de spawn
-        //StartCoroutine(Respawn(TimeToRespawn));
+        StartCoroutine(Respawn(TimeToRespawn));
     }
 
     protected IEnumerator Respawn(float timeBeforeRespawn)
     {
         yield return new WaitForSeconds(timeBeforeRespawn);
         //Respawn
+        //Set Position At Spawn Location
+        CurrentHealth = MaxHealth;
+        //deathHUD.SetActive(false);
+        Debug.Log("is Dead " + IsDead);
     }
     #endregion
 }

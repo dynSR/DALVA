@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Character
+public class PlayerStats : Stats
 {
     protected override void Awake()
     {
@@ -14,11 +14,13 @@ public class Player : Character
         base.Start();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log("Take Damage");
+            //Debug.Log("Take Damage");
             TakeDamage(200, 150);
             Debug.Log(CurrentHealth);
         }

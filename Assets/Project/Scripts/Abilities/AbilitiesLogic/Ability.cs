@@ -14,6 +14,7 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private Sprite abilityIcon;
     [SerializeField] private GameObject abilityPrefab;
+    private Stats CharacterStats => GetComponent<Stats>();
     private CharacterController CharacterController => GetComponent<CharacterController>();
     private AbilitiesCooldownHandler CooldownHandler => GetComponent<AbilitiesCooldownHandler>();
 
@@ -43,6 +44,8 @@ public abstract class Ability : MonoBehaviourPun
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true){ return; }
 
+        if (CharacterStats.IsDead) return;
+
         if (Input.GetKeyDown(AbilityKey))
         {
             if (CooldownHandler.IsAbilityOnCooldown(this)) return;
@@ -56,7 +59,7 @@ public abstract class Ability : MonoBehaviourPun
     private void HandleCharacterBehaviourBeforeCasting()
     {
         if (!IsInstantCast)
-            CharacterController.NavMeshAgent.ResetPath();
+            CharacterController.Agent.ResetPath();
     }
 }
 

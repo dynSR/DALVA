@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public enum TypeOfEffect { EffectToMovementSpeed, EffectToDamage, EffectToSomethingElse }
 
@@ -88,6 +89,11 @@ public abstract class StatusEffect : MonoBehaviour
     public CharacterController GetTargetCharacterController(Transform targetFound)
     {
         return targetFound.GetComponent<CharacterController>();
+    }
+
+    public void SetNavMeshAgentSpeed(NavMeshAgent agent, float speedToSet)
+    {
+        agent.speed = speedToSet;
     }
 
     public StatusEffectHandler GetTargetStatusEffectHandler(Transform targetFound)

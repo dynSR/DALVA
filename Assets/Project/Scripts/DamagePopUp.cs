@@ -44,6 +44,8 @@ public class DamagePopUp : MonoBehaviour
 
     private void MoveUp()
     {
+        transform.LookAt(Camera.main.transform);
+        transform.Rotate(0, 180, 0);
         transform.position += new Vector3(0, moveYSpeed) * Time.deltaTime;
     }
 

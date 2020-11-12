@@ -11,7 +11,7 @@ public class CombatBehaviour : MonoBehaviour
     [SerializeField] private Transform targetedEnemy;
     [SerializeField] private float rotateSpeedForAttack;
     [SerializeField] private CombatAttackType combatAttackType;
-    private bool canPerformAttack = false;
+    [SerializeField] private bool canPerformAttack = true;
 
     private CursorHandler CursorHandler => GetComponent<CursorHandler>();
 
@@ -23,11 +23,7 @@ public class CombatBehaviour : MonoBehaviour
     private Animator CharacterAnimator => GetComponent<CharacterController>().CharacterAnimator;
 
     public Transform TargetedEnemy { get => targetedEnemy; set => targetedEnemy = value; }
-
-    protected virtual void Start()
-    {
-        
-    }
+    public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
 
     protected virtual void Update()
     {
@@ -38,6 +34,7 @@ public class CombatBehaviour : MonoBehaviour
             TargetedEnemy = null;
             return;
         }
+
         SetTargetOnMouseClickButton(1);
 
         MoveTowardsExistingTargetOrPerformAttack();
@@ -88,31 +85,47 @@ public class CombatBehaviour : MonoBehaviour
 
                 CharacterController.HandleCharacterRotation(TargetedEnemy.position, CharacterController.RotateVelocity, rotateSpeedForAttack);
             }
-            else
+            else if (CanPerformAttack)
             {
                 if (combatAttackType == CombatAttackType.Melee)
                 {
-                    if (canPerformAttack)
-                    {
-                        Debug.Log("Melee Attack performed !");
-                        //Start Coroutine
-                        StartCoroutine(MeleeAttackInterval());
-                    }
+                    Debug.Log("Melee Attack performed !");
+                    StartCoroutine(AttackInterval(combatAttackType));
+                }
+                else if (combatAttackType == CombatAttackType.Ranged)
+                {
+                    Debug.Log("Ranged Attack performed !");
+                    StartCoroutine(AttackInterval(combatAttackType));
                 }
             }
         }
     }
 
-    IEnumerator MeleeAttackInterval()
+    IEnumerator AttackInterval(CombatAttackType attackType)
     {
-        canPerformAttack = false;
-        //CharacterAnimator.SetBool("BasicAttack", true);
-        yield return new WaitForSeconds(CharacterStats.CurrentAttackSpeed / (100 + CharacterStats.CurrentAttackSpeed) * 0.01f);
-
-        if (TargetedEnemy == null)
+        if (attackType == CombatAttackType.Melee)
         {
-            //CharacterAnimator.SetBool("BasicAttack", false);
-            canPerformAttack = true;
+            //CharacterAnimator.SetBool("MeleeBasicAttack", true);
+            MeleeAttack();
+            CanPerformAttack = false;
+        }
+        else if (attackType == CombatAttackType.Ranged)
+        {
+            //CharacterAnimator.SetBool("RangedBasicAttack", true);
+            CanPerformAttack = false;
+        }
+
+        yield return new WaitForSeconds(1 / CharacterStats.CurrentAttackSpeed);
+
+        if (attackType == CombatAttackType.Melee)
+        {
+            //CharacterAnimator.SetBool("MeleeBasicAttack", false);
+            CanPerformAttack = true;
+        }
+        else if (attackType == CombatAttackType.Ranged)
+        {
+            //CharacterAnimator.SetBool("RangedBasicAttack", false);
+            CanPerformAttack = true;
         }
     }
 
@@ -122,11 +135,11 @@ public class CombatBehaviour : MonoBehaviour
         {
             if (TargetedEnemy.GetComponent<Stats>() != null)
             {
-                TargetedEnemy.GetComponent<Stats>().TakeDamage(CharacterStats.CurrentAttackDamage, 0);
+                TargetedEnemy.GetComponent<Stats>().TakeDamage(CharacterStats.CurrentAttackDamage, CharacterStats.CurrentMagicDamage, CharacterStats.CurrentCriticalStrikeChance, CharacterStats.CurrentCriticalStrikeMultiplier); 
             }
         }
 
-        canPerformAttack = true;
+        CanPerformAttack = true;
     }
 
 }

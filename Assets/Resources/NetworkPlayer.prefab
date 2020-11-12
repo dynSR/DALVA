@@ -614,11 +614,12 @@ MonoBehaviour:
   maxCooldownReduction: 0
   baseArmor: 15
   baseMagicResistance: 50
-  baseAttackDamage: 0
+  baseAttackDamage: 50
   baseMagicDamage: 0
   attackRange: 1.15
-  baseAttackSpeed: 0
-  baseCriticalStrikeChance: 0
+  baseAttackSpeed: 0.625
+  baseCriticalStrikeChance: 50
+  baseCriticalStrikeDamageMultiplier: 175
   timeToRespawn: 1
   damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
@@ -656,6 +657,7 @@ MonoBehaviour:
   targetedEnemy: {fileID: 0}
   rotateSpeedForAttack: 0.1
   combatAttackType: 0
+  canPerformAttack: 1
 --- !u!114 &3521843888695352992
 MonoBehaviour:
   m_ObjectHideFlags: 0

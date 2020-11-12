@@ -51,7 +51,7 @@ public class CharacterController : MonoBehaviourPun
 
         if (CharacterStats.IsDead) return;
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             SetNavMeshDestinationWithRayCast();
         }
@@ -65,12 +65,12 @@ public class CharacterController : MonoBehaviourPun
     {
         if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity, walkableLayer))
         {
-            MovementFeedbackInstantiation(movementFeedback, hit.point);
+            if (Input.GetMouseButtonDown(1))
+            {
+                MovementFeedbackInstantiation(movementFeedback, hit.point);
+            }
+
             Agent.SetDestination(hit.point);
-
-            //Agent.stoppingDistance = 0;
-            //CharacterCombatBehaviour.TargetedEnemy = null;
-
             HandleCharacterRotation(hit.point, RotateVelocity, rotateSpeedMovement);
         }
     }

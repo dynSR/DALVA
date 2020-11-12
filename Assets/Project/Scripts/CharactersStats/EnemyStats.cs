@@ -24,8 +24,9 @@ public class EnemyStats : Stats
         base.OnDeath();
     }
 
-    public override void TakeDamage(float physicalDamageTaken, float magicDamageTaken)
+    public override void TakeDamage(float attackDamageTaken, float magicDamageTaken, float characterCriticalStrikeChance, float characterCriticalStrikeMultiplier)
     {
-        base.TakeDamage(physicalDamageTaken, magicDamageTaken);
+        base.TakeDamage(attackDamageTaken, magicDamageTaken, characterCriticalStrikeChance, characterCriticalStrikeMultiplier);
+        Debug.Log("Enemy took damage");
     }
 }

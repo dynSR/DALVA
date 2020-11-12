@@ -6,35 +6,49 @@ public enum CharacterClass { Warrior, Marksman, Mage, Healer }
 enum DefaultAttackType { Melee, Ranged }
 public class Stats : MonoBehaviour, IDamageable, IKillable
 {
-    [Header("CORE PARAMETERS")]
+    [Header("CHARACTER NAME & CLASSE")]
     [SerializeField] private string characterName;
     [SerializeField] private CharacterClass characterClass;
+
+    [Header("CHARACTER ABVILITIES AND DEFAULT ATTACK TYPE")]
     [SerializeField] private List<Ability> characterAbilities;
     [SerializeField] private DefaultAttackType defaultAttackType;
 
     [Header("HEALTH PARAMETERS")]
-    private float currentHealth;
     [SerializeField] private float maxHealth;
     [SerializeField] private float healthRegeneration;
+    private float currentHealth;
 
     [Header("COOLDOWN PARAMETERS")]
-    private float currentCooldownReduction;
     [SerializeField] private float baseCooldownReduction;
     [SerializeField] private float maxCooldownReduction;
+    private float currentCooldownReduction;
 
     [Header("DEFENSE PARAMETERS")]
     [SerializeField] private float baseArmor;
     [SerializeField] private float baseMagicResistance;
 
-    [Header("ATTACK PARAMETERS")]
+    [Header("DAMAGE PARAMETERS")]
     [SerializeField] private float baseAttackDamage;
+    private float currentAttackDamage;
     [SerializeField] private float baseMagicDamage;
+
+    [Header("ATTACK RANGE PARAMETERS")]
     [SerializeField] private float attackRange;
+
+    [Header("ATTACK SPEED PARAMETERS")]
     [SerializeField] private float baseAttackSpeed;
+    private float currentAttackSpeed;
+    private float additiveAttackSpeed;
+
+    [Header("CRITICAL STRIKES PARAMETERS")]
     [SerializeField] private float baseCriticalStrikeChance;
+    private float currentCriticalStrikeChance;
+    [SerializeField] private float baseCriticalStrikeDamageMultiplier;
 
     [Header("DEATH PARAMETERS")]
     [SerializeField] private float timeToRespawn;
+    private CombatBehaviour CombatBehaviour => GetComponent<CombatBehaviour>();
 
     [Header("UI PARAMETERS")]
     [SerializeField] private GameObject damagePopUp;
@@ -56,13 +70,35 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     public float CurrentArmor { get; set; }
     public float CurrentMagicResistance { get; set; }
 
-    //Attack
+    //Damages
     public float CurrentAttackDamage { get; set; }
     public float CurrentMagicDamage { get; set; }
+
+    //AttackRange
     public float AttackRange { get => attackRange; set => attackRange = value; }
-    public float CurrentAttackSpeed { get; set; }
-    public float CurrentCriticalStrikeChance { get; set; }
-    
+
+    //Attack Speed
+    public float AdditiveAttackSpeed { get => additiveAttackSpeed; set => additiveAttackSpeed = value / 100; }
+    public float CurrentAttackSpeed { get => currentAttackSpeed; set => currentAttackSpeed = baseAttackSpeed * (1 + AdditiveAttackSpeed); }
+
+    //Critical Strikes
+    public float CurrentCriticalStrikeChance 
+    { 
+        get => currentCriticalStrikeChance; 
+        set 
+        {
+            if (currentCriticalStrikeChance > 100)
+            {
+                currentCriticalStrikeChance = 100;
+            }
+            else
+            {
+                currentCriticalStrikeChance = value;
+            }
+        } 
+    }
+    public float CurrentCriticalStrikeMultiplier { get; set; }
+
     //Death
     public bool IsDead => CurrentHealth <= 0;
     public float TimeToRespawn { get => timeToRespawn; set => timeToRespawn = value; }
@@ -81,19 +117,26 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
         //deathHUD.SetActive(false);
 
         //CARACTERISTICS
-
         //- Health
         SetHealthAtStartOfTheGameIsEqualTo(MaxHealth);
+
         //- Defense
         SetArmorAtStartOfTheGameIsEqualTo(baseArmor);
         SetMagicResistanceAtStartOfTheGameIsEqualTo(baseMagicResistance);
+
         //- Cooldown
         SetCooldownReductionAtStartOfTheGameIsEqualTo(baseCooldownReduction);
-        //- Attack
+
+        //- Damages
         SetAttackDamageAtStartOfTheGameIsEqualTo(baseAttackDamage);
         SetMagicDamageAtStartOfTheGameIsEqualTo(baseMagicDamage);
+
+        //- Attack Speed
         SetAttackSpeedAtStartOfTheGameIsEqualTo(baseAttackSpeed);
+
+        //- Critical Strike Chance
         SetCriticalStrikeChanceAtStartOfTheGameIsEqualTo(baseCriticalStrikeChance);
+        SetCriticalStrikeMultiplierAtStartOfTheGameIsEqualTo(baseCriticalStrikeDamageMultiplier);
     }
 
     protected virtual void Update()
@@ -124,22 +167,27 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     }
     private void SetAttackDamageAtStartOfTheGameIsEqualTo(float attackDamageAtStart)
     {
-        CurrentCooldownReduction = attackDamageAtStart;
+        CurrentAttackDamage = attackDamageAtStart;
     }
 
     private void SetMagicDamageAtStartOfTheGameIsEqualTo(float magicDamageAtStart)
     {
-        CurrentCooldownReduction = magicDamageAtStart;
+        CurrentMagicDamage = magicDamageAtStart;
     }
 
     private void SetCriticalStrikeChanceAtStartOfTheGameIsEqualTo(float criticalStrikeChanceValueAtStart)
     {
-        CurrentCooldownReduction = criticalStrikeChanceValueAtStart;
+        CurrentCriticalStrikeChance = criticalStrikeChanceValueAtStart;
+    }
+
+    private void SetCriticalStrikeMultiplierAtStartOfTheGameIsEqualTo(float criticalStrikeMultiplierValueAtStart)
+    {
+        CurrentCriticalStrikeMultiplier = criticalStrikeMultiplierValueAtStart;
     }
 
     private void SetAttackSpeedAtStartOfTheGameIsEqualTo(float attackSpeedValueAtStart)
     {
-        CurrentCooldownReduction = attackSpeedValueAtStart;
+        CurrentAttackSpeed = attackSpeedValueAtStart;
     }
 
     private void GetAllCharacterAbilities()
@@ -151,22 +199,32 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     }
     #endregion
 
-    public virtual void TakeDamage(float physicalDamageTaken, float magicDamageTaken)
+    #region Take Damage Section
+    public virtual void TakeDamage(float attackDamageTaken, float magicDamageTaken, float characterCriticalStrikeChance, float characterCriticalStrikeMultiplier)
     {
-        if (physicalDamageTaken > 0)
+        if (attackDamageTaken > 0)
         {
+            float randomValue = Random.Range(0, 100);
+            Debug.Log("Random Value to determined critical strike or not : " + randomValue);
+
+            if (randomValue <= characterCriticalStrikeChance)
+            {
+                attackDamageTaken *= characterCriticalStrikeMultiplier / 100;
+                Debug.Log("Critical Strike");
+            }
+
             if (CurrentArmor <= 0)
             {
-                physicalDamageTaken *= 2 - 100 / (100 - CurrentArmor);
-                Debug.Log("Armor is equal or inferior to 0 / " + " Physical Damage " + (int)physicalDamageTaken);
+                attackDamageTaken *= 2 - 100 / (100 - CurrentArmor);
+                Debug.Log("Armor is equal or inferior to 0 / " + " Physical Damage " + (int)attackDamageTaken);
             }
             else
             {
-                physicalDamageTaken *= 100 / (100 + CurrentArmor);
-                Debug.Log("Armor is over 0 / " + " Physical Damage " + (int)physicalDamageTaken);
+                attackDamageTaken *= 100 / (100 + CurrentArmor);
+                Debug.Log("Armor is over 0 / " + " Physical Damage " + (int)attackDamageTaken);
             }
 
-            DamagePopUp.Create(InFrontOfCharacter, damagePopUp, physicalDamageTaken, DamageType.Physical);
+            DamagePopUp.Create(InFrontOfCharacter, damagePopUp, attackDamageTaken, DamageType.Physical);
         }
 
         if (magicDamageTaken > 0)
@@ -183,15 +241,15 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
                 Debug.Log("Magic Resistance is over 0 / " + " Magic Damage " + (int)magicDamageTaken);
             }
 
-            if (physicalDamageTaken > 0) 
+            if (attackDamageTaken > 0) 
                 StartCoroutine(CreateDamagePopUpWithDelay(0.15f, magicDamageTaken, DamageType.Magic));
             else
                 DamagePopUp.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
         }
 
-        CurrentHealth -= (int)physicalDamageTaken + (int)magicDamageTaken;
+        CurrentHealth -= (int)attackDamageTaken + (int)magicDamageTaken;
 
-        Debug.Log("Health = " + CurrentHealth + " physical damage = " + (int)physicalDamageTaken + " magic damage = " + (int)magicDamageTaken);
+        Debug.Log("Health = " + CurrentHealth + " physical damage = " + (int)attackDamageTaken + " magic damage = " + (int)magicDamageTaken);
     }
 
     private IEnumerator CreateDamagePopUpWithDelay(float delay, float damageTaken, DamageType damageType)
@@ -201,6 +259,7 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
         DamagePopUp.Create(InFrontOfCharacter, damagePopUp, damageTaken, damageType);
         Debug.Log(gameObject.name + " Life is : " + CurrentHealth);
     }
+    #endregion
 
     #region Death and respawn
     public virtual void OnDeath()
@@ -213,11 +272,19 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
         //Afficher le HUD de mort pendant le temps de la mort
         //deathHUD.SetActive(true);
 
+        if (CombatBehaviour != null) CombatBehaviour.CanPerformAttack = false;
+        
         yield return new WaitForSeconds(timeBeforeRespawn);
-        //Respawn
+
         //Set Position At Spawn Location
+
         CurrentHealth = MaxHealth;
+
+        //Désafficher le HUD de mort pendant le temps de la mort
         //deathHUD.SetActive(false);
+
+        if (CombatBehaviour != null) CombatBehaviour.CanPerformAttack = true;
+
         Debug.Log("is Dead " + IsDead);
     }
     #endregion

@@ -18,12 +18,12 @@ public class PlayerStats : Stats
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            //Debug.Log("Take Damage");
-            TakeDamage(200, 150);
-            Debug.Log(CurrentHealth);
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    //Debug.Log("Take Damage");
+        //    TakeDamage(200, 150);
+        //    Debug.Log(CurrentHealth);
+        //}
     }
 
     public override void OnDeath()
@@ -31,8 +31,8 @@ public class PlayerStats : Stats
         base.OnDeath();
     }
 
-    public override void TakeDamage(float physicalDamageTaken, float magicDamageTaken)
+    public override void TakeDamage(float attackDamageTaken, float magicDamageTaken, float characterCriticalStrikeChance, float characterCriticalStrikeMultiplier)
     {
-        base.TakeDamage(physicalDamageTaken, magicDamageTaken);
+        base.TakeDamage(attackDamageTaken, magicDamageTaken, characterCriticalStrikeChance, characterCriticalStrikeMultiplier);
     }
 }

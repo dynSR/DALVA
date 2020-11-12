@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 enum CombatAttackType { Melee, Ranged }
 
@@ -12,12 +11,9 @@ public class CombatBehaviour : MonoBehaviour
     [SerializeField] private Transform targetedEnemy;
     [SerializeField] private float rotateSpeedForAttack;
     [SerializeField] private CombatAttackType combatAttackType;
-    private bool performAttack = false;
+    private bool canPerformAttack = false;
 
-    
-    [Header("CURSOR ICONS")]
-    [SerializeField] private Texture2D normalCursorIcon;
-    [SerializeField] private Texture2D attackCursorIcon;
+    private CursorHandler CursorHandler => GetComponent<CursorHandler>();
 
     Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -35,19 +31,31 @@ public class CombatBehaviour : MonoBehaviour
 
     protected virtual void Update()
     {
+        SetDynamicCursorAppearance();
+
         if (CharacterStats.IsDead)
         {
-            if (TargetedEnemy != null)
-            {
-                TargetedEnemy = null;
-            }
+            TargetedEnemy = null;
             return;
         }
-
-        SetDynamicCursorAppearance();
         SetTargetOnMouseClickButton(1);
 
         MoveTowardsExistingTargetOrPerformAttack();
+    }
+
+    void SetDynamicCursorAppearance()
+    {
+        if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity))
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                CursorHandler.SetCursorToAttackAppearance();
+            }
+            else if (!hit.collider.CompareTag("Enemy"))
+            {
+                CursorHandler.SetCursorToNormalAppearance();
+            }
+        }
     }
 
     void SetTargetOnMouseClickButton(int mouseClickButton)
@@ -84,37 +92,41 @@ public class CombatBehaviour : MonoBehaviour
             {
                 if (combatAttackType == CombatAttackType.Melee)
                 {
-                    Debug.Log("Melee Attack performed !");
-                    //Start Coroutine
+                    if (canPerformAttack)
+                    {
+                        Debug.Log("Melee Attack performed !");
+                        //Start Coroutine
+                        StartCoroutine(MeleeAttackInterval());
+                    }
                 }
             }
         }
     }
 
-    #region Cursor Appearance 
-    void SetDynamicCursorAppearance()
+    IEnumerator MeleeAttackInterval()
     {
-        if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity) && hit.collider.CompareTag("Enemy"))
+        canPerformAttack = false;
+        //CharacterAnimator.SetBool("BasicAttack", true);
+        yield return new WaitForSeconds(CharacterStats.CurrentAttackSpeed / (100 + CharacterStats.CurrentAttackSpeed) * 0.01f);
+
+        if (TargetedEnemy == null)
         {
-            SetCursorToAttackAppearance();
-            Debug.Log(hit.transform.name);
-        }
-        else
-        {
-            SetCursorToNormalAppearance();
+            //CharacterAnimator.SetBool("BasicAttack", false);
+            canPerformAttack = true;
         }
     }
 
-    void SetCursorToNormalAppearance()
+    public void MeleeAttack()
     {
-        //Debug.Log("Normal Cursor");
-        //Cursor.SetCursor(normalCursorIcon, Input.mousePosition, CursorMode.ForceSoftware);
+        if (TargetedEnemy != null)
+        {
+            if (TargetedEnemy.GetComponent<Stats>() != null)
+            {
+                TargetedEnemy.GetComponent<Stats>().TakeDamage(CharacterStats.CurrentAttackDamage, 0);
+            }
+        }
+
+        canPerformAttack = true;
     }
 
-    void SetCursorToAttackAppearance()
-    {
-        //Debug.Log("Attack Cursor");
-        //Cursor.SetCursor(attackCursorIcon, Input.mousePosition, CursorMode.ForceSoftware);
-    }
-    #endregion
 }

@@ -63,7 +63,7 @@ public class CameraController : MonoBehaviour
 
     void FollowATarget(Transform targetToFollow)
     {
-        transform.position = Vector3.Lerp(transform.position, new Vector3(targetToFollow.position.x, targetToFollow.position.y + cameraOffset.y, targetToFollow.position.z + cameraOffset.z), cameraFollowingSpeed);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(targetToFollow.position.x + cameraOffset.x, targetToFollow.position.y + cameraOffset.y, targetToFollow.position.z + cameraOffset.z), cameraFollowingSpeed);
     }
 
     void MoveCameraWithMouse()

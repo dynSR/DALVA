@@ -199,22 +199,20 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
         yield return new WaitForSeconds(delay);
 
         DamagePopUp.Create(InFrontOfCharacter, damagePopUp, damageTaken, damageType);
+        Debug.Log(gameObject.name + " Life is : " + CurrentHealth);
     }
 
     #region Death and respawn
     public virtual void OnDeath()
     {
-        //Bloquer les inputs pour les compétences
-
-        //Afficher le HUD de mort pendant le temps de la mort
-        //deathHUD.SetActive(true);
-
-        //Start une coroutine de respawn -> après un temps t le personnage réapparaît à son point de spawn
         StartCoroutine(Respawn(TimeToRespawn));
     }
 
     protected IEnumerator Respawn(float timeBeforeRespawn)
     {
+        //Afficher le HUD de mort pendant le temps de la mort
+        //deathHUD.SetActive(true);
+
         yield return new WaitForSeconds(timeBeforeRespawn);
         //Respawn
         //Set Position At Spawn Location

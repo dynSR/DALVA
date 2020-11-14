@@ -71,7 +71,7 @@ public class CharacterController : MonoBehaviourPun
             }
 
             Agent.SetDestination(hit.point);
-            HandleCharacterRotation(hit.point, RotateVelocity, rotateSpeedMovement);
+            HandleCharacterRotation(transform, hit.point, RotateVelocity, rotateSpeedMovement);
         }
     }
 
@@ -81,7 +81,7 @@ public class CharacterController : MonoBehaviourPun
         CharacterAnimator.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);
     }
 
-    public void HandleCharacterRotation(Vector3 target, float rotateVelocity, float rotateSpeed)
+    public void HandleCharacterRotation(Transform transform, Vector3 target, float rotateVelocity, float rotateSpeed)
     {
         Quaternion rotationToLookAt = Quaternion.LookRotation(target - transform.position);
 

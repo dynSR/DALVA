@@ -31,8 +31,8 @@ public class PlayerStats : Stats
         base.OnDeath();
     }
 
-    public override void TakeDamage(float attackDamageTaken, float magicDamageTaken, float characterCriticalStrikeChance, float characterCriticalStrikeMultiplier)
+    public override void TakeDamage(float attackDamageTaken, float magicDamageTaken, float criticalStrikeChance, float criticalStrikeMultiplier, float armorPenetration, float magicResistancePenetration)
     {
-        base.TakeDamage(attackDamageTaken, magicDamageTaken, characterCriticalStrikeChance, characterCriticalStrikeMultiplier);
+        base.TakeDamage(attackDamageTaken, magicDamageTaken, criticalStrikeChance, criticalStrikeMultiplier, armorPenetration, magicResistancePenetration);
     }
 }

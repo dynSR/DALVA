@@ -645,10 +645,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 215419870293571622, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
-      propertyPath: baseCriticalStrikeChance
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 5569041192761393495, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
       propertyPath: viewIdField
       value: 1
@@ -1076,16 +1072,27 @@ MonoBehaviour:
   defaultAttackType: 0
   maxHealth: 50000
   healthRegeneration: 0
+  currentHealth: 0
   baseCooldownReduction: 0
   maxCooldownReduction: 0
+  currentCooldownReduction: 0
   baseArmor: 10
   baseMagicResistance: 10
   baseAttackDamage: 0
+  currentAttackDamage: 0
   baseMagicDamage: 0
   attackRange: 0
   baseAttackSpeed: 0
+  currentAttackSpeed: 0
+  additiveAttackSpeed: 0
+  maxAttackSpeed: 0
   baseCriticalStrikeChance: 0
-  baseCriticalStrikeDamageMultiplier: 0
+  currentCriticalStrikeChance: 0
+  baseCriticalStrikeDamageMultiplier: 175
+  maxCriticalStrikeDamageMultiplier: 0
+  currentCriticalStrikeDamageMultiplier: 0
+  currentArmorPenetration: 0
+  currentMagicResistancePenetration: 0
   timeToRespawn: 0
   damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}

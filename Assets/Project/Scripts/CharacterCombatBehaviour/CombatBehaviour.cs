@@ -9,17 +9,19 @@ public class CombatBehaviour : MonoBehaviour
 {
     [Header("COMBAT PARAMETERS")]
     [SerializeField] private Transform targetedEnemy;
+    [SerializeField] private GameObject basicRangedAttackProjectile;
     [SerializeField] private float rotateSpeedForAttack;
     [SerializeField] private CombatAttackType combatAttackType;
     [SerializeField] private bool canPerformAttack = true;
+
 
     private CursorHandler CursorHandler => GetComponent<CursorHandler>();
 
     Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    
     private Stats CharacterStats => GetComponent<Stats>();
     private CharacterController CharacterController => GetComponent<CharacterController>();
+    private LaunchProjectile LaunchProjectile => GetComponent<LaunchProjectile>();
     private Animator CharacterAnimator => GetComponent<CharacterController>().CharacterAnimator;
 
     public Transform TargetedEnemy { get => targetedEnemy; set => targetedEnemy = value; }
@@ -83,7 +85,7 @@ public class CombatBehaviour : MonoBehaviour
                 CharacterController.Agent.SetDestination(TargetedEnemy.position);
                 CharacterController.Agent.stoppingDistance = CharacterStats.AttackRange;
 
-                CharacterController.HandleCharacterRotation(TargetedEnemy.position, CharacterController.RotateVelocity, rotateSpeedForAttack);
+                CharacterController.HandleCharacterRotation(transform, TargetedEnemy.position, CharacterController.RotateVelocity, rotateSpeedForAttack);
             }
             else if (CanPerformAttack)
             {
@@ -92,7 +94,7 @@ public class CombatBehaviour : MonoBehaviour
                     Debug.Log("Melee Attack performed !");
                     StartCoroutine(AttackInterval(combatAttackType));
                 }
-                else if (combatAttackType == CombatAttackType.Ranged)
+                if (combatAttackType == CombatAttackType.Ranged)
                 {
                     Debug.Log("Ranged Attack performed !");
                     StartCoroutine(AttackInterval(combatAttackType));
@@ -112,6 +114,7 @@ public class CombatBehaviour : MonoBehaviour
         else if (attackType == CombatAttackType.Ranged)
         {
             //CharacterAnimator.SetBool("RangedBasicAttack", true);
+            RangedAttack();
             CanPerformAttack = false;
         }
 
@@ -135,11 +138,17 @@ public class CombatBehaviour : MonoBehaviour
         {
             if (TargetedEnemy.GetComponent<Stats>() != null)
             {
-                TargetedEnemy.GetComponent<Stats>().TakeDamage(CharacterStats.CurrentAttackDamage, CharacterStats.CurrentMagicDamage, CharacterStats.CurrentCriticalStrikeChance, CharacterStats.CurrentCriticalStrikeMultiplier); 
+                TargetedEnemy.GetComponent<Stats>().TakeDamage(CharacterStats.CurrentAttackDamage, CharacterStats.CurrentMagicDamage, CharacterStats.CurrentCriticalStrikeChance, CharacterStats.CurrentCriticalStrikeMultiplier, CharacterStats.CurrentArmorPenetration, CharacterStats.CurrentMagicResistancePenetration);
             }
         }
 
         CanPerformAttack = true;
     }
 
+    public void RangedAttack()
+    {
+        LaunchProjectile.LaunchAProjectile(basicRangedAttackProjectile, LaunchProjectile.EmmiterPosition, ProjectileType.TravelsForward, TargetedEnemy, transform);
+
+        CanPerformAttack = true;
+    }
 }

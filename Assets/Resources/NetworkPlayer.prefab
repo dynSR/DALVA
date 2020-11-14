@@ -607,19 +607,30 @@ MonoBehaviour:
   characterName: 
   characterClass: 0
   characterAbilities: []
-  defaultAttackType: 0
+  defaultAttackType: 1
   maxHealth: 100
   healthRegeneration: 0
+  currentHealth: 0
   baseCooldownReduction: 0
   maxCooldownReduction: 0
+  currentCooldownReduction: 0
   baseArmor: 15
   baseMagicResistance: 50
   baseAttackDamage: 50
+  currentAttackDamage: 0
   baseMagicDamage: 0
-  attackRange: 1.15
+  attackRange: 10
   baseAttackSpeed: 0.625
-  baseCriticalStrikeChance: 50
-  baseCriticalStrikeDamageMultiplier: 175
+  currentAttackSpeed: 0
+  additiveAttackSpeed: 0
+  maxAttackSpeed: 2
+  baseCriticalStrikeChance: 0
+  currentCriticalStrikeChance: 0
+  baseCriticalStrikeDamageMultiplier: 150
+  maxCriticalStrikeDamageMultiplier: 300
+  currentCriticalStrikeDamageMultiplier: 0
+  currentArmorPenetration: 0
+  currentMagicResistancePenetration: 0
   timeToRespawn: 1
   damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
@@ -655,6 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetedEnemy: {fileID: 0}
+  basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: f8f0cfca40865cf4fbd1d233068c1efd, type: 3}
   rotateSpeedForAttack: 0.1
   combatAttackType: 0
   canPerformAttack: 1
@@ -748,7 +760,7 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 256
-  rotationSpeed: 150
+  rotationSpeed: 0.001
 --- !u!114 &6589107790219068035
 MonoBehaviour:
   m_ObjectHideFlags: 0

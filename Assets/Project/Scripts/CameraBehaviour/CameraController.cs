@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
     [Header("CAMERA LOCKED PARAMETERS")]
     [SerializeField] private Transform targetToFollow;
     [SerializeField] private float cameraFollowingSpeed;
-    [Tooltip("Il faut mettre la moitié de la valeur de l'axe Y (en négatif) sur l'axe Z pour avoir le personnage visé par la caméra au centre de l'écran")]
     [SerializeField] private Vector3 cameraOffset;
 
     private bool CameraIsLocked => cameraLockState == CameraLockState.Lock;

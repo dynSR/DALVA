@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3268334176897293344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6229308141109691039}
+  m_Layer: 0
+  m_Name: BasicRangedAttackEmmiterPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6229308141109691039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268334176897293344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9098752904120244169}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9098752903640438439
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +160,7 @@ RectTransform:
   - {fileID: 9098752904314612995}
   - {fileID: 9098752905205366992}
   m_Father: {fileID: 9098752904120244169}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -535,6 +565,7 @@ Transform:
   m_Children:
   - {fileID: 9098752904591449131}
   - {fileID: 9098752905096233967}
+  - {fileID: 6229308141109691039}
   - {fileID: 9098752905517555552}
   - {fileID: 9098752903657886092}
   m_Father: {fileID: 0}
@@ -607,7 +638,6 @@ MonoBehaviour:
   characterName: 
   characterClass: 0
   characterAbilities: []
-  defaultAttackType: 1
   maxHealth: 100
   healthRegeneration: 0
   currentHealth: 0
@@ -666,9 +696,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetedEnemy: {fileID: 0}
+  basicRangedAttackEmmiterPos: {fileID: 6229308141109691039}
   basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: f8f0cfca40865cf4fbd1d233068c1efd, type: 3}
-  rotateSpeedForAttack: 0.1
-  combatAttackType: 0
+  rotateSpeedForAttack: 0.075
+  combatAttackType: 1
   canPerformAttack: 1
 --- !u!114 &3521843888695352992
 MonoBehaviour:
@@ -2487,7 +2518,7 @@ GameObject:
   - component: {fileID: 9098752905096233967}
   - component: {fileID: 9098752905096233960}
   m_Layer: 0
-  m_Name: ProjectileEmmiterPivot
+  m_Name: AimProjectileEmmiterPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3182,7 +3213,7 @@ Transform:
   - {fileID: 9098752904740888761}
   - {fileID: 9098752903640438432}
   m_Father: {fileID: 9098752904120244169}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &9098752905542095610
 GameObject:

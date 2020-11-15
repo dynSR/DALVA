@@ -11,23 +11,25 @@ public class LaunchProjectile : MonoBehaviour
     private CombatBehaviour CombatBehaviour=> GetComponent<CombatBehaviour>();
     public Transform EmmiterPosition { get => emmiterPosition; }
 
-    public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation, ProjectileType projectileType, Transform target, Transform sender)
+    public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation, ProjectileType projectileType)
     {
+        Instantiate(projectile, spawnLocation.position, spawnLocation.rotation);
+
         ProjectileController projectileController = projectile.GetComponent<ProjectileController>();
         projectileController.ProjectileType = projectileType;
-        target = CombatBehaviour.TargetedEnemy;
-        sender = transform;
-
-        TurnCharacterTowardsLaunchDirection();
 
         yield return new WaitForSeconds(rotationSpeed);
 
-        Instantiate(projectile, spawnLocation.position, spawnLocation.rotation);
+        
+        projectileController.ProjectileSender = transform;
+        projectileController.Target = CombatBehaviour.TargetedEnemy;
 
-        Debug.Log(projectile.GetComponent<ProjectileController>().ProjectileType.ToString());
+        Debug.Log("Projectile Type : " + projectile.GetComponent<ProjectileController>().ProjectileType.ToString());
+        Debug.Log("Projectile Sender : " + projectile.GetComponent<ProjectileController>().ProjectileSender.ToString());
+        Debug.Log("Projectile Target : " + projectile.GetComponent<ProjectileController>().Target.ToString());
     }
 
-    private void TurnCharacterTowardsLaunchDirection()
+    public void TurnCharacterTowardsLaunchDirection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //GameObject renderer = transform.GetChild(0).gameObject;

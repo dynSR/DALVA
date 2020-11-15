@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CharacterClass { Warrior, Marksman, Mage, Healer }
-enum DefaultAttackType { Melee, Ranged }
 public class Stats : MonoBehaviour, IDamageable, IKillable
 {
     [Header("CHARACTER NAME & CLASSE")]
@@ -12,7 +11,6 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
 
     [Header("CHARACTER ABVILITIES AND DEFAULT ATTACK TYPE")]
     [SerializeField] private List<Ability> characterAbilities;
-    [SerializeField] private DefaultAttackType defaultAttackType;
 
     [Header("HEALTH PARAMETERS")]
     [SerializeField] private float maxHealth;

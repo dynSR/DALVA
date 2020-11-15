@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum ProjectileType { TravelsForward, TravelsToAPosition, TravelsToATarget }
 
@@ -12,43 +13,44 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float projectileLifeTime;
     [SerializeField] private GameObject onHitEffect;
-    private bool canApplyDamage = false;
+    [SerializeField] private Transform projectileSender;
+    [SerializeField] private Transform target;
+    [SerializeField] private Stats targetStats;
 
-    private Stats projectileSenderCharacterStats;
-    public Transform ProjectileSender { get; set; }
-    public Transform Target { get; set; }
+    public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
+    public Transform Target { get => target; set => target = value; }
 
-    private bool IsProjectileTravellingToATarget => ProjectileType == ProjectileType.TravelsToATarget;
+    //private bool IsProjectileTravellingToATarget => ProjectileType == ProjectileType.TravelsToATarget;
 
     public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
+    public Stats ProjectileSenderCharacterStats { get; set; }
+    public Stats TargetCharacterStats { get => targetStats; set => targetStats = value; }
 
     private Rigidbody rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        TargetCharacterStats = Target.GetComponent<Stats>();
     }
 
     private void OnEnable()
     {
-        if(!IsProjectileTravellingToATarget)
-            StartCoroutine(DestroyProjectileAfterTime());
+        //if(!IsProjectileTravellingToATarget)
+        //    StartCoroutine(DestroyProjectileAfterTime());
     }
 
     void FixedUpdate()
     {
-        switch (ProjectileType)
+        if (projectileType == ProjectileType.TravelsToATarget)
         {
-            case ProjectileType.TravelsForward:
-                ProjectileTravelsForward(ProjectileSender, projectileSenderCharacterStats);
-                break;
-            //case ProjectileType.TravelsToAPosition:
-            //    break;
-            case ProjectileType.TravelsToATarget:
-                ProjectileTravelsToATarget(Target, ProjectileSender, projectileSenderCharacterStats);
-                break;
-            default:
-                break;
+            Vector3 targetPosition = Target.position;
+            rb.MovePosition(Vector3.MoveTowards(transform.position, targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0), projectileSpeed * Time.fixedDeltaTime));
+            transform.LookAt(Target);
+        }
+        else if (projectileType == ProjectileType.TravelsForward || projectileType == ProjectileType.TravelsToAPosition)
+        {
+            ProjectileTravelsForward(ProjectileSender, ProjectileSenderCharacterStats);
         }
     }
 
@@ -56,16 +58,17 @@ public class ProjectileController : MonoBehaviour
     void ProjectileTravelsForward(Transform sender, Stats projectileSenderStats)
     {
         ProjectileSender = sender;
-        projectileSenderCharacterStats = projectileSenderStats;
+        ProjectileSenderCharacterStats = projectileSenderStats;
         rb.MovePosition(transform.position += transform.forward * projectileSpeed);
     }
 
-    void ProjectileTravelsToATarget(Transform target, Transform sender, Stats projectileSenderStats)
-    {
-        ProjectileSender = sender;
-        projectileSenderCharacterStats = projectileSenderStats;
-        rb.MovePosition(Vector3.Lerp(sender.position, target.transform.position, projectileSpeed * Time.deltaTime));
-    }
+    //void ProjectileTravelsToATarget(Transform target, Transform sender, Stats projectileSenderStats)
+    //{
+    //    target = Target;
+    //    sender = ProjectileSender;
+    //    projectileSenderCharacterStats = projectileSenderStats;
+    //    rb.MovePosition(Vector3.Lerp(sender.position, target.transform.position, projectileSpeed * Time.deltaTime));
+    //}
     #endregion
 
     #region OnDestroy Projectile
@@ -73,32 +76,34 @@ public class ProjectileController : MonoBehaviour
     {
         InstantiateHitEffect(onHitEffect);
 
-        if (other.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            if (ProjectileType == ProjectileType.TravelsToATarget && Target != null && other.transform == Target.transform)
-            {
-                canApplyDamage = true;
-            }
-            else if (ProjectileType == ProjectileType.TravelsForward || ProjectileType == ProjectileType.TravelsToAPosition)
-            {
-                canApplyDamage = true;
-            }
+            Debug.Log("Enemy touched !");
+            //    if (ProjectileType == ProjectileType.TravelsToATarget && Target != null && other.transform == Target.transform)
+            //    {
+            //        canApplyDamage = true;
+            //    }
+            //    else if (ProjectileType == ProjectileType.TravelsForward || ProjectileType == ProjectileType.TravelsToAPosition)
+            //    {
+            //        canApplyDamage = true;
+            //    }
 
-            if (canApplyDamage)
-            {
-                Stats targetStats = GetComponent<Stats>();
 
-                if (targetStats != null)
-                {
-                    targetStats.TakeDamage(
-                        projectileSenderCharacterStats.CurrentAttackDamage,
-                        projectileSenderCharacterStats.CurrentMagicDamage,
-                        projectileSenderCharacterStats.CurrentCriticalStrikeChance,
-                        projectileSenderCharacterStats.CurrentCriticalStrikeMultiplier,
-                        projectileSenderCharacterStats.CurrentArmorPenetration,
-                        projectileSenderCharacterStats.CurrentMagicResistancePenetration);
-                }
-            }
+            TargetCharacterStats.TakeDamage(15, 0, 0, 175, 0, 0);
+
+            //Stats targetStats = other.gameObject.GetComponent<Stats>();
+
+            //if (targetStats != null)
+            //{
+            //    Debug.Log("Projectile Applies Damage !");
+            //    other.gameObject.GetComponent<Stats>().TakeDamage(
+            //        ProjectileSenderCharacterStats.CurrentAttackDamage,
+            //        ProjectileSenderCharacterStats.CurrentMagicDamage,
+            //        ProjectileSenderCharacterStats.CurrentCriticalStrikeChance,
+            //        ProjectileSenderCharacterStats.CurrentCriticalStrikeMultiplier,
+            //        ProjectileSenderCharacterStats.CurrentArmorPenetration,
+            //        ProjectileSenderCharacterStats.CurrentMagicResistancePenetration);
+            //}
         }
 
         Destroy(gameObject);

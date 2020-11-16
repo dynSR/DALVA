@@ -288,17 +288,42 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
                 attackDamageTaken *= criticalStrikeMultiplier / 100;
             }
 
-            attackDamageTaken *= 100 / (100 + (/*( */CurrentArmor /* - armorFlatReduction )*/ * (armorPenetration / 100)));
+            if (CurrentArmor > 0)
+            {
+                if (armorPenetration > 0)
+                    attackDamageTaken *= 100 / (100 + (CurrentArmor * (armorPenetration / 100)));
+                else
+                    attackDamageTaken *= 100 / (100 + CurrentArmor);
+            }
+            else if (CurrentArmor <= 0)
+            {
+                attackDamageTaken *= 2 - 100 / (100 - CurrentArmor);
+            }
+            
+            //attackDamageTaken *= 100 / (100 + (/*( */CurrentArmor /* - armorFlatReduction )*/ * (armorPenetration / 100)));
 
             DamagePopUp.Create(InFrontOfCharacter, damagePopUp, attackDamageTaken, DamageType.Physical);
         }
 
         if (magicDamageTaken > 0)
         {
-            magicDamageTaken *= 100 / (100 + (/*( */CurrentMagicResistance /* - magicResistanceFlatReduction )*/ * (magicResistancePenetration / 100)));
+            if (magicResistancePenetration > 0)
+                magicDamageTaken *= 100 / (100 + (CurrentMagicResistance * (magicResistancePenetration / 100)));
+            else
+                magicDamageTaken *= 100 / (100 + CurrentMagicResistance);
+
             Debug.Log("Magic Resistance is over 0 / " + " Magic Damage " + (int)magicDamageTaken);
 
             if (attackDamageTaken > 0) 
+                StartCoroutine(CreateDamagePopUpWithDelay(0.15f, magicDamageTaken, DamageType.Magic));
+            else
+                DamagePopUp.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
+        }
+        else if (magicDamageTaken <= 0)
+        {
+            magicDamageTaken *= 2 - 100 / (100 - CurrentMagicResistance);
+
+            if (attackDamageTaken > 0)
                 StartCoroutine(CreateDamagePopUpWithDelay(0.15f, magicDamageTaken, DamageType.Magic));
             else
                 DamagePopUp.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);

@@ -29,7 +29,7 @@ public class ProjectileController : MonoBehaviour
 
     private void Awake()
     {
-        if (TargetCharacterStats != null)
+        if (Target != null)
             TargetCharacterStats = Target.GetComponent<Stats>();
     }
 

@@ -160,7 +160,6 @@ public class CombatBehaviour : MonoBehaviour
 
         rangedAttackProjectile.ProjectileSender = transform;
         rangedAttackProjectile.Target = TargetedEnemy;
-        rangedAttackProjectile.ProjectileSenderCharacterStats = CharacterStats;
 
         StartCoroutine(LaunchProjectile.LaunchAProjectile(rangedAttackProjectile.gameObject, basicRangedAttackEmmiterPos, ProjectileType.TravelsToATarget));
 

@@ -9,35 +9,34 @@ public enum ProjectileType { TravelsForward, TravelsToAPosition, TravelsToATarge
 public class ProjectileController : MonoBehaviour
 {
     [SerializeField] private ProjectileType projectileType;
-
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float projectileLifeTime;
+
     [SerializeField] private GameObject onHitEffect;
     [SerializeField] private Transform projectileSender;
     [SerializeField] private Transform target;
+
     [SerializeField] private Stats targetStats;
 
     public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
     public Transform Target { get => target; set => target = value; }
 
-    //private bool IsProjectileTravellingToATarget => ProjectileType == ProjectileType.TravelsToATarget;
-
     public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
-    public Stats ProjectileSenderCharacterStats { get; set; }
+    public Stats ProjectileSenderCharacterStats => ProjectileSender.GetComponent<Stats>();
     public Stats TargetCharacterStats { get => targetStats; set => targetStats = value; }
 
-    private Rigidbody rb;
+    private Rigidbody Rb => GetComponent<Rigidbody>();
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        TargetCharacterStats = Target.GetComponent<Stats>();
+        if (TargetCharacterStats != null)
+            TargetCharacterStats = Target.GetComponent<Stats>();
     }
 
     private void OnEnable()
     {
-        //if(!IsProjectileTravellingToATarget)
-        //    StartCoroutine(DestroyProjectileAfterTime());
+        if(projectileType == ProjectileType.TravelsForward || projectileType == ProjectileType.TravelsToAPosition)
+            StartCoroutine(DestroyProjectileAfterTime());
     }
 
     void FixedUpdate()
@@ -45,30 +44,21 @@ public class ProjectileController : MonoBehaviour
         if (projectileType == ProjectileType.TravelsToATarget)
         {
             Vector3 targetPosition = Target.position;
-            rb.MovePosition(Vector3.MoveTowards(transform.position, targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0), projectileSpeed * Time.fixedDeltaTime));
+            Rb.MovePosition(Vector3.MoveTowards(transform.position, targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0), projectileSpeed * Time.fixedDeltaTime));
             transform.LookAt(Target);
         }
         else if (projectileType == ProjectileType.TravelsForward || projectileType == ProjectileType.TravelsToAPosition)
         {
-            ProjectileTravelsForward(ProjectileSender, ProjectileSenderCharacterStats);
+            ProjectileTravelsForward(ProjectileSender);
         }
     }
 
     #region Projectile Behaviour
-    void ProjectileTravelsForward(Transform sender, Stats projectileSenderStats)
+    void ProjectileTravelsForward(Transform sender)
     {
         ProjectileSender = sender;
-        ProjectileSenderCharacterStats = projectileSenderStats;
-        rb.MovePosition(transform.position += transform.forward * projectileSpeed);
+        Rb.MovePosition(transform.position += transform.forward * (projectileSpeed * Time.fixedDeltaTime));
     }
-
-    //void ProjectileTravelsToATarget(Transform target, Transform sender, Stats projectileSenderStats)
-    //{
-    //    target = Target;
-    //    sender = ProjectileSender;
-    //    projectileSenderCharacterStats = projectileSenderStats;
-    //    rb.MovePosition(Vector3.Lerp(sender.position, target.transform.position, projectileSpeed * Time.deltaTime));
-    //}
     #endregion
 
     #region OnDestroy Projectile
@@ -79,31 +69,20 @@ public class ProjectileController : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Enemy touched !");
-            //    if (ProjectileType == ProjectileType.TravelsToATarget && Target != null && other.transform == Target.transform)
-            //    {
-            //        canApplyDamage = true;
-            //    }
-            //    else if (ProjectileType == ProjectileType.TravelsForward || ProjectileType == ProjectileType.TravelsToAPosition)
-            //    {
-            //        canApplyDamage = true;
-            //    }
 
+            Stats targetStats = other.gameObject.GetComponent<Stats>();
 
-            TargetCharacterStats.TakeDamage(15, 0, 0, 175, 0, 0);
-
-            //Stats targetStats = other.gameObject.GetComponent<Stats>();
-
-            //if (targetStats != null)
-            //{
-            //    Debug.Log("Projectile Applies Damage !");
-            //    other.gameObject.GetComponent<Stats>().TakeDamage(
-            //        ProjectileSenderCharacterStats.CurrentAttackDamage,
-            //        ProjectileSenderCharacterStats.CurrentMagicDamage,
-            //        ProjectileSenderCharacterStats.CurrentCriticalStrikeChance,
-            //        ProjectileSenderCharacterStats.CurrentCriticalStrikeMultiplier,
-            //        ProjectileSenderCharacterStats.CurrentArmorPenetration,
-            //        ProjectileSenderCharacterStats.CurrentMagicResistancePenetration);
-            //}
+            if (targetStats != null)
+            {
+                Debug.Log("Projectile Applies Damage !");
+                other.gameObject.GetComponent<Stats>().TakeDamage(
+                    ProjectileSenderCharacterStats.CurrentAttackDamage,
+                    ProjectileSenderCharacterStats.CurrentMagicDamage,
+                    ProjectileSenderCharacterStats.CurrentCriticalStrikeChance,
+                    ProjectileSenderCharacterStats.CurrentCriticalStrikeMultiplier,
+                    ProjectileSenderCharacterStats.CurrentArmorPenetration,
+                    ProjectileSenderCharacterStats.CurrentMagicResistancePenetration);
+            }
         }
 
         Destroy(gameObject);

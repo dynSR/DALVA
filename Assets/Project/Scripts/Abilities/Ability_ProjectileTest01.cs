@@ -16,7 +16,6 @@ namespace Dalva_Project
 
         protected override void Cast()
         {
-            LaunchProjectile.TurnCharacterTowardsLaunchDirection();
             StartCoroutine(LaunchProjectile.LaunchAProjectile(AbilityPrefab, LaunchProjectile.EmmiterPosition, ProjectileType.TravelsForward));
         }
     }

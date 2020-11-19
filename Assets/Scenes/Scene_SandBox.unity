@@ -645,14 +645,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 215419870293571622, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
-      propertyPath: baseAttackDamage
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 215419870293571622, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
-      propertyPath: baseMagicDamage
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 5569041192761393495, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
       propertyPath: viewIdField
       value: 1
@@ -704,6 +696,10 @@ PrefabInstance:
     - target: {fileID: 9098752904120244182, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
       propertyPath: m_Name
       value: NetworkPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098752905039914538, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
+      propertyPath: m_Name
+      value: ProjectileEmiter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}

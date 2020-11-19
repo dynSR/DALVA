@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6229308141109691039}
   m_Layer: 0
-  m_Name: BasicRangedAttackEmmiterPos
+  m_Name: RangedAutoAttackEmiterPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -648,7 +648,7 @@ MonoBehaviour:
   baseMagicResistance: 50
   baseAttackDamage: 50
   currentAttackDamage: 0
-  baseMagicDamage: 0
+  baseMagicDamage: 50
   attackRange: 10
   baseAttackSpeed: 0.625
   currentAttackSpeed: 0
@@ -696,8 +696,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetedEnemy: {fileID: 0}
-  basicRangedAttackEmmiterPos: {fileID: 6229308141109691039}
-  basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: f8f0cfca40865cf4fbd1d233068c1efd, type: 3}
+  basicRangedAttackEmiterPos: {fileID: 6229308141109691039}
+  basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
   rotateSpeedForAttack: 0.075
   combatAttackType: 1
   canPerformAttack: 1
@@ -746,11 +746,12 @@ MonoBehaviour:
   abilityKey: 97
   abilityIcon: {fileID: 0}
   abilityPrefab: {fileID: 7698714164152369823, guid: f8f0cfca40865cf4fbd1d233068c1efd, type: 3}
-  isInstantCast: 0
   abilityCooldown: 0.5
   abilityDamage: 15
   abilityRange: 0
   abilityAreaOfEffect: 0
+  abilityCastTime: 0.25
+  abilityEffectDuration: 0
 --- !u!114 &9098752904120244177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -770,11 +771,12 @@ MonoBehaviour:
   abilityKey: 122
   abilityIcon: {fileID: 0}
   abilityPrefab: {fileID: 100000, guid: 9c6977a9ecda14e4e96ea3a71c749c2c, type: 3}
-  isInstantCast: 0
   abilityCooldown: 5
   abilityDamage: 30
   abilityRange: 0
   abilityAreaOfEffect: 0
+  abilityCastTime: 0.25
+  abilityEffectDuration: 0
 --- !u!114 &9098752904120244176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,7 +789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe719b4331261d4a981a285c4f4554d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emmiterPosition: {fileID: 9098752905039914539}
+  aimProjectileEmiterPos: {fileID: 9098752905039914539}
   layer:
     serializedVersion: 2
     m_Bits: 256
@@ -2518,7 +2520,7 @@ GameObject:
   - component: {fileID: 9098752905096233967}
   - component: {fileID: 9098752905096233960}
   m_Layer: 0
-  m_Name: AimProjectileEmmiterPivot
+  m_Name: AimProjectileEmiterPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

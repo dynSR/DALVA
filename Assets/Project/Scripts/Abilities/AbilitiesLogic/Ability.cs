@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using System.Collections;
 
 public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
 
@@ -20,11 +21,11 @@ public abstract class Ability : MonoBehaviourPun
     private AbilitiesCooldownHandler CooldownHandler => GetComponent<AbilitiesCooldownHandler>();
 
     [Header("NUMERIC PARAMETERS")]
-    [SerializeField] private bool isInstantCast = false;
     [SerializeField] private float abilityCooldown;
     [SerializeField] private float abilityDamage;
     [SerializeField] private float abilityRange;
     [SerializeField] private float abilityAreaOfEffect;
+    [SerializeField] private float abilityEffectDuration = 0f;
 
     public string AbilityDescription { get => abilityDescription; }
     public string AbilityName { get => abilityName; }
@@ -35,7 +36,6 @@ public abstract class Ability : MonoBehaviourPun
     public float AbilityDamage { get => abilityDamage; set => abilityDamage = value; }
     public float AbilityRange { get => abilityRange; }
     public float AbilityAreaOfEffect { get => abilityAreaOfEffect; }
-    public bool IsInstantCast { get => isInstantCast; }
     public Sprite AbilityIcon { get => abilityIcon; }
     public KeyCode AbilityKey { get => abilityKey; }
 
@@ -51,16 +51,23 @@ public abstract class Ability : MonoBehaviourPun
         {
             if (CooldownHandler.IsAbilityOnCooldown(this)) return;
 
-            HandleCharacterBehaviourBeforeCasting();
+            CombatBehaviour.TargetedEnemy = null;
+
+            LockCharacterInPlaceJustBeforeCasting();
+
             Cast();
-            CooldownHandler.PutAbilityOnCooldown(this);
+            PutAbilityOnCooldown(abilityEffectDuration);
         }
     }
 
-    private void HandleCharacterBehaviourBeforeCasting()
+    private void LockCharacterInPlaceJustBeforeCasting()
     {
-        if (!IsInstantCast)
-            CharacterController.Agent.ResetPath();
+        CharacterController.Agent.ResetPath();
+    }
+
+    private IEnumerator PutAbilityOnCooldown(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
+        CooldownHandler.PutAbilityOnCooldown(this);
     }
 }
-

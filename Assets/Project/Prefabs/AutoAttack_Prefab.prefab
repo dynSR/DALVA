@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 7388069203485908461}
   - component: {fileID: -3229830774968332944}
   - component: {fileID: 7053288636809820628}
-  - component: {fileID: 9052689876924570461}
+  - component: {fileID: 3689898202148434709}
   - component: {fileID: -6234968454031376555}
   - component: {fileID: 1325240136377242355}
   - component: {fileID: -974150223930420383}
   m_Layer: 0
-  m_Name: AbilityTest_Prefab
+  m_Name: AutoAttack_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7698714164152369823}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d997a4b76a439734ba4d1a3c25d919a2, type: 2}
+  - {fileID: 2100000, guid: ce58fae7d500f444aa843e16e9aec4bb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -116,7 +116,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9052689876924570461
+--- !u!114 &3689898202148434709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,12 +125,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7698714164152369823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90ee1cd0e1987f447a1d241456450f95, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b184829ca2ac6b4580132ebff094ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileType: 1
-  projectileSpeed: 1
-  projectileLifeTime: 2
+  projectileSpeed: 7
   onHitEffect: {fileID: 0}
   projectileSender: {fileID: 0}
   target: {fileID: 0}

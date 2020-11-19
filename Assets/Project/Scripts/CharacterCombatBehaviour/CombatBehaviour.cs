@@ -9,7 +9,7 @@ public class CombatBehaviour : MonoBehaviour
 {
     [Header("COMBAT PARAMETERS")]
     [SerializeField] private Transform targetedEnemy;
-    [SerializeField] private Transform basicRangedAttackEmmiterPos;
+    [SerializeField] private Transform basicRangedAttackEmiterPos;
     [SerializeField] private GameObject basicRangedAttackProjectile;
     [SerializeField] private float rotateSpeedForAttack;
     [SerializeField] private CombatAttackType combatAttackType;
@@ -21,7 +21,6 @@ public class CombatBehaviour : MonoBehaviour
 
     private Stats CharacterStats => GetComponent<Stats>();
     private CharacterController CharacterController => GetComponent<CharacterController>();
-    private LaunchProjectile LaunchProjectile => GetComponent<LaunchProjectile>();
     private Animator CharacterAnimator => GetComponent<CharacterController>().CharacterAnimator;
 
     public Transform TargetedEnemy { get => targetedEnemy; set => targetedEnemy = value; }
@@ -96,8 +95,10 @@ public class CombatBehaviour : MonoBehaviour
                 CharacterController.Agent.isStopped = true;
             }
 
-            if (CanPerformAttack)
+            if (Vector3.Distance(transform.position, TargetedEnemy.position) <= CharacterStats.AttackRange && CanPerformAttack)
             {
+                CharacterController.Agent.isStopped = true;
+
                 if (combatAttackType == CombatAttackType.Melee)
                 {
                     Debug.Log("Melee Attack performed !");
@@ -156,12 +157,12 @@ public class CombatBehaviour : MonoBehaviour
 
     public void RangedAttack()
     {
-        ProjectileController rangedAttackProjectile = basicRangedAttackProjectile.GetComponent<ProjectileController>();
+        GameObject autoAttackProjectile = Instantiate(basicRangedAttackProjectile, basicRangedAttackEmiterPos.position, basicRangedAttackProjectile.transform.rotation);
+
+        AutoAttackProjectileController rangedAttackProjectile = autoAttackProjectile.GetComponent<AutoAttackProjectileController>();
 
         rangedAttackProjectile.ProjectileSender = transform;
         rangedAttackProjectile.Target = TargetedEnemy;
-
-        StartCoroutine(LaunchProjectile.LaunchAProjectile(rangedAttackProjectile.gameObject, basicRangedAttackEmmiterPos, ProjectileType.TravelsToATarget));
 
         CanPerformAttack = true;
     }

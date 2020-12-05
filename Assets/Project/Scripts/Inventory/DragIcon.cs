@@ -19,7 +19,7 @@ public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         //Set last Inventory Box
-        inventory.lastInventoryBox = transform.parent.gameObject;
+        inventory.LastInventoryBox = transform.parent.gameObject;
         CanvasGroup.blocksRaycasts = false;
     }
 
@@ -37,11 +37,19 @@ public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrop(PointerEventData eventData)
     {
-       if (inventory.newInventoryBox != null)
+        Debug.Log("OnDrop");
+       if (inventory.NewInventoryBox != null)
        {
-            inventory.SwapInventoryBoxItem();
+            if (inventory.NewInventoryBox.GetComponent<InventoryBox>().InventoryBoxItem != null)
+            {
+                inventory.SwapInventoryBoxesItem();
+            }
+            else
+            {
+                inventory.PlaceItemHere();
+            }
        }
 
-        inventory.lastInventoryBox = null;
+        inventory.LastInventoryBox = null;
     }
 }

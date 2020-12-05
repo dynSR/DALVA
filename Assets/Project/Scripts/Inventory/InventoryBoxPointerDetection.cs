@@ -11,12 +11,12 @@ public class InventoryBoxPointerDetection : MonoBehaviour, IPointerEnterHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointer in " + gameObject.name);
-        Inventory.newInventoryBox = gameObject;
+        Inventory.NewInventoryBox = gameObject;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointer out of " + gameObject.name);
-        Inventory.newInventoryBox = null;
+        Inventory.NewInventoryBox = null;
     }
 }

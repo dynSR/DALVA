@@ -9,8 +9,11 @@ public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [SerializeField] private Canvas playerHUD;
     [SerializeField] private Inventory inventory;
     private CanvasGroup CanvasGroup => GetComponent<CanvasGroup>();
+    private CanvasGroup ToggleImageCanvasGroup => GetComponentInParent<CanvasGroup>();
     public Sprite ItemIcon { get; set;}
 
+    private bool LeftClickIsHeld => Input.GetMouseButton(0);
+    
     void Awake()
     {
         ItemIcon = GetComponent<Image>().sprite;
@@ -19,20 +22,28 @@ public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         //Set last Inventory Box
-        inventory.LastInventoryBox = transform.parent.gameObject;
-        CanvasGroup.blocksRaycasts = false;
+        if (LeftClickIsHeld)
+        {
+            ToggleImageCanvasGroup.blocksRaycasts = false;
+
+            inventory.LastInventoryBox = transform.parent.gameObject;
+            CanvasGroup.blocksRaycasts = false;
+        }  
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Log("Dragging Item Icon");
-        transform.position = Input.mousePosition;
+
+        if (LeftClickIsHeld)
+            transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.localPosition = Vector3.zero;
         CanvasGroup.blocksRaycasts = true;
+        ToggleImageCanvasGroup.blocksRaycasts = true;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -40,7 +51,7 @@ public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         Debug.Log("OnDrop");
        if (inventory.NewInventoryBox != null)
        {
-            if (inventory.NewInventoryBox.GetComponent<InventoryBox>().InventoryBoxItem != null)
+            if (inventory.NewInventoryBox.GetComponent<InventoryBox>().StoredItem != null)
             {
                 inventory.SwapInventoryBoxesItem();
             }

@@ -15,9 +15,11 @@ public class ShopButton : MonoBehaviour
         ShopButtonIcon.sprite = shopButtonItem.ItemIcon;
     }
 
-    public void BuyItem()
+    public void BuyItem(Item shopButtonItem)
     {
+        if (playerInventory.InventoryIsFull) return;
+
+        playerInventory.AddPurchasedItemToInventory(shopButtonItem);
         Debug.Log("Buying item : " + shopButtonItem.ItemName);
-        playerInventory.AddItemToInventory(shopButtonItem);
     }
 }

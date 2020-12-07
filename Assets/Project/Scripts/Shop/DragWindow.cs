@@ -10,7 +10,7 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     [SerializeField] private Canvas playerHUD;
     private CanvasGroup DragWindowCanvasGroup => GetComponent<CanvasGroup>();
 
-    private bool LeftClickIsPressed => Input.GetMouseButton(0);
+    private bool LeftClickIsHeld => Input.GetMouseButton(0);
 
     void Awake()
     {
@@ -19,7 +19,7 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (LeftClickIsPressed)
+        if (LeftClickIsHeld)
             DragWindowCanvasGroup.alpha = 0.5f;
     }
 
@@ -27,7 +27,7 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     {
         Debug.Log("Dragging Window");
 
-        if(LeftClickIsPressed)
+        if(LeftClickIsHeld)
             DragWindowRectTransform.anchoredPosition += eventData.delta / playerHUD.scaleFactor;
     }
 

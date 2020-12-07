@@ -5,22 +5,34 @@ using UnityEngine.UI;
 
 public class InventoryBox : MonoBehaviour
 {
-    public Item InventoryBoxItem; /*{ get; set; }*/
+    [SerializeField] int transactionID; //debug
+
+    public Item StoredItem; /*{ get; set; }*/
     private Image ItemIcon => transform.GetChild(0).GetComponent<Image>();
     private CanvasGroup CanvasGrp => transform.GetChild(0).GetComponent<CanvasGroup>();
+    public int TransactionID { get => transactionID; set => transactionID = value; }
 
     private void Start()
     {
-        //ItemIcon.enabled = false;
         CanvasGrp.alpha = 0;
     }
 
-    public void UpdateInventoryBoxItem(Item itemToUpdate)
+    public void UpdateInventoryBoxItem(Item newItem, Sprite newItemIcon)
     {
-        InventoryBoxItem = itemToUpdate;
+        StoredItem = newItem;
+        StoredItem.InventoryBox = this;
 
         CanvasGrp.alpha = 1;
-        //ItemIcon.enabled = true;
-        ItemIcon.sprite = itemToUpdate.ItemIcon;
+        ItemIcon.sprite = newItemIcon;
+    }
+
+    public void ResetInventoryBoxItem(InventoryBox inventoryBoxToReset)
+    {
+        inventoryBoxToReset.StoredItem.InventoryBox = null;
+        inventoryBoxToReset.StoredItem = null;
+        TransactionID = 0;
+
+        inventoryBoxToReset.CanvasGrp.alpha = 0;
+        inventoryBoxToReset.ItemIcon.sprite = null;
     }
 }

@@ -6,15 +6,14 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private Shop shop;
-    [SerializeField] private GameObject lastInventoryBox;
-    [SerializeField] private GameObject newInventoryBox;
 
     [SerializeField] private List<InventoryBox> inventoryBoxes;
+    [SerializeField] private List<ToggleSelectionIcon> inventorySelectionIcons;
 
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
 
-    public GameObject LastInventoryBox { get => lastInventoryBox; set => lastInventoryBox = value; }
-    public GameObject NewInventoryBox { get => newInventoryBox; set => newInventoryBox = value; }
+    public GameObject LastInventoryBox { get; set; }
+    public GameObject NewInventoryBox { get; set; }
     public int NumberOfFullInventoryBoxes { get; set; } = 0;
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
 
@@ -125,5 +124,13 @@ public class Inventory : MonoBehaviour
         
         //TransactionID
         NewInventoryBox.GetComponent<InventoryBox>().TransactionID = lastInventoryBoxTransactionID;
+    }
+
+    public void ResetSelectionIcons()
+    {
+        for (int i = 0; i < inventorySelectionIcons.Count; i++)
+        {
+            inventorySelectionIcons[i].HideIcon();
+        }
     }
 }

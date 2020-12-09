@@ -14,6 +14,7 @@ public class CharacterController : MonoBehaviourPun
     [SerializeField] private Camera characterCamera;
     [SerializeField] private float rotateSpeedMovement = 0.1f;
     private float motionSmoothTime = .1f;
+    [SerializeField] private bool isPlayerInHisBase = true;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
@@ -33,11 +34,13 @@ public class CharacterController : MonoBehaviourPun
 
     private Stats CharacterStats => GetComponent<Stats>();
     private CombatBehaviour CharacterCombatBehaviour => GetComponent<CombatBehaviour>();
+    private PlayerRessources PlayerRessources => GetComponent<PlayerRessources>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public GameObject PathLandmark { get => pathLandmark; }
     public float InitialSpeed { get; private set; }
     public float CurrentSpeed { get => Agent.speed ; set => Agent.speed = value; }
     public float RotateVelocity { get; set; }
+    public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
 
     protected virtual void Awake()
     {
@@ -47,12 +50,14 @@ public class CharacterController : MonoBehaviourPun
 
     protected virtual void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true){ return; }
+        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected) return;
 
         if (CharacterStats.IsDead) return;
 
         if (Input.GetMouseButton(1))
         {
+            if (IsPlayerInHisBase && PlayerRessources.PlayerShopWindow.IsShopWindowOpen) return;
+
             SetNavMeshDestinationWithRayCast();
         }
 

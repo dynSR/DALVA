@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class InventoryBox : MonoBehaviour
 {
-    [SerializeField] int transactionID; //debug
-
-    public Item StoredItem; /*{ get; set; }*/
+    private Inventory Inventory => GetComponentInParent<Inventory>();
+    public Item StoredItem { get; set; }
     private Image ItemIcon => transform.GetChild(0).GetComponent<Image>();
     private CanvasGroup CanvasGrp => transform.GetChild(0).GetComponent<CanvasGroup>();
-    public int TransactionID { get => transactionID; set => transactionID = value; }
+    public int TransactionID { get; set; }
+    public Inventory PlayerInventory { get => Inventory; }
 
     private void Start()
     {

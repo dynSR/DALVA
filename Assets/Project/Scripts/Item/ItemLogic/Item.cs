@@ -7,6 +7,8 @@ public class Item : ScriptableObject
 {
     [SerializeField] private string itemName;
     [SerializeField] private string itemDescription;
+    [SerializeField] private int itemPrice;
+    [SerializeField] private int amountOfGoldRefundedOnSale;
     public InventoryBox inventoryBox = null;
     [SerializeField] private Sprite itemIcon;
 

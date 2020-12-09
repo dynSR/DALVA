@@ -5,18 +5,18 @@ using UnityEngine.EventSystems;
 
 public class InventoryBoxPointerDetection : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private Inventory inventory;
-    public Inventory Inventory { get => inventory; }
+    private Inventory Inventory => GetComponentInParent<Inventory>();
+    public Inventory PlayerInventory { get => Inventory; }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointer in " + gameObject.name);
-        Inventory.NewInventoryBox = gameObject;
+        PlayerInventory.NewInventoryBox = gameObject;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointer out of " + gameObject.name);
-        Inventory.NewInventoryBox = null;
+        PlayerInventory.NewInventoryBox = null;
     }
 }

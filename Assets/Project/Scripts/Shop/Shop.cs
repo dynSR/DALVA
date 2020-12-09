@@ -4,12 +4,28 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-    [SerializeField] private Inventory inventory;
+    [SerializeField] private Transform player;
+    [SerializeField] private Inventory playerInventory;
 
-    [SerializeField] private List<int> shopActions = new List<int>();
+    [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();
     private int numberOfShopActionsDone = 0;
 
-    public bool IsShopWindowOpened => transform.gameObject.activeInHierarchy;
+    public Inventory PlayerInventory { get => playerInventory; set => playerInventory = value; }
+    public Transform Player { get => player; set => player = value; }
+
+    [System.Serializable]
+    public class ShopActionData
+    {
+        public enum ShopActionType { Purchasing, Selling }
+        public ShopActionType shopActionType;
+        public int transactionID;
+
+        public ShopActionData(ShopActionType shopActionType, int transactionID)
+        {
+            this.shopActionType = shopActionType;
+            this.transactionID = transactionID;
+        }
+    }
 
     void Update()
     {
@@ -20,9 +36,12 @@ public class Shop : MonoBehaviour
     public void OnBuyingItem(InventoryBox inventoryBoxOfItemPurchased)
     {
         numberOfShopActionsDone++;
-        Debug.Log("T.ID " + inventoryBoxOfItemPurchased.TransactionID);
+
+        Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
+
         inventoryBoxOfItemPurchased.TransactionID = numberOfShopActionsDone;
-        shopActions.Add(inventoryBoxOfItemPurchased.TransactionID);
+
+        shopActions.Add(new ShopActionData(ShopActionData.ShopActionType.Purchasing, inventoryBoxOfItemPurchased.TransactionID));
     }
 
     public void ResetShopActions()
@@ -35,19 +54,32 @@ public class Shop : MonoBehaviour
     {
         if (numberOfShopActionsDone > 0)
         {
-            for (int i = 0; i < inventory.InventoryBoxes.Count; i++)
+            for (int i = 0; i < PlayerInventory.InventoryBoxes.Count; i++)
             {
-                if (inventory.InventoryBoxes[i].TransactionID == numberOfShopActionsDone)
+                if (PlayerInventory.InventoryBoxes[i].TransactionID == numberOfShopActionsDone)
                 {
-                    Debug.Log(inventory.InventoryBoxes[i].TransactionID + " / " + numberOfShopActionsDone);
-                    Debug.Log(inventory.InventoryBoxes[i].name);
+                    Debug.Log(PlayerInventory.InventoryBoxes[i].TransactionID + " / " + numberOfShopActionsDone);
+                    Debug.Log(PlayerInventory.InventoryBoxes[i].name);
 
-                    inventory.InventoryBoxes[i].ResetInventoryBoxItem(inventory.InventoryBoxes[i]);
+                    for (int j = shopActions.Count - 1; j >= 0; j--)
+                    {
+                        if (shopActions[j].transactionID == numberOfShopActionsDone)
+                        {
+                            if (shopActions[j].shopActionType == ShopActionData.ShopActionType.Purchasing)
+                            {
+                                PlayerInventory.InventoryBoxes[i].ResetInventoryBoxItem(PlayerInventory.InventoryBoxes[i]);
+                            }
+                            else  if (shopActions[j].shopActionType == ShopActionData.ShopActionType.Selling)
+                            {
+                                //Re Add to Inventory
+                            }
 
-                    shopActions.Remove(shopActions.Count);
+                            shopActions.RemoveAt(j);
+                        }
+                    }
 
                     numberOfShopActionsDone--;
-                    inventory.NumberOfFullInventoryBoxes--;
+                    PlayerInventory.NumberOfFullInventoryBoxes--;
                     return;
                 }
             }

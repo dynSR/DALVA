@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
+public class DragItemIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
     [SerializeField] private Canvas playerHUD;
-    [SerializeField] private Inventory inventory;
+    
+    private Inventory PlayerInventory => transform.GetComponentInParent<InventoryBox>().PlayerInventory;
     private CanvasGroup CanvasGroup => GetComponent<CanvasGroup>();
     private CanvasGroup ToggleImageCanvasGroup => GetComponentInParent<CanvasGroup>();
     public Sprite ItemIcon { get; set;}
@@ -26,7 +27,7 @@ public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         {
             ToggleImageCanvasGroup.blocksRaycasts = false;
 
-            inventory.LastInventoryBox = transform.parent.gameObject;
+            PlayerInventory.LastInventoryBox = transform.parent.gameObject;
             CanvasGroup.blocksRaycasts = false;
         }  
     }
@@ -49,18 +50,18 @@ public class DragIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("OnDrop");
-       if (inventory.NewInventoryBox != null)
+       if (PlayerInventory.NewInventoryBox != null)
        {
-            if (inventory.NewInventoryBox.GetComponent<InventoryBox>().StoredItem != null)
+            if (PlayerInventory.NewInventoryBox.GetComponent<InventoryBox>().StoredItem != null)
             {
-                inventory.SwapInventoryBoxesItem();
+                PlayerInventory.SwapInventoryBoxesItem();
             }
             else
             {
-                inventory.PlaceItemHere();
+                PlayerInventory.PlaceItemHere();
             }
        }
 
-        inventory.LastInventoryBox = null;
+        PlayerInventory.LastInventoryBox = null;
     }
 }

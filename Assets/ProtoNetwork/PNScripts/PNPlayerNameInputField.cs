@@ -8,7 +8,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
-namespace ProtoNetwork
+namespace GameNetwork
 {
     // Player name input field. Let the user input his name, will appear above the player in the game.
     [RequireComponent(typeof(TMP_InputField))]

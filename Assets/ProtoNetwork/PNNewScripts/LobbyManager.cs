@@ -27,7 +27,7 @@ namespace GameNetwork
 
         #region Callbacks
 
-        public override void OnCreatedRoom()
+        private void Start()
         {
             UpdatePlayerList();
         }
@@ -35,20 +35,18 @@ namespace GameNetwork
         public override void OnPlayerEnteredRoom(Photon.Realtime.Player other)
         {
             Debug.Log(other.NickName + " entered room");
-            
-            if (PhotonNetwork.IsMasterClient)
+            UpdatePlayerList();
+            /*if (PhotonNetwork.IsMasterClient)
             {
-                GetComponent<PhotonView>().RPC("PUNUpdateOtherNameList", RpcTarget.All);
-                startGameButton.interactable = true;
-                /*if(PhotonNetwork.PlayerList.Length == 6)
+                if(PhotonNetwork.PlayerList.Length == 6)
                 {
                     startGameButton.interactable = true;
                 }
                 else
                 {
                     startGameButton.interactable = false;
-                }*/
-            }
+                }
+            }*/
         }
 
         public override void OnPlayerLeftRoom(Photon.Realtime.Player other)
@@ -57,21 +55,18 @@ namespace GameNetwork
 
             if (PhotonNetwork.IsMasterClient)
             {
-                GetComponent<PhotonView>().RPC("PUNUpdateOtherNameList", RpcTarget.All);
-
+                UpdatePlayerList();
                 //startGameButton.interactable = false;
             }
         }
 
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            SceneManager.LoadScene("PNMainMenu");
+        }
         #endregion
 
         #region Methods
-
-        [PunRPC]
-        void PUNUpdateOtherNameList()
-        {
-            UpdatePlayerList();
-        }
 
         private void UpdatePlayerList()
         {

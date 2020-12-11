@@ -279,7 +279,6 @@ GameObject:
   - component: {fileID: 284723812}
   - component: {fileID: 284723814}
   - component: {fileID: 284723811}
-  - component: {fileID: 562809177}
   m_Layer: 0
   m_Name: BuyItem01Test
   m_TagString: Untagged
@@ -402,18 +401,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!225 &562809177
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284723809}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &466062675
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopWindow: {fileID: 2930604010420234621}
+  isSelected: 0
 --- !u!225 &466062677
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -846,6 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopWindow: {fileID: 2930604010420234621}
+  isSelected: 0
 --- !u!225 &722152869
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -977,7 +966,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 760511081}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8873819879871390481}
+        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
+        m_MethodName: SellItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &779122820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d42722ed621e243a6816aeb2d60c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transactionID: 0
 --- !u!114 &779122824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1394,6 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopWindow: {fileID: 2930604010420234621}
+  isSelected: 0
 --- !u!225 &962395670
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1497,6 +1500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d42722ed621e243a6816aeb2d60c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transactionID: 0
 --- !u!114 &1068552795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1612,6 +1616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d42722ed621e243a6816aeb2d60c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transactionID: 0
 --- !u!114 &1197178740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1993,6 +1998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d42722ed621e243a6816aeb2d60c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transactionID: 0
 --- !u!114 &1413280222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2108,6 +2114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d42722ed621e243a6816aeb2d60c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transactionID: 0
 --- !u!114 &1441812426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2223,6 +2230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d42722ed621e243a6816aeb2d60c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transactionID: 0
 --- !u!114 &1501316832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2486,6 +2494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopWindow: {fileID: 2930604010420234621}
+  isSelected: 0
 --- !u!225 &1573984968
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2603,6 +2612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopWindow: {fileID: 2930604010420234621}
+  isSelected: 0
 --- !u!225 &1618227385
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2626,6 +2636,7 @@ GameObject:
   - component: {fileID: 1781302283}
   - component: {fileID: 1781302286}
   - component: {fileID: 1781302285}
+  - component: {fileID: 2056487996}
   m_Layer: 0
   m_Name: SelectionIcon
   m_TagString: Untagged
@@ -2690,6 +2701,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2056487996
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781302282}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &1785488470
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,6 +2818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopWindow: {fileID: 2930604010420234621}
+  isSelected: 0
 --- !u!225 &1785488472
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2820,7 +2844,6 @@ GameObject:
   - component: {fileID: 1952308589}
   - component: {fileID: 1952308591}
   - component: {fileID: 1952308588}
-  - component: {fileID: 2032081952}
   m_Layer: 0
   m_Name: BuyItem02Test
   m_TagString: Untagged
@@ -2943,18 +2966,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!225 &2032081952
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952308586}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &2073022461
 GameObject:
   m_ObjectHideFlags: 0
@@ -3050,8 +3061,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580cc63d4f1d4a64283e9629037c914d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 9098752904120244169}
   playerInventory: {fileID: 2165404075355269515}
+  selectedInventoryBox: {fileID: 0}
   shopActions: []
+  numberOfShopActionsDone: 0
 --- !u!114 &3362241144804313441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3125,6 +3139,7 @@ GameObject:
   - component: {fileID: 8373425279449175377}
   - component: {fileID: 3738015171205365172}
   - component: {fileID: 2007275878313077361}
+  - component: {fileID: 581491530}
   m_Layer: 0
   m_Name: SelectionIcon
   m_TagString: Untagged
@@ -3189,6 +3204,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &581491530
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056223737328940013}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &3268334176897293344
 GameObject:
   m_ObjectHideFlags: 0
@@ -3357,7 +3384,13 @@ MonoBehaviour:
   - {fileID: 1441812429}
   - {fileID: 1501316835}
   - {fileID: 1197178743}
-  inventorySelectionIcons: []
+  boxesToggleSelectionIcons:
+  - {fileID: 1724169188855889195}
+  - {fileID: 3395370197094646622}
+  - {fileID: 1673959082726583986}
+  - {fileID: 8613903048559483443}
+  - {fileID: 7221922159981037755}
+  - {fileID: 6617460160861301353}
 --- !u!114 &6792929935961594860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3395,6 +3428,7 @@ GameObject:
   - component: {fileID: 3865160917125356265}
   - component: {fileID: 3532804438701366272}
   - component: {fileID: 8558176405653250490}
+  - component: {fileID: 2147149636}
   m_Layer: 0
   m_Name: SelectionIcon
   m_TagString: Untagged
@@ -3459,6 +3493,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2147149636
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334824888032699479}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &6365859041181754889
 GameObject:
   m_ObjectHideFlags: 0
@@ -3470,6 +3516,7 @@ GameObject:
   - component: {fileID: 3661900808711154216}
   - component: {fileID: 5884507740817171470}
   - component: {fileID: 6837781436838247651}
+  - component: {fileID: 235065431}
   m_Layer: 0
   m_Name: SelectionIcon
   m_TagString: Untagged
@@ -3534,6 +3581,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &235065431
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6365859041181754889}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &6851727196503778289
 GameObject:
   m_ObjectHideFlags: 0
@@ -3545,6 +3604,7 @@ GameObject:
   - component: {fileID: 219457026786390601}
   - component: {fileID: 2532325841059638609}
   - component: {fileID: 6767508940673722056}
+  - component: {fileID: 467945125}
   m_Layer: 0
   m_Name: SelectionIcon
   m_TagString: Untagged
@@ -3609,6 +3669,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &467945125
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6851727196503778289}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &7021867619766389730
 GameObject:
   m_ObjectHideFlags: 0
@@ -3805,6 +3877,7 @@ GameObject:
   - component: {fileID: 3997602618472856097}
   - component: {fileID: 5496623664547523304}
   - component: {fileID: 6408853457441379470}
+  - component: {fileID: 2129832246}
   m_Layer: 0
   m_Name: SelectionIcon
   m_TagString: Untagged
@@ -3869,6 +3942,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2129832246
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8601908077757896478}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &9098752903640438439
 GameObject:
   m_ObjectHideFlags: 0
@@ -4518,6 +4603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d679dc32162a9ab47a81faa5aa3e8e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerShopWindow: {fileID: 2930604010420234621}
 --- !u!114 &9098752904120244172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4535,6 +4621,7 @@ MonoBehaviour:
     m_Bits: 256
   characterCamera: {fileID: 4870440920835100793, guid: 2bd77cbbb24eb14468f24fbe8a11da1c, type: 3}
   rotateSpeedMovement: 0.75
+  isPlayerInHisBase: 1
   movementFeedback: {fileID: 7402422878013587743, guid: f40d96916f2427a4ca6960735a860773, type: 3}
   pathLandmark: {fileID: 9098752905517555559}
 --- !u!114 &4337655470451834323

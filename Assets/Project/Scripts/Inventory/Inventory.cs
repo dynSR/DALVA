@@ -8,20 +8,23 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Shop shop;
 
     [SerializeField] private List<InventoryBox> inventoryBoxes;
-    [SerializeField] private List<ToggleSelectionIcon> inventorySelectionIcons;
+    [SerializeField] private List<ToggleSelectionIcon> boxesToggleSelectionIcons;
 
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
+    public bool InventoryIsEmpty=> NumberOfFullInventoryBoxes <= 0;
 
     public GameObject LastInventoryBox { get; set; }
     public GameObject NewInventoryBox { get; set; }
     public int NumberOfFullInventoryBoxes { get; set; } = 0;
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
+    public List<ToggleSelectionIcon> BoxesToggleSelectionIcons { get => boxesToggleSelectionIcons; set => boxesToggleSelectionIcons = value; }
+    public Shop Shop { get => shop; set => shop = value; }
 
     public void AddItemToInventory(Item itemToAdd)
     {
         for (int i = 0; i < InventoryBoxes.Count; i++)
         {
-            if (NumberOfFullInventoryBoxes >= InventoryBoxes.Count) return;
+            if (InventoryIsFull) return;
 
             if (InventoryBoxes[i].StoredItem == null)
             {
@@ -35,33 +38,26 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void RemoveItemFromInventory(Item itemToRemove)
+    public void RemoveItemFromInventory(InventoryBox inventoryBox)
     {
-        for (int i = 0; i < InventoryBoxes.Count; i++)
-        {
-            if (NumberOfFullInventoryBoxes <= 0) return;
+        if (InventoryIsEmpty) return;
 
-            if (InventoryBoxes[i].StoredItem == itemToRemove)
-            {
-                InventoryBoxes[i].ResetInventoryBoxItem(InventoryBoxes[i]);
-                NumberOfFullInventoryBoxes--;
-                Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
-                return;
-            }
-        }
+        inventoryBox.ResetInventoryBoxItem(inventoryBox);
+        NumberOfFullInventoryBoxes--;
+        Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
     }
 
     public void AddPurchasedItemToInventory(Item itemPurchasedToAdd)
     {
         for (int i = 0; i < InventoryBoxes.Count; i++)
         {
-            if (NumberOfFullInventoryBoxes >= InventoryBoxes.Count) return;
+            if (InventoryIsFull) return;
 
             if (InventoryBoxes[i].StoredItem == null)
             {
                 NumberOfFullInventoryBoxes++;
                 InventoryBoxes[i].UpdateInventoryBoxItem(itemPurchasedToAdd, itemPurchasedToAdd.ItemIcon);
-                shop.OnBuyingItem(InventoryBoxes[i]);
+                Shop.OnBuyingItem(InventoryBoxes[i]);
 
                 Debug.Log("Add " + itemPurchasedToAdd.ItemName + " to inventory");
                 Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
@@ -70,11 +66,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    //PLACING
     public void PlaceItemHere()
     {
         UpdateNewInventoryBox();
         ResetLastInventoryBox();
+        ResetSelectionIcons();
     }
 
     void UpdateNewInventoryBox()
@@ -93,7 +89,6 @@ public class Inventory : MonoBehaviour
         lastInventoryBox.ResetInventoryBoxItem(lastInventoryBox);
     }
 
-    //SWAP
     public void SwapInventoryBoxesItem()
     {
         Debug.Log("Swap Inventory box item");
@@ -124,13 +119,15 @@ public class Inventory : MonoBehaviour
         
         //TransactionID
         NewInventoryBox.GetComponent<InventoryBox>().TransactionID = lastInventoryBoxTransactionID;
+
+        ResetSelectionIcons();
     }
 
     public void ResetSelectionIcons()
     {
-        for (int i = 0; i < inventorySelectionIcons.Count; i++)
+        for (int i = 0; i < BoxesToggleSelectionIcons.Count; i++)
         {
-            inventorySelectionIcons[i].HideIcon();
+            BoxesToggleSelectionIcons[i].ToggleOff();
         }
     }
 }

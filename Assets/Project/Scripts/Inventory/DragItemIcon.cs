@@ -22,7 +22,6 @@ public class DragItemIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //Set last Inventory Box
         if (LeftClickIsHeld)
         {
             ToggleImageCanvasGroup.blocksRaycasts = false;
@@ -44,6 +43,7 @@ public class DragItemIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         transform.localPosition = Vector3.zero;
         CanvasGroup.blocksRaycasts = true;
+
         ToggleImageCanvasGroup.blocksRaycasts = true;
     }
 
@@ -53,13 +53,9 @@ public class DragItemIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
        if (PlayerInventory.NewInventoryBox != null)
        {
             if (PlayerInventory.NewInventoryBox.GetComponent<InventoryBox>().StoredItem != null)
-            {
                 PlayerInventory.SwapInventoryBoxesItem();
-            }
             else
-            {
                 PlayerInventory.PlaceItemHere();
-            }
        }
 
         PlayerInventory.LastInventoryBox = null;

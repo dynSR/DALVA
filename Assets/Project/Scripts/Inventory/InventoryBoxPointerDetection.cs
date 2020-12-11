@@ -8,15 +8,23 @@ public class InventoryBoxPointerDetection : MonoBehaviour, IPointerEnterHandler,
     private Inventory Inventory => GetComponentInParent<Inventory>();
     public Inventory PlayerInventory { get => Inventory; }
 
+    private ToggleSelectionIcon BoxSelectionIcon => transform.GetChild(0).GetComponent<ToggleSelectionIcon>();
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointer in " + gameObject.name);
         PlayerInventory.NewInventoryBox = gameObject;
+
+        if (!BoxSelectionIcon.IsSelected)
+            BoxSelectionIcon.DisplayIcon();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointer out of " + gameObject.name);
         PlayerInventory.NewInventoryBox = null;
+
+        if (!BoxSelectionIcon.IsSelected)
+            BoxSelectionIcon.HideIcon();
     }
 }

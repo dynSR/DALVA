@@ -56,7 +56,7 @@ public abstract class Ability : MonoBehaviourPun
             LockCharacterInPlaceJustBeforeCasting();
 
             Cast();
-            PutAbilityOnCooldown(abilityEffectDuration);
+            StartCoroutine(PutAbilityOnCooldown(abilityEffectDuration));
         }
     }
 

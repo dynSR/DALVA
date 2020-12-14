@@ -71,6 +71,12 @@ namespace GameNetwork
 
             timer = 1f;
             currentInfo = connectingText;
+            
+            if (PhotonNetwork.IsConnected)
+            {
+                startPanel.SetActive(false);
+                mainMenuPanel.SetActive(true);
+            }
         }
 
         private void Update()

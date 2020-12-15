@@ -11,9 +11,13 @@ namespace GameNetwork
         [Tooltip("Player Prefab HUD")]
         public GameObject playerHUD;
 
+        public bool dalvasTeam;
+        public CharacterClass charaClass;
+
         protected virtual void Awake()
         {
-            //Reseau
+            DontDestroyOnLoad(this.gameObject);
+            ////Reseau
             if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
             {
                 localPlayerInstance = this.gameObject;

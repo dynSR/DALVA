@@ -85,6 +85,11 @@ namespace GameNetwork
             }
         }
 
+        public override void OnLeftRoom()
+        {
+            SceneManager.LoadScene("PNMainMenu");
+        }
+
         public override void OnDisconnected(DisconnectCause cause)
         {
             //SceneManager.LoadScene("PNMainMenu");
@@ -132,7 +137,6 @@ namespace GameNetwork
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene("PNMainMenu");
 
         }
 
@@ -143,11 +147,13 @@ namespace GameNetwork
             {
                 joinDalvaButton.interactable = false;
                 joinHuleryckButton.interactable = true;
+                PlayerManager.localPlayerInstance.GetComponent<PlayerManager>().dalvasTeam = true;
             }
             else
             {
                 joinDalvaButton.interactable = true;
                 joinHuleryckButton.interactable = false;
+                PlayerManager.localPlayerInstance.GetComponent<PlayerManager>().dalvasTeam = false;
             }
         }
 

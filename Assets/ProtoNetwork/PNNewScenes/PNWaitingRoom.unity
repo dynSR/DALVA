@@ -1453,6 +1453,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484261694}
   m_CullTransparentMesh: 0
+--- !u!1 &611423516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 611423518}
+  - component: {fileID: 611423517}
+  m_Layer: 0
+  m_Name: GameNetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &611423517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611423516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e6478caa91d114e9ed9d92fdda1be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 7822022067647637397, guid: ec557e6e5ab76944486a2684a6a45bea, type: 3}
+--- !u!4 &611423518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611423516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &669851007
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,10 +3003,12 @@ MonoBehaviour:
   - {fileID: 61238789}
   - {fileID: 669851009}
   - {fileID: 792963885}
+  playerDalvaList: []
   playerHulryckListTMPro:
   - {fileID: 694649047}
   - {fileID: 46552076}
   - {fileID: 1706014698}
+  playerHulryckList: []
   startGameButton: {fileID: 283770608}
   joinDalvaButton: {fileID: 2129117816}
   joinHuleryckButton: {fileID: 1694616349}

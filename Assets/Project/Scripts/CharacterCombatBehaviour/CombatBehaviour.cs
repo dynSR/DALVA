@@ -7,12 +7,16 @@ enum CombatAttackType { Melee, Ranged }
 
 public class CombatBehaviour : MonoBehaviour
 {
-    [Header("COMBAT PARAMETERS")]
-    [SerializeField] private Transform targetedEnemy;
+    [Header("TARGET")]
+    [SerializeField] private Transform targetedEnemy; //Est en publique pour debug
+
+    [Header("BASIC ATTACK")]
     [SerializeField] private Transform basicRangedAttackEmiterPos;
     [SerializeField] private GameObject basicRangedAttackProjectile;
-    [SerializeField] private float rotateSpeedForAttack;
+
+    [Header("COMBAT PARAMETERS")]
     [SerializeField] private CombatAttackType combatAttackType;
+    [SerializeField] private float rotateSpeedBeforeAttacking = 0.075f;
     [SerializeField] private bool canPerformAttack = true;
    
     private CursorHandler CursorHandler => GetComponent<CursorHandler>();
@@ -80,7 +84,7 @@ public class CombatBehaviour : MonoBehaviour
     {
         if (TargetedEnemy != null)
         {
-            CharacterController.HandleCharacterRotation(transform, TargetedEnemy.position, CharacterController.RotateVelocity, rotateSpeedForAttack);
+            CharacterController.HandleCharacterRotation(transform, TargetedEnemy.position, CharacterController.RotateVelocity, rotateSpeedBeforeAttacking);
 
             if (Vector3.Distance(transform.position, TargetedEnemy.position) > CharacterStats.AttackRange)
             {

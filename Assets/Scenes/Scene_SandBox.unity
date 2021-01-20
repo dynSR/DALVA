@@ -1357,7 +1357,7 @@ MonoBehaviour:
   characterClass: 0
   characterAbilities: []
   maxHealth: 50000
-  healthRegeneration: 0
+  currentHealthRegeneration: 0
   currentHealth: 0
   baseCooldownReduction: 0
   maxCooldownReduction: 0
@@ -1365,13 +1365,14 @@ MonoBehaviour:
   baseArmor: 10
   baseMagicResistance: 10
   baseAttackDamage: 0
-  currentAttackDamage: 0
   baseMagicDamage: 0
+  currentAttackDamage: 0
+  currentMagicDamage: 0
   attackRange: 0
   baseAttackSpeed: 0
   currentAttackSpeed: 0
-  additiveAttackSpeed: 0
   maxAttackSpeed: 0
+  additiveAttackSpeed: 0
   baseCriticalStrikeChance: 0
   currentCriticalStrikeChance: 0
   baseCriticalStrikeDamageMultiplier: 175

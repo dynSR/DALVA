@@ -4566,7 +4566,7 @@ MonoBehaviour:
   characterClass: 0
   characterAbilities: []
   maxHealth: 100
-  healthRegeneration: 0
+  currentHealthRegeneration: 0
   currentHealth: 0
   baseCooldownReduction: 0
   maxCooldownReduction: 0
@@ -4574,13 +4574,14 @@ MonoBehaviour:
   baseArmor: 15
   baseMagicResistance: 50
   baseAttackDamage: 50
-  currentAttackDamage: 0
   baseMagicDamage: 50
+  currentAttackDamage: 0
+  currentMagicDamage: 0
   attackRange: 10
   baseAttackSpeed: 0.625
   currentAttackSpeed: 0
-  additiveAttackSpeed: 0
   maxAttackSpeed: 2
+  additiveAttackSpeed: 0
   baseCriticalStrikeChance: 0
   currentCriticalStrikeChance: 0
   baseCriticalStrikeDamageMultiplier: 150
@@ -4639,8 +4640,8 @@ MonoBehaviour:
   targetedEnemy: {fileID: 0}
   basicRangedAttackEmiterPos: {fileID: 6229308141109691039}
   basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
-  rotateSpeedForAttack: 0.075
   combatAttackType: 1
+  rotateSpeedBeforeAttacking: 0.075
   canPerformAttack: 1
 --- !u!114 &3521843888695352992
 MonoBehaviour:
@@ -4746,6 +4747,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHUD: {fileID: 9098752903657886099}
+  dalvasTeam: 0
+  charaClass: 0
 --- !u!114 &5569041192761393495
 MonoBehaviour:
   m_ObjectHideFlags: 0

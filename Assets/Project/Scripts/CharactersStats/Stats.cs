@@ -2,78 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterClass { Warrior, Marksman, Mage, Healer }
+public enum CharacterClass { Warrior, Ranger, Mage }
 public class Stats : MonoBehaviour, IDamageable, IKillable
 {
     [Header("CHARACTER NAME & CLASSE")]
     [SerializeField] private string characterName;
     [SerializeField] private CharacterClass characterClass;
 
-    [Header("CHARACTER ABVILITIES AND DEFAULT ATTACK TYPE")]
+    [Header("CHARACTER ABILITIES AND DEFAULT ATTACK TYPE")]
     [SerializeField] private List<Ability> characterAbilities;
 
-    [Header("HEALTH PARAMETERS")]
+    #region Defensive & Utilitary Stats
+    [Header("HEALTH")]
     [SerializeField] private float maxHealth;
-    [SerializeField] private float healthRegeneration;
+    [SerializeField] private float currentHealthRegeneration;
     [SerializeField] private float currentHealth; //Set to private after Debug
+    #region Health Public Variables
+    public float MaxHealth { get => maxHealth; set => maxHealth = value; }
+    public float CurrentHealth { get => currentHealth; set => currentHealth = Mathf.Clamp(value, 0, MaxHealth); }
+    public float CurrentHealthRegeneration { get => currentHealthRegeneration; set => currentHealthRegeneration = value; }
+    #endregion
 
-    [Header("COOLDOWN PARAMETERS")]
+    [Header("COOLDOWN")]
     [SerializeField] private float baseCooldownReduction;
     [SerializeField] private float maxCooldownReduction;
     [SerializeField] private float currentCooldownReduction; //Set to private after Debug
-
-    [Header("DEFENSE PARAMETERS")]
-    [SerializeField] private float baseArmor;
-    [SerializeField] private float baseMagicResistance;
-
-    [Header("DAMAGE PARAMETERS")]
-    [SerializeField] private float baseAttackDamage;
-    [SerializeField] private float currentAttackDamage; //Set to private after Debug
-    [SerializeField] private float baseMagicDamage;
-
-    [Header("ATTACK RANGE PARAMETERS")]
-    [SerializeField] private float attackRange;
-
-    [Header("ATTACK SPEED PARAMETERS")]
-    [SerializeField] private float baseAttackSpeed;
-    [SerializeField] private float currentAttackSpeed; //Set to private after Debug
-    [SerializeField] private float additiveAttackSpeed;//Set to private after Debug
-    [SerializeField] private float maxAttackSpeed;
-
-    [Header("CRITICAL STRIKES CHANCE PARAMETERS")]
-    [SerializeField] private float baseCriticalStrikeChance;
-    [SerializeField] private float currentCriticalStrikeChance;//Set to private after Debug
-
-    [Header("CRITICAL STRIKES DAMAGE MULTIPLIER PARAMETERS")]
-    [SerializeField] private float baseCriticalStrikeDamageMultiplier = 175f;
-    [SerializeField] private float maxCriticalStrikeDamageMultiplier = 300f;
-    [SerializeField] private float currentCriticalStrikeDamageMultiplier; //Set to private after Debug
-
-    [Header("DEFENSES PENETRATION PARAMETERS")]
-    [SerializeField] private float currentArmorPenetration;
-    [SerializeField] private float currentMagicResistancePenetration;
-
-    [Header("DEATH PARAMETERS")]
-    [SerializeField] private float timeToRespawn;
-    private CombatBehaviour CombatBehaviour => GetComponent<CombatBehaviour>();
-
-    [Header("UI PARAMETERS")]
-    [SerializeField] private GameObject damagePopUp;
-    [SerializeField] private GameObject deathHUD;
-
-    private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
-
-    //Health
-    public float MaxHealth { get => maxHealth; set => maxHealth = value; }
-    public float CurrentHealth { get => currentHealth; set => currentHealth = Mathf.Clamp(value, 0, MaxHealth); }
-    public float HealthRegeneration { get => healthRegeneration; set => healthRegeneration = value; }
-
-    //Cooldown
+    #region Cooldown Public Variables
     public float MaxCooldownReduction { get => maxCooldownReduction; set => maxCooldownReduction = value; }
-    public float CurrentCooldownReduction 
-    { 
+    public float CurrentCooldownReduction
+    {
         get => currentCooldownReduction;
-        set 
+        set
         {
             if (currentCooldownReduction > MaxCooldownReduction)
             {
@@ -86,19 +45,40 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
         }
     }
     public bool IsCooldownReductionCapped => CurrentCooldownReduction == MaxCooldownReduction;
+    #endregion
 
-    //Armor
+    [Header("DEFENSE")]
+    [SerializeField] private float baseArmor;
+    [SerializeField] private float baseMagicResistance;
+    #region Resistances Public Variables
     public float CurrentArmor { get; set; }
     public float CurrentMagicResistance { get; set; }
+    #endregion
+    #endregion
 
-    //Damages
+    #region Offensive Stats
+    [Header("BASE DAMAGE")]
+    [SerializeField] private float baseAttackDamage;
+    [SerializeField] private float baseMagicDamage;
+    [SerializeField] private float currentAttackDamage; //Set to private after Debug
+    [SerializeField] private float currentMagicDamage; //Set to private after Debug
+    #region Damages Public Variables
     public float CurrentAttackDamage { get => currentAttackDamage; set => currentAttackDamage = value; }
     public float CurrentMagicDamage { get; set; }
+    #endregion
 
-    //AttackRange
+    [Header("ATTACK RANGE")]
+    [SerializeField] private float attackRange;
+    #region AttackRange Public Variables
     public float AttackRange { get => attackRange; set => attackRange = value; }
+    #endregion
 
-    //Attack Speed
+    [Header("ATTACK SPEED")]
+    [SerializeField] private float baseAttackSpeed;
+    [SerializeField] private float currentAttackSpeed; //Set to private after Debug
+    [SerializeField] private float maxAttackSpeed;
+    [SerializeField] private float additiveAttackSpeed;//Set to private after Debug
+    #region Attack Speed Public Variables
     public float AdditiveAttackSpeed { get => additiveAttackSpeed; set => additiveAttackSpeed = value; }
     public float CurrentAttackSpeed
     {
@@ -115,12 +95,16 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
             }
         }
     }
+    #endregion
 
-    //Critical Strikes
-    public float CurrentCriticalStrikeChance 
-    { 
-        get => currentCriticalStrikeChance; 
-        set 
+    [Header("CRITICAL STRIKES CHANCE")]
+    [SerializeField] private float baseCriticalStrikeChance;
+    [SerializeField] private float currentCriticalStrikeChance;//Set to private after Debug
+    #region Critical Strikes Public Variables
+    public float CurrentCriticalStrikeChance
+    {
+        get => currentCriticalStrikeChance;
+        set
         {
             if (currentCriticalStrikeChance > 100)
             {
@@ -130,10 +114,10 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
             {
                 currentCriticalStrikeChance = value;
             }
-        } 
+        }
     }
-    public float CurrentCriticalStrikeMultiplier 
-    { 
+    public float CurrentCriticalStrikeMultiplier
+    {
         get
         {
             return currentCriticalStrikeDamageMultiplier;
@@ -154,10 +138,31 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
             }
         }
     }
+    #endregion
 
-    //Defenses Penetration
+    [Header("CRITICAL STRIKES DAMAGE MULTIPLIER")]
+    [SerializeField] private float baseCriticalStrikeDamageMultiplier = 175f;
+    [SerializeField] private float maxCriticalStrikeDamageMultiplier = 300f;
+    [SerializeField] private float currentCriticalStrikeDamageMultiplier; //Set to private after Debug
+
+    [Header("DEFENSES PENETRATION")]
+    [SerializeField] private float currentArmorPenetration;
+    [SerializeField] private float currentMagicResistancePenetration;
+    #region Defenses Penetration Public Variables
     public float CurrentArmorPenetration { get => currentArmorPenetration; set => currentArmorPenetration = value; }
     public float CurrentMagicResistancePenetration { get => currentMagicResistancePenetration; set => currentMagicResistancePenetration = value; }
+    #endregion
+    #endregion
+
+    [Header("DEATH PARAMETERS")]
+    [SerializeField] private float timeToRespawn;
+    private CombatBehaviour CombatBehaviour => GetComponent<CombatBehaviour>();
+
+    [Header("UI PARAMETERS")]
+    [SerializeField] private GameObject damagePopUp;
+    [SerializeField] private GameObject deathHUD;
+
+    private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
 
     //Death
     public bool IsDead => CurrentHealth <= 0;

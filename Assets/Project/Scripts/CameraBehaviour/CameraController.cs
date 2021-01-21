@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
             MoveCameraWithDirectionnalArrows();
             MoveCameraWithMouse();
 
-            if (HasKeyBeenPressed(cameraFocusOnTargetKey))
+            if (iSKeyMaintained(cameraFocusOnTargetKey))
             {
                 FollowATarget(TargetToFollow);
             }
@@ -124,6 +124,12 @@ public class CameraController : MonoBehaviour
     bool HasKeyBeenPressed(KeyCode key)
     {
         if (Input.GetKeyDown(key)) return true;
+        else return false;
+    }
+
+    bool iSKeyMaintained(KeyCode key)
+    {
+        if (Input.GetKey(key)) return true;
         else return false;
     }
 }

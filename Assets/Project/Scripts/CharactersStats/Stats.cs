@@ -156,7 +156,7 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
 
     [Header("DEATH PARAMETERS")]
     [SerializeField] private float timeToRespawn;
-    private CombatBehaviour CombatBehaviour => GetComponent<CombatBehaviour>();
+    private CharacterCombatBehaviour CombatBehaviour => GetComponent<CharacterCombatBehaviour>();
 
     [Header("UI PARAMETERS")]
     [SerializeField] private GameObject damagePopUp;

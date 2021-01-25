@@ -12,6 +12,7 @@ public class AutoAttackProjectileController : MonoBehaviour
     [SerializeField] private Transform target;
 
     [SerializeField] private Stats targetStats;
+    Vector3 targetPosition;
 
     public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
     public Transform Target { get => target; set => target = value; }
@@ -24,6 +25,9 @@ public class AutoAttackProjectileController : MonoBehaviour
     {
         if (Target != null)
             TargetCharacterStats = Target.GetComponent<Stats>();
+
+        if (Target == null)
+            Destroy(gameObject);
     }
 
     void FixedUpdate()
@@ -33,13 +37,15 @@ public class AutoAttackProjectileController : MonoBehaviour
 
     void ProjectileMoveToTarget()
     {
-        Vector3 targetPosition = Target.position;
-
-        Rb.MovePosition(Vector3.MoveTowards(transform.position, 
-            targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0), 
+        if (Target == null) return;
+            
+        targetPosition = Target.position;
+        
+        Rb.MovePosition(Vector3.MoveTowards(transform.position,
+            targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0),
             projectileSpeed * Time.fixedDeltaTime));
 
-        transform.LookAt(Target);
+            transform.LookAt(Target);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -33,7 +33,7 @@ public class CharacterController : MonoBehaviourPun
     }
 
     private Stats CharacterStats => GetComponent<Stats>();
-    private CombatBehaviour CharacterCombatBehaviour => GetComponent<CombatBehaviour>();
+    private CharacterCombatBehaviour CharacterCombatBehaviour => GetComponent<CharacterCombatBehaviour>();
     private PlayerRessources PlayerRessources => GetComponent<PlayerRessources>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public GameObject PathLandmark { get => pathLandmark; }

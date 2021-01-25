@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombatBehaviour : CombatBehaviour
+public class PlayerCombatBehaviour : CharacterCombatBehaviour
 {
     protected override void Update()
     {

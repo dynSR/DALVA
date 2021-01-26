@@ -121,15 +121,15 @@ public class CharacterCombatBehaviour : MonoBehaviour
     {
         if (attackType == CombatAttackType.Melee)
         {
-            //CharacterAnimator.SetBool("MeleeBasicAttack", true);
-            MeleeAttack();
+            CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
+            CharacterAnimator.SetBool("MeleeBasicAttack", true);
+            //MeleeAttack(); Debug without animation
             CanPerformAttack = false;
         }
         else if (attackType == CombatAttackType.Ranged)
         {
             CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
             CharacterAnimator.SetBool("RangedBasicAttack", true);
-
             //RangedAttack(); Debug without animation
             CanPerformAttack = false;
         }
@@ -138,7 +138,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
         if (attackType == CombatAttackType.Melee)
         {
-            //CharacterAnimator.SetBool("MeleeBasicAttack", false);
+            CharacterAnimator.SetBool("MeleeBasicAttack", false);
             CanPerformAttack = true;
         }
         else if (attackType == CombatAttackType.Ranged)

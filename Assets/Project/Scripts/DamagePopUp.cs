@@ -11,6 +11,7 @@ public class DamagePopUp : MonoBehaviour
 
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private float damagePopUpLifeTime = 0.5f;
+    [SerializeField] private float moveXSpeed = 20f;
     [SerializeField] private float moveYSpeed = 20f;
     [SerializeField] private float desappearSpeed = 3f;
 
@@ -46,7 +47,7 @@ public class DamagePopUp : MonoBehaviour
     {
         transform.LookAt(Camera.main.transform);
         transform.Rotate(0, 180, 0);
-        transform.position += new Vector3(0, moveYSpeed) * Time.deltaTime;
+        transform.position += new Vector3(moveXSpeed, moveYSpeed) * Time.deltaTime;
     }
 
     private void Setup(float damageAmount, DamageType damageType)

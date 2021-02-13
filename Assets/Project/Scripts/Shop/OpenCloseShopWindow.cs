@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class OpenCloseShopWindow : MonoBehaviour
 {
-    [SerializeField] private KeyCode toggleWindowKey;
-    [SerializeField] private bool isShopWindowOpen;
+    [Header("KEY TO OPEN/CLOSE THE SHOP")]
+    [SerializeField] private KeyCode toggleInputKey;
+    private bool isShopWindowOpen;
 
-    private GameObject shopWindow => transform.GetChild(0).gameObject;
+    private GameObject ShopWindow => transform.GetChild(0).gameObject;
 
     public bool IsShopWindowOpen { get => isShopWindowOpen; set => isShopWindowOpen = value; }
 
@@ -16,9 +17,10 @@ public class OpenCloseShopWindow : MonoBehaviour
         ToggleWindow();
     }
 
+    #region Toggle
     void ToggleWindow()
     {
-        if (Input.GetKeyDown(toggleWindowKey))
+        if (Input.GetKeyDown(toggleInputKey))
         {
             if (!IsShopWindowOpen)
             {
@@ -30,10 +32,12 @@ public class OpenCloseShopWindow : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Open - Close
     public void OpenWindow()
     {
-        shopWindow.SetActive(true);
+        ShopWindow.SetActive(true);
         IsShopWindowOpen = true;
 
         ResetWindowAnchoredPosition();
@@ -41,14 +45,15 @@ public class OpenCloseShopWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        shopWindow.SetActive(false);
+        ShopWindow.SetActive(false);
         IsShopWindowOpen = false;
 
-        shopWindow.GetComponent<Shop>().PlayerInventory.ResetSelectionIcons();
+        ShopWindow.GetComponent<Shop>().PlayerInventory.ResetAllBoxesSelectionIcons();
     }
+    #endregion
 
     void ResetWindowAnchoredPosition()
     {
-        shopWindow.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 }

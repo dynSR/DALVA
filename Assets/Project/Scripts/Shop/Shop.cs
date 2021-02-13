@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    [Header("PLAYER INFORMATIONS")]
     [SerializeField] private Transform player;
     [SerializeField] private Inventory playerInventory;
     [SerializeField] private InventoryBox selectedInventoryBox;
 
+    [Header("SHOP ACTIONS MADE")]
     [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();
     public int numberOfShopActionsDone = 0;
 
@@ -36,7 +38,7 @@ public class Shop : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
-            ResetShopActions();
+            ResetShopActions(); // Debug purpose
     }
 
     #region Buy an item
@@ -101,31 +103,23 @@ public class Shop : MonoBehaviour
     {
         string shopActionDataName = "Sale " + inventoryBoxOfItemSold.StoredItem.ItemName;
 
-        //numberOfShopActionsDone++;
-
         Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
-
-        //inventoryBoxOfItemSold.TransactionID = numberOfShopActionsDone;
 
         shopActions.Add(new ShopActionData(shopActionDataName, ShopActionData.ShopActionType.Sale, inventoryBoxOfItemSold.StoredItem, inventoryBoxOfItemSold.TransactionID));
 
         PlayerInventory.RemoveItemFromInventory(inventoryBoxOfItemSold);
-        PlayerInventory.ResetSelectionIcons();
+        PlayerInventory.ResetAllBoxesSelectionIcons();
     }
     #endregion
 
-    public void ResetShopActions()
-    {
-        shopActions.Clear();
-        numberOfShopActionsDone = 0;
-    }
-
+    #region Undo a purchase or a sell
     public void UndoShopAction()
     {
         if (numberOfShopActionsDone > 0)
         {
             for (int i = shopActions.Count - 1; i >= 0; i--)
             {
+                //Undo A Purchase
                 if (shopActions[i].shopActionType == ShopActionData.ShopActionType.Purchase)
                 {
                     for (int j = 0; j < PlayerInventory.InventoryBoxes.Count; j++)
@@ -134,29 +128,44 @@ public class Shop : MonoBehaviour
                         {
                             Debug.Log(PlayerInventory.InventoryBoxes[j].TransactionID + " / " + numberOfShopActionsDone);
                             Debug.Log(PlayerInventory.InventoryBoxes[j].name);
-
                             Debug.Log("Last shop action is a purchase action");
+
                             PlayerInventory.InventoryBoxes[j].ResetInventoryBoxItem(PlayerInventory.InventoryBoxes[j]);
 
                             numberOfShopActionsDone--;
                             PlayerInventory.NumberOfFullInventoryBoxes--;
-                            playerInventory.ResetSelectionIcons();
+
+                            playerInventory.ResetAllBoxesSelectionIcons();
+
                             PlayerInventory.InventoryBoxes[j].TransactionID = 0;
+
                             shopActions.RemoveAt(i);
                             return;
                         }
                     }
                 }
+                //Undo A Sell
                 else if (shopActions[i].shopActionType == ShopActionData.ShopActionType.Sale)
                 {
                     Debug.Log("Last shop action is a sale action");
+
                     AddSoldItemToInventory(shopActions[i], shopActions[i].item, shopActions[i].transactionID);
 
-                    playerInventory.ResetSelectionIcons();
+                    playerInventory.ResetAllBoxesSelectionIcons();
+
                     shopActions.RemoveAt(i);
                     return;
                 }
             }
         }
     }
+    #endregion
+
+    #region Debuging
+    public void ResetShopActions() // Debug purpose
+    {
+        shopActions.Clear();
+        numberOfShopActionsDone = 0;
+    }
+    #endregion
 }

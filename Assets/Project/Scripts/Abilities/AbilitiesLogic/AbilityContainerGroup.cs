@@ -6,17 +6,20 @@ public class AbilityContainerGroup : MonoBehaviour
 {
     private Stats CharacterCharacteristics => transform.parent.GetComponentInParent<Stats>();
 
-    [SerializeField] private int numberOfAbilities = 4;
-    [SerializeField] private List<KeyCode> keys;
+    [Header("PLAYER ABILITIES INFORMATIONS")]
+    [Tooltip("Needs to match the number of abilities present on the player (as scripts)")]
+    [SerializeField] private int numberOfAbilities = 2;
+    [SerializeField] private List<KeyCode> abilitiesInputKeys;
     [SerializeField] private GameObject abilityContainerPrefab;
-    [SerializeField] private List<AbilityContainer> abilityContainers = new List<AbilityContainer>();
+
+    private List<AbilityContainer> abilityContainers = new List<AbilityContainer>();
     
     private void Start()
     {
-        CreateAbilityContainers();
+        CreateAbilityContainersAtStart();
     }
 
-    void CreateAbilityContainers()
+    void CreateAbilityContainersAtStart()
     {
         for (int i = 0 ; i <= numberOfAbilities -1; i++)
         {

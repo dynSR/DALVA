@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class AbilityContainer : MonoBehaviour
 {
+    [Header("CONTAINED ABILITY")]
     [SerializeField] private Ability containedAbility;
     [SerializeField] private Image containedAbilityIcon;
 
+    [Header("KEY")]
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private TextMeshProUGUI keyText;
 
+    [Header("COOLDOWN")]
     [SerializeField] private GameObject cooldownContainerGameObject;
     [SerializeField] private Image cooldownFiller;
     [SerializeField] private TextMeshProUGUI cooldownText;

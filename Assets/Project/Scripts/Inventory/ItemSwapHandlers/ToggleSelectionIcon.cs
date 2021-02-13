@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
 {
+    [Header("PLAYER SHOP")]
     [SerializeField] private OpenCloseShopWindow shopWindow;
-    [SerializeField] private bool isSelected;
+    private bool isSelected;
+
    private InventoryBox ParentInventoryBox => GetComponentInParent<InventoryBox>();
     private Inventory ParentPlayerInventory => ParentInventoryBox.PlayerInventory;
     private Item ItemInParentInventoryBox => ParentInventoryBox.StoredItem;
@@ -31,7 +33,7 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
                 if (!IsSelected)
                 {
                     Debug.Log("Pointer Click");
-                    ParentPlayerInventory.ResetSelectionIcons();
+                    //ParentPlayerInventory.ResetSelectionIcons(); // Uncomment if you want to use the swap system
                     ToggleOn();
                 }
                 else if (IsSelected)

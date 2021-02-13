@@ -47,6 +47,8 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
     void SetDynamicCursorAppearance()
     {
+        if (CharacterController.CursorIsHoveringMiniMap) return;
+
         if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity))
         {
             if (hit.collider.CompareTag("Enemy"))

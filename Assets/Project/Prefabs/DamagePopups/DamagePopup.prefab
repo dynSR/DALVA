@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5208454209872959271}
   - component: {fileID: 2917069757288152550}
   - component: {fileID: 6392115623648828352}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: DamagePopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 0.25}
+  m_SizeDelta: {x: 1, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &5208454209872959271
 MeshRenderer:
@@ -126,12 +126,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2.2
+  m_fontSize: 4.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 1
-  m_fontSizeMax: 72
+  m_fontSizeMax: 5
   m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 1024
@@ -183,8 +183,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePopUpLifeTime: 0.3
+  moveXSpeed: 1.5
   moveYSpeed: 3
   desappearSpeed: 4
   textColor: {r: 0, g: 0, b: 0, a: 0}
-  physicalDamageColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
-  magicDamageColor: {r: 0, g: 0.45599222, b: 1, a: 1}
+  physicalDamageColor: {r: 1, g: 1, b: 1, a: 1}
+  magicDamageColor: {r: 0, g: 0.7020221, b: 1, a: 1}

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(LineRenderer))]
@@ -13,13 +14,14 @@ public class CharacterController : MonoBehaviourPun
     [SerializeField] private LayerMask walkableLayer;
     [SerializeField] private Camera characterCamera;
     [SerializeField] private float rotateSpeedMovement = 0.1f;
-    private float motionSmoothTime = .1f;
     [SerializeField] private bool isPlayerInHisBase = true;
+    RaycastHit raycastHit;
+    private float motionSmoothTime = .1f;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
     [SerializeField] private GameObject pathLandmark;
-    private LineRenderer LineRenderer => GetComponent<LineRenderer>();
+    public LineRenderer MyLineRenderer => GetComponent<LineRenderer>();
     [HideInInspector] public Animator CharacterAnimator
     {
         get => transform.GetChild(0).GetComponent<Animator>();
@@ -42,6 +44,9 @@ public class CharacterController : MonoBehaviourPun
     public float RotateVelocity { get; set; }
     public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
 
+    private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && PlayerRessources.PlayerShopWindow.IsShopWindowOpen;
+    public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
+
     protected virtual void Awake()
     {
         InitialSpeed = Agent.speed;
@@ -56,31 +61,40 @@ public class CharacterController : MonoBehaviourPun
 
         if (Input.GetMouseButton(1))
         {
-            if (IsPlayerInHisBase && PlayerRessources.PlayerShopWindow.IsShopWindowOpen) return;
+            if (CursorIsHoveringMiniMap) return;
 
-            SetNavMeshDestinationWithRayCast();
+            SetNavMeshDestinationWithRayCast(RayFromCameraToMousePosition);
         }
 
         HandleMotionAnimation();
-        DebugPathing(LineRenderer);
+        DebugPathing(MyLineRenderer);
     }
 
     #region Handle Movement 
-    private void SetNavMeshDestinationWithRayCast()
+    public void SetNavMeshDestinationWithRayCast(Ray ray)
     {
-        if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity, walkableLayer))
+        if (PlayerIsConsultingHisShopAtBase) return;
+
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, walkableLayer))
         {
             if (Input.GetMouseButtonDown(1))
             {
-                MovementFeedbackInstantiation(movementFeedback, hit.point);
+                Debug.Log("Object touched by the character controller raycast " + raycastHit.transform.gameObject.name);
+
+                MovementFeedbackInstantiation(movementFeedback, raycastHit.point);
             }
 
-            Agent.SetDestination(hit.point);
-            HandleCharacterRotation(transform, hit.point, RotateVelocity, rotateSpeedMovement);
+            SetNavMeshAgentDestination(raycastHit.point);
+            HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, rotateSpeedMovement);
         }
     }
 
-    private void HandleMotionAnimation()
+    private void SetNavMeshAgentDestination(Vector3 pos)
+    {
+        Agent.SetDestination(pos);
+    }
+
+    public void HandleMotionAnimation()
     {
         float speed = Agent.velocity.magnitude / Agent.speed;
         CharacterAnimator.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);
@@ -98,7 +112,7 @@ public class CharacterController : MonoBehaviourPun
         transform.eulerAngles = new Vector3(0, rotationY, 0);
     }
 
-    private void DebugPathing(LineRenderer line)
+    public void DebugPathing(LineRenderer line)
     {
         if (Agent.hasPath)
         {

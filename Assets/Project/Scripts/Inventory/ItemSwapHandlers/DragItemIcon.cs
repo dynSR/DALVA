@@ -49,15 +49,15 @@ public class DragItemIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop");
-       if (PlayerInventory.NewInventoryBox != null)
-       {
-            if (PlayerInventory.NewInventoryBox.GetComponent<InventoryBox>().StoredItem != null)
-                PlayerInventory.SwapInventoryBoxesItem();
-            else
-                PlayerInventory.PlaceItemHere();
-       }
+       // Debug.Log("OnDrop");
+       //if (PlayerInventory.NewInventoryBox != null)
+       //{
+       //     if (PlayerInventory.NewInventoryBox.GetComponent<InventoryBox>().StoredItem != null)
+       //         PlayerInventory.SwapInventoryBoxesItem();
+       //     else
+       //         PlayerInventory.PlaceItemHere();
+       //}
 
-        PlayerInventory.LastInventoryBox = null;
+       // PlayerInventory.LastInventoryBox = null;
     }
 }

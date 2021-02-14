@@ -13,8 +13,6 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
     private Inventory ParentPlayerInventory => ParentInventoryBox.PlayerInventory;
     private Item ItemInParentInventoryBox => ParentInventoryBox.StoredItem;
     private Transform ToggleChildGameObject => transform.GetChild(0).transform;
-
-    private bool isIconShown = false;
     private bool LeftClickIsPressed => Input.GetMouseButtonDown(0);
 
     public bool IsSelected { get => isSelected; set => isSelected = value; }
@@ -28,12 +26,12 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
     {
         if (shopWindow.IsShopWindowOpen)
         {
-            if (LeftClickIsPressed && ItemInParentInventoryBox != null)
+            if (UtilityClass.LeftClickIsPressedOnUIElement(eventData) && ItemInParentInventoryBox != null)
             {
                 if (!IsSelected)
                 {
                     Debug.Log("Pointer Click");
-                    //ParentPlayerInventory.ResetSelectionIcons(); // Uncomment if you want to use the swap system
+                    ParentPlayerInventory.ResetAllBoxesSelectionIcons();
                     ToggleOn();
                 }
                 else if (IsSelected)
@@ -44,7 +42,7 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    #region Toggle On / Off
+    #region Toggle On / Off Selection
     public void ToggleOn()
     {
         Debug.Log("ICON WASNT SHOWN");
@@ -64,17 +62,15 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
     }
     #endregion
 
-    #region Display / Hide
+    #region Display / Hide Icon
     public void DisplayIcon()
     {
         ToggleChildGameObject.gameObject.SetActive(true);
-        isIconShown = true;
     }
 
     public void HideIcon()
     {
         ToggleChildGameObject.gameObject.SetActive(false);
-        isIconShown = false;
     }
     #endregion
 }

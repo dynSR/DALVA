@@ -7,8 +7,9 @@ enum CombatAttackType { Melee, Ranged }
 
 public class CharacterCombatBehaviour : MonoBehaviour
 {
-    [Header("TARGET")]
+    [Header("TARGETS")]
     [SerializeField] private Transform targetedEnemy; //Est en publique pour debug
+    [SerializeField] private Transform knownTarget;
 
     [Header("BASIC ATTACK")]
     [SerializeField] private Transform basicRangedAttackEmiterPos;
@@ -18,17 +19,39 @@ public class CharacterCombatBehaviour : MonoBehaviour
     [SerializeField] private CombatAttackType combatAttackType;
     [SerializeField] private float rotateSpeedBeforeAttacking = 0.075f;
     [SerializeField] private bool canPerformAttack = true;
-   
-    private CursorHandler CursorHandler => GetComponent<CursorHandler>();
 
+    RaycastHit cursorHit;
     Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
+    private CursorHandler CursorHandler => GetComponent<CursorHandler>();
+    public Outline CharacterOutline { get => GetComponent<Outline>(); }
 
     private Stats CharacterStats => GetComponent<Stats>();
     private CharacterController CharacterController => GetComponent<CharacterController>();
     private Animator CharacterAnimator => GetComponent<CharacterController>().CharacterAnimator;
 
     public Transform TargetedEnemy { get => targetedEnemy; set => targetedEnemy = value; }
+    public Transform KnownTarget { get => knownTarget; set => knownTarget = value; }
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
+
+    private bool TargetIsNeitherAnEnnemyNorAnAlly => cursorHit.collider.GetComponent<Stats>().TypeOfUnit != TypeOfUnit.Ennemy || cursorHit.collider.GetComponent<Stats>().TypeOfUnit != TypeOfUnit.Ally;
+
+    private void Start()
+    {
+        switch (CharacterStats.TypeOfUnit)
+        {
+            case TypeOfUnit.Self:
+                CharacterOutline.OutlineColor = Color.white;
+                break;
+            case TypeOfUnit.Ennemy:
+                CharacterOutline.OutlineColor = Color.red;
+                break;
+            case TypeOfUnit.Ally:
+                CharacterOutline.OutlineColor = Color.blue;
+                break;
+            default:
+                break;
+        }
+    }
 
     protected virtual void Update()
     {
@@ -40,7 +63,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
             return;
         }
 
-        SetTargetOnMouseClickButton(1);
+        SetTargetOnMouseClickButton();
 
         MoveTowardsExistingTargetOrPerformAttack();
     }
@@ -49,22 +72,42 @@ public class CharacterCombatBehaviour : MonoBehaviour
     {
         if (CharacterController.CursorIsHoveringMiniMap) return;
 
-        if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity))
+        if (Physics.Raycast(RayFromCameraToMousePosition, out cursorHit, Mathf.Infinity))
         {
-            if (hit.collider.CompareTag("Enemy"))
+            if (cursorHit.collider != null)
             {
-                CursorHandler.SetCursorToAttackAppearance();
-            }
-            else if (!hit.collider.CompareTag("Enemy"))
-            {
-                CursorHandler.SetCursorToNormalAppearance();
+                if (cursorHit.collider.GetComponent<Stats>() != null)
+                {
+                    KnownTarget = cursorHit.collider.transform;
+                    Stats knownTargetStats = KnownTarget.GetComponent<Stats>();
+
+                    if (knownTargetStats.TypeOfUnit == TypeOfUnit.Ennemy)
+                    {
+                        CursorHandler.SetCursorToAttackAppearance();
+                        CursorHandler.ActivateOutlineOnOver(KnownTarget.GetComponent<Outline>(), Color.red);
+                    }
+                    else if (knownTargetStats.TypeOfUnit == TypeOfUnit.Ally)
+                    {
+                        CursorHandler.ActivateOutlineOnOver(KnownTarget.GetComponent<Outline>(), Color.blue);
+                    }
+                }
+                else if (cursorHit.collider.GetComponent<Stats>() == null || TargetIsNeitherAnEnnemyNorAnAlly)
+                {
+                    CursorHandler.SetCursorToNormalAppearance();
+
+                    if (KnownTarget != null)
+                    {
+                        CursorHandler.DeactivateOutlineOnOver(KnownTarget.GetComponent<Outline>());
+                        KnownTarget = null;
+                    }
+                }
             }
         }
     }
 
-    void SetTargetOnMouseClickButton(int mouseClickButton)
+    void SetTargetOnMouseClickButton()
     {
-        if (Input.GetMouseButtonDown(mouseClickButton))
+        if (UtilityClass.RightClickIsPressed())
         {
             if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity))
             {

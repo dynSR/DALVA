@@ -7,11 +7,11 @@ public class Shop : MonoBehaviour
     [Header("PLAYER INFORMATIONS")]
     [SerializeField] private Transform player;
     [SerializeField] private Inventory playerInventory;
-    [SerializeField] private InventoryBox selectedInventoryBox;
+    private InventoryBox selectedInventoryBox;
 
     [Header("SHOP ACTIONS MADE")]
     [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();
-    public int numberOfShopActionsDone = 0;
+    private int numberOfShopActionsDone = 0;
 
     public Inventory PlayerInventory { get => playerInventory; set => playerInventory = value; }
     public Transform Player { get => player; set => player = value; }
@@ -46,7 +46,7 @@ public class Shop : MonoBehaviour
     {
         if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase) return;
 
-        if (Input.GetMouseButtonDown(1))
+        if (UtilityClass.RightClickIsPressed())
         {
             if (PlayerInventory.InventoryIsFull) return;
 

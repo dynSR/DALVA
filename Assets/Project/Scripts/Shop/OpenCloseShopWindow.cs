@@ -6,7 +6,7 @@ public class OpenCloseShopWindow : MonoBehaviour
 {
     [Header("KEY TO OPEN/CLOSE THE SHOP")]
     [SerializeField] private KeyCode toggleInputKey;
-    private bool isShopWindowOpen;
+    private bool isShopWindowOpen = false;
 
     private GameObject ShopWindow => transform.GetChild(0).gameObject;
 

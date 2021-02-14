@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryBox : MonoBehaviour
 {
-    [SerializeField] private int transactionID;
+    private int transactionID;
     private Inventory Inventory => GetComponentInParent<Inventory>();
     public Item StoredItem { get; set; }
     private Image ItemIcon => transform.GetChild(0).GetComponent<Image>();

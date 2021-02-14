@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CharacterClass { Warrior, Ranger, Mage }
+public enum TypeOfUnit { Self, Ennemy, Ally }
+
 public class Stats : MonoBehaviour, IDamageable, IKillable
 {
-    [Header("CHARACTER NAME & CLASSE")]
+    [Header("CHARACTER NAME, CLASSE & UNIT TYPE")]
     [SerializeField] private string characterName;
     [SerializeField] private CharacterClass characterClass;
+    [SerializeField] private TypeOfUnit typeOfUnit;
 
     [Header("CHARACTER ABILITIES AND DEFAULT ATTACK TYPE")]
     [SerializeField] private List<Ability> characterAbilities;
@@ -157,20 +160,16 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     [Header("DEATH PARAMETERS")]
     [SerializeField] private float timeToRespawn;
     private CharacterCombatBehaviour CombatBehaviour => GetComponent<CharacterCombatBehaviour>();
+    public bool IsDead => CurrentHealth <= 0;
+    public float TimeToRespawn { get => timeToRespawn; set => timeToRespawn = value; }
 
     [Header("UI PARAMETERS")]
     [SerializeField] private GameObject damagePopUp;
     [SerializeField] private GameObject deathHUD;
 
-    private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
-
-    //Death
-    public bool IsDead => CurrentHealth <= 0;
-    public float TimeToRespawn { get => timeToRespawn; set => timeToRespawn = value; }
-    
-    //Abilities
     public List<Ability> CharacterAbilities { get => characterAbilities; }
-    
+    private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
+    public TypeOfUnit TypeOfUnit { get => typeOfUnit; set => typeOfUnit = value; }
 
     protected virtual void Awake()
     {

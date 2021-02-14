@@ -20,13 +20,22 @@ public class CursorHandler : MonoBehaviour
     {
         //Debug.Log("Normal Cursor");
         Cursor.SetCursor(NormalCursorIcon, Vector2.zero, CursorMode.Auto);
-        //cursorSpriteRenderer.sprite = normalCursorSprite;
     }
 
     public void SetCursorToAttackAppearance()
     {
         //Debug.Log("Attack Cursor");
         Cursor.SetCursor(AttackCursorIcon, Vector2.zero, CursorMode.Auto);
-        //cursorSpriteRenderer.sprite = attackCursorSprite;
+    }
+
+    public void ActivateOutlineOnOver(Outline outlineFound, Color outlineColor)
+    {
+        outlineFound.enabled = true;
+        outlineFound.OutlineColor = outlineColor;
+    }
+
+    public void DeactivateOutlineOnOver(Outline outlineFound)
+    {
+        outlineFound.enabled = false;
     }
 }

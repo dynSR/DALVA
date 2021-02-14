@@ -38,12 +38,12 @@ public class MiniMapMovementHandler : MonoBehaviour, IPointerClickHandler
 
             localCursor = new Vector2(recalcX, recalcY);
 
-            if (eventData.button == PointerEventData.InputButton.Left)
+            if (UtilityClass.LeftClickIsPressedOnUIElement(eventData))
             {
                 Debug.Log("LETF CLICK ON MAP");
             }
 
-            if (eventData.button == PointerEventData.InputButton.Right)
+            if (UtilityClass.RightClickIsPressedOnUIElement(eventData))
             {
                 CastMiniMapRayToWorld(localCursor);
                 Debug.Log("RIGHT CLICK ON MAP");

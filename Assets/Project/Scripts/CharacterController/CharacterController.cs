@@ -77,7 +77,7 @@ public class CharacterController : MonoBehaviourPun
 
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, walkableLayer))
         {
-            if (Input.GetMouseButtonDown(1))
+            if (UtilityClass.RightClickIsPressed())
             {
                 Debug.Log("Object touched by the character controller raycast " + raycastHit.transform.gameObject.name);
 

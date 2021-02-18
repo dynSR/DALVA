@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
 
     public GameObject LastInventoryBox { get; set; }
     public GameObject NewInventoryBox { get; set; }
-    public int NumberOfFullInventoryBoxes /*{ get; set; }*/ = 0;
+    public int NumberOfFullInventoryBoxes { get; set; }
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
 
    public List<ToggleSelectionIcon> BoxesSelectionIcons { get => boxesSelectionIcons; set => boxesSelectionIcons = value; }
@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
             if (InventoryBoxes[i].StoredItem == null)
             {
                 NumberOfFullInventoryBoxes++;
-                InventoryBoxes[i].UpdateInventoryBoxItem(itemToAdd, itemToAdd.ItemIcon);
+                InventoryBoxes[i].ChangeInventoryBoxStoredItem(itemToAdd, itemToAdd.ItemIcon);
 
                 Debug.Log("Add " + itemToAdd.ItemName +" to inventory");
                 Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
@@ -49,7 +49,7 @@ public class Inventory : MonoBehaviour
     {
         if (InventoryIsEmpty) return;
 
-        inventoryBox.ResetInventoryBoxItem(inventoryBox);
+        inventoryBox.ResetInventoryBoxStoredItem(inventoryBox);
         NumberOfFullInventoryBoxes--;
         Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
     }
@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour
             if (InventoryBoxes[i].StoredItem == null)
             {
                 NumberOfFullInventoryBoxes++;
-                InventoryBoxes[i].UpdateInventoryBoxItem(itemPurchasedToAdd, itemPurchasedToAdd.ItemIcon);
+                InventoryBoxes[i].ChangeInventoryBoxStoredItem(itemPurchasedToAdd, itemPurchasedToAdd.ItemIcon);
                 Shop.OnBuyingItem(InventoryBoxes[i]);
 
                 Debug.Log("Add " + itemPurchasedToAdd.ItemName + " to inventory");

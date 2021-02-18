@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRessources : MonoBehaviour
+public class PlayerRessourcesHandler : MonoBehaviour
 {
     [Header("PLAYER SHOP")]
     [SerializeField] private OpenCloseShopWindow playerShopWindow;
+    [SerializeField] private Inventory playerInventory;
 
     [Header("PLAYER RESSOURCES")]
     [SerializeField] private float amountOfPlayerRessources = 500;
 
     public OpenCloseShopWindow PlayerShopWindow { get => playerShopWindow; set => playerShopWindow = value; }
+    public Inventory PlayerInventory { get => playerInventory; set => playerInventory = value; }
 
     void Start()
     {

@@ -1,29 +1,58 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MiniMapMovementHandler : MonoBehaviour, IPointerClickHandler
+public class MiniMapMovementHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IBeginDragHandler,  IEndDragHandler
 {
     //Drag Orthographic top down camera here
     [SerializeField] private Transform player;
     [SerializeField] private Camera miniMapCamera;
     [SerializeField] private GameObject movementFeedbackToInstantiate;
 
+    private Vector2 localCursor;
+    private RaycastHit miniMapHit;
+
+    public bool isDragging = false;
+
+    private CharacterController PlayerController => player.GetComponent<CharacterController>();
+    private CameraController PlayerCameraController => player.GetComponent<CharacterController>().CharacterCamera.GetComponent<CameraController>();
+
+    private bool cameraWasLocked;
+
     void Update()
     {
-        player.GetComponent<CharacterController>().HandleMotionAnimation();
-        player.GetComponent<CharacterController>().DebugPathing(player.GetComponent<CharacterController>().MyLineRenderer);
+        PlayerController.HandleMotionAnimation();
+        PlayerController.DebugPathing(player.GetComponent<CharacterController>().MyLineRenderer);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    #region Pointer events
+    public void OnPointerDown(PointerEventData eventData)
     {
-        Vector2 localCursor;
+        if (PlayerCameraController.CameraIsLocked)
+        {
+            cameraWasLocked = true;
+            PlayerCameraController.CameraLockState = CameraLockState.Unlocked;
+        }
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RawImage>().rectTransform, eventData.pressPosition, eventData.pressEventCamera, out localCursor))
+        if (isDragging) return;
+
+        RaycastToMiniMap(eventData);
+    }
+
+    public void OnPointerUp(PointerEventData requiredEventData)
+    {
+        if (cameraWasLocked)
+        {
+            PlayerCameraController.CameraLockState = CameraLockState.Locked;
+            cameraWasLocked = false;
+        }
+    }
+    #endregion
+
+    #region Functions helping to get a position from the minimap
+    private void RaycastToMiniMap(PointerEventData requiredEventData)
+    {
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RawImage>().rectTransform, requiredEventData.position, requiredEventData.pressEventCamera, out localCursor))
         {
             Texture tex = GetComponent<RawImage>().texture;
             Rect r = GetComponent<RawImage>().rectTransform.rect;
@@ -38,30 +67,56 @@ public class MiniMapMovementHandler : MonoBehaviour, IPointerClickHandler
 
             localCursor = new Vector2(recalcX, recalcY);
 
-            if (UtilityClass.LeftClickIsPressedOnUIElement(eventData))
-            {
-                Debug.Log("LETF CLICK ON MAP");
-            }
+            ConvertAPointFromMiniMapToWorldSpace(localCursor, requiredEventData);
 
-            if (UtilityClass.RightClickIsPressedOnUIElement(eventData))
-            {
-                CastMiniMapRayToWorld(localCursor);
-                Debug.Log("RIGHT CLICK ON MAP");
-            }
-            
+            Debug.DrawRay(miniMapCamera.transform.position, miniMapHit.point, Color.red, 0.5f);
         }
     }
 
-    private void CastMiniMapRayToWorld(Vector2 localCursor)
+    private void ConvertAPointFromMiniMapToWorldSpace(Vector2 localCursor, PointerEventData requiredEventData)
     {
         Ray miniMapRay = miniMapCamera.ScreenPointToRay(new Vector2(localCursor.x * miniMapCamera.pixelWidth, localCursor.y * miniMapCamera.pixelHeight));
 
-        if (Physics.Raycast(miniMapRay, out RaycastHit miniMapHit, Mathf.Infinity))
+        if (Physics.Raycast(miniMapRay, out miniMapHit, Mathf.Infinity))
         {
             //Debug.Log("Object touched by the character controller raycast " + miniMapHit.collider.gameObject);
 
-            player.GetComponent<CharacterController>().SetNavMeshDestinationWithRayCast(miniMapRay);
-            GameObject go = Instantiate(movementFeedbackToInstantiate, miniMapHit.point, Quaternion.identity);
+            if (UtilityClass.LeftClickIsPressedOnUIElement(requiredEventData))
+            {
+                Debug.Log("LETF CLICK ON MAP");
+
+                PlayerCameraController.MoveCameraToASpecificMiniMapPosition(miniMapHit.point);
+            }
+
+            if (UtilityClass.RightClickIsPressedOnUIElement(requiredEventData))
+            {
+                Debug.Log("RIGHT CLICK ON MAP");
+
+                PlayerController.SetNavMeshDestinationWithRayCast(miniMapRay);
+                GameObject go = Instantiate(movementFeedbackToInstantiate, miniMapHit.point, Quaternion.identity);
+            }
         }
     }
+    #endregion
+
+    #region OnDrag events
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (eventData.IsPointerMoving() && UtilityClass.LeftClickIsPressedOnUIElement(eventData))
+        {
+            eventData.Use();
+            RaycastToMiniMap(eventData);
+        }
+    }
+
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+    {
+        isDragging = false;
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        isDragging = true;
+    }
+    #endregion
 }

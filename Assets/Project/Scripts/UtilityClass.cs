@@ -64,4 +64,18 @@ public static class UtilityClass
         else return false;
     }
     #endregion
+
+    #region Inputs pressure and hold checker
+    public static bool HasKeyBeenPressed(KeyCode key)
+    {
+        if (Input.GetKeyDown(key)) return true;
+        else return false;
+    }
+
+    public static bool iSKeyMaintained(KeyCode key)
+    {
+        if (Input.GetKey(key)) return true;
+        else return false;
+    }
+    #endregion
 }

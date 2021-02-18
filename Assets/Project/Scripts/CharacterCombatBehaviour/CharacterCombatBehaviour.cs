@@ -7,7 +7,7 @@ enum CombatAttackType { Melee, Ranged }
 
 public class CharacterCombatBehaviour : MonoBehaviour
 {
-    [Header("TARGETS")]
+    [Header("TARGETS INFORMATIONS")]
     [SerializeField] private Transform targetedEnemy; //Est en publique pour debug
     [SerializeField] private Transform knownTarget;
 
@@ -21,7 +21,8 @@ public class CharacterCombatBehaviour : MonoBehaviour
     [SerializeField] private bool canPerformAttack = true;
 
     RaycastHit cursorHit;
-    Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
+    Ray RayFromMainCameraToMouseScreenPosition => Camera.main.ScreenPointToRay(Input.mousePosition);
+
     private CursorHandler CursorHandler => GetComponent<CursorHandler>();
     public Outline CharacterOutline { get => GetComponent<Outline>(); }
 
@@ -55,7 +56,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
     protected virtual void Update()
     {
-        SetDynamicCursorAppearance();
+        SetCursorAppearance();
 
         if (CharacterStats.IsDead)
         {
@@ -63,16 +64,16 @@ public class CharacterCombatBehaviour : MonoBehaviour
             return;
         }
 
-        SetTargetOnMouseClickButton();
+        SetTargetOnMouseClick();
 
-        MoveTowardsExistingTargetOrPerformAttack();
+        MoveTowardsAnExistingTarget();
     }
 
-    void SetDynamicCursorAppearance()
+    void SetCursorAppearance()
     {
         if (CharacterController.CursorIsHoveringMiniMap) return;
 
-        if (Physics.Raycast(RayFromCameraToMousePosition, out cursorHit, Mathf.Infinity))
+        if (Physics.Raycast(RayFromMainCameraToMouseScreenPosition, out cursorHit, Mathf.Infinity))
         {
             if (cursorHit.collider != null)
             {
@@ -84,11 +85,11 @@ public class CharacterCombatBehaviour : MonoBehaviour
                     if (knownTargetStats.TypeOfUnit == TypeOfUnit.Ennemy)
                     {
                         CursorHandler.SetCursorToAttackAppearance();
-                        CursorHandler.ActivateOutlineOnOver(KnownTarget.GetComponent<Outline>(), Color.red);
+                        CursorHandler.ActivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>(), Color.red);
                     }
                     else if (knownTargetStats.TypeOfUnit == TypeOfUnit.Ally)
                     {
-                        CursorHandler.ActivateOutlineOnOver(KnownTarget.GetComponent<Outline>(), Color.blue);
+                        CursorHandler.ActivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>(), Color.blue);
                     }
                 }
                 else if (cursorHit.collider.GetComponent<Stats>() == null || TargetIsNeitherAnEnnemyNorAnAlly)
@@ -97,7 +98,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
                     if (KnownTarget != null)
                     {
-                        CursorHandler.DeactivateOutlineOnOver(KnownTarget.GetComponent<Outline>());
+                        CursorHandler.DeactivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>());
                         KnownTarget = null;
                     }
                 }
@@ -105,17 +106,17 @@ public class CharacterCombatBehaviour : MonoBehaviour
         }
     }
 
-    void SetTargetOnMouseClickButton()
+    void SetTargetOnMouseClick()
     {
         if (UtilityClass.RightClickIsPressed())
         {
-            if (Physics.Raycast(RayFromCameraToMousePosition, out RaycastHit hit, Mathf.Infinity))
+            if (Physics.Raycast(RayFromMainCameraToMouseScreenPosition, out RaycastHit hit, Mathf.Infinity))
             {
-                if (hit.collider.CompareTag("Enemy"))
+                if (hit.collider.GetComponent<Stats>() != null && hit.collider.GetComponent<Stats>().TypeOfUnit == TypeOfUnit.Ennemy)
                 {
                     TargetedEnemy = hit.collider.transform;
                 }
-                else if (!hit.collider.CompareTag("Enemy"))
+                else
                 {
                     TargetedEnemy = null;
                     CharacterController.Agent.isStopped = false;
@@ -125,7 +126,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
         }
     }
 
-    void MoveTowardsExistingTargetOrPerformAttack()
+    void MoveTowardsAnExistingTarget()
     {
         if (TargetedEnemy != null)
         {
@@ -142,22 +143,28 @@ public class CharacterCombatBehaviour : MonoBehaviour
             {
                 Debug.Log("Close enough to target");
                 CharacterController.Agent.isStopped = true;
+                CharacterController.Agent.stoppingDistance = CharacterStats.AttackRange;
             }
 
-            if (Vector3.Distance(transform.position, TargetedEnemy.position) <= CharacterStats.AttackRange && CanPerformAttack)
-            {
-                CharacterController.Agent.isStopped = true;
+            PerformAnAttack();
+        }
+    }
 
-                if (combatAttackType == CombatAttackType.Melee)
-                {
-                    Debug.Log("Melee Attack performed !");
-                    StartCoroutine(AttackInterval(combatAttackType));
-                }
-                else if (combatAttackType == CombatAttackType.Ranged)
-                {
-                    Debug.Log("Ranged Attack performed !");
-                    StartCoroutine(AttackInterval(combatAttackType));
-                }
+    private void PerformAnAttack()
+    {
+        if (Vector3.Distance(transform.position, TargetedEnemy.position) <= CharacterStats.AttackRange && CanPerformAttack)
+        {
+            CharacterController.Agent.isStopped = true;
+
+            if (combatAttackType == CombatAttackType.Melee)
+            {
+                Debug.Log("Melee Attack performed !");
+                StartCoroutine(AttackInterval(combatAttackType));
+            }
+            else if (combatAttackType == CombatAttackType.Ranged)
+            {
+                Debug.Log("Ranged Attack performed !");
+                StartCoroutine(AttackInterval(combatAttackType));
             }
         }
     }

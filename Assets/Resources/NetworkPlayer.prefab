@@ -221,7 +221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 9098752904120244169}
   miniMapCamera: {fileID: 0}
-  movementFeedbackToInstantiate: {fileID: 7402422878013587743, guid: 9abd6edebbd87e946ab056b216e3b5dd, type: 3}
+  movementFeedbackToInstantiate: {fileID: 7402422878013587743, guid: f40d96916f2427a4ca6960735a860773, type: 3}
+  isDragging: 0
 --- !u!225 &241280256
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2086,7 +2087,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 9098752904120244169}
-  playerInventory: {fileID: 2165404075355269515}
   shopActions: []
 --- !u!114 &3362241144804313441
 MonoBehaviour:
@@ -2394,7 +2394,6 @@ MonoBehaviour:
   - {fileID: 6932315933098167636}
   - {fileID: 488634772512863338}
   - {fileID: 2169255580391147158}
-  NumberOfFullInventoryBoxes: 0
 --- !u!114 &6792929935961594860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3252,7 +3251,7 @@ MonoBehaviour:
   baseMagicDamage: 50
   currentAttackDamage: 0
   currentMagicDamage: 0
-  attackRange: 3.5
+  attackRange: 1.25
   baseAttackSpeed: 0.625
   currentAttackSpeed: 0
   maxAttackSpeed: 2
@@ -3283,7 +3282,7 @@ MonoBehaviour:
   knownTarget: {fileID: 0}
   basicRangedAttackEmiterPos: {fileID: 6229308141109691039}
   basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
-  combatAttackType: 1
+  combatAttackType: 0
   rotateSpeedBeforeAttacking: 0.075
   canPerformAttack: 1
 --- !u!114 &3521843888695352992
@@ -3373,6 +3372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShopWindow: {fileID: 2930604010420234621}
+  playerInventory: {fileID: 2165404075355269515}
   amountOfPlayerRessources: 500
 --- !u!114 &6589107790219068035
 MonoBehaviour:

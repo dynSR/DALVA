@@ -34,9 +34,10 @@ public class CharacterController : MonoBehaviourPun
         }
     }
 
+    public Camera CharacterCamera { get { return characterCamera; } private set { characterCamera = value; } }
     private Stats CharacterStats => GetComponent<Stats>();
     private CharacterCombatBehaviour CharacterCombatBehaviour => GetComponent<CharacterCombatBehaviour>();
-    private PlayerRessources PlayerRessources => GetComponent<PlayerRessources>();
+    private PlayerRessourcesHandler PlayerRessources => GetComponent<PlayerRessourcesHandler>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public GameObject PathLandmark { get => pathLandmark; }
     public float InitialSpeed { get; private set; }
@@ -46,6 +47,7 @@ public class CharacterController : MonoBehaviourPun
 
     private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && PlayerRessources.PlayerShopWindow.IsShopWindowOpen;
     public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
+
 
     protected virtual void Awake()
     {
@@ -59,7 +61,7 @@ public class CharacterController : MonoBehaviourPun
 
         if (CharacterStats.IsDead) return;
 
-        if (Input.GetMouseButton(1))
+        if (UtilityClass.RightClickIsHeld())
         {
             if (CursorIsHoveringMiniMap) return;
 
@@ -133,9 +135,13 @@ public class CharacterController : MonoBehaviourPun
     }
     #endregion
 
+    #region Network Needs
     public void InstantiateCharacterCameraAtStartOfTheGame()
     {
-        GameObject cameraInstance = Instantiate(characterCamera.gameObject, characterCamera.transform.position, characterCamera.transform.rotation) as GameObject;
+        GameObject cameraInstance = Instantiate(CharacterCamera.gameObject, CharacterCamera.transform.position, CharacterCamera.transform.rotation) as GameObject;
         cameraInstance.GetComponent<CameraController>().TargetToFollow = this.transform;
+
+        CharacterCamera = cameraInstance.GetComponent<Camera>();
     }
+    #endregion
 }

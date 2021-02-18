@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CameraLockState { Locked, Unlocked }
+
 public class CameraController : MonoBehaviour
 {
-    private enum CameraLockState { Lock, Unlocked }
-    [SerializeField] private CameraLockState cameraLockState;
+    [Header("LOCK STATE & INPUTS")]
     [SerializeField] private KeyCode changeCameraLockStateKey;
     [SerializeField] private KeyCode cameraFocusOnTargetKey;
+    [SerializeField] private CameraLockState cameraLockState;
 
     [Header("CAMERA LOCKED PARAMETERS")]
-    [SerializeField] private float screenEdgesThreshold = 50;
-    [SerializeField] private float cameraMovementSpeed = 15;
+    [SerializeField] private float screenEdgesThreshold = 35f;
+    [SerializeField] private float cameraMovementSpeed = 15f;
     private Vector3 cameraPosition;
 
     [Header("CAMERA LOCKED PARAMETERS")]
@@ -19,22 +21,23 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraFollowingSpeed;
     [SerializeField] private Vector3 cameraOffset;
 
-    private bool CameraIsLocked => cameraLockState == CameraLockState.Lock;
-    private bool CameraIsUnlocked => cameraLockState == CameraLockState.Unlocked;
+    public bool CameraIsLocked => CameraLockState == CameraLockState.Locked;
+    public bool CameraIsUnlocked => CameraLockState == CameraLockState.Unlocked;
 
     public Transform TargetToFollow { get => targetToFollow; set => targetToFollow = value; }
+    public CameraLockState CameraLockState { get => cameraLockState; set => cameraLockState = value; }
 
     void Update()
     {
-        if(HasKeyBeenPressed(changeCameraLockStateKey))
+        if(UtilityClass.HasKeyBeenPressed(changeCameraLockStateKey))
         {
-            switch (cameraLockState)
+            switch (CameraLockState)
             {
-                case CameraLockState.Lock:
-                    cameraLockState = CameraLockState.Unlocked;
+                case CameraLockState.Locked:
+                    CameraLockState = CameraLockState.Unlocked;
                     break;
                 case CameraLockState.Unlocked:
-                    cameraLockState = CameraLockState.Lock;
+                    CameraLockState = CameraLockState.Locked;
                     break;
                 default:
                     break;
@@ -43,29 +46,31 @@ public class CameraController : MonoBehaviour
 
         if (CameraIsLocked)
         {
-            //Debug.Log("Camera is locked and it's following a target");
+            Debug.Log("Camera is locked and it's following a target");
             FollowATarget(TargetToFollow);
         }
-            
         else if (CameraIsUnlocked)
         {
-            //Debug.Log("Camera is unlocked and it's scrolling with edges or directionnal arrows");
+            Debug.Log("Camera is unlocked and it's scrolling with edges or directionnal arrows");
             MoveCameraWithDirectionnalArrows();
-            MoveCameraWithMouse();
+            MoveCameraOnHittingScreenEdges();
 
-            if (iSKeyMaintained(cameraFocusOnTargetKey))
+            if (UtilityClass.iSKeyMaintained(cameraFocusOnTargetKey))
             {
                 FollowATarget(TargetToFollow);
             }
         }
     }
 
+    #region Camera Behaviours
     void FollowATarget(Transform targetToFollow)
     {
         transform.position = Vector3.Lerp(transform.position, new Vector3(targetToFollow.position.x + cameraOffset.x, targetToFollow.position.y + cameraOffset.y, targetToFollow.position.z + cameraOffset.z), cameraFollowingSpeed);
     }
+    #endregion
 
-    void MoveCameraWithMouse()
+    #region Camera movements with directionnal arrows and mouse cursor (on hitting screen edges)
+    void MoveCameraOnHittingScreenEdges()
     {
         cameraPosition = transform.position;
 
@@ -91,6 +96,7 @@ public class CameraController : MonoBehaviour
         }
 
         transform.position = cameraPosition;
+        cameraPosition.Normalize();
     }
 
     void MoveCameraWithDirectionnalArrows()
@@ -98,38 +104,35 @@ public class CameraController : MonoBehaviour
         cameraPosition = transform.position;
 
         // move on +X axis
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (UtilityClass.iSKeyMaintained(KeyCode.RightArrow))
         {
             cameraPosition.x += cameraMovementSpeed * Time.deltaTime;
         }
         // move on -X axis
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (UtilityClass.iSKeyMaintained(KeyCode.LeftArrow))
         {
             cameraPosition.x -= cameraMovementSpeed * Time.deltaTime;
         }
         // move on +Z axis
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (UtilityClass.iSKeyMaintained(KeyCode.UpArrow))
         {
             cameraPosition.z += cameraMovementSpeed * Time.deltaTime;
         }
         // move on -Z axis
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (UtilityClass.iSKeyMaintained(KeyCode.DownArrow))
         {
             cameraPosition.z -= cameraMovementSpeed * Time.deltaTime;
         }
 
         transform.position = cameraPosition;
+        cameraPosition.Normalize();
     }
+    #endregion
 
-    bool HasKeyBeenPressed(KeyCode key)
+    #region Minimap Camera movements
+    public void MoveCameraToASpecificMiniMapPosition(Vector3 pos)
     {
-        if (Input.GetKeyDown(key)) return true;
-        else return false;
+       transform.position = new Vector3(pos.x + cameraOffset.x, transform.position.y, pos.z + cameraOffset.z);
     }
-
-    bool iSKeyMaintained(KeyCode key)
-    {
-        if (Input.GetKey(key)) return true;
-        else return false;
-    }
+    #endregion
 }

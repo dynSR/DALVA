@@ -13,7 +13,6 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
     private Inventory ParentPlayerInventory => ParentInventoryBox.PlayerInventory;
     private Item ItemInParentInventoryBox => ParentInventoryBox.StoredItem;
     private Transform ToggleChildGameObject => transform.GetChild(0).transform;
-    private bool LeftClickIsPressed => Input.GetMouseButtonDown(0);
 
     public bool IsSelected { get => isSelected; set => isSelected = value; }
 

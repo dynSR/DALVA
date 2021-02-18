@@ -28,14 +28,14 @@ public class CursorHandler : MonoBehaviour
         Cursor.SetCursor(AttackCursorIcon, Vector2.zero, CursorMode.Auto);
     }
 
-    public void ActivateOutlineOnOver(Outline outlineFound, Color outlineColor)
+    public void ActivateTargetOutlineOnHover(Outline targetOutlineFound, Color newOutlineColor)
     {
-        outlineFound.enabled = true;
-        outlineFound.OutlineColor = outlineColor;
+        targetOutlineFound.enabled = true;
+        targetOutlineFound.OutlineColor = newOutlineColor;
     }
 
-    public void DeactivateOutlineOnOver(Outline outlineFound)
+    public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
     {
-        outlineFound.enabled = false;
+        targetOutlineFound.enabled = false;
     }
 }

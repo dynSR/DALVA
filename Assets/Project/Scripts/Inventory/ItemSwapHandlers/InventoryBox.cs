@@ -5,34 +5,33 @@ using UnityEngine.UI;
 
 public class InventoryBox : MonoBehaviour
 {
-    private int transactionID;
-    private Inventory Inventory => GetComponentInParent<Inventory>();
+    private int storedItemTransactionID;
+    public Inventory PlayerInventory { get => GetComponentInParent<Inventory>(); }
     public Item StoredItem { get; set; }
-    private Image ItemIcon => transform.GetChild(0).GetComponent<Image>();
+    private Image StoredItemIcon => transform.GetChild(0).GetComponent<Image>();
     private CanvasGroup CanvasGrp => transform.GetChild(0).GetComponent<CanvasGroup>();
-    public int TransactionID { get => transactionID; set => transactionID = value; }
-    public Inventory PlayerInventory { get => Inventory; }
+    public int StoredItemTransactionID { get => storedItemTransactionID; set => storedItemTransactionID = value; }
 
     private void Start()
     {
         CanvasGrp.alpha = 0;
     }
 
-    public void UpdateInventoryBoxItem(Item newItem, Sprite newItemIcon)
+    public void ChangeInventoryBoxStoredItem(Item newItemToStore, Sprite newStoredItemIcon)
     {
-        StoredItem = newItem;
+        StoredItem = newItemToStore;
         StoredItem.InventoryBox = this;
 
         CanvasGrp.alpha = 1;
-        ItemIcon.sprite = newItemIcon;
+        StoredItemIcon.sprite = newStoredItemIcon;
     }
 
-    public void ResetInventoryBoxItem(InventoryBox inventoryBoxToReset)
+    public void ResetInventoryBoxStoredItem(InventoryBox inventoryBoxToReset)
     {
         inventoryBoxToReset.StoredItem.InventoryBox = null;
         inventoryBoxToReset.StoredItem = null;
 
         inventoryBoxToReset.CanvasGrp.alpha = 0;
-        inventoryBoxToReset.ItemIcon.sprite = null;
+        inventoryBoxToReset.StoredItemIcon.sprite = null;
     }
 }

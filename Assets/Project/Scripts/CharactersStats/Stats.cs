@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterClass { Warrior, Ranger, Mage }
+public enum CharacterClass { Warrior, Prowler, Mage }
 public enum TypeOfUnit { Self, Ennemy, Ally }
 
 public class Stats : MonoBehaviour, IDamageable, IKillable
@@ -60,6 +60,10 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     #endregion
 
     #region Offensive Stats
+    public float AttackRange { get; private set; }
+    private float meleeAttackRange = 1.25f;
+    private float rangedAttackRange = 4.5f;
+
     [Header("BASE DAMAGE")]
     [SerializeField] private float baseAttackDamage;
     [SerializeField] private float baseMagicDamage;
@@ -70,17 +74,11 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     public float CurrentMagicDamage { get; set; }
     #endregion
 
-    [Header("ATTACK RANGE")]
-    [SerializeField] private float attackRange;
-    #region AttackRange Public Variables
-    public float AttackRange { get => attackRange; set => attackRange = value; }
-    #endregion
-
     [Header("ATTACK SPEED")]
     [SerializeField] private float baseAttackSpeed;
     [SerializeField] private float currentAttackSpeed; //Set to private after Debug
     [SerializeField] private float maxAttackSpeed;
-    [SerializeField] private float additiveAttackSpeed;//Set to private after Debug
+    [SerializeField] private float additiveAttackSpeed; //Set to private after Debug
     #region Attack Speed Public Variables
     public float AdditiveAttackSpeed { get => additiveAttackSpeed; set => additiveAttackSpeed = value; }
     public float CurrentAttackSpeed
@@ -176,6 +174,27 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
         GetAllCharacterAbilities();
 
         #region Set Base Character Stats at Start of the game
+
+        switch (characterClass)
+        {
+            case CharacterClass.Warrior:
+                AttackRange = meleeAttackRange;
+                if (CombatBehaviour != null)
+                    SetCombatAttackTypeAtStart(CombatAttackType.MeleeCombat);
+                break;
+            case CharacterClass.Prowler:
+                AttackRange = rangedAttackRange;
+                SetCombatAttackTypeAtStart(CombatAttackType.RangedCombat);
+                break;
+            case CharacterClass.Mage:
+                AttackRange = rangedAttackRange;
+                if (CombatBehaviour != null)
+                    SetCombatAttackTypeAtStart(CombatAttackType.RangedCombat);
+                break;
+            default:
+                break;
+        }
+
         //CARACTERISTICS
         //- Health
         SetHealthAtStart(MaxHealth);
@@ -208,6 +227,11 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     {
         if (deathHUD != null)
             deathHUD.SetActive(false);
+    }
+
+    void OnEnable()
+    {
+        
     }
 
     protected virtual void Update()
@@ -278,6 +302,12 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
             CharacterAbilities.Add(abilityFound);
         }
     }
+
+    private void SetCombatAttackTypeAtStart(CombatAttackType combatAttackType)
+    {
+        if (CombatBehaviour != null)
+            CombatBehaviour.CombatAttackType = combatAttackType;
+    }
     #endregion
 
     #region Take Damage Section
@@ -285,10 +315,12 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     {
         if (attackDamageTaken > 0)
         {
+            bool isAttackCritical = false;
             float randomValue = Random.Range(0, 100);
 
             if (randomValue <= criticalStrikeChance)
             {
+                isAttackCritical = true;
                 attackDamageTaken *= criticalStrikeMultiplier / 100;
             }
 
@@ -303,10 +335,12 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
             {
                 attackDamageTaken *= 2 - 100 / (100 - CurrentArmor);
             }
-            
-            //attackDamageTaken *= 100 / (100 + (/*( */CurrentArmor /* - armorFlatReduction )*/ * (armorPenetration / 100)));
 
-            DamagePopUp.Create(InFrontOfCharacter, damagePopUp, attackDamageTaken, DamageType.Physical);
+            //attackDamageTaken *= 100 / (100 + (/*( */CurrentArmor /* - armorFlatReduction )*/ * (armorPenetration / 100)));
+            if (isAttackCritical)
+                DamagePopupHandler.Create(InFrontOfCharacter, damagePopUp, attackDamageTaken, DamageType.Critical);
+            else
+                DamagePopupHandler.Create(InFrontOfCharacter, damagePopUp, attackDamageTaken, DamageType.Physical);
         }
 
         if (magicDamageTaken > 0)
@@ -321,7 +355,7 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
             if (attackDamageTaken > 0) 
                 StartCoroutine(CreateDamagePopUpWithDelay(0.15f, magicDamageTaken, DamageType.Magic));
             else
-                DamagePopUp.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
+                DamagePopupHandler.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
         }
         else if (magicDamageTaken <= 0)
         {
@@ -330,7 +364,7 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
             if (attackDamageTaken > 0)
                 StartCoroutine(CreateDamagePopUpWithDelay(0.15f, magicDamageTaken, DamageType.Magic));
             else
-                DamagePopUp.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
+                DamagePopupHandler.Create(InFrontOfCharacter, damagePopUp, magicDamageTaken, DamageType.Magic);
         }
 
         CurrentHealth -= (int)attackDamageTaken + (int)magicDamageTaken;
@@ -342,7 +376,7 @@ public class Stats : MonoBehaviour, IDamageable, IKillable
     {
         yield return new WaitForSeconds(delay);
 
-        DamagePopUp.Create(InFrontOfCharacter, damagePopUp, damageTaken, damageType);
+        DamagePopupHandler.Create(InFrontOfCharacter, damagePopUp, damageTaken, damageType);
         Debug.Log(gameObject.name + " Life is : " + CurrentHealth);
     }
     #endregion

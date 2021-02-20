@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Linq.Expressions;
 using UnityEngine;
-using UnityEngine.AI;
 
-enum CombatAttackType { Melee, Ranged }
+public enum CombatAttackType { MeleeCombat, RangedCombat }
 
 public class CharacterCombatBehaviour : MonoBehaviour
 {
@@ -16,7 +14,6 @@ public class CharacterCombatBehaviour : MonoBehaviour
     [SerializeField] private GameObject basicRangedAttackProjectile;
 
     [Header("COMBAT PARAMETERS")]
-    [SerializeField] private CombatAttackType combatAttackType;
     [SerializeField] private float rotateSpeedBeforeAttacking = 0.075f;
     [SerializeField] private bool canPerformAttack = true;
 
@@ -35,6 +32,8 @@ public class CharacterCombatBehaviour : MonoBehaviour
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
 
     private bool TargetIsNeitherAnEnnemyNorAnAlly => cursorHit.collider.GetComponent<Stats>().TypeOfUnit != TypeOfUnit.Ennemy || cursorHit.collider.GetComponent<Stats>().TypeOfUnit != TypeOfUnit.Ally;
+
+    public CombatAttackType CombatAttackType { get; set; }
 
     private void Start()
     {
@@ -69,6 +68,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
         MoveTowardsAnExistingTarget();
     }
 
+    #region Set cursor appearance when its hovering an entity
     void SetCursorAppearance()
     {
         if (CharacterController.CursorIsHoveringMiniMap) return;
@@ -105,7 +105,9 @@ public class CharacterCombatBehaviour : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Set player target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
         if (UtilityClass.RightClickIsPressed())
@@ -125,7 +127,9 @@ public class CharacterCombatBehaviour : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Attacking behaviour from moving to a target to performing an attack
     void MoveTowardsAnExistingTarget()
     {
         if (TargetedEnemy != null)
@@ -156,29 +160,29 @@ public class CharacterCombatBehaviour : MonoBehaviour
         {
             CharacterController.Agent.isStopped = true;
 
-            if (combatAttackType == CombatAttackType.Melee)
+            if (CombatAttackType == CombatAttackType.MeleeCombat)
             {
                 Debug.Log("Melee Attack performed !");
-                StartCoroutine(AttackInterval(combatAttackType));
+                StartCoroutine(AttackInterval(CombatAttackType));
             }
-            else if (combatAttackType == CombatAttackType.Ranged)
+            else if (CombatAttackType == CombatAttackType.RangedCombat)
             {
                 Debug.Log("Ranged Attack performed !");
-                StartCoroutine(AttackInterval(combatAttackType));
+                StartCoroutine(AttackInterval(CombatAttackType));
             }
         }
     }
 
     IEnumerator AttackInterval(CombatAttackType attackType)
     {
-        if (attackType == CombatAttackType.Melee)
+        if (attackType == CombatAttackType.MeleeCombat)
         {
             CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
             CharacterAnimator.SetBool("MeleeBasicAttack", true);
             //MeleeAttack(); Debug without animation
             CanPerformAttack = false;
         }
-        else if (attackType == CombatAttackType.Ranged)
+        else if (attackType == CombatAttackType.RangedCombat)
         {
             CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
             CharacterAnimator.SetBool("RangedBasicAttack", true);
@@ -188,18 +192,20 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(1 / CharacterStats.CurrentAttackSpeed);
 
-        if (attackType == CombatAttackType.Melee)
+        if (attackType == CombatAttackType.MeleeCombat)
         {
             CharacterAnimator.SetBool("MeleeBasicAttack", false);
             CanPerformAttack = true;
         }
-        else if (attackType == CombatAttackType.Ranged)
+        else if (attackType == CombatAttackType.RangedCombat)
         {
             CharacterAnimator.SetBool("RangedBasicAttack", false);
             CanPerformAttack = true;
         }
     }
+    #endregion
 
+    #region Behaviours of every type of attack - Melee / Ranged
     public void MeleeAttack()
     {
         if (TargetedEnemy != null)
@@ -224,4 +230,5 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
         CanPerformAttack = true;
     }
+    #endregion
 }

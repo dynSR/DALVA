@@ -4,8 +4,6 @@ using Photon.Pun;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(LineRenderer))]
-//Enemies + players inherits from
 public class CharacterController : MonoBehaviourPun
 {
     Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -15,13 +13,13 @@ public class CharacterController : MonoBehaviourPun
     [SerializeField] private Camera characterCamera;
     [SerializeField] private float rotateSpeedMovement = 0.1f;
     [SerializeField] private bool isPlayerInHisBase = true;
-    RaycastHit raycastHit;
+
     private float motionSmoothTime = .1f;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
-    [SerializeField] private GameObject pathLandmark;
-    public LineRenderer MyLineRenderer => GetComponent<LineRenderer>();
+
+    public LineRenderer MyLineRenderer => GetComponentInChildren<LineRenderer>();
     [HideInInspector] public Animator CharacterAnimator
     {
         get => transform.GetChild(0).GetComponent<Animator>();
@@ -39,7 +37,6 @@ public class CharacterController : MonoBehaviourPun
     private CharacterCombatBehaviour CharacterCombatBehaviour => GetComponent<CharacterCombatBehaviour>();
     private PlayerRessourcesHandler PlayerRessources => GetComponent<PlayerRessourcesHandler>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
-    public GameObject PathLandmark { get => pathLandmark; }
     public float InitialSpeed { get; private set; }
     public float CurrentSpeed { get => Agent.speed ; set => Agent.speed = value; }
     public float RotateVelocity { get; set; }

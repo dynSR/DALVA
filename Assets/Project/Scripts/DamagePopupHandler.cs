@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
-public enum DamageType { Physical, Magic }
-public class DamagePopUp : MonoBehaviour
+public enum DamageType { Physical, Magic, Critical }
+public class DamagePopupHandler : MonoBehaviour
 {
     private DamageType damageType;
 
@@ -16,17 +16,18 @@ public class DamagePopUp : MonoBehaviour
     [SerializeField] private float desappearSpeed = 3f;
 
     [Header("COLORS PARAMETERS")]
-    [HideInInspector] public Color textColor;
+    private Color textColor;
     [SerializeField] private Color physicalDamageColor;
     [SerializeField] private Color magicDamageColor;
+    [SerializeField] private Color criticalDamageColor;
 
     private TextMeshPro DamageValueText => GetComponent<TextMeshPro>();
 
-    public static DamagePopUp Create(Vector3 position, GameObject damagePopUpGameObject, float damageValueToGet, DamageType damageType)
+    public static DamagePopupHandler Create(Vector3 position, GameObject damagePopUpGameObject, float damageValueToGet, DamageType damageType)
     {
         GameObject damagePopUpInstance = Instantiate(damagePopUpGameObject, position, damagePopUpGameObject.transform.rotation);
 
-        DamagePopUp damagePopUp = damagePopUpInstance.GetComponent<DamagePopUp>();
+        DamagePopupHandler damagePopUp = damagePopUpInstance.GetComponent<DamagePopupHandler>();
 
         damagePopUp.Setup(damageValueToGet, damageType);
 
@@ -35,7 +36,7 @@ public class DamagePopUp : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(DestroyAfterFading(damagePopUpLifeTime, desappearSpeed,  gameObject));
+        StartCoroutine(DestroyAfterFading(damagePopUpLifeTime, desappearSpeed, gameObject));
     }
 
     void Update()
@@ -52,7 +53,10 @@ public class DamagePopUp : MonoBehaviour
 
     private void Setup(float damageAmount, DamageType damageType)
     {
-        DamageValueText.SetText(damageAmount.ToString("0"));
+        if(damageType != DamageType.Critical)
+            DamageValueText.SetText(damageAmount.ToString("0"));
+        else
+            DamageValueText.SetText(damageAmount.ToString("0"));
 
         switch (damageType)
         {
@@ -62,6 +66,10 @@ public class DamagePopUp : MonoBehaviour
                 break;
             case DamageType.Magic:
                 textColor = magicDamageColor;
+                DamageValueText.color = textColor;
+                break;
+            case DamageType.Critical:
+                textColor = criticalDamageColor;
                 DamageValueText.color = textColor;
                 break;
             default:

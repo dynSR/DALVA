@@ -1139,6 +1139,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 215419870293571622, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
+      propertyPath: baseCriticalStrikeChance
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 215419870293571622, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
+      propertyPath: characterClass
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 729445856549019371, guid: e87b545ce4f381a4b8839923fbd74eca, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
@@ -1762,7 +1770,6 @@ MonoBehaviour:
   baseMagicDamage: 0
   currentAttackDamage: 0
   currentMagicDamage: 0
-  attackRange: 0
   baseAttackSpeed: 0
   currentAttackSpeed: 0
   maxAttackSpeed: 0

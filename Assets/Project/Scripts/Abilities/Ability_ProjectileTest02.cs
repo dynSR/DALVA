@@ -14,6 +14,6 @@ public class Ability_ProjectileTest02 : Ability
 
     protected override void Cast()
     {
-        StartCoroutine(ThrowingProjectile.LaunchAProjectile(AbilityPrefab, ThrowingProjectile.AimProjectileEmiterPos, ProjectileType.TravelsForward));
+        StartCoroutine(ThrowingProjectile.LaunchAProjectile(AbilityPrefab, ThrowingProjectile.AimProjectileEmiterPos));
     }
 }

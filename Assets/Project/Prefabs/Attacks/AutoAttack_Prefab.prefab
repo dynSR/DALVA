@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7388069203485908461}
   - component: {fileID: -3229830774968332944}
   - component: {fileID: 7053288636809820628}
-  - component: {fileID: 3689898202148434709}
+  - component: {fileID: -1030543201535758098}
   - component: {fileID: -6234968454031376555}
   - component: {fileID: 1325240136377242355}
   - component: {fileID: -974150223930420383}
@@ -116,7 +116,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3689898202148434709
+--- !u!114 &-1030543201535758098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,11 +125,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7698714164152369823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b184829ca2ac6b4580132ebff094ad5, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a7ae495fec88614fa647b513187a47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileType: 2
   projectileSpeed: 7
   onHitEffect: {fileID: 0}
+  onHitSound: {fileID: 8300000, guid: 50818429f495d8d458d516ffa63a2afb, type: 3}
   projectileSender: {fileID: 0}
   target: {fileID: 0}
   targetStats: {fileID: 0}

@@ -2,17 +2,17 @@
 
 public class MovementSpeedBuff_Test : StatusEffect
 {
-    protected override void ApplyStatusEffectOnTarget(Transform target)
+    protected override void ApplyStatusEffectOnTarget(Transform myTarget)
     {
-        if (GetTargetStatusEffectHandler(target) != null)
+        if (GetTargetStatusEffectHandler(myTarget) != null)
         {
-            if (GetTargetStatusEffectHandler(target).IsDurationOfStatusEffectAlreadyApplied(this)) return;
+            if (GetTargetStatusEffectHandler(myTarget).IsTheDurationOfStatusEffectOver(this)) return;
 
-            base.CheckForExistingStatusEffect(GetTargetStatusEffectHandler(target));
+            base.CheckForExistingStatusEffect(GetTargetStatusEffectHandler(myTarget));
 
-            GetTargetCharacterController(target).CurrentSpeed *= 2;
+            GetTargetCharacterController(myTarget).CurrentMoveSpeed *= 2;
 
-            GetTargetStatusEffectHandler(target).ApplyNewStatusEffectDuration(this);
+            GetTargetStatusEffectHandler(myTarget).ApplyNewStatusEffect(this);
         }
     }
 
@@ -20,10 +20,10 @@ public class MovementSpeedBuff_Test : StatusEffect
     {
         if (GetTargetStatusEffectHandler(Target) != null)
         {
-            if (!DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying) return;
+            if (!ValueAffectedResetsBeforeApplyingStatuEffect) return;
 
-            if (DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying)
-                GetTargetCharacterController(Target).CurrentSpeed = GetTargetCharacterController(Target).InitialSpeed;
+            if (ValueAffectedResetsBeforeApplyingStatuEffect)
+                GetTargetCharacterController(Target).CurrentMoveSpeed = GetTargetCharacterController(Target).InitialMoveSpeed;
         }
     }
 
@@ -36,4 +36,5 @@ public class MovementSpeedBuff_Test : StatusEffect
     {
         base.OnTriggerExit(other);
     }
+
 }

@@ -222,7 +222,6 @@ MonoBehaviour:
   player: {fileID: 9098752904120244169}
   miniMapCamera: {fileID: 0}
   movementFeedbackToInstantiate: {fileID: 7402422878013587743, guid: f40d96916f2427a4ca6960735a860773, type: 3}
-  isDragging: 0
 --- !u!225 &241280256
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2614,7 +2613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6912627807635749411}
   - component: {fileID: 2610882929327348985}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: PathRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2629,7 +2628,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7498716665390200753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9098752904120244169}
@@ -2642,10 +2641,10 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7498716665390200753}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -2654,7 +2653,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d997a4b76a439734ba4d1a3c25d919a2, type: 2}
+  - {fileID: 2100000, guid: 311313efa011949e98b6761d652ad13c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2685,8 +2684,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.0023364485
-        value: 0.2242268
+        time: 0
+        value: 0.020414352
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2694,9 +2693,9 @@ LineRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.9953271
-        value: 0.051546395
-        inSlope: -0.17389932
+        time: 1
+        value: 0
+        inSlope: -0.020414352
         outSlope: 0
         tangentMode: 5
         weightedMode: 0
@@ -3150,9 +3149,9 @@ GameObject:
   - component: {fileID: 9098752904120244168}
   - component: {fileID: 9098752904120244175}
   - component: {fileID: 9098752904120244174}
-  - component: {fileID: 9098752904120244172}
-  - component: {fileID: 215419870293571622}
-  - component: {fileID: 4337655470451834323}
+  - component: {fileID: 4192902304607824270}
+  - component: {fileID: 3161380018397916033}
+  - component: {fileID: 7984953338185516416}
   - component: {fileID: 3521843888695352992}
   - component: {fileID: 9098752904120244179}
   - component: {fileID: 9098752904120244178}
@@ -3244,7 +3243,7 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &9098752904120244172
+--- !u!114 &4192902304607824270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3253,7 +3252,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9098752904120244182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d70889e17adbcaf479a6f883ca6b85e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 2980c5e4a7b4c6146887234aa5151b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   walkableLayer:
@@ -3263,7 +3262,7 @@ MonoBehaviour:
   rotateSpeedMovement: 0.75
   isPlayerInHisBase: 1
   movementFeedback: {fileID: 7402422878013587743, guid: f40d96916f2427a4ca6960735a860773, type: 3}
---- !u!114 &215419870293571622
+--- !u!114 &3161380018397916033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3272,41 +3271,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 9098752904120244182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263c9021fb6eb8140a06658caa215464, type: 3}
+  m_Script: {fileID: 11500000, guid: c3c3a28ebaf2481478529aa57d9b484c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: 
   characterClass: 2
-  typeOfUnit: 2
+  typeOfUnit: 0
   characterAbilities: []
-  maxHealth: 100
+  maxHealth: 500
   currentHealthRegeneration: 0
   currentHealth: 0
-  baseCooldownReduction: 0
-  maxCooldownReduction: 0
+  baseCooldownReduction: 10
+  maxCooldownReduction: 50
   currentCooldownReduction: 0
-  baseArmor: 15
-  baseMagicResistance: 50
-  baseAttackDamage: 50
-  baseMagicDamage: 50
+  baseArmor: 25
+  baseMagicResistance: 25
+  baseAttackDamage: 60
+  baseMagicDamage: 60
   currentAttackDamage: 0
   currentMagicDamage: 0
-  attackRange: 1.25
   baseAttackSpeed: 0.625
   currentAttackSpeed: 0
-  maxAttackSpeed: 2
-  additiveAttackSpeed: 0
-  baseCriticalStrikeChance: 0
+  maxAttackSpeed: 3
+  additiveAttackSpeed: 50
+  baseCriticalStrikeChance: 25
   currentCriticalStrikeChance: 0
-  baseCriticalStrikeDamageMultiplier: 150
-  maxCriticalStrikeDamageMultiplier: 300
-  currentCriticalStrikeDamageMultiplier: 0
   currentArmorPenetration: 0
   currentMagicResistancePenetration: 0
-  timeToRespawn: 1
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  timeToRespawn: 0
+  sourceOfDamage: {fileID: 0}
+  damagePopUp: {fileID: 0}
   deathHUD: {fileID: 0}
---- !u!114 &4337655470451834323
+--- !u!114 &7984953338185516416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3315,14 +3311,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9098752904120244182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 858b7a7920abb674f90d228846cdc4af, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b69fa470f0ae8745a4febad3a1144f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetedEnemy: {fileID: 0}
   knownTarget: {fileID: 0}
   basicRangedAttackEmiterPos: {fileID: 6229308141109691039}
   basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
-  combatAttackType: 0
   rotateSpeedBeforeAttacking: 0.075
   canPerformAttack: 1
 --- !u!114 &3521843888695352992
@@ -4288,9 +4283,6 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
-  - Type: 1
-    SynchronizeType: 1
-    Name: Speed
   - Type: 4
     SynchronizeType: 1
     Name: MeleeBasicAttack

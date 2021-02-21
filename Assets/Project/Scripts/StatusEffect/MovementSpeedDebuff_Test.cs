@@ -6,13 +6,13 @@ public class MovementSpeedDebuff_Test : StatusEffect
     {
         if (GetTargetStatusEffectHandler(target) != null)
         {
-            if (GetTargetStatusEffectHandler(target).IsDurationOfStatusEffectAlreadyApplied(this)) return;
+            if (GetTargetStatusEffectHandler(target).IsTheDurationOfStatusEffectOver(this)) return;
 
             base.CheckForExistingStatusEffect(GetTargetStatusEffectHandler(target));
 
-            GetTargetCharacterController(target).CurrentSpeed /= 2;
+            GetTargetCharacterController(target).CurrentMoveSpeed /= 2;
 
-            GetTargetStatusEffectHandler(target).ApplyNewStatusEffectDuration(this);
+            GetTargetStatusEffectHandler(target).ApplyNewStatusEffect(this);
         }
     }
 
@@ -20,10 +20,10 @@ public class MovementSpeedDebuff_Test : StatusEffect
     {
         if (GetTargetStatusEffectHandler(Target) != null)
         {
-            if (!DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying) return;
+            if (!ValueAffectedResetsBeforeApplyingStatuEffect) return;
 
-            if (DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying)
-                GetTargetCharacterController(Target).CurrentSpeed = GetTargetCharacterController(Target).InitialSpeed;
+            if (ValueAffectedResetsBeforeApplyingStatuEffect)
+                GetTargetCharacterController(Target).CurrentMoveSpeed = GetTargetCharacterController(Target).InitialMoveSpeed;
         }
     }
 

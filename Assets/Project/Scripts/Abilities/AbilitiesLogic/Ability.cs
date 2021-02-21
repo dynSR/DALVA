@@ -15,7 +15,7 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private Sprite abilityIcon;
     [SerializeField] private GameObject abilityPrefab;
-    private Stats CharacterStats => GetComponent<Stats>();
+    private CharacterStats CharacterStats => GetComponent<CharacterStats>();
     private CharacterController CharacterController => GetComponent<CharacterController>();
     public CharacterCombatBehaviour CombatBehaviour => GetComponent<CharacterCombatBehaviour>();
     private AbilitiesCooldownHandler CooldownHandler => GetComponent<AbilitiesCooldownHandler>();

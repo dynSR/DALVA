@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MiniMapMovementHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IBeginDragHandler,  IEndDragHandler
+public class MiniMapMovementHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     //Drag Orthographic top down camera here
     [SerializeField] private Transform player;
@@ -11,8 +11,6 @@ public class MiniMapMovementHandler : MonoBehaviour, IPointerDownHandler, IPoint
 
     private Vector2 localCursor;
     private RaycastHit miniMapHit;
-
-    public bool isDragging = false;
 
     private CharacterController PlayerController => player.GetComponent<CharacterController>();
     private CameraController PlayerCameraController => player.GetComponent<CharacterController>().CharacterCamera.GetComponent<CameraController>();
@@ -33,8 +31,6 @@ public class MiniMapMovementHandler : MonoBehaviour, IPointerDownHandler, IPoint
             cameraWasLocked = true;
             PlayerCameraController.CameraLockState = CameraLockState.Unlocked;
         }
-
-        if (isDragging) return;
 
         RaycastToMiniMap(eventData);
     }
@@ -102,21 +98,13 @@ public class MiniMapMovementHandler : MonoBehaviour, IPointerDownHandler, IPoint
     #region OnDrag events
     public void OnDrag(PointerEventData eventData)
     {
-        if (eventData.IsPointerMoving() && UtilityClass.LeftClickIsPressedOnUIElement(eventData))
+        Debug.Log("DRAGGGGGGGGGGGGGG");
+
+        if (eventData.IsPointerMoving() && eventData.button == PointerEventData.InputButton.Left)
         {
             eventData.Use();
             RaycastToMiniMap(eventData);
         }
-    }
-
-    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
-    {
-        isDragging = false;
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        isDragging = true;
     }
     #endregion
 }

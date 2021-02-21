@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class StatusEffectHandler : MonoBehaviour
 {
+    public delegate void StatusEffectApplication(StatusEffect statusEffectApplied);
+    public static event StatusEffectApplication OnApplyingStatusEffect;
+
+
     private bool IsThereMoreThanOneStatusEffectApplied => allStatusEffectApplied.Count > 0;
 
     [SerializeField] private List<StatusEffectDurationData> allStatusEffectApplied = new List<StatusEffectDurationData>();
@@ -23,16 +27,19 @@ public class StatusEffectHandler : MonoBehaviour
     void Update()
     {
         ApplyStatusEffectDurationOverTime();
-        CheckForExpiredStatusEffectDuration();
+        HandleExpiredStatusEffect();
     }
 
     #region Status Effect Duration Handler Section
-    public void ApplyNewStatusEffectDuration(StatusEffect newStatusEffect)
+    public void ApplyNewStatusEffect(StatusEffect newStatusEffect)
     {
         allStatusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffectDuration));
 
-        PlayerHUD targetHUD = newStatusEffect.GetTargetHUD(newStatusEffect.Target);
-        targetHUD.UpdateStatusEffectUI(newStatusEffect);
+        if (OnApplyingStatusEffect != null)
+            OnApplyingStatusEffect(newStatusEffect);
+
+        //PlayerHUD targetHUD = newStatusEffect.GetTargetHUD(newStatusEffect.Target);
+        //targetHUD.UpdateStatusEffectUI(newStatusEffect);
     }
 
     private void ApplyStatusEffectDurationOverTime()
@@ -43,7 +50,7 @@ public class StatusEffectHandler : MonoBehaviour
         }
     }
 
-    public bool AreThereSimilarExistingStatusEffectApplied(StatusEffect newStatusEffectApplied)
+    public bool AreThereSimilarExistingStatusEffects(StatusEffect newStatusEffectApplied)
     {
         for (int i = 0; i <= allStatusEffectApplied.Count; i++)
         {
@@ -57,7 +64,7 @@ public class StatusEffectHandler : MonoBehaviour
         return false;
     }
 
-    public void RemoveStatusEffectOfSameTypeThatHasAlreadyBeenApplied()
+    public void RemoveStatusEffectOfSameTypeAlreadyApplied()
     {
         for (int i = 0; i <= allStatusEffectApplied.Count; i++)
         {
@@ -67,7 +74,7 @@ public class StatusEffectHandler : MonoBehaviour
         }
     }
 
-    private void CheckForExpiredStatusEffectDuration()
+    private void HandleExpiredStatusEffect()
     {
         for (int i = allStatusEffectApplied.Count - 1; i >= 0; i--)
         {
@@ -79,7 +86,7 @@ public class StatusEffectHandler : MonoBehaviour
         }
     }
 
-    public bool IsDurationOfStatusEffectAlreadyApplied(StatusEffect statusEffect)
+    public bool IsTheDurationOfStatusEffectOver(StatusEffect statusEffect)
     {
         foreach (StatusEffectDurationData durationData in allStatusEffectApplied)
         {

@@ -43,7 +43,7 @@ public class Shop : MonoBehaviour
     #region Buy an item
     public void BuyItem(Item shopItem)
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase) return;
+        if (!Player.GetComponent<CharacterController>().IsPlayerInHisBase) return;
 
         if (UtilityClass.RightClickIsPressed())
         {
@@ -71,7 +71,7 @@ public class Shop : MonoBehaviour
     #region Sell an item
     public void SellItem()
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty) return;
+        if (!Player.GetComponent<CharacterController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty) return;
 
         Debug.Log("Selling item : " + SelectedInventoryBox.StoredItem.ItemName);
 

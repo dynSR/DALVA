@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityContainerGroup : MonoBehaviour
 {
-    private Stats CharacterCharacteristics => transform.parent.GetComponentInParent<Stats>();
+    private CharacterStats CharacterCharacteristics => transform.parent.GetComponentInParent<CharacterStats>();
 
     [Header("PLAYER ABILITIES INFORMATIONS")]
     [Tooltip("Needs to match the number of abilities present on the player (as scripts)")]

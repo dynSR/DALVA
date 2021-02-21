@@ -1,52 +1,63 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public enum TypeOfEffect { EffectToMovementSpeed, EffectToDamage, EffectToSomethingElse }
+public enum TypeOfEffect { AffectsMovementSpeed, AffectsDamage, AffectsSomethingElse }
 
 public abstract class StatusEffect : MonoBehaviour
 {
-    [Header("CORE PARAMETERS")]
+    #region Status effect informations et components
+    [Header("STATUS EFFECT INFORMATIONS & COMPONENTS")]
     [SerializeField] private string statusEffectName;
     [SerializeField] private string statusEffectDescription;
-    [SerializeField] private Sprite statusEffectIcon;
-    //[SerializeField] private List<Transform> targets = new List<Transform>();
-    [SerializeField] private Transform target;
-    [SerializeField] private GameObject statusEffectPrefab;
-    [SerializeField] private bool doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying;
-    [SerializeField] private TypeOfEffect typeOfEffect;
-
-    [Header("NUMERIC PARAMETERS")]
     [SerializeField] private float statusEffectDuration;
-    public string StatusEffectDescription { get => statusEffectDescription; }
+    [SerializeField] private Sprite statusEffectIcon;
+    [SerializeField] private GameObject statusEffectVFXPrefab;
+    [SerializeField] private AudioClip statusEffectSound;
+    [SerializeField] private TypeOfEffect typeOfEffect;
+    [SerializeField] private bool valueAffectedResetsBeforeApplyingStatuEffect;
+
+    #region Public Variables - Statu effect informations et components
     public string StatusEffectName { get => statusEffectName; }
-    public GameObject StatusEffectPrefab { get => statusEffectPrefab; }
+    public string StatusEffectDescription { get => statusEffectDescription; }
     public float StatusEffectDuration { get => statusEffectDuration; set => statusEffectDuration = value; }
     public Sprite StatusEffectIcon { get => statusEffectIcon; }
+    public GameObject StatusEffectVFXPrefab { get => statusEffectVFXPrefab; }
+    public AudioClip StatusEffectSound { get => statusEffectSound; }
+    public TypeOfEffect TypeOfEffect { get => typeOfEffect; set => typeOfEffect = value; }
+    public bool ValueAffectedResetsBeforeApplyingStatuEffect { get => valueAffectedResetsBeforeApplyingStatuEffect; }
+    #endregion
+    #endregion
+
+    #region Target(s) informations
+    //[SerializeField] private List<Transform> targets = new List<Transform>();
+    [SerializeField] private Transform target;
+    #region Public variables - Target(s) informations
     public Transform Target { get => target; set => target = value; }
     //public List<Transform> Targets { get => targets; set => targets = value; }
-    public StatusEffectHandler StatusEffectHandler { get; set; }
-    public TypeOfEffect TypeOfEffect { get => typeOfEffect; set => typeOfEffect = value; }
-    public StatusEffectContainer StatusEffectContainer { get; set; }
-    public bool DoStatusEffectResetTheValueAffectedToInitialValueBeforeApplying { get => doStatusEffectResetTheValueAffectedToInitialValueBeforeApplying; }
-    private bool TargetWasNotFound => Target == null;
+    private bool TargetIsNotSet => Target == null;
+    #endregion
+    #endregion
 
+    public StatusEffectHandler StatusEffectHandler { get; set; }
+    public StatusEffectContainer StatusEffectContainer { get; set; }
 
     protected abstract void ApplyStatusEffectOnTarget(Transform targetFound);
     public abstract void RemoveStatusEffect();
 
     protected virtual void CheckForExistingStatusEffect(StatusEffectHandler statusEffectHandler)
     {
-        if (statusEffectHandler.AreThereSimilarExistingStatusEffectApplied(this))
-            statusEffectHandler.RemoveStatusEffectOfSameTypeThatHasAlreadyBeenApplied();
+        if (statusEffectHandler.AreThereSimilarExistingStatusEffects(this))
+            statusEffectHandler.RemoveStatusEffectOfSameTypeAlreadyApplied();
     }
 
-    #region Adding Or Removing Target
+    #region Adding or removing target(s) with trigger events
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player is in trigger");
-            if (TargetWasNotFound)
+
+            if (TargetIsNotSet)
                 Target = other.transform;
             else if (Target != other.transform)
                 Target = other.transform;
@@ -65,6 +76,8 @@ public abstract class StatusEffect : MonoBehaviour
             //}
 
             ApplyStatusEffectOnTarget(Target);
+            CreateVFXOnApplication(StatusEffectVFXPrefab, Target);
+            PlaySoundOnApplication(StatusEffectSound, Target);
         }
     }
 
@@ -73,6 +86,7 @@ public abstract class StatusEffect : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player is out of trigger");
+
             //if (Target == null) return;
             //if (Target == other.transform)
             //    Target = null;
@@ -86,6 +100,7 @@ public abstract class StatusEffect : MonoBehaviour
     }
     #endregion
 
+    #region Getting necessaries informations about target(s) found
     public CharacterController GetTargetCharacterController(Transform targetFound)
     {
         return targetFound.GetComponent<CharacterController>();
@@ -105,5 +120,23 @@ public abstract class StatusEffect : MonoBehaviour
     {
         return targetFound.Find("PlayerHUD").GetComponent<PlayerHUD>();
     }
-}
+    #endregion
 
+    private void CreateVFXOnApplication(GameObject vfxToCreate, Transform target)
+    {
+        if (vfxToCreate != null)
+        {
+            GameObject vfxCopy = Instantiate(vfxToCreate, target.position, target.rotation);
+            vfxCopy.transform.SetParent(target);
+
+            if (vfxCopy.GetComponent<LifeTimeHandler>() != null)
+                StartCoroutine(vfxCopy.GetComponent<LifeTimeHandler>().DestroyAfterATime(StatusEffectDuration));
+        }
+    }
+
+    private void PlaySoundOnApplication(AudioClip applicationSound, Transform target)
+    {
+        if (applicationSound != null)
+            AudioSource.PlayClipAtPoint(applicationSound, target.position);
+    }
+}

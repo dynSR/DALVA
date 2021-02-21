@@ -10,7 +10,7 @@ public class ThrowingProjectile : MonoBehaviour
     private CharacterController CharacterController => GetComponent<CharacterController>();
     public Transform AimProjectileEmiterPos { get => aimProjectileEmiterPos; }
 
-    public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation, ProjectileType projectileType)
+    public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation)
     {
         TurnCharacterTowardsLaunchDirection();
 
@@ -18,10 +18,9 @@ public class ThrowingProjectile : MonoBehaviour
 
         GameObject projectileInstance = Instantiate(projectile, spawnLocation.position, spawnLocation.rotation);
 
-        ProjectileController projectileController = projectileInstance.GetComponent<ProjectileController>();
-        projectileController.ProjectileType = projectileType;
+        Projectile _projectile = projectileInstance.GetComponent<Projectile>();
+        _projectile.ProjectileSender = transform;
 
-        projectileController.ProjectileSender = transform;
         Debug.Log("ThrowingProjectile");
     }
 

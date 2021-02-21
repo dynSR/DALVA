@@ -7,6 +7,16 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Transform statusEffectLayoutGroup;
     [SerializeField] private GameObject statusEffectGameObject;
 
+    void OnEnable()
+    {
+        StatusEffectHandler.OnApplyingStatusEffect += UpdateStatusEffectUI;
+    }
+
+    void OnDisable()
+    {
+        StatusEffectHandler.OnApplyingStatusEffect -= UpdateStatusEffectUI;
+    }
+
     public void UpdateStatusEffectUI(StatusEffect statusEffect)
     {
         GameObject statusEffectFeedbackInstance = Instantiate(statusEffectGameObject) as GameObject;
@@ -16,4 +26,3 @@ public class PlayerHUD : MonoBehaviour
         statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>();
     }
 }
-

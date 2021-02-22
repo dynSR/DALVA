@@ -150,17 +150,16 @@ public class CharacterCombatBehaviour : MonoBehaviour
                 Debug.Log("Close enough to target");
                 CharacterController.Agent.isStopped = true;
                 CharacterController.Agent.stoppingDistance = CharacterStats.AttackRange;
+                PerformAnAttack();
             }
-
-            PerformAnAttack();
         }
     }
 
     private void PerformAnAttack()
     {
-        if (Vector3.Distance(transform.position, TargetedEnemy.position) <= CharacterStats.AttackRange && CanPerformAttack)
+        if (/*Vector3.Distance(transform.position, TargetedEnemy.position) <= CharacterStats.AttackRange && */CanPerformAttack)
         {
-            CharacterController.Agent.isStopped = true;
+            //CharacterController.Agent.isStopped = true;
 
             if (CombatAttackType == CombatAttackType.MeleeCombat)
             {

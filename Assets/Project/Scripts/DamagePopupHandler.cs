@@ -56,7 +56,7 @@ public class DamagePopupHandler : MonoBehaviour
         if(damageType != DamageType.Critical)
             DamageValueText.SetText(damageAmount.ToString("0"));
         else
-            DamageValueText.SetText(damageAmount.ToString("0"));
+            DamageValueText.SetText(damageAmount.ToString("0") + " !");
 
         switch (damageType)
         {

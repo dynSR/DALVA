@@ -13,6 +13,8 @@ public class MovementSpeedDebuff_Test : StatusEffect
             GetTargetCharacterController(target).CurrentMoveSpeed /= 2;
 
             GetTargetStatusEffectHandler(target).ApplyNewStatusEffect(this);
+
+            GetTargetStatusEffectHandler(target).GetComponentInChildren<Animator>().SetTrigger("IsSlowed");
         }
     }
 
@@ -23,7 +25,10 @@ public class MovementSpeedDebuff_Test : StatusEffect
             if (!ValueAffectedResetsBeforeApplyingStatuEffect) return;
 
             if (ValueAffectedResetsBeforeApplyingStatuEffect)
+            {
                 GetTargetCharacterController(Target).CurrentMoveSpeed = GetTargetCharacterController(Target).InitialMoveSpeed;
+                GetTargetStatusEffectHandler(Target).GetComponentInChildren<Animator>().SetTrigger("IsSlowed");
+            }
         }
     }
 

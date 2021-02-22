@@ -4,8 +4,7 @@ using UnityEngine;
 public class StatusEffectHandler : MonoBehaviour
 {
     public delegate void StatusEffectApplication(StatusEffect statusEffectApplied);
-    public static event StatusEffectApplication OnApplyingStatusEffect;
-
+    public static event StatusEffectApplication OnApplyingStatusEffectEvent;
 
     private bool IsThereMoreThanOneStatusEffectApplied => allStatusEffectApplied.Count > 0;
 
@@ -35,8 +34,7 @@ public class StatusEffectHandler : MonoBehaviour
     {
         allStatusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffectDuration));
 
-        if (OnApplyingStatusEffect != null)
-            OnApplyingStatusEffect(newStatusEffect);
+        OnApplyingStatusEffectEvent?.Invoke(newStatusEffect);
 
         //PlayerHUD targetHUD = newStatusEffect.GetTargetHUD(newStatusEffect.Target);
         //targetHUD.UpdateStatusEffectUI(newStatusEffect);

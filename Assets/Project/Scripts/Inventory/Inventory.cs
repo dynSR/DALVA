@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
     public int NumberOfFullInventoryBoxes { get; set; }
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
 
-   public List<ToggleSelectionIcon> BoxesSelectionIcons { get => boxesSelectionIcons; set => boxesSelectionIcons = value; }
+    public List<ToggleSelectionIcon> BoxesSelectionIcons { get => boxesSelectionIcons; set => boxesSelectionIcons = value; }
     public Shop Shop { get => shop; set => shop = value; }
 
     #region Inventory - Shop Management

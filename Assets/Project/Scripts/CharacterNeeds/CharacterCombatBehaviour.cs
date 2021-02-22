@@ -18,7 +18,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
     [SerializeField] private bool canPerformAttack = true;
 
     RaycastHit cursorHit;
-    Ray RayFromMainCameraToMouseScreenPosition => Camera.main.ScreenPointToRay(Input.mousePosition);
+    Ray RayFromMainCameraToMouseScreenPosition => UtilityClass.RayFromMainCameraToMousePosition();
 
     private CursorHandler CursorHandler => GetComponent<CursorHandler>();
     public Outline CharacterOutline { get => GetComponent<Outline>(); }
@@ -51,6 +51,8 @@ public class CharacterCombatBehaviour : MonoBehaviour
             default:
                 break;
         }
+
+        CharacterOutline.enabled = false;
     }
 
     protected virtual void Update()
@@ -180,7 +182,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
         if (attackType == CombatAttackType.MeleeCombat)
         {
             CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
-            CharacterAnimator.SetBool("MeleeBasicAttack", true);
+            CharacterAnimator.SetBool("Attack", true);
             //MeleeAttack(); //Debug without animation
             CanPerformAttack = false;
             Debug.Log("Attack Interval");
@@ -188,7 +190,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
         else if (attackType == CombatAttackType.RangedCombat)
         {
             CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
-            CharacterAnimator.SetBool("RangedBasicAttack", true);
+            CharacterAnimator.SetBool("Attack", true);
             //RangedAttack(); //Debug without animation
             CanPerformAttack = false;
         }
@@ -197,12 +199,12 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
         if (attackType == CombatAttackType.MeleeCombat)
         {
-            CharacterAnimator.SetBool("MeleeBasicAttack", false);
+            CharacterAnimator.SetBool("Attack", false);
             CanPerformAttack = true;
         }
         else if (attackType == CombatAttackType.RangedCombat)
         {
-            CharacterAnimator.SetBool("RangedBasicAttack", false);
+            CharacterAnimator.SetBool("Attack", false);
             CanPerformAttack = true;
         }
     }
@@ -224,10 +226,13 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
     public void RangedAttack()
     {
+        Debug.Log("Auto Attack Projectile Instantiated");
+
         GameObject autoAttackProjectile = Instantiate(basicRangedAttackProjectile, basicRangedAttackEmiterPos.position, basicRangedAttackProjectile.transform.rotation);
 
         Projectile attackProjectile = autoAttackProjectile.GetComponent<Projectile>();
 
+        attackProjectile.ProjectileType = ProjectileType.TravelsToAPosition;
         attackProjectile.ProjectileSender = transform;
         attackProjectile.Target = TargetedEnemy;
 

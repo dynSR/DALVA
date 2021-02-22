@@ -30,13 +30,15 @@ public class Projectile : MonoBehaviour
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
-    private void Start()
+    private void Awake()
     {
-        if (Target != null)
-            TargetCharacterStats = Target.GetComponent<CharacterStats>();
-
-        if (Target == null && projectileType == ProjectileType.TravelsToAPosition)
-            Destroy(gameObject);
+        if (ProjectileType == ProjectileType.TravelsToAPosition)
+        {
+            if (Target != null)
+                TargetCharacterStats = Target.GetComponent<CharacterStats>();
+            //else if(Target == null)
+                //Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
@@ -49,7 +51,7 @@ public class Projectile : MonoBehaviour
                 ProjectileTravelsForward(ProjectileSender);
                 break;
             case ProjectileType.TravelsToAPosition:
-                ProjectileMoveToATarget(Target);
+                ProjectileMoveToATarget();
                 break;
             default:
                 break;
@@ -57,17 +59,17 @@ public class Projectile : MonoBehaviour
     }
 
     #region Projectile Behaviours
-    void ProjectileMoveToATarget(Transform projectileTarget)
+    void ProjectileMoveToATarget()
     {
-        if (projectileTarget == null) return;
+        if (Target == null) return;
 
-        targetPosition = projectileTarget.position;
+        targetPosition = Target.position;
 
         Rb.MovePosition(Vector3.MoveTowards(transform.position,
-            targetPosition + new Vector3(0, projectileTarget.GetComponent<NavMeshAgent>().height / 2, 0),
+            targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0),
             ProjectileSpeed * Time.fixedDeltaTime));
 
-        transform.LookAt(projectileTarget);
+        transform.LookAt(Target);
     }
 
     void ProjectileTravelsForward(Transform sender)

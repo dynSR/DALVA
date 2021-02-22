@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum CameraLockState { Locked, Unlocked }
@@ -29,7 +30,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if(UtilityClass.HasKeyBeenPressed(changeCameraLockStateKey))
+        if(UtilityClass.IsKeyPressed(changeCameraLockStateKey))
         {
             switch (CameraLockState)
             {
@@ -55,7 +56,7 @@ public class CameraController : MonoBehaviour
             MoveCameraWithDirectionnalArrows();
             MoveCameraOnHittingScreenEdges();
 
-            if (UtilityClass.iSKeyMaintained(cameraFocusOnTargetKey))
+            if (UtilityClass.IsKeyMaintained(cameraFocusOnTargetKey))
             {
                 FollowATarget(TargetToFollow);
             }
@@ -104,22 +105,22 @@ public class CameraController : MonoBehaviour
         cameraPosition = transform.position;
 
         // move on +X axis
-        if (UtilityClass.iSKeyMaintained(KeyCode.RightArrow))
+        if (UtilityClass.IsKeyMaintained(KeyCode.RightArrow))
         {
             cameraPosition.x += cameraMovementSpeed * Time.deltaTime;
         }
         // move on -X axis
-        if (UtilityClass.iSKeyMaintained(KeyCode.LeftArrow))
+        if (UtilityClass.IsKeyMaintained(KeyCode.LeftArrow))
         {
             cameraPosition.x -= cameraMovementSpeed * Time.deltaTime;
         }
         // move on +Z axis
-        if (UtilityClass.iSKeyMaintained(KeyCode.UpArrow))
+        if (UtilityClass.IsKeyMaintained(KeyCode.UpArrow))
         {
             cameraPosition.z += cameraMovementSpeed * Time.deltaTime;
         }
         // move on -Z axis
-        if (UtilityClass.iSKeyMaintained(KeyCode.DownArrow))
+        if (UtilityClass.IsKeyMaintained(KeyCode.DownArrow))
         {
             cameraPosition.z -= cameraMovementSpeed * Time.deltaTime;
         }

@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
 {
-    [Header("PLAYER SHOP")]
-    [SerializeField] private OpenCloseShopWindow shopWindow;
+    private PlayerHUD shopWindow => GetComponentInParent<Transform>().GetComponentInParent<PlayerHUD>();
     private bool isSelected;
 
-   private InventoryBox ParentInventoryBox => GetComponentInParent<InventoryBox>();
+    private InventoryBox ParentInventoryBox => GetComponentInParent<InventoryBox>();
     private Inventory ParentPlayerInventory => ParentInventoryBox.PlayerInventory;
     private Item ItemInParentInventoryBox => ParentInventoryBox.StoredItem;
     private Transform ToggleChildGameObject => transform.GetChild(0).transform;

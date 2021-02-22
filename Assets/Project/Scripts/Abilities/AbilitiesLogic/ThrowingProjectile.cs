@@ -26,7 +26,7 @@ public class ThrowingProjectile : MonoBehaviour
 
     public void TurnCharacterTowardsLaunchDirection()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = UtilityClass.RayFromMainCameraToMousePosition();
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer))
         {

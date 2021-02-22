@@ -66,16 +66,32 @@ public static class UtilityClass
     #endregion
 
     #region Inputs pressure and hold checker
-    public static bool HasKeyBeenPressed(KeyCode key)
+    public static bool IsKeyPressed(KeyCode key)
     {
         if (Input.GetKeyDown(key)) return true;
         else return false;
     }
 
-    public static bool iSKeyMaintained(KeyCode key)
+    public static bool IsKeyMaintained(KeyCode key)
     {
         if (Input.GetKey(key)) return true;
         else return false;
+    }
+    #endregion
+
+    #region Get main camera informations
+    public static Camera GetMainCamera()
+    {
+        return Camera.main;
+    }
+    public static Vector3 GetMainCameraPosition()
+    {
+        return Camera.main.transform.position;
+    }
+
+    public static Ray RayFromMainCameraToMousePosition()
+    {
+        return Camera.main.ScreenPointToRay(Input.mousePosition);
     }
     #endregion
 }

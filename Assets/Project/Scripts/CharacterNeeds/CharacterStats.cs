@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterClass { Warrior, Prowler, Mage }
+public enum CharacterClass { Archer, /*Berzerk,*/ Coloss, DaggerMaster, Mage, /*Priest*/ }
 public enum TypeOfUnit { Self, Ennemy, Ally }
 
 public class CharacterStats : MonoBehaviour, IDamageable, IKillable
@@ -169,6 +169,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
     public List<Ability> CharacterAbilities { get => characterAbilities; }
     private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
     public TypeOfUnit TypeOfUnit { get => typeOfUnit; set => typeOfUnit = value; }
+    public CharacterClass CharacterClass { get => characterClass; set => characterClass = value; }
 
     protected virtual void Awake()
     {
@@ -176,16 +177,20 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
 
         #region Set Base Character Stats at Start of the game
 
-        switch (characterClass)
+        switch (CharacterClass)
         {
-            case CharacterClass.Warrior:
-                AttackRange = meleeAttackRange;
-                if (CombatBehaviour != null)
-                    SetCombatAttackTypeAtStart(CombatAttackType.MeleeCombat);
-                break;
-            case CharacterClass.Prowler:
+            case CharacterClass.Archer:
                 AttackRange = rangedAttackRange;
-                SetCombatAttackTypeAtStart(CombatAttackType.RangedCombat);
+                if (CombatBehaviour != null)
+                    SetCombatAttackTypeAtStart(CombatAttackType.RangedCombat);
+                break;
+            case CharacterClass.Coloss:
+                AttackRange = meleeAttackRange;
+                SetCombatAttackTypeAtStart(CombatAttackType.MeleeCombat);
+                break;
+            case CharacterClass.DaggerMaster:
+                AttackRange = meleeAttackRange;
+                SetCombatAttackTypeAtStart(CombatAttackType.MeleeCombat);
                 break;
             case CharacterClass.Mage:
                 AttackRange = rangedAttackRange;

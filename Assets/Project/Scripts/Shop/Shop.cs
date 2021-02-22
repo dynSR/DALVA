@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    public delegate void ShopActions(int value);
+    public static event ShopActions OnBuyingItemEvent;
+    public static event ShopActions OnSellingItemEvent;
+    public static event ShopActions OnShopActionCancelEvent;
+
     [Header("PLAYER INFORMATIONS")]
     [SerializeField] private Transform player;
     private InventoryBox selectedInventoryBox;
@@ -13,7 +19,8 @@ public class Shop : MonoBehaviour
     private int numberOfShopActionsDone = 0;
 
     public Transform Player { get => player; set => player = value; }
-    public Inventory PlayerInventory { get => player.GetComponent<PlayerRessourcesHandler>().PlayerInventory;  }
+    private PlayerRessourcesHandler PlayerRessources => player.GetComponent<PlayerRessourcesHandler>();
+    public Inventory PlayerInventory { get => PlayerRessources.PlayerInventory;  }
     public InventoryBox SelectedInventoryBox { get => selectedInventoryBox; set => selectedInventoryBox = value; }
 
     [System.Serializable]
@@ -23,13 +30,15 @@ public class Shop : MonoBehaviour
         public enum ShopActionType { Purchase, Sale }
         public ShopActionType shopActionType;
         public Item item;
+        public int itemValue;
         public int transactionID;
 
-        public ShopActionData(string shopActionDataName ,ShopActionType shopActionType, Item item,int transactionID)
+        public ShopActionData(string shopActionDataName ,ShopActionType shopActionType, Item item, int itemValue, int transactionID)
         {
             this.shopActionDataName = shopActionDataName;
             this.shopActionType = shopActionType;
             this.item = item;
+            this.itemValue = itemValue;
             this.transactionID = transactionID;
         }
     }
@@ -41,6 +50,7 @@ public class Shop : MonoBehaviour
     }
 
     #region Buy an item
+    //Its on a button
     public void BuyItem(Item shopItem)
     {
         if (!Player.GetComponent<CharacterController>().IsPlayerInHisBase) return;
@@ -54,21 +64,29 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void OnBuyingItem(InventoryBox inventoryBoxOfItemPurchased)
+    public void OnBuyingItem(InventoryBox inventoryBoxOfItem)
     {
-        string shopActionDataName = "Purchase " + inventoryBoxOfItemPurchased.StoredItem.ItemName;
+        string shopActionDataName = "Purchase " + inventoryBoxOfItem.StoredItem.ItemName;
 
         numberOfShopActionsDone++;
 
         Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
 
-        inventoryBoxOfItemPurchased.StoredItemTransactionID = numberOfShopActionsDone;
+        inventoryBoxOfItem.StoredItemTransactionID = numberOfShopActionsDone;
 
-        shopActions.Add(new ShopActionData(shopActionDataName, ShopActionData.ShopActionType.Purchase, inventoryBoxOfItemPurchased.StoredItem, inventoryBoxOfItemPurchased.StoredItemTransactionID));
+        shopActions.Add(new ShopActionData(
+            shopActionDataName, 
+            ShopActionData.ShopActionType.Purchase, 
+            inventoryBoxOfItem.StoredItem, 
+            inventoryBoxOfItem.StoredItem.ItemCost, 
+            inventoryBoxOfItem.StoredItemTransactionID));
+
+        OnBuyingItemEvent?.Invoke(PlayerRessources.AmountOfPlayerRessources - inventoryBoxOfItem.StoredItem.ItemCost);
     }
     #endregion
 
     #region Sell an item
+    //Its on a button
     public void SellItem()
     {
         if (!Player.GetComponent<CharacterController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty) return;
@@ -78,40 +96,28 @@ public class Shop : MonoBehaviour
         OnSellingItem(SelectedInventoryBox);
     }
 
-    public void AddSoldItemToInventory(ShopActionData shopActionData, Item itemToAdd, int transactionIDData)
+    public void OnSellingItem(InventoryBox inventoryBoxOfItem)
     {
-        for (int i = 0; i < PlayerInventory.InventoryBoxes.Count; i++)
-        {
-            if (PlayerInventory.InventoryIsFull) return;
-
-            if (PlayerInventory.InventoryBoxes[i].StoredItem == null && shopActionData.transactionID == PlayerInventory.InventoryBoxes[i].StoredItemTransactionID)
-            {
-                PlayerInventory.NumberOfFullInventoryBoxes++;
-                PlayerInventory.InventoryBoxes[i].ChangeInventoryBoxStoredItem(itemToAdd, itemToAdd.ItemIcon);
-                PlayerInventory.InventoryBoxes[i].StoredItemTransactionID = transactionIDData;
-
-
-                Debug.Log("Add " + itemToAdd.ItemName + " to inventory");
-                Debug.Log("Number of full inventory boxes : " + PlayerInventory.NumberOfFullInventoryBoxes);
-                return;
-            }
-        }
-    }
-
-    public void OnSellingItem(InventoryBox inventoryBoxOfItemSold)
-    {
-        string shopActionDataName = "Sale " + inventoryBoxOfItemSold.StoredItem.ItemName;
+        string shopActionDataName = "Sale " + inventoryBoxOfItem.StoredItem.ItemName;
 
         Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
 
-        shopActions.Add(new ShopActionData(shopActionDataName, ShopActionData.ShopActionType.Sale, inventoryBoxOfItemSold.StoredItem, inventoryBoxOfItemSold.StoredItemTransactionID));
+        shopActions.Add(new ShopActionData(
+            shopActionDataName, 
+            ShopActionData.ShopActionType.Sale, 
+            inventoryBoxOfItem.StoredItem, 
+            inventoryBoxOfItem.StoredItem.ItemCost, 
+            inventoryBoxOfItem.StoredItemTransactionID));
 
-        PlayerInventory.RemoveItemFromInventory(inventoryBoxOfItemSold);
+        OnSellingItemEvent?.Invoke(PlayerRessources.AmountOfPlayerRessources + inventoryBoxOfItem.StoredItem.ItemCost);
+
+        PlayerInventory.RemoveItemFromInventory(inventoryBoxOfItem);
         PlayerInventory.ResetAllBoxesSelectionIcons();
     }
     #endregion
 
     #region Undo a purchase or a sell
+    //Its on a button
     public void UndoShopAction()
     {
         if (numberOfShopActionsDone > 0)
@@ -139,6 +145,9 @@ public class Shop : MonoBehaviour
                             PlayerInventory.InventoryBoxes[j].StoredItemTransactionID = 0;
 
                             shopActions.RemoveAt(i);
+
+                            //OnShopActionCancelEvent?.Invoke(PlayerRessources.AmountOfPlayerRessources);
+
                             return;
                         }
                     }
@@ -155,6 +164,26 @@ public class Shop : MonoBehaviour
                     shopActions.RemoveAt(i);
                     return;
                 }
+            }
+        }
+    }
+
+    private void AddSoldItemToInventory(ShopActionData shopActionData, Item itemToAdd, int transactionIDData)
+    {
+        for (int i = 0; i < PlayerInventory.InventoryBoxes.Count; i++)
+        {
+            if (PlayerInventory.InventoryIsFull) return;
+
+            if (PlayerInventory.InventoryBoxes[i].StoredItem == null && shopActionData.transactionID == PlayerInventory.InventoryBoxes[i].StoredItemTransactionID)
+            {
+                PlayerInventory.NumberOfFullInventoryBoxes++;
+                PlayerInventory.InventoryBoxes[i].ChangeInventoryBoxStoredItem(itemToAdd, itemToAdd.ItemIcon);
+                PlayerInventory.InventoryBoxes[i].StoredItemTransactionID = transactionIDData;
+
+
+                Debug.Log("Add " + itemToAdd.ItemName + " to inventory");
+                Debug.Log("Number of full inventory boxes : " + PlayerInventory.NumberOfFullInventoryBoxes);
+                return;
             }
         }
     }

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(NavMeshAgent))]
 public class CharacterController : MonoBehaviourPun
 {
-    Ray RayFromCameraToMousePosition => Camera.main.ScreenPointToRay(Input.mousePosition);
+    Ray RayFromCameraToMousePosition => UtilityClass.RayFromMainCameraToMousePosition();
     
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
@@ -34,15 +34,14 @@ public class CharacterController : MonoBehaviourPun
 
     public Camera CharacterCamera { get { return characterCamera; } private set { characterCamera = value; } }
     private CharacterStats CharacterStats => GetComponent<CharacterStats>();
-    private CharacterCombatBehaviour CharacterCombatBehaviour => GetComponent<CharacterCombatBehaviour>();
-    private PlayerRessourcesHandler PlayerRessources => GetComponent<PlayerRessourcesHandler>();
+    private PlayerHUD PlayerHUD => GetComponent<PlayerHUD>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public float InitialMoveSpeed { get; private set; }
     public float CurrentMoveSpeed { get => Agent.speed ; set => Agent.speed = value; }
     public float RotateVelocity { get; set; }
     public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
 
-    private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && PlayerRessources.PlayerShopWindow.IsShopWindowOpen;
+    private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && GetComponentInChildren<PlayerHUD>().IsShopWindowOpen;
     public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
 
 
@@ -136,6 +135,7 @@ public class CharacterController : MonoBehaviourPun
     public void InstantiateCharacterCameraAtStartOfTheGame()
     {
         GameObject cameraInstance = Instantiate(CharacterCamera.gameObject, CharacterCamera.transform.position, CharacterCamera.transform.rotation) as GameObject;
+
         cameraInstance.GetComponent<CameraController>().TargetToFollow = this.transform;
 
         CharacterCamera = cameraInstance.GetComponent<Camera>();

@@ -39,14 +39,14 @@ public class DamagePopupHandler : MonoBehaviour
         StartCoroutine(DestroyAfterFading(damagePopUpLifeTime, desappearSpeed, gameObject));
     }
 
-    void Update()
+    void LateUpdate()
     {
         MoveUp();
     }
 
     private void MoveUp()
     {
-        transform.LookAt(Camera.main.transform);
+        transform.LookAt(UtilityClass.GetMainCameraPosition());
         transform.Rotate(0, 180, 0);
         transform.position += new Vector3(moveXSpeed, moveYSpeed) * Time.deltaTime;
     }

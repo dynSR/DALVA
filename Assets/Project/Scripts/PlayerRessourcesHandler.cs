@@ -1,22 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 
 public class PlayerRessourcesHandler : MonoBehaviour
 {
     [Header("PLAYER SHOP")]
-    [SerializeField] private OpenCloseShopWindow playerShopWindow;
     [SerializeField] private Inventory playerInventory;
 
     [Header("PLAYER RESSOURCES")]
-    [SerializeField] private float amountOfPlayerRessources = 500;
+    [SerializeField] private int amountOfPlayerRessources = 500;
 
-    public OpenCloseShopWindow PlayerShopWindow { get => playerShopWindow; set => playerShopWindow = value; }
+    private TextMeshProUGUI ShopPlayerRessourcesValueText => GetComponentInChildren<PlayerHUD>().ShopPlayerRessourcesValueText;
+    //private TextMeshProUGUI InventoryPlayerRessourcesValueText => GetComponentInChildren<PlayerHUD>().InventoryPlayerRessourcesValueText;
     public Inventory PlayerInventory { get => playerInventory; set => playerInventory = value; }
+    public int AmountOfPlayerRessources { get => amountOfPlayerRessources; set => amountOfPlayerRessources = value; }
 
-    void Start()
+    private void OnEnable()
     {
-        
+        Shop.OnBuyingItemEvent += UpdatePlayerRessourcesValueText;
+        Shop.OnSellingItemEvent += UpdatePlayerRessourcesValueText;
+        Shop.OnShopActionCancelEvent += UpdatePlayerRessourcesValueText;
+    }
+
+    private void OnDisable()
+    {
+        Shop.OnBuyingItemEvent -= UpdatePlayerRessourcesValueText;
+        Shop.OnSellingItemEvent -= UpdatePlayerRessourcesValueText;
+        Shop.OnShopActionCancelEvent -= UpdatePlayerRessourcesValueText;
+    }
+
+    private void Start()
+    {
+        UpdatePlayerRessourcesValueText(AmountOfPlayerRessources);
     }
 
     void Update()
@@ -33,11 +47,20 @@ public class PlayerRessourcesHandler : MonoBehaviour
 
     private void AddRessources(int amountToAdd)
     {
-        amountOfPlayerRessources += amountToAdd;
+        AmountOfPlayerRessources += amountToAdd;
+        UpdatePlayerRessourcesValueText(AmountOfPlayerRessources);
     }
 
     private void RemoveRessources(int amountToRemove)
     {
-        amountOfPlayerRessources -= amountToRemove;
+        AmountOfPlayerRessources -= amountToRemove;
+        UpdatePlayerRessourcesValueText(AmountOfPlayerRessources);
+    }
+
+    private void UpdatePlayerRessourcesValueText(int value)
+    {
+        AmountOfPlayerRessources = value;
+        ShopPlayerRessourcesValueText.text = value.ToString();
+        //InventoryPlayerRessourcesValueText.text = value.ToString();
     }
 }

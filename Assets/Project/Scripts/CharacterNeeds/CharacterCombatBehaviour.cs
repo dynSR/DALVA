@@ -18,10 +18,8 @@ public class CharacterCombatBehaviour : MonoBehaviour
     [SerializeField] private bool canPerformAttack = true;
 
     RaycastHit cursorHit;
-    Ray RayFromMainCameraToMouseScreenPosition => UtilityClass.RayFromMainCameraToMousePosition();
 
     private CursorHandler CursorHandler => GetComponent<CursorHandler>();
-    public Outline CharacterOutline { get => GetComponent<Outline>(); }
 
     private CharacterStats CharacterStats => GetComponent<CharacterStats>();
     private CharacterController CharacterController => GetComponent<CharacterController>();
@@ -34,26 +32,6 @@ public class CharacterCombatBehaviour : MonoBehaviour
     private bool TargetIsNeitherAnEnnemyNorAnAlly => cursorHit.collider.GetComponent<CharacterStats>().TypeOfUnit != TypeOfUnit.Ennemy || cursorHit.collider.GetComponent<CharacterStats>().TypeOfUnit != TypeOfUnit.Ally;
 
     public CombatAttackType CombatAttackType { get; set; }
-
-    private void Start()
-    {
-        switch (CharacterStats.TypeOfUnit)
-        {
-            case TypeOfUnit.Self:
-                CharacterOutline.OutlineColor = Color.white;
-                break;
-            case TypeOfUnit.Ennemy:
-                CharacterOutline.OutlineColor = Color.red;
-                break;
-            case TypeOfUnit.Ally:
-                CharacterOutline.OutlineColor = Color.blue;
-                break;
-            default:
-                break;
-        }
-
-        CharacterOutline.enabled = false;
-    }
 
     protected virtual void Update()
     {
@@ -75,7 +53,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
     {
         if (CharacterController.CursorIsHoveringMiniMap) return;
 
-        if (Physics.Raycast(RayFromMainCameraToMouseScreenPosition, out cursorHit, Mathf.Infinity))
+        if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out cursorHit, Mathf.Infinity))
         {
             if (cursorHit.collider != null)
             {
@@ -114,7 +92,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
     {
         if (UtilityClass.RightClickIsPressed())
         {
-            if (Physics.Raycast(RayFromMainCameraToMouseScreenPosition, out RaycastHit hit, Mathf.Infinity))
+            if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
             {
                 if (hit.collider.GetComponent<CharacterStats>() != null && hit.collider.GetComponent<CharacterStats>().TypeOfUnit == TypeOfUnit.Ennemy)
                 {
@@ -157,10 +135,8 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
     private void PerformAnAttack()
     {
-        if (/*Vector3.Distance(transform.position, TargetedEnemy.position) <= CharacterStats.AttackRange && */CanPerformAttack)
+        if (CanPerformAttack)
         {
-            //CharacterController.Agent.isStopped = true;
-
             if (CombatAttackType == CombatAttackType.MeleeCombat)
             {
                 Debug.Log("Melee Attack performed !");

@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(NavMeshAgent))]
 public class CharacterController : MonoBehaviourPun
 {
-    Ray RayFromCameraToMousePosition => UtilityClass.RayFromMainCameraToMousePosition();
-    
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
     [SerializeField] private Camera characterCamera;
@@ -61,7 +59,7 @@ public class CharacterController : MonoBehaviourPun
         {
             if (CursorIsHoveringMiniMap) return;
 
-            SetNavMeshDestinationWithRayCast(RayFromCameraToMousePosition);
+            SetNavMeshDestinationWithRayCast(UtilityClass.RayFromMainCameraToMousePosition());
         }
 
         HandleMotionAnimation();

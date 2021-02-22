@@ -110,6 +110,26 @@ public class Outline : MonoBehaviour
         needsUpdate = true;
     }
 
+    private void Start()
+    {
+        switch (CharacterStats.TypeOfUnit)
+        {
+            case TypeOfUnit.Self:
+                outlineColor = Color.white;
+                break;
+            case TypeOfUnit.Ennemy:
+                outlineColor = Color.red;
+                break;
+            case TypeOfUnit.Ally:
+                outlineColor = Color.blue;
+                break;
+            default:
+                break;
+        }
+
+        enabled = false;
+    }
+
     void OnEnable()
     {
         foreach (var renderer in renderers)

@@ -12,7 +12,6 @@ namespace GameNetwork
         public GameObject playerHUD;
 
         public bool dalvasTeam;
-        public CharacterClass charaClass;
 
         protected virtual void Awake()
         {

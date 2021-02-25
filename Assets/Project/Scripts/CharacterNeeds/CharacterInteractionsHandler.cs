@@ -3,10 +3,10 @@ using UnityEngine;
 
 public enum CombatAttackType { MeleeCombat, RangedCombat }
 
-public class CharacterCombatBehaviour : MonoBehaviour
+public class CharacterInteractionsHandler : MonoBehaviour
 {
     [Header("TARGETS INFORMATIONS")]
-    [SerializeField] private Transform targetedEnemy; //Est en publique pour debug
+    [SerializeField] private Transform target; //Est en publique pour debug
     [SerializeField] private Transform knownTarget;
 
     [Header("BASIC ATTACK")]
@@ -17,29 +17,29 @@ public class CharacterCombatBehaviour : MonoBehaviour
     [SerializeField] private float rotateSpeedBeforeAttacking = 0.075f;
     [SerializeField] private bool canPerformAttack = true;
 
-    RaycastHit cursorHit;
+    [Header("INTERACTIONS PARAMETERS")]
+    [SerializeField] private float interactionRange = 1.5f;
+    public bool isCollecting = false;
 
-    private CursorHandler CursorHandler => GetComponent<CursorHandler>();
-
+    #region References
     private CharacterStats CharacterStats => GetComponent<CharacterStats>();
     private CharacterController CharacterController => GetComponent<CharacterController>();
     private Animator CharacterAnimator => GetComponent<CharacterController>().CharacterAnimator;
+    #endregion
 
-    public Transform TargetedEnemy { get => targetedEnemy; set => targetedEnemy = value; }
+    public Transform Target { get => target; set => target = value; }
     public Transform KnownTarget { get => knownTarget; set => knownTarget = value; }
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
+    public bool IsCollecting { get => isCollecting; set => isCollecting = value; }
 
-    private bool TargetIsNeitherAnEnnemyNorAnAlly => cursorHit.collider.GetComponent<CharacterStats>().TypeOfUnit != TypeOfUnit.Ennemy || cursorHit.collider.GetComponent<CharacterStats>().TypeOfUnit != TypeOfUnit.Ally;
 
     public CombatAttackType CombatAttackType { get; set; }
 
     protected virtual void Update()
     {
-        SetCursorAppearance();
-
         if (CharacterStats.IsDead)
         {
-            TargetedEnemy = null;
+            Target = null;
             return;
         }
 
@@ -48,45 +48,6 @@ public class CharacterCombatBehaviour : MonoBehaviour
         MoveTowardsAnExistingTarget();
     }
 
-    #region Set cursor appearance when its hovering an entity
-    void SetCursorAppearance()
-    {
-        if (CharacterController.CursorIsHoveringMiniMap) return;
-
-        if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out cursorHit, Mathf.Infinity))
-        {
-            if (cursorHit.collider != null)
-            {
-                if (cursorHit.collider.GetComponent<CharacterStats>() != null)
-                {
-                    KnownTarget = cursorHit.collider.transform;
-                    CharacterStats knownTargetStats = KnownTarget.GetComponent<CharacterStats>();
-
-                    if (knownTargetStats.TypeOfUnit == TypeOfUnit.Ennemy)
-                    {
-                        CursorHandler.SetCursorToAttackAppearance();
-                        CursorHandler.ActivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>(), Color.red);
-                    }
-                    else if (knownTargetStats.TypeOfUnit == TypeOfUnit.Ally)
-                    {
-                        CursorHandler.ActivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>(), Color.blue);
-                    }
-                }
-                else if (cursorHit.collider.GetComponent<CharacterStats>() == null || TargetIsNeitherAnEnnemyNorAnAlly)
-                {
-                    CursorHandler.SetCursorToNormalAppearance();
-
-                    if (KnownTarget != null)
-                    {
-                        CursorHandler.DeactivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>());
-                        KnownTarget = null;
-                    }
-                }
-            }
-        }
-    }
-    #endregion
-
     #region Set player target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
@@ -94,13 +55,13 @@ public class CharacterCombatBehaviour : MonoBehaviour
         {
             if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
             {
-                if (hit.collider.GetComponent<CharacterStats>() != null && hit.collider.GetComponent<CharacterStats>().TypeOfUnit == TypeOfUnit.Ennemy)
+                if (hit.collider.GetComponent<EntityDetection>() != null)
                 {
-                    TargetedEnemy = hit.collider.transform;
+                    Target = hit.collider.transform;
                 }
                 else
                 {
-                    TargetedEnemy = null;
+                    Target = null;
                     CharacterController.Agent.isStopped = false;
                     CharacterController.Agent.stoppingDistance = 0.2f;
                 }
@@ -109,34 +70,57 @@ public class CharacterCombatBehaviour : MonoBehaviour
     }
     #endregion
 
-    #region Attacking behaviour from moving to a target to performing an attack
+    #region Moving to a target
     void MoveTowardsAnExistingTarget()
     {
-        if (TargetedEnemy != null)
+        if (Target != null)
         {
-            CharacterController.HandleCharacterRotation(transform, TargetedEnemy.position, CharacterController.RotateVelocity, rotateSpeedBeforeAttacking);
+            CharacterController.HandleCharacterRotation(transform, Target.position, CharacterController.RotateVelocity, rotateSpeedBeforeAttacking);
 
-            if (Vector3.Distance(transform.position, TargetedEnemy.position) > CharacterStats.AttackRange)
+            float distance = Vector3.Distance(transform.position, Target.position);
+
+            if (distance > CharacterStats.AttackRange)
             {
                 Debug.Log("Far from target");
                 CharacterController.Agent.isStopped = false;
-                CharacterController.Agent.SetDestination(TargetedEnemy.position);
-                CharacterController.Agent.stoppingDistance = CharacterStats.AttackRange;
+                CharacterController.Agent.SetDestination(Target.position);
             }
-            else if (Vector3.Distance(transform.position, TargetedEnemy.position) <= CharacterStats.AttackRange)
+            else if (distance <= CharacterStats.AttackRange)
             {
                 Debug.Log("Close enough to target");
                 CharacterController.Agent.isStopped = true;
                 CharacterController.Agent.stoppingDistance = CharacterStats.AttackRange;
-                PerformAnAttack();
+
+                TryPerformAnAttack();
+                TryInteract();
             }
         }
     }
+    #endregion
 
-    private void PerformAnAttack()
+    #region Interactions
+
+    private void TryInteract()
     {
-        if (CanPerformAttack)
+        if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele && 
+            Target.GetComponent<Harvester>().harvestState != HarvestState.APlayerIsCollectingHarvestedRessources)
         {
+            Debug.Log("Interaction with stele !");
+
+            Target.GetComponent<Harvester>().harvestState = HarvestState.APlayerIsCollectingHarvestedRessources;
+
+            IsCollecting = true;
+            CharacterAnimator.SetBool("IsCollecting", true);
+            Target.GetComponent<Harvester>().PlayerFound = transform;
+        }
+    }
+
+    private void TryPerformAnAttack()
+    {
+        if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Ennemy && CanPerformAttack)
+        {
+            IsCollecting = false;
+
             if (CombatAttackType == CombatAttackType.MeleeCombat)
             {
                 Debug.Log("Melee Attack performed !");
@@ -188,11 +172,11 @@ public class CharacterCombatBehaviour : MonoBehaviour
     #region Behaviours of every type of attack - Melee / Ranged
     public void MeleeAttack()
     {
-        if (TargetedEnemy != null)
+        if (Target != null)
         {
-            if (TargetedEnemy.GetComponent<CharacterStats>() != null)
+            if (Target.GetComponent<CharacterStats>() != null)
             {
-                TargetedEnemy.GetComponent<CharacterStats>().TakeDamage(transform, CharacterStats.CurrentAttackDamage, CharacterStats.CurrentMagicDamage, CharacterStats.CurrentCriticalStrikeChance, CharacterStats.CurrentCriticalStrikeMultiplier, CharacterStats.CurrentArmorPenetration, CharacterStats.CurrentMagicResistancePenetration);
+                Target.GetComponent<CharacterStats>().TakeDamage(transform, CharacterStats.CurrentAttackDamage, CharacterStats.CurrentMagicDamage, CharacterStats.CurrentCriticalStrikeChance, CharacterStats.CurrentCriticalStrikeMultiplier, CharacterStats.CurrentArmorPenetration, CharacterStats.CurrentMagicResistancePenetration);
             }
         }
 
@@ -209,7 +193,7 @@ public class CharacterCombatBehaviour : MonoBehaviour
 
         attackProjectile.ProjectileType = ProjectileType.TravelsToAPosition;
         attackProjectile.ProjectileSender = transform;
-        attackProjectile.Target = TargetedEnemy;
+        attackProjectile.Target = Target;
 
         CanPerformAttack = true;
     }

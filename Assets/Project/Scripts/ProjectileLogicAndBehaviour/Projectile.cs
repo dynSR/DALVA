@@ -30,14 +30,15 @@ public class Projectile : MonoBehaviour
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
-    private void Awake()
+    private void Start()
     {
         if (ProjectileType == ProjectileType.TravelsToAPosition)
         {
             if (Target != null)
                 TargetCharacterStats = Target.GetComponent<CharacterStats>();
-            //else if(Target == null)
-                //Destroy(gameObject);
+
+            if (Target == null)
+                Destroy(gameObject);
         }
     }
 
@@ -95,9 +96,9 @@ public class Projectile : MonoBehaviour
         {
             Debug.Log("Enemy touched !");
 
-            CharacterStats targetStats = targetCollider.gameObject.GetComponent<CharacterStats>();
+            EntityDetection entityFound = targetCollider.gameObject.GetComponent<EntityDetection>();
 
-            if (targetStats.TypeOfUnit == TypeOfUnit.Ennemy)
+            if (entityFound.TypeOfEntity == TypeOfEntity.Ennemy)
             {
                 Debug.Log("Projectile Applies Damage !");
                 targetCollider.gameObject.GetComponent<CharacterStats>().TakeDamage(

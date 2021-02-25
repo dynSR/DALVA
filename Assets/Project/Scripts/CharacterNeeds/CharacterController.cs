@@ -31,8 +31,8 @@ public class CharacterController : MonoBehaviourPun
     }
 
     public Camera CharacterCamera { get { return characterCamera; } private set { characterCamera = value; } }
+    private CharacterInteractionsHandler CharacterInteractions => GetComponent<CharacterInteractionsHandler>();
     private CharacterStats CharacterStats => GetComponent<CharacterStats>();
-    private PlayerHUD PlayerHUD => GetComponent<PlayerHUD>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public float InitialMoveSpeed { get; private set; }
     public float CurrentMoveSpeed { get => Agent.speed ; set => Agent.speed = value; }
@@ -41,7 +41,6 @@ public class CharacterController : MonoBehaviourPun
 
     private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && GetComponentInChildren<PlayerHUD>().IsShopWindowOpen;
     public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
-
 
     protected virtual void Awake()
     {
@@ -76,6 +75,9 @@ public class CharacterController : MonoBehaviourPun
             if (UtilityClass.RightClickIsPressed())
             {
                 Debug.Log("Object touched by the character controller raycast " + raycastHit.transform.gameObject.name);
+
+                CharacterInteractions.IsCollecting = false;
+                CharacterAnimator.SetBool("IsCollecting", false);
 
                 MovementFeedbackInstantiation(movementFeedback, raycastHit.point);
             }

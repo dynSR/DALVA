@@ -35,9 +35,6 @@ public class StatusEffectHandler : MonoBehaviour
         allStatusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffectDuration));
 
         OnApplyingStatusEffectEvent?.Invoke(newStatusEffect);
-
-        //PlayerHUD targetHUD = newStatusEffect.GetTargetHUD(newStatusEffect.Target);
-        //targetHUD.UpdateStatusEffectUI(newStatusEffect);
     }
 
     private void ApplyStatusEffectDurationOverTime()

@@ -158,7 +158,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
     [Header("DEATH PARAMETERS")]
     [SerializeField] private float timeToRespawn;
     public Transform sourceOfDamage;
-    private CharacterCombatBehaviour CombatBehaviour => GetComponent<CharacterCombatBehaviour>();
+    private CharacterInteractionsHandler Interactions => GetComponent<CharacterInteractionsHandler>();
     public bool IsDead => CurrentHealth <= 0;
     public float TimeToRespawn { get => timeToRespawn; set => timeToRespawn = value; }
 
@@ -181,7 +181,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
         {
             case CharacterClass.Archer:
                 AttackRange = rangedAttackRange;
-                if (CombatBehaviour != null)
+                if (Interactions != null)
                     SetCombatAttackTypeAtStart(CombatAttackType.RangedCombat);
                 break;
             case CharacterClass.Coloss:
@@ -194,7 +194,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
                 break;
             case CharacterClass.Mage:
                 AttackRange = rangedAttackRange;
-                if (CombatBehaviour != null)
+                if (Interactions != null)
                     SetCombatAttackTypeAtStart(CombatAttackType.RangedCombat);
                 break;
             default:
@@ -306,8 +306,8 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
 
     private void SetCombatAttackTypeAtStart(CombatAttackType combatAttackType)
     {
-        if (CombatBehaviour != null)
-            CombatBehaviour.CombatAttackType = combatAttackType;
+        if (Interactions != null)
+            Interactions.CombatAttackType = combatAttackType;
     }
     #endregion
 
@@ -395,7 +395,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
         if (deathHUD != null)
             deathHUD.SetActive(true);
 
-        if (CombatBehaviour != null) CombatBehaviour.CanPerformAttack = false;
+        if (Interactions != null) Interactions.CanPerformAttack = false;
         
         yield return new WaitForSeconds(timeBeforeRespawn);
 
@@ -407,7 +407,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
         if (deathHUD != null)
             deathHUD.SetActive(false);
 
-        if (CombatBehaviour != null) CombatBehaviour.CanPerformAttack = true;
+        if (Interactions != null) Interactions.CanPerformAttack = true;
 
         Debug.Log("is Dead " + IsDead);
     }

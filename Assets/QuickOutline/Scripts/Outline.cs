@@ -12,7 +12,7 @@ using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-
+[RequireComponent(typeof(EntityDetection))]
 public class Outline : MonoBehaviour 
 {
     private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
@@ -89,7 +89,7 @@ public class Outline : MonoBehaviour
 
     private bool needsUpdate;
 
-    private CharacterStats CharacterStats => GetComponent<CharacterStats>();
+    private EntityDetection EntityFound => GetComponent<EntityDetection>();
 
     void Awake()
     {
@@ -112,16 +112,22 @@ public class Outline : MonoBehaviour
 
     private void Start()
     {
-        switch (CharacterStats.TypeOfUnit)
+        switch (EntityFound.TypeOfEntity)
         {
-            case TypeOfUnit.Self:
+            case TypeOfEntity.None:
+                enabled = false;
+                break;
+            case TypeOfEntity.Self:
                 outlineColor = Color.white;
                 break;
-            case TypeOfUnit.Ennemy:
+            case TypeOfEntity.Ennemy:
                 outlineColor = Color.red;
                 break;
-            case TypeOfUnit.Ally:
+            case TypeOfEntity.Ally:
                 outlineColor = Color.blue;
+                break;
+            case TypeOfEntity.Stele:
+                outlineColor = Color.yellow;
                 break;
             default:
                 break;

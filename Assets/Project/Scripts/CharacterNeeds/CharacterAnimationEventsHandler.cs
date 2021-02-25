@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterAnimationEventsHandler : MonoBehaviour
 {
     public Animator MyAnimator => GetComponent<Animator>();
-    private CharacterCombatBehaviour AttachedCombatBehaviour => GetComponentInParent<CharacterCombatBehaviour>();
+    private CharacterInteractionsHandler AttachedCombatBehaviour => GetComponentInParent<CharacterInteractionsHandler>();
     private CharacterStats AttachedStats => GetComponentInParent<CharacterStats>();
 
     [Header("CHARACTER ANIMATION CONTROLLERS")]

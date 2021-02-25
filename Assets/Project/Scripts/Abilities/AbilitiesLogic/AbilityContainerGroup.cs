@@ -12,7 +12,7 @@ public class AbilityContainerGroup : MonoBehaviour
     [SerializeField] private List<KeyCode> abilitiesInputKeys;
     [SerializeField] private GameObject abilityContainerPrefab;
 
-    private List<AbilityContainer> abilityContainers = new List<AbilityContainer>();
+    private readonly List<AbilityContainer> abilityContainers = new List<AbilityContainer>();
     
     private void Start()
     {

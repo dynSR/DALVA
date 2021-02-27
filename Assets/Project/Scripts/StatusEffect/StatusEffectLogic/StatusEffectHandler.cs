@@ -3,20 +3,18 @@ using UnityEngine;
 
 public class StatusEffectHandler : MonoBehaviour
 {
-    public delegate void StatusEffectApplication(StatusEffect statusEffectApplied);
+    public delegate void StatusEffectApplication(StatusEffectSystem statusEffectApplied);
     public static event StatusEffectApplication OnApplyingStatusEffectEvent;
 
-    private bool IsThereMoreThanOneStatusEffectApplied => allStatusEffectApplied.Count > 0;
-
-    [SerializeField] private List<StatusEffectDurationData> allStatusEffectApplied = new List<StatusEffectDurationData>();
+    [SerializeField] private List<StatusEffectDurationData> statusEffectApplied = new List<StatusEffectDurationData>();
 
     [System.Serializable]
     private class StatusEffectDurationData
     {
-        public StatusEffect statusEffect;
+        public StatusEffectSystem statusEffect;
         public float duration;
 
-        public StatusEffectDurationData(StatusEffect statusEffect, float duration)
+        public StatusEffectDurationData(StatusEffectSystem statusEffect, float duration)
         {
             this.statusEffect = statusEffect;
             this.duration = duration;
@@ -25,74 +23,52 @@ public class StatusEffectHandler : MonoBehaviour
 
     void Update()
     {
-        ApplyStatusEffectDurationOverTime();
-        HandleExpiredStatusEffect();
+        ProcessDuration();
+        HandleExpiredEffect();
     }
 
-    #region Status Effect Duration Handler Section
-    public void ApplyNewStatusEffect(StatusEffect newStatusEffect)
+    #region Applying an effect
+    public void AddNewEffect(StatusEffectSystem newStatusEffect)
     {
-        allStatusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffectDuration));
+        statusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffect.StatusEffectDuration));
 
         OnApplyingStatusEffectEvent?.Invoke(newStatusEffect);
     }
 
-    private void ApplyStatusEffectDurationOverTime()
+    public bool IsEffectAlreadyApplied(StatusEffectSystem statusEffect)
     {
-        for (int i = 0; i < allStatusEffectApplied.Count; i++)
+        foreach (StatusEffectDurationData durationData in statusEffectApplied)
         {
-            allStatusEffectApplied[i].duration -= Time.deltaTime;
-        }
-    }
-
-    public bool AreThereSimilarExistingStatusEffects(StatusEffect newStatusEffectApplied)
-    {
-        for (int i = 0; i <= allStatusEffectApplied.Count; i++)
-        {
-            if (IsThereMoreThanOneStatusEffectApplied && allStatusEffectApplied[i].statusEffect.TypeOfEffect == newStatusEffectApplied.TypeOfEffect && allStatusEffectApplied[i].statusEffect.StatusEffectName != newStatusEffectApplied.StatusEffectName)
+            if (durationData.statusEffect.StatusEffect.StatusEffectId == statusEffect.StatusEffect.StatusEffectId)
             {
-                Debug.Log(newStatusEffectApplied.StatusEffectName + " is the same that " + allStatusEffectApplied[i].statusEffect.StatusEffectName);
+                Debug.Log(statusEffect.StatusEffect.StatusEffectName + " will remain for " + durationData.duration.ToString("0.0") + " seconds before expiring!");
                 return true;
             }
         }
 
         return false;
     }
+    #endregion
 
-    public void RemoveStatusEffectOfSameTypeAlreadyApplied()
+    #region Status Effect Duration Handler Section
+    private void ProcessDuration()
     {
-        for (int i = 0; i <= allStatusEffectApplied.Count; i++)
+        for (int i = 0; i < statusEffectApplied.Count; i++)
         {
-            allStatusEffectApplied[i].statusEffect.RemoveStatusEffect();
-            allStatusEffectApplied[i].statusEffect.StatusEffectContainer.DestroyContainer();
-            allStatusEffectApplied.Remove(allStatusEffectApplied[i]);
+            statusEffectApplied[i].duration -= Time.deltaTime;
         }
     }
 
-    private void HandleExpiredStatusEffect()
+    private void HandleExpiredEffect()
     {
-        for (int i = allStatusEffectApplied.Count - 1; i >= 0; i--)
+        for (int i = statusEffectApplied.Count - 1; i >= 0; i--)
         {
-            if (allStatusEffectApplied[i].duration <= 0)
+            if (statusEffectApplied[i].duration <= 0)
             {
-                allStatusEffectApplied[i].statusEffect.RemoveStatusEffect();
-                allStatusEffectApplied.RemoveAt(i);
+                statusEffectApplied[i].statusEffect.RemoveEffect();
+                statusEffectApplied.RemoveAt(i);
             }
         }
-    }
-
-    public bool IsTheDurationOfStatusEffectOver(StatusEffect statusEffect)
-    {
-        foreach (StatusEffectDurationData durationData in allStatusEffectApplied)
-        {
-            if (durationData.statusEffect == statusEffect)
-            {
-                Debug.Log(statusEffect.StatusEffectName + " will remain for " + durationData.duration.ToString("0.0") + " seconds before expiring!");
-                return true;
-            }
-        }
-
-        return false;
     }
     #endregion
 }

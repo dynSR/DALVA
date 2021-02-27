@@ -88,7 +88,7 @@ public class MiniMapMovementHandler : MonoBehaviour, IPointerDownHandler, IPoint
             {
                 Debug.Log("RIGHT CLICK ON MAP");
 
-                PlayerController.SetNavMeshDestinationWithRayCast(miniMapRay);
+                PlayerController.SetNavMeshDestination(miniMapRay);
                 GameObject go = Instantiate(movementFeedbackToInstantiate, miniMapHit.point, Quaternion.identity);
             }
         }

@@ -39,12 +39,12 @@ public class PlayerHUD : MonoBehaviour
     }
 
     #region Status effects
-    public void UpdateStatusEffectUI(StatusEffect statusEffect)
+    public void UpdateStatusEffectUI(StatusEffectSystem statusEffect)
     {
         GameObject statusEffectFeedbackInstance = Instantiate(statusEffectGameObject) as GameObject;
         statusEffectFeedbackInstance.transform.SetParent(statusEffectLayoutGroup);
 
-        statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>().ContainedStatusEffect = statusEffect;
+        statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>().ContainedStatusEffectSystem = statusEffect;
         statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainer>();
     }
     #endregion

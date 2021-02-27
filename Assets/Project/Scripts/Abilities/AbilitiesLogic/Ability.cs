@@ -4,7 +4,6 @@ using System.Collections;
 
 public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
 
-[RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(AbilitiesCooldownHandler))]
 public abstract class Ability : MonoBehaviourPun
 {
@@ -15,10 +14,10 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private Sprite abilityIcon;
     [SerializeField] private GameObject abilityPrefab;
-    private CharacterStats CharacterStats => GetComponent<CharacterStats>();
-    private CharacterController CharacterController => GetComponent<CharacterController>();
-    public CharacterInteractionsHandler CombatBehaviour => GetComponent<CharacterInteractionsHandler>();
-    private AbilitiesCooldownHandler CooldownHandler => GetComponent<AbilitiesCooldownHandler>();
+    private CharacterStats Stats => GetComponent<CharacterStats>();
+    private CharacterController Controller => GetComponent<CharacterController>();
+    public CharacterInteractionsHandler InteractionsHandler => GetComponent<CharacterInteractionsHandler>();
+    private AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
 
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private float abilityCooldown;
@@ -26,7 +25,7 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private float abilityRange;
     [SerializeField] private float abilityAreaOfEffect;
     [SerializeField] private float abilityEffectDuration = 0f;
-
+    #region Public refs
     public string AbilityDescription { get => abilityDescription; }
     public string AbilityName { get => abilityName; }
     public AbilityType AbilityType { get => abilityType; }
@@ -38,20 +37,19 @@ public abstract class Ability : MonoBehaviourPun
     public float AbilityAreaOfEffect { get => abilityAreaOfEffect; }
     public Sprite AbilityIcon { get => abilityIcon; }
     public KeyCode AbilityKey { get => abilityKey; }
+    #endregion
 
     protected abstract void Cast();
 
     protected virtual void Update()
     {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true){ return; }
-
-        if (CharacterStats.IsDead) return;
+        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) { return; }
 
         if (Input.GetKeyDown(AbilityKey))
         {
-            if (CooldownHandler.IsAbilityOnCooldown(this)) return;
+            if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this)) return;
 
-            CombatBehaviour.Target = null;
+            InteractionsHandler.Target = null;
 
             LockCharacterInPlaceJustBeforeCasting();
 
@@ -62,12 +60,12 @@ public abstract class Ability : MonoBehaviourPun
 
     private void LockCharacterInPlaceJustBeforeCasting()
     {
-        CharacterController.Agent.ResetPath();
+        Controller.Agent.ResetPath();
     }
 
-    private IEnumerator PutAbilityOnCooldown(float timeToWait)
+    private IEnumerator PutAbilityOnCooldown(float delay)
     {
-        yield return new WaitForSeconds(timeToWait);
-        CooldownHandler.PutAbilityOnCooldown(this);
+        yield return new WaitForSeconds(delay);
+        AbilitiesCooldownHandler.PutAbilityOnCooldown(this);
     }
 }

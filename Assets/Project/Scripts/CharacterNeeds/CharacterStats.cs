@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CharacterClass { Archer, /*Berzerk,*/ Coloss, DaggerMaster, Mage, /*Priest*/ }
-public enum TypeOfUnit { Self, Ennemy, Ally }
 
 public class CharacterStats : MonoBehaviour, IDamageable, IKillable
 {
     [Header("CHARACTER NAME, CLASSE & UNIT TYPE")]
     [SerializeField] private string characterName;
     [SerializeField] private CharacterClass characterClass;
-    [SerializeField] private TypeOfUnit typeOfUnit;
 
     [Header("CHARACTER ABILITIES AND DEFAULT ATTACK TYPE")]
     [SerializeField] private List<Ability> characterAbilities;
@@ -99,7 +97,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
     #endregion
 
     [Header("CRITICAL STRIKES CHANCE")]
-    [SerializeField] private float baseCriticalStrikeChance;
+    [SerializeField] private readonly float baseCriticalStrikeChance;
     [SerializeField] private float currentCriticalStrikeChance;//Set to private after Debug
     #region Critical Strikes Public Variables
     public float CurrentCriticalStrikeChance
@@ -117,34 +115,23 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
             }
         }
     }
+    #endregion
+
+    //[Header("CRITICAL STRIKES DAMAGE MULTIPLIER")]
+    private readonly float baseCriticalStrikeDamageMultiplier = 175f;
+    private readonly float maxCriticalStrikeDamageMultiplier = 300f;
+    private float currentCriticalStrikeDamageMultiplier; //Set to private after Debug
+
+    #region Critical Strikes Multiplier Public Variables
     public float CurrentCriticalStrikeMultiplier
     {
         get
         {
             return currentCriticalStrikeDamageMultiplier;
         }
-        set
-        {
-            if (currentCriticalStrikeDamageMultiplier < baseCriticalStrikeDamageMultiplier)
-            {
-                currentCriticalStrikeDamageMultiplier = baseCriticalStrikeDamageMultiplier;
-            }
-            else if (currentCriticalStrikeDamageMultiplier > maxCriticalStrikeDamageMultiplier)
-            {
-                currentCriticalStrikeDamageMultiplier = maxCriticalStrikeDamageMultiplier;
-            }
-            else
-            {
-                currentCriticalStrikeDamageMultiplier = Mathf.Clamp(value, 175, maxCriticalStrikeDamageMultiplier);
-            }
-        }
+        set { currentCriticalStrikeDamageMultiplier = Mathf.Clamp(value, baseCriticalStrikeDamageMultiplier, maxCriticalStrikeDamageMultiplier); }
     }
     #endregion
-
-    //[Header("CRITICAL STRIKES DAMAGE MULTIPLIER")]
-    private float baseCriticalStrikeDamageMultiplier = 175f;
-    private float maxCriticalStrikeDamageMultiplier = 300f;
-    private float currentCriticalStrikeDamageMultiplier; //Set to private after Debug
 
     [Header("DEFENSES PENETRATION")]
     [SerializeField] private float currentArmorPenetration;
@@ -168,7 +155,6 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
 
     public List<Ability> CharacterAbilities { get => characterAbilities; }
     private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
-    public TypeOfUnit TypeOfUnit { get => typeOfUnit; set => typeOfUnit = value; }
     public CharacterClass CharacterClass { get => characterClass; set => characterClass = value; }
 
     protected virtual void Awake()

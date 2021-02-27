@@ -12,7 +12,6 @@ using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-[RequireComponent(typeof(EntityDetection))]
 public class Outline : MonoBehaviour 
 {
     private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
@@ -89,8 +88,6 @@ public class Outline : MonoBehaviour
 
     private bool needsUpdate;
 
-    private EntityDetection EntityFound => GetComponent<EntityDetection>();
-
     void Awake()
     {
         // Cache renderers
@@ -108,32 +105,6 @@ public class Outline : MonoBehaviour
 
         // Apply material properties immediately
         needsUpdate = true;
-    }
-
-    private void Start()
-    {
-        switch (EntityFound.TypeOfEntity)
-        {
-            case TypeOfEntity.None:
-                enabled = false;
-                break;
-            case TypeOfEntity.Self:
-                outlineColor = Color.white;
-                break;
-            case TypeOfEntity.Ennemy:
-                outlineColor = Color.red;
-                break;
-            case TypeOfEntity.Ally:
-                outlineColor = Color.blue;
-                break;
-            case TypeOfEntity.Stele:
-                outlineColor = Color.yellow;
-                break;
-            default:
-                break;
-        }
-
-        enabled = false;
     }
 
     void OnEnable()

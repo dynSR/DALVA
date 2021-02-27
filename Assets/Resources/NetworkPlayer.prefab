@@ -3881,11 +3881,11 @@ GameObject:
   - component: {fileID: 6589107790219068035}
   - component: {fileID: 9098752904120244176}
   - component: {fileID: 354983490}
+  - component: {fileID: 15696516}
+  - component: {fileID: 1538889108}
   - component: {fileID: 5569041192761393495}
   - component: {fileID: 2636058787577912742}
   - component: {fileID: 4379369496629841580}
-  - component: {fileID: 1538889108}
-  - component: {fileID: 15696516}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -4015,7 +4015,6 @@ MonoBehaviour:
   currentAttackSpeed: 0
   maxAttackSpeed: 3
   additiveAttackSpeed: 50
-  baseCriticalStrikeChance: 25
   currentCriticalStrikeChance: 0
   currentArmorPenetration: 0
   currentMagicResistancePenetration: 0
@@ -4041,6 +4040,8 @@ MonoBehaviour:
   basicRangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
   rotateSpeedBeforeAttacking: 0.075
   canPerformAttack: 1
+  interactionRange: 1.5
+  isCollecting: 0
 --- !u!114 &3521843888695352992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4143,7 +4144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHUD: {fileID: 9098752903657886099}
   dalvasTeam: 0
-  charaClass: 0
 --- !u!114 &9098752904120244176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4175,6 +4175,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalCursorIcon: {fileID: 2800000, guid: 303d7649b59409d4c8f044f71931e2a7, type: 3}
   attackCursorIcon: {fileID: 2800000, guid: aee26564c3fc1c54c8c49fe6541ba9d1, type: 3}
+--- !u!114 &15696516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098752904120244182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1e417e156e64740997068200fc14df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeOfEntity: 1
+--- !u!114 &1538889108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098752904120244182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0, g: 0.07363987, b: 1, a: 1}
+  outlineWidth: 1.5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &5569041192761393495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4231,37 +4262,6 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &1538889108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098752904120244182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 0, g: 0.07363987, b: 1, a: 1}
-  outlineWidth: 1.5
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
---- !u!114 &15696516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098752904120244182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c1e417e156e64740997068200fc14df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  typeOfEntity: 1
 --- !u!1 &9098752904188414823
 GameObject:
   m_ObjectHideFlags: 0

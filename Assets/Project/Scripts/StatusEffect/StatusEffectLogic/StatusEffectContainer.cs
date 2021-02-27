@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class StatusEffectContainer : MonoBehaviour
 {
     private TextMeshProUGUI StatusEffectDurationText => GetComponentInChildren<TextMeshProUGUI>();
-    [SerializeField] private StatusEffect containedStatusEffect;
-    public StatusEffect ContainedStatusEffect { get => containedStatusEffect; set => containedStatusEffect = value; }
+    public StatusEffectSystem ContainedStatusEffectSystem { get; set; }
 
     private Image StatusEffectIconContained { get => GetComponent<Image>(); set => StatusEffectIconContained = value; }
 
@@ -14,23 +13,18 @@ public class StatusEffectContainer : MonoBehaviour
 
     private void Start()
     {
-        StatusEffectIconContained.sprite = ContainedStatusEffect.StatusEffectIcon;
-        localTimer = ContainedStatusEffect.StatusEffectDuration;
+        StatusEffectIconContained.sprite = ContainedStatusEffectSystem.StatusEffect.StatusEffectIcon;
+        localTimer = ContainedStatusEffectSystem.StatusEffect.StatusEffectDuration;
         SetUIForContainedStatusEffect();
     }
 
     private void Update()
     {
-        CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(ContainedStatusEffect);
+        CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(ContainedStatusEffectSystem);
     }
 
     void SetUIForContainedStatusEffect()
     {
-        //int minutes = Mathf.FloorToInt(localTimer / 60F);
-        //int seconds = Mathf.FloorToInt(localTimer - minutes * 60);
-
-        //string timer = string.Format("{0:0}:{1:00}", minutes, seconds);
-
         StatusEffectDurationText.text = localTimer.ToString("0");
 
         if (localTimer <= 1)
@@ -42,14 +36,14 @@ public class StatusEffectContainer : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(StatusEffect statusEffect)
+    void CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(StatusEffectSystem statusEffect)
     {
         localTimer -= Time.deltaTime;
         SetUIForContainedStatusEffect();
 
         if (localTimer <= 0)
         {
-            statusEffect.RemoveStatusEffect();
+            statusEffect.RemoveEffect();
             DestroyContainer();
         }
     }

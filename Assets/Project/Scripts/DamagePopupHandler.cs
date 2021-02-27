@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 
 public enum DamageType { Physical, Magic, Critical }
+
 public class DamagePopupHandler : MonoBehaviour
 {
     private DamageType damageType;
@@ -36,7 +37,7 @@ public class DamagePopupHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(DestroyAfterFading(damagePopUpLifeTime, desappearSpeed, gameObject));
+        StartCoroutine(FadeAndDestroy(damagePopUpLifeTime, desappearSpeed, gameObject));
     }
 
     void LateUpdate()
@@ -77,18 +78,18 @@ public class DamagePopupHandler : MonoBehaviour
         }
     }
 
-    private IEnumerator DestroyAfterFading(float time, float desappearSpeed, GameObject objectToDestroy)
+    private IEnumerator FadeAndDestroy(float delay, float fadingSpeed, GameObject popup)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(delay);
 
         do
         {
-            textColor.a -= desappearSpeed * Time.deltaTime;
+            textColor.a -= fadingSpeed * Time.deltaTime;
             DamageValueText.color = textColor;
 
             yield return new WaitForEndOfFrame();
         } while (textColor.a > 0);
 
-        Destroy(objectToDestroy);
+        Destroy(popup);
     }
 }

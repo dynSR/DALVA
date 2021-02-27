@@ -12,7 +12,7 @@ public class CharacterController : MonoBehaviourPun
     [SerializeField] private float rotateSpeedMovement = 0.1f;
     [SerializeField] private bool isPlayerInHisBase = true;
 
-    private float motionSmoothTime = .1f;
+    private readonly float motionSmoothTime = .1f;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
@@ -35,6 +35,9 @@ public class CharacterController : MonoBehaviourPun
     private CharacterStats CharacterStats => GetComponent<CharacterStats>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public float InitialMoveSpeed { get; private set; }
+
+    //ajouter additive speed
+
     public float CurrentMoveSpeed { get => Agent.speed ; set => Agent.speed = value; }
     public float RotateVelocity { get; set; }
     public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
@@ -50,15 +53,13 @@ public class CharacterController : MonoBehaviourPun
 
     protected virtual void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected) return;
-
-        if (CharacterStats.IsDead) return;
+        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || CharacterStats.IsDead) return;
 
         if (UtilityClass.RightClickIsHeld())
         {
             if (CursorIsHoveringMiniMap) return;
 
-            SetNavMeshDestinationWithRayCast(UtilityClass.RayFromMainCameraToMousePosition());
+            SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
         }
 
         HandleMotionAnimation();
@@ -66,7 +67,7 @@ public class CharacterController : MonoBehaviourPun
     }
 
     #region Handle Movement 
-    public void SetNavMeshDestinationWithRayCast(Ray ray)
+    public void SetNavMeshDestination(Ray ray)
     {
         if (PlayerIsConsultingHisShopAtBase) return;
 
@@ -79,15 +80,15 @@ public class CharacterController : MonoBehaviourPun
                 CharacterInteractions.IsCollecting = false;
                 CharacterAnimator.SetBool("IsCollecting", false);
 
-                MovementFeedbackInstantiation(movementFeedback, raycastHit.point);
+                CreateMovementFeedback(movementFeedback, raycastHit.point);
             }
 
-            SetNavMeshAgentDestination(raycastHit.point);
+            SetAgentDestination(raycastHit.point);
             HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, rotateSpeedMovement);
         }
     }
 
-    private void SetNavMeshAgentDestination(Vector3 pos)
+    private void SetAgentDestination(Vector3 pos)
     {
         Agent.SetDestination(pos);
     }
@@ -124,7 +125,7 @@ public class CharacterController : MonoBehaviourPun
         }
     }
 
-    private void MovementFeedbackInstantiation(GameObject _movementFeedback, Vector3 pos)
+    private void CreateMovementFeedback(GameObject _movementFeedback, Vector3 pos)
     {
         if (_movementFeedback != null)
             Instantiate(_movementFeedback, pos, Quaternion.identity);

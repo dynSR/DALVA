@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{C35EB7AB-5148-4A42-858D-AFD565ED9A1E}" SchemaVersion="97">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{C35EB7AB-5148-4A42-858D-AFD565ED9A1E}" PersistMode="Standalone">
+			<ChildrenList>
+				<Sound Name="SFX_Buff" ID="{977A6D53-0925-4F29-8FDF-FEF2A897C18B}" ShortID="25769081">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EE59BE4E-3D68-4BB7-AC81-583945571304}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44D4E75A-61C5-4D8E-8241-8FF7044E8F80}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="SFX_Buff" ID="{79E71A19-9FAB-47AA-9AFC-EDA3525E5546}">
+							<Language>SFX</Language>
+							<AudioFile>SFX_Buff.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="1022825542"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="SFX_Buff" ID="{79E71A19-9FAB-47AA-9AFC-EDA3525E5546}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

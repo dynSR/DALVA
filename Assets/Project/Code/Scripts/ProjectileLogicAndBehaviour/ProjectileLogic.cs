@@ -36,9 +36,6 @@ public class ProjectileLogic : MonoBehaviour
         {
             if (Target != null)
                 TargetCharacterStats = Target.GetComponent<CharacterStats>();
-
-            if (Target == null)
-                Destroy(gameObject);
         }
     }
 
@@ -62,15 +59,20 @@ public class ProjectileLogic : MonoBehaviour
     #region Projectile Behaviours
     void ProjectileMoveToATarget()
     {
-        if (Target == null) return;
+        if (Target.GetComponent<NavMeshAgent>())
+        {
+            targetPosition = Target.position;
 
-        targetPosition = Target.position;
+            Rb.MovePosition(Vector3.MoveTowards(transform.position,
+                targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0),
+                ProjectileSpeed * Time.fixedDeltaTime));
 
-        Rb.MovePosition(Vector3.MoveTowards(transform.position,
-            targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0),
-            ProjectileSpeed * Time.fixedDeltaTime));
-
-        transform.LookAt(Target);
+            transform.LookAt(Target);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void ProjectileTravelsForward(Transform sender)

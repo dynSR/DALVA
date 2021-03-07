@@ -12,7 +12,7 @@ public class CursorLogic : MonoBehaviour
     public Texture2D AttackCursorIcon { get => attackCursorIcon; }
 
     private CharacterController Controller => GetComponent<CharacterController>();
-    private CharacterInteractions InteractionsHandler => GetComponent<CharacterInteractions>();
+    private TargetHandler TargetHandler => GetComponent<TargetHandler>();
 
     RaycastHit cursorHit;
 
@@ -44,7 +44,6 @@ public class CursorLogic : MonoBehaviour
                     case TypeOfEntity.None:
                         break;
                     case TypeOfEntity.Self:
-                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
                     case TypeOfEntity.Enemy:
@@ -60,6 +59,10 @@ public class CursorLogic : MonoBehaviour
                         ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
+                    case TypeOfEntity.Harvester:
+                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
+                        AssignKnownTarget(knownTargetDetected.transform);
+                        break;
                     default:
                         break;
                 }
@@ -68,10 +71,10 @@ public class CursorLogic : MonoBehaviour
             {
                 SetCursorToNormalAppearance();
 
-                if (InteractionsHandler.KnownTarget != null)
+                if (TargetHandler.KnownTarget != null)
                 {
-                    DeactivateTargetOutlineOnHover(InteractionsHandler.KnownTarget.GetComponent<Outline>());
-                    InteractionsHandler.KnownTarget = null;
+                    DeactivateTargetOutlineOnHover(TargetHandler.KnownTarget.GetComponent<Outline>());
+                    TargetHandler.KnownTarget = null;
                 }
             }
         }
@@ -104,7 +107,7 @@ public class CursorLogic : MonoBehaviour
     private void AssignKnownTarget(Transform targetFound)
     {
         if (targetFound.GetComponent<EntityDetection>() != null)
-            InteractionsHandler.KnownTarget = targetFound.transform;
+            TargetHandler.KnownTarget = targetFound.transform;
     }
     #endregion
 }

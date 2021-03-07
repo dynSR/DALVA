@@ -16,7 +16,7 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private GameObject abilityPrefab;
     private CharacterStats Stats => GetComponent<CharacterStats>();
     private CharacterController Controller => GetComponent<CharacterController>();
-    public CharacterInteractions InteractionsHandler => GetComponent<CharacterInteractions>();
+    public TargetHandler TargetHandler => GetComponent<TargetHandler>();
     private AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
 
     [Header("NUMERIC PARAMETERS")]
@@ -49,7 +49,7 @@ public abstract class Ability : MonoBehaviourPun
         {
             if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this)) return;
 
-            InteractionsHandler.Target = null;
+            TargetHandler.Target = null;
 
             LockCharacterInPlaceJustBeforeCasting();
 

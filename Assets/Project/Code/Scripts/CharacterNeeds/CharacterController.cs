@@ -31,7 +31,7 @@ public class CharacterController : MonoBehaviourPun
     }
 
     public Camera CharacterCamera { get { return characterCamera; } private set { characterCamera = value; } }
-    private CharacterInteractions CharacterInteractions => GetComponent<CharacterInteractions>();
+    private InteractionsSystem CharacterInteractions => GetComponent<InteractionsSystem>();
     private CharacterStats CharacterStats => GetComponent<CharacterStats>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     public float InitialMoveSpeed { get; private set; }
@@ -59,6 +59,8 @@ public class CharacterController : MonoBehaviourPun
         {
             if (CursorIsHoveringMiniMap) return;
 
+            CharacterInteractions.ResetInteractionState();
+
             SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
         }
 
@@ -76,9 +78,6 @@ public class CharacterController : MonoBehaviourPun
             if (UtilityClass.RightClickIsPressed())
             {
                 Debug.Log("Object touched by the character controller raycast " + raycastHit.transform.gameObject.name);
-
-                CharacterInteractions.IsCollecting = false;
-                CharacterAnimator.SetBool("IsCollecting", false);
 
                 CreateMovementFeedback(movementFeedback, raycastHit.point);
             }
@@ -113,7 +112,7 @@ public class CharacterController : MonoBehaviourPun
 
     public void DebugPathing(LineRenderer line)
     {
-        if (Agent.hasPath)
+        if (Agent.hasPath && CharacterInteractions.Target != null)
         {
             line.positionCount = Agent.path.corners.Length;
             line.SetPositions(Agent.path.corners);

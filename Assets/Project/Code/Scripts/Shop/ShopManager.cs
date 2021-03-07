@@ -81,7 +81,7 @@ public class ShopManager : MonoBehaviour
             inventoryBoxOfItem.StoredItem.ItemCost, 
             inventoryBoxOfItem.StoredItemTransactionID));
 
-        OnBuyingAnItem?.Invoke(PlayerRessources.AmountOfPlayerRessources - inventoryBoxOfItem.StoredItem.ItemCost);
+        OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - inventoryBoxOfItem.StoredItem.ItemCost);
     }
     #endregion
 
@@ -109,7 +109,7 @@ public class ShopManager : MonoBehaviour
             inventoryBoxOfItem.StoredItem.ItemCost, 
             inventoryBoxOfItem.StoredItemTransactionID));
 
-        OnSellingAnItem?.Invoke(PlayerRessources.AmountOfPlayerRessources + inventoryBoxOfItem.StoredItem.ItemCost);
+        OnSellingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + inventoryBoxOfItem.StoredItem.ItemCost);
 
         PlayerInventory.RemoveItemFromInventory(inventoryBoxOfItem);
         PlayerInventory.ResetAllBoxesSelectionIcons();

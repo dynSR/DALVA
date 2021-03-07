@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeOfEntity { None, Self, Enemy, Ally, Stele }
+public enum TypeOfEntity { None, Self, Enemy, Ally, Stele, Harvester }
 
 [RequireComponent(typeof(Outline))]
+[RequireComponent(typeof(VisibilityState))]
 public class EntityDetection : MonoBehaviour
 {
     [SerializeField] private TypeOfEntity typeOfEntity;
@@ -31,6 +32,9 @@ public class EntityDetection : MonoBehaviour
                 Outline.OutlineColor = Color.blue;
                 break;
             case TypeOfEntity.Stele:
+                Outline.OutlineColor = Color.yellow;
+                break;
+            case TypeOfEntity.Harvester:
                 Outline.OutlineColor = Color.yellow;
                 break;
             default:

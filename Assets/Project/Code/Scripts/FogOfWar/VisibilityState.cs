@@ -12,6 +12,8 @@ public class VisibilityState : MonoBehaviour
 
     private void InitVisibility()
     {
+        if (MyRenderer == null) return;
+
         if (IsVisible) SetToVisible();
         if (!IsVisible) SetToInvisible();
     }

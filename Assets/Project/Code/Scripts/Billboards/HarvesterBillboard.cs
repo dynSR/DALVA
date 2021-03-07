@@ -11,12 +11,12 @@ public class HarvesterBillboard : BillBoard
 
     private void OnEnable()
     {
-        Harvester.OnHarvestingRessources += SetHarvesterUIElements;
+        HarvesterLogic.OnHarvestingRessources += SetHarvesterUIElements;
     }
 
     private void OnDisable()
     {
-        Harvester.OnHarvestingRessources -= SetHarvesterUIElements;
+        HarvesterLogic.OnHarvestingRessources -= SetHarvesterUIElements;
     }
 
     protected override void Awake()

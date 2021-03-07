@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0144328179d43794b93f3b5a2932c0c2, type: 3}
+  m_Name: Character_Mage
+  m_EditorClassIdentifier: 
+  characterName: Hilfin
+  characterClass: 4
+  combatType: 1
+  baseMaxHealth: 650
+  baseHealthRegeneration: 0.675
+  baseCooldownReduction: 0
+  maxCooldownReduction: 40
+  baseArmor: 35
+  baseMagicResistance: 37
+  baseAttackRange: 4.5
+  baseAttackSpeed: 0.625
+  maxAttackSpeed: 3
+  baseAttackDamage: 27
+  baseMagicDamage: 65
+  baseCriticalStrikeChance: 0
+  baseCriticalStrikeMultiplier: 175
+  maxCriticalStrikeMultiplier: 300
+  animatorController: {fileID: 9100000, guid: 49c027e6fb2507d4285ab0bb110e61fc, type: 2}

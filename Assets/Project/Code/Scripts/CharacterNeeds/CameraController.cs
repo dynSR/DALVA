@@ -50,7 +50,7 @@ public class CameraController : MonoBehaviour
     {
         if (CameraIsLocked)
         {
-            Debug.Log("Camera is locked and it's following a target");
+            //Debug.Log("Camera is locked and it's following a target");
             FollowATarget(TargetToFollow);
         }
         else if (CameraIsUnlocked)

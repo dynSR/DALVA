@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCollide : MonoBehaviour
+public class NPCInteractions : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,11 +15,4 @@ public class EnemyCollide : MonoBehaviour
     {
         
     }
-    void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("collide");
-        if(collision.gameObject.tag == "Minions")
-        Destroy(gameObject);
-    }
-
 }

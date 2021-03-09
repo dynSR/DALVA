@@ -7,16 +7,18 @@ using UnityEngine;
 
 class WaypointState : IState
 {
-    private Sc_Minions_Base parent;
-    public void Enter(Sc_Minions_Base parent)
+    private MinionBehaviour parent;
+    public void Enter(MinionBehaviour parent)
     {
         Debug.Log("WaypointState");
+
         this.parent = parent;
-        parent.agent.isStopped = false;
+        parent.Agent.isStopped = false;
+
         if (parent.WavePointIndex == 0)
         {
-            parent.agent.SetDestination(parent.WaypointsToReach[0].position);
-            Debug.Log("waypoint "+ parent.WaypointsToReach[0].name);
+            parent.Agent.SetDestination(parent.Waypoints[0].position);
+            Debug.Log("waypoint "+ parent.Waypoints[0].name);
         }
     }
 
@@ -35,23 +37,26 @@ class WaypointState : IState
         else
         {
             //parent.agent.isStopped = true;
-            parent.agent.SetDestination(parent.WaypointsToReach[parent.WavePointIndex].position);
-            if (Vector3.Distance(parent.transform.position, parent.WaypointsToReach[parent.WavePointIndex].position) <= 1.2f)
+            parent.Agent.SetDestination(parent.Waypoints[parent.WavePointIndex].position);
+
+            if (Vector3.Distance(parent.transform.position, parent.Waypoints[parent.WavePointIndex].position) <= 1.2f)
             {
-                GetNextWaipoint();
+                GetNextWaypoint();
             }
         }
     }
 
-    void GetNextWaipoint()
+    void GetNextWaypoint()
     {
-        if (parent.WavePointIndex >= parent.WaypointsToReach.Length - 1)
-        {
-            GameObject.Destroy(parent.gameObject);
-            Debug.Log("lastWaypoint");
-            return;
-        }
+        //if (parent.WavePointIndex >= parent.Waypoints.Count - 1)
+        //{
+        //    UnityEngine.Object.Destroy(parent.gameObject);
+        //    Debug.Log("lastWaypoint");
+        //    return;
+        //}
+
         parent.WavePointIndex++;
-        Debug.Log("next Waypoint"+ parent.WaypointsToReach[parent.WavePointIndex].name);
+
+        Debug.Log("next Waypoint"+ parent.Waypoints[parent.WavePointIndex].name);
     }
 }

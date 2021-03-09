@@ -2,25 +2,29 @@
 
 class FollowState : IState
 {
-    private Sc_Minions_Base parent;
-    public void Enter(Sc_Minions_Base parent)
+    private MinionBehaviour parent;
+    public void Enter(MinionBehaviour parent)
     {
         Debug.Log("follow");
         this.parent = parent;
-        parent.agent.isStopped = false;
+
+        parent.Agent.isStopped = false;
     }
 
     public void Exit()
     {
-        parent.agent.SetDestination(Vector3.zero);
+        parent.Agent.isStopped = true;
+        parent.Agent.stoppingDistance = parent.MyAttackRange;
     }
 
     public void Update()
     {
         if (parent.Target != null)
         {
-            parent.agent.SetDestination(parent.Target.position);
+            UtilityClass.SetAgentDestination(parent.Target.position, parent.Agent);
+
             float distance = Vector3.Distance(parent.Target.position, parent.transform.position);
+
             if(distance <= parent.MyAttackRange)
             {
                 parent.ChangeState(new AttackState());

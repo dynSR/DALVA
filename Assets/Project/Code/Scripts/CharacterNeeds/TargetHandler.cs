@@ -39,7 +39,6 @@ public abstract class TargetHandler : MonoBehaviour
     public abstract void Interact();
     public abstract void ResetInteractionState();
 
-
     #region Set player's target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
@@ -76,7 +75,7 @@ public abstract class TargetHandler : MonoBehaviour
     {
         if (Target != null)
         {
-            CharacterController.HandleCharacterRotation(transform, Target.position, CharacterController.RotateVelocity, rotationSpeed);
+            UtilityClass.HandleCharacterRotation(transform, Target.position, CharacterController.RotateVelocity, rotationSpeed);
 
             distance = Vector3.Distance(transform.position, Target.position);
             CharacterController.Agent.stoppingDistance = minDistance;

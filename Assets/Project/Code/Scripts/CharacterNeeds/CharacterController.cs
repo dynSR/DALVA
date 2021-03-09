@@ -11,7 +11,6 @@ public class CharacterController : MonoBehaviourPun
     [SerializeField] private Camera characterCamera;
     [SerializeField] private float rotateSpeedMovement = 0.1f;
     [SerializeField] private bool isPlayerInHisBase = true;
-
     private readonly float motionSmoothTime = .1f;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
@@ -39,6 +38,7 @@ public class CharacterController : MonoBehaviourPun
     //ajouter additive speed
 
     public float CurrentMoveSpeed { get => Agent.speed ; set => Agent.speed = value; }
+    public float MotionSmoothTime { get => motionSmoothTime; }
     public float RotateVelocity { get; set; }
     public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
 
@@ -64,7 +64,7 @@ public class CharacterController : MonoBehaviourPun
             SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
         }
 
-        HandleMotionAnimation();
+        UtilityClass.HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
         DebugPathing(MyLineRenderer);
     }
 
@@ -82,32 +82,9 @@ public class CharacterController : MonoBehaviourPun
                 CreateMovementFeedback(movementFeedback, raycastHit.point);
             }
 
-            SetAgentDestination(raycastHit.point);
-            HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, rotateSpeedMovement);
+            UtilityClass.SetAgentDestination(raycastHit.point, Agent);
+            UtilityClass.HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, rotateSpeedMovement);
         }
-    }
-
-    private void SetAgentDestination(Vector3 pos)
-    {
-        Agent.SetDestination(pos);
-    }
-
-    public void HandleMotionAnimation()
-    {
-        float moveSpeed = Agent.velocity.magnitude / Agent.speed;
-        CharacterAnimator.SetFloat("MoveSpeed", moveSpeed, motionSmoothTime, Time.deltaTime);
-    }
-
-    public void HandleCharacterRotation(Transform transform, Vector3 target, float rotateVelocity, float rotateSpeed)
-    {
-        Quaternion rotationToLookAt = Quaternion.LookRotation(target - transform.position);
-
-        float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, 
-            rotationToLookAt.eulerAngles.y, 
-            ref rotateVelocity, 
-            rotateSpeed * (Time.deltaTime * 5));
-
-        transform.eulerAngles = new Vector3(0, rotationY, 0);
     }
 
     public void DebugPathing(LineRenderer line)
@@ -119,9 +96,7 @@ public class CharacterController : MonoBehaviourPun
             line.enabled = true;
         }
         else
-        {
             line.enabled = false;
-        }
     }
 
     private void CreateMovementFeedback(GameObject _movementFeedback, Vector3 pos)

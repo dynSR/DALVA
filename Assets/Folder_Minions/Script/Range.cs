@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class Range : MonoBehaviour
 {
-    private Sc_Minions_Base parent;
+    private MinionBehaviour parent;
+
     [SerializeField]
     private List<Transform> targets = new List<Transform>();
+
     private void Start()
     {
-        parent = GetComponentInParent<Sc_Minions_Base>();
+        parent = GetComponentInParent<MinionBehaviour>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer(parent.enemyLayer) && !targets.Contains(other.transform))
+        if(!targets.Contains(other.transform) && 
+            other.GetComponent<EntityDetection>() != null 
+            && other.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
         {
             Debug.Log("add "+ other.name);
+
             targets.Add(other.transform);
+
             if(parent.Target == null)
             {
                 parent.Target = other.transform;
@@ -24,9 +31,12 @@ public class Range : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer(parent.enemyLayer) && parent.Target == other.transform)
+        if (parent.Target == other.transform && 
+            other.GetComponent<EntityDetection>() != null && 
+            other.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
         {
             parent.Target = null;
         }
@@ -35,13 +45,14 @@ public class Range : MonoBehaviour
     public Transform GetNearestTarget()
     {
         Debug.Log("GetNearestTargetFonction");
+
         float shortestDistance = Mathf.Infinity;
         Transform nearestTarget = null;
         Vector3 currentPos = transform.position;
+
         if (parent.Target == null)
-        {
             targets.Remove(parent.Target);
-        }
+
         for (int i = 0; i < targets.Count; i++)
         {
             if(targets[i]==null)
@@ -49,18 +60,24 @@ public class Range : MonoBehaviour
                 targets.Remove(targets[i]);
             }
         }
+
         foreach (Transform target in targets)
         {
             Debug.Log("enterInForeach");
+
             Vector3 difference = target.position - currentPos;
             float distanceToEnemy = difference.magnitude;
+
             Debug.Log("TargetOnForeach " + target);
+
             if (distanceToEnemy < shortestDistance)
             {
                 Debug.Log("enterInIfDistanceToEnemy<ShortestDistance " + distanceToEnemy + " " + shortestDistance);
                 Debug.Log("TargetInForeach " + target);
+
                 shortestDistance = distanceToEnemy;
                 nearestTarget = target;
+
                 Debug.Log("ShortestDistance==distanceToEnemy  " + shortestDistance);
                 Debug.Log("nearestTargetInForeach " + nearestTarget);
             }

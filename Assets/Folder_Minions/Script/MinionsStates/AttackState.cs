@@ -4,12 +4,12 @@ using UnityEngine;
 
 class AttackState : IState
 {
-    private Sc_Minions_Base parent;
-    public void Enter(Sc_Minions_Base parent)
+    private MinionBehaviour parent;
+
+    public void Enter(MinionBehaviour parent)
     {
         Debug.Log("attack");
         this.parent = parent;
-        parent.agent.isStopped = false;
     }
 
     public void Exit()
@@ -24,12 +24,12 @@ class AttackState : IState
             Debug.Log("Target != null");
             //besoin de  check la range et attaquer
             float distance = Vector3.Distance(parent.Target.position, parent.transform.position);
-            parent.agent.isStopped = true;
+            parent.Agent.isStopped = true;
 
             if (distance > parent.MyAttackRange)
             {
                 Debug.Log("switchToFollow");
-                parent.agent.isStopped = false;
+                parent.Agent.isStopped = false;
                 parent.ChangeState(new FollowState());
             }
         }
@@ -44,14 +44,14 @@ class AttackState : IState
                 if (distance > parent.MyAttackRange)
                 {
                     Debug.Log("switchToFollow");
-                    parent.agent.isStopped = false;
+                    parent.Agent.isStopped = false;
                     parent.ChangeState(new FollowState());
                 }
             }
             else
             {
                 Debug.Log("switchToWaypoint");
-                parent.agent.isStopped = false;
+                parent.Agent.isStopped = false;
                 parent.ChangeState(new WaypointState());
             }
         }

@@ -30,7 +30,7 @@ public class ThrowingProjectile : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer))
         {
-            CharacterController.HandleCharacterRotation(transform, hit.point, CharacterController.RotateVelocity, rotationSpeed);
+            UtilityClass.HandleCharacterRotation(transform, hit.point, CharacterController.RotateVelocity, rotationSpeed);
         }
     }
 }

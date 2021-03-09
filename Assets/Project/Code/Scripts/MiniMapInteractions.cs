@@ -19,7 +19,7 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
 
     void Update()
     {
-        PlayerController.HandleMotionAnimation();
+        UtilityClass.HandleMotionAnimation(PlayerController.Agent, PlayerController.CharacterAnimator, "MoveSpeed", PlayerController.MotionSmoothTime);
         PlayerController.DebugPathing(player.GetComponent<CharacterController>().MyLineRenderer);
     }
 

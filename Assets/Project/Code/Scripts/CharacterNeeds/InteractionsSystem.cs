@@ -32,6 +32,12 @@ public class InteractionsSystem : TargetHandler
             return;
         }
 
+        HarvesterInteraction();
+        AttackInteraction();
+    }
+
+    void HarvesterInteraction()
+    {
         if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester && Target.GetComponent<HarvesterLogic>().IsInteractable)
         {
             CharacterAnimator.SetBool("Attack", false);
@@ -44,8 +50,11 @@ public class InteractionsSystem : TargetHandler
 
             Debug.Log("Interaction with harvester !");
         }
+    }
 
-        else if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy && CanPerformAttack)
+    void AttackInteraction()
+    {
+        if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy && CanPerformAttack)
         {
             CharacterAnimator.SetBool("IsCollecting", false);
 

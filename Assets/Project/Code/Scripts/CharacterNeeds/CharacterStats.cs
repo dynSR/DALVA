@@ -11,6 +11,12 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
     [Header("CHARACTER ABILITIES AND DEFAULT ATTACK TYPE")]
     [SerializeField] private List<Ability> characterAbilities;
 
+    #region Refs
+    private CharacterController Controller => GetComponent<CharacterController>();
+    private InteractionSystem Interactions => GetComponent<InteractionSystem>();
+    private VisibilityState VisibilityState => GetComponent<VisibilityState>();
+    #endregion
+
     #region Current Stats
 
     #region Health
@@ -18,6 +24,11 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
     public float CurrentHealth { get => currentHealth; set => currentHealth = Mathf.Clamp(value, 0, UsedCharacter.BaseMaxHealth + AdditionalMaxHealth); }
     public float AdditionalMaxHealth { get; set; }
     public float CurrentHealthRegeneration { get; set; }
+    #endregion
+
+    #region Movement Speed
+    public float CurrentMovementSpeed { get => Controller.Agent.speed; set => Controller.Agent.speed = value; }
+    public float AdditiveMovementSpeed { get; set; }
     #endregion
 
     #region Cooldown
@@ -80,17 +91,17 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
 
     #endregion
 
+    public float CurrentRessourcesGiven { get; set; }
+
     [Header("DEATH PARAMETERS")]
-    [SerializeField] private float timeToRespawn;
     public Transform sourceOfDamage;
-    private InteractionsSystem Interactions => GetComponent<InteractionsSystem>();
-    private VisibilityState VisibilityState => GetComponent<VisibilityState>();
-    public bool IsDead => CurrentHealth <= 0f;
-    private bool isDeathEventHandled = false;
-    private bool CanTakeDamage => !IsDead;
-
+    [SerializeField] private float timeToRespawn;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
-
+    
+    public bool IsDead => CurrentHealth <= 0f;
+    private bool CanTakeDamage => !IsDead;
+    private bool isDeathEventHandled = false;
+    
     [Header("UI PARAMETERS")]
     [SerializeField] private GameObject damagePopUp;
     [SerializeField] private GameObject deathHUD;
@@ -129,6 +140,8 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
         CurrentHealth = UsedCharacter.BaseMaxHealth;
         CurrentHealthRegeneration = UsedCharacter.BaseHealthRegeneration;
 
+        CurrentMovementSpeed = UsedCharacter.BaseMovementSpeed;
+
         CurrentArmor = UsedCharacter.BaseArmor;
         CurrentMagicResistance = UsedCharacter.BaseMagicResistance;
 
@@ -146,6 +159,8 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
 
         CurrentArmorPenetration = 0f;
         CurrentMagicResistancePenetration = 0f;
+
+        CurrentRessourcesGiven = UsedCharacter.BaseRessourcesGiven;
     }
 
     private void GetAllCharacterAbilities()
@@ -176,7 +191,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
                 if (CurrentArmor > 0)
                 {
                     if (armorPenetration > 0)
-                        attackDamageTaken *= 100 / (100 + (CurrentArmor * (armorPenetration / 100)));
+                        attackDamageTaken *= 100 / (100 + (CurrentArmor - (CurrentArmor * (armorPenetration / 100))));
                     else
                         attackDamageTaken *= 100 / (100 + CurrentArmor);
                 }
@@ -195,7 +210,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
             if (magicDamageTaken > 0)
             {
                 if (magicResistancePenetration > 0)
-                    magicDamageTaken *= 100 / (100 + (CurrentMagicResistance * (magicResistancePenetration / 100)));
+                    magicDamageTaken *= 100 / (100 + (CurrentMagicResistance - (CurrentMagicResistance * (magicResistancePenetration / 100))));
                 else
                     magicDamageTaken *= 100 / (100 + CurrentMagicResistance);
 
@@ -239,6 +254,16 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
         StartCoroutine(ProcessDeathTimer(TimeToRespawn));
     }
 
+    void GiveRessourcesToAPlayerOnDeath()
+    {
+        if (sourceOfDamage != null 
+            && sourceOfDamage.CompareTag("Player"))
+        {
+            sourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)CurrentRessourcesGiven);
+            Debug.Log("Ressources have been given to a player, the last stored source of damage");
+        }
+    }
+
     private void Die()
     {
         //Afficher le HUD de mort pendant le temps de la mort
@@ -247,6 +272,8 @@ public class CharacterStats : MonoBehaviour, IDamageable, IKillable
 
         if (Interactions != null) 
             Interactions.CanPerformAttack = false;
+
+        GiveRessourcesToAPlayerOnDeath();
 
         VisibilityState.SetToInvisible();
 

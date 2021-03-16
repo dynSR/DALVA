@@ -14,9 +14,9 @@ public class SlowEffectLogic : StatusEffectLogic
             if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this)) return;
 
             if (!takesOffToStat)
-                GetTargetCharacterController(target).CurrentMoveSpeed /= divisor;
+                GetTargetCharacterStats(target).CurrentMovementSpeed /= divisor;
             if (takesOffToStat)
-                GetTargetCharacterController(target).CurrentMoveSpeed -= valueToTakeOff;
+                GetTargetCharacterStats(target).CurrentMovementSpeed -= valueToTakeOff;
 
             GetTargetStatusEffectHandler(target).AddNewEffect(this);
         }
@@ -26,8 +26,8 @@ public class SlowEffectLogic : StatusEffectLogic
     {
         if (GetTargetStatusEffectHandler(Target) != null)
         {
-            GetTargetCharacterController(Target).CurrentMoveSpeed = GetTargetCharacterController(Target).InitialMoveSpeed;
-            // ajouter l'additive speed à la fin de l'effet
+            GetTargetCharacterStats(Target).CurrentMovementSpeed = GetTargetCharacterStats(Target).UsedCharacter.BaseMovementSpeed 
+                + GetTargetCharacterStats(Target).UsedCharacter.BaseMovementSpeed;
         }
     }
 

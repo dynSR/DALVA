@@ -19,9 +19,9 @@ public class HarvesterBillboard : BillBoard
         HarvesterLogic.OnHarvestingRessources -= SetHarvesterUIElements;
     }
 
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
     }
 
     protected override void LateUpdate()

@@ -11,8 +11,8 @@ public class CursorLogic : MonoBehaviour
     public Texture2D NormalCursorIcon { get => normalCursorIcon; }
     public Texture2D AttackCursorIcon { get => attackCursorIcon; }
 
-    private CharacterController Controller => GetComponent<CharacterController>();
-    private TargetHandler TargetHandler => GetComponent<TargetHandler>();
+    private PlayerController Controller => GetComponent<PlayerController>();
+    private InteractionSystem TargetHandler => GetComponent<InteractionSystem>();
 
     RaycastHit cursorHit;
 

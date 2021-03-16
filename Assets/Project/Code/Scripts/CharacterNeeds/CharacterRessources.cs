@@ -45,13 +45,13 @@ public class CharacterRessources : MonoBehaviour
         }
     }
 
-    private void AddRessources(int amountToAdd)
+    public void AddRessources(int amountToAdd)
     {
         CurrentAmountOfPlayerRessources += amountToAdd;
         UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);
     }
 
-    private void RemoveRessources(int amountToRemove)
+    public void RemoveRessources(int amountToRemove)
     {
         CurrentAmountOfPlayerRessources -= amountToRemove;
         UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);

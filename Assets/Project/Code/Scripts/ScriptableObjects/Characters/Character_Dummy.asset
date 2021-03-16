@@ -17,6 +17,7 @@ MonoBehaviour:
   combatType: 0
   baseMaxHealth: 200
   baseHealthRegeneration: 0
+  baseMovementSpeed: 3.5
   baseCooldownReduction: 0
   maxCooldownReduction: 0
   baseArmor: 10
@@ -24,9 +25,10 @@ MonoBehaviour:
   baseAttackRange: 2.5
   baseAttackSpeed: 0.625
   maxAttackSpeed: 3
-  baseAttackDamage: 0
+  baseAttackDamage: 100
   baseMagicDamage: 0
   baseCriticalStrikeChance: 0
   baseCriticalStrikeMultiplier: 175
   maxCriticalStrikeMultiplier: 300
-  animatorController: {fileID: 0}
+  baseRessourcesGiven: 50
+  animatorController: {fileID: 9100000, guid: 49c027e6fb2507d4285ab0bb110e61fc, type: 2}

@@ -43,24 +43,14 @@ public abstract class StatusEffectLogic : MonoBehaviour
     #endregion
 
     #region Getting necessaries informations about target(s) found
-    public CharacterController GetTargetCharacterController(Transform targetFound)
+    public CharacterStats GetTargetCharacterStats(Transform targetFound)
     {
-        return targetFound.GetComponent<CharacterController>();
-    }
-
-    public void SetNavMeshAgentSpeed(NavMeshAgent agent, float speedToSet)
-    {
-        agent.speed = speedToSet;
+        return targetFound.GetComponent<CharacterStats>();
     }
 
     public StatusEffectHandler GetTargetStatusEffectHandler(Transform targetFound)
     {
         return targetFound.GetComponent<StatusEffectHandler>();
-    }
-
-    public PlayerHUDManager GetTargetHUD(Transform targetFound)
-    {
-        return targetFound.Find("PlayerHUD").GetComponent<PlayerHUDManager>();
     }
     #endregion
 

@@ -13,13 +13,17 @@ public class Character : ScriptableObject
     public CharacterClass CharacterClass { get => characterClass; }
 
     [SerializeField] private CombatType combatType;
-
+    
     #region Stats
     [Header("HEALTH")]
     [SerializeField] private float baseMaxHealth;
     [SerializeField] private float baseHealthRegeneration;
     public float BaseMaxHealth { get => baseMaxHealth; }
     public float BaseHealthRegeneration { get => baseHealthRegeneration; }
+
+    [Header("MOVEMENT SPEED")]
+    [SerializeField] private float baseMovementSpeed;
+    public float BaseMovementSpeed { get => baseMovementSpeed; }
 
     [Header("COOLDOWN")]
     [SerializeField] private float baseCooldownReduction;
@@ -59,6 +63,10 @@ public class Character : ScriptableObject
     public float BaseCriticalStrikeMultiplier { get => baseCriticalStrikeMultiplier; }
     public float MaxCriticalStrikeMultiplier { get => maxCriticalStrikeMultiplier; }
     #endregion
+
+    [Header("RESSOURCES")]
+    [SerializeField] private float baseRessourcesGiven = 50f;
+    public float BaseRessourcesGiven { get => baseRessourcesGiven; }
 
     [Header("ANIMATION")]
     [SerializeField] private RuntimeAnimatorController animatorController;

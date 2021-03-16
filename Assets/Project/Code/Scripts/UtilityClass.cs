@@ -93,29 +93,4 @@ public static class UtilityClass
         return Camera.main.ScreenPointToRay(Input.mousePosition);
     }
     #endregion
-
-    #region Character Destination and motion handling, including rotation
-    public static void SetAgentDestination(Vector3 pos, NavMeshAgent agent)
-    {
-        agent.SetDestination(pos);
-    }
-
-    public static void HandleMotionAnimation(NavMeshAgent agent, Animator animator, string animationFloatName, float smoothTime)
-    {
-        float moveSpeed = agent.velocity.magnitude / agent.speed;
-        animator.SetFloat(animationFloatName, moveSpeed, smoothTime, Time.deltaTime);
-    }
-
-    public static void HandleCharacterRotation(Transform transform, Vector3 target, float rotateVelocity, float rotationSpeed)
-    {
-        Quaternion rotationToLookAt = Quaternion.LookRotation(target - transform.position);
-
-        float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y,
-            rotationToLookAt.eulerAngles.y,
-            ref rotateVelocity,
-            rotationSpeed * (Time.deltaTime * 5));
-
-        transform.eulerAngles = new Vector3(0, rotationY, 0);
-    }
-    #endregion
 }

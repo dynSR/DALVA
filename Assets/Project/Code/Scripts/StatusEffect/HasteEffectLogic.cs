@@ -14,9 +14,9 @@ public class HasteEffectLogic : StatusEffectLogic
             if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this)) return;
 
             if (!addsToStat)
-                GetTargetCharacterController(target).CurrentMoveSpeed *= multiplicator;
+                GetTargetCharacterStats(target).CurrentMovementSpeed *= multiplicator;
             if (addsToStat)
-                GetTargetCharacterController(target).CurrentMoveSpeed += valueToAdd;
+                GetTargetCharacterStats(target).CurrentMovementSpeed += valueToAdd;
 
             GetTargetStatusEffectHandler(target).AddNewEffect(this);
         }
@@ -25,10 +25,8 @@ public class HasteEffectLogic : StatusEffectLogic
     public override void RemoveEffect()
     {
         if (GetTargetStatusEffectHandler(Target) != null)
-        {
-            GetTargetCharacterController(Target).CurrentMoveSpeed = GetTargetCharacterController(Target).InitialMoveSpeed;
-            // ajouter l'additive speed à la fin de l'effet
-        }
+            GetTargetCharacterStats(Target).CurrentMovementSpeed = GetTargetCharacterStats(Target).UsedCharacter.BaseMovementSpeed 
+                + GetTargetCharacterStats(Target).AdditiveMovementSpeed;
     }
 
     protected override void OnTriggerEnter(Collider other)

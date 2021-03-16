@@ -9,9 +9,9 @@ public class CharacterBillboard : BillBoard
     [SerializeField] private Image characterHealthBarFilledImage;
     [SerializeField] private TextMeshProUGUI characterLevelText;
 
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
 
         //playerNameText.text = GetPhotonNetworkUsername(); --> à ajouter dans la class Utility
     }

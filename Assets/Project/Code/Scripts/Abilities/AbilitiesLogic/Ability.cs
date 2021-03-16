@@ -14,10 +14,13 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private Sprite abilityIcon;
     [SerializeField] private GameObject abilityPrefab;
+
+    #region Refs
     private CharacterStats Stats => GetComponent<CharacterStats>();
     private CharacterController Controller => GetComponent<CharacterController>();
-    public TargetHandler TargetHandler => GetComponent<TargetHandler>();
+    public InteractionSystem TargetHandler => GetComponent<InteractionSystem>();
     private AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
+    #endregion
 
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private float abilityCooldown;

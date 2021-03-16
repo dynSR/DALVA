@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum HarvestState { WaitsUntilHarvestingIsPossible, IsHarvesting, Reinitialization, PlayerIsHarvestingRessources, Standby }
+public enum HarvestState { WaitsUntilHarvestingIsPossible, IsHarvesting, Reinitialization, PlayerIsHarvestingRessources }
 
 public class HarvesterLogic : MonoBehaviour
 {
@@ -11,8 +11,8 @@ public class HarvesterLogic : MonoBehaviour
     public static event HarvestEvent OnHarvestingRessources;
 
     [Header("RESSOURCES")]
-    [SerializeField] private float currentHarvestedRessourcesValue = 0f;
     [SerializeField] private float maxHarvestableRessourcesValue;
+    public float CurrentHarvestedRessourcesValue { get; set; }
 
     [Header("TIMERS")]
     [SerializeField] private float delayBeforeHarvesting = 30f;
@@ -24,12 +24,9 @@ public class HarvesterLogic : MonoBehaviour
     [SerializeField] private Image harvestingFeedbackImage;
     public HarvestState harvestState; //Its in public for debug purpose
 
-    public Transform PlayerFound;
-    public bool IsInteractable => harvestState == HarvestState.Standby || harvestState == HarvestState.IsHarvesting;
-
-    public float CurrentHarvestedRessourcesValue { get => currentHarvestedRessourcesValue; set => currentHarvestedRessourcesValue = Mathf.Clamp(value, 0, maxHarvestableRessourcesValue); }
-
-    private bool LimitReached => currentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
+    public InteractionSystem interactingPlayer;
+    public bool IsInteractable => CurrentHarvestedRessourcesValue >= .5f && harvestState == HarvestState.IsHarvesting;
+    private bool LimitReached => CurrentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
 
     private EntityDetection EntityDetection => GetComponent<EntityDetection>();
 
@@ -51,8 +48,6 @@ public class HarvesterLogic : MonoBehaviour
             case HarvestState.PlayerIsHarvestingRessources:
                 Interaction();
                 break;
-            default:
-                break;
         }
 
         EnableEntityDetection();
@@ -70,57 +65,58 @@ public class HarvesterLogic : MonoBehaviour
 
     private void HarvestRessourcesOverTime()
     {
-        if (LimitReached)
+        if (interactingPlayer != null)
         {
-            harvestState = HarvestState.Standby;
+            harvestState = HarvestState.PlayerIsHarvestingRessources;
             return;
         }
 
-        CurrentHarvestedRessourcesValue += Time.deltaTime;
+        if (!LimitReached)
+        {
+            CurrentHarvestedRessourcesValue += Time.deltaTime;
 
-        OnHarvestingRessources?.Invoke(CurrentHarvestedRessourcesValue, maxHarvestableRessourcesValue);
+            OnHarvestingRessources?.Invoke(CurrentHarvestedRessourcesValue, maxHarvestableRessourcesValue);
+        }
     }
 
     private void Interaction()
     {
-        if (PlayerFound.GetComponent<InteractionsSystem>().IsHarvesting)
+        if (!interactingPlayer.GetComponent<PlayerInteractions>().IsHarvesting)
         {
-            timeSpentHarvesting += Time.deltaTime;
-            harvestingFeedbackImage.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
-
-            if (timeSpentHarvesting >= totalTimeToHarvest)
-            {
-                GiveRessourcesToPlayer((int)CurrentHarvestedRessourcesValue);
-                harvestState = HarvestState.Reinitialization;
-            }
-        }
-        else
-        {
-            Debug.Log("INTERACTION IS OVER");
+            //Debug.Log("INTERACTION IS OVER");
             ResetAfterInteraction();
+            return;
+        }
+
+        harvestingFeedbackImage.enabled = true;
+
+        timeSpentHarvesting += Time.deltaTime;
+        harvestingFeedbackImage.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
+
+        if (timeSpentHarvesting >= totalTimeToHarvest)
+        {
+            GiveRessourcesToPlayer((int)CurrentHarvestedRessourcesValue);
+            harvestState = HarvestState.Reinitialization;
         }
     }
 
     private void GiveRessourcesToPlayer(int amnt)
     {
-        PlayerFound.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources += amnt;
+        interactingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources += amnt;
     }
 
     private void ResetAfterInteraction()
     {
-        if (LimitReached)
-            harvestState = HarvestState.Standby;
-        else if(!LimitReached)
-            harvestState = HarvestState.IsHarvesting;
+        harvestState = HarvestState.IsHarvesting;
 
-        print("Reset player found");
-        PlayerFound = null;
+        interactingPlayer = null;
         ResetHarvestingFeedback();
     }
 
     private void ResetHarvestingFeedback()
     {
-        harvestingFeedbackImage.fillAmount = 0 / totalTimeToHarvest;
+        harvestingFeedbackImage.fillAmount = 0f / totalTimeToHarvest;
+        harvestingFeedbackImage.enabled = false;
         timeSpentHarvesting = 0f;
     }
 
@@ -132,11 +128,12 @@ public class HarvesterLogic : MonoBehaviour
 
         StartCoroutine(WaitingState(reinitializationDelay, HarvestState.IsHarvesting));
 
-        if (PlayerFound == null) return;
-
-        PlayerFound.GetComponent<TargetHandler>().Target = null;
-        PlayerFound.GetComponent<InteractionsSystem>().ResetInteractionState();
-        PlayerFound = null;
+        if (interactingPlayer != null)
+        {
+            interactingPlayer.Target = null;
+            interactingPlayer.ResetInteractionState();
+            interactingPlayer = null;
+        }
     }
 
     private void EnableEntityDetection()
@@ -154,8 +151,9 @@ public class HarvesterLogic : MonoBehaviour
     private IEnumerator WaitingState(float delay, HarvestState newHarvestState)
     {
         yield return new WaitForSeconds(delay);
+        yield return new WaitForEndOfFrame();
 
-        this.harvestState = newHarvestState;
+        harvestState = newHarvestState;
     }
     #endregion
 }

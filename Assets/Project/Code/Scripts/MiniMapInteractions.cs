@@ -8,19 +8,20 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
     [SerializeField] private Transform player;
     [SerializeField] private Camera miniMapCamera;
     [SerializeField] private GameObject movementFeedbackToInstantiate;
+    [SerializeField] private RawImage miniMapRenderingImage;
 
     private Vector2 localCursor;
     private RaycastHit miniMapHit;
 
-    private CharacterController PlayerController => player.GetComponent<CharacterController>();
-    private CameraController PlayerCameraController => player.GetComponent<CharacterController>().CharacterCamera.GetComponent<CameraController>();
+    private PlayerController PlayerController => player.GetComponent<PlayerController>();
+    private CameraController PlayerCameraController => player.GetComponent<PlayerController>().CharacterCamera.GetComponent<CameraController>();
 
     private bool cameraWasLocked;
 
     void Update()
     {
-        UtilityClass.HandleMotionAnimation(PlayerController.Agent, PlayerController.CharacterAnimator, "MoveSpeed", PlayerController.MotionSmoothTime);
-        PlayerController.DebugPathing(player.GetComponent<CharacterController>().MyLineRenderer);
+        PlayerController.HandleMotionAnimation(PlayerController.Agent, PlayerController.CharacterAnimator, "MoveSpeed", PlayerController.MotionSmoothTime);
+        PlayerController.DebugPathing(player.GetComponent<PlayerController>().MyLineRenderer);
     }
 
     #region Pointer events
@@ -48,10 +49,10 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
     #region Functions helping to get a position from the minimap
     private void RaycastToMiniMap(PointerEventData requiredEventData)
     {
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RawImage>().rectTransform, requiredEventData.position, requiredEventData.pressEventCamera, out localCursor))
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(miniMapRenderingImage.rectTransform, requiredEventData.position, requiredEventData.pressEventCamera, out localCursor))
         {
-            Texture tex = GetComponent<RawImage>().texture;
-            Rect r = GetComponent<RawImage>().rectTransform.rect;
+            Texture tex = miniMapRenderingImage.texture;
+            Rect r = miniMapRenderingImage.rectTransform.rect;
 
             //Using the size of the texture and the local cursor, clamp the X,Y coords between 0 and width - height of texture
             float coordX = Mathf.Clamp(0, (((localCursor.x - r.x) * tex.width) / r.width), tex.width);

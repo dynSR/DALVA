@@ -1,57 +1,28 @@
-﻿using UnityEngine;
-using UnityEngine.AI;
-using Photon.Pun;
+﻿using Photon.Pun;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(NavMeshAgent))]
-public class CharacterController : MonoBehaviourPun
+public class PlayerController : CharacterController
 {
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
     [SerializeField] private Camera characterCamera;
-    [SerializeField] private float rotateSpeedMovement = 0.1f;
-    [SerializeField] private bool isPlayerInHisBase = true;
-    private readonly float motionSmoothTime = .1f;
 
     [Header("MOVEMENTS FEEDBACK PARAMETERS")]
     [SerializeField] private GameObject movementFeedback;
 
-    public LineRenderer MyLineRenderer => GetComponentInChildren<LineRenderer>();
-    [HideInInspector] public Animator CharacterAnimator
-    {
-        get => transform.GetChild(0).GetComponent<Animator>();
-        set
-        {
-            if (transform.GetChild(0).GetComponent<Animator>() == null)
-            {
-                transform.GetChild(0).gameObject.AddComponent<Animator>();
-            }
-        }
-    }
+    [SerializeField] private bool isPlayerInHisBase = true; // put in private after
 
+    #region Refs
     public Camera CharacterCamera { get { return characterCamera; } private set { characterCamera = value; } }
-    private InteractionsSystem CharacterInteractions => GetComponent<InteractionsSystem>();
-    private CharacterStats CharacterStats => GetComponent<CharacterStats>();
-    public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
-    public float InitialMoveSpeed { get; private set; }
+    public LineRenderer MyLineRenderer => GetComponentInChildren<LineRenderer>();
+    #endregion
 
-    //ajouter additive speed
-
-    public float CurrentMoveSpeed { get => Agent.speed ; set => Agent.speed = value; }
-    public float MotionSmoothTime { get => motionSmoothTime; }
-    public float RotateVelocity { get; set; }
     public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
-
     private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && GetComponentInChildren<PlayerHUDManager>().IsShopWindowOpen;
     public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
 
-    protected virtual void Awake()
-    {
-        InitialMoveSpeed = Agent.speed;
-        CurrentMoveSpeed = InitialMoveSpeed;
-    }
-
-    protected virtual void Update()
+    protected override void Update()
     {
         if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || CharacterStats.IsDead) return;
 
@@ -64,11 +35,10 @@ public class CharacterController : MonoBehaviourPun
             SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
         }
 
-        UtilityClass.HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
         DebugPathing(MyLineRenderer);
     }
 
-    #region Handle Movement 
+    #region Handle Cursor Movement 
     public void SetNavMeshDestination(Ray ray)
     {
         if (PlayerIsConsultingHisShopAtBase) return;
@@ -77,19 +47,19 @@ public class CharacterController : MonoBehaviourPun
         {
             if (UtilityClass.RightClickIsPressed())
             {
-                Debug.Log("Object touched by the character controller raycast " + raycastHit.transform.gameObject.name);
-
                 CreateMovementFeedback(movementFeedback, raycastHit.point);
             }
 
-            UtilityClass.SetAgentDestination(raycastHit.point, Agent);
-            UtilityClass.HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, rotateSpeedMovement);
+            SetAgentDestination(raycastHit.point, Agent);
+            HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, RotationSpeed);
         }
     }
+    #endregion
 
+    #region Debug
     public void DebugPathing(LineRenderer line)
     {
-        if (Agent.hasPath && CharacterInteractions.Target != null)
+        if (Agent.hasPath || CharacterInteractions.Target != null)
         {
             line.positionCount = Agent.path.corners.Length;
             line.SetPositions(Agent.path.corners);

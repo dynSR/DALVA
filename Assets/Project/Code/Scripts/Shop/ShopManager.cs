@@ -53,7 +53,7 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void BuyItem(Item shopItem)
     {
-        if (!Player.GetComponent<CharacterController>().IsPlayerInHisBase) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase) return;
 
         if (UtilityClass.RightClickIsPressed())
         {
@@ -89,7 +89,7 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void SellItem()
     {
-        if (!Player.GetComponent<CharacterController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty) return;
 
         Debug.Log("Selling item : " + SelectedInventoryBox.StoredItem.ItemName);
 

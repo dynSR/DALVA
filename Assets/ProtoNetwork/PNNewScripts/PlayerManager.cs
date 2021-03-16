@@ -20,12 +20,12 @@ namespace GameNetwork
             if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
             {
                 localPlayerInstance = this.gameObject;
-                localPlayerInstance.GetComponent<CharacterController>().InstantiateCharacterCameraAtStartOfTheGame();
+                localPlayerInstance.GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
             }
             ////Local
             else if (GameObject.Find("GameNetworkManager") == null)
             {
-                GetComponent<CharacterController>().InstantiateCharacterCameraAtStartOfTheGame();
+                GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
                 playerHUD.SetActive(true);
             }   
         }

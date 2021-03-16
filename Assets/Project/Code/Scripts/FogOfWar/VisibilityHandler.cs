@@ -1,14 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public delegate void OnVisibilityChanged(Transform transform);
+﻿using UnityEngine;
 
 public class VisibilityHandler : MonoBehaviour
 {
     [SerializeField] private int entitiesLayerValue;
-
-    //public static event OnVisibilityChanged ;
 
     private void OnTriggerEnter(Collider other)
     {

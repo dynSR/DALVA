@@ -22,11 +22,19 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraFollowingSpeed;
     [SerializeField] private Vector3 cameraOffset;
 
+    [Header("CAMERA BOUNDARIES PARAMETERS")]
+    [SerializeField] private BoxCollider cameraConfiner;
+
     public bool CameraIsLocked => CameraLockState == CameraLockState.Locked;
     public bool CameraIsUnlocked => CameraLockState == CameraLockState.Unlocked;
 
     public Transform TargetToFollow { get => targetToFollow; set => targetToFollow = value; }
     public CameraLockState CameraLockState { get => cameraLockState; set => cameraLockState = value; }
+
+    private void Awake()
+    {
+        cameraConfiner = GameObject.FindWithTag("CameraConfiner").GetComponent<BoxCollider>();
+    }
 
     void Update()
     {
@@ -99,8 +107,11 @@ public class CameraController : MonoBehaviour
             cameraPosition.z -= cameraMovementSpeed * Time.deltaTime;
         }
 
-        transform.position = cameraPosition;
-        cameraPosition.Normalize();
+        SetCameraPosition(cameraPosition);
+
+        //transform.position = cameraPosition;
+        //cameraPosition.Normalize();
+        ////BoundsCameraPosition(cameraPosition);
     }
 
     void MoveCameraWithDirectionnalArrows()
@@ -128,10 +139,30 @@ public class CameraController : MonoBehaviour
             cameraPosition.z -= cameraMovementSpeed * Time.deltaTime;
         }
 
-        transform.position = cameraPosition;
-        cameraPosition.Normalize();
+        SetCameraPosition(cameraPosition);
+
+        //transform.position = cameraPosition;
+        ////transform.position = BoundsCameraPosition(cameraPosition);
+        //cameraPosition.Normalize();
     }
     #endregion
+
+    void SetCameraPosition(Vector3 newPos)
+    {
+        transform.position = BoundsCameraPosition(newPos);
+        newPos.Normalize();
+    }
+
+    Vector3 BoundsCameraPosition(Vector3 newPos)
+    {
+        newPos = new Vector3(
+            Mathf.Clamp(newPos.x, cameraConfiner.bounds.min.x + cameraOffset.x, cameraConfiner.bounds.max.x + cameraOffset.x),
+            newPos.y,
+             Mathf.Clamp(newPos.z, cameraConfiner.bounds.min.z + cameraOffset.z, cameraConfiner.bounds.max.z + cameraOffset.z)
+            );
+
+        return newPos;
+    }
 
     #region Minimap Camera movements
     public void MoveCameraToASpecificMiniMapPosition(Vector3 pos)

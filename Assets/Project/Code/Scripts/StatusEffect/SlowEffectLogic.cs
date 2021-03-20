@@ -14,9 +14,9 @@ public class SlowEffectLogic : StatusEffectLogic
             if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this)) return;
 
             if (!takesOffToStat)
-                GetTargetCharacterStats(target).CurrentMovementSpeed /= divisor;
+                GetTargetCharacterStats(Target).GetStat(StatType.Movement_Speed).Value /= divisor;
             if (takesOffToStat)
-                GetTargetCharacterStats(target).CurrentMovementSpeed -= valueToTakeOff;
+                GetTargetCharacterStats(Target).GetStat(StatType.Movement_Speed).Value -= valueToTakeOff;
 
             GetTargetStatusEffectHandler(target).AddNewEffect(this);
         }
@@ -26,8 +26,7 @@ public class SlowEffectLogic : StatusEffectLogic
     {
         if (GetTargetStatusEffectHandler(Target) != null)
         {
-            GetTargetCharacterStats(Target).CurrentMovementSpeed = GetTargetCharacterStats(Target).UsedCharacter.BaseMovementSpeed 
-                + GetTargetCharacterStats(Target).UsedCharacter.BaseMovementSpeed;
+            GetTargetCharacterStats(Target).GetStat(StatType.Movement_Speed).Value = GetTargetCharacterStats(Target).GetStat(StatType.Movement_Speed).CalculateValue();
         }
     }
 

@@ -43,9 +43,9 @@ public abstract class StatusEffectLogic : MonoBehaviour
     #endregion
 
     #region Getting necessaries informations about target(s) found
-    public CharacterStats GetTargetCharacterStats(Transform targetFound)
+    public CharacterStat GetTargetCharacterStats(Transform targetFound)
     {
-        return targetFound.GetComponent<CharacterStats>();
+        return targetFound.GetComponent<CharacterStat>();
     }
 
     public StatusEffectHandler GetTargetStatusEffectHandler(Transform targetFound)

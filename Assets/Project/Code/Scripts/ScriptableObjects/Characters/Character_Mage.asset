@@ -15,19 +15,91 @@ MonoBehaviour:
   characterName: Hilfin
   characterClass: 4
   combatType: 1
-  baseMaxHealth: 650
-  baseHealthRegeneration: 0.675
-  baseMovementSpeed: 3.5
-  baseCooldownReduction: 0
-  maxCooldownReduction: 40
-  baseArmor: 35
-  baseMagicResistance: 37
-  baseAttackRange: 4.5
-  baseAttackSpeed: 0.625
-  maxAttackSpeed: 3
-  baseAttackDamage: 27
-  baseMagicDamage: 65
-  baseCriticalStrikeChance: 0
-  baseCriticalStrikeMultiplier: 175
-  maxCriticalStrikeMultiplier: 300
+  characterStats:
+  - Name: Health
+    _StatType: 0
+    BaseValue: 1050
+    MaxValue: 0
+    statModifiers: []
+  - Name: Health_Regeneration
+    _StatType: 1
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Movement_Speed
+    _StatType: 2
+    BaseValue: 3.5
+    MaxValue: 0
+    statModifiers: []
+  - Name: Physical_Resistances
+    _StatType: 3
+    BaseValue: 50
+    MaxValue: 0
+    statModifiers: []
+  - Name: Magical_Resistances
+    _StatType: 4
+    BaseValue: 20
+    MaxValue: 0
+    statModifiers: []
+  - Name: Attack_Speed
+    _StatType: 5
+    BaseValue: 0.625
+    MaxValue: 0
+    statModifiers: []
+  - Name: Attack_Range
+    _StatType: 6
+    BaseValue: 2.5
+    MaxValue: 0
+    statModifiers: []
+  - Name: Physical_Power
+    _StatType: 7
+    BaseValue: 10
+    MaxValue: 0
+    statModifiers: []
+  - Name: Magical_Power
+    _StatType: 8
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Adaptative_Penetration
+    _StatType: 9
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Physical_Penetration
+    _StatType: 10
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Magical_Penetration
+    _StatType: 11
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Physical_Lifesteal
+    _StatType: 12
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Magical_Lifesteal
+    _StatType: 13
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Critical_Strike_Chance
+    _StatType: 14
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Cooldown_Reduction
+    _StatType: 15
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  - Name: Heal_Shield_Effectiveness
+    _StatType: 16
+    BaseValue: 0
+    MaxValue: 0
+    statModifiers: []
+  baseRessourcesGiven: 50
   animatorController: {fileID: 9100000, guid: 49c027e6fb2507d4285ab0bb110e61fc, type: 2}

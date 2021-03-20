@@ -31,7 +31,7 @@ public class InteractionSystem : MonoBehaviour
     public float StoppingDistance { get; set; }
 
     #region References
-    protected CharacterStats CharacterStats => GetComponent<CharacterStats>();
+    protected CharacterStat CharacterStats => GetComponent<CharacterStat>();
     protected CharacterController CharacterController => GetComponent<CharacterController>();
     protected Animator CharacterAnimator { get => characterAnimator; }
     #endregion
@@ -77,8 +77,8 @@ public class InteractionSystem : MonoBehaviour
     #region Interaction
     public virtual void Interact()
     {
-        if (Target.GetComponent<CharacterStats>() != null 
-            && Target.GetComponent<CharacterStats>().IsDead)
+        if (Target.GetComponent<CharacterStat>() != null 
+            && Target.GetComponent<CharacterStat>().IsDead)
         {
             ResetInteractionState();
             CharacterAnimator.SetTrigger("NoTarget");
@@ -117,7 +117,7 @@ public class InteractionSystem : MonoBehaviour
 
         if (attackType == CombatType.MeleeCombat)
         {
-            CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
+            CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.GetStat(StatType.Attack_Speed).Value);
             CharacterAnimator.SetBool("Attack", true);
 
             //MeleeAttack(); //Debug without animation
@@ -126,7 +126,7 @@ public class InteractionSystem : MonoBehaviour
         }
         else if (attackType == CombatType.RangedCombat)
         {
-            CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.CurrentAttackSpeed);
+            CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.GetStat(StatType.Attack_Speed).Value);
             CharacterAnimator.SetBool("Attack", true);
 
             //RangedAttack(); //Debug without animation
@@ -134,7 +134,7 @@ public class InteractionSystem : MonoBehaviour
             CanPerformAttack = false;
         }
 
-        yield return new WaitForSeconds(1 / CharacterStats.CurrentAttackSpeed);
+        yield return new WaitForSeconds(1 / CharacterStats.GetStat(StatType.Attack_Speed).Value);
 
         if (attackType == CombatType.MeleeCombat)
         {
@@ -152,9 +152,21 @@ public class InteractionSystem : MonoBehaviour
     public void MeleeAttack()
     {
         if (Target != null 
-            && Target.GetComponent<CharacterStats>() != null)
+            && Target.GetComponent<CharacterStat>() != null)
         {
-            Target.GetComponent<CharacterStats>().TakeDamage(transform, CharacterStats.CurrentAttackDamage, CharacterStats.CurrentMagicDamage, CharacterStats.CurrentCriticalStrikeChance, CharacterStats.CurrentCriticalStrikeMultiplier, CharacterStats.CurrentArmorPenetration, CharacterStats.CurrentMagicResistancePenetration);
+            CharacterStat targetStat = Target.GetComponent<CharacterStat>();
+
+            targetStat.TakeDamage(
+                transform,
+                targetStat.GetStat(StatType.Health).Value,
+                targetStat.GetStat(StatType.Physical_Resistances).Value,
+                targetStat.GetStat(StatType.Magical_Resistances).Value,
+                CharacterStats.GetStat(StatType.Physical_Power).Value,
+                CharacterStats.GetStat(StatType.Magical_Power).Value,
+                CharacterStats.GetStat(StatType.Critical_Strike_Chance).Value,
+                175f,
+                CharacterStats.GetStat(StatType.Physical_Penetration).Value,
+                CharacterStats.GetStat(StatType.Magical_Penetration).Value);
         }
 
         CanPerformAttack = true;

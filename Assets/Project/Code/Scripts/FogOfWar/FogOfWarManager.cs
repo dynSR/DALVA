@@ -5,26 +5,45 @@ using UnityEngine;
 public class FogOfWarManager : MonoBehaviour
 {
     [SerializeField] private List<Transform> visibleEntities = new List<Transform>();
+    public List<Transform> VisibleEntities { get => visibleEntities; }
 
-    private void OnEnable()
+    #region Singleton
+    public static FogOfWarManager Instance;
+
+    private void Awake()
     {
-        //+=
-        //+=
+        if (Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
+    #endregion
 
-    private void OnDisable()
+    public bool EntityIsContained(Transform source)
     {
-        //-=
-        //-=
-    }
+        bool isContained = false;
 
-    private void AddVisibleEntity(Transform entity)
-    {
-        visibleEntities.Add(entity);
-    }
+        if (VisibleEntities.Count <= 0)
+        {
+            isContained = false;
+        }
+        else
+        {
+            for (int i = 0; i < VisibleEntities.Count; i++)
+            {
+                if (VisibleEntities[i].transform == source)
+                {
+                    isContained = true;
+                }
+                else
+                    isContained = false;
+            }
+        }
 
-    private void RemoveVisibleEntity(Transform entity)
-    {
-        visibleEntities.Remove(entity);
+        return isContained;
     }
 }

@@ -27,7 +27,7 @@ public class PlayerInteractions : InteractionSystem
                     ResetInteractionState();
 
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
-                        StoppingDistance = CharacterStats.CurrentAttackRange;
+                        StoppingDistance = CharacterStats.GetStat(StatType.Attack_Range).Value;
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester)
                         StoppingDistance = InteractionRange;
                 }

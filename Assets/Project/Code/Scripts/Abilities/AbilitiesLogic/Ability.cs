@@ -16,7 +16,7 @@ public abstract class Ability : MonoBehaviourPun
     [SerializeField] private GameObject abilityPrefab;
 
     #region Refs
-    private CharacterStats Stats => GetComponent<CharacterStats>();
+    private CharacterStat Stats => GetComponent<CharacterStat>();
     private CharacterController Controller => GetComponent<CharacterController>();
     public InteractionSystem TargetHandler => GetComponent<InteractionSystem>();
     private AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();

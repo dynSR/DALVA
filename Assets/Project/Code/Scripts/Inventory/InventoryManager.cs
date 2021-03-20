@@ -9,7 +9,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private ShopManager shop;
 
     [Header("INVENTORY BOXES AND BOXES SELECTION ICONS")]
+    [HideInInspector]
     [SerializeField] private List<InventoryBox> inventoryBoxes;
+    [HideInInspector]
     [SerializeField] private List<ToggleSelectionIcon> boxesSelectionIcons; 
 
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
@@ -19,28 +21,22 @@ public class InventoryManager : MonoBehaviour
     public GameObject NewInventoryBox { get; set; }
     public int NumberOfFullInventoryBoxes { get; set; }
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
-
-    public List<ToggleSelectionIcon> BoxesSelectionIcons { get => boxesSelectionIcons; set => boxesSelectionIcons = value; }
+    public List<ToggleSelectionIcon> TogglSelectionIcons { get => boxesSelectionIcons; }
     public ShopManager Shop { get => shop; set => shop = value; }
+
+    private void Awake() => GetRequiredComponent();
 
     #region Inventory - Shop Management
 
-    //Function used to add item to inventory without taking a shop system in consideration
-    public void AddItemToInventory(Item itemToAdd)
+    private void GetRequiredComponent()
     {
-        for (int i = 0; i < InventoryBoxes.Count; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            if (InventoryIsFull) return;
+            InventoryBox inventoryBox = transform.GetChild(i).GetComponent<InventoryBox>();
+            InventoryBoxes.Add(inventoryBox);
 
-            if (InventoryBoxes[i].StoredItem == null)
-            {
-                NumberOfFullInventoryBoxes++;
-                InventoryBoxes[i].ChangeInventoryBoxStoredItem(itemToAdd, itemToAdd.ItemIcon);
-
-                Debug.Log("Add " + itemToAdd.ItemName +" to inventory");
-                Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
-                return;
-            }
+            ToggleSelectionIcon toggleSelectionIcon = transform.GetChild(i).GetComponentInChildren<ToggleSelectionIcon>();
+            TogglSelectionIcons.Add(toggleSelectionIcon);
         }
     }
 
@@ -49,13 +45,15 @@ public class InventoryManager : MonoBehaviour
     {
         if (InventoryIsEmpty) return;
 
-        inventoryBox.ResetInventoryBoxStoredItem(inventoryBox);
         NumberOfFullInventoryBoxes--;
-        Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
+        inventoryBox.ResetInventoryBoxStoredItem(inventoryBox);
+
+        inventoryBox.StoredItem.Unequip(Shop.Player.GetComponent<CharacterStat>());
+        //Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
     }
 
     //Function used to add item to inventory taking a shop system in consideration
-    public void AddPurchasedItemToInventory(Item itemPurchasedToAdd)
+    public void AddItemToInventory(Item item, bool hasBeenPurchased = false)
     {
         for (int i = 0; i < InventoryBoxes.Count; i++)
         {
@@ -64,11 +62,15 @@ public class InventoryManager : MonoBehaviour
             if (InventoryBoxes[i].StoredItem == null)
             {
                 NumberOfFullInventoryBoxes++;
-                InventoryBoxes[i].ChangeInventoryBoxStoredItem(itemPurchasedToAdd, itemPurchasedToAdd.ItemIcon);
-                Shop.OnBuyingItem(InventoryBoxes[i]);
+                InventoryBoxes[i].ChangeInventoryBoxStoredItem(item, item.ItemIcon);
 
-                Debug.Log("Add " + itemPurchasedToAdd.ItemName + " to inventory");
-                Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
+                item.Equip(Shop.Player.GetComponent<CharacterStat>());
+
+                if (hasBeenPurchased)
+                    Shop.AddShopActionOnPurchase(InventoryBoxes[i]);
+
+                //Debug.Log("Add " + item.ItemName + " to inventory");
+                //Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
                 return;
             }
         }
@@ -77,9 +79,9 @@ public class InventoryManager : MonoBehaviour
     //Function that resets the state of all boxes selection icons that have been toggled on
     public void ResetAllBoxesSelectionIcons()
     {
-        for (int i = 0; i < BoxesSelectionIcons.Count; i++)
+        for (int i = 0; i < TogglSelectionIcons.Count; i++)
         {
-            BoxesSelectionIcons[i].ToggleOff();
+            TogglSelectionIcons[i].ToggleOff();
         }
     }
     #endregion

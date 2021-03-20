@@ -4,5 +4,15 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(Transform sourceOfDamage, float attackDamageTaken, float magicDamageTaken, float characterCriticalStrikeChance, float characterCriticalStrikeMultiplier, float armorPenetration, float magicResistancePenetration);
+    void TakeDamage(
+        Transform character,
+        float targetHealth,
+        float targetPhysicalResistances, 
+        float targetMagicalResistances, 
+        float characterPhysicalPower, 
+        float characterMagicalPower, 
+        float characterCriticalStrikeChance, 
+        float characterCriticalStrikeMultiplier, 
+        float characterPhysicalPenetration, 
+        float characterMagicalPenetration);
 }

@@ -7,8 +7,7 @@ public class VisibilityHandler : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == entitiesLayerValue && 
-            other.GetComponent<VisibilityState>() != null &&
-            !other.GetComponent<VisibilityState>().IsVisible)
+            other.GetComponent<VisibilityState>() != null)
         {
             //Debug.Log(other.name + " IN");
             other.GetComponent<VisibilityState>().SetToVisible();
@@ -18,8 +17,7 @@ public class VisibilityHandler : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == entitiesLayerValue && 
-            other.GetComponent<VisibilityState>() != null &&
-            other.GetComponent<VisibilityState>().IsVisible)
+            other.GetComponent<VisibilityState>() != null)
         {
             //Debug.Log(other.name + " OUT");
             other.GetComponent<VisibilityState>().SetToInvisible();

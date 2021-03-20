@@ -10,8 +10,9 @@ public class NPCController : CharacterController
     public IState currentState; //set to private after tests
 
     #region Refs
-    public CharacterStats Stats => GetComponent<CharacterStats>();
+    public CharacterStat Stats => GetComponent<CharacterStat>();
     public NPCInteractions Interactions => GetComponent<NPCInteractions>();
+    public AggroRange AggroRange => GetComponentInChildren<AggroRange>();
     #endregion
 
     private void Start()

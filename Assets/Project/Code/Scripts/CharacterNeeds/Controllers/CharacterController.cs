@@ -13,7 +13,7 @@ public class CharacterController : MonoBehaviourPun
 
     #region Refs
     protected InteractionSystem CharacterInteractions => GetComponent<InteractionSystem>();
-    protected CharacterStats CharacterStats => GetComponent<CharacterStats>();
+    protected CharacterStat CharacterStats => GetComponent<CharacterStat>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     #endregion
 
@@ -23,14 +23,7 @@ public class CharacterController : MonoBehaviourPun
 
     public Animator CharacterAnimator { get => characterAnimator; }
 
-    protected virtual void Awake() => SetAgentMovementSpeed();
-
     protected virtual void Update() => HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
-
-    void SetAgentMovementSpeed()
-    {
-        Agent.speed = CharacterStats.UsedCharacter.BaseMovementSpeed;
-    }
 
     #region Character Destination and motion handling, including rotation
     public void SetAgentDestination(Vector3 pos, NavMeshAgent agent)

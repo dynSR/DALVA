@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GetCharacterAbilities : MonoBehaviour
 {
-    private CharacterStats CharacterCharacteristics => transform.parent.GetComponentInParent<CharacterStats>();
+    private CharacterStat CharacterStats => transform.parent.GetComponentInParent<CharacterStat>();
 
     [Header("PLAYER ABILITIES INFORMATIONS")]
     [Tooltip("Needs to match the number of abilities present on the player (as scripts)")]
@@ -33,7 +33,7 @@ public class GetCharacterAbilities : MonoBehaviour
             {
                 for (int j = 0; j < abilityContainers.Count; j++)
                 {
-                    abilityContainers[j].ContainedAbility = CharacterCharacteristics.CharacterAbilities[j];
+                    abilityContainers[j].ContainedAbility = CharacterStats.CharacterAbilities[j];
                 }
             }
         }

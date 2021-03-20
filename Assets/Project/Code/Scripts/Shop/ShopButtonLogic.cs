@@ -18,6 +18,7 @@ public class ShopButtonLogic : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("Click on Shop button -!-");
         playerShop.BuyItem(shopButtonItem);
     }
 }

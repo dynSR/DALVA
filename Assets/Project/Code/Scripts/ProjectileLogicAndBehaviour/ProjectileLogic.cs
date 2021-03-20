@@ -14,7 +14,7 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private Transform projectileSender;
 
     [SerializeField] private Transform target;
-    [SerializeField] private CharacterStats targetStats;
+    [SerializeField] private CharacterStat targetStats;
 
     Vector3 targetPosition;
 
@@ -23,10 +23,10 @@ public class ProjectileLogic : MonoBehaviour
     public GameObject OnHitEffect { get => onHitEffect; }
     
     public Transform Target { get => target; set => target = value; }
-    public CharacterStats TargetCharacterStats { get => targetStats; set => targetStats = value; }
+    public CharacterStat TargetCharacterStats { get => targetStats; set => targetStats = value; }
 
     public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
-    public CharacterStats ProjectileSenderCharacterStats => ProjectileSender.GetComponent<CharacterStats>();
+    public CharacterStat ProjectileSenderCharacterStats => ProjectileSender.GetComponent<CharacterStat>();
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
@@ -35,7 +35,7 @@ public class ProjectileLogic : MonoBehaviour
         if (ProjectileType == ProjectileType.TravelsToAPosition)
         {
             if (Target != null)
-                TargetCharacterStats = Target.GetComponent<CharacterStats>();
+                TargetCharacterStats = Target.GetComponent<CharacterStat>();
         }
     }
 
@@ -92,7 +92,7 @@ public class ProjectileLogic : MonoBehaviour
 
     protected void ApplyDamageOnTargetHit(Collider targetCollider)
     {
-        if (targetCollider.gameObject.GetComponent<CharacterStats>() != null)
+        if (targetCollider.gameObject.GetComponent<CharacterStat>() != null)
         {
             Debug.Log("Enemy touched !");
 
@@ -101,14 +101,19 @@ public class ProjectileLogic : MonoBehaviour
             if (entityFound.TypeOfEntity == TypeOfEntity.Enemy)
             {
                 Debug.Log("Projectile Applies Damage !");
-                targetCollider.gameObject.GetComponent<CharacterStats>().TakeDamage(
+                CharacterStat targetStat = targetCollider.GetComponent<CharacterStat>();
+
+                targetStat.TakeDamage(
                     ProjectileSender,
-                    ProjectileSenderCharacterStats.CurrentAttackDamage,
-                    ProjectileSenderCharacterStats.CurrentMagicDamage,
-                    ProjectileSenderCharacterStats.CurrentCriticalStrikeChance,
-                    ProjectileSenderCharacterStats.CurrentCriticalStrikeMultiplier,
-                    ProjectileSenderCharacterStats.CurrentArmorPenetration,
-                    ProjectileSenderCharacterStats.CurrentMagicResistancePenetration);
+                    targetStat.GetStat(StatType.Health).Value,
+                    targetStat.GetStat(StatType.Physical_Resistances).Value,
+                    targetStat.GetStat(StatType.Magical_Resistances).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Power).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Power).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Critical_Strike_Chance).Value,
+                    175f,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Penetration).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Penetration).Value);
 
                 Destroy(gameObject);
             }

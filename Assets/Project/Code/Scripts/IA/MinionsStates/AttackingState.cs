@@ -21,21 +21,30 @@ class AttackingState : IState
         Debug.Log("ATTACKING");
 
         //Has an enemy target
-        if (controller.Interactions.Target != null)
+        if (controller.Interactions.HasATarget)
         {
             float distance = Vector3.Distance(controller.Interactions.Target.position, controller.transform.position);
 
             //Enemy target is too far away
-            if (distance > controller.Stats.CurrentAttackRange)
+            if (distance <= controller.Stats.GetStat(StatType.Attack_Range).Value
+                && !controller.Interactions.Target.GetComponent<CharacterStat>().IsDead 
+                && controller.Interactions.Target.GetComponent<VisibilityState>().IsVisible)
             {
-                controller.ChangeState(new MovingState());
-                controller.Interactions.ResetInteractionState();
-            }
-            else
                 controller.Interactions.Interact();
+            }
+            else if (controller.Interactions.Target.GetComponent<CharacterStat>().IsDead
+                || !controller.Interactions.Target.GetComponent<VisibilityState>().IsVisible)
+            {
+                controller.Interactions.ResetInteractionState();
+                controller.Interactions.Target = null;
+                controller.AggroRange.CheckForNewTarget();
+            }
         }
         //Has no enemy target
         else
+        {
+            controller.Interactions.ResetInteractionState();
             controller.ChangeState(new MovingState());
+        }
     }
 }

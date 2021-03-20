@@ -5,7 +5,6 @@ using UnityEngine;
 public class NPCInteractions : InteractionSystem
 {
     public bool HasATarget => Target != null;
-    public bool debugHASATARGET;
 
     #region Interaction
     public override void Interact()

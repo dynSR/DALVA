@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: ItemObject_Test02
   m_EditorClassIdentifier: 
   itemName: Gigantic Spear
+  itemIcon: {fileID: 21300000, guid: 7377013011b4c3348809ff574abe799e, type: 3}
   itemDescription: A gigantic spear.
   itemCost: 250
   amountOfGoldRefundedOnSale: 0
-  itemIcon: {fileID: 21300000, guid: 7377013011b4c3348809ff574abe799e, type: 3}
-  inventoryBox: {fileID: 0}
+  itemFirstEvolution: {fileID: 0}
+  itemSecondEvolution: {fileID: 0}
+  itemModifiers:
+  - Value: 0.5
+    Stat: 0
+    Type: 200

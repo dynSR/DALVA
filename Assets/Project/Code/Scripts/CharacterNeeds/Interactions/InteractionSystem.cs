@@ -31,14 +31,14 @@ public class InteractionSystem : MonoBehaviour
     public float StoppingDistance { get; set; }
 
     #region References
-    protected CharacterStat CharacterStats => GetComponent<CharacterStat>();
-    protected CharacterController CharacterController => GetComponent<CharacterController>();
-    protected Animator CharacterAnimator { get => characterAnimator; }
+    protected CharacterStat Stats => GetComponent<CharacterStat>();
+    protected CharacterController Controller => GetComponent<CharacterController>();
+    protected Animator Animator { get => characterAnimator; }
     #endregion
 
     protected virtual void Update()
     {
-        if (CharacterStats.IsDead)
+        if (Stats.IsDead)
         {
             Target = null;
             return;
@@ -52,22 +52,22 @@ public class InteractionSystem : MonoBehaviour
     {
         if (target != null)
         {
-            CharacterController.HandleCharacterRotation(transform, target.position, CharacterController.RotateVelocity, rotationSpeed);
+            Controller.HandleCharacterRotation(transform, target.position, Controller.RotateVelocity, rotationSpeed);
 
             distance = Vector3.Distance(transform.position, target.position);
-            CharacterController.Agent.stoppingDistance = minDistance;
+            Controller.Agent.stoppingDistance = minDistance;
 
             if (distance > minDistance)
             {
                 //Debug.Log("Far from target");
-                CharacterController.Agent.isStopped = false;
-                CharacterController.Agent.SetDestination(target.position);
+                Controller.Agent.isStopped = false;
+                Controller.SetAgentDestination(Controller.Agent, target.position);
             }
             else if (distance <= minDistance)
             {
                 //Debug.Log("Close enough to target");
-                CharacterController.Agent.ResetPath();
-                CharacterController.Agent.isStopped = true;
+                Controller.Agent.ResetPath();
+                Controller.Agent.isStopped = true;
                 Interact();
             }
         }
@@ -81,7 +81,7 @@ public class InteractionSystem : MonoBehaviour
             && Target.GetComponent<CharacterStat>().IsDead)
         {
             ResetInteractionState();
-            CharacterAnimator.SetTrigger("NoTarget");
+            Animator.SetTrigger("NoTarget");
             Target = null;
             return;
         }
@@ -93,59 +93,32 @@ public class InteractionSystem : MonoBehaviour
     {
         if (Target != null)
         {
-            if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy && CanPerformAttack)
+            if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy 
+                && CanPerformAttack)
             {
-                CharacterAnimator.SetBool("IsCollecting", false);
-
-                if (CombatAttackType == CombatType.MeleeCombat)
-                {
-                    StartCoroutine(AttackInterval(CombatAttackType));
-                    //Debug.Log("Melee Attack performed !");
-                }
-                else if (CombatAttackType == CombatType.RangedCombat)
-                {
-                    StartCoroutine(AttackInterval(CombatAttackType));
-                    //Debug.Log("Ranged Attack performed !");
-                }
+                Animator.SetBool("IsCollecting", false);
+                StartCoroutine(AttackInterval());
+                
+                Debug.Log("Attack performed !");
             }
         }
     }
 
-    IEnumerator AttackInterval(CombatType attackType)
+    IEnumerator AttackInterval()
     {
         Debug.Log("Attack Interval");
+        Controller.CanMove = false;
 
-        if (attackType == CombatType.MeleeCombat)
-        {
-            CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.GetStat(StatType.Attack_Speed).Value);
-            CharacterAnimator.SetBool("Attack", true);
+        Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.Attack_Speed).Value);
+        Animator.SetBool("Attack", true);
 
-            //MeleeAttack(); //Debug without animation
+        //MeleeAttack(); //Debug without animation
 
-            CanPerformAttack = false;
-        }
-        else if (attackType == CombatType.RangedCombat)
-        {
-            CharacterAnimator.SetFloat("AttackSpeed", CharacterStats.GetStat(StatType.Attack_Speed).Value);
-            CharacterAnimator.SetBool("Attack", true);
+        CanPerformAttack = false;
 
-            //RangedAttack(); //Debug without animation
+        yield return new WaitForSeconds(1 / Stats.GetStat(StatType.Attack_Speed).Value);
 
-            CanPerformAttack = false;
-        }
-
-        yield return new WaitForSeconds(1 / CharacterStats.GetStat(StatType.Attack_Speed).Value);
-
-        if (attackType == CombatType.MeleeCombat)
-        {
-            CharacterAnimator.SetBool("Attack", false);
-            CanPerformAttack = true;
-        }
-        else if (attackType == CombatType.RangedCombat)
-        {
-            CharacterAnimator.SetBool("Attack", false);
-            CanPerformAttack = true;
-        }
+        ResetInteractionState();
     }
 
     #region Behaviours of every type of attack - Melee / Ranged
@@ -158,15 +131,14 @@ public class InteractionSystem : MonoBehaviour
 
             targetStat.TakeDamage(
                 transform,
-                targetStat.GetStat(StatType.Health).Value,
                 targetStat.GetStat(StatType.Physical_Resistances).Value,
                 targetStat.GetStat(StatType.Magical_Resistances).Value,
-                CharacterStats.GetStat(StatType.Physical_Power).Value,
-                CharacterStats.GetStat(StatType.Magical_Power).Value,
-                CharacterStats.GetStat(StatType.Critical_Strike_Chance).Value,
+                Stats.GetStat(StatType.Physical_Power).Value,
+                Stats.GetStat(StatType.Magical_Power).Value,
+                Stats.GetStat(StatType.Critical_Strike_Chance).Value,
                 175f,
-                CharacterStats.GetStat(StatType.Physical_Penetration).Value,
-                CharacterStats.GetStat(StatType.Magical_Penetration).Value);
+                Stats.GetStat(StatType.Physical_Penetration).Value,
+                Stats.GetStat(StatType.Magical_Penetration).Value);
         }
 
         CanPerformAttack = true;
@@ -193,8 +165,9 @@ public class InteractionSystem : MonoBehaviour
 
     public virtual void ResetInteractionState()
     {
+        Controller.CanMove = true;
+        Animator.SetBool("Attack", false);
         CanPerformAttack = true;
-        CharacterAnimator.SetBool("Attack", false);
     }
     #endregion
 }

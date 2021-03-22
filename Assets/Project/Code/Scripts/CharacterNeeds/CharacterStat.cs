@@ -12,7 +12,6 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
-    private VisibilityState VisibilityState => GetComponent<VisibilityState>();
     #endregion
 
     public List<Stat> CharacterStats;
@@ -60,7 +59,6 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     #region Take Damage Section
     public virtual void TakeDamage(
         Transform sourceOfDamage,
-        float targetHealth,
         float targetPhysicalResistances,
         float targetMagicalResistances,
         float characterPhysicalPower,
@@ -77,13 +75,14 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
                 bool isAttackCritical = false;
                 float randomValue = Random.Range(0, 100);
 
-                if (randomValue <= characterCriticalStrikeChance)
+                if (characterCriticalStrikeChance > 0 
+                    && randomValue <= characterCriticalStrikeChance)
                 {
                     isAttackCritical = true;
-                    characterPhysicalPower *= characterCriticalStrikeChance / 100;
+                    characterPhysicalPower *= characterCriticalStrikeMultiplier / 100;
                 }
 
-                if (GetStat(StatType.Physical_Resistances).Value > 0)
+                if (targetPhysicalResistances > 0)
                 {
                     if (characterPhysicalPenetration > 0)
                         characterPhysicalPower *= 100 / (100 + (targetPhysicalResistances - (targetPhysicalResistances * (characterPhysicalPenetration / 100))));
@@ -99,7 +98,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
                 if (isAttackCritical)
                     DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterPhysicalPower, DamageType.Critical);
-                else
+                else if (characterPhysicalPower > 0)
                     DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterPhysicalPower, DamageType.Physical);
             }
 
@@ -114,23 +113,23 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
                 if (characterPhysicalPower > 0)
                     StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, DamageType.Magic));
-                else
+                else if (characterMagicalPower > 0)
                     DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterMagicalPower, DamageType.Magic);
             }
-            else if (characterMagicalPower <= 0)
+            else if (targetMagicalResistances <= 0)
             {
                 characterMagicalPower *= 2 - 100 / (100 - targetMagicalResistances);
 
                 if (characterPhysicalPower > 0)
                     StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, DamageType.Magic));
-                else
+                else if (characterMagicalPower > 0)
                     DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterMagicalPower, DamageType.Magic);
             }
 
             this.sourceOfDamage = sourceOfDamage;
-            targetHealth -= (int)characterPhysicalPower + (int)characterMagicalPower;
+            GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
 
-            Debug.Log("Health = " + targetHealth + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
+            Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
         }
     }
 
@@ -186,8 +185,8 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
     private void Respawn()
     {
-        //Debug.Log("Respawn");
-        GetStat(StatType.Health).Value = GetStat(StatType.Health).MaxValue;
+        Debug.Log("Respawn");
+        GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
 
         if (Interactions != null)
             Interactions.CanPerformAttack = true;
@@ -201,17 +200,20 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         if (deathHUD != null)
             deathHUD.SetActive(false);
 
-        //Debug.Log("is Dead " + IsDead);
+        Debug.Log("is Dead " + IsDead);
         isDeathEventHandled = false;
     }
     #endregion
 
+    #region Handle Stats
     void InitStats()
     {
         for (int i = 0; i < CharacterStats.Count; i++)
         {
             CharacterStats[i].InitValue();
         }
+
+        Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.Movement_Speed).Value);
     }
 
     public Stat GetStat(StatType statType)
@@ -228,6 +230,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
         return stat;
     }
+    #endregion
 
     #region Editor Purpose
     public void RefreshCharacterStats()
@@ -236,7 +239,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         {
             CharacterStats.Clear();
 
-            for (int i = 0; i < usedCharacter.CharacterStats.Length; i++)
+            for (int i = 0; i < usedCharacter.CharacterStats.Count; i++)
             {
                 Stat stat = new Stat();
 

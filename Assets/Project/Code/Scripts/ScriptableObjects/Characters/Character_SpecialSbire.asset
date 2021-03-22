@@ -15,34 +15,48 @@ MonoBehaviour:
   characterName: Special Sbire
   characterClass: 9
   combatType: 1
-  CharacterStats:
-  - Name: Halth
+  characterStats:
+  - Name: Health
     _StatType: 0
     BaseValue: 0
+    MaxValue: 0
+    Value: 0
     statModifiers: []
-  - Name: Physical Resistance
+  - Name: Health_Regeneration
+    _StatType: 1
+    BaseValue: 0
+    MaxValue: 0
+    Value: 0
+    statModifiers: []
+  - Name: Movement_Speed
     _StatType: 2
     BaseValue: 0
+    MaxValue: 0
+    Value: 0
     statModifiers: []
-  - Name: Magical Resistance
+  - Name: Physical_Resistances
     _StatType: 3
     BaseValue: 0
+    MaxValue: 0
+    Value: 0
     statModifiers: []
-  - Name: 
-    _StatType: 0
+  - Name: Magical_Resistances
+    _StatType: 4
     BaseValue: 0
+    MaxValue: 0
+    Value: 0
     statModifiers: []
-  - Name: 
-    _StatType: 0
+  - Name: Attack_Speed
+    _StatType: 5
     BaseValue: 0
+    MaxValue: 0
+    Value: 0
     statModifiers: []
-  - Name: 
-    _StatType: 0
+  - Name: Attack_Range
+    _StatType: 6
     BaseValue: 0
-    statModifiers: []
-  - Name: 
-    _StatType: 0
-    BaseValue: 0
+    MaxValue: 0
+    Value: 0
     statModifiers: []
   baseRessourcesGiven: 50
   animatorController: {fileID: 9100000, guid: 49c027e6fb2507d4285ab0bb110e61fc, type: 2}

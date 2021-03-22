@@ -11,24 +11,14 @@ public class StatusEffectContainerLogic : MonoBehaviour
 
     private float localTimer;
 
-    private void Start()
-    {
-        StatusEffectIconContained.sprite = ContainedStatusEffectSystem.StatusEffect.StatusEffectIcon;
-        localTimer = ContainedStatusEffectSystem.StatusEffect.StatusEffectDuration;
-        SetUIForContainedStatusEffect();
-    }
+    private void Start() => SetContainer();
 
-    private void Update()
-    {
-        CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(ContainedStatusEffectSystem);
-    }
+    private void Update() => RemoveExpiredStatusEffectFromUI();
 
-    void SetUIForContainedStatusEffect()
+    void SetContainer()
     {
-        StatusEffectDurationText.text = localTimer.ToString("0");
-
-        if (localTimer <= 1)
-            StatusEffectDurationText.text = localTimer.ToString("0.0");
+        SetContainerIcon();
+        ResetTimer();
     }
 
     public void DestroyContainer()
@@ -36,15 +26,33 @@ public class StatusEffectContainerLogic : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void CheckForStatusEffectTimerAndRemoveItFromUIWhenExpired(StatusEffectLogic statusEffect)
+    private void SetContainerIcon()
+    {
+        StatusEffectIconContained.sprite = ContainedStatusEffectSystem.StatusEffect.StatusEffectIcon;
+    }
+
+    public void ResetTimer()
+    {
+        localTimer = ContainedStatusEffectSystem.StatusEffect.StatusEffectDuration;
+        StatusEffectDurationText.text = localTimer.ToString("0");
+    }
+
+    void UpdateTimer()
     {
         localTimer -= Time.deltaTime;
-        SetUIForContainedStatusEffect();
+
+        StatusEffectDurationText.text = localTimer.ToString("0");
+
+        if (localTimer <= 1)
+            StatusEffectDurationText.text = localTimer.ToString("0.0");
+    }
+
+    void RemoveExpiredStatusEffectFromUI()
+    {
+        
+        UpdateTimer();
 
         if (localTimer <= 0)
-        {
-            statusEffect.RemoveEffect();
             DestroyContainer();
-        }
     }
 }

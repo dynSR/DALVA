@@ -4,17 +4,15 @@ using UnityEngine;
 public class ThrowingProjectile : MonoBehaviour
 {
     [SerializeField] private Transform aimProjectileEmiterPos;
-    [SerializeField] private LayerMask layer;
-    [SerializeField] private float rotationSpeed;
 
-    private CharacterController CharacterController => GetComponent<CharacterController>();
+    #region Réfs
+    private CharacterController Controller => GetComponent<CharacterController>();
     public Transform AimProjectileEmiterPos { get => aimProjectileEmiterPos; }
+    #endregion
 
     public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation)
     {
-        TurnCharacterTowardsLaunchDirection();
-
-        yield return new WaitForSeconds(rotationSpeed);
+        yield return new WaitForSeconds(Controller.RotationSpeed);
 
         GameObject projectileInstance = Instantiate(projectile, spawnLocation.position, spawnLocation.rotation);
 
@@ -22,15 +20,5 @@ public class ThrowingProjectile : MonoBehaviour
         _projectile.ProjectileSender = transform;
 
         Debug.Log("ThrowingProjectile");
-    }
-
-    public void TurnCharacterTowardsLaunchDirection()
-    {
-        Ray ray = UtilityClass.RayFromMainCameraToMousePosition();
-
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer))
-        {
-            CharacterController.HandleCharacterRotation(transform, hit.point, CharacterController.RotateVelocity, rotationSpeed);
-        }
     }
 }

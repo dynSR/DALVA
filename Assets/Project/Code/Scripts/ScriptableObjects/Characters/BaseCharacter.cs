@@ -28,7 +28,7 @@ public class BaseCharacter : ScriptableObject
     public CharacterClass CharacterClass { get => characterClass; }
 
     [SerializeField] private CombatType combatType;
-    [SerializeField] private Stat[] characterStats;
+    [SerializeField] private List<Stat> characterStats;
 
     [Header("RESSOURCES")]
     [SerializeField] private float baseRessourcesGiven = 50f;
@@ -37,17 +37,13 @@ public class BaseCharacter : ScriptableObject
     [Header("ANIMATION")]
     [SerializeField] private RuntimeAnimatorController animatorController;
     public RuntimeAnimatorController AnimatorController { get => animatorController; }
-    public Stat[] CharacterStats { get => characterStats; }
+    public List<Stat> CharacterStats { get => characterStats; private set => characterStats = value; }
 
     private void OnValidate()
     {
-        for (int i = 0; i < CharacterStats.Length; i++)
+        for (int i = 0; i < CharacterStats.Count; i++)
         {
-            if (CharacterStats.Length == System.Enum.GetValues(typeof(StatType)).Length)
-            {
-                CharacterStats[i]._StatType = (StatType)System.Enum.GetValues(typeof(StatType)).GetValue(i);
-            }
-
+            CharacterStats[i]._StatType = (StatType)System.Enum.GetValues(typeof(StatType)).GetValue(i);
             CharacterStats[i].Name = CharacterStats[i]._StatType.ToString();
         }
     }

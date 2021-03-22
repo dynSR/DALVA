@@ -6,7 +6,6 @@ public interface IDamageable
 {
     void TakeDamage(
         Transform character,
-        float targetHealth,
         float targetPhysicalResistances, 
         float targetMagicalResistances, 
         float characterPhysicalPower, 

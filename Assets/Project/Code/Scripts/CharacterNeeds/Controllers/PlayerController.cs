@@ -24,13 +24,13 @@ public class PlayerController : CharacterController
 
     protected override void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || CharacterStats.IsDead) return;
+        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) return;
 
         if (UtilityClass.RightClickIsHeld())
         {
             if (CursorIsHoveringMiniMap) return;
 
-            CharacterInteractions.ResetInteractionState();
+            Interactions.ResetInteractionState();
 
             SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
         }
@@ -50,7 +50,7 @@ public class PlayerController : CharacterController
                 CreateMovementFeedback(movementFeedback, raycastHit.point);
             }
 
-            SetAgentDestination(raycastHit.point, Agent);
+            SetAgentDestination(Agent, raycastHit.point);
             HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, RotationSpeed);
         }
     }
@@ -59,7 +59,7 @@ public class PlayerController : CharacterController
     #region Debug
     public void DebugPathing(LineRenderer line)
     {
-        if (Agent.hasPath || CharacterInteractions.Target != null)
+        if (Agent.hasPath || Interactions.Target != null)
         {
             line.positionCount = Agent.path.corners.Length;
             line.SetPositions(Agent.path.corners);

@@ -41,11 +41,26 @@ public class PlayerHUDManager : MonoBehaviour
     #region Status effects
     public void UpdateStatusEffectUI(StatusEffectLogic statusEffect)
     {
-        GameObject statusEffectFeedbackInstance = Instantiate(statusEffectContainer) as GameObject;
-        statusEffectFeedbackInstance.transform.SetParent(statusEffectLayoutGroup);
+        if (statusEffectLayoutGroup.childCount > 0)
+        {
+            Debug.Log("Container already exists");
+            for (int i = statusEffectLayoutGroup.childCount - 1; i >= 0; i--)
+            {
+                if (statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainerLogic>().ContainedStatusEffectSystem == statusEffect)
+                {
+                    statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainerLogic>().ResetTimer();
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Create Container");
+            GameObject statusEffectFeedbackInstance = Instantiate(statusEffectContainer);
+            statusEffectFeedbackInstance.transform.SetParent(statusEffectLayoutGroup);
 
-        statusEffectFeedbackInstance.GetComponent<StatusEffectContainerLogic>().ContainedStatusEffectSystem = statusEffect;
-        statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainerLogic>();
+            statusEffectFeedbackInstance.GetComponent<StatusEffectContainerLogic>().ContainedStatusEffectSystem = statusEffect;
+            statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainerLogic>();
+        }
     }
     #endregion
 

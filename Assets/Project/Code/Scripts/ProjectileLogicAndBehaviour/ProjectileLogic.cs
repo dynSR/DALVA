@@ -105,7 +105,6 @@ public class ProjectileLogic : MonoBehaviour
 
                 targetStat.TakeDamage(
                     ProjectileSender,
-                    targetStat.GetStat(StatType.Health).Value,
                     targetStat.GetStat(StatType.Physical_Resistances).Value,
                     targetStat.GetStat(StatType.Magical_Resistances).Value,
                     ProjectileSenderCharacterStats.GetStat(StatType.Physical_Power).Value,

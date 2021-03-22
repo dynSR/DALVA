@@ -30,9 +30,9 @@ public class Item : ScriptableObject
         {
             for (int j = 0; j < itemModifiers.Count; j++)
             {
-                if (c.CharacterStats[i]._StatType == itemModifiers[j].Stat)
+                if (c.CharacterStats[i]._StatType == itemModifiers[j].StatType)
                 {
-                    c.CharacterStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].Stat, itemModifiers[j].Type, this));
+                    c.CharacterStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
                 }
             }
         }

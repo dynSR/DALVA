@@ -27,15 +27,15 @@ public class PlayerInteractions : InteractionSystem
                     ResetInteractionState();
 
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
-                        StoppingDistance = CharacterStats.GetStat(StatType.Attack_Range).Value;
+                        StoppingDistance = Stats.GetStat(StatType.Attack_Range).Value;
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester)
                         StoppingDistance = InteractionRange;
                 }
                 // Ground hit
                 else
                 {
-                    CharacterController.Agent.isStopped = false;
-                    CharacterController.Agent.stoppingDistance = 0.2f;
+                    Controller.Agent.isStopped = false;
+                    Controller.Agent.stoppingDistance = 0.2f;
                     ResetInteractionState();
                 }
             }
@@ -63,8 +63,8 @@ public class PlayerInteractions : InteractionSystem
 
                 harvester.interactingPlayer = transform.GetComponent<InteractionSystem>();
 
-                CharacterAnimator.SetBool("Attack", false);
-                CharacterAnimator.SetBool("IsCollecting", true);
+                Animator.SetBool("Attack", false);
+                Animator.SetBool("IsCollecting", true);
 
                 //Debug.Log("Interaction with harvester !");
             }
@@ -76,7 +76,7 @@ public class PlayerInteractions : InteractionSystem
         base.ResetInteractionState();
 
         IsHarvesting = false;
-        CharacterAnimator.SetBool("IsCollecting", false);
+        Animator.SetBool("IsCollecting", false);
     }
     #endregion
 }

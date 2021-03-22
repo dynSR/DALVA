@@ -43,6 +43,7 @@ class AttackingState : IState
         //Has no enemy target
         else
         {
+            controller.CharacterAnimator.SetBool("Attack", false);
             controller.Interactions.ResetInteractionState();
             controller.ChangeState(new MovingState());
         }

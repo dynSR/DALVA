@@ -55,10 +55,9 @@ public class Stat
 
     public float CalculateValue()
     {
-        //float finalValue = BaseValue;
+        float finalValue = BaseValue;
 
-        if (statModifiers.Count <= 0) Value = BaseValue;
-        else
+        if (statModifiers.Count > 0)
         {
             for (int i = 0; i < statModifiers.Count; i++)
             {
@@ -66,17 +65,17 @@ public class Stat
 
                 if (mod.Type == StatModType.Flat)
                 {
-                    Value += mod.Value;
+                    finalValue += mod.Value;
                 }
                 else if (mod.Type == StatModType.PercentAdd)
                 {
-                    Value *= 1 + mod.Value;
+                    finalValue *= 1 + mod.Value;
                 }
             }
         }
         
         Debug.Log(Value);
-        return Value;
+        return finalValue;
     }
 
     public void InitValue()

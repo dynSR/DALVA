@@ -9,7 +9,7 @@ public class StatusEffectHandler : MonoBehaviour
     [SerializeField] private List<StatusEffectDurationData> statusEffectApplied = new List<StatusEffectDurationData>();
 
     [System.Serializable]
-    private class StatusEffectDurationData
+    public class StatusEffectDurationData
     {
         public StatusEffectLogic statusEffect;
         public float duration;
@@ -33,6 +33,33 @@ public class StatusEffectHandler : MonoBehaviour
         statusEffectApplied.Add(new StatusEffectDurationData(newStatusEffect, newStatusEffect.StatusEffect.StatusEffectDuration));
 
         OnApplyingStatusEffect?.Invoke(newStatusEffect);
+    }
+
+    public void ResetCooldown(StatusEffectLogic newStatusEffect)
+    {
+        foreach (StatusEffectDurationData durationData in statusEffectApplied)
+        {
+            if (durationData.statusEffect == newStatusEffect)
+            {
+                durationData.duration = newStatusEffect.StatusEffect.StatusEffectDuration;
+                OnApplyingStatusEffect?.Invoke(newStatusEffect);
+            }
+        }
+    }
+
+    public StatusEffectDurationData GetEffect(StatusEffect effect)
+    {
+        StatusEffectDurationData data = null;
+
+        for (int i = statusEffectApplied.Count - 1; i >= 0; i--)
+        {
+            if (statusEffectApplied[i].statusEffect == effect)
+            {
+                data = statusEffectApplied[i];
+            }
+        }
+
+        return data;
     }
 
     public bool IsEffectAlreadyApplied(StatusEffectLogic statusEffect)

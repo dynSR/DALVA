@@ -6,34 +6,43 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(NavMeshAgent))]
 public class CharacterController : MonoBehaviourPun
 {
+    [Header("CONTROLLER ATTRIBUTES VALUE")]
     [SerializeField] private float rotationSpeed = 0.1f;
     [SerializeField] private float motionSmoothTime = .1f;
     [SerializeField] private float rotateVelocity = .1f;
     [SerializeField] private Animator characterAnimator;
+    private bool canMove = true;
 
     #region Refs
-    protected InteractionSystem CharacterInteractions => GetComponent<InteractionSystem>();
-    protected CharacterStat CharacterStats => GetComponent<CharacterStat>();
+    protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
+    protected CharacterStat Stats => GetComponent<CharacterStat>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     #endregion
 
     public float RotationSpeed { get => rotationSpeed; }
     public float MotionSmoothTime { get => motionSmoothTime; }
     public float RotateVelocity { get => rotateVelocity; }
+    public bool CanMove { get => canMove; set => canMove = value; }
 
     public Animator CharacterAnimator { get => characterAnimator; }
 
     protected virtual void Update() => HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
 
     #region Character Destination and motion handling, including rotation
-    public void SetAgentDestination(Vector3 pos, NavMeshAgent agent)
+    public void SetNavMeshAgentSpeed(NavMeshAgent agent, float value)
     {
-        agent.SetDestination(pos);
+        agent.speed = value;
+    }
+
+    public void SetAgentDestination(NavMeshAgent agent, Vector3 pos)
+    {
+        if(CanMove)
+            agent.SetDestination(pos);
     }
 
     public void HandleMotionAnimation(NavMeshAgent agent, Animator animator, string animationFloatName, float smoothTime)
     {
-        if (!Agent.hasPath)
+        if (!agent.hasPath)
         {
             animator.SetFloat(animationFloatName, 0, smoothTime, Time.deltaTime);
             return;

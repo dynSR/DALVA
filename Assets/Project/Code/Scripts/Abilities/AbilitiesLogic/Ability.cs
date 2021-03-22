@@ -2,15 +2,12 @@
 using Photon.Pun;
 using System.Collections;
 
-public enum AbilityType { Buff, Heal, Debuff, Projectile, CrowdControl, Movement, Shield } //A étoffer si besoin !
-
 [RequireComponent(typeof(AbilitiesCooldownHandler))]
 public abstract class Ability : MonoBehaviourPun
 {
-    [Header("CORE PARAMETERS")]
+    [Header("INFORMATIONS")]
     [SerializeField] private string abilityName;
     [SerializeField] private string abilityDescription;
-    [SerializeField] private AbilityType abilityType;
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private Sprite abilityIcon;
     [SerializeField] private GameObject abilityPrefab;
@@ -22,16 +19,16 @@ public abstract class Ability : MonoBehaviourPun
     private AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
     #endregion
 
-    [Header("NUMERIC PARAMETERS")]
-    [SerializeField] private float abilityCooldown;
-    [SerializeField] private float abilityDamage;
-    [SerializeField] private float abilityRange;
-    [SerializeField] private float abilityAreaOfEffect;
+    [Header("ATTRIBUTES VALUE")]
+    [SerializeField] private float abilityCooldown = 0f;
+    [SerializeField] private float abilityDamage = 0f;
+    [SerializeField] private float abilityRange = 0f;//Gestion de la range à ajouter -!-
+    [SerializeField] private float abilityAreaOfEffect = 0f;
+    [SerializeField] private float abilityCastingTime = 0f;
     [SerializeField] private float abilityEffectDuration = 0f;
     #region Public refs
     public string AbilityDescription { get => abilityDescription; }
     public string AbilityName { get => abilityName; }
-    public AbilityType AbilityType { get => abilityType; }
     public GameObject AbilityPrefab { get => abilityPrefab; }
 
     public float AbilityCooldown { get => abilityCooldown; set => abilityCooldown = value; }
@@ -54,20 +51,41 @@ public abstract class Ability : MonoBehaviourPun
 
             TargetHandler.Target = null;
 
-            LockCharacterInPlaceJustBeforeCasting();
+            AdjustCharacterPositioning();
 
-            Cast();
-            StartCoroutine(PutAbilityOnCooldown(abilityEffectDuration));
+            StartCoroutine(ProcessCastingTime(abilityCastingTime));
         }
     }
 
-    private void LockCharacterInPlaceJustBeforeCasting()
+    private void AdjustCharacterPositioning()
     {
+        TurnCharacterTowardsLaunchDirection();
         Controller.Agent.ResetPath();
+    }
+
+    private void TurnCharacterTowardsLaunchDirection()
+    {
+        Ray ray = UtilityClass.RayFromMainCameraToMousePosition();
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        {
+            Controller.HandleCharacterRotation(transform, hit.point, Controller.RotateVelocity, Controller.RotationSpeed);
+        }
+    }
+
+    private IEnumerator ProcessCastingTime(float castDuration)
+    {
+        //if castDuration == 0 it means that it is considered as an instant cast 
+        //else it is gonna wait before casting the spell
+        yield return new WaitForSeconds(castDuration);
+        Cast();
+        StartCoroutine(PutAbilityOnCooldown(abilityEffectDuration));
     }
 
     private IEnumerator PutAbilityOnCooldown(float delay)
     {
+        //if delay == 0 it means that it is directly put in cooldoown it is mainly used with ability that do not use duration like auras, boosts, etc.
+        //else it is gonna wait before puttin ability in cooldown
         yield return new WaitForSeconds(delay);
         AbilitiesCooldownHandler.PutAbilityOnCooldown(this);
     }

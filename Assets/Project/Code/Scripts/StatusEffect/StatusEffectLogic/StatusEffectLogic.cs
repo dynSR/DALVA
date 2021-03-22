@@ -1,19 +1,46 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
-public abstract class StatusEffectLogic : MonoBehaviour
+public class StatusEffectLogic : MonoBehaviour
 {
+    [SerializeField] private StatModifier statModifier;
     [SerializeField] private StatusEffect statusEffect;
     [SerializeField] private Transform target;
     public Transform Target { get => target; set => target = value; }
     private bool TargetIsNotSet => Target == null;
 
+    public GameObject createdVFX;
+
+    public StatusEffect StatusEffect { get => statusEffect; }
     public StatusEffectHandler StatusEffectHandler { get; set; }
     public StatusEffectContainerLogic StatusEffectContainer { get; set; }
-    public StatusEffect StatusEffect { get => statusEffect; }
+    
+    protected virtual void ApplyStatusEffectOnTarget()
+    {
+        if (GetTargetStatusEffectHandler(Target) != null)
+        {
+            if (GetTargetStatusEffectHandler(Target).IsEffectAlreadyApplied(this))
+            {
+                GetTargetStatusEffectHandler(Target).ResetCooldown(this);
+                return;
+            } 
 
-    protected abstract void ApplyStatusEffectOnTarget(Transform targetFound);
-    public abstract void RemoveEffect();
+            Target.GetComponent<CharacterStat>().GetStat(statModifier.StatType).AddModifier(statModifier);
+
+            if(statModifier.StatType == StatType.Movement_Speed)
+            {
+                Target.GetComponent<CharacterController>().SetNavMeshAgentSpeed(
+                    Target.GetComponent<CharacterController>().Agent, 
+                    Target.GetComponent<CharacterStat>().GetStat(StatType.Movement_Speed).Value);
+            }
+
+            GetTargetStatusEffectHandler(Target).AddNewEffect(this);
+        }
+    }
+    public virtual void RemoveEffect()
+    {
+        Target.GetComponent<CharacterStat>().GetStat(statModifier.StatType).RemoveModifier(statModifier);
+        Destroy(createdVFX);
+    }
 
     #region Adding or removing target(s) with trigger events
     protected virtual void OnTriggerEnter(Collider other)
@@ -27,7 +54,8 @@ public abstract class StatusEffectLogic : MonoBehaviour
             else if (Target != other.transform)
                 Target = other.transform;
 
-            ApplyStatusEffectOnTarget(Target);
+            ApplyStatusEffectOnTarget();
+
             CreateVFXOnApplication(StatusEffect.StatusEffectVFXPrefab, Target);
             PlaySoundOnApplication(StatusEffect.StatusEffectSound, Target);
         }
@@ -61,6 +89,7 @@ public abstract class StatusEffectLogic : MonoBehaviour
         {
             GameObject vfxCopy = Instantiate(vfxToCreate, target.position, target.rotation);
             vfxCopy.transform.SetParent(target);
+            createdVFX = vfxCopy;
 
             if (vfxCopy.GetComponent<Lifetime>() != null)
                 StartCoroutine(vfxCopy.GetComponent<Lifetime>().DestroyAfterATime(StatusEffect.StatusEffectDuration));

@@ -24,15 +24,18 @@ public class PlayerController : CharacterController, IPunObservable
     public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
 
     //Network refs
+    [HideInInspector]
     [SerializeField] private Vector3 networkPosition = Vector3.zero;
+    [HideInInspector]
     [SerializeField] private Quaternion networkRotation = Quaternion.identity;
+    [HideInInspector]
     [SerializeField] private float networkSpeed = 0f;
     private double lastNetworkUpdate = 0f;
 
 
     protected override void Update()
     {
-        //if (GameObject.Find("NetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) return;
+        if (Stats.IsDead) return;
 
         if (GameObject.Find("NetworkManager") == null || photonView.IsMine)
         {

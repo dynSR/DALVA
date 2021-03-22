@@ -81,7 +81,8 @@ public class HarvesterLogic : MonoBehaviour
 
     private void Interaction()
     {
-        if (!interactingPlayer.GetComponent<PlayerInteractions>().IsHarvesting)
+        if (!interactingPlayer.GetComponent<PlayerInteractions>().IsHarvesting 
+            || interactingPlayer.GetComponent<CharacterStat>().IsDead)
         {
             //Debug.Log("INTERACTION IS OVER");
             ResetAfterInteraction();

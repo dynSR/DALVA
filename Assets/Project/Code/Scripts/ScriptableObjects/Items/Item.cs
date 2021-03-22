@@ -40,8 +40,10 @@ public class Item : ScriptableObject
 
     public void Unequip(CharacterStat c)
     {
+        Debug.Log("Casting Unequip");
         for (int i = c.CharacterStats.Count - 1; i >= 0; i--)
         {
+            Debug.Log("Can't find any item -!-");
             c.CharacterStats[i].RemoveAllModifiersFromSource(this);
         }
     }

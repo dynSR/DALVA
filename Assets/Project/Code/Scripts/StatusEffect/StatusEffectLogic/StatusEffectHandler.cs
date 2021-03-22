@@ -24,7 +24,7 @@ public class StatusEffectHandler : MonoBehaviour
     void Update()
     {
         ProcessDuration();
-        HandleExpiredEffect();
+        //HandleExpiredEffect();
     }
 
     #region Applying an effect
@@ -83,6 +83,18 @@ public class StatusEffectHandler : MonoBehaviour
         for (int i = 0; i < statusEffectApplied.Count; i++)
         {
             statusEffectApplied[i].duration -= Time.deltaTime;
+        }
+    }
+
+    public void RemoveEffectFromStatusEffectHandler(StatusEffectLogic newStatusEffect)
+    {
+        for (int i = statusEffectApplied.Count - 1; i >= 0; i--)
+        {
+            if (statusEffectApplied[i].statusEffect == newStatusEffect)
+            {
+                statusEffectApplied[i].statusEffect.RemoveEffect();
+                statusEffectApplied.RemoveAt(i);
+            }
         }
     }
 

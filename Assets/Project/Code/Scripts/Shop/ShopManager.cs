@@ -73,7 +73,8 @@ public class ShopManager : MonoBehaviour
 
         if (UtilityClass.RightClickIsPressed())
         {
-            if (PlayerInventory.InventoryIsFull) return;
+            if (PlayerInventory.InventoryIsFull
+           || Player.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < shopItem.ItemCost) return;
 
             PlayerInventory.AddItemToInventory(shopItem, true);
 
@@ -132,19 +133,16 @@ public class ShopManager : MonoBehaviour
                             //Debug.Log(PlayerInventory.InventoryBoxes[j].name);
                             //Debug.Log("Last shop action is a purchase action");
 
+                            OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + PlayerInventory.InventoryBoxes[j].StoredItem.AmountOfGoldRefundedOnSale);
+
                             PlayerInventory.RemoveItemFromInventory(PlayerInventory.InventoryBoxes[j]);
 
-                            //PlayerInventory.InventoryBoxes[j].ResetInventoryBoxStoredItem(PlayerInventory.InventoryBoxes[j]);
-
                             numberOfShopActionsDone--;
-                            //PlayerInventory.NumberOfFullInventoryBoxes--;
 
                             PlayerInventory.ResetAllBoxesSelectionIcons();
                             PlayerInventory.InventoryBoxes[j].StoredItemTransactionID = 0;
 
                             shopActions.RemoveAt(i);
-
-                            OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources);
 
                             return;
                         }
@@ -176,10 +174,9 @@ public class ShopManager : MonoBehaviour
                 && shopActionData.transactionID == PlayerInventory.InventoryBoxes[i].StoredItemTransactionID)
             {
                 PlayerInventory.AddItemToInventory(itemToAdd);
-                //PlayerInventory.NumberOfFullInventoryBoxes++;
-                //PlayerInventory.InventoryBoxes[i].ChangeInventoryBoxStoredItem(itemToAdd, itemToAdd.ItemIcon);
                 PlayerInventory.InventoryBoxes[i].StoredItemTransactionID = transactionIDData;
 
+                OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + itemToAdd.InventoryBox.StoredItem.AmountOfGoldRefundedOnSale);
 
                 Debug.Log("Add " + itemToAdd.ItemName + " to inventory");
                 Debug.Log("Number of full inventory boxes : " + PlayerInventory.NumberOfFullInventoryBoxes);

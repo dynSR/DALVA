@@ -77,9 +77,12 @@ public abstract class Ability : MonoBehaviourPun
     {
         //if castDuration == 0 it means that it is considered as an instant cast 
         //else it is gonna wait before casting the spell
+        Controller.CanMove = false;
+
         yield return new WaitForSeconds(castDuration);
         Cast();
         StartCoroutine(PutAbilityOnCooldown(abilityEffectDuration));
+        Controller.CanMove = true;
     }
 
     private IEnumerator PutAbilityOnCooldown(float delay)

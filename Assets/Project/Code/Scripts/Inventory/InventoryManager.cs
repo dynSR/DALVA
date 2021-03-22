@@ -45,10 +45,10 @@ public class InventoryManager : MonoBehaviour
     {
         if (InventoryIsEmpty) return;
 
+        inventoryBox.StoredItem.Unequip(Shop.Player.GetComponent<CharacterStat>());
+
         NumberOfFullInventoryBoxes--;
         inventoryBox.ResetInventoryBoxStoredItem(inventoryBox);
-
-        inventoryBox.StoredItem.Unequip(Shop.Player.GetComponent<CharacterStat>());
         //Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
     }
 
@@ -57,8 +57,6 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < InventoryBoxes.Count; i++)
         {
-            if (InventoryIsFull) return;
-
             if (InventoryBoxes[i].StoredItem == null)
             {
                 NumberOfFullInventoryBoxes++;

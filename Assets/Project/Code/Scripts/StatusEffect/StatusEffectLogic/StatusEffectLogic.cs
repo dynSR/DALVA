@@ -8,7 +8,7 @@ public class StatusEffectLogic : MonoBehaviour
     public Transform Target { get => target; set => target = value; }
     private bool TargetIsNotSet => Target == null;
 
-    public GameObject createdVFX;
+    public GameObject CreatedVFX { get; set; }
 
     public StatusEffect StatusEffect { get => statusEffect; }
     public StatusEffectHandler StatusEffectHandler { get; set; }
@@ -34,12 +34,14 @@ public class StatusEffectLogic : MonoBehaviour
             }
 
             GetTargetStatusEffectHandler(Target).AddNewEffect(this);
+            CreateVFXOnApplication(StatusEffect.StatusEffectVFXPrefab, Target);
+            PlaySoundOnApplication(StatusEffect.StatusEffectSound, Target);
         }
     }
     public virtual void RemoveEffect()
     {
         Target.GetComponent<CharacterStat>().GetStat(statModifier.StatType).RemoveModifier(statModifier);
-        Destroy(createdVFX);
+        Destroy(CreatedVFX);
     }
 
     #region Adding or removing target(s) with trigger events
@@ -55,9 +57,6 @@ public class StatusEffectLogic : MonoBehaviour
                 Target = other.transform;
 
             ApplyStatusEffectOnTarget();
-
-            CreateVFXOnApplication(StatusEffect.StatusEffectVFXPrefab, Target);
-            PlaySoundOnApplication(StatusEffect.StatusEffectSound, Target);
         }
     }
 
@@ -68,6 +67,7 @@ public class StatusEffectLogic : MonoBehaviour
             Debug.Log("Player is out of trigger");
         }
     }
+
     #endregion
 
     #region Getting necessaries informations about target(s) found
@@ -89,10 +89,7 @@ public class StatusEffectLogic : MonoBehaviour
         {
             GameObject vfxCopy = Instantiate(vfxToCreate, target.position, target.rotation);
             vfxCopy.transform.SetParent(target);
-            createdVFX = vfxCopy;
-
-            if (vfxCopy.GetComponent<Lifetime>() != null)
-                StartCoroutine(vfxCopy.GetComponent<Lifetime>().DestroyAfterATime(StatusEffect.StatusEffectDuration));
+            CreatedVFX = vfxCopy;
         }
     }
 

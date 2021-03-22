@@ -49,10 +49,12 @@ public class StatusEffectContainerLogic : MonoBehaviour
 
     void RemoveExpiredStatusEffectFromUI()
     {
-        
         UpdateTimer();
 
         if (localTimer <= 0)
+        {
+            ContainedStatusEffectSystem.GetTargetStatusEffectHandler(ContainedStatusEffectSystem.Target).RemoveEffectFromStatusEffectHandler(ContainedStatusEffectSystem);
             DestroyContainer();
+        }
     }
 }

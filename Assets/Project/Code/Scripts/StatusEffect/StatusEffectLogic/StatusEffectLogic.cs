@@ -41,6 +41,14 @@ public class StatusEffectLogic : MonoBehaviour
     public virtual void RemoveEffect()
     {
         Target.GetComponent<CharacterStat>().GetStat(statModifier.StatType).RemoveModifier(statModifier);
+
+        if (statModifier.StatType == StatType.Movement_Speed)
+        {
+            Target.GetComponent<CharacterController>().SetNavMeshAgentSpeed(
+                Target.GetComponent<CharacterController>().Agent,
+                Target.GetComponent<CharacterStat>().GetStat(StatType.Movement_Speed).Value);
+        }
+
         Destroy(CreatedVFX);
     }
 

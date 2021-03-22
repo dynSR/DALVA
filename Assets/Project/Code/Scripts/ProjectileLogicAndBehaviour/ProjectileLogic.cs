@@ -46,7 +46,7 @@ public class ProjectileLogic : MonoBehaviour
             case ProjectileType.None:
                 break;
             case ProjectileType.TravelsForward:
-                ProjectileTravelsForward(ProjectileSender);
+                ProjectileTravelsToPosition(ProjectileSender);
                 break;
             case ProjectileType.TravelsToAPosition:
                 ProjectileMoveToATarget();
@@ -63,7 +63,8 @@ public class ProjectileLogic : MonoBehaviour
         {
             targetPosition = Target.position;
 
-            Rb.MovePosition(Vector3.MoveTowards(transform.position,
+            Rb.MovePosition(Vector3.MoveTowards(
+                transform.position,
                 targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0),
                 ProjectileSpeed * Time.fixedDeltaTime));
 
@@ -75,9 +76,13 @@ public class ProjectileLogic : MonoBehaviour
         }
     }
 
-    void ProjectileTravelsForward(Transform sender)
+    void ProjectileTravelsToPosition(Transform sender)
     {
         ProjectileSender = sender;
+        //Rb.MovePosition(Vector3.MoveTowards(
+        //    transform.position,
+        //    Target.position,
+        //    ProjectileSpeed * Time.fixedDeltaTime));
         Rb.MovePosition(transform.position += transform.forward * (ProjectileSpeed * Time.fixedDeltaTime));
     }
     #endregion

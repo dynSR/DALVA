@@ -12,6 +12,7 @@ public class CharacterController : MonoBehaviourPun
     [SerializeField] private float rotateVelocity = .1f;
     [SerializeField] private Animator characterAnimator;
     private bool canMove = true;
+    private bool isCasting = false;
 
     #region Refs
     protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
@@ -23,9 +24,10 @@ public class CharacterController : MonoBehaviourPun
     public float MotionSmoothTime { get => motionSmoothTime; }
     public float RotateVelocity { get => rotateVelocity; }
     public bool CanMove { get => canMove; set => canMove = value; }
+    public bool IsCasting { get => isCasting; set => isCasting = value; }
 
     public Animator CharacterAnimator { get => characterAnimator; }
-
+   
     protected virtual void Update() => HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
 
     #region Character Destination and motion handling, including rotation
@@ -36,8 +38,9 @@ public class CharacterController : MonoBehaviourPun
 
     public void SetAgentDestination(NavMeshAgent agent, Vector3 pos)
     {
-        if(CanMove)
-            agent.SetDestination(pos);
+        if (!CanMove) return;
+            
+        agent.SetDestination(pos);
     }
 
     public void HandleMotionAnimation(NavMeshAgent agent, Animator animator, string animationFloatName, float smoothTime)
@@ -48,12 +51,14 @@ public class CharacterController : MonoBehaviourPun
             return;
         }
 
-        float moveSpeed = agent.velocity.magnitude / agent.speed;
+        float moveSpeed = agent.velocity.sqrMagnitude / agent.speed;
         animator.SetFloat(animationFloatName, moveSpeed, smoothTime, Time.deltaTime);
     }
 
     public void HandleCharacterRotation(Transform transform, Vector3 target, float rotateVelocity, float rotationSpeed)
     {
+        if (IsCasting) return;
+
         Quaternion rotationToLookAt = Quaternion.LookRotation(target - transform.position);
 
         float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y,

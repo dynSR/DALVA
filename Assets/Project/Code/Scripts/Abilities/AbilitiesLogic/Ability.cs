@@ -53,7 +53,8 @@ public abstract class Ability : MonoBehaviourPun
 
             AdjustCharacterPositioning();
 
-            StartCoroutine(ProcessCastingTime(abilityCastingTime));
+            if(!Controller.IsCasting)
+                StartCoroutine(ProcessCastingTime(abilityCastingTime));
         }
     }
 
@@ -65,9 +66,7 @@ public abstract class Ability : MonoBehaviourPun
 
     private void TurnCharacterTowardsLaunchDirection()
     {
-        Ray ray = UtilityClass.RayFromMainCameraToMousePosition();
-
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
         {
             Controller.HandleCharacterRotation(transform, hit.point, Controller.RotateVelocity, Controller.RotationSpeed);
         }
@@ -77,11 +76,17 @@ public abstract class Ability : MonoBehaviourPun
     {
         //if castDuration == 0 it means that it is considered as an instant cast 
         //else it is gonna wait before casting the spell
+        Controller.IsCasting = true;
         Controller.CanMove = false;
 
         yield return new WaitForSeconds(castDuration);
         Cast();
+
         StartCoroutine(PutAbilityOnCooldown(abilityEffectDuration));
+
+        yield return new WaitForSeconds(0.25f);
+
+        Controller.IsCasting = false;
         Controller.CanMove = true;
     }
 

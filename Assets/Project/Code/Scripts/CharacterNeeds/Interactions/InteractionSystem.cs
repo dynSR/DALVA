@@ -96,9 +96,7 @@ public class InteractionSystem : MonoBehaviour
             if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy 
                 && CanPerformAttack)
             {
-                Animator.SetBool("IsCollecting", false);
                 StartCoroutine(AttackInterval());
-                
                 Debug.Log("Attack performed !");
             }
         }
@@ -117,8 +115,6 @@ public class InteractionSystem : MonoBehaviour
         CanPerformAttack = false;
 
         yield return new WaitForSeconds(1 / Stats.GetStat(StatType.Attack_Speed).Value);
-
-        ResetInteractionState();
     }
 
     #region Behaviours of every type of attack - Melee / Ranged
@@ -165,7 +161,9 @@ public class InteractionSystem : MonoBehaviour
 
     public virtual void ResetInteractionState()
     {
-        Controller.CanMove = true;
+        if (!Controller.IsCasting)
+            Controller.CanMove = true;
+
         Animator.SetBool("Attack", false);
         CanPerformAttack = true;
     }

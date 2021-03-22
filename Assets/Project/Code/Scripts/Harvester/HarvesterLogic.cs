@@ -24,7 +24,7 @@ public class HarvesterLogic : MonoBehaviour
     [SerializeField] private Image harvestingFeedbackImage;
     public HarvestState harvestState; //Its in public for debug purpose
 
-    public InteractionSystem interactingPlayer;
+    public PlayerInteractions interactingPlayer;
     public bool IsInteractable => CurrentHarvestedRessourcesValue >= .5f && harvestState == HarvestState.IsHarvesting;
     private bool LimitReached => CurrentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
 
@@ -81,16 +81,6 @@ public class HarvesterLogic : MonoBehaviour
 
     private void Interaction()
     {
-        if (!interactingPlayer.GetComponent<PlayerInteractions>().IsHarvesting 
-            || interactingPlayer.GetComponent<CharacterStat>().IsDead)
-        {
-            //Debug.Log("INTERACTION IS OVER");
-            ResetAfterInteraction();
-            return;
-        }
-
-        harvestingFeedbackImage.enabled = true;
-
         timeSpentHarvesting += Time.deltaTime;
         harvestingFeedbackImage.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
 
@@ -106,18 +96,18 @@ public class HarvesterLogic : MonoBehaviour
         interactingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources += amnt;
     }
 
-    private void ResetAfterInteraction()
+    public void ResetAfterInteraction()
     {
         harvestState = HarvestState.IsHarvesting;
 
         interactingPlayer = null;
+
         ResetHarvestingFeedback();
     }
 
     private void ResetHarvestingFeedback()
     {
         harvestingFeedbackImage.fillAmount = 0f / totalTimeToHarvest;
-        harvestingFeedbackImage.enabled = false;
         timeSpentHarvesting = 0f;
     }
 

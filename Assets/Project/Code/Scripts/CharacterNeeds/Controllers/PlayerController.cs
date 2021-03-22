@@ -41,10 +41,6 @@ public class PlayerController : CharacterController, IPunObservable
         {
             if (UtilityClass.RightClickIsHeld())
             {
-                if (CursorIsHoveringMiniMap) return;
-
-                Interactions.ResetInteractionState();
-
                 SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
 
                 DebugPathing(MyLineRenderer);
@@ -59,14 +55,14 @@ public class PlayerController : CharacterController, IPunObservable
     #region Handle Cursor Movement 
     public void SetNavMeshDestination(Ray ray)
     {
-        if (PlayerIsConsultingHisShopAtBase) return;
-
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, walkableLayer))
         {
             if (UtilityClass.RightClickIsPressed())
             {
                 CreateMovementFeedback(movementFeedback, raycastHit.point);
             }
+
+            if (PlayerIsConsultingHisShopAtBase || CursorIsHoveringMiniMap) return;
 
             SetAgentDestination(Agent, raycastHit.point);
             HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, RotationSpeed);

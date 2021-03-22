@@ -148,6 +148,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         if (IsDead && !isDeathEventHandled)
         {
             isDeathEventHandled = true;
+            Controller.Agent.ResetPath();
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
         }
     }

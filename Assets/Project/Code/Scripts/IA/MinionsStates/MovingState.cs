@@ -20,7 +20,7 @@ class MovingState : IState
 
     public void OnUpdate()
     {
-        Debug.Log("MOVING");
+        //Debug.Log("MOVING");
 
         //Has an enemy target
         if (controller.Interactions.HasATarget 

@@ -16,7 +16,8 @@ public class PlayerInteractions : InteractionSystem
     {
         if (UtilityClass.RightClickIsPressed())
         {
-            Target = null;
+            Debug.Log("Set target on mouse click");
+            ResetTarget();
 
             if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
             {
@@ -24,19 +25,17 @@ public class PlayerInteractions : InteractionSystem
                     && hit.collider.GetComponent<EntityDetection>().enabled)
                 {
                     Target = hit.collider.transform;
-                    ResetInteractionState();
 
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
                         StoppingDistance = Stats.GetStat(StatType.Attack_Range).Value;
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester)
                         StoppingDistance = InteractionRange;
                 }
-                // Ground hit
                 else
                 {
+                    //Ground hit
                     Controller.Agent.isStopped = false;
                     Controller.Agent.stoppingDistance = 0.2f;
-                    ResetInteractionState();
                 }
             }
         }
@@ -44,6 +43,21 @@ public class PlayerInteractions : InteractionSystem
     #endregion
 
     #region Interaction
+    private void ResetTarget()
+    {
+        if (Target != null)
+        {
+            if (Target.GetComponent<HarvesterLogic>() != null)
+            {
+                Target.GetComponent<HarvesterLogic>().ResetAfterInteraction();
+            }
+        }
+
+        ResetInteractionState();
+
+        Target = null;
+    }
+
     public override void Interact()
     {
         base.Interact();
@@ -57,16 +71,15 @@ public class PlayerInteractions : InteractionSystem
         {
             HarvesterLogic harvester = Target.GetComponent<HarvesterLogic>();
 
-            if (harvester != null && harvester.IsInteractable && harvester.interactingPlayer == null)
+            if (harvester != null && harvester.IsInteractable)
             {
                 IsHarvesting = true;
-
-                harvester.interactingPlayer = transform.GetComponent<InteractionSystem>();
-
                 Animator.SetBool("Attack", false);
                 Animator.SetBool("IsCollecting", true);
 
-                //Debug.Log("Interaction with harvester !");
+                harvester.interactingPlayer = this;
+
+                Debug.Log("Interaction with harvester !");
             }
         }
     }

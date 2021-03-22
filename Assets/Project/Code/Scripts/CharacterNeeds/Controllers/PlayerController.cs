@@ -1,8 +1,9 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
-public class PlayerController : CharacterController
+public class PlayerController : CharacterController, IPunObservable
 {
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
@@ -22,20 +23,34 @@ public class PlayerController : CharacterController
     private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && GetComponentInChildren<PlayerHUDManager>().IsShopWindowOpen;
     public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
 
+    //Network refs
+    [SerializeField] private Vector3 networkPosition = Vector3.zero;
+    [SerializeField] private Quaternion networkRotation = Quaternion.identity;
+    [SerializeField] private float networkSpeed = 0f;
+    private double lastNetworkUpdate = 0f;
+
+
     protected override void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) return;
+        //if (GameObject.Find("NetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) return;
 
-        if (UtilityClass.RightClickIsHeld())
+        if (GameObject.Find("NetworkManager") == null || photonView.IsMine)
         {
-            if (CursorIsHoveringMiniMap) return;
+            if (UtilityClass.RightClickIsHeld())
+            {
+                if (CursorIsHoveringMiniMap) return;
 
-            Interactions.ResetInteractionState();
+                Interactions.ResetInteractionState();
 
-            SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
+                SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
+
+                DebugPathing(MyLineRenderer);
+            }
         }
-
-        DebugPathing(MyLineRenderer);
+        else
+        {
+            UpdateNetworkPosition();
+        }
     }
 
     #region Handle Cursor Movement 
@@ -77,6 +92,24 @@ public class PlayerController : CharacterController
     #endregion
 
     #region Network Needs
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(gameObject.GetComponent<NavMeshAgent>().velocity.magnitude);
+        }
+        else
+        {
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
+            networkSpeed = (float)stream.ReceiveNext();
+
+            lastNetworkUpdate = info.SentServerTime;
+        }
+    }
+
     public void InstantiateCharacterCameraAtStartOfTheGame()
     {
         GameObject cameraInstance = Instantiate(CharacterCamera.gameObject, CharacterCamera.transform.position, CharacterCamera.transform.rotation) as GameObject;
@@ -84,6 +117,19 @@ public class PlayerController : CharacterController
         cameraInstance.GetComponent<CameraController>().TargetToFollow = this.transform;
 
         CharacterCamera = cameraInstance.GetComponent<Camera>();
+    }
+
+    private void UpdateNetworkPosition()
+    {
+        float pingInSeconds = PhotonNetwork.GetPing() * 0.001f;
+        float timeSinceUpdate = (float)(PhotonNetwork.Time - lastNetworkUpdate);
+        float totalTimePassed = pingInSeconds + timeSinceUpdate;
+
+        Vector3 exterpolatedTargetPosition = networkPosition + transform.forward * networkSpeed * totalTimePassed;
+        Vector3 newPosition = Vector3.MoveTowards(transform.position, exterpolatedTargetPosition, networkSpeed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, exterpolatedTargetPosition) > 0.5f) newPosition = exterpolatedTargetPosition;
+
+        transform.position = newPosition;
     }
     #endregion
 }

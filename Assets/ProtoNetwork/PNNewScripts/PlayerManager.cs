@@ -13,17 +13,19 @@ namespace GameNetwork
 
         public bool dalvasTeam;
 
+        public static CharacterStat myCharacterStats = null;
+
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
             ////Reseau
-            if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
+            if (GameObject.Find("NetworkManager") != null && photonView != null && photonView.IsMine)
             {
                 localPlayerInstance = this.gameObject;
                 localPlayerInstance.GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
             }
             ////Local
-            else if (GameObject.Find("GameNetworkManager") == null)
+            else if (GameObject.Find("NetworkManager") == null)
             {
                 GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
                 playerHUD.SetActive(true);
@@ -36,7 +38,8 @@ namespace GameNetwork
             if (photonView.IsMine)
             {
                 playerHUD.SetActive(true);
-            }
+                myCharacterStats = GetComponent<CharacterStat>();
+            }            
         }
     }
 }

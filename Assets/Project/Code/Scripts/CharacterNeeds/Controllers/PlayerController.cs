@@ -21,7 +21,8 @@ public class PlayerController : CharacterController, IPunObservable
 
     public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
     private bool PlayerIsConsultingHisShopAtBase => IsPlayerInHisBase && GetComponentInChildren<PlayerHUDManager>().IsShopWindowOpen;
-    public bool CursorIsHoveringMiniMap => EventSystem.current.IsPointerOverGameObject();
+    
+    public bool CursorIsHoveringUIElement => EventSystem.current.IsPointerOverGameObject();
 
     //Network refs
     [HideInInspector]
@@ -39,7 +40,7 @@ public class PlayerController : CharacterController, IPunObservable
 
         if (GameObject.Find("NetworkManager") == null || photonView.IsMine)
         {
-            if (UtilityClass.RightClickIsHeld())
+            if (UtilityClass.RightClickIsHeld() && !CursorIsHoveringUIElement)
             {
                 SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
 
@@ -61,8 +62,6 @@ public class PlayerController : CharacterController, IPunObservable
             {
                 CreateMovementFeedback(movementFeedback, raycastHit.point);
             }
-
-            if (PlayerIsConsultingHisShopAtBase || CursorIsHoveringMiniMap) return;
 
             SetAgentDestination(Agent, raycastHit.point);
             HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, RotationSpeed);

@@ -16,12 +16,14 @@ public class ShopManager : MonoBehaviour
 
     [Header("SHOP ACTIONS MADE")]
     [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();
+    [SerializeField] private bool inventoryItemIsSelected = false;
     private int numberOfShopActionsDone = 0;
 
     public Transform Player { get => player; set => player = value; }
     private CharacterRessources PlayerRessources => player.GetComponent<CharacterRessources>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
     public InventoryBox SelectedInventoryBox { get => selectedInventoryBox; set => selectedInventoryBox = value; }
+    public bool InventoryItemIsSelected { get => inventoryItemIsSelected; set => inventoryItemIsSelected = value; }
 
     [System.Serializable]
     public class ShopActionData
@@ -85,7 +87,7 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void SellItem()
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty || !InventoryItemIsSelected) return;
 
         Debug.Log("Selling item : " + SelectedInventoryBox.StoredItem.ItemName);
 
@@ -133,7 +135,7 @@ public class ShopManager : MonoBehaviour
                             //Debug.Log(PlayerInventory.InventoryBoxes[j].name);
                             //Debug.Log("Last shop action is a purchase action");
 
-                            OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + PlayerInventory.InventoryBoxes[j].StoredItem.AmountOfGoldRefundedOnSale);
+                            OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + PlayerInventory.InventoryBoxes[j].StoredItem.ItemCost);
 
                             PlayerInventory.RemoveItemFromInventory(PlayerInventory.InventoryBoxes[j]);
 
@@ -176,7 +178,7 @@ public class ShopManager : MonoBehaviour
                 PlayerInventory.AddItemToInventory(itemToAdd);
                 PlayerInventory.InventoryBoxes[i].StoredItemTransactionID = transactionIDData;
 
-                OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + itemToAdd.InventoryBox.StoredItem.AmountOfGoldRefundedOnSale);
+                OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - itemToAdd.InventoryBox.StoredItem.AmountOfGoldRefundedOnSale);
 
                 Debug.Log("Add " + itemToAdd.ItemName + " to inventory");
                 Debug.Log("Number of full inventory boxes : " + PlayerInventory.NumberOfFullInventoryBoxes);

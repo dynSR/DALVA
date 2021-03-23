@@ -46,6 +46,7 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
         Debug.Log("ICON WASNT SHOWN");
         DisplayIcon();
         IsSelected = true;
+        ParentPlayerInventory.Shop.InventoryItemIsSelected = true;
 
         ParentPlayerInventory.Shop.SelectedInventoryBox = ParentInventoryBox;
     }
@@ -55,6 +56,7 @@ public class ToggleSelectionIcon : MonoBehaviour, IPointerDownHandler
         Debug.Log("ICON WAS ALREADY SHOWN");
         HideIcon();
         IsSelected = false;
+        ParentPlayerInventory.Shop.InventoryItemIsSelected = false;
 
         ParentPlayerInventory.Shop.SelectedInventoryBox = null;
     }

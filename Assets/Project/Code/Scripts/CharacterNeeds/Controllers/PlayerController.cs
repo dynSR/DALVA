@@ -126,7 +126,7 @@ public class PlayerController : CharacterController, IPunObservable
 
         Vector3 exterpolatedTargetPosition = networkPosition + transform.forward * networkSpeed * totalTimePassed;
         Vector3 newPosition = Vector3.MoveTowards(transform.position, exterpolatedTargetPosition, networkSpeed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, exterpolatedTargetPosition) > 0.5f) newPosition = exterpolatedTargetPosition;
+        if (Vector3.Distance(transform.position, exterpolatedTargetPosition) > 1f) newPosition = exterpolatedTargetPosition;
 
         transform.position = newPosition;
     }

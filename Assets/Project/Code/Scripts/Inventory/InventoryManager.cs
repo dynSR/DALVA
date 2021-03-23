@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     [HideInInspector]
     [SerializeField] private List<InventoryBox> inventoryBoxes;
     [HideInInspector]
-    [SerializeField] private List<ToggleSelectionIcon> boxesSelectionIcons; 
+    [SerializeField] private List<SelectIcon> boxesSelectionIcons; 
 
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
     public bool InventoryIsEmpty=> NumberOfFullInventoryBoxes <= 0;
@@ -21,7 +21,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject NewInventoryBox { get; set; }
     public int NumberOfFullInventoryBoxes { get; set; }
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
-    public List<ToggleSelectionIcon> TogglSelectionIcons { get => boxesSelectionIcons; }
+    public List<SelectIcon> TogglSelectionIcons { get => boxesSelectionIcons; }
     public ShopManager Shop { get => shop; set => shop = value; }
 
     private void Awake() => GetRequiredComponent();
@@ -35,7 +35,7 @@ public class InventoryManager : MonoBehaviour
             InventoryBox inventoryBox = transform.GetChild(i).GetComponent<InventoryBox>();
             InventoryBoxes.Add(inventoryBox);
 
-            ToggleSelectionIcon toggleSelectionIcon = transform.GetChild(i).GetComponentInChildren<ToggleSelectionIcon>();
+            SelectIcon toggleSelectionIcon = transform.GetChild(i).GetComponentInChildren<SelectIcon>();
             TogglSelectionIcons.Add(toggleSelectionIcon);
         }
     }
@@ -75,13 +75,33 @@ public class InventoryManager : MonoBehaviour
     }
 
     //Function that resets the state of all boxes selection icons that have been toggled on
-    public void ResetAllBoxesSelectionIcons()
+    public void ResetAllSelectedIcons()
     {
         for (int i = 0; i < TogglSelectionIcons.Count; i++)
         {
             TogglSelectionIcons[i].ToggleOff();
         }
     }
+
+    public void ResetSomeSelectedIcons()
+    {
+        List<SelectIcon> iconSelected = new List<SelectIcon>();
+
+        for (int i = TogglSelectionIcons.Count - 1; i >= 0; i--)
+        {
+            if (TogglSelectionIcons[i].IsSelected)
+                iconSelected.Add(TogglSelectionIcons[i]);
+
+            Debug.Log(iconSelected.Count);
+
+            if (iconSelected.Count == 2)
+            {
+                iconSelected[0].ToggleOff();
+                iconSelected.Clear();
+            }
+        }
+    }
+
     #endregion
 
     #region Functions used for item swapping in the inventory - Commented for the moment

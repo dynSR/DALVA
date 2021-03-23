@@ -11,17 +11,22 @@ public class ShopButtonLogic : MonoBehaviour, IPointerDownHandler
     [SerializeField] private Image shopButtonIcon;
     [SerializeField] private TextMeshProUGUI shopButtonItemCostText;
 
+    private ShopIcon ShopIcon => GetComponent<ShopIcon>();
+
+    public Item ShopButtonItem { get => shopButtonItem; }
+
     void Start() => SetButton();
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Click on Shop button -!-");
-        playerShop.BuyItem(shopButtonItem);
+        playerShop.BuyItem(ShopButtonItem);
+        ShopIcon.ResetSelection();
     }
 
     void SetButton()
     {
-        shopButtonIcon.sprite = shopButtonItem.ItemIcon;
-        shopButtonItemCostText.text = shopButtonItem.ItemCost.ToString();
+        shopButtonIcon.sprite = ShopButtonItem.ItemIcon;
+        shopButtonItemCostText.text = ShopButtonItem.ItemCost.ToString();
     }
 }

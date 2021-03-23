@@ -81,7 +81,7 @@ public class PlayerHUDManager : MonoBehaviour
     #region Open - Close
     public void OpenWindow(GameObject window)
     {
-        ShopWindow.SetActive(true);
+        window.SetActive(true);
 
         if (window == ShopWindow)
             OnOpenningShopWindow();
@@ -112,7 +112,7 @@ public class PlayerHUDManager : MonoBehaviour
 
     void ResetShopWindowSelectionsOnBoxes()
     {
-        ShopWindow.GetComponent<ShopManager>().PlayerInventory.ResetAllBoxesSelectionIcons();
+        ShopWindow.GetComponent<ShopManager>().PlayerInventory.ResetAllSelectedIcons();
     }
 
     void ResetShopWindowAnchoredPosition()

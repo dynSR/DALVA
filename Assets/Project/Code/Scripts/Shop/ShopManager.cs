@@ -12,18 +12,20 @@ public class ShopManager : MonoBehaviour
 
     [Header("PLAYER INFORMATIONS")]
     [SerializeField] private Transform player;
-    private InventoryBox selectedInventoryBox;
 
     [Header("SHOP ACTIONS MADE")]
     [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();
-    [SerializeField] private bool inventoryItemIsSelected = false;
+    private bool inventoryItemIsSelected = false;
+    private bool shopItemIsSelected = false;
     private int numberOfShopActionsDone = 0;
 
     public Transform Player { get => player; set => player = value; }
     private CharacterRessources PlayerRessources => player.GetComponent<CharacterRessources>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
-    public InventoryBox SelectedInventoryBox { get => selectedInventoryBox; set => selectedInventoryBox = value; }
+    public InventoryBox SelectedInventoryBox { get; set; }
     public bool InventoryItemIsSelected { get => inventoryItemIsSelected; set => inventoryItemIsSelected = value; }
+    public bool ShopItemIsSelected { get => shopItemIsSelected; set => shopItemIsSelected = value; }
+    public Item SelectedItem { get; set; }
 
     [System.Serializable]
     public class ShopActionData
@@ -112,7 +114,7 @@ public class ShopManager : MonoBehaviour
         OnSellingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + inventoryBoxItem.StoredItem.AmountOfGoldRefundedOnSale);
 
         PlayerInventory.RemoveItemFromInventory(inventoryBoxItem);
-        PlayerInventory.ResetAllBoxesSelectionIcons();
+        PlayerInventory.ResetAllSelectedIcons();
     }
     #endregion
 
@@ -141,7 +143,7 @@ public class ShopManager : MonoBehaviour
 
                             numberOfShopActionsDone--;
 
-                            PlayerInventory.ResetAllBoxesSelectionIcons();
+                            PlayerInventory.ResetAllSelectedIcons();
                             PlayerInventory.InventoryBoxes[j].StoredItemTransactionID = 0;
 
                             shopActions.RemoveAt(i);
@@ -157,7 +159,7 @@ public class ShopManager : MonoBehaviour
 
                     AddSoldItemToInventory(shopActions[i], shopActions[i].item, shopActions[i].transactionID);
 
-                    PlayerInventory.ResetAllBoxesSelectionIcons();
+                    PlayerInventory.ResetAllSelectedIcons();
 
                     shopActions.RemoveAt(i);
                     return;

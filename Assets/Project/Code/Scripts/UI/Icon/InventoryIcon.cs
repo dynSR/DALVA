@@ -13,9 +13,10 @@ public class InventoryIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandl
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        
+        if(!IsSelected)
+            ParentPlayerInventory.ResetSomeSelectedIcons();
+
         base.OnPointerDown(eventData);
-        ParentPlayerInventory.ResetSomeSelectedIcons();
     }
 
     public override void OnPointerExit(PointerEventData eventData)

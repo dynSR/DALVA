@@ -2,8 +2,11 @@
 
 public class VisibilityState : MonoBehaviour
 {
+    [Header("ATTRIBUTES")]
     [SerializeField] private Renderer myRenderer;
-    [SerializeField] private int timeSeen = 0;
+    [SerializeField] private GameObject miniMapIcon;
+    [SerializeField] private GameObject billboard;
+    [SerializeField] private int timeSeen = 0; //public to debug
     [SerializeField] private bool visibilityStateCanChange = true;
 
     #region Refs
@@ -11,7 +14,7 @@ public class VisibilityState : MonoBehaviour
     private EntityDetection EntityDetection => GetComponent<EntityDetection>();
     #endregion
 
-    [SerializeField] private bool isVisible;
+    [SerializeField] private bool isVisible; //public to debug
     public bool IsVisible { get => isVisible; private set => isVisible = value; }
 
     private void Start() => InitVisibility();
@@ -66,6 +69,12 @@ public class VisibilityState : MonoBehaviour
         myRenderer.enabled = true;
         IsVisible = true;
 
+        if (billboard != null)
+            billboard.SetActive(true);
+
+        if (miniMapIcon != null)
+            miniMapIcon.SetActive(true);
+
         if (EntityDetection != null)
             EntityDetection.enabled = true;
     }
@@ -74,6 +83,12 @@ public class VisibilityState : MonoBehaviour
     {
         myRenderer.enabled = false;
         IsVisible = false;
+
+        if (billboard != null)
+            billboard.SetActive(false);
+
+        if (miniMapIcon != null)
+            miniMapIcon.SetActive(false);
 
         if (EntityDetection != null)
             EntityDetection.enabled = false;

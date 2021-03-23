@@ -19,6 +19,8 @@ public class PlayerInteractions : InteractionSystem
             Debug.Log("Set target on mouse click");
             ResetTarget();
 
+            if (GetComponent<PlayerController>().IsCursorHoveringUIElement) return;
+
             if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
             {
                 if (hit.collider.GetComponent<EntityDetection>() != null 

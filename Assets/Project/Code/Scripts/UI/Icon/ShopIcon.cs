@@ -26,16 +26,10 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
 
     protected override void SetSelection()
     {
-        //if(IsSelected)
-        //{
-        //    //Call Event here
-        //    OnSelectingAnItem?.Invoke(ShopManager.SelectedItem);
-        //}
-
         ShopManager.ShopItemIsSelected = true;
         ShopManager.SelectedItem = ShopButton.ShopButtonItem;
 
-       
+        OnSelectingAnItem?.Invoke(ShopManager.SelectedItem);
     }
 
     public override void ResetSelection()
@@ -43,6 +37,6 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
         ShopManager.ShopItemIsSelected = false;
         ShopManager.SelectedItem = null;
 
-        //OnDeselectingAnItem?.Invoke(null);
+        OnDeselectingAnItem?.Invoke(null);
     }
 }

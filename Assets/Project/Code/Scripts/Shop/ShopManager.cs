@@ -77,13 +77,20 @@ public class ShopManager : MonoBehaviour
 
         if (UtilityClass.RightClickIsPressed())
         {
-            if (PlayerInventory.InventoryIsFull
-           || Player.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < shopItem.ItemCost) return;
+            if (PlayerInventory.InventoryIsFull || !CanPurchaseItem(shopItem) || IsItemAlreadyInInventory(shopItem)) return;
 
             PlayerInventory.AddItemToInventory(shopItem, true);
 
             Debug.Log("Buying item : " + shopItem.ItemName);
         }
+    }
+
+    //Its on a button
+    public void BuySelectedItemOnClickingOnButton()
+    {
+        if (PlayerInventory.InventoryIsFull || !CanPurchaseItem(SelectedItem) || IsItemAlreadyInInventory(SelectedItem)) return;
+
+        PlayerInventory.AddItemToInventory(SelectedItem, true);
     }
 
     //Its on a button
@@ -189,6 +196,41 @@ public class ShopManager : MonoBehaviour
         }
     }
     #endregion
+
+    void RefreshShopData()
+    {
+        //Lock les équipements qui ne sont plus achetables - check des ressources
+        //Lock les équipements qui sont déjà dans l'inventaire après l'achat
+    }
+
+    public bool IsItemAlreadyInInventory(Item item)
+    {
+        bool isItemAlreadyInInventory = false;
+
+        for (int i = PlayerInventory.InventoryBoxes.Count - 1; i >= 0; i--)
+        {
+            if (PlayerInventory.InventoryBoxes[i].StoredItem == item)
+            {
+                isItemAlreadyInInventory = true;
+            }
+            else isItemAlreadyInInventory = false;
+        }
+
+        return isItemAlreadyInInventory;
+    }
+
+    public bool CanPurchaseItem(Item item)
+    {
+        bool canPurchaseItem = false;
+
+        if (Player.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= item.ItemCost)
+        {
+            canPurchaseItem = true;
+        }
+        else canPurchaseItem = false;
+
+        return canPurchaseItem;
+    }
 
     #region Debuging
     public void ResetShopActions() // Debug purpose

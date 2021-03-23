@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class NPCController : CharacterController
 {
-    public int waypointIndex;
-    public Transform waypointTarget = null;
-    public List<Transform> waypoints;
+    public int waypointIndex; //public to debug
+    public Transform waypointTarget = null; //public to debug
+    public List<Transform> waypoints; //public to debug
 
     public IState currentState; //set to private after tests
 

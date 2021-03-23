@@ -12,16 +12,14 @@ public class InventoryManager : MonoBehaviour
     [HideInInspector]
     [SerializeField] private List<InventoryBox> inventoryBoxes;
     [HideInInspector]
-    [SerializeField] private List<SelectIcon> boxesSelectionIcons; 
+    [SerializeField] private List<SelectIcon> selectedIcons;
 
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
     public bool InventoryIsEmpty=> NumberOfFullInventoryBoxes <= 0;
 
-    public GameObject LastInventoryBox { get; set; }
-    public GameObject NewInventoryBox { get; set; }
     public int NumberOfFullInventoryBoxes { get; set; }
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
-    public List<SelectIcon> TogglSelectionIcons { get => boxesSelectionIcons; }
+    public List<SelectIcon> SelectedIcons { get => selectedIcons; }
     public ShopManager Shop { get => shop; set => shop = value; }
 
     private void Awake() => GetRequiredComponent();
@@ -36,7 +34,7 @@ public class InventoryManager : MonoBehaviour
             InventoryBoxes.Add(inventoryBox);
 
             SelectIcon toggleSelectionIcon = transform.GetChild(i).GetComponentInChildren<SelectIcon>();
-            TogglSelectionIcons.Add(toggleSelectionIcon);
+            SelectedIcons.Add(toggleSelectionIcon);
         }
     }
 
@@ -77,27 +75,27 @@ public class InventoryManager : MonoBehaviour
     //Function that resets the state of all boxes selection icons that have been toggled on
     public void ResetAllSelectedIcons()
     {
-        for (int i = 0; i < TogglSelectionIcons.Count; i++)
+        for (int i = 0; i < SelectedIcons.Count; i++)
         {
-            TogglSelectionIcons[i].ToggleOff();
+            SelectedIcons[i].ToggleOff();
         }
     }
 
     public void ResetSomeSelectedIcons()
     {
-        List<SelectIcon> iconSelected = new List<SelectIcon>();
+        int selectedIcons = 0;
 
-        for (int i = TogglSelectionIcons.Count - 1; i >= 0; i--)
+        for (int i = SelectedIcons.Count - 1; i >= 0; i--)
         {
-            if (TogglSelectionIcons[i].IsSelected)
-                iconSelected.Add(TogglSelectionIcons[i]);
+            if (SelectedIcons[i].IsSelected)
+                selectedIcons++;
 
-            Debug.Log(iconSelected.Count);
-
-            if (iconSelected.Count == 2)
+            if (selectedIcons >= 1)
             {
-                iconSelected[0].ToggleOff();
-                iconSelected.Clear();
+                foreach (var item in SelectedIcons)
+                {
+                    item.ToggleOff();
+                }
             }
         }
     }

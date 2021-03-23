@@ -26,7 +26,7 @@ public class DragItemIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         {
             ToggleImageCanvasGroup.blocksRaycasts = false;
 
-            PlayerInventory.LastInventoryBox = transform.parent.gameObject;
+            //PlayerInventory.LastInventoryBox = transform.parent.gameObject;
             CanvasGroup.blocksRaycasts = false;
         }  
     }

@@ -37,7 +37,13 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public Animator CharacterAnimator { get => characterAnimator; }
 
-    protected virtual void Update() => HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
+    protected virtual void Update()
+    {
+        HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
+
+        if (GetComponent<PhotonView>() == null) return;
+        if (GameObject.Find("GameNetworkManager") == null || !photonView.IsMine) UpdateNetworkPosition();
+    }
 
     #region Character Destination and motion handling, including rotation
     public void SetNavMeshAgentSpeed(NavMeshAgent agent, float value)

@@ -26,7 +26,7 @@ public class PlayerController : CharacterController
     {
         if (Stats.IsDead) return;
 
-        if (GameObject.Find("NetworkManager") == null || photonView.IsMine)
+        if (GameObject.Find("GameNetworkManager") == null || photonView.IsMine)
         {
             if (UtilityClass.RightClickIsHeld() && !IsCursorHoveringUIElement)
             {
@@ -35,7 +35,7 @@ public class PlayerController : CharacterController
                 DebugPathing(MyLineRenderer);
             }
         }
-        else UpdateNetworkPosition();
+        else base.Update();
     }
 
     #region Handle Cursor Movement 

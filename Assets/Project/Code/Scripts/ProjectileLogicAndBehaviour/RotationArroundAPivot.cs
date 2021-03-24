@@ -7,7 +7,7 @@ public class RotationArroundAPivot : MonoBehaviourPun
 {
     void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && photonView.IsMine == false && PhotonNetwork.IsConnected == true) { return; }
+        if (GetComponent<PhotonView>() == null) return;
 
         if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, 100f))
         {

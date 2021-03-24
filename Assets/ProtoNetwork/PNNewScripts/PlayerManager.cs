@@ -18,14 +18,14 @@ namespace GameNetwork
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
-            ////Reseau
-            if (GameObject.Find("NetworkManager") != null && photonView != null && photonView.IsMine)
+            //Reseau
+            if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
             {
                 localPlayerInstance = this.gameObject;
                 localPlayerInstance.GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
             }
-            ////Local
-            else if (GameObject.Find("NetworkManager") == null)
+            //Local
+            else if (GameObject.Find("GameNetworkManager") == null)
             {
                 GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
                 playerHUD.SetActive(true);

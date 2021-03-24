@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 {
-    [SerializeField] private BaseCharacter usedCharacter;
-    [SerializeField] private List<Ability> characterAbilities;
-    public BaseCharacter UsedCharacter { get => usedCharacter; }
-    public List<Ability> CharacterAbilities { get => characterAbilities; }
-
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
     #endregion
 
+    [Header("CHARACTER INFORMATIONS")]
+    [SerializeField] private BaseCharacter usedCharacter;
+    [SerializeField] private List<Ability> characterAbilities;
+    public BaseCharacter UsedCharacter { get => usedCharacter; }
+    public List<Ability> CharacterAbilities { get => characterAbilities; }
+
+    [Header("STATS")]
+    [SerializeField] private int amountOfRessourcesGiventOnDeath = 0;
+    
     public List<Stat> CharacterStats;
-    float CurrentRessourcesGivenOnDeath { get; set; }
+    int CurrentRessourcesGivenOnDeath { get => amountOfRessourcesGiventOnDeath; /*set;*/ } // set commenté, à décommenter et à utiliser si besoin de modifier la valeur
 
     [Header("DEATH PARAMETERS")]
     public Transform sourceOfDamage;
@@ -172,6 +176,11 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         if (Interactions != null)
             Interactions.CanPerformAttack = false;
 
+        //isoler pour un appel
+        Controller.CharacterAnimator.SetBool("IsDead", true);
+
+        Debug.Log("TOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM");
+
         GiveRessourcesToAPlayerOnDeath();
     }
 
@@ -188,20 +197,24 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     {
         Debug.Log("Respawn");
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
+    
+        Controller.CharacterAnimator.SetBool("IsDead", false);
 
         if (Interactions != null)
             Interactions.CanPerformAttack = true;
 
         sourceOfDamage = null;
 
-        //Set Position At Spawn Location
-        //transform.position = spawnLocation;
-
         //Désafficher le HUD de mort après la mort
         if (deathHUD != null)
             deathHUD.SetActive(false);
 
+        //Set Position At Spawn Location
+        //transform.position = spawnLocation;
+        //Spawn Respawn VFX
+
         Debug.Log("is Dead " + IsDead);
+
         isDeathEventHandled = false;
     }
     #endregion

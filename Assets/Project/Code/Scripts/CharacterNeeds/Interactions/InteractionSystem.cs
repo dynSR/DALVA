@@ -82,6 +82,7 @@ public class InteractionSystem : MonoBehaviour
         {
             ResetInteractionState();
             Animator.SetTrigger("NoTarget");
+            Animator.ResetTrigger("NoTarget");
             Target = null;
             return;
         }

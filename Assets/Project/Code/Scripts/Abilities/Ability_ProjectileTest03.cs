@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ThrowingProjectile))]
-public class Ability_ProjectileTest03 : Ability
+public class Ability_ProjectileTest03 : AbilityLogic
 {
     private ThrowingProjectile ThrowingProjectile => GetComponent<ThrowingProjectile>();
 
@@ -14,6 +14,6 @@ public class Ability_ProjectileTest03 : Ability
 
     protected override void Cast()
     {
-        StartCoroutine(ThrowingProjectile.LaunchAProjectile(AbilityPrefab, ThrowingProjectile.AimProjectileEmiterPos));
+        StartCoroutine(ThrowingProjectile.LaunchAProjectile(Ability.AbilityProjectilePrefab, ThrowingProjectile.AimProjectileEmiterPos, Ability));
     }
 }

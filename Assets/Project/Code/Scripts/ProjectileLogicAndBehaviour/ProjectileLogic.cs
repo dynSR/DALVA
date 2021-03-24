@@ -16,6 +16,8 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private CharacterStat targetStats;
 
+    public Ability Ability { get; set; }
+
     Vector3 targetPosition;
 
     public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
@@ -102,13 +104,35 @@ public class ProjectileLogic : MonoBehaviour
             Debug.Log("Enemy touched !");
 
             EntityDetection entityFound = targetCollider.gameObject.GetComponent<EntityDetection>();
+            CharacterStat targetStat = targetCollider.GetComponent<CharacterStat>();
 
+            //Ability projectile damage appplication
             if (entityFound.TypeOfEntity == TypeOfEntity.Enemy)
             {
                 Debug.Log("Projectile Applies Damage !");
-                CharacterStat targetStat = targetCollider.GetComponent<CharacterStat>();
+                
+                //Maybe it needs to add something else for the ratio added to projectile damage +% ????
+                if (Ability != null)
+                {
+                    Debug.Log("Has an ability");
+                    targetStat.TakeDamage(
+                    ProjectileSender,
+                    targetStat.GetStat(StatType.Physical_Resistances).Value,
+                    targetStat.GetStat(StatType.Magical_Resistances).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Power).Value + Ability.AbilityPhysicalDamage,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Power).Value + Ability.AbilityMagicalDamage,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Critical_Strike_Chance).Value,
+                    175f,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Penetration).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Penetration).Value);
 
-                targetStat.TakeDamage(
+                    Destroy(gameObject);
+                }
+                else if (Target != null && targetCollider.transform.gameObject == Target.gameObject)
+                {
+                    Debug.Log("No ability");
+
+                    targetStat.TakeDamage(
                     ProjectileSender,
                     targetStat.GetStat(StatType.Physical_Resistances).Value,
                     targetStat.GetStat(StatType.Magical_Resistances).Value,
@@ -119,7 +143,8 @@ public class ProjectileLogic : MonoBehaviour
                     ProjectileSenderCharacterStats.GetStat(StatType.Physical_Penetration).Value,
                     ProjectileSenderCharacterStats.GetStat(StatType.Magical_Penetration).Value);
 
-                Destroy(gameObject);
+                    Destroy(gameObject);
+                }
             }
         }
     }

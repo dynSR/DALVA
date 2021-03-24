@@ -21,8 +21,8 @@ public class Stat
     public StatType _StatType;
 
     public float BaseValue;
-    public float MaxValue;
-    public float Value;
+    public float CapValue;
+    public float Value { get; set; }
     
 
     public List<StatModifier> statModifiers;
@@ -73,8 +73,12 @@ public class Stat
                 }
             }
         }
-        
+
+        if (CapValue > 0 && finalValue >= CapValue)
+            finalValue = CapValue;
+
         Debug.Log(Value);
+
         return finalValue;
     }
 

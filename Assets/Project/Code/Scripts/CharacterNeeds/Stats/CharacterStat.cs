@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 {
+    public delegate void StatValueChangedHandler(float newValue, float maxValue);
+    public static event StatValueChangedHandler OnHealthValueChanged;
+
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
@@ -11,9 +14,9 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
     [Header("CHARACTER INFORMATIONS")]
     [SerializeField] private BaseCharacter usedCharacter;
-    [SerializeField] private List<Ability> characterAbilities;
+    [SerializeField] private List<AbilityLogic> characterAbilities;
     public BaseCharacter UsedCharacter { get => usedCharacter; }
-    public List<Ability> CharacterAbilities { get => characterAbilities; }
+    public List<AbilityLogic> CharacterAbilities { get => characterAbilities; }
 
     [Header("STATS")]
     [SerializeField] private int amountOfRessourcesGiventOnDeath = 0;
@@ -48,12 +51,12 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
             deathHUD.SetActive(false);
     }
 
-    protected virtual void Update() => OnDeath();
+    protected virtual void Update() { OnDeath(); if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); }
 
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
     {
-        foreach (Ability abilityFound in GetComponents<Ability>())
+        foreach (AbilityLogic abilityFound in GetComponents<AbilityLogic>())
         {
             CharacterAbilities.Add(abilityFound);
         }
@@ -133,6 +136,8 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
             this.sourceOfDamage = sourceOfDamage;
             GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
 
+            OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+
             Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
         }
     }
@@ -191,13 +196,17 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         yield return new WaitForSeconds(delay);
 
         Respawn();
+
+        yield return new WaitForSeconds(0.25f);
+
+        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
     }
 
     private void Respawn()
     {
         Debug.Log("Respawn");
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
-    
+
         Controller.CharacterAnimator.SetBool("IsDead", false);
 
         if (Interactions != null)
@@ -216,6 +225,8 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         Debug.Log("is Dead " + IsDead);
 
         isDeathEventHandled = false;
+
+        
     }
     #endregion
 
@@ -228,6 +239,8 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         }
 
         Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.Movement_Speed).Value);
+
+        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
     }
 
     public Stat GetStat(StatType statType)

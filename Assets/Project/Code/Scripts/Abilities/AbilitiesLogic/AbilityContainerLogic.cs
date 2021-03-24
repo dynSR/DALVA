@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class AbilityContainerLogic : MonoBehaviour
 {
     [Header("CONTAINED ABILITY")]
-    [SerializeField] private Ability containedAbility;
+    [SerializeField] private AbilityLogic containedAbility;
     [SerializeField] private Image containedAbilityIcon;
 
     [Header("KEY")]
@@ -19,7 +19,7 @@ public class AbilityContainerLogic : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cooldownText;
 
     public KeyCode AbilityKey { get => abilityKey; set => abilityKey = value; }
-    public Ability ContainedAbility { get => containedAbility; set => containedAbility = value; }
+    public AbilityLogic ContainedAbility { get => containedAbility; set => containedAbility = value; }
 
     void Start()
     {
@@ -27,14 +27,14 @@ public class AbilityContainerLogic : MonoBehaviour
         SetTheAbilityUI(this.ContainedAbility);
     }
 
-    protected void SetTheAbilityUI(Ability containedAbility)
+    protected void SetTheAbilityUI(AbilityLogic containedAbility)
     {
         //Set ability key + Input UI
-        abilityKey = containedAbility.AbilityKey;
+        abilityKey = containedAbility.Ability.AbilityKey;
         keyText.SetText(abilityKey.ToString());
     }
 
-    private void UpdateAbilityCooldownUI(Ability containedAbility)
+    private void UpdateAbilityCooldownUI(AbilityLogic containedAbility)
     {
         if (containedAbility == ContainedAbility)
         {
@@ -46,9 +46,9 @@ public class AbilityContainerLogic : MonoBehaviour
         }
     }
 
-    private IEnumerator UpdateCooldownUIComponents(Ability containedAbility)
+    private IEnumerator UpdateCooldownUIComponents(AbilityLogic containedAbility)
     {
-        float storedCooldown = containedAbility.AbilityCooldown;
+        float storedCooldown = containedAbility.Ability.AbilityCooldown;
 
         do
         {
@@ -57,7 +57,7 @@ public class AbilityContainerLogic : MonoBehaviour
             //Mettre à jour le timer text
             cooldownText.SetText(storedCooldown.ToString("0.0"));
             //Update l'image filled
-            cooldownFiller.fillAmount = storedCooldown / containedAbility.AbilityCooldown;
+            cooldownFiller.fillAmount = storedCooldown / containedAbility.Ability.AbilityCooldown;
 
             yield return new WaitForEndOfFrame();
         } while (storedCooldown > 0);

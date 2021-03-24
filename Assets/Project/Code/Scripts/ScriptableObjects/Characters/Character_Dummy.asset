@@ -20,16 +20,31 @@ MonoBehaviour:
     _StatType: 0
     BaseValue: 10000
     MaxValue: 0
+    Value: 0
+    statModifiers: []
+  - Name: Health_Regeneration
+    _StatType: 1
+    BaseValue: 50
+    MaxValue: 0
+    Value: 0
+    statModifiers: []
+  - Name: Movement_Speed
+    _StatType: 2
+    BaseValue: 50
+    MaxValue: 0
+    Value: 0
     statModifiers: []
   - Name: Physical_Resistances
     _StatType: 3
     BaseValue: 50
     MaxValue: 0
+    Value: 0
     statModifiers: []
   - Name: Magical_Resistances
     _StatType: 4
     BaseValue: 50
     MaxValue: 0
+    Value: 0
     statModifiers: []
   baseRessourcesGiven: 50
   animatorController: {fileID: 9100000, guid: 49c027e6fb2507d4285ab0bb110e61fc, type: 2}

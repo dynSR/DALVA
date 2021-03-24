@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AbilitiesCooldownHandler : MonoBehaviour
 {
-    public delegate void AbilityUsedAction(Ability abilityUsed);
+    public delegate void AbilityUsedAction(AbilityLogic abilityUsed);
     public static event AbilityUsedAction OnAbitilityUsed;
 
     [SerializeField] private List<AbilityCooldownData> allAbilitiesOnCooldown = new List<AbilityCooldownData>();
@@ -12,10 +12,10 @@ public class AbilitiesCooldownHandler : MonoBehaviour
     [System.Serializable]
     private class AbilityCooldownData
     {
-        public Ability ability;
+        public AbilityLogic ability;
         public float cooldown;
 
-        public AbilityCooldownData(Ability ability, float cooldown)
+        public AbilityCooldownData(AbilityLogic ability, float cooldown)
         {
             this.ability = ability;
             this.cooldown = cooldown;
@@ -29,10 +29,10 @@ public class AbilitiesCooldownHandler : MonoBehaviour
     }
 
     #region Abilities Cooldown Handler Section
-    public void PutAbilityOnCooldown(Ability ability)
+    public void PutAbilityOnCooldown(AbilityLogic ability)
     {
         OnAbitilityUsed?.Invoke(ability);
-        allAbilitiesOnCooldown.Add(new AbilityCooldownData(ability, ability.AbilityCooldown));
+        allAbilitiesOnCooldown.Add(new AbilityCooldownData(ability, ability.Ability.AbilityCooldown));
     }
 
     private void ApplyAbilityCooldown()

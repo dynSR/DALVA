@@ -1,17 +1,10 @@
-﻿using UnityEngine;
-using Photon.Pun;
+﻿using Photon.Pun;
 using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(AbilitiesCooldownHandler))]
-public abstract class Ability : MonoBehaviourPun
+public abstract class AbilityLogic : MonoBehaviourPun
 {
-    [Header("INFORMATIONS")]
-    [SerializeField] private string abilityName;
-    [SerializeField] private string abilityDescription;
-    [SerializeField] private KeyCode abilityKey;
-    [SerializeField] private Sprite abilityIcon;
-    [SerializeField] private GameObject abilityPrefab;
-
     #region Refs
     private CharacterStat Stats => GetComponent<CharacterStat>();
     private CharacterController Controller => GetComponent<CharacterController>();
@@ -19,25 +12,8 @@ public abstract class Ability : MonoBehaviourPun
     private AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
     #endregion
 
-    [Header("ATTRIBUTES VALUE")]
-    [SerializeField] private float abilityCooldown = 0f;
-    [SerializeField] private float abilityDamage = 0f;
-    [SerializeField] private float abilityRange = 0f;//Gestion de la range à ajouter -!-
-    [SerializeField] private float abilityAreaOfEffect = 0f;
-    [SerializeField] private float abilityCastingTime = 0f;
-    [SerializeField] private float abilityEffectDuration = 0f;
-    #region Public refs
-    public string AbilityDescription { get => abilityDescription; }
-    public string AbilityName { get => abilityName; }
-    public GameObject AbilityPrefab { get => abilityPrefab; }
-
-    public float AbilityCooldown { get => abilityCooldown; set => abilityCooldown = value; }
-    public float AbilityDamage { get => abilityDamage; set => abilityDamage = value; }
-    public float AbilityRange { get => abilityRange; }
-    public float AbilityAreaOfEffect { get => abilityAreaOfEffect; }
-    public Sprite AbilityIcon { get => abilityIcon; }
-    public KeyCode AbilityKey { get => abilityKey; }
-    #endregion
+    [SerializeField] private Ability ability;
+    public Ability Ability { get => ability; }
 
     protected abstract void Cast();
 
@@ -45,16 +21,16 @@ public abstract class Ability : MonoBehaviourPun
     {
         if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) { return; }
 
-        if (Input.GetKeyDown(AbilityKey))
+        if (Input.GetKeyDown(Ability.AbilityKey))
         {
-            if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this)) return;
+            if (AbilitiesCooldownHandler.IsAbilityOnCooldown(Ability)) return;
 
             TargetHandler.Target = null;
 
             AdjustCharacterPositioning();
 
-            if(!Controller.IsCasting)
-                StartCoroutine(ProcessCastingTime(abilityCastingTime));
+            if (!Controller.IsCasting)
+                StartCoroutine(ProcessCastingTime(Ability.AbilityCastingTime));
         }
     }
 
@@ -82,7 +58,7 @@ public abstract class Ability : MonoBehaviourPun
         yield return new WaitForSeconds(castDuration);
         Cast();
 
-        StartCoroutine(PutAbilityOnCooldown(abilityEffectDuration));
+        StartCoroutine(PutAbilityOnCooldown(Ability.AbilityEffectDuration));
 
         yield return new WaitForSeconds(0.25f);
 

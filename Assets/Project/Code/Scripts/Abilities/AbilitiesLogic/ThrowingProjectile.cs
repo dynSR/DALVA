@@ -10,7 +10,7 @@ public class ThrowingProjectile : MonoBehaviour
     public Transform AimProjectileEmiterPos { get => aimProjectileEmiterPos; }
     #endregion
 
-    public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation)
+    public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation, Ability ability = null)
     {
         yield return new WaitForSeconds(Controller.RotationSpeed);
 
@@ -18,6 +18,8 @@ public class ThrowingProjectile : MonoBehaviour
 
         ProjectileLogic _projectile = projectileInstance.GetComponent<ProjectileLogic>();
         _projectile.ProjectileSender = transform;
+
+        if (ability != null) _projectile.Ability = ability;
 
         Debug.Log("ThrowingProjectile");
     }

@@ -7,7 +7,7 @@ public class BillBoard : MonoBehaviourPun
 
     Vector3 initRot;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         Canvas.worldCamera = UtilityClass.GetMainCamera();
         initRot = transform.eulerAngles;

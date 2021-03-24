@@ -14,7 +14,7 @@ public class PlayerInteractions : InteractionSystem
     #region Set player's target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
-        if (UtilityClass.RightClickIsPressed())
+        if (UtilityClass.RightClickIsPressed() && !Controller.IsCasting)
         {
             Debug.Log("Set target on mouse click");
             ResetTarget();

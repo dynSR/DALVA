@@ -41,8 +41,11 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     {
         HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
 
-        if (GetComponent<PhotonView>() == null) return;
-        if (GameObject.Find("GameNetworkManager") == null || !photonView.IsMine) UpdateNetworkPosition();
+        //Local
+        if (GameObject.Find("GameNetworkManager") == null) return;
+
+        //Reseau
+        if (GetComponent<PhotonView>() != null && !photonView.IsMine) UpdateNetworkPosition();
     }
 
     #region Character Destination and motion handling, including rotation

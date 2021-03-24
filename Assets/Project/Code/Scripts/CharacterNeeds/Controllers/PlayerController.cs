@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
 
-public class PlayerController : CharacterController, IPunObservable
+public class PlayerController : CharacterController
 {
     [Header("MOVEMENTS PARAMETERS")]
     [SerializeField] private LayerMask walkableLayer;
@@ -22,16 +22,6 @@ public class PlayerController : CharacterController, IPunObservable
     public bool IsPlayerInHisBase { get => isPlayerInHisBase; set => isPlayerInHisBase = value; }
     public bool IsCursorHoveringUIElement => EventSystem.current.IsPointerOverGameObject();
 
-    //Network refs
-    [HideInInspector]
-    [SerializeField] private Vector3 networkPosition = Vector3.zero;
-    [HideInInspector]
-    [SerializeField] private Quaternion networkRotation = Quaternion.identity;
-    [HideInInspector]
-    [SerializeField] private float networkSpeed = 0f;
-    private double lastNetworkUpdate = 0f;
-
-
     protected override void Update()
     {
         if (Stats.IsDead) return;
@@ -45,10 +35,7 @@ public class PlayerController : CharacterController, IPunObservable
                 DebugPathing(MyLineRenderer);
             }
         }
-        else
-        {
-            UpdateNetworkPosition();
-        }
+        else UpdateNetworkPosition();
     }
 
     #region Handle Cursor Movement 
@@ -88,24 +75,6 @@ public class PlayerController : CharacterController, IPunObservable
     #endregion
 
     #region Network Needs
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(gameObject.GetComponent<NavMeshAgent>().velocity.magnitude);
-        }
-        else
-        {
-            networkPosition = (Vector3)stream.ReceiveNext();
-            networkRotation = (Quaternion)stream.ReceiveNext();
-            networkSpeed = (float)stream.ReceiveNext();
-
-            lastNetworkUpdate = info.SentServerTime;
-        }
-    }
-
     public void InstantiateCharacterCameraAtStartOfTheGame()
     {
         GameObject cameraInstance = Instantiate(CharacterCamera.gameObject, CharacterCamera.transform.position, CharacterCamera.transform.rotation) as GameObject;
@@ -113,19 +82,6 @@ public class PlayerController : CharacterController, IPunObservable
         cameraInstance.GetComponent<CameraController>().TargetToFollow = this.transform;
 
         CharacterCamera = cameraInstance.GetComponent<Camera>();
-    }
-
-    private void UpdateNetworkPosition()
-    {
-        float pingInSeconds = PhotonNetwork.GetPing() * 0.001f;
-        float timeSinceUpdate = (float)(PhotonNetwork.Time - lastNetworkUpdate);
-        float totalTimePassed = pingInSeconds + timeSinceUpdate;
-
-        Vector3 exterpolatedTargetPosition = networkPosition + transform.forward * networkSpeed * totalTimePassed;
-        Vector3 newPosition = Vector3.MoveTowards(transform.position, exterpolatedTargetPosition, networkSpeed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, exterpolatedTargetPosition) > 1f) newPosition = exterpolatedTargetPosition;
-
-        transform.position = newPosition;
     }
     #endregion
 }

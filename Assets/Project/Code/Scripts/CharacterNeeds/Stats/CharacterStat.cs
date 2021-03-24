@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 {
     public delegate void StatValueChangedHandler(float newValue, float maxValue);
-    public static event StatValueChangedHandler OnHealthValueChanged;
+    public event StatValueChangedHandler OnHealthValueChanged;
 
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
@@ -120,14 +120,14 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
                 if (characterPhysicalPower > 0)
                     StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, DamageType.Magic));
-                else if (characterMagicalPower > 0)
+                else if (characterMagicalPower > 0 && characterMagicalPower > 0)
                     DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterMagicalPower, DamageType.Magic);
             }
             else if (targetMagicalResistances <= 0)
             {
                 characterMagicalPower *= 2 - 100 / (100 - targetMagicalResistances);
 
-                if (characterPhysicalPower > 0)
+                if (characterPhysicalPower > 0 && characterMagicalPower > 0)
                     StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, DamageType.Magic));
                 else if (characterMagicalPower > 0)
                     DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterMagicalPower, DamageType.Magic);

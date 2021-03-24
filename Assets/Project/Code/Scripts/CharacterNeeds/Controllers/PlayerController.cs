@@ -13,6 +13,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject movementFeedback;
 
     [SerializeField] private bool isPlayerInHisBase = true; // put in private after
+    private bool movementFeedbackHasBeen = false;
 
     #region Refs
     public Camera CharacterCamera { get { return characterCamera; } private set { characterCamera = value; } }
@@ -31,8 +32,6 @@ public class PlayerController : CharacterController
             if (UtilityClass.RightClickIsHeld() && !IsCursorHoveringUIElement)
             {
                 SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
-
-                DebugPathing(MyLineRenderer);
             }
         }
         else base.Update();
@@ -43,13 +42,18 @@ public class PlayerController : CharacterController
     {
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity, walkableLayer))
         {
-            if (UtilityClass.RightClickIsPressed())
+            if (UtilityClass.RightClickIsPressed() && !movementFeedbackHasBeen)
             {
                 CreateMovementFeedback(movementFeedback, raycastHit.point);
+                movementFeedbackHasBeen = true;
             }
+
+            movementFeedbackHasBeen = false;
 
             SetAgentDestination(Agent, raycastHit.point);
             HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, RotationSpeed);
+
+            DebugPathing(MyLineRenderer);
         }
     }
     #endregion

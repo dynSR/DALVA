@@ -22,7 +22,8 @@ public class Stat
 
     public float BaseValue;
     public float CapValue;
-    public float Value { get; set; }
+    public float Value; /*{ get; set; }*/
+    public Color Color;
     
 
     public List<StatModifier> statModifiers;

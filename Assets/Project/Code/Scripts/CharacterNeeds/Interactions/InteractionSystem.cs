@@ -80,10 +80,8 @@ public class InteractionSystem : MonoBehaviour
         if (Target.GetComponent<CharacterStat>() != null 
             && Target.GetComponent<CharacterStat>().IsDead)
         {
-            ResetInteractionState();
-            Animator.SetTrigger("NoTarget");
-            Animator.ResetTrigger("NoTarget");
             Target = null;
+            ResetInteractionState();
             return;
         }
 
@@ -137,8 +135,6 @@ public class InteractionSystem : MonoBehaviour
                 Stats.GetStat(StatType.Physical_Penetration).Value,
                 Stats.GetStat(StatType.Magical_Penetration).Value);
         }
-
-        CanPerformAttack = true;
     }
 
     public void RangedAttack()
@@ -155,8 +151,6 @@ public class InteractionSystem : MonoBehaviour
             attackProjectile.ProjectileSender = transform;
             attackProjectile.Target = Target;
         }
-
-        CanPerformAttack = true;
     }
     #endregion
 
@@ -164,6 +158,9 @@ public class InteractionSystem : MonoBehaviour
     {
         if (!Controller.IsCasting)
             Controller.CanMove = true;
+
+        Animator.SetTrigger("NoTarget");
+        Animator.ResetTrigger("NoTarget");
 
         Animator.SetBool("Attack", false);
         CanPerformAttack = true;

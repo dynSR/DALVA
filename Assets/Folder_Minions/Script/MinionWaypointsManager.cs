@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MinionWaypointsManager : MonoBehaviour
 {
-    private Transform[] minionsGlobalWaypoints;
+    private List<Transform> minionsGlobalWaypoints = new List<Transform>();
 
-    public Transform[] MinionsGlobalWaypoints { get => minionsGlobalWaypoints; private set => minionsGlobalWaypoints = value; }
+    public List<Transform> MinionsGlobalWaypoints { get => minionsGlobalWaypoints; private set => minionsGlobalWaypoints = value; }
 
     #region Singleton
     public static MinionWaypointsManager Instance;
@@ -27,11 +27,9 @@ public class MinionWaypointsManager : MonoBehaviour
 
     private void GetChilds()
     {
-        MinionsGlobalWaypoints = new Transform[transform.childCount];
-
-        for (int i = 0; i < MinionsGlobalWaypoints.Length; i++)
+        foreach (Transform child in transform)
         {
-            MinionsGlobalWaypoints[i] = transform.GetChild(i);
+            MinionsGlobalWaypoints.Add(child);
         }
     }
 }

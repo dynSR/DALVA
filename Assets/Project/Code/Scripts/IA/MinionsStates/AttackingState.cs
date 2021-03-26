@@ -7,44 +7,50 @@ class AttackingState : IState
     public void Enter(NPCController controller)
     {
         this.controller = controller;
-        controller.CharacterAnimator.SetFloat("MoveSpeed", 0.0f);
     }
 
     public void Exit()
     {
         controller.Agent.isStopped = false;
-        controller.Interactions.StoppingDistance = 0.2f;
+        controller.NPCInteractions.StoppingDistance = 0.2f;
+
+        controller.NPCInteractions.ResetInteractionState();
     }
 
     public void OnUpdate()
     {
         Debug.Log("ATTACKING");
 
-        //Has an enemy target
-        if (controller.Interactions.HasATarget)
+        //Has no enemy target
+        if (!controller.NPCInteractions.HasATarget)
         {
-            float distance = Vector3.Distance(controller.Interactions.Target.position, controller.transform.position);
+            Debug.Log("Has no target");
+            
+            controller.ChangeState(new MovingState());
+            return;
+        }
+
+        //Has an enemy target
+        if (controller.NPCInteractions.HasATarget)
+        {
+            Debug.Log("Has a target");
+
+            controller.DistanceWithTarget = Vector3.Distance(controller.NPCInteractions.Target.position, controller.transform.position);
+
+            VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
             //Enemy target is too far away
-            if (distance <= controller.Stats.GetStat(StatType.Attack_Range).Value
-                && !controller.Interactions.Target.GetComponent<CharacterStat>().IsDead 
-                && controller.Interactions.Target.GetComponent<VisibilityState>().IsVisible)
+            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.Attack_Range).CalculateValue() && targetVisibilityState.IsVisible)
             {
-                controller.Interactions.Interact();
+                controller.NPCInteractions.Interact();
             }
-            else if (controller.Interactions.Target.GetComponent<CharacterStat>().IsDead
-                || !controller.Interactions.Target.GetComponent<VisibilityState>().IsVisible)
+
+            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.Attack_Range).CalculateValue() 
+                && controller.NPCInteractions.CanPerformAttack
+                || !targetVisibilityState.IsVisible)
             {
-                controller.Interactions.ResetInteractionState();
-                controller.Interactions.Target = null;
-                controller.AggroRange.CheckForNewTarget();
+                controller.ChangeState(new MovingState());
             }
-        }
-        //Has no enemy target
-        else
-        {
-            controller.Interactions.ResetInteractionState();
-            controller.ChangeState(new MovingState());
         }
     }
 }

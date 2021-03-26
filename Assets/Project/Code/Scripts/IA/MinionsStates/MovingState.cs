@@ -4,54 +4,73 @@ class MovingState : IState
 {
     private NPCController controller;
 
-    float distance;
-
     public void Enter(NPCController controller)
     {
         this.controller = controller;
 
-        controller.waypointTarget = controller.waypoints[controller.waypointIndex];
+        controller.waypointTarget = controller.waypoints[controller.WaypointIndex];
     }
 
     public void Exit()
     {
-        controller.Interactions.StoppingDistance = controller.Stats.GetStat(StatType.Attack_Range).Value;
+        controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.Attack_Range).Value;
     }
 
     public void OnUpdate()
     {
-        //Debug.Log("MOVING");
+        Debug.Log("MOVING");
+
+        if (controller.GetComponent<CharacterStat>().IsDead || !controller.CanMove) return;
+
+        if (controller.NPCInteractions.HasATarget)
+            MoveTowardsTarget();
+        //OR
+        else
+            MoveTowardsWaypoint();
+    }
+
+    void MoveTowardsTarget()
+    {
+        CharacterStat targetStat = controller.NPCInteractions.Target.GetComponent<CharacterStat>();
+        VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
+
+        if (targetStat.IsDead || !targetVisibilityState.IsVisible) controller.NPCInteractions.Target = null;
 
         //Has an enemy target
-        if (controller.Interactions.HasATarget 
-            && !controller.Interactions.Target.GetComponent<CharacterStat>().IsDead 
-            && controller.Interactions.Target.GetComponent<VisibilityState>().IsVisible)
+        if (!targetStat.IsDead && targetVisibilityState.IsVisible)
         {
-            distance = Vector3.Distance(controller.transform.position, controller.Interactions.Target.position);
+            controller.DistanceWithTarget = Vector3.Distance(controller.transform.position, controller.NPCInteractions.Target.position);
 
             //Distance is ok to interact - Change current state to attack state
-            if (distance <= controller.Stats.GetStat(StatType.Attack_Range).Value)
-                controller.ChangeState(new AttackingState());
-
-            //Distance is not ok to interact - Keep moving
-            else if(distance > controller.Stats.GetStat(StatType.Attack_Range).Value)
-                controller.Interactions.MoveTowardsAnExistingTarget(controller.Interactions.Target, controller.Stats.GetStat(StatType.Attack_Range).Value);
-        }
-        //Has no enemy target - target is now a waypoint...
-        else if (!controller.Interactions.HasATarget)
-        {
-            distance = Vector3.Distance(controller.transform.position, controller.waypointTarget.position);
-
-            //Distance is too high towards next waypoint - Keep moving towards it...
-            if (distance > controller.Agent.stoppingDistance)
-                controller.Interactions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.Interactions.StoppingDistance);
-
-            //Distance is ok - Update waypoint index and move towards next waypoint...
-            if (distance <= 1f)
+            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.Attack_Range).CalculateValue())
             {
-                controller.waypointIndex++;
-                controller.waypointTarget = controller.waypoints[controller.waypointIndex];
+                Debug.Log("Can Interact");
+                controller.ChangeState(new AttackingState());
             }
+            //Distance is not ok to interact - Keep moving
+            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.Attack_Range).CalculateValue())
+            {
+                Debug.Log("Too far to Interact");
+                controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.NPCInteractions.Target, controller.Stats.GetStat(StatType.Attack_Range).CalculateValue());
+            }
+        }
+    }
+
+    void MoveTowardsWaypoint()
+    {
+        //Has no enemy target - target is now a waypoint...
+        Debug.Log("Need to move towards next waypoint");
+
+        controller.DistanceWithTarget = Vector3.Distance(controller.transform.position, controller.waypointTarget.position);
+
+        //Distance is too high towards next waypoint - Keep moving towards it...
+        controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.NPCInteractions.StoppingDistance);
+
+        //Distance is ok - Update waypoint index and move towards next waypoint...
+        if (controller.DistanceWithTarget <= 1f)
+        {
+            controller.WaypointIndex++;
+            controller.waypointTarget = controller.waypoints[controller.WaypointIndex];
         }
     }
 }

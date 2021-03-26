@@ -20,4 +20,9 @@ public class CharacterAnimations : MonoBehaviour
     {
         Interactions.MeleeAttack();
     }
+
+    public void ResetAttackState_AnimationEvent()
+    {
+        Interactions.CanPerformAttack = true;
+    }
 }

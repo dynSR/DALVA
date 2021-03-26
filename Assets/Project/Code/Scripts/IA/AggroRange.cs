@@ -17,25 +17,28 @@ public class AggroRange : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         ResetTarget(other);
+        CheckForNewTarget();
     }
 
     private void AssignTarget(Collider other)
     {
-        if (other.GetComponent<EntityDetection>() != null
+        EntityDetection entityDetection = other.GetComponent<EntityDetection>();
+
+        if (entityDetection != null
+            && entityDetection.TypeOfEntity == TypeOfEntity.Enemy
             && !other.GetComponent<CharacterStat>().IsDead
-            && other.GetComponent<VisibilityState>().IsVisible
-            && other.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
+            && other.GetComponent<VisibilityState>().IsVisible)
         {
             if (Interactions.HasATarget) return;
             else
-                Controller.Interactions.Target = other.transform;
+                Interactions.Target = other.transform;
         }
     }
 
     private void ResetTarget(Collider other)
     {
-        if (Interactions.HasATarget && other.gameObject == Controller.Interactions.Target.gameObject) 
-            Controller.Interactions.Target = null;
+        if (Interactions.HasATarget && other.gameObject == Interactions.Target.gameObject) 
+            Interactions.Target = null;
     }
 
     public void CheckForNewTarget()
@@ -47,7 +50,7 @@ public class AggroRange : MonoBehaviour
     {
         m_Collider.enabled = false;
 
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForEndOfFrame();
 
         m_Collider.enabled = true;
     }

@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class NPCController : CharacterController
 {
-    public int waypointIndex; //public to debug
+    public int WaypointIndex { get; set; }
     public Transform waypointTarget = null; //public to debug
     public List<Transform> waypoints; //public to debug
+    public float DistanceWithTarget { get; set; }
 
     public IState currentState; //set to private after tests
+    public string CurrentStateName;
 
     #region Refs
-    public CharacterStat Stats => GetComponent<CharacterStat>();
-    public NPCInteractions Interactions => GetComponent<NPCInteractions>();
+    public NPCInteractions NPCInteractions => GetComponent<NPCInteractions>();
     public AggroRange AggroRange => GetComponentInChildren<AggroRange>();
     #endregion
 
@@ -25,6 +26,8 @@ public class NPCController : CharacterController
     {
         base.Update();
         currentState.OnUpdate();
+
+        CurrentStateName = currentState.ToString();
     }
 
     public void ChangeState(IState newState)
@@ -40,9 +43,9 @@ public class NPCController : CharacterController
 
     private void GetGlobalWaypoints()
     {
-        foreach (var item in MinionWaypointsManager.Instance.MinionsGlobalWaypoints)
+        foreach (Transform waypoints in MinionWaypointsManager.Instance.MinionsGlobalWaypoints)
         {
-            waypoints.Add(item);
+            this.waypoints.Add(waypoints);
         }
     }
 }

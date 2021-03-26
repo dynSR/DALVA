@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdlingState : MonoBehaviour
+public class IdlingState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    private NPCController controller;
+
+    void IState.Enter(NPCController controller)
     {
-        
+        this.controller = controller;
     }
 
-    // Update is called once per frame
-    void Update()
+    void IState.Exit()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    void IState.OnUpdate()
+    {
+        throw new System.NotImplementedException();
     }
 }

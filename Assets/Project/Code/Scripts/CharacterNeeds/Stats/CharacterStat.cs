@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DarkTonic.MasterAudio;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +38,17 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     [SerializeField] private GameObject damagePopUp;
     [SerializeField] private GameObject deathHUD;
 
+    [Header("SOUNDS")]
+    [MasterCustomEvent] public string deathCustomEvent;
+    EventSounds EventSounds => GetComponent<EventSounds>();
+
     private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
+
+    private void OnEnable()
+    {
+        if(EventSounds != null)
+            EventSounds.RegisterReceiver();
+    }
 
     protected virtual void Awake()
     {
@@ -159,6 +170,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
             isDeathEventHandled = true;
             Controller.Agent.ResetPath();
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
+            MasterAudio.FireCustomEvent(deathCustomEvent, transform);
         }
     }
 
@@ -225,8 +237,6 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         Debug.Log("is Dead " + IsDead);
 
         isDeathEventHandled = false;
-
-        
     }
     #endregion
 

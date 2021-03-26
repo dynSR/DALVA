@@ -81,7 +81,10 @@ public class InteractionSystem : MonoBehaviour
             && Target.GetComponent<CharacterStat>().IsDead)
         {
             Target = null;
+
             ResetInteractionState();
+
+            Debug.Log("TARGET IS DEAD WHILE INTERACTING");
             return;
         }
 
@@ -160,7 +163,6 @@ public class InteractionSystem : MonoBehaviour
             Controller.CanMove = true;
 
         Animator.SetTrigger("NoTarget");
-        Animator.ResetTrigger("NoTarget");
 
         Animator.SetBool("Attack", false);
         CanPerformAttack = true;

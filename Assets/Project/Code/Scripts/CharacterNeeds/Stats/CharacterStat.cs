@@ -20,10 +20,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     public List<AbilityLogic> CharacterAbilities { get => characterAbilities; }
 
     [Header("STATS")]
-    [SerializeField] private int amountOfRessourcesGiventOnDeath = 0;
-    
     public List<Stat> CharacterStats;
-    int CurrentRessourcesGivenOnDeath { get => amountOfRessourcesGiventOnDeath; /*set;*/ } // set commenté, à décommenter et à utiliser si besoin de modifier la valeur
 
     [Header("DEATH PARAMETERS")]
     public Transform sourceOfDamage;
@@ -35,14 +32,15 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     private bool isDeathEventHandled = false;
 
     [Header("UI PARAMETERS")]
-    [SerializeField] private GameObject damagePopUp;
+    [SerializeField] private GameObject popup;
     [SerializeField] private GameObject deathHUD;
+    public GameObject Popup { get => popup; }
 
     [Header("SOUNDS")]
     [MasterCustomEvent] public string deathCustomEvent;
     EventSounds EventSounds => GetComponent<EventSounds>();
 
-    private Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0, -0.25f);
+    public Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0.75f, -0.35f);
 
     private void OnEnable()
     {
@@ -112,52 +110,48 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
                     characterPhysicalPower *= 2 - 100 / (100 - targetPhysicalResistances);
                 }
 
-                characterPhysicalPower *= 100 / (100 + (/*( */targetPhysicalResistances /* - armorFlatReduction )*/ * (characterPhysicalPenetration / 100)));
+                //characterPhysicalPower *= 100 / (100 + (/*( */targetPhysicalResistances /* - armorFlatReduction )*/ * (characterPhysicalPenetration / 100)));
 
                 if (isAttackCritical)
-                    DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterPhysicalPower, DamageType.Critical);
+                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.Physical_Power, GetStat(StatType.Physical_Power).Icon, true);
                 else if (characterPhysicalPower > 0)
-                    DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterPhysicalPower, DamageType.Physical);
+                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.Physical_Power, GetStat(StatType.Physical_Power).Icon);
             }
 
             if (characterMagicalPower > 0)
             {
-                if (characterMagicalPenetration > 0)
-                    characterMagicalPower *= 100 / (100 + (targetMagicalResistances- (targetMagicalResistances * (characterMagicalPenetration / 100))));
-                else
-                    characterMagicalPower *= 100 / (100 + targetMagicalResistances);
-
-                Debug.Log("Magic Resistance is over 0 / " + " Magic Damage " + (int)characterMagicalPower);
+                if (targetMagicalResistances > 0)
+                {
+                    if (characterMagicalPenetration > 0)
+                        characterMagicalPower *= 100 / (100 + (targetMagicalResistances - (targetMagicalResistances * (characterMagicalPenetration / 100))));
+                    else
+                        characterMagicalPower *= 100 / (100 + targetMagicalResistances);
+                }
+                else if (targetMagicalResistances <= 0)
+                {
+                    characterMagicalPower *= 2 - 100 / (100 - targetMagicalResistances);
+                }
 
                 if (characterPhysicalPower > 0)
-                    StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, DamageType.Magic));
+                    StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, StatType.Magical_Power, GetStat(StatType.Magical_Power).Icon));
                 else if (characterMagicalPower > 0 && characterMagicalPower > 0)
-                    DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterMagicalPower, DamageType.Magic);
+                    global::Popup.Create(InFrontOfCharacter, Popup, characterMagicalPower, StatType.Magical_Power, GetStat(StatType.Magical_Power).Icon);
             }
-            else if (targetMagicalResistances <= 0)
-            {
-                characterMagicalPower *= 2 - 100 / (100 - targetMagicalResistances);
-
-                if (characterPhysicalPower > 0 && characterMagicalPower > 0)
-                    StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, DamageType.Magic));
-                else if (characterMagicalPower > 0)
-                    DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, characterMagicalPower, DamageType.Magic);
-            }
-
+            
             this.sourceOfDamage = sourceOfDamage;
             GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
 
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
 
-            Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
+            //Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
         }
     }
 
-    private IEnumerator CreateDamagePopUpWithDelay(float delay, float damageTaken, DamageType damageType)
+    private IEnumerator CreateDamagePopUpWithDelay(float delay, float value, StatType statType, Sprite icon)
     {
         yield return new WaitForSeconds(delay);
 
-        DamagePopupLogic.Create(InFrontOfCharacter, damagePopUp, damageTaken, damageType);
+        global::Popup.Create(InFrontOfCharacter, Popup, value, statType, icon);
         //Debug.Log(gameObject.name + " Life is : " + CurrentHealth);
     }
     #endregion
@@ -169,17 +163,19 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         {
             isDeathEventHandled = true;
             Controller.Agent.ResetPath();
+            GetStat(StatType.Health).Value = 0f;
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
             MasterAudio.FireCustomEvent(deathCustomEvent, transform);
         }
     }
 
-    void GiveRessourcesToAPlayerOnDeath()
+    void GiveRessourcesToAPlayerOnDeath(float valueToGive)
     {
         if (sourceOfDamage != null
             && sourceOfDamage.GetComponent<CharacterRessources>() != null)
         {
-            sourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)CurrentRessourcesGivenOnDeath);
+            sourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
+            StartCoroutine(CreateDamagePopUpWithDelay(1, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
             //Debug.Log("Ressources have been given to a player, the last stored source of damage");
         }
     }
@@ -193,12 +189,9 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         if (Interactions != null)
             Interactions.CanPerformAttack = false;
 
-        //isoler pour un appel
         Controller.CharacterAnimator.SetBool("IsDead", true);
 
-        Debug.Log("TOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM");
-
-        GiveRessourcesToAPlayerOnDeath();
+        GiveRessourcesToAPlayerOnDeath(GetStat(StatType.RessourcesGiven).Value);
     }
 
     private IEnumerator ProcessDeathTimer(float delay)
@@ -259,7 +252,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
         for (int i = CharacterStats.Count - 1; i >= 0; i--)
         {
-            if (CharacterStats[i]._StatType == statType)
+            if (CharacterStats[i].StatType == statType)
             {
                 stat = CharacterStats[i];
             }
@@ -282,7 +275,10 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
                 CharacterStats.Add(stat);
                 CharacterStats[i].Name = usedCharacter.CharacterStats[i].Name;
-                CharacterStats[i]._StatType = usedCharacter.CharacterStats[i]._StatType;
+                CharacterStats[i].StatType = usedCharacter.CharacterStats[i].StatType;
+
+                if(usedCharacter.CharacterStats[i].Icon != null)
+                    CharacterStats[i].Icon = usedCharacter.CharacterStats[i].Icon;
 
                 if (usedCharacter.CharacterStats[i].BaseValue > 0)
                 {

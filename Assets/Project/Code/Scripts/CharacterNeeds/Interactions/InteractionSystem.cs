@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public enum CombatType { MeleeCombat, RangedCombat }
+public enum CombatType { MeleeCombat, RangedCombat, None }
 
 public class InteractionSystem : MonoBehaviour
 {
+    public delegate void AttackStateHandler();
+    public event AttackStateHandler OnAttacking;
+
+
     [Header("TARGETS INFORMATIONS")]
     [SerializeField] private Transform target; //Est en publique pour debug
     [SerializeField] private Transform knownTarget; //Est en publique pour debug
@@ -21,7 +25,7 @@ public class InteractionSystem : MonoBehaviour
     [Header("INTERACTIONS STATE")]
     [SerializeField] private bool canPerformAttack = true;
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
-    public CombatType CombatAttackType { get; set; }
+    public bool HasPerformedAttack { get; set; }
     public float InteractionRange { get => interactionRange; set => interactionRange = value; }
 
     public Transform Target { get => target; set => target = value; }
@@ -80,9 +84,8 @@ public class InteractionSystem : MonoBehaviour
         if (Target.GetComponent<CharacterStat>() != null 
             && Target.GetComponent<CharacterStat>().IsDead)
         {
-            Target = null;
-
             ResetInteractionState();
+            Target = null;
 
             Debug.Log("TARGET IS DEAD WHILE INTERACTING");
             return;
@@ -137,6 +140,10 @@ public class InteractionSystem : MonoBehaviour
                 175f,
                 Stats.GetStat(StatType.Physical_Penetration).Value,
                 Stats.GetStat(StatType.Magical_Penetration).Value);
+
+            HasPerformedAttack = true;
+
+            OnAttacking?.Invoke();
         }
     }
 
@@ -153,6 +160,10 @@ public class InteractionSystem : MonoBehaviour
             attackProjectile.ProjectileType = ProjectileType.TravelsToAPosition;
             attackProjectile.ProjectileSender = transform;
             attackProjectile.Target = Target;
+
+            HasPerformedAttack = true;
+
+            OnAttacking?.Invoke();
         }
     }
     #endregion
@@ -162,10 +173,12 @@ public class InteractionSystem : MonoBehaviour
         if (!Controller.IsCasting)
             Controller.CanMove = true;
 
-        Animator.SetTrigger("NoTarget");
+        if (Target != null)
+            Animator.SetTrigger("NoTarget");
 
         Animator.SetBool("Attack", false);
         CanPerformAttack = true;
+        HasPerformedAttack = false;
     }
     #endregion
 }

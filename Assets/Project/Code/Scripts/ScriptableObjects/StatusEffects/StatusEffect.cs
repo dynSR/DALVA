@@ -12,7 +12,6 @@ public class StatusEffect : ScriptableObject
     [SerializeField] private int statusEffectId;
     [SerializeField] private Sprite statusEffectIcon;
     [SerializeField] private GameObject statusEffectVFXPrefab;
-    [SerializeField] private AudioClip statusEffectSound;
 
     public string StatusEffectName { get => statusEffectName; }
     public string StatusEffectDescription { get => statusEffectDescription; }
@@ -20,5 +19,83 @@ public class StatusEffect : ScriptableObject
     public int StatusEffectId { get => statusEffectId; }
     public Sprite StatusEffectIcon { get => statusEffectIcon; }
     public GameObject StatusEffectVFXPrefab { get => statusEffectVFXPrefab; }
-    public AudioClip StatusEffectSound { get => statusEffectSound; }
+
+    [Header("LOGIC STUFFS")]
+    [SerializeField] private List<StatModifier> statModifiers;
+    public GameObject CreatedVFX { get; set; }
+    public StatusEffectHandler TargetStatusEffectHandler { get; set; }
+    public StatusEffectContainer StatusEffectContainer { get; set; }
+
+    #region Apply - Remove Effect
+    public void ApplyEffect(Transform target)
+    {
+        if (GetTargetStatusEffectHandler(target) != null)
+        {
+            TargetStatusEffectHandler = GetTargetStatusEffectHandler(target);
+
+            if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this))
+            {
+                GetTargetStatusEffectHandler(target).ResetCooldown(this);
+                return;
+            }
+
+            for (int i = 0; i < statModifiers.Count; i++)
+            {
+                GetTargetStats(target).GetStat(statModifiers[i].StatType).AddModifier(statModifiers[i]);
+
+                if (statModifiers[i].StatType == StatType.Movement_Speed)
+                {
+                    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.Movement_Speed).Value);
+                }
+            }
+            
+            GetTargetStatusEffectHandler(target).AddNewEffect(this);
+            CreateVFXOnApplication(StatusEffectVFXPrefab, target);
+        }
+    }
+
+    public void RemoveEffect(Transform target)
+    {
+        for (int i = 0; i < statModifiers.Count; i++)
+        {
+            GetTargetStats(target).GetStat(statModifiers[i].StatType).RemoveModifier(statModifiers[i]);
+
+            if (statModifiers[i].StatType == StatType.Movement_Speed)
+            {
+                GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.Movement_Speed).Value);
+            }
+        }
+
+        Destroy(CreatedVFX);
+    }
+    #endregion
+
+    #region Get target informations
+    public CharacterController GetTargetController(Transform target)
+    {
+        return target.GetComponent<CharacterController>();
+    }
+
+    public CharacterStat GetTargetStats(Transform target)
+    {
+        return target.GetComponent<CharacterStat>();
+    }
+
+    public StatusEffectHandler GetTargetStatusEffectHandler(Transform target)
+    {
+        return target.GetComponent<StatusEffectHandler>();
+    }
+    #endregion
+
+    #region Feedback
+    private void CreateVFXOnApplication(GameObject vfxToCreate, Transform target)
+    {
+        if (vfxToCreate != null)
+        {
+            GameObject vfxCopy = Instantiate(vfxToCreate, target.position, target.rotation);
+            vfxCopy.transform.SetParent(target);
+            CreatedVFX = vfxCopy;
+        }
+    }
+    #endregion
 }

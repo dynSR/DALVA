@@ -8,7 +8,6 @@ public class AbilitiesCooldownHandler : MonoBehaviour
 
     [SerializeField] private List<AbilityCooldownData> allAbilitiesOnCooldown = new List<AbilityCooldownData>();
 
-
     [System.Serializable]
     private class AbilityCooldownData
     {
@@ -49,22 +48,26 @@ public class AbilitiesCooldownHandler : MonoBehaviour
         {
             if (allAbilitiesOnCooldown[i].cooldown <= 0)
             {
+                if (!allAbilitiesOnCooldown[i].ability.CanBeUsed)
+                    allAbilitiesOnCooldown[i].ability.CanBeUsed = true;
+
                 allAbilitiesOnCooldown.RemoveAt(i);
             }
         }
     }
 
-    public bool IsAbilityOnCooldown(Ability ability)
+    public bool IsAbilityOnCooldown(AbilityLogic ability)
     {
-        foreach (AbilityCooldownData cooldownData in allAbilitiesOnCooldown)
+        for (int i = allAbilitiesOnCooldown.Count - 1; i >= 0; i--)
         {
-            if (cooldownData.ability == ability)
+            if (allAbilitiesOnCooldown[i].ability == ability)
             {
-                Debug.Log(ability.AbilityName + " is on cooldown for " + cooldownData.cooldown.ToString("0.0") + " seconds");
+                Debug.Log(ability.Ability.AbilityName + " is on cooldown for " + allAbilitiesOnCooldown[i].cooldown.ToString("0.0") + " seconds");
                 return true;
             }
         }
 
+        Debug.Log("Not in CD");
         return false;
     }
     #endregion

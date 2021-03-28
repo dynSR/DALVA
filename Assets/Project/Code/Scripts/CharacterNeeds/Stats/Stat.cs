@@ -5,28 +5,36 @@ using UnityEngine;
 public enum StatType
 {
     //CF Règles équipements > Légende caractéristiques
-    Health, Health_Regeneration,
+    Health, Health_Regeneration, Shield,
     Movement_Speed, Physical_Resistances, Magical_Resistances,
     Attack_Speed, Attack_Range, Physical_Power, Magical_Power,
     Adaptative_Penetration, Physical_Penetration, Magical_Penetration,
     Physical_Lifesteal, Magical_Lifesteal,
     Critical_Strike_Chance,
-    Cooldown_Reduction, Heal_Shield_Effectiveness, Harmful_Effect_Reduction
+    Cooldown_Reduction, Heal_Shield_Effectiveness, Harmful_Effect_Reduction,
+    RessourcesGiven,
+    None
 }
 
 [Serializable]
 public class Stat
 {
-    public string Name;
-    public StatType _StatType;
-
-    public float BaseValue;
-    public float CapValue;
+    [SerializeField] private string name = "[Type In]";
+    [SerializeField] private StatType statType = StatType.None;
+    [SerializeField] private float baseValue = 0f;
+    [SerializeField] private float capValue = 0f;
     public float Value; /*{ get; set; }*/
-    public Color Color;
-    
+    [SerializeField] private Sprite icon = null;
 
+    #region Public variables
     public List<StatModifier> statModifiers;
+
+    public string Name { get => name; set => name = value; }
+    public StatType StatType { get => statType; set => statType = value; }
+    public float BaseValue { get => baseValue; set => baseValue = value; }
+    public float CapValue { get => capValue; }
+    public Sprite Icon { get => icon; set => icon = value; }
+    #endregion
 
     public void AddModifier(StatModifier mod)
     {

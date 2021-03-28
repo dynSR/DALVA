@@ -24,5 +24,6 @@ public class CharacterAnimations : MonoBehaviour
     public void ResetAttackState_AnimationEvent()
     {
         Interactions.CanPerformAttack = true;
+        Interactions.HasPerformedAttack = false;
     }
 }

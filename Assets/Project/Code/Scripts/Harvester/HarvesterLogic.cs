@@ -86,8 +86,11 @@ public class HarvesterLogic : MonoBehaviour
 
         if (timeSpentHarvesting >= totalTimeToHarvest)
         {
+            CharacterStat interactingPlayerStat = interactingPlayer.GetComponent<CharacterStat>();
+
             GiveRessourcesToPlayer((int)CurrentHarvestedRessourcesValue);
             harvestState = HarvestState.Reinitialization;
+            Popup.Create(interactingPlayerStat.InFrontOfCharacter, interactingPlayerStat.Popup, CurrentHarvestedRessourcesValue, StatType.RessourcesGiven, interactingPlayerStat.GetStat(StatType.RessourcesGiven).Icon);
         }
     }
 

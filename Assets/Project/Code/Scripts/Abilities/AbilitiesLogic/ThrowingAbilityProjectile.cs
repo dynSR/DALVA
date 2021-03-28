@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class ThrowingProjectile : MonoBehaviour
+public class ThrowingAbilityProjectile : MonoBehaviour
 {
     [SerializeField] private Transform aimProjectileEmiterPos;
 
@@ -10,7 +10,7 @@ public class ThrowingProjectile : MonoBehaviour
     public Transform AimProjectileEmiterPos { get => aimProjectileEmiterPos; }
     #endregion
 
-    public IEnumerator LaunchAProjectile(GameObject projectile, Transform spawnLocation, Ability ability = null)
+    public IEnumerator ThrowProjectile(GameObject projectile, Transform spawnLocation, Ability ability = null)
     {
         yield return new WaitForSeconds(Controller.RotationSpeed);
 

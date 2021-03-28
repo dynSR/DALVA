@@ -6,7 +6,7 @@ public class Item : ScriptableObject
 {
     [SerializeField] private string itemName;
     [SerializeField] private Sprite itemIcon;
-    [SerializeField] private string itemDescription;
+    [TextArea][SerializeField] private string itemDescription;
     [SerializeField] private int itemCost;
     [SerializeField] private int amountOfGoldRefundedOnSale;
 
@@ -30,7 +30,7 @@ public class Item : ScriptableObject
         {
             for (int j = 0; j < itemModifiers.Count; j++)
             {
-                if (c.CharacterStats[i]._StatType == itemModifiers[j].StatType)
+                if (c.CharacterStats[i].StatType == itemModifiers[j].StatType)
                 {
                     c.CharacterStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
                 }

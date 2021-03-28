@@ -39,27 +39,33 @@ public class PlayerHUDManager : MonoBehaviour
     }
 
     #region Status effects
-    public void UpdateStatusEffectUI(StatusEffectLogic statusEffect)
+    public void UpdateStatusEffectUI(StatusEffect statusEffect)
     {
         if (statusEffectLayoutGroup.childCount > 0)
         {
-            Debug.Log("Container already exists");
+            //Debug.Log("Container already exists");
             for (int i = statusEffectLayoutGroup.childCount - 1; i >= 0; i--)
             {
-                if (statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainerLogic>().ContainedStatusEffectSystem == statusEffect)
+                if (statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainer>().ContainedStatusEffectSystem == statusEffect)
                 {
-                    statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainerLogic>().ResetTimer();
+                    statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainer>().ResetTimer();
                 }
             }
         }
         else
         {
-            Debug.Log("Create Container");
-            GameObject statusEffectFeedbackInstance = Instantiate(statusEffectContainer);
-            statusEffectFeedbackInstance.transform.SetParent(statusEffectLayoutGroup);
+            //Debug.Log("Create Container");
 
-            statusEffectFeedbackInstance.GetComponent<StatusEffectContainerLogic>().ContainedStatusEffectSystem = statusEffect;
-            statusEffect.StatusEffectContainer = statusEffectFeedbackInstance.GetComponent<StatusEffectContainerLogic>();
+            GameObject containerInstance = Instantiate(statusEffectContainer);
+            containerInstance.transform.SetParent(statusEffectLayoutGroup);
+
+            StatusEffectContainer container = containerInstance.GetComponent<StatusEffectContainer>();
+
+            container.StatusEffectHandler = statusEffect.TargetStatusEffectHandler;
+
+            container.ContainedStatusEffectSystem = statusEffect;
+
+            statusEffect.StatusEffectContainer = container;
         }
     }
     #endregion

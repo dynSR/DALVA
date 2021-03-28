@@ -17,22 +17,19 @@ public enum CharacterClass
     ForestMonster,
     Boss,
     Nexus,
-    None }
+    None 
+}
 
 [CreateAssetMenu(fileName = "Character_", menuName = "ScriptableObjects/Characters", order = 2)]
 public class BaseCharacter : ScriptableObject
 {
     [Header("INFORMATIONS")]
-    [SerializeField] private string characterName;
-    [SerializeField] private CharacterClass characterClass;
+    [SerializeField] private string characterName = "[Type in]";
+    [SerializeField] private CharacterClass characterClass = CharacterClass.None;
     public CharacterClass CharacterClass { get => characterClass; }
 
-    [SerializeField] private CombatType combatType;
+    [SerializeField] private CombatType combatType = CombatType.None;
     [SerializeField] private List<Stat> characterStats;
-
-    [Header("RESSOURCES")]
-    [SerializeField] private float baseRessourcesGiven = 50f;
-    public float BaseRessourcesGiven { get => baseRessourcesGiven; }
 
     [Header("ANIMATION")]
     [SerializeField] private RuntimeAnimatorController animatorController;
@@ -43,8 +40,8 @@ public class BaseCharacter : ScriptableObject
     {
         for (int i = 0; i < CharacterStats.Count; i++)
         {
-            CharacterStats[i]._StatType = (StatType)System.Enum.GetValues(typeof(StatType)).GetValue(i);
-            CharacterStats[i].Name = CharacterStats[i]._StatType.ToString();
+            CharacterStats[i].StatType = (StatType)System.Enum.GetValues(typeof(StatType)).GetValue(i);
+            CharacterStats[i].Name = CharacterStats[i].StatType.ToString();
         }
     }
 }

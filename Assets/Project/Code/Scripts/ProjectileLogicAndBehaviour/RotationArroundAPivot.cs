@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon.Pun;
 
 public class RotationArroundAPivot : MonoBehaviourPun
 {
     void Update()
     {
-        if (GetComponent<PhotonView>() == null) return;
+        //A besoin d'être commenté pour le local
+       //if (GetComponent<PhotonView>() == null) return;
 
         if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, 100f))
         {

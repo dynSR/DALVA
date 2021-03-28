@@ -92,7 +92,7 @@ public class ProjectileLogic : MonoBehaviour
     #region On hit behaviour
     private void OnTriggerEnter(Collider other)
     {
-        OnProjectileDestruction();
+        InstantiateHitEffectOnCollision(OnHitEffect);
 
         ApplyDamageOnTargetHit(other);
     }
@@ -119,8 +119,8 @@ public class ProjectileLogic : MonoBehaviour
                     ProjectileSender,
                     targetStat.GetStat(StatType.Physical_Resistances).Value,
                     targetStat.GetStat(StatType.Magical_Resistances).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Power).Value + Ability.AbilityPhysicalDamage,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Power).Value + Ability.AbilityMagicalDamage,
+                    Ability.AbilityPhysicalDamage + (Ability.AbilityPhysicalDamage * Ability.AbilityPhysicalRatio),
+                    Ability.AbilityMagicalDamage + (Ability.AbilityMagicalDamage * Ability.AbilityMagicalRatio),
                     ProjectileSenderCharacterStats.GetStat(StatType.Critical_Strike_Chance).Value,
                     175f,
                     ProjectileSenderCharacterStats.GetStat(StatType.Physical_Penetration).Value,
@@ -147,18 +147,6 @@ public class ProjectileLogic : MonoBehaviour
                 }
             }
         }
-    }
-
-    protected void OnProjectileDestruction()
-    {
-        PlaySoundOnCollision();
-        InstantiateHitEffectOnCollision(OnHitEffect);
-    }
-
-    private void PlaySoundOnCollision()
-    {
-        if (onHitSound != null)
-            AudioSource.PlayClipAtPoint(onHitSound, transform.position);
     }
 
     private void InstantiateHitEffectOnCollision(GameObject objToInstantiate)

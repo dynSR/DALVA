@@ -21,11 +21,17 @@ public class AbilityContainerLogic : MonoBehaviour
     public KeyCode AbilityKey { get => abilityKey; set => abilityKey = value; }
     public AbilityLogic ContainedAbility { get => containedAbility; set => containedAbility = value; }
 
-    void Start()
+    private void OnEnable()
     {
         AbilitiesCooldownHandler.OnAbitilityUsed += UpdateAbilityCooldownUI;
-        SetTheAbilityUI(this.ContainedAbility);
     }
+
+    private void OnDisable()
+    {
+        AbilitiesCooldownHandler.OnAbitilityUsed -= UpdateAbilityCooldownUI;
+    }
+
+    void Start() => SetTheAbilityUI(this.ContainedAbility);
 
     protected void SetTheAbilityUI(AbilityLogic containedAbility)
     {

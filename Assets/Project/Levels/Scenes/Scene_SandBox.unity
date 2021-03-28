@@ -521,6 +521,88 @@ RectTransform:
   m_AnchoredPosition: {x: 150, y: -67.5}
   m_SizeDelta: {x: 50, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &17797621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 17797622}
+  - component: {fileID: 17797623}
+  m_Layer: 0
+  m_Name: Renderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &17797622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17797621}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1559557528}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!212 &17797623
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17797621}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: fd47c8b4ebfbd4339858d4d23f587519, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.6, y: 0.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &19984719
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +846,7 @@ GameObject:
   m_Component:
   - component: {fileID: 29675808}
   m_Layer: 0
-  m_Name: RangedAttackEmiterPosition
+  m_Name: Attack_Emiter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1435,9 +1517,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: 1f18ed714a397964c9711bed8d02af6b, type: 2}
-  shopButtonIcon: {fileID: 1093651999}
-  shopButtonItemCostText: {fileID: 961049554}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!222 &43251900
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1865,9 +1947,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 53000536}
-  shopButtonItemCostText: {fileID: 1957982436}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &53000536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2646,9 +2728,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 73233189}
-  shopButtonItemCostText: {fileID: 827595454}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &73233189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3237,9 +3319,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 83509848}
-  shopButtonItemCostText: {fileID: 1757401951}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &83509848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4584,9 +4666,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 113172383}
-  shopButtonItemCostText: {fileID: 1285348704}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &113172383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5533,9 +5615,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 141544319}
-  shopButtonItemCostText: {fileID: 574525065}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &141544319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7334,170 +7416,6 @@ Transform:
   m_Father: {fileID: 619304359}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &187691317
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: View Mesh
-  serializedVersion: 10
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 48
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 18
-    localAABB:
-      m_Center: {x: 0.00000023841858, y: 0, z: 0}
-      m_Extent: {x: 7, y: 7.000001, z: 0.0000009536743}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 000001000200000002000300000003000400000004000500000005000600000006000700000007000800000008000900000009000a0000000a000b0000000b000c0000000c000d0000000d000e0000000e000f0000000f001000000010001100
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 18
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 432
-    _typelessdata: 000000000000000000000000000000000e0109b40000803f000000350200e04000008035c7c8e832234912b40000803f36712bc0f4f2ce40000080358d3d01b3c7b82bb40000803f55649ec056649e4000000035699246b3251519b40000803ff3f2cec033712b4000008034462a32b1b192ccb30000803fffffdfc00200c0340000802992be8027a921bfb30000803ff3f2cec033712bc0000080b4522a3231b292ccb30000803f55649ec056649ec0000000b566924633241519b40000803f32712bc0f4f2cec0000080b58e3d0133c7b82bb40000803f000000000200e0c0000080b500000000234912b40000803f32712b40f4f2cec0000080b58e3d01b3c7b82bb40000803f55649e4056649ec0000000b5669246b3231519b40000803ff2f2ce4033712bc0000080b4522a32b1b192ccb30000803f0000e0400200c0340000802991be80a7a821bfb30000803ff3f2ce4033712b4000008034442a3231b092ccb30000803f55649e4056649e400000003567924633241519b40000803f34712b40f4f2ce40000080358e3d0133c8b82bb40000803f000000b50200e04000008035cac8e8b2234912b40000803f
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0.00000023841858, y: 0, z: 0}
-    m_Extent: {x: 7, y: 7.000001, z: 0.0000009536743}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &188251901
 GameObject:
   m_ObjectHideFlags: 0
@@ -9655,13 +9573,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066451c4e2c375843b85811a36d7bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedCharacter: {fileID: 11400000, guid: c3022ae30947aae45af25555648d2770, type: 2}
+  usedCharacter: {fileID: 0}
   characterAbilities: []
-  amountOfRessourcesGiventOnDeath: 0
   CharacterStats: []
   sourceOfDamage: {fileID: 0}
   timeToRespawn: 0
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  popup: {fileID: 0}
   deathHUD: {fileID: 0}
   deathCustomEvent: 
 --- !u!54 &256505763
@@ -9841,9 +9758,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 920730950}
-  shopButtonItemCostText: {fileID: 622710086}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!222 &257515385
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10759,9 +10676,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: 1f18ed714a397964c9711bed8d02af6b, type: 2}
-  shopButtonIcon: {fileID: 1300460279}
-  shopButtonItemCostText: {fileID: 1481751446}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!222 &264867850
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12054,170 +11971,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!43 &306190433
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: View Mesh
-  serializedVersion: 10
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 48
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 18
-    localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 7, y: 6.9997344, z: 0.06108761}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 000001000200000002000300000003000400000004000500000005000600000006000700000007000800000008000900000009000a0000000a000b0000000b000c0000000c000d0000000d000e0000000e000f0000000f001000000010001100
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 18
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 432
-    _typelessdata: 0000000000000000000000009b6f5aaec3fa0ebc82fd7f3f00000000d3fddfc000377abd37001db3dafa0ebc82fd7f3f33712b40f0f0cec0002b67bd6ce434b3ddfa0ebc82fd7f3f55649e40cb629ec080ed30bdaa213fb3defa0ebc82fd7f3ff2f2ce40876f2bc00081bfbcb17ab1b2a5fa0ebc82fd7f3f0000e04022febf3400785631633250a76efa0ebc82fd7f3ff3f2ce40876f2b400081bf3cb07ab132a3fa0ebc82fd7f3f55649e40cb629e4080ed303da8213f33dcfa0ebc81fd7f3f34712b40f0f0ce40002b673d6ce43433defa0ebc82fd7f3f884524b5d3fddf4000377a3d00000000dafa0ebc82fd7f3f32712bc0f0f0ce40002b673d2e4e38b3defa0ebc81fd7f3f54649ec0cc629e4080ed303d0f917cb2bcfa0ebc82fd7f3ff2f2cec08c6f2b408081bf3c31a72a32b0fa0ebc82fd7f3f0000e0c083fdffb3c0fa8eb02fa72a25cafa0ebc82fd7f3ff1f2cec08d6f2bc08081bfbcbf2c16b2b3fa0ebc82fd7f3f56649ec0c9629ec080ed30bd9e6f5a32bbfa0ebc82fd7f3f32712bc0f2f0cec0002b67bda97a3133dafa0ebc82fd7f3f8845a435d3fddfc000377abd2ea72a33dbfa0ebc82fd7f3f
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 7, y: 6.9997344, z: 0.06108761}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &311134590
 GameObject:
   m_ObjectHideFlags: 0
@@ -12776,7 +12529,7 @@ MonoBehaviour:
   soundPlayedEventActive: 0
   soundPlayedCustomEvent: 
   willCleanUpDelegatesAfterStop: 1
-  frames: 4476
+  frames: 4816
 --- !u!1 &337111564
 GameObject:
   m_ObjectHideFlags: 0
@@ -14617,9 +14370,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 390074453}
-  shopButtonItemCostText: {fileID: 1814465331}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &390074453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15125,9 +14878,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 405754609}
-  - component: {fileID: 405754610}
   m_Layer: 0
-  m_Name: AbilityProjectileEmiterPosition
+  m_Name: AbilityProjectile_Emiter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15141,25 +14893,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405754608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.993455, z: 0.74997145}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1337352110}
+  m_Children: []
   m_Father: {fileID: 1476672209}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &405754610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405754608}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a8bcd0cbd4a15242a819acc86e6ead2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &407765377
 GameObject:
   m_ObjectHideFlags: 0
@@ -15589,7 +15328,7 @@ MonoBehaviour:
   soundPlayedEventActive: 0
   soundPlayedCustomEvent: 
   willCleanUpDelegatesAfterStop: 1
-  frames: 9844
+  frames: 10410
 --- !u!1 &423511560
 GameObject:
   m_ObjectHideFlags: 0
@@ -16983,9 +16722,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1652207654}
-  shopButtonItemCostText: {fileID: 1905041208}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!1 &444898297
 GameObject:
   m_ObjectHideFlags: 0
@@ -17164,9 +16903,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 448765449}
-  shopButtonItemCostText: {fileID: 178946399}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &448765449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18209,9 +17948,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 486502286}
-  shopButtonItemCostText: {fileID: 898208098}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &486502286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18501,9 +18240,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 497097887}
-  shopButtonItemCostText: {fileID: 1770130463}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &497097887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21726,8 +21465,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103.52996, y: -42.321747}
-  m_SizeDelta: {x: 177.05992, y: 54.643494}
+  m_AnchoredPosition: {x: 103.529976, y: -42.361786}
+  m_SizeDelta: {x: 177.05995, y: 54.72357}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &579112326
 MonoBehaviour:
@@ -22049,9 +21788,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 582328066}
-  shopButtonItemCostText: {fileID: 864112045}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &582328066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22363,7 +22102,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595502161}
-  m_Mesh: {fileID: 306190433}
+  m_Mesh: {fileID: 835679216}
 --- !u!1 &597051588
 GameObject:
   m_ObjectHideFlags: 0
@@ -22468,7 +22207,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1476672209}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &597645208
 LineRenderer:
@@ -22686,9 +22425,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 597718460}
-  shopButtonItemCostText: {fileID: 1375969247}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &597718460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25582,13 +25321,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066451c4e2c375843b85811a36d7bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedCharacter: {fileID: 11400000, guid: c3022ae30947aae45af25555648d2770, type: 2}
+  usedCharacter: {fileID: 0}
   characterAbilities: []
-  amountOfRessourcesGiventOnDeath: 0
   CharacterStats: []
   sourceOfDamage: {fileID: 0}
   timeToRespawn: 0
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  popup: {fileID: 0}
   deathHUD: {fileID: 0}
   deathCustomEvent: 
 --- !u!54 &673639193
@@ -29271,139 +29009,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066451c4e2c375843b85811a36d7bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedCharacter: {fileID: 11400000, guid: 52b0a1d9ba90a2043a3695cf8263fc72, type: 2}
+  usedCharacter: {fileID: 0}
   characterAbilities: []
-  amountOfRessourcesGiventOnDeath: 0
   CharacterStats:
-  - Name: Health
-    _StatType: 0
-    BaseValue: 650
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Health_Regeneration
-    _StatType: 1
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Movement_Speed
-    _StatType: 2
-    BaseValue: 3.5
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Resistances
-    _StatType: 3
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Resistances
-    _StatType: 4
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Speed
-    _StatType: 5
-    BaseValue: 0.625
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Range
-    _StatType: 6
-    BaseValue: 7.5
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Power
-    _StatType: 7
-    BaseValue: 50
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Power
-    _StatType: 8
-    BaseValue: 10
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Adaptative_Penetration
-    _StatType: 9
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Penetration
-    _StatType: 10
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Penetration
-    _StatType: 11
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Lifesteal
-    _StatType: 12
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Lifesteal
-    _StatType: 13
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Critical_Strike_Chance
-    _StatType: 14
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Cooldown_Reduction
-    _StatType: 15
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Heal_Shield_Effectiveness
-    _StatType: 16
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Harmful_Effect_Reduction
-    _StatType: 17
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
   sourceOfDamage: {fileID: 0}
   timeToRespawn: 50
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  popup: {fileID: 0}
   deathHUD: {fileID: 0}
   deathCustomEvent: 
 --- !u!114 &784121990
@@ -29630,7 +29367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a33f37a646974f44be6e2e1ffffdf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusEffectApplied: []
+  appliedStatusEffects: []
 --- !u!114 &784122005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29906,8 +29643,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1797037284}
   m_HandleRect: {fileID: 1797037282}
   m_Direction: 2
-  m_Value: 0.99999994
-  m_Size: 0.3882858
+  m_Value: 1.0000001
+  m_Size: 0.3884097
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -30634,7 +30371,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800428708}
-  m_Mesh: {fileID: 187691317}
+  m_Mesh: {fileID: 1499426741}
 --- !u!1 &800878276
 GameObject:
   m_ObjectHideFlags: 0
@@ -31574,6 +31311,170 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!43 &835679216
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: View Mesh
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 48
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 18
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 7, y: 6.9997344, z: 0.06108761}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 000001000200000002000300000003000400000004000500000005000600000006000700000007000800000008000900000009000a0000000a000b0000000b000c0000000c000d0000000d000e0000000e000f0000000f001000000010001100
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 18
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 432
+    _typelessdata: 0000000000000000000000009b6f5aaec3fa0ebc82fd7f3f00000000d3fddfc000377abd37001db3dafa0ebc82fd7f3f33712b40f0f0cec0002b67bd6ce434b3ddfa0ebc82fd7f3f55649e40cb629ec080ed30bdaa213fb3defa0ebc82fd7f3ff2f2ce40876f2bc00081bfbcb17ab1b2a5fa0ebc82fd7f3f0000e04022febf3400785631633250a76efa0ebc82fd7f3ff3f2ce40876f2b400081bf3cb07ab132a3fa0ebc82fd7f3f55649e40cb629e4080ed303da8213f33dcfa0ebc81fd7f3f34712b40f0f0ce40002b673d6ce43433defa0ebc82fd7f3f884524b5d3fddf4000377a3d00000000dafa0ebc82fd7f3f32712bc0f0f0ce40002b673d2e4e38b3defa0ebc81fd7f3f54649ec0cc629e4080ed303d0f917cb2bcfa0ebc82fd7f3ff2f2cec08c6f2b408081bf3c31a72a32b0fa0ebc82fd7f3f0000e0c083fdffb3c0fa8eb02fa72a25cafa0ebc82fd7f3ff1f2cec08d6f2bc08081bfbcbf2c16b2b3fa0ebc82fd7f3f56649ec0c9629ec080ed30bd9e6f5a32bbfa0ebc82fd7f3f32712bc0f2f0cec0002b67bda97a3133dafa0ebc82fd7f3f8845a435d3fddfc000377abd2ea72a33dbfa0ebc82fd7f3f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 7, y: 6.9997344, z: 0.06108761}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &843494078
 GameObject:
   m_ObjectHideFlags: 0
@@ -31915,7 +31816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931518f9ca6c3844891dee74db8ed494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weight: 1
+  weight: 15
   probabilityToPlay: 100
   useLocalization: 0
   useRandomPitch: 1
@@ -36610,9 +36511,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 947360168}
-  shopButtonItemCostText: {fileID: 1285537941}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &947360168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36811,8 +36712,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1554717170}
   m_HandleRect: {fileID: 1554717169}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.38818508
+  m_Value: 1.0000001
+  m_Size: 0.3884097
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -41536,9 +41437,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1081820778}
-  shopButtonItemCostText: {fileID: 2025243344}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1081820778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41686,9 +41587,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1086184708}
-  shopButtonItemCostText: {fileID: 1817067433}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1086184708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42661,7 +42562,7 @@ Transform:
   m_Children:
   - {fileID: 595502162}
   m_Father: {fileID: 1476672209}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1126878016
 MonoBehaviour:
@@ -45085,9 +44986,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1214589101}
-  shopButtonItemCostText: {fileID: 140390525}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1214589101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46331,9 +46232,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1248241311}
-  shopButtonItemCostText: {fileID: 2130352182}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1248241311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47170,7 +47071,7 @@ RectTransform:
   - {fileID: 1411535001}
   - {fileID: 2024680469}
   m_Father: {fileID: 1476672209}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -49207,87 +49108,6 @@ Transform:
   m_Father: {fileID: 1535423621}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1337352109
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1337352110}
-  - component: {fileID: 1337352112}
-  - component: {fileID: 1337352111}
-  m_Layer: 0
-  m_Name: ProjectileEmiterRenderer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1337352110
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337352109}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.75}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_Children: []
-  m_Father: {fileID: 405754609}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1337352111
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337352109}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1337352112
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337352109}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1340933304
 GameObject:
   m_ObjectHideFlags: 0
@@ -49591,7 +49411,7 @@ Transform:
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 1476672209}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &1350534325
 SpriteRenderer:
@@ -51591,139 +51411,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066451c4e2c375843b85811a36d7bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedCharacter: {fileID: 11400000, guid: 52b0a1d9ba90a2043a3695cf8263fc72, type: 2}
+  usedCharacter: {fileID: 0}
   characterAbilities: []
-  amountOfRessourcesGiventOnDeath: 75
   CharacterStats:
-  - Name: Health
-    _StatType: 0
-    BaseValue: 650
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Health_Regeneration
-    _StatType: 1
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Movement_Speed
-    _StatType: 2
-    BaseValue: 3.5
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Resistances
-    _StatType: 3
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Resistances
-    _StatType: 4
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Speed
-    _StatType: 5
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Range
-    _StatType: 6
-    BaseValue: 0.625
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Power
-    _StatType: 7
-    BaseValue: 50
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Power
-    _StatType: 8
-    BaseValue: 10
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Adaptative_Penetration
-    _StatType: 9
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Penetration
-    _StatType: 10
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Penetration
-    _StatType: 11
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Lifesteal
-    _StatType: 12
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Lifesteal
-    _StatType: 13
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Critical_Strike_Chance
-    _StatType: 14
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Cooldown_Reduction
-    _StatType: 15
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Heal_Shield_Effectiveness
-    _StatType: 16
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Harmful_Effect_Reduction
-    _StatType: 17
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
   sourceOfDamage: {fileID: 0}
   timeToRespawn: 0
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  popup: {fileID: 0}
   deathHUD: {fileID: 0}
   deathCustomEvent: 
 --- !u!54 &1394777184
@@ -53913,9 +53732,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1446150695}
-  shopButtonItemCostText: {fileID: 287213806}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1446150695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55304,9 +55123,9 @@ GameObject:
   - component: {fileID: 1476672222}
   - component: {fileID: 1476672221}
   - component: {fileID: 1476672220}
+  - component: {fileID: 1476672230}
   - component: {fileID: 1476672219}
   - component: {fileID: 1476672231}
-  - component: {fileID: 1476672230}
   - component: {fileID: 1476672218}
   - component: {fileID: 1476672217}
   - component: {fileID: 1476672216}
@@ -55337,6 +55156,7 @@ Transform:
   m_Children:
   - {fileID: 854747407}
   - {fileID: 405754609}
+  - {fileID: 1559557528}
   - {fileID: 1277319840}
   - {fileID: 1350534324}
   - {fileID: 597645207}
@@ -55491,7 +55311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe719b4331261d4a981a285c4f4554d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimProjectileEmiterPos: {fileID: 1337352110}
+  aimProjectileEmiterPos: {fileID: 405754609}
 --- !u!114 &1476672219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55517,7 +55337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0a35dbfe00dfe47b4ff8ab67078b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ability: {fileID: 11400000, guid: b56b880d6162c8d47828674971ee6611, type: 2}
+  ability: {fileID: 11400000, guid: a56bfc62c058bbe4eb438efb4d33132e, type: 2}
 --- !u!114 &1476672221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55543,7 +55363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a33f37a646974f44be6e2e1ffffdf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusEffectApplied: []
+  appliedStatusEffects: []
 --- !u!114 &1476672223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55617,139 +55437,152 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066451c4e2c375843b85811a36d7bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedCharacter: {fileID: 11400000, guid: 52b0a1d9ba90a2043a3695cf8263fc72, type: 2}
+  usedCharacter: {fileID: 11400000, guid: 89a8ffc5de46f0f458d3642c66ef8d5b, type: 2}
   characterAbilities: []
-  amountOfRessourcesGiventOnDeath: 0
   CharacterStats:
-  - Name: Health
-    _StatType: 0
-    BaseValue: 15000
-    CapValue: 0
+  - name: Health
+    statType: 0
+    baseValue: 1000
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Health_Regeneration
-    _StatType: 1
-    BaseValue: 0
-    CapValue: 0
+  - name: Health_Regeneration
+    statType: 1
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Movement_Speed
-    _StatType: 2
-    BaseValue: 3.5
-    CapValue: 0
+  - name: HealthShielded
+    statType: 2
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Resistances
-    _StatType: 3
-    BaseValue: 0
-    CapValue: 0
+  - name: Movement_Speed
+    statType: 3
+    baseValue: 3
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Resistances
-    _StatType: 4
-    BaseValue: 0
-    CapValue: 0
+  - name: Physical_Resistances
+    statType: 4
+    baseValue: 25
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Speed
-    _StatType: 5
-    BaseValue: 0.625
-    CapValue: 0
+  - name: Magical_Resistances
+    statType: 5
+    baseValue: 25
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Range
-    _StatType: 6
-    BaseValue: 4
-    CapValue: 0
+  - name: Attack_Speed
+    statType: 6
+    baseValue: 0.625
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Power
-    _StatType: 7
-    BaseValue: 200
-    CapValue: 0
+  - name: Attack_Range
+    statType: 7
+    baseValue: 2
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Power
-    _StatType: 8
-    BaseValue: 100
-    CapValue: 0
+  - name: Physical_Power
+    statType: 8
+    baseValue: 50
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Adaptative_Penetration
-    _StatType: 9
-    BaseValue: 0
-    CapValue: 0
+  - name: Magical_Power
+    statType: 9
+    baseValue: 15
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Penetration
-    _StatType: 10
-    BaseValue: 0
-    CapValue: 0
+  - name: Adaptative_Penetration
+    statType: 10
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Penetration
-    _StatType: 11
-    BaseValue: 0
-    CapValue: 0
+  - name: Physical_Penetration
+    statType: 11
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Lifesteal
-    _StatType: 12
-    BaseValue: 0
-    CapValue: 0
+  - name: Magical_Penetration
+    statType: 12
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Lifesteal
-    _StatType: 13
-    BaseValue: 0
-    CapValue: 0
+  - name: Physical_Lifesteal
+    statType: 13
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Critical_Strike_Chance
-    _StatType: 14
-    BaseValue: 0
-    CapValue: 0
+  - name: Magical_Lifesteal
+    statType: 14
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Cooldown_Reduction
-    _StatType: 15
-    BaseValue: 0
-    CapValue: 0
+  - name: Critical_Strike_Chance
+    statType: 15
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Heal_Shield_Effectiveness
-    _StatType: 16
-    BaseValue: 0
-    CapValue: 0
+  - name: Cooldown_Reduction
+    statType: 16
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Harmful_Effect_Reduction
-    _StatType: 17
-    BaseValue: 0
-    CapValue: 0
+  - name: Heal_Shield_Effectiveness
+    statType: 17
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
+    statModifiers: []
+  - name: Harmful_Effect_Reduction
+    statType: 18
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    icon: {fileID: 0}
+    statModifiers: []
+  - name: RessourcesGiven
+    statType: 19
+    baseValue: 350
+    capValue: 0
+    Value: 0
+    icon: {fileID: 0}
     statModifiers: []
   sourceOfDamage: {fileID: 0}
   timeToRespawn: 3
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 337675683}
   deathCustomEvent: OnDeathEventSound
 --- !u!136 &1476672227
@@ -55816,7 +55649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47ff6a856ccfa64cacb07853f26b421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ability: {fileID: 11400000, guid: 473f49738d214aa4090042f6ed82dbd7, type: 2}
+  ability: {fileID: 11400000, guid: c4a3e2dcb2c888548aea88c05a3423cc, type: 2}
 --- !u!114 &1476672231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58116,6 +57949,170 @@ Transform:
   m_Father: {fileID: 1289455815}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!43 &1499426741
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: View Mesh
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 48
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 18
+    localAABB:
+      m_Center: {x: 0.00000023841858, y: 0, z: 0}
+      m_Extent: {x: 7, y: 7.000001, z: 0.0000009536743}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 000001000200000002000300000003000400000004000500000005000600000006000700000007000800000008000900000009000a0000000a000b0000000b000c0000000c000d0000000d000e0000000e000f0000000f001000000010001100
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 18
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 432
+    _typelessdata: 000000000000000000000000000000000e0109b40000803f000000350200e04000008035c7c8e832234912b40000803f36712bc0f4f2ce40000080358d3d01b3c7b82bb40000803f55649ec056649e4000000035699246b3251519b40000803ff3f2cec033712b4000008034462a32b1b192ccb30000803fffffdfc00200c0340000802992be8027a921bfb30000803ff3f2cec033712bc0000080b4522a3231b292ccb30000803f55649ec056649ec0000000b566924633241519b40000803f32712bc0f4f2cec0000080b58e3d0133c7b82bb40000803f000000000200e0c0000080b500000000234912b40000803f32712b40f4f2cec0000080b58e3d01b3c7b82bb40000803f55649e4056649ec0000000b5669246b3231519b40000803ff2f2ce4033712bc0000080b4522a32b1b192ccb30000803f0000e0400200c0340000802991be80a7a821bfb30000803ff3f2ce4033712b4000008034442a3231b092ccb30000803f55649e4056649e400000003567924633241519b40000803f34712b40f4f2ce40000080358e3d0133c8b82bb40000803f000000b50200e04000008035cac8e8b2234912b40000803f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0.00000023841858, y: 0, z: 0}
+    m_Extent: {x: 7, y: 7.000001, z: 0.0000009536743}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1503394356
 GameObject:
   m_ObjectHideFlags: 0
@@ -60495,7 +60492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a33f37a646974f44be6e2e1ffffdf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusEffectApplied: []
+  appliedStatusEffects: []
 --- !u!114 &1544364123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60565,139 +60562,152 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066451c4e2c375843b85811a36d7bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedCharacter: {fileID: 11400000, guid: 52b0a1d9ba90a2043a3695cf8263fc72, type: 2}
+  usedCharacter: {fileID: 11400000, guid: 89a8ffc5de46f0f458d3642c66ef8d5b, type: 2}
   characterAbilities: []
-  amountOfRessourcesGiventOnDeath: 0
   CharacterStats:
-  - Name: Health
-    _StatType: 0
-    BaseValue: 650
-    CapValue: 0
+  - name: Health
+    statType: 0
+    baseValue: 500
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Health_Regeneration
-    _StatType: 1
-    BaseValue: 0
-    CapValue: 0
+  - name: Health_Regeneration
+    statType: 1
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Movement_Speed
-    _StatType: 2
-    BaseValue: 3.5
-    CapValue: 0
+  - name: HealthShielded
+    statType: 2
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Resistances
-    _StatType: 3
-    BaseValue: 0
-    CapValue: 0
+  - name: Movement_Speed
+    statType: 3
+    baseValue: 3
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Resistances
-    _StatType: 4
-    BaseValue: 0
-    CapValue: 0
+  - name: Physical_Resistances
+    statType: 4
+    baseValue: 25
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Speed
-    _StatType: 5
-    BaseValue: 0.625
-    CapValue: 0
+  - name: Magical_Resistances
+    statType: 5
+    baseValue: 25
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Range
-    _StatType: 6
-    BaseValue: 4
-    CapValue: 0
+  - name: Attack_Speed
+    statType: 6
+    baseValue: 0.625
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Power
-    _StatType: 7
-    BaseValue: 200
-    CapValue: 0
+  - name: Attack_Range
+    statType: 7
+    baseValue: 2
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Power
-    _StatType: 8
-    BaseValue: 100
-    CapValue: 0
+  - name: Physical_Power
+    statType: 8
+    baseValue: 50
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Adaptative_Penetration
-    _StatType: 9
-    BaseValue: 0
-    CapValue: 0
+  - name: Magical_Power
+    statType: 9
+    baseValue: 15
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Penetration
-    _StatType: 10
-    BaseValue: 0
-    CapValue: 0
+  - name: Adaptative_Penetration
+    statType: 10
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Penetration
-    _StatType: 11
-    BaseValue: 0
-    CapValue: 0
+  - name: Physical_Penetration
+    statType: 11
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Lifesteal
-    _StatType: 12
-    BaseValue: 0
-    CapValue: 0
+  - name: Magical_Penetration
+    statType: 12
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Lifesteal
-    _StatType: 13
-    BaseValue: 0
-    CapValue: 0
+  - name: Physical_Lifesteal
+    statType: 13
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Critical_Strike_Chance
-    _StatType: 14
-    BaseValue: 0
-    CapValue: 0
+  - name: Magical_Lifesteal
+    statType: 14
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Cooldown_Reduction
-    _StatType: 15
-    BaseValue: 0
-    CapValue: 0
+  - name: Critical_Strike_Chance
+    statType: 15
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Heal_Shield_Effectiveness
-    _StatType: 16
-    BaseValue: 0
-    CapValue: 0
+  - name: Cooldown_Reduction
+    statType: 16
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Harmful_Effect_Reduction
-    _StatType: 17
-    BaseValue: 0
-    CapValue: 0
+  - name: Heal_Shield_Effectiveness
+    statType: 17
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
+    statModifiers: []
+  - name: Harmful_Effect_Reduction
+    statType: 18
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    icon: {fileID: 0}
+    statModifiers: []
+  - name: Ressources_Given_OnDeath
+    statType: 19
+    baseValue: 350
+    capValue: 0
+    Value: 0
+    icon: {fileID: 0}
     statModifiers: []
   sourceOfDamage: {fileID: 0}
   timeToRespawn: 2
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   deathCustomEvent: 
 --- !u!54 &1544364127
@@ -61144,7 +61154,7 @@ RectTransform:
   m_Father: {fileID: 114054271}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6118149}
+  m_AnchorMin: {x: 0, y: 0.61159027}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -61371,9 +61381,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1557319643}
-  shopButtonItemCostText: {fileID: 627036087}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1557319643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61457,6 +61467,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1559557527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1559557528}
+  - component: {fileID: 1559557529}
+  m_Layer: 0
+  m_Name: LookingDirection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1559557528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559557527}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 17797622}
+  m_Father: {fileID: 1476672209}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1559557529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559557527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8bcd0cbd4a15242a819acc86e6ead2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1560811239
 GameObject:
   m_ObjectHideFlags: 0
@@ -64042,9 +64096,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1623644599}
-  shopButtonItemCostText: {fileID: 1380616300}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1623644599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64520,9 +64574,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1638226228}
-  shopButtonItemCostText: {fileID: 1644832256}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1638226228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64760,7 +64814,7 @@ RectTransform:
   - {fileID: 670143039}
   - {fileID: 473159927}
   m_Father: {fileID: 1476672209}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -66077,9 +66131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1666313649}
-  shopButtonItemCostText: {fileID: 1153458570}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1666313649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68716,12 +68770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f0dd7d976d8804da850d6d5fa5f10a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statModifier:
-    Value: 0.75
-    StatType: 2
-    Type: 200
   statusEffect: {fileID: 11400000, guid: e66daf7ac6c0bac47bf2f297de2d2872, type: 2}
-  target: {fileID: 0}
 --- !u!135 &1733228856
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -70746,9 +70795,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 1782108358}
-  shopButtonItemCostText: {fileID: 137649203}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &1782108358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71531,7 +71580,7 @@ RectTransform:
   m_Father: {fileID: 1648880227}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.61171424}
+  m_AnchorMin: {x: 0, y: 0.61159027}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -72805,139 +72854,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066451c4e2c375843b85811a36d7bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usedCharacter: {fileID: 11400000, guid: 52b0a1d9ba90a2043a3695cf8263fc72, type: 2}
+  usedCharacter: {fileID: 0}
   characterAbilities: []
-  amountOfRessourcesGiventOnDeath: 75
   CharacterStats:
-  - Name: Health
-    _StatType: 0
-    BaseValue: 650
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Health_Regeneration
-    _StatType: 1
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Movement_Speed
-    _StatType: 2
-    BaseValue: 3.5
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Resistances
-    _StatType: 3
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Resistances
-    _StatType: 4
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Speed
-    _StatType: 5
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Attack_Range
-    _StatType: 6
-    BaseValue: 0.625
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Power
-    _StatType: 7
-    BaseValue: 50
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Power
-    _StatType: 8
-    BaseValue: 10
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Adaptative_Penetration
-    _StatType: 9
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Penetration
-    _StatType: 10
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Penetration
-    _StatType: 11
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Physical_Lifesteal
-    _StatType: 12
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Magical_Lifesteal
-    _StatType: 13
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Critical_Strike_Chance
-    _StatType: 14
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Cooldown_Reduction
-    _StatType: 15
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Heal_Shield_Effectiveness
-    _StatType: 16
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
-  - Name: Harmful_Effect_Reduction
-    _StatType: 17
-    BaseValue: 0
-    CapValue: 0
+  - name: 
+    statType: 0
+    baseValue: 0
+    capValue: 0
     Value: 0
-    Color: {r: 0, g: 0, b: 0, a: 0}
+    icon: {fileID: 0}
     statModifiers: []
   sourceOfDamage: {fileID: 0}
   timeToRespawn: 0
-  damagePopUp: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
+  popup: {fileID: 0}
   deathHUD: {fileID: 0}
   deathCustomEvent: 
 --- !u!54 &1821260310
@@ -76008,8 +76056,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 295.58987, y: -42.321747}
-  m_SizeDelta: {x: 177.05992, y: 54.643494}
+  m_AnchoredPosition: {x: 295.58994, y: -42.361786}
+  m_SizeDelta: {x: 177.05995, y: 54.72357}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1904396352
 MonoBehaviour:
@@ -81453,9 +81501,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 1533435813}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 2053863705}
-  shopButtonItemCostText: {fileID: 112321114}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &2053863705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82408,9 +82456,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShop: {fileID: 848873595}
-  shopButtonItem: {fileID: 11400000, guid: cec2c521b83cebc44ae5c50e8320e948, type: 2}
-  shopButtonIcon: {fileID: 2073931130}
-  shopButtonItemCostText: {fileID: 207658193}
+  buttonItem: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  buttonCostText: {fileID: 0}
 --- !u!114 &2073931130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83266,7 +83314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931518f9ca6c3844891dee74db8ed494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weight: 1
+  weight: 15
   probabilityToPlay: 100
   useLocalization: 0
   useRandomPitch: 1

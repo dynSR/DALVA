@@ -2,12 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StatusEffectContainerLogic : MonoBehaviour
+public class StatusEffectContainer : MonoBehaviour
 {
     private TextMeshProUGUI StatusEffectDurationText => GetComponentInChildren<TextMeshProUGUI>();
-    public StatusEffectLogic ContainedStatusEffectSystem { get; set; }
+    public StatusEffect ContainedStatusEffectSystem { get; set; }
 
     private Image StatusEffectIconContained { get => GetComponent<Image>(); set => StatusEffectIconContained = value; }
+    public StatusEffectHandler StatusEffectHandler { get; set; }
 
     private float localTimer;
 
@@ -17,7 +18,7 @@ public class StatusEffectContainerLogic : MonoBehaviour
 
     void SetContainer()
     {
-        SetContainerIcon();
+        SetIcon();
         ResetTimer();
     }
 
@@ -26,14 +27,14 @@ public class StatusEffectContainerLogic : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void SetContainerIcon()
+    private void SetIcon()
     {
-        StatusEffectIconContained.sprite = ContainedStatusEffectSystem.StatusEffect.StatusEffectIcon;
+        StatusEffectIconContained.sprite = ContainedStatusEffectSystem.StatusEffectIcon;
     }
 
     public void ResetTimer()
     {
-        localTimer = ContainedStatusEffectSystem.StatusEffect.StatusEffectDuration;
+        localTimer = ContainedStatusEffectSystem.StatusEffectDuration;
         StatusEffectDurationText.text = localTimer.ToString("0");
     }
 
@@ -53,7 +54,7 @@ public class StatusEffectContainerLogic : MonoBehaviour
 
         if (localTimer <= 0)
         {
-            ContainedStatusEffectSystem.GetTargetStatusEffectHandler(ContainedStatusEffectSystem.Target).RemoveEffectFromStatusEffectHandler(ContainedStatusEffectSystem);
+            StatusEffectHandler.RemoveEffectFromStatusEffectHandler(ContainedStatusEffectSystem);
             DestroyContainer();
         }
     }

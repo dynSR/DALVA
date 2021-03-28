@@ -11,7 +11,7 @@ public class EntityDetection : MonoBehaviour
     [SerializeField] private TypeOfEntity typeOfEntity;
     public TypeOfEntity TypeOfEntity { get => typeOfEntity; }
 
-    private Outline Outline => GetComponent<Outline>();
+    public Outline Outline => GetComponent<Outline>();
 
     private void Start() => SetOutlineColor();
 
@@ -36,8 +36,6 @@ public class EntityDetection : MonoBehaviour
                 break;
             case TypeOfEntity.Harvester:
                 Outline.OutlineColor = Color.yellow;
-                break;
-            default:
                 break;
         }
 

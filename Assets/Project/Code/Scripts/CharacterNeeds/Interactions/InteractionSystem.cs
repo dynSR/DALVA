@@ -8,7 +8,6 @@ public class InteractionSystem : MonoBehaviour
     public delegate void AttackStateHandler();
     public event AttackStateHandler OnAttacking;
 
-
     [Header("TARGETS INFORMATIONS")]
     [SerializeField] private Transform target; //Est en publique pour debug
     [SerializeField] private Transform knownTarget; //Est en publique pour debug
@@ -85,6 +84,10 @@ public class InteractionSystem : MonoBehaviour
             && Target.GetComponent<CharacterStat>().IsDead)
         {
             ResetInteractionState();
+
+            if(Target == Stats.sourceOfDamage)
+                Stats.sourceOfDamage = null;
+
             Target = null;
 
             Debug.Log("TARGET IS DEAD WHILE INTERACTING");
@@ -112,14 +115,14 @@ public class InteractionSystem : MonoBehaviour
         Debug.Log("Attack Interval");
         Controller.CanMove = false;
 
-        Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.Attack_Speed).Value);
+        Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.AttackSpeed).Value);
         Animator.SetBool("Attack", true);
 
         //MeleeAttack(); //Debug without animation
 
         CanPerformAttack = false;
 
-        yield return new WaitForSeconds(1 / Stats.GetStat(StatType.Attack_Speed).Value);
+        yield return new WaitForSeconds(1 / Stats.GetStat(StatType.AttackSpeed).Value);
     }
 
     #region Behaviours of every type of attack - Melee / Ranged
@@ -128,18 +131,23 @@ public class InteractionSystem : MonoBehaviour
         if (Target != null 
             && Target.GetComponent<CharacterStat>() != null)
         {
+            Debug.Log("Melee Attack");
+
             CharacterStat targetStat = Target.GetComponent<CharacterStat>();
+
+            float pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
+            float mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
 
             targetStat.TakeDamage(
                 transform,
-                targetStat.GetStat(StatType.Physical_Resistances).Value,
-                targetStat.GetStat(StatType.Magical_Resistances).Value,
-                Stats.GetStat(StatType.Physical_Power).Value,
-                Stats.GetStat(StatType.Magical_Power).Value,
-                Stats.GetStat(StatType.Critical_Strike_Chance).Value,
+                targetStat.GetStat(StatType.PhysicalResistances).Value,
+                targetStat.GetStat(StatType.MagicalResistances).Value,
+                Stats.GetStat(StatType.PhysicalPower).Value + pPBonus,
+                Stats.GetStat(StatType.MagicalPower).Value + mPBonus,
+                Stats.GetStat(StatType.CriticalStrikeChance).Value,
                 175f,
-                Stats.GetStat(StatType.Physical_Penetration).Value,
-                Stats.GetStat(StatType.Magical_Penetration).Value);
+                Stats.GetStat(StatType.PhysicalPenetration).Value,
+                Stats.GetStat(StatType.MagicalPenetration).Value);
 
             HasPerformedAttack = true;
 
@@ -151,22 +159,34 @@ public class InteractionSystem : MonoBehaviour
     {
         if (Target != null)
         {
-            //Debug.Log("Auto Attack Projectile Instantiated");
+            Debug.Log("Ranged Attack");
 
             GameObject autoAttackProjectile = Instantiate(rangedAttackProjectile, rangedAttackEmiterPosition.position, rangedAttackProjectile.transform.rotation);
 
             ProjectileLogic attackProjectile = autoAttackProjectile.GetComponent<ProjectileLogic>();
 
             attackProjectile.ProjectileType = ProjectileType.TravelsToAPosition;
+
             attackProjectile.ProjectileSender = transform;
             attackProjectile.Target = Target;
 
-            HasPerformedAttack = true;
+            float pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
+            float mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
+
+            HasPerformedAttack = true; 
 
             OnAttacking?.Invoke();
+
+            attackProjectile.TotalPhysicalDamage = Stats.GetStat(StatType.PhysicalPower).Value + pPBonus;
+            attackProjectile.TotalMagicalDamage = Stats.GetStat(StatType.MagicalPower).Value + mPBonus;
         }
     }
     #endregion
+
+    public void AttackEvent()
+    {
+        OnAttacking?.Invoke();
+    }
 
     public virtual void ResetInteractionState()
     {

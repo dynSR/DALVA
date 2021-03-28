@@ -23,134 +23,148 @@ MonoBehaviour:
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Health_Regeneration
+  - name: HealthRegeneration
     statType: 1
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: HealthShielded
+  - name: Shield
     statType: 2
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Movement_Speed
+  - name: MovementSpeed
     statType: 3
     baseValue: 3
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Physical_Resistances
+  - name: PhysicalResistances
     statType: 4
     baseValue: 25
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Magical_Resistances
+  - name: MagicalResistances
     statType: 5
     baseValue: 25
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Attack_Speed
+  - name: AttackSpeed
     statType: 6
     baseValue: 0.625
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Attack_Range
+  - name: AttackRange
     statType: 7
     baseValue: 2
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Physical_Power
+  - name: PhysicalPower
     statType: 8
     baseValue: 50
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Magical_Power
+  - name: MagicalPower
     statType: 9
     baseValue: 15
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Adaptative_Penetration
+  - name: BonusPhysicalPower
     statType: 10
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Physical_Penetration
+  - name: BonusMagicalPower
     statType: 11
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Magical_Penetration
+  - name: AdaptativePenetration
     statType: 12
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Physical_Lifesteal
+  - name: PhysicalPenetration
     statType: 13
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Magical_Lifesteal
+  - name: MagicalPenetration
     statType: 14
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Critical_Strike_Chance
+  - name: PhysicalLifesteal
     statType: 15
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Cooldown_Reduction
+  - name: MagicalLifesteal
     statType: 16
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Heal_Shield_Effectiveness
+  - name: CriticalStrikeChance
     statType: 17
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: Harmful_Effect_Reduction
+  - name: Cooldown_Reduction
     statType: 18
     baseValue: 0
     capValue: 0
     Value: 0
     icon: {fileID: 0}
     statModifiers: []
-  - name: RessourcesGiven
+  - name: HealAndShieldEffectiveness
     statType: 19
+    baseValue: 350
+    capValue: 0
+    Value: 0
+    icon: {fileID: 0}
+    statModifiers: []
+  - name: HarmfulEffectReduction
+    statType: 20
+    baseValue: 350
+    capValue: 0
+    Value: 0
+    icon: {fileID: 0}
+    statModifiers: []
+  - name: RessourcesGiven
+    statType: 21
     baseValue: 350
     capValue: 0
     Value: 0

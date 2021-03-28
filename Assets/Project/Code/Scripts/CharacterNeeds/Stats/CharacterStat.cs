@@ -113,9 +113,9 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
                 //characterPhysicalPower *= 100 / (100 + (/*( */targetPhysicalResistances /* - armorFlatReduction )*/ * (characterPhysicalPenetration / 100)));
 
                 if (isAttackCritical)
-                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.Physical_Power, GetStat(StatType.Physical_Power).Icon, true);
+                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
                 else if (characterPhysicalPower > 0)
-                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.Physical_Power, GetStat(StatType.Physical_Power).Icon);
+                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
             }
 
             if (characterMagicalPower > 0)
@@ -133,9 +133,9 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
                 }
 
                 if (characterPhysicalPower > 0)
-                    StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, StatType.Magical_Power, GetStat(StatType.Magical_Power).Icon));
+                    StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon));
                 else if (characterMagicalPower > 0 && characterMagicalPower > 0)
-                    global::Popup.Create(InFrontOfCharacter, Popup, characterMagicalPower, StatType.Magical_Power, GetStat(StatType.Magical_Power).Icon);
+                    global::Popup.Create(InFrontOfCharacter, Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
             }
             
             this.sourceOfDamage = sourceOfDamage;
@@ -162,9 +162,25 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         if (IsDead && !isDeathEventHandled)
         {
             isDeathEventHandled = true;
+
+            Controller.CharacterAnimator.SetBool("Attack", false);
+            Controller.CharacterAnimator.ResetTrigger("NoTarget");
+
+            if (GetComponent<EntityDetection>() != null) 
+            {
+                GetComponent<EntityDetection>().enabled = false;
+
+                if (GetComponent<EntityDetection>().Outline.enabled)
+                    GetComponent<EntityDetection>().Outline.enabled = false;
+            }
+
+            if (GetComponent<CursorLogic>() != null) GetComponent<CursorLogic>().SetCursorToNormalAppearance();
+
             Controller.Agent.ResetPath();
             GetStat(StatType.Health).Value = 0f;
+
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
+
             MasterAudio.FireCustomEvent(deathCustomEvent, transform);
         }
     }
@@ -223,6 +239,11 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         if (deathHUD != null)
             deathHUD.SetActive(false);
 
+        if (GetComponent<EntityDetection>() != null)
+        {
+            GetComponent<EntityDetection>().enabled = true;
+        }
+
         //Set Position At Spawn Location
         //transform.position = spawnLocation;
         //Spawn Respawn VFX
@@ -241,7 +262,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
             CharacterStats[i].InitValue();
         }
 
-        Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.Movement_Speed).Value);
+        Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.MovementSpeed).Value);
 
         OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
     }
@@ -274,6 +295,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
                 Stat stat = new Stat();
 
                 CharacterStats.Add(stat);
+
                 CharacterStats[i].Name = usedCharacter.CharacterStats[i].Name;
                 CharacterStats[i].StatType = usedCharacter.CharacterStats[i].StatType;
 

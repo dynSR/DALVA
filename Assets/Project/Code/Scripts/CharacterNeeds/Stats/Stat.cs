@@ -5,22 +5,21 @@ using UnityEngine;
 public enum StatType
 {
     //CF Règles équipements > Légende caractéristiques
-    Health, Health_Regeneration, Shield,
-    Movement_Speed, Physical_Resistances, Magical_Resistances,
-    Attack_Speed, Attack_Range, Physical_Power, Magical_Power,
-    Adaptative_Penetration, Physical_Penetration, Magical_Penetration,
-    Physical_Lifesteal, Magical_Lifesteal,
-    Critical_Strike_Chance,
-    Cooldown_Reduction, Heal_Shield_Effectiveness, Harmful_Effect_Reduction,
+    Health, HealthRegeneration, Shield,
+    MovementSpeed, PhysicalResistances, MagicalResistances,
+    AttackSpeed, AttackRange, PhysicalPower, MagicalPower, BonusPhysicalPower, BonusMagicalPower,
+    AdaptativePenetration, PhysicalPenetration, MagicalPenetration,
+    PhysicalLifesteal, MagicalLifesteal,
+    CriticalStrikeChance,
+    Cooldown_Reduction, HealAndShieldEffectiveness, HarmfulEffectReduction,
     RessourcesGiven,
-    None
 }
 
 [Serializable]
 public class Stat
 {
-    [SerializeField] private string name = "[Type In]";
-    [SerializeField] private StatType statType = StatType.None;
+    [SerializeField] private string name;
+    [SerializeField] private StatType statType;
     [SerializeField] private float baseValue = 0f;
     [SerializeField] private float capValue = 0f;
     public float Value; /*{ get; set; }*/
@@ -86,7 +85,7 @@ public class Stat
         if (CapValue > 0 && finalValue >= CapValue)
             finalValue = CapValue;
 
-        Debug.Log(Value);
+        //Debug.Log(Value);
 
         return finalValue;
     }

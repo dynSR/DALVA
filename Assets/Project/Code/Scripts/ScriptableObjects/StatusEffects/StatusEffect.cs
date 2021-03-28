@@ -43,9 +43,9 @@ public class StatusEffect : ScriptableObject
             {
                 GetTargetStats(target).GetStat(statModifiers[i].StatType).AddModifier(statModifiers[i]);
 
-                if (statModifiers[i].StatType == StatType.Movement_Speed)
+                if (statModifiers[i].StatType == StatType.MovementSpeed)
                 {
-                    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.Movement_Speed).Value);
+                    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
                 }
             }
             
@@ -60,9 +60,9 @@ public class StatusEffect : ScriptableObject
         {
             GetTargetStats(target).GetStat(statModifiers[i].StatType).RemoveModifier(statModifiers[i]);
 
-            if (statModifiers[i].StatType == StatType.Movement_Speed)
+            if (statModifiers[i].StatType == StatType.MovementSpeed)
             {
-                GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.Movement_Speed).Value);
+                GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
             }
         }
 

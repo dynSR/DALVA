@@ -27,17 +27,17 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        switch (UtilityClass.GetMainCamera().GetComponent<CameraController>().CameraLockState)
-        {
-            case CameraLockState.Locked:
-                debugCameraStateText.text = "Vérouillée";
-                break;
-            case CameraLockState.Unlocked:
-                debugCameraStateText.text = "Libre";
-                break;
-            default:
-                break;
-        }
+        //switch (UtilityClass.GetMainCamera().GetComponent<CameraController>().CameraLockState)
+        //{
+        //    case CameraLockState.Locked:
+        //        debugCameraStateText.text = "Vérouillée";
+        //        break;
+        //    case CameraLockState.Unlocked:
+        //        debugCameraStateText.text = "Libre";
+        //        break;
+        //    default:
+        //        break;
+        //}
     }
 
     public void OpenCloseDebugSectionWindow()

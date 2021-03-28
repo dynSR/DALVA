@@ -11,6 +11,9 @@ public class NPCController : CharacterController
     public IState currentState; //set to private after tests
     public string CurrentStateName;
 
+    public bool isACampNPC = false;
+    public Transform startingPosition;
+
     #region Refs
     public NPCInteractions NPCInteractions => GetComponent<NPCInteractions>();
     public AggroRange AggroRange => GetComponentInChildren<AggroRange>();
@@ -19,7 +22,13 @@ public class NPCController : CharacterController
     private void Start()
     {
         GetGlobalWaypoints();
-        ChangeState(new MovingState());
+
+        if (isACampNPC)
+        {
+            startingPosition.position = transform.position;
+            ChangeState(new IdlingState());
+        } 
+        else ChangeState(new MovingState());
     }
 
     protected override void Update()
@@ -46,6 +55,17 @@ public class NPCController : CharacterController
         foreach (Transform waypoints in MinionWaypointsManager.Instance.MinionsGlobalWaypoints)
         {
             this.waypoints.Add(waypoints);
+        }
+    }
+
+    public virtual void CheckDistanceFromWaypoint(Transform waypoint)
+    {
+        if (Vector3.Distance(transform.position, waypoint.position) <= 1f)
+        {
+            if (WaypointIndex >= waypoints.Count) return;
+
+            WaypointIndex++;
+            waypointTarget = waypoints[WaypointIndex];
         }
     }
 }

@@ -9,15 +9,22 @@ public class IdlingState : IState
     void IState.Enter(NPCController controller)
     {
         this.controller = controller;
+
+        if(controller.transform.position != controller.startingPosition.position) 
+            controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.startingPosition, 0);
     }
 
     void IState.Exit()
     {
-        throw new System.NotImplementedException();
+        controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.AttackRange).Value;
     }
 
     void IState.OnUpdate()
     {
-        throw new System.NotImplementedException();
+        if (controller.Stats.sourceOfDamage != null)
+        {
+            controller.NPCInteractions.Target = controller.Stats.sourceOfDamage;
+            controller.ChangeState(new AttackingState()); 
+        }
     }
 }

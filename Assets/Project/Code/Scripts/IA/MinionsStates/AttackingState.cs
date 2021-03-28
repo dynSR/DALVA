@@ -40,16 +40,17 @@ class AttackingState : IState
             VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
             //Enemy target is too far away
-            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.Attack_Range).CalculateValue() && targetVisibilityState.IsVisible)
+            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.AttackRange).Value && targetVisibilityState.IsVisible)
             {
                 controller.NPCInteractions.Interact();
             }
 
-            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.Attack_Range).CalculateValue() 
+            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.AttackRange).Value 
                 && controller.NPCInteractions.CanPerformAttack
                 || !targetVisibilityState.IsVisible)
             {
-                controller.ChangeState(new MovingState());
+                //if (controller.isACampNPC) controller.ChangeState(new IdlingState());
+                /*else */controller.ChangeState(new MovingState());
             }
         }
     }

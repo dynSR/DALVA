@@ -31,7 +31,7 @@ public class Ability_Warrior_A : AbilityLogic
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                AbilityBuff(Stats, StatType.Physical_Power, 20, this, 0.3f);
+                AbilityBuff(Stats, StatType.BonusPhysicalPower, 20 + (Stats.GetStat(StatType.PhysicalPower).Value * 0.3f), this);
                 break;
             case AbilityEffect.II:
                 break;
@@ -44,6 +44,6 @@ public class Ability_Warrior_A : AbilityLogic
 
     void RemoveEffect()
     {
-        RemoveAbilityBuff(StatType.Physical_Power, this);
+        RemoveAbilityBuff(StatType.BonusPhysicalPower, this);
     }
 }

@@ -66,7 +66,7 @@ public class AbilityContainerLogic : MonoBehaviour
             cooldownFiller.fillAmount = storedCooldown / containedAbility.Ability.AbilityCooldown;
 
             yield return new WaitForEndOfFrame();
-        } while (storedCooldown > 0);
+        } while (storedCooldown > 0.1f);
 
         //Désactiver le timer text et l'image filled
         cooldownContainerGameObject.SetActive(false);

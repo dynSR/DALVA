@@ -44,6 +44,8 @@ public class CursorLogic : MonoBehaviour
                     case TypeOfEntity.None:
                         break;
                     case TypeOfEntity.Self:
+                        SetCursorToNormalAppearance();
+                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
                     case TypeOfEntity.Enemy:
@@ -62,8 +64,6 @@ public class CursorLogic : MonoBehaviour
                     case TypeOfEntity.Harvester:
                         ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
-                        break;
-                    default:
                         break;
                 }
             }

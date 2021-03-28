@@ -9,7 +9,6 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private ProjectileType projectileType;
     [SerializeField] private float projectileSpeed;
     [SerializeField] private GameObject onHitEffect;
-    [SerializeField] private AudioClip onHitSound;
 
     [SerializeField] private Transform projectileSender;
 
@@ -20,26 +19,19 @@ public class ProjectileLogic : MonoBehaviour
 
     Vector3 targetPosition;
 
+    public float TotalPhysicalDamage { get; set; }
+    public float TotalMagicalDamage { get; set; }
+
     public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
     public float ProjectileSpeed { get => projectileSpeed; }
     public GameObject OnHitEffect { get => onHitEffect; }
     
     public Transform Target { get => target; set => target = value; }
-    public CharacterStat TargetCharacterStats { get => targetStats; set => targetStats = value; }
 
     public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
     public CharacterStat ProjectileSenderCharacterStats => ProjectileSender.GetComponent<CharacterStat>();
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
-
-    private void Start()
-    {
-        if (ProjectileType == ProjectileType.TravelsToAPosition)
-        {
-            if (Target != null)
-                TargetCharacterStats = Target.GetComponent<CharacterStat>();
-        }
-    }
 
     private void FixedUpdate()
     {
@@ -117,14 +109,14 @@ public class ProjectileLogic : MonoBehaviour
                     Debug.Log("Has an ability");
                     targetStat.TakeDamage(
                     ProjectileSender,
-                    targetStat.GetStat(StatType.Physical_Resistances).Value,
-                    targetStat.GetStat(StatType.Magical_Resistances).Value,
-                    Ability.AbilityPhysicalDamage + (Ability.AbilityPhysicalDamage * Ability.AbilityPhysicalRatio),
-                    Ability.AbilityMagicalDamage + (Ability.AbilityMagicalDamage * Ability.AbilityMagicalRatio),
-                    ProjectileSenderCharacterStats.GetStat(StatType.Critical_Strike_Chance).Value,
+                    targetStat.GetStat(StatType.PhysicalResistances).Value,
+                    targetStat.GetStat(StatType.MagicalResistances).Value,
+                    Ability.AbilityPhysicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio),
+                    Ability.AbilityMagicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio),
+                    ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
                     175f,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Penetration).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Penetration).Value);
+                    ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
 
                     Destroy(gameObject);
                 }
@@ -134,14 +126,17 @@ public class ProjectileLogic : MonoBehaviour
 
                     targetStat.TakeDamage(
                     ProjectileSender,
-                    targetStat.GetStat(StatType.Physical_Resistances).Value,
-                    targetStat.GetStat(StatType.Magical_Resistances).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Power).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Power).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Critical_Strike_Chance).Value,
+                    targetStat.GetStat(StatType.PhysicalResistances).Value,
+                    targetStat.GetStat(StatType.MagicalResistances).Value,
+                    TotalPhysicalDamage,
+                    TotalMagicalDamage,
+                    ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
                     175f,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Physical_Penetration).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.Magical_Penetration).Value);
+                    ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
+                    ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
+
+                    Debug.Log(TotalPhysicalDamage);
+                    Debug.Log(TotalMagicalDamage);
 
                     Destroy(gameObject);
                 }

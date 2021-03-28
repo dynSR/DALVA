@@ -40,7 +40,9 @@ public class BaseCharacter : ScriptableObject
     {
         for (int i = 0; i < CharacterStats.Count; i++)
         {
-            CharacterStats[i].StatType = (StatType)System.Enum.GetValues(typeof(StatType)).GetValue(i);
+            if (CharacterStats.Count == System.Enum.GetValues(typeof(StatType)).Length)
+                CharacterStats[i].StatType = (StatType)System.Enum.GetValues(typeof(StatType)).GetValue(i);
+
             CharacterStats[i].Name = CharacterStats[i].StatType.ToString();
         }
     }

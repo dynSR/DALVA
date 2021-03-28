@@ -13,7 +13,7 @@ class MovingState : IState
 
     public void Exit()
     {
-        controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.Attack_Range).Value;
+        controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.AttackRange).Value;
     }
 
     public void OnUpdate()
@@ -25,8 +25,13 @@ class MovingState : IState
         if (controller.NPCInteractions.HasATarget)
             MoveTowardsTarget();
         //OR
-        else
-            MoveTowardsWaypoint();
+        else if (!controller.NPCInteractions.HasATarget)
+        {
+            if (controller.isACampNPC) controller.ChangeState(new IdlingState());
+            else MoveTowardsWaypoint();
+        }
+           
+        controller.CheckDistanceFromWaypoint(controller.waypoints[controller.WaypointIndex]);
     }
 
     void MoveTowardsTarget()
@@ -42,16 +47,16 @@ class MovingState : IState
             controller.DistanceWithTarget = Vector3.Distance(controller.transform.position, controller.NPCInteractions.Target.position);
 
             //Distance is ok to interact - Change current state to attack state
-            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.Attack_Range).CalculateValue())
+            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.AttackRange).Value)
             {
                 Debug.Log("Can Interact");
                 controller.ChangeState(new AttackingState());
             }
             //Distance is not ok to interact - Keep moving
-            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.Attack_Range).CalculateValue())
+            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.AttackRange).Value)
             {
                 Debug.Log("Too far to Interact");
-                controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.NPCInteractions.Target, controller.Stats.GetStat(StatType.Attack_Range).CalculateValue());
+                controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.NPCInteractions.Target, controller.Stats.GetStat(StatType.AttackRange).Value);
             }
         }
     }
@@ -61,16 +66,18 @@ class MovingState : IState
         //Has no enemy target - target is now a waypoint...
         Debug.Log("Need to move towards next waypoint");
 
-        controller.DistanceWithTarget = Vector3.Distance(controller.transform.position, controller.waypointTarget.position);
+        //controller.DistanceWithTarget = Vector3.Distance(controller.transform.position, controller.waypointTarget.position);
 
         //Distance is too high towards next waypoint - Keep moving towards it...
         controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.NPCInteractions.StoppingDistance);
 
         //Distance is ok - Update waypoint index and move towards next waypoint...
-        if (controller.DistanceWithTarget <= 1f)
+        //controller.CheckDistanceFromWaypoint(controller.waypoints[controller.WaypointIndex]);
+
+        if (controller.Stats.sourceOfDamage != null)
         {
-            controller.WaypointIndex++;
-            controller.waypointTarget = controller.waypoints[controller.WaypointIndex];
+            controller.NPCInteractions.Target = controller.Stats.sourceOfDamage;
+            controller.ChangeState(new AttackingState());
         }
     }
 }

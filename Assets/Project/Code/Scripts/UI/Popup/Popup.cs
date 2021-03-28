@@ -18,11 +18,18 @@ public class Popup : MonoBehaviourPun
     [SerializeField] private Color criticalColor;
     [SerializeField] private Color ressourcesColor;
 
+    [Header("ICONS")]
+    [SerializeField] private Sprite physicalDamageIcon;
+    [SerializeField] private Sprite magicalDamageIcon;
+
     private Color textColor;
     Vector3 initRot;
 
     private TextMeshPro ValueText => GetComponent<TextMeshPro>();
     private SpriteRenderer Icon => GetComponentInChildren<SpriteRenderer>();
+
+    public Sprite MagicalDamageIcon { get => magicalDamageIcon; }
+    public Sprite PhysicalDamageIcon { get => physicalDamageIcon; }
 
     public static Popup Create(Vector3 position, GameObject popupGO, float value, StatType stat, Sprite icon, bool isCritical = false)
     {
@@ -64,11 +71,11 @@ public class Popup : MonoBehaviourPun
 
         switch (stat)
         {
-            case StatType.Physical_Power:
+            case StatType.PhysicalPower:
                 if (isCritical) textColor = criticalColor;
                 else textColor = physicalDamageColor;
                 break;
-            case StatType.Magical_Power:
+            case StatType.MagicalPower:
                 textColor = magicalDamageColor;
                 break;
             case StatType.RessourcesGiven:

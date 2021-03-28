@@ -29,7 +29,7 @@ public class PlayerInteractions : InteractionSystem
                     Target = hit.collider.transform;
 
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
-                        StoppingDistance = Stats.GetStat(StatType.Attack_Range).Value;
+                        StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester)
                         StoppingDistance = InteractionRange;
                 }

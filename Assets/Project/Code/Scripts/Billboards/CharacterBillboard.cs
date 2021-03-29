@@ -5,19 +5,28 @@ using UnityEngine.UI;
 public class CharacterBillboard : BillBoard
 {
     [Header("CHARACTER BILLBOARD INFORMATIONS")]
-    [SerializeField] private TextMeshProUGUI characterNameText;
-    [SerializeField] private Image characterHealthBarFilledImage;
     [SerializeField] private TextMeshProUGUI characterLevelText;
+
+    private void OnEnable()
+    {
+        //Call event on level up += setCharacter Level
+    }
+
+    private void OnDisable()
+    {
+        
+    }
 
     protected override void Awake()
     {
         base.Awake();
-
-        //playerNameText.text = GetPhotonNetworkUsername(); --> à ajouter dans la class Utility
+        SetCharacterLevel();
     }
 
-    protected override void LateUpdate()
+    protected override void LateUpdate() => base.LateUpdate();
+
+    void SetCharacterLevel()
     {
-        base.LateUpdate();
+        //characterLevelText = Stats.CurrentLevel.ToString();
     }
 }

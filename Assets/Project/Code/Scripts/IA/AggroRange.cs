@@ -4,7 +4,7 @@ using UnityEngine;
 public class AggroRange : MonoBehaviour
 {
     #region Refs
-    private Collider m_Collider => GetComponent<Collider>();
+    private SphereCollider m_Collider => GetComponent<SphereCollider>();
     private NPCController Controller => GetComponentInParent<NPCController>();
     private NPCInteractions Interactions => GetComponentInParent<NPCInteractions>();
     #endregion
@@ -53,5 +53,13 @@ public class AggroRange : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         m_Collider.enabled = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Color color = Color.yellow;
+        Gizmos.color = color;
+
+        Gizmos.DrawWireSphere(transform.position, m_Collider.radius);
     }
 }

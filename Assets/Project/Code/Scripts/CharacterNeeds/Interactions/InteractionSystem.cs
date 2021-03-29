@@ -85,8 +85,8 @@ public class InteractionSystem : MonoBehaviour
         {
             ResetInteractionState();
 
-            if(Target == Stats.sourceOfDamage)
-                Stats.sourceOfDamage = null;
+            if(Target == Stats.SourceOfDamage)
+                Stats.SourceOfDamage = null;
 
             Target = null;
 

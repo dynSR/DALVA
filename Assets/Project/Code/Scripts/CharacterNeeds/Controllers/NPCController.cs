@@ -1,18 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCController : CharacterController
 {
+    public delegate void IdleStateHandler();
+    public event IdleStateHandler OnEnteringIdleState;
+
+    public delegate void AggroStepHandler(float aggroStep);
+    public event AggroStepHandler OnAggroValueChanged;
+
     public int WaypointIndex { get; set; }
     public Transform waypointTarget = null; //public to debug
     public List<Transform> waypoints; //public to debug
     public float DistanceWithTarget { get; set; }
 
     public IState currentState; //set to private after tests
-    public string CurrentStateName;
+    public string CurrentStateName; //for tests purpose
 
+    [Header("NPC TYPE")]
     public bool isACampNPC = false;
-    public Transform startingPosition;
+
+    [Header("POSITIONNING")]
+    [SerializeField] private Transform positionToLookAt;
+    [SerializeField] private int maxAggroStep = 8;
+    [SerializeField] private int aggroStep = 8;
+    public Transform PositionToLookAt { get => positionToLookAt; }
+    public int AggroStep { get => aggroStep; set => aggroStep = value; }
+    public int MaxAgroStep { get => maxAggroStep; }
+    public Transform StartingPosition { get; set; }
+    public bool IsInIdleState { get; set; }
+    public bool handlingAggroSteps = false;
 
     #region Refs
     public NPCInteractions NPCInteractions => GetComponent<NPCInteractions>();
@@ -23,12 +41,18 @@ public class NPCController : CharacterController
     {
         GetGlobalWaypoints();
 
-        if (isACampNPC)
-        {
-            startingPosition.position = transform.position;
-            ChangeState(new IdlingState());
-        } 
+        if (isACampNPC) ChangeState(new IdlingState());
         else ChangeState(new MovingState());
+    }
+
+    private void OnEnable()
+    {
+        Stats.OnDamageTaken += SetSourceOfDamageAsTarget;
+    }
+
+    private void OnDisable()
+    {
+        Stats.OnDamageTaken -= SetSourceOfDamageAsTarget;
     }
 
     protected override void Update()
@@ -48,8 +72,26 @@ public class NPCController : CharacterController
 
         currentState = newState;
         currentState.Enter(this);
+
+        if(IsInIdleState)
+        {
+            Debug.Log("Current state is IDLE");
+            OnEnteringIdleState?.Invoke();
+            OnAggroValueChanged?.Invoke(MaxAgroStep);
+        }
     }
 
+    private void Reset()
+    {
+        ChangeState(new MovingState());
+
+        Stats.SourceOfDamage = null;
+        Interactions.Target = null;
+
+        Stats.CanTakeDamage = false;
+    }
+
+    #region Handle waypoints
     private void GetGlobalWaypoints()
     {
         foreach (Transform waypoints in MinionWaypointsManager.Instance.MinionsGlobalWaypoints)
@@ -68,4 +110,96 @@ public class NPCController : CharacterController
             waypointTarget = waypoints[WaypointIndex];
         }
     }
+    #endregion
+
+    #region Handle target and source of damage
+    public void SetSourceOfDamageAsTarget()
+    {
+        //if an entity did damage to me it becomes my new current target...
+        if (Stats.SourceOfDamage != null && Stats.SourceOfDamage.GetComponent<VisibilityState>().IsVisible && Stats.SourceOfDamage != NPCInteractions.Target)
+        {
+            if(isACampNPC)
+            {
+                if(!NPCInteractions.HasATarget)
+                {
+                    NPCInteractions.Target = Stats.SourceOfDamage;
+                    ChangeState(new AttackingState());
+                }
+                else if(NPCInteractions.HasATarget)
+                {
+                    CompareTargetAndSourceOfDamagePositions();
+                }
+            }
+        }
+    }
+
+    public void CompareTargetAndSourceOfDamagePositions()
+    {
+        CharacterStat sourceOfDamageStats = Stats.SourceOfDamage.GetComponent<CharacterStat>();
+        VisibilityState sourceOfDamageVisibilityState = Stats.SourceOfDamage.GetComponent<VisibilityState>();
+
+        //if an entity did damage to me and its different from my current target then...
+        if (Stats.SourceOfDamage != null && Stats.SourceOfDamage != NPCInteractions.Target)
+        {
+            //first make sure that this entity (not my target) is not dead and still visible - We directly check the opposite and return if it is true.
+            if (sourceOfDamageStats.IsDead || !sourceOfDamageVisibilityState.IsVisible)
+            {
+                Stats.SourceOfDamage = null;
+                return;
+            }
+
+            float distanceWithCurrentTarget = Vector3.Distance(transform.position, NPCInteractions.Target.position);
+            float distanceWithSourceOfDamage = Vector3.Distance(transform.position, Stats.SourceOfDamage.position);
+
+            //else if the entity did damage to me and is nearer than my actual target, this entity becomes my new current target.
+            if (distanceWithCurrentTarget <= distanceWithSourceOfDamage) return;
+
+            if (distanceWithCurrentTarget > distanceWithSourceOfDamage)
+            {
+                Debug.Log("Current target was too far, need to swap");
+                NPCInteractions.Target = Stats.SourceOfDamage;
+                AggroStep--;
+                OnAggroValueChanged?.Invoke(AggroStep);
+
+                if (AggroStep <= 0) Reset();
+            }
+        }
+    }
+
+    public void CompareCurrentPositionFromStartingPosition()
+    {
+        Vector3 currentPosition = transform.position;
+
+        float distanceFromStartingDistance = DistanceBetweenAAndB(currentPosition, StartingPosition.position);
+
+        if (distanceFromStartingDistance >= 2 && !handlingAggroSteps)
+        {
+            handlingAggroSteps = true;
+            StartCoroutine(DecreaseAggroStepOnReachingLimits(0.5f));
+            Debug.Log("Distance from starting pos : " + distanceFromStartingDistance);
+            Debug.Log("2 meters away from starting position");
+        }
+    }
+
+    IEnumerator DecreaseAggroStepOnReachingLimits(float tic)
+    {
+        do
+        {
+            yield return new WaitForSeconds(tic);
+
+            Debug.Log("Decreasing aggro steps");
+
+            AggroStep--;
+            OnAggroValueChanged?.Invoke(AggroStep);
+
+            if (AggroStep <= 0) Reset();
+        } while (AggroStep > 0);
+    }
+
+    private float DistanceBetweenAAndB(Vector3 a, Vector3 b)
+    {
+        return Vector3.Distance(a, b);
+    }
+
+    #endregion
 }

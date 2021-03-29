@@ -8,6 +8,9 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     public delegate void StatValueChangedHandler(float newValue, float maxValue);
     public event StatValueChangedHandler OnHealthValueChanged;
 
+    public delegate void DamageTakenHandler();
+    public event DamageTakenHandler OnDamageTaken;
+
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
@@ -23,12 +26,12 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     public List<Stat> CharacterStats;
 
     [Header("DEATH PARAMETERS")]
-    public Transform sourceOfDamage;
     [SerializeField] private float timeToRespawn;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
+    public Transform SourceOfDamage { get; set; }
 
     public bool IsDead => GetStat(StatType.Health).Value <= 0f;
-    private bool CanTakeDamage => !IsDead;
+    public bool CanTakeDamage { get; set; }
     private bool isDeathEventHandled = false;
 
     [Header("UI PARAMETERS")]
@@ -40,7 +43,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     [MasterCustomEvent] public string deathCustomEvent;
     EventSounds EventSounds => GetComponent<EventSounds>();
 
-    public Vector3 InFrontOfCharacter => transform.position + new Vector3(0, 0.75f, -0.35f);
+    public Vector3 InFrontOfCharacter => transform.position + new Vector3(0, Controller.Agent.height / 2, 0);
 
     private void OnEnable()
     {
@@ -65,6 +68,8 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
     {
+        CanTakeDamage = true;
+
         foreach (AbilityLogic abilityFound in GetComponents<AbilityLogic>())
         {
             CharacterAbilities.Add(abilityFound);
@@ -138,8 +143,10 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
                     global::Popup.Create(InFrontOfCharacter, Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
             }
             
-            this.sourceOfDamage = sourceOfDamage;
+            this.SourceOfDamage = sourceOfDamage;
             GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
+
+            OnDamageTaken?.Invoke();
 
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
 
@@ -162,6 +169,8 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         if (IsDead && !isDeathEventHandled)
         {
             isDeathEventHandled = true;
+
+            CanTakeDamage = false;
 
             Controller.CharacterAnimator.SetBool("Attack", false);
             Controller.CharacterAnimator.ResetTrigger("NoTarget");
@@ -187,11 +196,11 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
 
     void GiveRessourcesToAPlayerOnDeath(float valueToGive)
     {
-        if (sourceOfDamage != null
-            && sourceOfDamage.GetComponent<CharacterRessources>() != null)
+        if (SourceOfDamage != null
+            && SourceOfDamage.GetComponent<CharacterRessources>() != null)
         {
-            sourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
-            StartCoroutine(CreateDamagePopUpWithDelay(1, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
+            SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
+            StartCoroutine(CreateDamagePopUpWithDelay(1.15f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
             //Debug.Log("Ressources have been given to a player, the last stored source of damage");
         }
     }
@@ -228,12 +237,14 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
         Debug.Log("Respawn");
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
 
+        CanTakeDamage = true;
+
         Controller.CharacterAnimator.SetBool("IsDead", false);
 
         if (Interactions != null)
             Interactions.CanPerformAttack = true;
 
-        sourceOfDamage = null;
+        SourceOfDamage = null;
 
         //Désafficher le HUD de mort après la mort
         if (deathHUD != null)

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 public class IdlingState : IState
 {
     private NPCController controller;
@@ -10,21 +7,22 @@ public class IdlingState : IState
     {
         this.controller = controller;
 
-        if(controller.transform.position != controller.startingPosition.position) 
-            controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.startingPosition, 0);
+        controller.IsInIdleState = true;
+
+        controller.transform.LookAt(controller.PositionToLookAt);
+        controller.Stats.CanTakeDamage = true;
+        controller.AggroStep = 8;
+        controller.handlingAggroSteps = false;
     }
 
     void IState.Exit()
     {
         controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.AttackRange).Value;
+        controller.IsInIdleState = false;
     }
 
     void IState.OnUpdate()
     {
-        if (controller.Stats.sourceOfDamage != null)
-        {
-            controller.NPCInteractions.Target = controller.Stats.sourceOfDamage;
-            controller.ChangeState(new AttackingState()); 
-        }
+
     }
 }

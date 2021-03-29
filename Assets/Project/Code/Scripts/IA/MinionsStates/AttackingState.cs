@@ -37,20 +37,26 @@ class AttackingState : IState
 
             controller.DistanceWithTarget = Vector3.Distance(controller.NPCInteractions.Target.position, controller.transform.position);
 
+            CharacterStat targetStat = controller.NPCInteractions.Target.GetComponent<CharacterStat>();
             VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
-            //Enemy target is too far away
-            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.AttackRange).Value && targetVisibilityState.IsVisible)
+            if (targetStat.IsDead || !targetVisibilityState.IsVisible)
             {
-                controller.NPCInteractions.Interact();
+                if (controller.Stats.SourceOfDamage == controller.NPCInteractions.Target) controller.Stats.SourceOfDamage = null;
+
+                controller.NPCInteractions.Target = null;
+                return;
             }
 
-            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.AttackRange).Value 
-                && controller.NPCInteractions.CanPerformAttack
-                || !targetVisibilityState.IsVisible)
+            //Enemy target is close enough to interact...
+            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.AttackRange).Value && targetVisibilityState.IsVisible)
             {
-                //if (controller.isACampNPC) controller.ChangeState(new IdlingState());
-                /*else */controller.ChangeState(new MovingState());
+                //Interact
+                controller.NPCInteractions.Interact();
+            }
+            else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.AttackRange).Value && controller.NPCInteractions.CanPerformAttack || !targetVisibilityState.IsVisible)
+            {
+                controller.ChangeState(new MovingState());
             }
         }
     }

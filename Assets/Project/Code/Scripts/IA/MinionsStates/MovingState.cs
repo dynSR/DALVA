@@ -47,6 +47,8 @@ class MovingState : IState
 
     void MoveTowardsTarget()
     {
+        Debug.Log("Move Towards Target");
+
         CharacterStat targetStat = controller.NPCInteractions.Target.GetComponent<CharacterStat>();
         VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 

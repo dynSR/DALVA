@@ -6,6 +6,7 @@ public class NPCController : CharacterController
 {
     public delegate void IdleStateHandler();
     public event IdleStateHandler OnEnteringIdleState;
+    public event IdleStateHandler OnExitingIdleState;
 
     public delegate void AggroStepHandler(float aggroStep);
     public event AggroStepHandler OnAggroValueChanged;
@@ -21,16 +22,22 @@ public class NPCController : CharacterController
     [Header("NPC TYPE")]
     public bool isACampNPC = false;
 
-    [Header("POSITIONNING")]
+    [Header("FOREST CAMP NPCS ATTRIBUTES")]
     [SerializeField] private Transform positionToLookAt;
+    [SerializeField] private float aggressionLimitsValue = 2.5f;
+    [SerializeField] private float delayBeforeDecreasingAggroSteps = .5f;
     [SerializeField] private int maxAggroStep = 8;
     [SerializeField] private int aggroStep = 8;
+    private bool aggressionLimitsReached = false;
+    private bool anAllyHasBeenAttacked = false;
+
     public Transform PositionToLookAt { get => positionToLookAt; }
     public int AggroStep { get => aggroStep; set => aggroStep = value; }
     public int MaxAgroStep { get => maxAggroStep; }
     public Transform StartingPosition { get; set; }
     public bool IsInIdleState { get; set; }
-    public bool handlingAggroSteps = false;
+    public bool AggressionLimitsReached { get => aggressionLimitsReached; set => aggressionLimitsReached = value; }
+    public bool AnAllyHasBeenAttacked { get => anAllyHasBeenAttacked; set => anAllyHasBeenAttacked = value; }
 
     #region Refs
     public NPCInteractions NPCInteractions => GetComponent<NPCInteractions>();
@@ -78,6 +85,12 @@ public class NPCController : CharacterController
             Debug.Log("Current state is IDLE");
             OnEnteringIdleState?.Invoke();
             OnAggroValueChanged?.Invoke(MaxAgroStep);
+            AnAllyHasBeenAttacked = false;
+        }
+        else if (!IsInIdleState && !AnAllyHasBeenAttacked)
+        {
+            AnAllyHasBeenAttacked = true;
+            OnExitingIdleState?.Invoke();
         }
     }
 
@@ -172,10 +185,10 @@ public class NPCController : CharacterController
 
         float distanceFromStartingDistance = DistanceBetweenAAndB(currentPosition, StartingPosition.position);
 
-        if (distanceFromStartingDistance >= 2 && !handlingAggroSteps)
+        if (distanceFromStartingDistance >= aggressionLimitsValue && !AggressionLimitsReached)
         {
-            handlingAggroSteps = true;
-            StartCoroutine(DecreaseAggroStepOnReachingLimits(0.5f));
+            AggressionLimitsReached = true;
+            StartCoroutine(DecreaseAggroStepOnReachingLimits(delayBeforeDecreasingAggroSteps));
             Debug.Log("Distance from starting pos : " + distanceFromStartingDistance);
             Debug.Log("2 meters away from starting position");
         }

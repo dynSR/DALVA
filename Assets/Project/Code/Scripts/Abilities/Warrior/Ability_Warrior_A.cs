@@ -29,6 +29,8 @@ public class Ability_Warrior_A : AbilityLogic
     {
         UsedEffectIndex = 0;
         Ability.UsedAbilityEffect = Ability.AbilityEffects[(int)UsedEffectIndex /*int value qui change /rapport au shop*/ ];
+        Interactions.ResetInteractionState();
+        Controller.CharacterAnimator.SetBool("UsesFirstAbility", true);
 
         switch (UsedEffectIndex)
         {
@@ -43,6 +45,8 @@ public class Ability_Warrior_A : AbilityLogic
             case AbilityEffect.IV:
                 break;
         }
+
+        Controller.CharacterAnimator.SetBool("UsesFirstAbility", false);
     }
 
     void RemoveEffect()

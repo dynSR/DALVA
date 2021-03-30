@@ -12,7 +12,7 @@ public class IdlingState : IState
         controller.transform.LookAt(controller.PositionToLookAt);
         controller.Stats.CanTakeDamage = true;
         controller.AggroStep = 8;
-        controller.handlingAggroSteps = false;
+        controller.AggressionLimitsReached = false;
     }
 
     void IState.Exit()

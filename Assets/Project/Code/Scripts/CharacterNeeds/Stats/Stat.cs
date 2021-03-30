@@ -18,12 +18,16 @@ public enum StatType
 [Serializable]
 public class Stat
 {
+    [Header("INFORMATIONS")]
     [SerializeField] private string name;
     [SerializeField] private StatType statType;
+    [SerializeField] private Sprite icon = null;
+
+    [Header("VALUES")]
     [SerializeField] private float baseValue = 0f;
     [SerializeField] private float capValue = 0f;
-    public float Value; /*{ get; set; }*/
-    [SerializeField] private Sprite icon = null;
+    public float Value; /*{ get; set; }*/ //debug
+    public float MaxValue; /*{ get; set; }*/ //debug
 
     #region Public variables
     public List<StatModifier> statModifiers;
@@ -79,11 +83,18 @@ public class Stat
                 {
                     finalValue *= 1 + mod.Value;
                 }
+
+                MaxValue = finalValue;
             }
         }
 
+        
+
         if (CapValue > 0 && finalValue >= CapValue)
             finalValue = CapValue;
+
+        if (finalValue >= MaxValue)
+            finalValue = MaxValue;
 
         //Debug.Log(Value);
 
@@ -93,5 +104,6 @@ public class Stat
     public void InitValue()
     {
         Value = BaseValue;
+        MaxValue = Value;
     }
 }

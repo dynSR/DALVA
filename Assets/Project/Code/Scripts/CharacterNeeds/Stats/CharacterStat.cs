@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStat : MonoBehaviour, IDamageable, IKillable
+public class CharacterStat : MonoBehaviour, IDamageable, IKillable, ICurable, IRegenerable
 {
     public delegate void StatValueChangedHandler(float newValue, float maxValue);
     public event StatValueChangedHandler OnHealthValueChanged;
@@ -25,8 +25,9 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     [Header("STATS")]
     public List<Stat> CharacterStats;
 
-    [Header("DEATH PARAMETERS")]
+    [Header("LIFE PARAMETERS")]
     [SerializeField] private float timeToRespawn;
+    [SerializeField] private GameObject healVFX;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
     public Transform SourceOfDamage { get; set; }
 
@@ -63,7 +64,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
             deathHUD.SetActive(false);
     }
 
-    protected virtual void Update() { OnDeath(); if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); }
+    protected virtual void Update() { OnDeath(); if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f); }
 
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
@@ -163,6 +164,44 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
     }
     #endregion
 
+    #region Heal / Regeneration Section
+    public void RegenerateHealth(Transform target, float regenerationThreshold)
+    {
+        //CharacterStat targetStats = target.GetComponent<CharacterStat>();
+
+        //if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
+        //{
+        //    targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
+        //    OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+        //}
+    }
+
+    public void Heal(Transform target, float healAmount)
+    {
+        CharacterStat targetStats = target.GetComponent<CharacterStat>();
+
+        if (targetStats != null)
+        {
+            if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
+
+            if (targetStats.GetStat(StatType.Health).Value + healAmount >= targetStats.GetStat(StatType.Health).MaxValue)
+            {
+                healAmount = targetStats.GetStat(StatType.Health).MaxValue - targetStats.GetStat(StatType.Health).Value;
+                targetStats.GetStat(StatType.Health).Value += healAmount;
+            }
+            else
+            {
+                targetStats.GetStat(StatType.Health).Value += healAmount;
+            }
+
+            if(healVFX != null)
+                healVFX.SetActive(true);
+
+            OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+        }
+    }
+    #endregion
+
     #region Death and respawn
     public virtual void OnDeath()
     {
@@ -251,9 +290,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable
             deathHUD.SetActive(false);
 
         if (GetComponent<EntityDetection>() != null)
-        {
             GetComponent<EntityDetection>().enabled = true;
-        }
 
         //Set Position At Spawn Location
         //transform.position = spawnLocation;

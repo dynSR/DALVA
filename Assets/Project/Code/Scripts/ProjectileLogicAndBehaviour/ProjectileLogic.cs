@@ -10,10 +10,10 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private float projectileSpeed;
     [SerializeField] private GameObject onHitEffect;
 
-    [SerializeField] private Transform projectileSender;
+    [SerializeField] private Transform projectileSender; //debug
 
-    [SerializeField] private Transform target;
-    [SerializeField] private CharacterStat targetStats;
+    [SerializeField] private Transform target; //debug
+    [SerializeField] private CharacterStat targetStats; //debug
 
     public Ability Ability { get; set; }
 

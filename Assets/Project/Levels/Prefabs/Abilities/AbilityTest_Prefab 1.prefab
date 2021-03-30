@@ -132,7 +132,6 @@ MonoBehaviour:
   projectileType: 1
   projectileSpeed: 4
   onHitEffect: {fileID: 0}
-  onHitSound: {fileID: 0}
   projectileSender: {fileID: 0}
   target: {fileID: 0}
   targetStats: {fileID: 0}
@@ -149,7 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetimeValue: 0.5
-  hasAPredeterminedLifetime: 0
+  DestroyAfterTime: 1
+  HideAfterTime: 0
 --- !u!114 &-6234968454031376555
 MonoBehaviour:
   m_ObjectHideFlags: 0

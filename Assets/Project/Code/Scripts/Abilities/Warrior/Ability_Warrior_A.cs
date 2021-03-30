@@ -5,8 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(ThrowingAbilityProjectile))]
 public class Ability_Warrior_A : AbilityLogic
 {
+    //ADD THE EVENT WHEN THE CHARACTER ATTACHED TO THIS ABILITY ATTACKS
 
-    //ADD THE VENT FOR WHEN THE CHARACTER ATTACHED TO THIS ABILITY ATTACKS
+    [SerializeField] private List<GameObject> abilityEffectsToActivate;
+
     private void OnEnable()
     {
         Interactions.OnAttacking += RemoveEffect;
@@ -31,7 +33,8 @@ public class Ability_Warrior_A : AbilityLogic
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                AbilityBuff(Stats, StatType.BonusPhysicalPower, 20 + (Stats.GetStat(StatType.PhysicalPower).Value * 0.3f), this);
+                AbilityBuff(Stats, StatType.BonusPhysicalPower, 20 + (Stats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio), this);
+                ActivateVFX(abilityEffectsToActivate);
                 break;
             case AbilityEffect.II:
                 break;
@@ -45,5 +48,6 @@ public class Ability_Warrior_A : AbilityLogic
     void RemoveEffect()
     {
         RemoveAbilityBuff(StatType.BonusPhysicalPower, this);
+        DeactivateVFX(abilityEffectsToActivate);
     }
 }

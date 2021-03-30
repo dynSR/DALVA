@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum AbilityEffect
@@ -45,6 +46,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
         }
     }
 
+    #region Handle character position and rotation
     private void AdjustCharacterPositioning()
     {
         if (Ability.InstantCasting) return;
@@ -60,7 +62,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Controller.HandleCharacterRotation(transform, hit.point, Controller.RotateVelocity, Controller.RotationSpeed);
         }
     }
+    #endregion
 
+    #region Handling ability casting
     private IEnumerator ProcessCastingTime(float castDuration)
     {
         //if castDuration == 0 it means that it is considered as an instant cast 
@@ -88,7 +92,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
         
         AbilitiesCooldownHandler.PutAbilityOnCooldown(this);
     }
+    #endregion
 
+    #region Buff 
     protected void AbilityBuff(CharacterStat Stat, StatType type, float flatValue, object source, float percentageValue = 0f)
     {
         if (!CanBeUsed) return;
@@ -112,4 +118,21 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Stats.GetStat(affectedStat).RemoveAllModifiersFromSource(source);
         }
     }
+
+    protected void ActivateVFX(List<GameObject> effects)
+    {
+        for (int i = 0; i < effects.Count; i++)
+        {
+            effects[i].SetActive(true);
+        }
+    }
+
+    protected void DeactivateVFX(List<GameObject> effects)
+    {
+        for (int i = 0; i < effects.Count; i++)
+        {
+            effects[i].SetActive(false);
+        }
+    }
+    #endregion
 }

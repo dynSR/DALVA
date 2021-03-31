@@ -24,6 +24,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     [SerializeField] private Ability ability;
     [SerializeField] private GameObject rangeDisplayer;
+    [SerializeField] private List<GameObject> abilityEffectsToActivate;
     private bool canBeUsed = true;
 
     [SerializeField] private bool normalCast = true;
@@ -33,6 +34,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public Ability Ability { get => ability; }
     public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
     public AbilityEffect UsedEffectIndex { get; set; }
+    public List<GameObject> AbilityEffectsToActivate { get => abilityEffectsToActivate; }
 
     protected abstract void Cast();
 

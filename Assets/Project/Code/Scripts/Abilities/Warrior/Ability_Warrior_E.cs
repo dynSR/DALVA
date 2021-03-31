@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ThrowingAbilityProjectile))]
+[RequireComponent(typeof(DashLogic))]
 public class Ability_Warrior_E : AbilityLogic
 {
-    private ThrowingAbilityProjectile ThrowingProjectile => GetComponent<ThrowingAbilityProjectile>();
+    private DashLogic DashLogic => GetComponent<DashLogic>();
 
     protected override void Update()
     {
@@ -14,6 +14,6 @@ public class Ability_Warrior_E : AbilityLogic
 
     protected override void Cast()
     {
-        StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityProjectilePrefab, ThrowingProjectile.AimProjectileEmiterPos, Ability));
+        //Dash
     }
 }

@@ -4,12 +4,5 @@ using UnityEngine;
 
 public class DashLogic : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
-    }
+
 }

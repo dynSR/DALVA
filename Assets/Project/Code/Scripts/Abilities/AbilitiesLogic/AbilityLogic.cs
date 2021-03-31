@@ -23,8 +23,14 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #endregion
 
     [SerializeField] private Ability ability;
-    public Ability Ability { get => ability; }
+    [SerializeField] private GameObject rangeDisplayer;
     private bool canBeUsed = true;
+
+    [SerializeField] private bool normalCast = true;
+    [SerializeField] private bool fastCastWithIndication = false;
+    [SerializeField] private bool smartCast = false;
+
+    public Ability Ability { get => ability; }
     public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
     public AbilityEffect UsedEffectIndex { get; set; }
 
@@ -34,15 +40,40 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) { return; }
 
-        if (Input.GetKeyDown(Ability.AbilityKey))
+        if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
             if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
 
-            //this reset needs to be used when the ability used cancel the attacking state
-            //Interactions.Target = null;
+            if (normalCast || fastCastWithIndication)
+            {
+                if (rangeDisplayer != null && !rangeDisplayer.activeInHierarchy)
+                {
+                    rangeDisplayer.SetActive(true);
+                }
+            }
+            else if (smartCast)
+            {
+                if (Input.GetKeyDown(Ability.AbilityKey))
+                {
+                    if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
 
+                    AdjustCharacterPositioning();
+                    StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
+                }
+            }
+        }
+
+        if (normalCast && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.LeftClickIsPressed())
+        {
+            rangeDisplayer.SetActive(false);
             AdjustCharacterPositioning();
-            StartCoroutine(ProcessCastingTime(Ability.AbilityCastingTime));
+            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
+        }
+        else if (fastCastWithIndication && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.IsKeyUnpressed(Ability.AbilityKey))
+        {
+            rangeDisplayer.SetActive(false);
+            AdjustCharacterPositioning();
+            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
         }
     }
 
@@ -65,7 +96,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #endregion
 
     #region Handling ability casting
-    private IEnumerator ProcessCastingTime(float castDuration)
+    private IEnumerator ProcessCasting(float castDuration)
     {
         //if castDuration == 0 it means that it is considered as an instant cast 
         //else it is gonna wait before casting the spell

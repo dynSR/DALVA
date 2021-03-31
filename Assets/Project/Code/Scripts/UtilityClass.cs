@@ -71,6 +71,12 @@ public static class UtilityClass
         else return false;
     }
 
+    public static bool IsKeyUnpressed(KeyCode key)
+    {
+        if (Input.GetKeyUp(key)) return true;
+        else return false;
+    }
+
     public static bool IsKeyMaintained(KeyCode key)
     {
         if (Input.GetKey(key)) return true;

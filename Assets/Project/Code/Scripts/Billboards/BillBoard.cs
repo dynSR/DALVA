@@ -28,7 +28,7 @@ public class BillBoard : MonoBehaviourPun
     protected virtual void Awake()
     {
         Canvas.worldCamera = UtilityClass.GetMainCamera();
-        initRot = transform.eulerAngles;
+        initRot.x = transform.eulerAngles.x;
 
         SetCharacterName();
     }
@@ -40,7 +40,7 @@ public class BillBoard : MonoBehaviourPun
 
     private void FreezeLocalRotation()
     {
-        transform.eulerAngles = initRot;
+        transform.eulerAngles = new Vector3(initRot.x, 0f, 0f);
     }
 
     void SetCharacterName()

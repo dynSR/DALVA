@@ -18,11 +18,14 @@ MonoBehaviour:
   abilityIcon: {fileID: 21300000, guid: 7a950e38b89c3e747835fb223034b54f, type: 3}
   abilityProjectilePrefab: {fileID: 7698714164152369823, guid: 45bcffbbaf779ed4ba1228f9a015d9af, type: 3}
   abilityEffects: []
-  abilityCooldown: 5
   abilityPhysicalDamage: 0
   abilityMagicalDamage: 0
+  abilityPhysicalRatio: 0
+  abilityMagicalRatio: 0
   abilityRange: 0
   abilityAreaOfEffect: 0
+  abilityCooldown: 5
   abilityCastingTime: 0
-  abilityEffectDuration: 0
-  instantCasting: 1
+  abilityDuration: 0
+  instantCasting: 0
+  automaticallyPutInCooldown: 1

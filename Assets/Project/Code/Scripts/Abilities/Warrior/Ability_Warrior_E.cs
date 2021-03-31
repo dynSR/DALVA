@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(DashLogic))]
 public class Ability_Warrior_E : AbilityLogic
 {
-    private DashLogic DashLogic => GetComponent<DashLogic>();
-
     protected override void Update()
     {
         base.Update();
@@ -14,6 +11,21 @@ public class Ability_Warrior_E : AbilityLogic
 
     protected override void Cast()
     {
-        //Dash
+        UsedEffectIndex = AbilityEffect.I; //debug
+
+        switch (UsedEffectIndex)
+        {
+            case AbilityEffect.I:
+                PlayAbilityAnimation("UsesFirstAbility");
+                ApplyAbilityAtLocation(CastLocation, Ability.AbilityEffectObject);
+                ResetAbilityAnimation("UsesFirstAbility");
+                break;
+            case AbilityEffect.II:
+                break;
+            case AbilityEffect.III:
+                break;
+            case AbilityEffect.IV:
+                break;
+        }
     }
 }

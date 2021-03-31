@@ -12,6 +12,8 @@ public enum AbilityEffect
 }
 
 [RequireComponent(typeof(AbilitiesCooldownHandler))]
+[RequireComponent(typeof(ThrowingAbilityProjectile))]
+[RequireComponent(typeof(DashLogic))]
 public abstract class AbilityLogic : MonoBehaviourPun
 {
     #region Refs
@@ -20,12 +22,15 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected CharacterController Controller => GetComponent<CharacterController>();
     protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
     protected AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
+    protected ThrowingAbilityProjectile ThrowingProjectile => GetComponent<ThrowingAbilityProjectile>();
+    protected DashLogic DashLogic => GetComponent<DashLogic>();
     #endregion
 
     [SerializeField] private Ability ability;
     [SerializeField] private GameObject rangeDisplayer;
-    [SerializeField] private List<GameObject> abilityEffectsToActivate;
+    [SerializeField] private List<GameObject> abilitVFXToActivate;
     private bool canBeUsed = true;
+    protected Vector3 CastLocation = Vector3.zero;
 
     [SerializeField] private bool normalCast = true;
     [SerializeField] private bool fastCastWithIndication = false;
@@ -34,7 +39,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public Ability Ability { get => ability; }
     public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
     public AbilityEffect UsedEffectIndex { get; set; }
-    public List<GameObject> AbilityEffectsToActivate { get => abilityEffectsToActivate; }
+    public List<GameObject> AbilityVFXToActivate { get => abilitVFXToActivate; }
 
     protected abstract void Cast();
 
@@ -70,6 +75,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
             rangeDisplayer.SetActive(false);
             AdjustCharacterPositioning();
             StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
+            CastLocation = GetCursorPosition(UtilityClass.RayFromMainCameraToMousePosition());
         }
         else if (fastCastWithIndication && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.IsKeyUnpressed(Ability.AbilityKey))
         {
@@ -127,7 +133,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     }
     #endregion
 
-    #region Buff 
+    #region Ability Behaviours 
     protected void AbilityBuff(CharacterStat Stat, StatType type, float flatValue, object source, float percentageValue = 0f)
     {
         if (!CanBeUsed) return;
@@ -152,6 +158,37 @@ public abstract class AbilityLogic : MonoBehaviourPun
         }
     }
 
+    private Vector3 GetCursorPosition(Ray ray)
+    {
+        Vector3 cursorPosition = Vector3.zero;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        {
+            cursorPosition = hit.point;
+        }
+
+        return cursorPosition;
+    }
+
+    protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false)
+    {
+        if (resetAutoAttack)
+            Interactions.ResetInteractionState();
+
+        Controller.CharacterAnimator.SetBool(animationName, true);
+    }
+
+    protected void ResetAbilityAnimation(string animationName)
+    {
+        Controller.CharacterAnimator.SetBool(animationName, false);
+    }
+    protected void ApplyAbilityAtLocation(Vector3 pos, GameObject applicationInstance)
+    {
+        Instantiate(applicationInstance, pos, Quaternion.identity);
+    }
+    #endregion
+
+    #region VFX
     protected void ActivateVFX(List<GameObject> effects)
     {
         for (int i = 0; i < effects.Count; i++)

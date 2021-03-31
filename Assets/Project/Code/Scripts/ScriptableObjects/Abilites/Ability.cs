@@ -9,8 +9,7 @@ public class Ability : ScriptableObject
     [TextArea][SerializeField] private string abilityDescription;
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private Sprite abilityIcon;
-    [SerializeField] private GameObject abilityProjectilePrefab;
-    [SerializeField] private List<StatusEffect> abilityEffects;
+    [SerializeField] private GameObject abilityEffectObject;
 
     [Header("DAMAGE ATTRIBUTES")]
     [SerializeField] private float abilityPhysicalDamage = 0f;
@@ -36,7 +35,7 @@ public class Ability : ScriptableObject
     public string AbilityDescription { get => abilityDescription; }
     public KeyCode AbilityKey { get => abilityKey; }
     public Sprite AbilityIcon { get => abilityIcon; }
-    public GameObject AbilityProjectilePrefab { get => abilityProjectilePrefab; }
+    public GameObject AbilityEffectObject { get => abilityEffectObject; }
     public bool AutomaticallyPutInCooldown { get => automaticallyPutInCooldown; }
 
    
@@ -53,8 +52,5 @@ public class Ability : ScriptableObject
     public float AbilityDuration { get => abilityDuration; set => abilityDuration = value; }
 
     public bool InstantCasting { get => instantCasting; set => instantCasting = value; }
-
-    public StatusEffect UsedAbilityEffect { get; set; }
-    public List<StatusEffect> AbilityEffects { get => abilityEffects; set => abilityEffects = value; }
     #endregion
 }

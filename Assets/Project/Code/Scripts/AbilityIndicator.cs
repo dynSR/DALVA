@@ -4,7 +4,7 @@ public class AbilityIndicator : MonoBehaviour
 {
     [SerializeField] private bool isAttachedToPlayer = false;
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (gameObject.activeInHierarchy)
         {

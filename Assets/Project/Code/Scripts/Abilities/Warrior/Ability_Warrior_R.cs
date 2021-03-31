@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(ThrowingAbilityProjectile))]
 public class Ability_Warrior_R : AbilityLogic
 {
-    private ThrowingAbilityProjectile ThrowingProjectile => GetComponent<ThrowingAbilityProjectile>();
-
     protected override void Update()
     {
         base.Update();
@@ -14,6 +12,6 @@ public class Ability_Warrior_R : AbilityLogic
 
     protected override void Cast()
     {
-        StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityProjectilePrefab, ThrowingProjectile.AimProjectileEmiterPos, Ability));
+        Stats.Heal(transform, 450);
     }
 }

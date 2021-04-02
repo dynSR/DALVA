@@ -34,7 +34,7 @@ public class InteractionSystem : MonoBehaviour
     public float StoppingDistance { get; set; }
 
     #region References
-    protected CharacterStat Stats => GetComponent<CharacterStat>();
+    protected EntityStats Stats => GetComponent<EntityStats>();
     protected CharacterController Controller => GetComponent<CharacterController>();
     protected Animator Animator { get => characterAnimator; }
     #endregion
@@ -80,8 +80,8 @@ public class InteractionSystem : MonoBehaviour
     #region Interaction
     public virtual void Interact()
     {
-        if (Target.GetComponent<CharacterStat>() != null 
-            && Target.GetComponent<CharacterStat>().IsDead)
+        if (Target.GetComponent<EntityStats>() != null 
+            && Target.GetComponent<EntityStats>().IsDead)
         {
             ResetInteractionState();
 
@@ -129,11 +129,11 @@ public class InteractionSystem : MonoBehaviour
     public void MeleeAttack()
     {
         if (Target != null 
-            && Target.GetComponent<CharacterStat>() != null)
+            && Target.GetComponent<EntityStats>() != null)
         {
             Debug.Log("Melee Attack");
 
-            CharacterStat targetStat = Target.GetComponent<CharacterStat>();
+            EntityStats targetStat = Target.GetComponent<EntityStats>();
 
             float pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
             float mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;

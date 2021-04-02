@@ -3,23 +3,28 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HarvesterBillboard : BillBoard
+public class HarvesterBillboard : Billboard
 {
     [Header("HARVESTER BILLBOARD INFORMATIONS")]
     [SerializeField] private TextMeshProUGUI harvestedRessourcesText;
     [SerializeField] private Image filledImage;
+    private HarvesterLogic harvester;
 
     private void OnEnable()
     {
-        HarvesterLogic.OnHarvestingRessources += SetHarvesterUIElements;
+        harvester.OnHarvestingRessources += SetHarvesterUIElements;
     }
 
     private void OnDisable()
     {
-        HarvesterLogic.OnHarvestingRessources -= SetHarvesterUIElements;
+        harvester.OnHarvestingRessources -= SetHarvesterUIElements;
     }
 
-    protected override void Awake() => base.Awake();
+    protected override void Awake()
+    {
+        harvester = GetComponentInParent<HarvesterLogic>();
+        base.Awake();
+    }
 
     protected override void LateUpdate() => base.LateUpdate();
 

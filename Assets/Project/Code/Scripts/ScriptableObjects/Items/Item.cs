@@ -24,7 +24,7 @@ public class Item : ScriptableObject
     public int AmountOfGoldRefundedOnSale { get => amountOfGoldRefundedOnSale; }
     public InventoryBox InventoryBox { get => inventoryBox; set => inventoryBox = value; }
 
-    public void Equip(CharacterStat c)
+    public void Equip(EntityStats c)
     {
         for (int i = 0; i < c.CharacterStats.Count; i++)
         {
@@ -38,7 +38,7 @@ public class Item : ScriptableObject
         }
     }
 
-    public void Unequip(CharacterStat c)
+    public void Unequip(EntityStats c)
     {
         Debug.Log("Casting Unequip");
         for (int i = c.CharacterStats.Count - 1; i >= 0; i--)

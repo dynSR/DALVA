@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +7,7 @@ public enum HarvestState { WaitsUntilHarvestingIsPossible, IsHarvesting, Reiniti
 public class HarvesterLogic : MonoBehaviour
 {
     public delegate void HarvestEvent(float current, float maximum);
-    public static event HarvestEvent OnHarvestingRessources;
+    public event HarvestEvent OnHarvestingRessources;
 
     [Header("RESSOURCES")]
     [SerializeField] private float maxHarvestableRessourcesValue;
@@ -24,15 +23,15 @@ public class HarvesterLogic : MonoBehaviour
     [SerializeField] private Image harvestingFeedbackImage;
     public HarvestState harvestState; //Its in public for debug purpose
 
-    public PlayerInteractions interactingPlayer;
-    public bool IsInteractable => CurrentHarvestedRessourcesValue >= .5f && harvestState == HarvestState.IsHarvesting;
+    public PlayerInteractions InteractingPlayer /*{ get; set; }*/;
+    public bool IsInteractable => CurrentHarvestedRessourcesValue >= 1.25f && harvestState == HarvestState.IsHarvesting;
     private bool LimitReached => CurrentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
 
     private EntityDetection EntityDetection => GetComponent<EntityDetection>();
 
     void Start() => InitHarvester();
 
-    void Update()
+    void LateUpdate()
     {
         switch (harvestState)
         {
@@ -65,7 +64,7 @@ public class HarvesterLogic : MonoBehaviour
 
     private void HarvestRessourcesOverTime()
     {
-        if (interactingPlayer != null)
+        if (InteractingPlayer != null)
         {
             harvestState = HarvestState.PlayerIsHarvestingRessources;
             return;
@@ -86,7 +85,7 @@ public class HarvesterLogic : MonoBehaviour
 
         if (timeSpentHarvesting >= totalTimeToHarvest)
         {
-            CharacterStat interactingPlayerStat = interactingPlayer.GetComponent<CharacterStat>();
+            EntityStats interactingPlayerStat = InteractingPlayer.GetComponent<EntityStats>();
 
             GiveRessourcesToPlayer((int)CurrentHarvestedRessourcesValue);
             harvestState = HarvestState.Reinitialization;
@@ -96,14 +95,14 @@ public class HarvesterLogic : MonoBehaviour
 
     private void GiveRessourcesToPlayer(int amnt)
     {
-        interactingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources += amnt;
+        InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources += amnt;
     }
 
     public void ResetAfterInteraction()
     {
         harvestState = HarvestState.IsHarvesting;
 
-        interactingPlayer = null;
+        InteractingPlayer = null;
 
         ResetHarvestingFeedback();
     }
@@ -122,11 +121,11 @@ public class HarvesterLogic : MonoBehaviour
 
         StartCoroutine(WaitingState(reinitializationDelay, HarvestState.IsHarvesting));
 
-        if (interactingPlayer != null)
+        if (InteractingPlayer != null)
         {
-            interactingPlayer.Target = null;
-            interactingPlayer.ResetInteractionState();
-            interactingPlayer = null;
+            InteractingPlayer.Target = null;
+            InteractingPlayer.ResetInteractionState();
+            InteractingPlayer = null;
         }
     }
 

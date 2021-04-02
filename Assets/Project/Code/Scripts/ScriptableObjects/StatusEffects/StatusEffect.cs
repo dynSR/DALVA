@@ -76,9 +76,9 @@ public class StatusEffect : ScriptableObject
         return target.GetComponent<CharacterController>();
     }
 
-    public CharacterStat GetTargetStats(Transform target)
+    public EntityStats GetTargetStats(Transform target)
     {
-        return target.GetComponent<CharacterStat>();
+        return target.GetComponent<EntityStats>();
     }
 
     public StatusEffectHandler GetTargetStatusEffectHandler(Transform target)

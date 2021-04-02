@@ -13,7 +13,7 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private Transform projectileSender; //debug
 
     [SerializeField] private Transform target; //debug
-    [SerializeField] private CharacterStat targetStats; //debug
+    [SerializeField] private EntityStats targetStats; //debug
 
     public Ability Ability { get; set; }
 
@@ -29,7 +29,7 @@ public class ProjectileLogic : MonoBehaviour
     public Transform Target { get => target; set => target = value; }
 
     public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
-    public CharacterStat ProjectileSenderCharacterStats => ProjectileSender.GetComponent<CharacterStat>();
+    public EntityStats ProjectileSenderCharacterStats => ProjectileSender.GetComponent<EntityStats>();
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
@@ -91,12 +91,12 @@ public class ProjectileLogic : MonoBehaviour
 
     protected void ApplyDamageOnTargetHit(Collider targetCollider)
     {
-        if (targetCollider.gameObject.GetComponent<CharacterStat>() != null)
+        if (targetCollider.gameObject.GetComponent<EntityStats>() != null)
         {
             Debug.Log("Enemy touched !");
 
             EntityDetection entityFound = targetCollider.gameObject.GetComponent<EntityDetection>();
-            CharacterStat targetStat = targetCollider.GetComponent<CharacterStat>();
+            EntityStats targetStat = targetCollider.GetComponent<EntityStats>();
 
             //Ability projectile damage appplication
             if (entityFound.TypeOfEntity == TypeOfEntity.Enemy)

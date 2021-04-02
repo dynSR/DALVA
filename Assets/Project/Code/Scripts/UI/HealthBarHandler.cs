@@ -4,11 +4,11 @@ using UnityEngine.UI;
 public class HealthBarHandler : MonoBehaviour
 {
     private Image HealthBarFill => transform.GetChild(1).GetComponent<Image>();
-    private CharacterStat stats /*=> transform.parent.GetComponentInParent<CharacterStat>()*/;
+    private EntityStats stats /*=> transform.parent.GetComponentInParent<CharacterStat>()*/;
 
     private void Awake()
     {
-        stats = transform.parent.GetComponentInParent<CharacterStat>();
+        stats = transform.parent.GetComponentInParent<EntityStats>();
     }
 
     private void OnEnable()

@@ -13,7 +13,7 @@ namespace GameNetwork
 
         public bool dalvasTeam;
 
-        public static CharacterStat myCharacterStats = null;
+        public static EntityStats myCharacterStats = null;
 
         protected virtual void Awake()
         {
@@ -38,7 +38,7 @@ namespace GameNetwork
             if (photonView.IsMine)
             {
                 playerHUD.SetActive(true);
-                myCharacterStats = GetComponent<CharacterStat>();
+                myCharacterStats = GetComponent<EntityStats>();
             }            
         }
     }

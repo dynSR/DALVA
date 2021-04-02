@@ -10,7 +10,7 @@ public class VisibilityState : MonoBehaviour
     [SerializeField] private bool visibilityStateCanChange = true;
 
     #region Refs
-    private CharacterStat Character => GetComponent<CharacterStat>();
+    private EntityStats Character => GetComponent<EntityStats>();
     private EntityDetection EntityDetection => GetComponent<EntityDetection>();
     #endregion
 

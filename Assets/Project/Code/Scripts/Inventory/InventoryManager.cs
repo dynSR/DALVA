@@ -43,7 +43,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (InventoryIsEmpty) return;
 
-        inventoryBox.StoredItem.Unequip(Shop.Player.GetComponent<CharacterStat>());
+        inventoryBox.StoredItem.Unequip(Shop.Player.GetComponent<EntityStats>());
 
         NumberOfFullInventoryBoxes--;
         inventoryBox.ResetInventoryBoxStoredItem(inventoryBox);
@@ -60,7 +60,7 @@ public class InventoryManager : MonoBehaviour
                 NumberOfFullInventoryBoxes++;
                 InventoryBoxes[i].ChangeInventoryBoxStoredItem(item, item.ItemIcon);
 
-                item.Equip(Shop.Player.GetComponent<CharacterStat>());
+                item.Equip(Shop.Player.GetComponent<EntityStats>());
 
                 if (hasBeenPurchased)
                     Shop.AddShopActionOnPurchase(InventoryBoxes[i]);

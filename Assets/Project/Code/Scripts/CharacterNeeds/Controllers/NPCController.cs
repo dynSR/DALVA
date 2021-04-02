@@ -148,7 +148,7 @@ public class NPCController : CharacterController
 
     public void CompareTargetAndSourceOfDamagePositions()
     {
-        CharacterStat sourceOfDamageStats = Stats.SourceOfDamage.GetComponent<CharacterStat>();
+        EntityStats sourceOfDamageStats = Stats.SourceOfDamage.GetComponent<EntityStats>();
         VisibilityState sourceOfDamageVisibilityState = Stats.SourceOfDamage.GetComponent<VisibilityState>();
 
         //if an entity did damage to me and its different from my current target then...

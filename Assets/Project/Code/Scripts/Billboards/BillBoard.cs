@@ -3,27 +3,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BillBoard : MonoBehaviourPun
+public class Billboard : MonoBehaviourPun
 {
-    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] protected TextMeshProUGUI nameText;
 
     #region Ref
-    protected CharacterStat Stats => GetComponentInParent<CharacterStat>();
+    protected EntityStats Stats => GetComponentInParent<EntityStats>();
     #endregion
 
     private Canvas Canvas => GetComponent<Canvas>();
 
     Vector3 initRot;
-
-    private void OnEnable()
-    {
-        //Call event for when character is stunned 
-    }
-
-    private void OnDisable()
-    {
-        
-    }
 
     protected virtual void Awake()
     {

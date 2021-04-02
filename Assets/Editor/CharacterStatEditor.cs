@@ -2,12 +2,12 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(CharacterStat))]
+[CustomEditor(typeof(EntityStats))]
 public class CharacterStatEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        CharacterStat m_Target = (CharacterStat)target;
+        EntityStats m_Target = (EntityStats)target;
 
         DrawDefaultInspector();
 

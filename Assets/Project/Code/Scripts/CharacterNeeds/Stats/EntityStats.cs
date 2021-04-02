@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStat : MonoBehaviour, IDamageable, IKillable, ICurable, IRegenerable
+public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IRegenerable
 {
     public delegate void StatValueChangedHandler(float newValue, float maxValue);
     public event StatValueChangedHandler OnHealthValueChanged;
@@ -168,7 +168,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable, ICurable, IR
     #region Heal / Regeneration Section
     public void RegenerateHealth(Transform target, float regenerationThreshold)
     {
-        CharacterStat targetStats = target.GetComponent<CharacterStat>();
+        EntityStats targetStats = target.GetComponent<EntityStats>();
 
         if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
         {
@@ -194,7 +194,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable, ICurable, IR
 
     public void Heal(Transform target, float healAmount)
     {
-        CharacterStat targetStats = target.GetComponent<CharacterStat>();
+        EntityStats targetStats = target.GetComponent<EntityStats>();
 
         if (targetStats != null)
         {

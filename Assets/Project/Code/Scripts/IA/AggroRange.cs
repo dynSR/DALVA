@@ -26,7 +26,7 @@ public class AggroRange : MonoBehaviour
 
         if (entityDetection != null
             && entityDetection.TypeOfEntity == TypeOfEntity.Enemy
-            && !other.GetComponent<CharacterStat>().IsDead
+            && !other.GetComponent<EntityStats>().IsDead
             && other.GetComponent<VisibilityState>().IsVisible)
         {
             if (Interactions.HasATarget) return;

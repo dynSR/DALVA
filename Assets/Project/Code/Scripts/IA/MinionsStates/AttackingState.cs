@@ -37,7 +37,7 @@ class AttackingState : IState
 
             controller.DistanceWithTarget = Vector3.Distance(controller.NPCInteractions.Target.position, controller.transform.position);
 
-            CharacterStat targetStat = controller.NPCInteractions.Target.GetComponent<CharacterStat>();
+            EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
             VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
             if (targetStat.IsDead || !targetVisibilityState.IsVisible)

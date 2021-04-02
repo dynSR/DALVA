@@ -25,7 +25,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     #region Refs
     protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
-    public CharacterStat Stats => GetComponent<CharacterStat>();
+    public EntityStats Stats => GetComponent<EntityStats>();
     public NavMeshAgent Agent => GetComponent<NavMeshAgent>();
     #endregion
 

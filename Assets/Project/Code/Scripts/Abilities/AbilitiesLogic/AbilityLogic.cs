@@ -18,7 +18,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 {
     #region Refs
     public Transform Player => GetComponent<Transform>();
-    protected CharacterStat Stats => GetComponent<CharacterStat>();
+    protected EntityStats Stats => GetComponent<EntityStats>();
     protected CharacterController Controller => GetComponent<CharacterController>();
     protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
     protected AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
@@ -168,7 +168,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #endregion
 
     #region Ability Behaviours 
-    protected void AbilityBuff(CharacterStat Stat, StatType type, float flatValue, object source, float percentageValue = 0f)
+    protected void AbilityBuff(EntityStats Stat, StatType type, float flatValue, object source, float percentageValue = 0f)
     {
         if (!CanBeUsed) return;
 

@@ -4,7 +4,7 @@ public class CharacterAnimations : MonoBehaviour
 {
     public Animator MyAnimator => GetComponent<Animator>();
     private InteractionSystem Interactions => GetComponentInParent<InteractionSystem>();
-    private CharacterStat Stats => GetComponentInParent<CharacterStat>();
+    private EntityStats Stats => GetComponentInParent<EntityStats>();
 
     private void Awake()
     {

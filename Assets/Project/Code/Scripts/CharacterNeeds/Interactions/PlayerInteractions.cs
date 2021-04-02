@@ -3,7 +3,9 @@
 public class PlayerInteractions : InteractionSystem
 {
     [SerializeField] private bool isHarvesting = false;
+    [SerializeField] private bool isInteractingWithAStele = false;
     public bool IsHarvesting { get => isHarvesting; set => isHarvesting = value; }
+    public bool IsInteractingWithAStele { get => isInteractingWithAStele; set => isInteractingWithAStele = value; }
 
     protected override void Update()
     {
@@ -30,7 +32,8 @@ public class PlayerInteractions : InteractionSystem
 
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
                         StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
-                    if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester)
+                    if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester
+                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele)
                         StoppingDistance = InteractionRange;
                 }
                 else
@@ -65,6 +68,26 @@ public class PlayerInteractions : InteractionSystem
         base.Interact();
 
         HarvesterInteraction();
+        SteleInteraction();
+    }
+
+    void SteleInteraction()
+    {
+        if (Target != null)
+        {
+            SteleLogic stele = Target.GetComponent<SteleLogic>();
+
+            if (stele != null && stele.IsInteractable)
+            {
+                IsInteractingWithAStele = true;
+                Animator.SetBool("Attack", false);
+                Animator.SetBool("IsCollecting", false);
+
+                stele.InteractingPlayer = this;
+
+                Debug.Log("Interaction with a stele !");
+            }
+        }
     }
 
     void HarvesterInteraction()
@@ -79,7 +102,7 @@ public class PlayerInteractions : InteractionSystem
                 Animator.SetBool("Attack", false);
                 Animator.SetBool("IsCollecting", true);
 
-                harvester.interactingPlayer = this;
+                harvester.InteractingPlayer = this;
 
                 Debug.Log("Interaction with harvester !");
             }

@@ -1,15 +1,16 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class CharacterBillboard : BillBoard
+public class CharacterBillboard : Billboard
 {
     [Header("CHARACTER BILLBOARD INFORMATIONS")]
     [SerializeField] private TextMeshProUGUI characterLevelText;
+    [SerializeField] private string stunStatus;
 
     private void OnEnable()
     {
         //Call event on level up += setCharacter Level
+        //Call event for when character is stunned 
     }
 
     private void OnDisable()
@@ -28,5 +29,12 @@ public class CharacterBillboard : BillBoard
     void SetCharacterLevel()
     {
         //characterLevelText = Stats.CurrentLevel.ToString();
+    }
+
+    void SetCharacterStatus()
+    {
+        //if stunned
+        nameText.text = stunStatus;
+        //else if smth else
     }
 }

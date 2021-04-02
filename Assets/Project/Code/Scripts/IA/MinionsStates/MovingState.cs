@@ -20,7 +20,7 @@ class MovingState : IState
     {
         Debug.Log("MOVING");
 
-        if (controller.GetComponent<CharacterStat>().IsDead || !controller.CanMove) return;
+        if (controller.GetComponent<EntityStats>().IsDead || !controller.CanMove) return;
 
         controller.CompareCurrentPositionFromStartingPosition();
 
@@ -51,7 +51,7 @@ class MovingState : IState
     {
         Debug.Log("Move Towards Target");
 
-        CharacterStat targetStat = controller.NPCInteractions.Target.GetComponent<CharacterStat>();
+        EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
         VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
         if (targetStat.IsDead || !targetVisibilityState.IsVisible)

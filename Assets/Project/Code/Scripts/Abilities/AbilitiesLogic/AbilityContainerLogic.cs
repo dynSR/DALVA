@@ -18,6 +18,9 @@ public class AbilityContainerLogic : MonoBehaviour
     [SerializeField] private Image cooldownFiller;
     [SerializeField] private TextMeshProUGUI cooldownText;
 
+    [Header("TIMER TEXT FORMAT")]
+    [SerializeField] private bool onlySeconds = false;
+
     public KeyCode AbilityKey { get => abilityKey; set => abilityKey = value; }
     public AbilityLogic ContainedAbility { get => containedAbility; set => containedAbility = value; }
 
@@ -61,7 +64,22 @@ public class AbilityContainerLogic : MonoBehaviour
             storedCooldown -= Time.deltaTime;
 
             //Mettre à jour le timer text
-            cooldownText.SetText(storedCooldown.ToString("0.0"));
+            if (onlySeconds)
+            {
+                cooldownText.SetText(storedCooldown.ToString("0"));
+            }
+            else if (!onlySeconds)
+            {
+                //Calcul minutes + secondes
+                string minutes = Mathf.Floor(storedCooldown / 60).ToString("0");
+                string seconds = Mathf.Floor(storedCooldown % 60).ToString("00");
+
+                cooldownText.SetText(minutes + ":" + seconds);
+            }
+
+            if (storedCooldown <= 1)
+                cooldownText.SetText(storedCooldown.ToString("0.0"));
+
             //Update l'image filled
             cooldownFiller.fillAmount = storedCooldown / containedAbility.Ability.AbilityCooldown;
 

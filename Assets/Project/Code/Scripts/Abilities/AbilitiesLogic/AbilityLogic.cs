@@ -30,11 +30,18 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [SerializeField] private GameObject rangeDisplayer;
     [SerializeField] private List<GameObject> abilitVFXToActivate;
     private bool canBeUsed = true;
+    private bool characterIsTryingToCast = false;
     protected Vector3 CastLocation = Vector3.zero;
+
+    float DistanceFromCastingPosition => Vector3.Distance(transform.position, CastLocation);
+    private bool IsInRangeToCast => DistanceFromCastingPosition <= Ability.AbilityRange;
 
     [SerializeField] private bool normalCast = true;
     [SerializeField] private bool fastCastWithIndication = false;
     [SerializeField] private bool smartCast = false;
+
+    [Header("Debug")]
+    [SerializeField] private Color gizmosColor;
 
     public Ability Ability { get => ability; }
     public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
@@ -47,10 +54,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) { return; }
 
+        if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
+
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
-            if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
-
             if (normalCast || fastCastWithIndication)
             {
                 if (rangeDisplayer != null && !rangeDisplayer.activeInHierarchy)
@@ -60,29 +67,37 @@ public abstract class AbilityLogic : MonoBehaviourPun
             }
             else if (smartCast)
             {
-                if (Input.GetKeyDown(Ability.AbilityKey))
-                {
-                    if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
+                characterIsTryingToCast = true;
 
-                    AdjustCharacterPositioning();
-                    StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
+                AdjustCharacterPositioning();
+                CastLocation = GetCursorPosition(UtilityClass.RayFromMainCameraToMousePosition());
+
+                if (Ability.AbilityRange > 0 && !IsInRangeToCast)
+                {
+                    Debug.Log("Can't cast now, need to get closer !");
+                    Controller.Agent.SetDestination(CastLocation);
                 }
             }
         }
 
-        if (normalCast && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.LeftClickIsPressed())
+        if (normalCast && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.LeftClickIsPressed()
+            || fastCastWithIndication && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.IsKeyUnpressed(Ability.AbilityKey))
         {
+            characterIsTryingToCast = true;
+
             rangeDisplayer.SetActive(false);
+
             AdjustCharacterPositioning();
-            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
             CastLocation = GetCursorPosition(UtilityClass.RayFromMainCameraToMousePosition());
+
+            if (Ability.AbilityRange > 0 && !IsInRangeToCast)
+            {
+                Debug.Log("Can't cast now, need to get closer !");
+                Controller.Agent.SetDestination(CastLocation);
+            }
         }
-        else if (fastCastWithIndication && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.IsKeyUnpressed(Ability.AbilityKey))
-        {
-            rangeDisplayer.SetActive(false);
-            AdjustCharacterPositioning();
-            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
-        }
+
+        CastWhenInRange();
     }
 
     #region Handle character position and rotation
@@ -104,12 +119,31 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #endregion
 
     #region Handling ability casting
+    private void CastWhenInRange()
+    {
+        if (characterIsTryingToCast && !Controller.IsCasting && Ability.AbilityRange == 0) 
+        {
+            Debug.Log("Ability has a equal to 0");
+            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
+            characterIsTryingToCast = false;
+            return; 
+        }
+
+        //Compare character position with cast position and if ability range is > move and cast else just cast
+        if (characterIsTryingToCast && !Controller.IsCasting && IsInRangeToCast)
+        {
+            Debug.Log("Close enough, can cast now !");
+            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
+            characterIsTryingToCast = false;
+        }
+    }
+
     private IEnumerator ProcessCasting(float castDuration)
     {
-        //if castDuration == 0 it means that it is considered as an instant cast 
-        //else it is gonna wait before casting the spell
         Controller.IsCasting = true;
         Controller.CanMove = false;
+
+        if (castDuration > 0) Controller.Agent.ResetPath();
 
         yield return new WaitForSeconds(castDuration);
         Cast();
@@ -205,4 +239,12 @@ public abstract class AbilityLogic : MonoBehaviourPun
         }
     }
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = gizmosColor;
+
+        if(Ability.AbilityRange > 0f)
+            Gizmos.DrawWireSphere(transform.position, Ability.AbilityRange);
+    }
 }

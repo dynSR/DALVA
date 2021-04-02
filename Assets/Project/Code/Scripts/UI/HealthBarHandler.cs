@@ -3,8 +3,13 @@ using UnityEngine.UI;
 
 public class HealthBarHandler : MonoBehaviour
 {
-    [SerializeField] private CharacterStat stats;
-    [SerializeField] private Image healthBarFill;
+    private Image HealthBarFill => transform.GetChild(1).GetComponent<Image>();
+    private CharacterStat stats /*=> transform.parent.GetComponentInParent<CharacterStat>()*/;
+
+    private void Awake()
+    {
+        stats = transform.parent.GetComponentInParent<CharacterStat>();
+    }
 
     private void OnEnable()
     {
@@ -18,6 +23,6 @@ public class HealthBarHandler : MonoBehaviour
 
     void SetHealthBar(float currentValue, float maxValue)
     {
-        healthBarFill.fillAmount = currentValue / maxValue;
+        HealthBarFill.fillAmount = currentValue / maxValue;
     }
 }

@@ -7,7 +7,12 @@ public class AggroGaugeBarHandler : MonoBehaviour
 {
     [SerializeField] private Image aggroGaugeBarFill;
     [SerializeField] private Image aggroFeedbackImage;
-    [SerializeField] private NPCController controller;
+    private NPCController controller;
+
+    private void Awake()
+    {
+        controller = transform.parent.GetComponentInParent<NPCController>();
+    }
 
     private void OnEnable()
     {

@@ -28,6 +28,7 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable, ICurable, IR
     [Header("LIFE PARAMETERS")]
     [SerializeField] private float timeToRespawn;
     [SerializeField] private GameObject healVFX;
+    float regenerationAddedValue;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
     public Transform SourceOfDamage { get; set; }
 
@@ -167,13 +168,28 @@ public class CharacterStat : MonoBehaviour, IDamageable, IKillable, ICurable, IR
     #region Heal / Regeneration Section
     public void RegenerateHealth(Transform target, float regenerationThreshold)
     {
-        //CharacterStat targetStats = target.GetComponent<CharacterStat>();
+        CharacterStat targetStats = target.GetComponent<CharacterStat>();
 
-        //if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
-        //{
-        //    targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
-        //    OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
-        //}
+        if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
+        {
+            if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
+
+            regenerationAddedValue += regenerationThreshold;
+
+            targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
+
+            if (targetStats.GetStat(StatType.Health).Value + regenerationThreshold >= targetStats.GetStat(StatType.Health).MaxValue)
+            {
+                regenerationThreshold = targetStats.GetStat(StatType.Health).MaxValue - targetStats.GetStat(StatType.Health).Value;
+                targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
+            }
+
+            if (regenerationAddedValue > (regenerationThreshold * 2))
+            {
+                OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+                regenerationAddedValue = 0;
+            }
+        }
     }
 
     public void Heal(Transform target, float healAmount)

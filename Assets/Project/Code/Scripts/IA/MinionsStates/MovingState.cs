@@ -40,6 +40,8 @@ class MovingState : IState
     {
         float distanceFromStartingPosition = Vector3.Distance(controller.transform.position, controller.StartingPosition.position);
 
+        controller.Stats.RegenerateHealth(controller.transform, controller.Stats.GetStat(StatType.Health).Value * 0.15f);
+
         if (distanceFromStartingPosition > 0.1f)
             controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);
         else if (distanceFromStartingPosition <= 0.1f) controller.ChangeState(new IdlingState());

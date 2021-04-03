@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EntityTeam
+{
+    DALVA,
+    HULRYCK
+}
+
 public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IRegenerable
 {
     public delegate void StatValueChangedHandler(float newValue, float maxValue);
@@ -17,17 +23,17 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #endregion
 
     [Header("CHARACTER INFORMATIONS")]
-    [SerializeField] private BaseCharacter usedCharacter;
-    [SerializeField] private List<AbilityLogic> characterAbilities;
-    public BaseCharacter UsedCharacter { get => usedCharacter; }
-    public List<AbilityLogic> CharacterAbilities { get => characterAbilities; }
+    [SerializeField] private BaseEntity usedEntity;
+    [SerializeField] private List<AbilityLogic> entityAbilities;
+    public BaseEntity UsedEntity { get => usedEntity; }
+    public List<AbilityLogic> EntityAbilities { get => entityAbilities; }
 
     [Header("STATS")]
-    public List<Stat> CharacterStats;
+    public List<Stat> entityStats;
 
     [Header("LIFE PARAMETERS")]
+    [SerializeField] private Transform spawnLocation;
     [SerializeField] private float timeToRespawn;
-    [SerializeField] private GameObject healVFX;
     float regenerationAddedValue;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
     public Transform SourceOfDamage { get; set; }
@@ -41,9 +47,17 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [SerializeField] private GameObject deathHUD;
     public GameObject Popup { get => popup; }
 
+    [Header("VFX")]
+    [SerializeField] private GameObject healVFX;
+    [SerializeField] private GameObject respawnVFX;
+
     [Header("SOUNDS")]
+    [MasterCustomEvent] public string spawnCustomEvent;
     [MasterCustomEvent] public string deathCustomEvent;
     EventSounds EventSounds => GetComponent<EventSounds>();
+
+    [Header("PLAYER OPTIONS")]
+    [SerializeField] private bool centerCameraOnRespawn = false;
 
     public Vector3 InFrontOfCharacter => transform.position + new Vector3(0, Controller.Agent.height / 2, 0);
 
@@ -70,11 +84,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
     {
-        CanTakeDamage = true;
-
         foreach (AbilityLogic abilityFound in GetComponents<AbilityLogic>())
         {
-            CharacterAbilities.Add(abilityFound);
+            EntityAbilities.Add(abilityFound);
         }
     }
     #endregion
@@ -272,6 +284,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         Controller.CharacterAnimator.SetBool("IsDead", true);
 
         GiveRessourcesToAPlayerOnDeath(GetStat(StatType.RessourcesGiven).Value);
+
+        if (transform.GetComponent<PlayerController>() != null)
+            transform.GetComponent<PlayerController>().IsPlayerInHisBase = true;
     }
 
     private IEnumerator ProcessDeathTimer(float delay)
@@ -279,6 +294,22 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         Die();
 
         yield return new WaitForSeconds(delay);
+
+        MasterAudio.FireCustomEvent(spawnCustomEvent, spawnLocation);
+
+        //Spawn Respawn VFX
+        if (respawnVFX != null)
+            respawnVFX.SetActive(true);
+
+        if (transform.GetComponent<PlayerController>() != null)
+        {
+            if (centerCameraOnRespawn)
+            {
+                transform.GetComponent<PlayerController>().CharacterCamera.GetComponent<CameraController>().MoveCameraToASpecificMiniMapPosition(transform.position);
+            }
+        }
+
+        yield return new WaitForSeconds(1f);
 
         Respawn();
 
@@ -290,6 +321,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     private void Respawn()
     {
         Debug.Log("Respawn");
+
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
 
         CanTakeDamage = true;
@@ -309,8 +341,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             GetComponent<EntityDetection>().enabled = true;
 
         //Set Position At Spawn Location
-        //transform.position = spawnLocation;
-        //Spawn Respawn VFX
+        if(spawnLocation != null)
+            transform.position = spawnLocation.position;
 
         Debug.Log("is Dead " + IsDead);
 
@@ -321,12 +353,15 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #region Handle Stats
     void InitStats()
     {
-        for (int i = 0; i < CharacterStats.Count; i++)
+        CanTakeDamage = true;
+
+        for (int i = 0; i < entityStats.Count; i++)
         {
-            CharacterStats[i].InitValue();
+            entityStats[i].InitValue();
         }
 
-        Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.MovementSpeed).Value);
+        if(GetStat(StatType.MovementSpeed) != null)
+            Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.MovementSpeed).Value);
 
         OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
     }
@@ -335,11 +370,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         Stat stat = null;
 
-        for (int i = CharacterStats.Count - 1; i >= 0; i--)
+        for (int i = entityStats.Count - 1; i >= 0; i--)
         {
-            if (CharacterStats[i].StatType == statType)
+            if (entityStats[i].StatType == statType)
             {
-                stat = CharacterStats[i];
+                stat = entityStats[i];
             }
         }
 
@@ -350,29 +385,29 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #region Editor Purpose
     public void RefreshCharacterStats()
     {
-        if (usedCharacter != null)
+        if (usedEntity != null)
         {
-            CharacterStats.Clear();
+            entityStats.Clear();
 
-            for (int i = 0; i < usedCharacter.CharacterStats.Count; i++)
+            for (int i = 0; i < usedEntity.EntityStats.Count; i++)
             {
                 Stat stat = new Stat();
 
-                CharacterStats.Add(stat);
+                entityStats.Add(stat);
 
-                CharacterStats[i].Name = usedCharacter.CharacterStats[i].Name;
-                CharacterStats[i].StatType = usedCharacter.CharacterStats[i].StatType;
+                entityStats[i].Name = usedEntity.EntityStats[i].Name;
+                entityStats[i].StatType = usedEntity.EntityStats[i].StatType;
 
-                if(usedCharacter.CharacterStats[i].Icon != null)
-                    CharacterStats[i].Icon = usedCharacter.CharacterStats[i].Icon;
+                if(usedEntity.EntityStats[i].Icon != null)
+                    entityStats[i].Icon = usedEntity.EntityStats[i].Icon;
 
-                if (usedCharacter.CharacterStats[i].BaseValue > 0)
+                if (usedEntity.EntityStats[i].BaseValue > 0)
                 {
-                    CharacterStats[i].BaseValue = usedCharacter.CharacterStats[i].BaseValue;
+                    entityStats[i].BaseValue = usedEntity.EntityStats[i].BaseValue;
                 }
                 else
                 {
-                    CharacterStats[i].BaseValue = 0;
+                    entityStats[i].BaseValue = 0;
                 }
             }
         }

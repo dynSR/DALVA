@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0144328179d43794b93f3b5a2932c0c2, type: 3}
+  m_Name: Entity_MeleeMinion
+  m_EditorClassIdentifier: 
+  entityName: '[Type in]'
+  entityType: 7
+  combatType: 0
+  entityStats:
+  - name: Health - 400
+    statType: 0
+    icon: {fileID: 0}
+    baseValue: 400
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MovementSpeed - 3,5
+    statType: 3
+    icon: {fileID: 0}
+    baseValue: 3.5
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: PhysicalResistances - 25
+    statType: 4
+    icon: {fileID: 0}
+    baseValue: 25
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MagicalResistances - 15
+    statType: 5
+    icon: {fileID: 0}
+    baseValue: 15
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: PhysicalPower - 40
+    statType: 8
+    icon: {fileID: 0}
+    baseValue: 40
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MagicalPower - 5
+    statType: 9
+    icon: {fileID: 0}
+    baseValue: 5
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: RessourcesGiven - 50
+    statType: 21
+    icon: {fileID: 0}
+    baseValue: 50
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  animatorController: {fileID: 9100000, guid: b2a4248022cefbf488d0ee19c4e72d3d, type: 2}

@@ -10,8 +10,7 @@ public class ShopManager : MonoBehaviour
     public static event ShopActionsHandler OnSellingAnItem;
     public static event ShopActionsHandler OnShopActionCancel;
 
-    [Header("PLAYER INFORMATIONS")]
-    [SerializeField] private Transform player;
+    public Transform Player => GetComponentInParent<PlayerHUDManager>().Player;
 
     [Header("SHOP ACTIONS MADE")]
     [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();
@@ -19,8 +18,7 @@ public class ShopManager : MonoBehaviour
     private bool shopItemIsSelected = false;
     private int numberOfShopActionsDone = 0;
 
-    public Transform Player { get => player; set => player = value; }
-    private CharacterRessources PlayerRessources => player.GetComponent<CharacterRessources>();
+    private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
     public InventoryBox SelectedInventoryBox { get; set; }
     public bool InventoryItemIsSelected { get => inventoryItemIsSelected; set => inventoryItemIsSelected = value; }

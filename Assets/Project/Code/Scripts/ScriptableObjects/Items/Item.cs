@@ -26,13 +26,13 @@ public class Item : ScriptableObject
 
     public void Equip(EntityStats c)
     {
-        for (int i = 0; i < c.CharacterStats.Count; i++)
+        for (int i = 0; i < c.entityStats.Count; i++)
         {
             for (int j = 0; j < itemModifiers.Count; j++)
             {
-                if (c.CharacterStats[i].StatType == itemModifiers[j].StatType)
+                if (c.entityStats[i].StatType == itemModifiers[j].StatType)
                 {
-                    c.CharacterStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
+                    c.entityStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
                 }
             }
         }
@@ -41,10 +41,10 @@ public class Item : ScriptableObject
     public void Unequip(EntityStats c)
     {
         Debug.Log("Casting Unequip");
-        for (int i = c.CharacterStats.Count - 1; i >= 0; i--)
+        for (int i = c.entityStats.Count - 1; i >= 0; i--)
         {
             Debug.Log("Can't find any item -!-");
-            c.CharacterStats[i].RemoveAllModifiersFromSource(this);
+            c.entityStats[i].RemoveAllModifiersFromSource(this);
         }
     }
 }

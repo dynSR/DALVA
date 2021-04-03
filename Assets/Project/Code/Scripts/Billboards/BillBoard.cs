@@ -17,10 +17,13 @@ public class Billboard : MonoBehaviourPun
 
     protected virtual void Awake()
     {
-        Canvas.worldCamera = UtilityClass.GetMainCamera();
         initRot.x = transform.eulerAngles.x;
-
         SetCharacterName();
+    }
+
+    protected virtual void Start()
+    {
+        Canvas.worldCamera = UtilityClass.GetMainCamera();
     }
 
     protected virtual void LateUpdate()

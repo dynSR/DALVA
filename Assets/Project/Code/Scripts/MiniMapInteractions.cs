@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    //Drag Orthographic top down camera here
-    [SerializeField] private Transform player;
+    private Transform Player => GetComponentInParent<PlayerHUDManager>().Player;
     [SerializeField] private Camera miniMapCamera;
     [SerializeField] private GameObject movementFeedbackToInstantiate;
     [SerializeField] private RawImage miniMapRenderingImage;
@@ -13,15 +12,17 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
     private Vector2 localCursor;
     private RaycastHit miniMapHit;
 
-    private PlayerController PlayerController => player.GetComponent<PlayerController>();
-    private CameraController PlayerCameraController => player.GetComponent<PlayerController>().CharacterCamera.GetComponent<CameraController>();
+    private PlayerController PlayerController => Player.GetComponent<PlayerController>();
+    private CameraController PlayerCameraController => Player.GetComponent<PlayerController>().CharacterCamera.GetComponent<CameraController>();
 
     private bool cameraWasLocked;
 
     void Update()
     {
+        //if (!PlayerController.Agent.hasPath) return;
+
         PlayerController.HandleMotionAnimation(PlayerController.Agent, PlayerController.CharacterAnimator, "MoveSpeed", PlayerController.MotionSmoothTime);
-        PlayerController.DebugPathing(player.GetComponent<PlayerController>().MyLineRenderer);
+        PlayerController.DebugPathing(Player.GetComponent<PlayerController>().MyLineRenderer);
     }
 
     #region Pointer events

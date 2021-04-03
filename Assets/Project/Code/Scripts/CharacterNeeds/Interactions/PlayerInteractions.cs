@@ -56,6 +56,10 @@ public class PlayerInteractions : InteractionSystem
             {
                 Target.GetComponent<HarvesterLogic>().ResetAfterInteraction();
             }
+            else if (Target.GetComponent<SteleLogic>() != null && Target.GetComponent<SteleLogic>().SteleState != SteleState.Active  /* + vérification team ? */)
+            {
+                Target.GetComponent<SteleLogic>().InteractingPlayer = null;
+            }
         }
 
         ResetInteractionState();
@@ -77,7 +81,7 @@ public class PlayerInteractions : InteractionSystem
         {
             SteleLogic stele = Target.GetComponent<SteleLogic>();
 
-            if (stele != null && stele.IsInteractable)
+            if (stele != null && stele.IsInteractable && stele.SteleState != SteleState.Active  /* + vérification team ? */)
             {
                 IsInteractingWithAStele = true;
                 Animator.SetBool("Attack", false);

@@ -1,0 +1,36 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class InteractiveBuilding : MonoBehaviour
+{
+    public PlayerInteractions InteractingPlayer /*{ get; set; }*/;
+    private bool isInteractable = false;
+    [SerializeField] private float reinitializationDelay = 45f;
+
+    protected EntityDetection EntityDetection => GetComponent<EntityDetection>();
+    public bool IsInteractable { get => isInteractable; set => isInteractable = value; }
+    public float ReinitializationDelay { get => reinitializationDelay; set => reinitializationDelay = value; }
+    
+    protected virtual void  LateUpdate()
+    {
+        EntityDetectionEnableState(IsInteractable);
+    }
+
+    public virtual void ResetAfterInteraction()
+    {
+        InteractingPlayer = null;
+    }
+
+    protected void EntityDetectionEnableState(bool isInteractive)
+    {
+        if (isInteractive)
+        {
+            EntityDetection.enabled = true;
+        }
+        else
+        {
+            EntityDetection.enabled = false;
+        }
+    }
+}

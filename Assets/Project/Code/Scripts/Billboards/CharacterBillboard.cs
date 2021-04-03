@@ -23,6 +23,7 @@ public class CharacterBillboard : Billboard
         base.Awake();
         SetCharacterLevel();
     }
+    protected override void Start() => base.Start();
 
     protected override void LateUpdate() => base.LateUpdate();
 

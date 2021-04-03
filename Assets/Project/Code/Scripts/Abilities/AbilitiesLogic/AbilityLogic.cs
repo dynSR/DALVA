@@ -54,7 +54,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) { return; }
 
-        //if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
+        if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
 
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {

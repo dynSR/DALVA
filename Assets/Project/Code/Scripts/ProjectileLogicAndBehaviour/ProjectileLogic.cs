@@ -53,13 +53,24 @@ public class ProjectileLogic : MonoBehaviour
     #region Projectile Behaviours
     void ProjectileMoveToATarget()
     {
-        if (Target.GetComponent<NavMeshAgent>())
+        if (Target.GetComponent<NavMeshAgent>() != null)
         {
             targetPosition = Target.position;
 
             Rb.MovePosition(Vector3.MoveTowards(
                 transform.position,
                 targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0),
+                ProjectileSpeed * Time.fixedDeltaTime));
+
+            transform.LookAt(Target);
+        }
+        else if (Target.GetComponent<NavMeshAgent>() == null)
+        {
+            targetPosition = Target.position;
+
+            Rb.MovePosition(Vector3.MoveTowards(
+                transform.position,
+                targetPosition + new Vector3(0, 0.5f, 0),
                 ProjectileSpeed * Time.fixedDeltaTime));
 
             transform.LookAt(Target);
@@ -125,15 +136,15 @@ public class ProjectileLogic : MonoBehaviour
                     Debug.Log("No ability");
 
                     targetStat.TakeDamage(
-                    ProjectileSender,
-                    targetStat.GetStat(StatType.PhysicalResistances).Value,
-                    targetStat.GetStat(StatType.MagicalResistances).Value,
-                    TotalPhysicalDamage,
-                    TotalMagicalDamage,
-                    ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
-                    175f,
-                    ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
+                        ProjectileSender,
+                        targetStat.GetStat(StatType.PhysicalResistances).Value,
+                        targetStat.GetStat(StatType.MagicalResistances).Value,
+                        TotalPhysicalDamage,
+                        TotalMagicalDamage,
+                        ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
+                        175f,
+                        ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
+                        ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
 
                     Debug.Log(TotalPhysicalDamage);
                     Debug.Log(TotalMagicalDamage);
@@ -141,6 +152,11 @@ public class ProjectileLogic : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
+        }
+        else if (targetCollider.gameObject.GetComponent<SteleLogic>() != null)
+        {
+            targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0, 0, 1, 0, 0, 0, 0, 0);
+            Destroy(gameObject);
         }
     }
 

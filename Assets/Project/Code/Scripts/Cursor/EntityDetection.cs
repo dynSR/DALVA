@@ -9,7 +9,7 @@ public enum TypeOfEntity { None, Self, Enemy, Ally, Stele, Harvester }
 public class EntityDetection : MonoBehaviour
 {
     [SerializeField] private TypeOfEntity typeOfEntity;
-    public TypeOfEntity TypeOfEntity { get => typeOfEntity; }
+    public TypeOfEntity TypeOfEntity { get => typeOfEntity; set => typeOfEntity = value; }
 
     public Outline Outline => GetComponent<Outline>();
 

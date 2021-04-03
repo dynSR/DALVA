@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerHUDManager : MonoBehaviour
 {
+    [SerializeField] private Transform player;
+
     [Header("STATUS EFFECT PARAMETERS")]
     [SerializeField] private Transform statusEffectLayoutGroup;
     [SerializeField] private GameObject statusEffectContainer;
@@ -21,7 +23,8 @@ public class PlayerHUDManager : MonoBehaviour
     public TextMeshProUGUI InventoryPlayerRessourcesValueText { get => inventoryPlayerRessourcesValueText; }
 
     public bool IsShopWindowOpen { get => isShopWindowOpen; set => isShopWindowOpen = value; }
-    
+    public Transform Player { get => player; }
+
     void OnEnable()
     {
         StatusEffectHandler.OnApplyingStatusEffect += UpdateStatusEffectUI;

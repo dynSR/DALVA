@@ -69,8 +69,8 @@ public class InteractionSystem : MonoBehaviour
             else if (distance <= minDistance)
             {
                 //Debug.Log("Close enough to target");
-                Controller.Agent.ResetPath();
-                Controller.Agent.isStopped = true;
+                //Controller.Agent.ResetPath();
+                //Controller.Agent.isStopped = true;
                 Interact();
             }
         }
@@ -81,7 +81,8 @@ public class InteractionSystem : MonoBehaviour
     public virtual void Interact()
     {
         if (Target.GetComponent<EntityStats>() != null 
-            && Target.GetComponent<EntityStats>().IsDead)
+            && Target.GetComponent<EntityStats>().IsDead
+            || !Target.GetComponent<EntityDetection>().enabled)
         {
             ResetInteractionState();
 

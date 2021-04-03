@@ -25,6 +25,7 @@ public class HarvesterBillboard : Billboard
         harvester = GetComponentInParent<HarvesterLogic>();
         base.Awake();
     }
+    protected override void Start() => base.Start();
 
     protected override void LateUpdate() => base.LateUpdate();
 

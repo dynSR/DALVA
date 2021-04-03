@@ -8,7 +8,7 @@ public class CharacterAnimations : MonoBehaviour
 
     private void Awake()
     {
-        MyAnimator.runtimeAnimatorController = Stats.UsedCharacter.AnimatorController;
+        MyAnimator.runtimeAnimatorController = Stats.UsedEntity.AnimatorController;
     }
 
     public void RangedAttack_AnimationEvent()

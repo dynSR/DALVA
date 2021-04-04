@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c75cf5b6273234cb185f17d227fc4c, type: 3}
+  m_Name: Item_CasqueLuxuriant
+  m_EditorClassIdentifier: 
+  itemName: Casque Luxuriant
+  itemIcon: {fileID: 0}
+  itemDescription: "D\xE9gats critique r\xE9duits"
+  itemCost: 2400
+  amountOfGoldRefundedOnSale: 1680
+  itemFirstEvolution: {fileID: 11400000, guid: 99b113a0751e1aa4d916492d7213a3b5, type: 2}
+  itemSecondEvolution: {fileID: 0}
+  itemModifiers:
+  - Value: 20
+    StatType: 7
+    Type: 100
+  - Value: 300
+    StatType: 0
+    Type: 100
+  - Value: 50
+    StatType: 3
+    Type: 100
+  - Value: 10
+    StatType: 15
+    Type: 200

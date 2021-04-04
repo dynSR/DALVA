@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c75cf5b6273234cb185f17d227fc4c, type: 3}
+  m_Name: Item_Cape
+  m_EditorClassIdentifier: 
+  itemName: Cape
+  itemIcon: {fileID: 0}
+  itemDescription: "Puissance physique et sant\xE9"
+  itemCost: 500
+  amountOfGoldRefundedOnSale: 350
+  itemFirstEvolution: {fileID: 11400000, guid: a2b038fd10ab70c45a00d0062c0af9d7, type: 2}
+  itemSecondEvolution: {fileID: 0}
+  itemModifiers:
+  - Value: 15
+    StatType: 7
+    Type: 100
+  - Value: 50
+    StatType: 0
+    Type: 100

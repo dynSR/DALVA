@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c75cf5b6273234cb185f17d227fc4c, type: 3}
+  m_Name: Item_BottesRenforcees
+  m_EditorClassIdentifier: 
+  itemName: "Bottes Renforc\xE9es"
+  itemIcon: {fileID: 0}
+  itemDescription: "Vitesse de d\xE9placement et r\xE9sistance physique"
+  itemCost: 1000
+  amountOfGoldRefundedOnSale: 700
+  itemFirstEvolution: {fileID: 0}
+  itemSecondEvolution: {fileID: 0}
+  itemModifiers:
+  - Value: 30
+    StatType: 2
+    Type: 100
+  - Value: 18
+    StatType: 3
+    Type: 100

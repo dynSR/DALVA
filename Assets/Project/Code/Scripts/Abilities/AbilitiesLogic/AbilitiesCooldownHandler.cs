@@ -62,12 +62,11 @@ public class AbilitiesCooldownHandler : MonoBehaviour
         {
             if (allAbilitiesOnCooldown[i].ability == ability)
             {
-                Debug.Log(ability.Ability.AbilityName + " is on cooldown for " + allAbilitiesOnCooldown[i].cooldown.ToString("0.0") + " seconds");
+                //Debug.Log(ability.Ability.AbilityName + " is on cooldown for " + allAbilitiesOnCooldown[i].cooldown.ToString("0.0") + " seconds");
                 return true;
             }
         }
 
-        Debug.Log("Not in CD");
         return false;
     }
     #endregion

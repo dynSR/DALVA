@@ -30,8 +30,13 @@ public class PlayerInteractions : InteractionSystem
                 {
                     Target = hit.collider.transform;
 
-                    if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy)
+                    //Target in an enemy entity
+                    if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
+                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
+                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
                         StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
+                    //Target is an interactive building
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester
                         || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele)
                         StoppingDistance = InteractionRange;
@@ -39,8 +44,7 @@ public class PlayerInteractions : InteractionSystem
                 else
                 {
                     //Ground hit
-                    Controller.Agent.isStopped = false;
-                    Controller.Agent.stoppingDistance = 0.2f;
+                    ResetAgentState();
                 }
             }
         }
@@ -62,9 +66,17 @@ public class PlayerInteractions : InteractionSystem
             }
         }
 
+        ResetAgentState();
+
         ResetInteractionState();
 
         Target = null;
+    }
+
+    void ResetAgentState()
+    {
+        Controller.Agent.isStopped = false;
+        Controller.Agent.stoppingDistance = 0.2f;
     }
 
     public override void Interact()

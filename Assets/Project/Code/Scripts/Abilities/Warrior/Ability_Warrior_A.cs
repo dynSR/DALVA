@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(ThrowingAbilityProjectile))]
 public class Ability_Warrior_A : AbilityLogic

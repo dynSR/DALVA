@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
-public class CharacterAnimations : MonoBehaviour
+public class EntityAnimationsEventHandler : MonoBehaviour
 {
     public Animator MyAnimator => GetComponent<Animator>();
     private InteractionSystem Interactions => GetComponentInParent<InteractionSystem>();
     private EntityStats Stats => GetComponentInParent<EntityStats>();
+    private VisibilityState VisibilityState => GetComponentInParent<VisibilityState>();
 
     private void Awake()
     {
@@ -25,5 +26,10 @@ public class CharacterAnimations : MonoBehaviour
     {
         Interactions.CanPerformAttack = true;
         Interactions.HasPerformedAttack = false;
+    }
+
+    public void SetEntityToInvisible_AnimationEvent()
+    {
+        VisibilityState.SetToInvisible();
     }
 }

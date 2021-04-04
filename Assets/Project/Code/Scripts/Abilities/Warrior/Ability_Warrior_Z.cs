@@ -11,6 +11,21 @@ public class Ability_Warrior_Z : AbilityLogic
 
     protected override void Cast()
     {
-        StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, ThrowingProjectile.AimProjectileEmiterPos, Ability));
+        UsedEffectIndex = AbilityEffect.I; //debug
+
+        switch (UsedEffectIndex)
+        {
+            case AbilityEffect.I:
+                PlayAbilityAnimation("UsesSecondAbility", true, true);
+                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, ThrowingProjectile.AimProjectileEmiterPos, Ability));
+                ResetAbilityAnimation("UsesSecondAbility");
+                break;
+            case AbilityEffect.II:
+                break;
+            case AbilityEffect.III:
+                break;
+            case AbilityEffect.IV:
+                break;
+        }
     }
 }

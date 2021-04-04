@@ -15,12 +15,26 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
     public event SteleInteractionHandler OnInteraction;
     public event SteleInteractionHandler OnEndOFInteraction;
 
+    public delegate void SteleHealthHandler(float value, float max);
+    public event SteleHealthHandler OnHealthValueChanged;
+
+    public delegate void SteleLifeStatusHandler();
+    public event SteleLifeStatusHandler OnActivation;
+    public event SteleLifeStatusHandler OnSteleDeath;
+
     [SerializeField] private int healthPoints = 0;
+    [SerializeField] private int maxHealthPoints = 0;
     [SerializeField] private SteleState steleState;
+    [SerializeField] private GameObject activationVX;
+    [SerializeField] private List<GameObject> runes;
     private bool interactionIsHandled = false;
     private bool isDead = false;
     public int HealthPoints { get => healthPoints; set => healthPoints = value; }
     public SteleState SteleState { get => steleState; private set => steleState = value; }
+
+    #region Ref
+    private Outline Outline => GetComponent<Outline>();
+    #endregion
 
     void Start()
     {
@@ -43,18 +57,29 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
         }
     }
 
+    #region Button Methods
     public void SetSteleToActiveMode(int steleHealthPointsRelativeToEffect)
     {
         SteleState = SteleState.Active;
+
+        SetSteleTeam();
+
+        activationVX.SetActive(true);
+
         InteractingPlayer.Target = null;
         InteractingPlayer = null;
 
-        //pour l'équipe adversaire faire ça (ci-dessous)---
-        //EntityDetection.TypeOfEntity = TypeOfEntity.Enemy;
-        //-------------------------------------------------
+        OnActivation?.Invoke();
 
-        HealthPoints = steleHealthPointsRelativeToEffect;
+        maxHealthPoints = steleHealthPointsRelativeToEffect;
+        HealthPoints = maxHealthPoints;
     }
+
+    public void ActiveRuneEffect(GameObject rune)
+    {
+        rune.SetActive(true);
+    }
+    #endregion
 
     private void SetSteleToInactiveMode()
     {
@@ -72,15 +97,37 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
         SetSteleToInactiveMode();
     }
 
+    private void SetSteleTeam()
+    {
+        if (InteractingPlayer.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.AllyPlayer)
+        {
+            EntityDetection.TypeOfEntity = TypeOfEntity.AllyStele;
+            Outline.OutlineColor = Color.blue;
+        }
+        else if (InteractingPlayer.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer)
+        {
+            EntityDetection.TypeOfEntity = TypeOfEntity.EnemyStele;
+            Outline.OutlineColor = Color.red;
+        }
+    }
+
     public void OnDeath()
     {
+        OnSteleDeath?.Invoke();
         IsInteractable = false;
         StartCoroutine(SetSteleToStandByMode());
+
+        for (int i = 0; i < runes.Count; i++)
+        {
+            if (runes[i].activeInHierarchy)
+                runes[i].SetActive(false);
+        }
     }
 
     public void TakeDamage(Transform character, float targetPhysicalResistances, float targetMagicalResistances, float characterPhysicalPower, float characterMagicalPower, float characterCriticalStrikeChance, float characterCriticalStrikeMultiplier, float characterPhysicalPenetration, float characterMagicalPenetration)
     {
         HealthPoints -= (int)characterPhysicalPower;
+        OnHealthValueChanged?.Invoke(HealthPoints, maxHealthPoints);
         Debug.Log("STELE TOOK DAMAGE");
 
         if (HealthPoints == 0)

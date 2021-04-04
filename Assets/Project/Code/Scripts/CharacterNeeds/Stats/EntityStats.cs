@@ -20,6 +20,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
+    private VisibilityState VisibilityState => GetComponent<VisibilityState>();
     #endregion
 
     [Header("CHARACTER INFORMATIONS")]
@@ -50,6 +51,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [Header("VFX")]
     [SerializeField] private GameObject healVFX;
     [SerializeField] private GameObject respawnVFX;
+    [SerializeField] private GameObject ressourcesGainedVFX;
+    public GameObject RessourcesGainedVFX { get => ressourcesGainedVFX; }
 
     [Header("SOUNDS")]
     [MasterCustomEvent] public string spawnCustomEvent;
@@ -168,11 +171,18 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
     }
 
-    private IEnumerator CreateDamagePopUpWithDelay(float delay, float value, StatType statType, Sprite icon)
+    private IEnumerator CreateDamagePopUpWithDelay(float delay, float value, StatType statType, Sprite icon, bool isASpecialPopup = false)
     {
         yield return new WaitForSeconds(delay);
 
         global::Popup.Create(InFrontOfCharacter, Popup, value, statType, icon);
+
+        if (isASpecialPopup)
+        {
+            if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
+                SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+        }
+
         //Debug.Log(gameObject.name + " Life is : " + CurrentHealth);
     }
     #endregion
@@ -266,8 +276,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (SourceOfDamage != null
             && SourceOfDamage.GetComponent<CharacterRessources>() != null)
         {
-            SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
-            StartCoroutine(CreateDamagePopUpWithDelay(1.15f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
+            StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon, true));
+
             //Debug.Log("Ressources have been given to a player, the last stored source of damage");
         }
     }
@@ -293,13 +303,12 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         Die();
 
-        yield return new WaitForSeconds(delay);
+        //yield return new WaitForSeconds(0.5f);
+        //VisibilityState.SetToInvisible();
+
+        yield return new WaitForSeconds(delay - 0.5f);
 
         MasterAudio.FireCustomEvent(spawnCustomEvent, spawnLocation);
-
-        //Spawn Respawn VFX
-        if (respawnVFX != null)
-            respawnVFX.SetActive(true);
 
         if (transform.GetComponent<PlayerController>() != null)
         {
@@ -309,7 +318,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             }
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.3f);
 
         Respawn();
 
@@ -331,18 +340,31 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (Interactions != null)
             Interactions.CanPerformAttack = true;
 
-        SourceOfDamage = null;
-
         //Désafficher le HUD de mort après la mort
         if (deathHUD != null)
             deathHUD.SetActive(false);
 
+        //Spawn Respawn VFX
+        if (respawnVFX != null)
+            respawnVFX.SetActive(true);
+
+        //Visibility State
         if (GetComponent<EntityDetection>() != null)
+        {
             GetComponent<EntityDetection>().enabled = true;
+
+            if (GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.AllyPlayer || GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.EnemyPlayer)
+            {
+                VisibilityState.SetToVisible();
+            }
+        }
+            
 
         //Set Position At Spawn Location
         if(spawnLocation != null)
             transform.position = spawnLocation.position;
+
+        SourceOfDamage = null;
 
         Debug.Log("is Dead " + IsDead);
 

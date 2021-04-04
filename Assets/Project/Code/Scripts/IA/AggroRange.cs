@@ -25,13 +25,17 @@ public class AggroRange : MonoBehaviour
         EntityDetection entityDetection = other.GetComponent<EntityDetection>();
 
         if (entityDetection != null
-            && entityDetection.TypeOfEntity == TypeOfEntity.Enemy
-            && !other.GetComponent<EntityStats>().IsDead
-            && other.GetComponent<VisibilityState>().IsVisible)
+            && (entityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
+                || entityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
+                || entityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
+                || entityDetection.TypeOfEntity == TypeOfEntity.Monster))
         {
-            if (Interactions.HasATarget) return;
-            else
-                Interactions.Target = other.transform;
+            if (!other.GetComponent<EntityStats>().IsDead && other.GetComponent<VisibilityState>().IsVisible)
+            {
+                if (Interactions.HasATarget) return;
+                else
+                    Interactions.Target = other.transform;
+            }
         }
     }
 

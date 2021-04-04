@@ -41,22 +41,48 @@ public class CursorLogic : MonoBehaviour
 
                 switch (knownTargetDetected.TypeOfEntity)
                 {
-                    case TypeOfEntity.None:
-                        break;
                     case TypeOfEntity.Self:
                         SetCursorToNormalAppearance();
                         ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
-                    case TypeOfEntity.Enemy:
+                    #region Enemies
+                    case TypeOfEntity.EnemyPlayer:
                         SetCursorToAttackAppearance();
                         ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
-                    case TypeOfEntity.Ally:
+                    case TypeOfEntity.Monster:
+                        SetCursorToAttackAppearance();
                         ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
+                    case TypeOfEntity.EnemyMinion:
+                        SetCursorToAttackAppearance();
+                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
+                        AssignKnownTarget(knownTargetDetected.transform);
+                        break;
+                    case TypeOfEntity.EnemyStele:
+                        SetCursorToAttackAppearance();
+                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
+                        AssignKnownTarget(knownTargetDetected.transform);
+                        break;
+                    #endregion
+                    #region Allies
+                    case TypeOfEntity.AllyPlayer:
+                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
+                        AssignKnownTarget(knownTargetDetected.transform);
+                        break;
+                    case TypeOfEntity.AllyMinion:
+                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
+                        AssignKnownTarget(knownTargetDetected.transform);
+                        break;
+                    case TypeOfEntity.AllyStele:
+                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
+                        AssignKnownTarget(knownTargetDetected.transform);
+                        break;
+                    #endregion
+                    #region Interactive Buildings
                     case TypeOfEntity.Stele:
                         ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
@@ -65,6 +91,7 @@ public class CursorLogic : MonoBehaviour
                         ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
+                        #endregion
                 }
             }
             else

@@ -204,10 +204,13 @@ public abstract class AbilityLogic : MonoBehaviourPun
         return cursorPosition;
     }
 
-    protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false)
+    protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false, bool lostTargetOnCast = false)
     {
         if (resetAutoAttack)
             Interactions.ResetInteractionState();
+
+        if (lostTargetOnCast)
+            Interactions.Target = null;
 
         Controller.CharacterAnimator.SetBool(animationName, true);
     }

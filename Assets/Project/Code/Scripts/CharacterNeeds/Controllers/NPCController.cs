@@ -181,6 +181,8 @@ public class NPCController : CharacterController
 
     public void CompareCurrentPositionFromStartingPosition()
     {
+        if (!isACampNPC) return;
+
         Vector3 currentPosition = transform.position;
 
         float distanceFromStartingDistance = DistanceBetweenAAndB(currentPosition, StartingPosition.position);

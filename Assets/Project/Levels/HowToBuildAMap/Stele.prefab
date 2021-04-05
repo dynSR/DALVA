@@ -1370,6 +1370,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entitiesLayerValue: 12
+  obstaclesLayerValue: 0
+  entitiesInRange: []
+  visibleEntities: []
 --- !u!1 &6087098848135741476
 GameObject:
   m_ObjectHideFlags: 0
@@ -12374,7 +12377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903530, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: isAStele

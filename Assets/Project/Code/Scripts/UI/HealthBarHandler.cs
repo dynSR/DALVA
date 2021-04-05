@@ -46,7 +46,7 @@ public class HealthBarHandler : MonoBehaviour
     {
         HealthBarFill.fillAmount = currentValue / maxValue;
 
-        SetHealthBarColor();
+        //SetHealthBarColor();
     }
 
     void SetHealthBarColor()

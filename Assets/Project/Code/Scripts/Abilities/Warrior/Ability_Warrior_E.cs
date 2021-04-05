@@ -17,8 +17,8 @@ public class Ability_Warrior_E : AbilityLogic
         {
             case AbilityEffect.I:
                 PlayAbilityAnimation("UsesThirdAbility", true, true);
-                ApplyAbilityAtLocation(CastLocation, Ability.AbilityEffectObject);
-                ResetAbilityAnimation("UsesThirdAbility");
+                //ApplyAbilityAtLocation(CastLocation, Ability.AbilityEffectObject);
+                //StartCoroutine(ResetAbilityAnimation(1f, "UsesThirdAbility"));
                 break;
             case AbilityEffect.II:
                 break;

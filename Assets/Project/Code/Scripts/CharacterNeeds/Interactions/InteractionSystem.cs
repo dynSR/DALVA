@@ -166,6 +166,9 @@ public class InteractionSystem : MonoBehaviour
         {
             Debug.Log("Ranged Attack");
 
+            float pPBonus = 0;
+            float mPBonus = 0;
+
             GameObject autoAttackProjectile = Instantiate(rangedAttackProjectile, rangedAttackEmiterPosition.position, rangedAttackProjectile.transform.rotation);
 
             ProjectileLogic attackProjectile = autoAttackProjectile.GetComponent<ProjectileLogic>();
@@ -175,9 +178,12 @@ public class InteractionSystem : MonoBehaviour
             attackProjectile.ProjectileSender = transform;
             attackProjectile.Target = Target;
 
-            float pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
-            float mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
-
+            if (Stats.GetStat(StatType.BonusPhysicalPower) != null && Stats.GetStat(StatType.BonusPhysicalPower) != null)
+            {
+                pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
+                mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
+            }
+            
             HasPerformedAttack = true; 
 
             OnAttacking?.Invoke();

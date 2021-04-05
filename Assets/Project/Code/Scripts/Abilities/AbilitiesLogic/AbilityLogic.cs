@@ -31,7 +31,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [SerializeField] private List<GameObject> abilitVFXToActivate;
     private bool canBeUsed = true;
     private bool characterIsTryingToCast = false;
-    protected Vector3 CastLocation = Vector3.zero;
+    public Vector3 CastLocation = Vector3.zero;
 
     float DistanceFromCastingPosition => Vector3.Distance(transform.position, CastLocation);
     private bool IsInRangeToCast => DistanceFromCastingPosition <= Ability.AbilityRange;
@@ -124,6 +124,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if (characterIsTryingToCast && !Controller.IsCasting && Ability.AbilityRange == 0) 
         {
             Debug.Log("Ability has a equal to 0");
+            Controller.IsCasting = true;
+            Controller.CanMove = false;
             StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
             characterIsTryingToCast = false;
             return; 
@@ -133,6 +135,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if (characterIsTryingToCast && !Controller.IsCasting && IsInRangeToCast)
         {
             Debug.Log("Close enough, can cast now !");
+            Controller.IsCasting = true;
+            Controller.CanMove = false;
             StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
             characterIsTryingToCast = false;
         }
@@ -140,9 +144,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     private IEnumerator ProcessCasting(float castDuration)
     {
-        Controller.IsCasting = true;
-        Controller.CanMove = false;
-
         if (castDuration > 0) Controller.Agent.ResetPath();
 
         yield return new WaitForSeconds(castDuration);
@@ -215,11 +216,12 @@ public abstract class AbilityLogic : MonoBehaviourPun
         Controller.CharacterAnimator.SetBool(animationName, true);
     }
 
-    protected void ResetAbilityAnimation(string animationName)
+    public void ResetAbilityAnimation(string animationName)
     {
         Controller.CharacterAnimator.SetBool(animationName, false);
     }
-    protected void ApplyAbilityAtLocation(Vector3 pos, GameObject applicationInstance)
+
+    public void ApplyAbilityAtLocation(Vector3 pos, GameObject applicationInstance)
     {
         Instantiate(applicationInstance, pos, Quaternion.identity);
 
@@ -229,7 +231,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
         {
             if (collider.GetComponent<EntityStats>() != null
                 && !collider.GetComponent<EntityStats>().IsDead 
-                && collider.transform != transform)
+                && collider.transform != transform
+                && (collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
+                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster))
             {
                 EntityStats targetStat = collider.GetComponent<EntityStats>();
                 EntityStats characterStat = transform.GetComponent<EntityStats>();

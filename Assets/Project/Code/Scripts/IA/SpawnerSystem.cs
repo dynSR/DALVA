@@ -24,6 +24,7 @@ public class SpawnerSystem : MonoBehaviour
     [SerializeField] private float delayBetweenWaves = 30f;
     public float countdown = 0f; // put in private after tests
     public int indexOfCurrentWave = 0; // to delete after tests
+    [SerializeField] private List<Transform> waypoints;
 
     [Header("WAVES")]
     [SerializeField] private List<Wave> waves;
@@ -92,6 +93,11 @@ public class SpawnerSystem : MonoBehaviour
 
         waveIndex++;
         GameObject currentMinion = Instantiate(minion, new Vector3(spawnPosition.position.x + waveIndex, spawnPosition.position.y, spawnPosition.position.z), spawnPosition.rotation);
+
+        for (int i = 0; i < waypoints.Count; i++)
+        {
+            currentMinion.GetComponent<NPCController>().waypoints.Add(waypoints[i]);
+        }
     }
 
 

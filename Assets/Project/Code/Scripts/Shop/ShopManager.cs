@@ -94,7 +94,7 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void SellItem()
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty || !InventoryItemIsSelected) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty || !InventoryItemIsSelected || SelectedInventoryBox.StoredItem == null) return;
 
         Debug.Log("Selling item : " + SelectedInventoryBox.StoredItem.ItemName);
 

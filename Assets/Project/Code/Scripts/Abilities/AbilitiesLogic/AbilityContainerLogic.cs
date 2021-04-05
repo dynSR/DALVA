@@ -41,6 +41,9 @@ public class AbilityContainerLogic : MonoBehaviour
         //Set ability key + Input UI
         abilityKey = containedAbility.Ability.AbilityKey;
         keyText.SetText(abilityKey.ToString());
+
+            if (containedAbility.Ability.AbilityIcon != null)
+        containedAbilityIcon.sprite = containedAbility.Ability.AbilityIcon;
     }
 
     private void UpdateAbilityCooldownUI(AbilityLogic containedAbility)

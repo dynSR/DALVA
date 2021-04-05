@@ -82,7 +82,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             deathHUD.SetActive(false);
     }
 
-    protected virtual void Update() { OnDeath(); if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f); }
+    protected virtual void Update() { OnDeath(); /*if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f);*/ }
 
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
@@ -165,7 +165,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             OnDamageTaken?.Invoke();
 
-            OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+            OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
 
             //Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
         }
@@ -208,7 +208,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             if (regenerationAddedValue > (regenerationThreshold * 2))
             {
-                OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+                OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
                 regenerationAddedValue = 0;
             }
         }
@@ -277,6 +277,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             && SourceOfDamage.GetComponent<CharacterRessources>() != null)
         {
             StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon, true));
+            SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
             //Debug.Log("Ressources have been given to a player, the last stored source of damage");
         }
@@ -324,7 +325,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         yield return new WaitForSeconds(0.25f);
 
-        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
 
     private void Respawn()
@@ -385,7 +386,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if(GetStat(StatType.MovementSpeed) != null)
             Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.MovementSpeed).Value);
 
-        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
 
     public Stat GetStat(StatType statType)

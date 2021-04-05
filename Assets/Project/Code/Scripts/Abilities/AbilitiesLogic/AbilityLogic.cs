@@ -222,6 +222,30 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected void ApplyAbilityAtLocation(Vector3 pos, GameObject applicationInstance)
     {
         Instantiate(applicationInstance, pos, Quaternion.identity);
+
+        Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.05f, pos.z), Ability.AbilityAreaOfEffect);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.GetComponent<EntityStats>() != null
+                && !collider.GetComponent<EntityStats>().IsDead 
+                && collider.transform != transform)
+            {
+                EntityStats targetStat = collider.GetComponent<EntityStats>();
+                EntityStats characterStat = transform.GetComponent<EntityStats>();
+
+                collider.GetComponent<EntityStats>().TakeDamage(
+                    transform,
+                    targetStat.GetStat(StatType.PhysicalResistances).Value,
+                    targetStat.GetStat(StatType.MagicalResistances).Value,
+                    Ability.AbilityPhysicalDamage + (characterStat.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio),
+                    Ability.AbilityMagicalDamage + (characterStat.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio),
+                    characterStat.GetStat(StatType.CriticalStrikeChance).Value,
+                    175f,
+                    characterStat.GetStat(StatType.PhysicalPenetration).Value,
+                    characterStat.GetStat(StatType.MagicalPenetration).Value);
+            }
+        }
     }
     #endregion
 

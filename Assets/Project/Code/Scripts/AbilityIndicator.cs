@@ -11,7 +11,7 @@ public class AbilityIndicator : MonoBehaviour
             if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
             {
                 if (!isAttachedToPlayer)
-                    transform.position = new Vector3(hit.point.x, hit.point.y + 0.05f, hit.point.z + 0.05f);
+                    transform.position = new Vector3(hit.point.x, 0.05f, hit.point.z);
                 else if (isAttachedToPlayer)
                     transform.rotation = Quaternion.LookRotation(transform.forward, hit.point - transform.position);
             }

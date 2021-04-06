@@ -51,6 +51,7 @@ public class HealthBarHandler : MonoBehaviour
 
     void SetHealthBarColor()
     {
+        //Modify Colors for correct team idk how
         if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyPlayer
             || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyMinion
             || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyStele)

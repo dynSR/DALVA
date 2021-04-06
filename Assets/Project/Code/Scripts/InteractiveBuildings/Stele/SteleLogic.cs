@@ -99,14 +99,17 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
 
     private void SetSteleTeam()
     {
-        if (InteractingPlayer.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.AllyPlayer)
+        if (InteractingPlayer.GetComponent<EntityStats>().EntityTeam == EntityTeam.DALVA)
         {
-            EntityDetection.TypeOfEntity = TypeOfEntity.AllyStele;
+            EntityTeam = EntityTeam.DALVA;
+            //EntityDetection.TypeOfEntity = TypeOfEntity.AllyStele;
             Outline.OutlineColor = Color.blue;
         }
-        else if (InteractingPlayer.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer)
+        else if (InteractingPlayer.GetComponent<EntityStats>().EntityTeam == EntityTeam.HULRYCK
+            /*InteractingPlayer.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer*/)
         {
-            EntityDetection.TypeOfEntity = TypeOfEntity.EnemyStele;
+            EntityTeam = EntityTeam.HULRYCK;
+            //EntityDetection.TypeOfEntity = TypeOfEntity.EnemyStele;
             Outline.OutlineColor = Color.red;
         }
     }

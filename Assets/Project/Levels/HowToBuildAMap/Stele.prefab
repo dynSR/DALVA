@@ -1932,7 +1932,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6087098848328281827}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -21.22, y: 0, z: 6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1968,6 +1968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a549afc0d74da9498a3b42c4ad92114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityTeam: 2
   InteractingPlayer: {fileID: 0}
   reinitializationDelay: 2
   healthPoints: 0
@@ -2029,7 +2030,7 @@ MonoBehaviour:
   billboard: {fileID: 6087098848484573277}
   timeSeen: 0
   visibilityStateCanChange: 1
-  isVisible: 0
+  isVisible: 1
 --- !u!1 &6087098848351799501
 GameObject:
   m_ObjectHideFlags: 0

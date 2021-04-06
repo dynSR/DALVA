@@ -101,8 +101,10 @@ public class InteractionSystem : MonoBehaviour
 
     void AttackInteraction()
     {
-        if (Target != null)
+       if (Target != null)
         {
+            if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester) return;
+
             if (/*(Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer 
                 || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
                 || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele

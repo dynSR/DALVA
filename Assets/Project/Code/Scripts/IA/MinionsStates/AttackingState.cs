@@ -45,6 +45,9 @@ class AttackingState : IState
                 if (controller.Stats.SourceOfDamage == controller.NPCInteractions.Target) controller.Stats.SourceOfDamage = null;
 
                 controller.NPCInteractions.Target = null;
+
+                if (!controller.isACampNPC && controller.AggroRange != null) controller.AggroRange.CheckForNewTarget();
+
                 return;
             }
 

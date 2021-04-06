@@ -7,6 +7,7 @@ public class AggroRange : MonoBehaviour
     private SphereCollider m_Collider => GetComponent<SphereCollider>();
     private NPCController Controller => GetComponentInParent<NPCController>();
     private NPCInteractions Interactions => GetComponentInParent<NPCInteractions>();
+    private EntityStats Stats => GetComponentInParent<EntityStats>();
     #endregion
 
     private void OnTriggerEnter(Collider other)
@@ -22,13 +23,15 @@ public class AggroRange : MonoBehaviour
 
     private void AssignTarget(Collider other)
     {
-        EntityDetection entityDetection = other.GetComponent<EntityDetection>();
+        //EntityDetection entityDetection = other.GetComponent<EntityDetection>();
+        EntityStats entityStats = other.GetComponent<EntityStats>();
 
-        if (entityDetection != null
-            && (entityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
-                || entityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
-                || entityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
-                || entityDetection.TypeOfEntity == TypeOfEntity.Monster))
+        if (entityStats != null && entityStats.EntityTeam != Stats.EntityTeam
+                /*entityDetection != null
+                && (entityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
+                    || entityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
+                    || entityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
+                    || entityDetection.TypeOfEntity == TypeOfEntity.Monster)*/)
         {
             if (!other.GetComponent<EntityStats>().IsDead && other.GetComponent<VisibilityState>().IsVisible)
             {

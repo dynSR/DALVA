@@ -1685,7 +1685,7 @@ GameObject:
   - component: {fileID: 5604578822666749574}
   - component: {fileID: 3531769180362398722}
   m_Layer: 12
-  m_Name: MeleeMinion
+  m_Name: MeleeMinion_HULRYCK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1756,7 +1756,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6654030471137427594}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -1774,6 +1774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94568958f66afe5468611032daa91332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityTeam: 1
   usedEntity: {fileID: 11400000, guid: 94cfd4484a5c1f746b21b83668f1b4be, type: 2}
   entityAbilities: []
   entityStats:
@@ -2037,7 +2038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1e417e156e64740997068200fc14df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOfEntity: 7
+  typeOfEntity: 3
 --- !u!114 &5604578822666749574
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,8 @@ using UnityEngine;
 public enum EntityTeam
 {
     DALVA,
-    HULRYCK
+    HULRYCK,
+    NEUTRAL
 }
 
 public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IRegenerable
@@ -24,8 +25,10 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #endregion
 
     [Header("CHARACTER INFORMATIONS")]
+    [SerializeField] private EntityTeam entityTeam;
     [SerializeField] private BaseEntity usedEntity;
     [SerializeField] private List<AbilityLogic> entityAbilities;
+    public EntityTeam EntityTeam { get => entityTeam; }
     public BaseEntity UsedEntity { get => usedEntity; }
     public List<AbilityLogic> EntityAbilities { get => entityAbilities; }
 

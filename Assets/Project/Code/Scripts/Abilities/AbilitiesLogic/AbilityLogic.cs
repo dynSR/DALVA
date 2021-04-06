@@ -230,11 +230,12 @@ public abstract class AbilityLogic : MonoBehaviourPun
         foreach (Collider collider in colliders)
         {
             if (collider.GetComponent<EntityStats>() != null
-                && !collider.GetComponent<EntityStats>().IsDead 
-                && collider.transform != transform
+                && !collider.GetComponent<EntityStats>().IsDead
+                && collider.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam
+                /*&& collider.transform != transform
                 && (collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
                 || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster))
+                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)*/)
             {
                 EntityStats targetStat = collider.GetComponent<EntityStats>();
                 EntityStats characterStat = transform.GetComponent<EntityStats>();

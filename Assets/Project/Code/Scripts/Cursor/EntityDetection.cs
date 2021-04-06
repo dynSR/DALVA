@@ -25,32 +25,32 @@ public class EntityDetection : MonoBehaviour
     {
         switch (TypeOfEntity)
         {
-            case TypeOfEntity.None:
-                break;
-            case TypeOfEntity.Self:
-                Outline.OutlineColor = Color.grey;
-                break;
-            case TypeOfEntity.EnemyPlayer:
-                Outline.OutlineColor = Color.red;
-                break;
-            case TypeOfEntity.Monster:
-                Outline.OutlineColor = Color.red;
-                break;
-            case TypeOfEntity.EnemyMinion:
-                Outline.OutlineColor = Color.red;
-                break;
-            case TypeOfEntity.EnemyStele:
-                Outline.OutlineColor = Color.red;
-                break;
-            case TypeOfEntity.AllyPlayer:
-                Outline.OutlineColor = Color.blue;
-                break;
-            case TypeOfEntity.AllyMinion:
-                Outline.OutlineColor = Color.blue;
-                break;
-            case TypeOfEntity.AllyStele:
-                Outline.OutlineColor = Color.blue;
-                break;
+            //case TypeOfEntity.None:
+            //    break;
+            //case TypeOfEntity.Self:
+            //    Outline.OutlineColor = Color.grey;
+            //    break;
+            //case TypeOfEntity.EnemyPlayer:
+            //    Outline.OutlineColor = Color.red;
+            //    break;
+            //case TypeOfEntity.Monster:
+            //    Outline.OutlineColor = Color.red;
+            //    break;
+            //case TypeOfEntity.EnemyMinion:
+            //    Outline.OutlineColor = Color.red;
+            //    break;
+            //case TypeOfEntity.EnemyStele:
+            //    Outline.OutlineColor = Color.red;
+            //    break;
+            //case TypeOfEntity.AllyPlayer:
+            //    Outline.OutlineColor = Color.blue;
+            //    break;
+            //case TypeOfEntity.AllyMinion:
+            //    Outline.OutlineColor = Color.blue;
+            //    break;
+            //case TypeOfEntity.AllyStele:
+            //    Outline.OutlineColor = Color.blue;
+            //    break;
             case TypeOfEntity.Stele:
                 Outline.OutlineColor = Color.yellow;
                 break;

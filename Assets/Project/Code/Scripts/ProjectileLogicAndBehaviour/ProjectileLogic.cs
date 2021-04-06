@@ -111,7 +111,7 @@ public class ProjectileLogic : MonoBehaviour
             if (entityFound.TypeOfEntity == TypeOfEntity.EnemyPlayer
                 || entityFound.TypeOfEntity == TypeOfEntity.EnemyMinion
                 || entityFound.TypeOfEntity == TypeOfEntity.EnemyStele
-                || entityFound.TypeOfEntity == TypeOfEntity.Monster)
+                || entityFound.TypeOfEntity == TypeOfEntity.Monster || ProjectileSenderCharacterStats.EntityTeam != targetStats.EntityTeam)
             {
                 Debug.Log("Projectile Applies Damage !");
                 

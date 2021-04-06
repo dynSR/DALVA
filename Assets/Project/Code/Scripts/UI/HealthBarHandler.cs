@@ -64,5 +64,9 @@ public class HealthBarHandler : MonoBehaviour
         {
             HealthBarFill.color = enemyColor;
         }
+        else
+        {
+            HealthBarFill.color = Color.yellow;
+        }
     }
 }

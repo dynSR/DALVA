@@ -103,10 +103,11 @@ public class InteractionSystem : MonoBehaviour
     {
         if (Target != null)
         {
-            if ((Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer 
+            if (/*(Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer 
                 || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
                 || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
-                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
+                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)*/
+                Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam
                 && CanPerformAttack)
             {
                 StartCoroutine(AttackInterval());

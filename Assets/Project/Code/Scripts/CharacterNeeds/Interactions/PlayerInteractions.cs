@@ -161,19 +161,21 @@ public class PlayerInteractions : InteractionSystem
 
             if (target != null)
             {
-                if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
-                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
-                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
-                    StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
+                player.Target = GameObject.Find(target).transform;
+
+                if (player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
+                        || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+                        || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
+                        || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
+                    player.StoppingDistance = player.Stats.GetStat(StatType.AttackRange).Value;
                 //Target is an interactive building
-                if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester
-                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele)
-                    StoppingDistance = InteractionRange;
+                if (player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester
+                    || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele)
+                    player.StoppingDistance = player.InteractionRange;
             }
             else
             {
-                ResetAgentState();
+                player.ResetAgentState();
             }
 
         }

@@ -12,9 +12,9 @@ namespace GameNetwork
         public GameObject playerHUD;
 
         public bool dalvasTeam;
+        public bool isMine;
 
         public static EntityStats myCharacterStats = null;
-        private EntityDetection myEntityDetection => GetComponent<EntityDetection>();
 
         protected virtual void Awake()
         {
@@ -39,8 +39,7 @@ namespace GameNetwork
             if (photonView.IsMine)
             {
                 playerHUD.SetActive(true);
-                myCharacterStats = GetComponent<EntityStats>();
-                myEntityDetection.TypeOfEntity = TypeOfEntity.Self;
+                isMine = true;
             }            
         }
     }

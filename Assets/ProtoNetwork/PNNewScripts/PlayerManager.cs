@@ -14,6 +14,7 @@ namespace GameNetwork
         public bool dalvasTeam;
 
         public static EntityStats myCharacterStats = null;
+        private EntityDetection myEntityDetection => GetComponent<EntityDetection>();
 
         protected virtual void Awake()
         {
@@ -39,6 +40,7 @@ namespace GameNetwork
             {
                 playerHUD.SetActive(true);
                 myCharacterStats = GetComponent<EntityStats>();
+                myEntityDetection.TypeOfEntity = TypeOfEntity.Self;
             }            
         }
     }

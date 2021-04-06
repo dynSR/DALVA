@@ -39,10 +39,12 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     protected virtual void Update()
     {
-        HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
-
         //Local
-        if (GameObject.Find("GameNetworkManager") == null) return;
+        if (GameObject.Find("GameNetworkManager") == null)
+        {
+            HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
+            return;
+        }
 
         //Reseau
         if (GetComponent<PhotonView>() != null && !photonView.IsMine) UpdateNetworkPosition();

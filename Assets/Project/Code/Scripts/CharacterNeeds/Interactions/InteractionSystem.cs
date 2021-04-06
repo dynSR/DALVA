@@ -103,18 +103,43 @@ public class InteractionSystem : MonoBehaviour
     {
        if (Target != null)
         {
-            if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester) return;
+            if (Target.GetComponent<InteractiveBuilding>() != null && Target.GetComponent<InteractiveBuilding>().EntityTeam == EntityTeam.NEUTRAL) return;
 
-            if (/*(Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer 
-                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
-                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)*/
-                Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam
-                && CanPerformAttack)
+            if (CanPerformAttack)
             {
-                StartCoroutine(AttackInterval());
-                Debug.Log("Attack performed !");
+                //if its a building
+                if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele 
+                    && Target.GetComponent<InteractiveBuilding>() != null 
+                    && Target.GetComponent<InteractiveBuilding>().EntityTeam != Stats.EntityTeam)
+                {
+                    StartCoroutine(AttackInterval());
+                    Debug.Log("Attack performed on building !");
+                }
+                //else if its an entity
+                else if (Target.GetComponent<EntityStats>() != null
+                    && (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
+                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster
+                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.AllyMinion)
+                    && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
+                {
+                    StartCoroutine(AttackInterval());
+                    Debug.Log("Attack performed on entity!");
+                }
             }
+
+            ////Needs to be modified to only include Player - Interactive building - Monster - Minion
+            //if ((Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer 
+            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele
+            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster
+            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.AllyMinion)
+            //    && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam
+            //    && CanPerformAttack)
+            //{
+            //    StartCoroutine(AttackInterval());
+            //    Debug.Log("Attack performed !");
+            //}
         }
     }
 

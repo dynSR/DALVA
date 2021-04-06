@@ -42,6 +42,7 @@ public class CursorLogic : MonoBehaviour
                 knownTargetDetected = cursorHit.collider.GetComponent<EntityDetection>();
                 knownTargetStats = cursorHit.collider.GetComponent<EntityStats>();
 
+                //Self
                 if (knownTargetDetected.gameObject == transform.gameObject)
                 {
                     SetCursorToNormalAppearance();
@@ -50,13 +51,14 @@ public class CursorLogic : MonoBehaviour
                     return;
                 }
 
+                //Needs to be modified to only include Player - Interactive building - Monster - Minion
                 switch (knownTargetDetected.TypeOfEntity)
                 {
-                    case TypeOfEntity.Self:
-                        SetCursorToNormalAppearance();
-                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.grey);
-                        AssignKnownTarget(knownTargetDetected.transform);
-                        break;
+                    //case TypeOfEntity.Self:
+                    //    SetCursorToNormalAppearance();
+                    //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.grey);
+                    //    AssignKnownTarget(knownTargetDetected.transform);
+                    //    break;
                     #region Enemies
                     case TypeOfEntity.EnemyPlayer: //Imagine its Only Player here
                         if (Stats.EntityTeam == knownTargetStats.EntityTeam)

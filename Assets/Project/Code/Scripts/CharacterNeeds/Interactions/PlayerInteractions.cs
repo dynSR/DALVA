@@ -35,6 +35,7 @@ public class PlayerInteractions : InteractionSystem
                     if (GameObject.Find("GameNetworkManager") != null)
                         GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, hit.collider.gameObject.name, "Targeting", GetComponent<PhotonView>().ViewID);
 
+                    //Needs to be modified to only include Player -Interactive building - Monster - Minion
                     //Target in an enemy entity
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
                         || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
@@ -42,9 +43,14 @@ public class PlayerInteractions : InteractionSystem
                         || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
                         StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
                     //Target is an interactive building
-                    if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester
-                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele)
-                        StoppingDistance = InteractionRange;
+                    if (Target.GetComponent<InteractiveBuilding>() != null)
+                    {
+                        if (Target.GetComponent<InteractiveBuilding>().EntityTeam == EntityTeam.NEUTRAL
+                            || Target.GetComponent<InteractiveBuilding>().EntityTeam == Stats.EntityTeam) 
+                            StoppingDistance = InteractionRange;
+                        else if (Target.GetComponent<InteractiveBuilding>().EntityTeam != Stats.EntityTeam) 
+                            StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
+                    }  
                 }
                 else
                 {
@@ -100,7 +106,7 @@ public class PlayerInteractions : InteractionSystem
         {
             SteleLogic stele = Target.GetComponent<SteleLogic>();
 
-            if (stele != null && stele.IsInteractable && stele.SteleState != SteleState.Active  /* + vérification team ? */)
+            if (stele != null && stele.IsInteractable && stele.SteleState != SteleState.Active /*uncomment here if a stele can be interactive even when active*/)
             {
                 IsInteractingWithAStele = true;
                 Animator.SetBool("Attack", false);

@@ -117,6 +117,7 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
     public void OnDeath()
     {
         OnSteleDeath?.Invoke();
+        EntityTeam = EntityTeam.NEUTRAL;
         IsInteractable = false;
         StartCoroutine(SetSteleToStandByMode());
 

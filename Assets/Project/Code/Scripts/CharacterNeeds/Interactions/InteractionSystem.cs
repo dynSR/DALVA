@@ -11,6 +11,7 @@ public class InteractionSystem : MonoBehaviour
     [Header("TARGETS INFORMATIONS")]
     [SerializeField] private Transform target; //Est en publique pour debug
     [SerializeField] private Transform knownTarget; //Est en publique pour debug
+    public Transform LastKnownTarget { get; set; }
 
     [Header("INTERACTIONS PARAMETERS")]
     [SerializeField] private Animator characterAnimator;
@@ -44,7 +45,14 @@ public class InteractionSystem : MonoBehaviour
         if (Stats.IsDead)
         {
             Target = null;
-            KnownTarget = null;
+            LastKnownTarget = null;
+
+            if (KnownTarget != null)
+            {
+                KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>());
+                KnownTarget = null;
+            } 
+           
             return;
         }
 

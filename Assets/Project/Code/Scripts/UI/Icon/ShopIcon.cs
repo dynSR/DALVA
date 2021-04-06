@@ -7,7 +7,14 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
     public static event ItemSelectionHandler OnDeselectingAnItem;
 
     private ShopManager ShopManager => ShopWindow.GetComponentInChildren<ShopManager>();
-    private ShopButton ShopButton => GetComponentInParent<ShopButton>();
+    private ItemButton ItemButton;
+    private AbilityButton AbilityButton;
+
+    private void Awake()
+    {
+        if(GetComponentInParent<AbilityButton>() != null) AbilityButton = GetComponentInParent<AbilityButton>();
+        if (GetComponentInParent<ItemButton>() != null) ItemButton = GetComponentInParent<ItemButton>();
+    }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
@@ -27,7 +34,7 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
     protected override void SetSelection()
     {
         ShopManager.ShopItemIsSelected = true;
-        ShopManager.SelectedItem = ShopButton.ButtonItem;
+        ShopManager.SelectedItem = ItemButton.ButtonItem;
 
         OnSelectingAnItem?.Invoke(ShopManager.SelectedItem);
     }

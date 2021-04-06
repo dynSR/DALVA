@@ -24,7 +24,6 @@ public class ShopInformationPanel : MonoBehaviour
     [SerializeField] private GameObject firstPartContent;
     [SerializeField] private GameObject secondPartContent;
 
-
     private void OnEnable()
     {
         ShopIcon.OnSelectingAnItem += SetInformationPanel;

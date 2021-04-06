@@ -14,7 +14,6 @@ public class ForestCamp : MonoBehaviour
         {
             npcControllers[i].OnExitingIdleState += SetEveryNPCToAggressionState;
         }
-        
     }
 
     private void OnDisable()

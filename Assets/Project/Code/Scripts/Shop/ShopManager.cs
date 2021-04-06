@@ -18,6 +18,9 @@ public class ShopManager : MonoBehaviour
     private bool shopItemIsSelected = false;
     private int numberOfShopActionsDone = 0;
 
+    [Header("SHOP BOXES ICON")]
+    [SerializeField] private List<ShopIcon> shopBoxesIcon;
+
     private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
     public InventoryBox SelectedInventoryBox { get; set; }
@@ -199,6 +202,14 @@ public class ShopManager : MonoBehaviour
     {
         //Lock les équipements qui ne sont plus achetables - check des ressources
         //Lock les équipements qui sont déjà dans l'inventaire après l'achat
+    }
+
+    public void ResetSelectionIcon()
+    {
+        for (int i = 0; i < shopBoxesIcon.Count; i++)
+        {
+            shopBoxesIcon[i].ResetSelection();
+        }
     }
 
     public bool IsItemAlreadyInInventory(Item item)

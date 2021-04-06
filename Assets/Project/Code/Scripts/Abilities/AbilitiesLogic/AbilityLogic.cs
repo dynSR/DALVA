@@ -26,8 +26,13 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected DashLogic DashLogic => GetComponent<DashLogic>();
     #endregion
 
+    [Header("USED ABILITY")]
     [SerializeField] private Ability ability;
+
+    [Header("PREVISUALISATION")]
     [SerializeField] private GameObject rangeDisplayer;
+
+    [Header("VFX")]
     [SerializeField] private List<GameObject> abilitVFXToActivate;
     private bool canBeUsed = true;
     private bool characterIsTryingToCast = false;
@@ -36,11 +41,12 @@ public abstract class AbilityLogic : MonoBehaviourPun
     float DistanceFromCastingPosition => Vector3.Distance(transform.position, CastLocation);
     private bool IsInRangeToCast => DistanceFromCastingPosition <= Ability.AbilityRange;
 
+    [Header("CASTING TYPE")]
     [SerializeField] private bool normalCast = true;
     [SerializeField] private bool fastCastWithIndication = false;
     [SerializeField] private bool smartCast = false;
 
-    [Header("Debug")]
+    [Header("DEBUG")]
     [SerializeField] private Color gizmosColor;
 
     public Ability Ability { get => ability; }

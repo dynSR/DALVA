@@ -62,4 +62,9 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     {
         Controller.CanMove = true;
     }
+
+    public void DestroyGameObject()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 }

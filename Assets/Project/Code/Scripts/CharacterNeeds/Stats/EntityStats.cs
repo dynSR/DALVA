@@ -38,6 +38,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
     [SerializeField] private float timeToRespawn;
+    [SerializeField] private bool destroyOnDeath = false;
     float regenerationAddedValue;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
     public Transform SourceOfDamage { get; set; }

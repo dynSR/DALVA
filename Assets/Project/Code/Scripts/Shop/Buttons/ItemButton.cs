@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ItemButton : MonoBehaviour
+public class ItemButton : ShopButton
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Item buttonItem;
+    public Item ButtonItem { get => buttonItem; }
 
-    // Update is called once per frame
-    void Update()
+    void Start() => SetButton(ButtonItem.ItemIcon, ButtonItem.ItemCost);
+
+    public override void OnPointerDown(PointerEventData eventData)
     {
-        
+        base.OnPointerDown(eventData);
+        PlayerShop.BuyItem(ButtonItem);
     }
 }

@@ -61,4 +61,15 @@ public class EntityDetection : MonoBehaviour
 
         Outline.enabled = false;
     }
+
+    public void ActivateTargetOutlineOnHover(Outline targetOutlineFound, Color outlineColor)
+    {
+        targetOutlineFound.enabled = true;
+        targetOutlineFound.OutlineColor = outlineColor;
+    }
+
+    public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
+    {
+        targetOutlineFound.enabled = false;
+    }
 }

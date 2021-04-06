@@ -9,6 +9,7 @@ public class Ability : ScriptableObject
     [TextArea][SerializeField] private string abilityDescription;
     [SerializeField] private KeyCode abilityKey;
     [SerializeField] private Sprite abilityIcon;
+    [SerializeField] private int abilityCost = 0;
     [SerializeField] private GameObject abilityEffectObject;
 
     [Header("DAMAGE ATTRIBUTES")]
@@ -38,7 +39,7 @@ public class Ability : ScriptableObject
     public GameObject AbilityEffectObject { get => abilityEffectObject; }
     public bool AutomaticallyPutInCooldown { get => automaticallyPutInCooldown; }
 
-   
+    public int AbilityCost { get => abilityCost; set => abilityCost = value; }
     public float AbilityPhysicalDamage { get => abilityPhysicalDamage; set => abilityPhysicalDamage = value; }
     public float AbilityMagicalDamage { get => abilityMagicalDamage; set => abilityMagicalDamage = value; }
     public float AbilityMagicalRatio { get => abilityMagicalRatio; set => abilityMagicalRatio = value; }

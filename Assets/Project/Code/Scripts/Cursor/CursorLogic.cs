@@ -22,7 +22,7 @@ public class CursorLogic : MonoBehaviour
         SetCursorToNormalAppearance();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         SetCursorAppearance();
     }
@@ -46,7 +46,7 @@ public class CursorLogic : MonoBehaviour
                 if (knownTargetDetected.gameObject == transform.gameObject)
                 {
                     SetCursorToNormalAppearance();
-                    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.grey);
+                    knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.grey);
                     AssignKnownTarget(knownTargetDetected.transform);
                     return;
                 }
@@ -64,35 +64,26 @@ public class CursorLogic : MonoBehaviour
                         if (Stats.EntityTeam == knownTargetStats.EntityTeam)
                         {
                             SetCursorToNormalAppearance();
-                            ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.blue);
+                            knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.blue);
                             AssignKnownTarget(knownTargetDetected.transform);
                         }
                         else if (Stats.EntityTeam != knownTargetStats.EntityTeam)
                         {
                             SetCursorToAttackAppearance();
-                            ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
+                            knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
                             AssignKnownTarget(knownTargetDetected.transform);
                         }
                         break;
                     case TypeOfEntity.Monster:
-                        if (Stats.EntityTeam == knownTargetStats.EntityTeam)
-                        {
-                            SetCursorToNormalAppearance();
-                            ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.blue);
-                            AssignKnownTarget(knownTargetDetected.transform);
-                        }
-                        else if (Stats.EntityTeam != knownTargetStats.EntityTeam)
-                        {
-                            SetCursorToAttackAppearance();
-                            ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
-                            AssignKnownTarget(knownTargetDetected.transform);
-                        }
+                        SetCursorToAttackAppearance();
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
+                        AssignKnownTarget(knownTargetDetected.transform);
                         break;
-                    //case TypeOfEntity.EnemyMinion:
-                    //    SetCursorToAttackAppearance();
-                    //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
-                    //    AssignKnownTarget(knownTargetDetected.transform);
-                    //    break;
+                    case TypeOfEntity.EnemyMinion:
+                        SetCursorToAttackAppearance();
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
+                        AssignKnownTarget(knownTargetDetected.transform);
+                        break;
                     //case TypeOfEntity.EnemyStele:
                     //    SetCursorToAttackAppearance();
                     //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
@@ -115,11 +106,11 @@ public class CursorLogic : MonoBehaviour
                     #endregion
                     #region Interactive Buildings
                     case TypeOfEntity.Stele:
-                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
                     case TypeOfEntity.Harvester:
-                        ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
                         AssignKnownTarget(knownTargetDetected.transform);
                         break;
                         #endregion
@@ -131,7 +122,13 @@ public class CursorLogic : MonoBehaviour
 
                 if (TargetHandler.KnownTarget != null)
                 {
-                    DeactivateTargetOutlineOnHover(TargetHandler.KnownTarget.GetComponent<Outline>());
+                    if (TargetHandler.LastKnownTarget != null)
+                    {
+                        TargetHandler.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(TargetHandler.LastKnownTarget.GetComponent<Outline>());
+                        TargetHandler.LastKnownTarget = null;
+                    }
+
+                    TargetHandler.KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(TargetHandler.KnownTarget.GetComponent<Outline>());
                     TargetHandler.KnownTarget = null;
                 }
             }
@@ -152,21 +149,26 @@ public class CursorLogic : MonoBehaviour
         Cursor.SetCursor(AttackCursorIcon, Vector2.zero, CursorMode.Auto);
     }
 
-    private void ActivateTargetOutlineOnHover(Outline targetOutlineFound, Color outlineColor)
-    {
-        targetOutlineFound.enabled = true;
-        targetOutlineFound.OutlineColor = outlineColor;
-    }
-
-    public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
-    {
-        targetOutlineFound.enabled = false;
-    }
-
     private void AssignKnownTarget(Transform targetFound)
     {
         if (targetFound.GetComponent<EntityDetection>() != null)
-            TargetHandler.KnownTarget = targetFound.transform;
+        {
+            if (TargetHandler.KnownTarget != null)
+            {
+                TargetHandler.LastKnownTarget = TargetHandler.KnownTarget;
+                TargetHandler.KnownTarget = targetFound.transform;
+
+                if (TargetHandler.LastKnownTarget != TargetHandler.KnownTarget && TargetHandler.LastKnownTarget.GetComponent<Outline>().enabled)
+                {
+                    TargetHandler.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(TargetHandler.LastKnownTarget.GetComponent<Outline>());
+                }
+            }
+            else
+            {
+                TargetHandler.LastKnownTarget = targetFound.transform;
+                TargetHandler.KnownTarget = targetFound.transform;
+            }
+        }
     }
     #endregion
 }

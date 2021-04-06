@@ -12,6 +12,21 @@ public class Ability_Warrior_R : AbilityLogic
 
     protected override void Cast()
     {
-        Stats.Heal(transform, 450);
+        UsedEffectIndex = AbilityEffect.I; //debug
+
+        switch (UsedEffectIndex)
+        {
+            case AbilityEffect.I:
+                PlayAbilityAnimation("UsesFourthAbility");
+                Stats.Heal(transform, 450);
+                ResetAbilityAnimation("UsesFourthAbility");
+                break;
+            case AbilityEffect.II:
+                break;
+            case AbilityEffect.III:
+                break;
+            case AbilityEffect.IV:
+                break;
+        }
     }
 }

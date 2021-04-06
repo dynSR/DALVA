@@ -45,6 +45,7 @@ public class Item : ScriptableObject
         {
             Debug.Log("Can't find any item -!-");
             c.entityStats[i].RemoveAllModifiersFromSource(this);
+            c.entityStats[i].MaxValue = c.entityStats[i].CalculateValue();
         }
     }
 }

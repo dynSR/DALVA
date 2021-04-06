@@ -8,7 +8,8 @@ class MovingState : IState
     {
         this.controller = controller;
 
-        controller.waypointTarget = controller.waypoints[controller.WaypointIndex];
+        if (!controller.isACampNPC)
+            controller.waypointTarget = controller.waypoints[controller.WaypointIndex];
     }
 
     public void Exit()
@@ -32,8 +33,9 @@ class MovingState : IState
             if (controller.isACampNPC) MoveTowardsStartPosition();
             else MoveTowardsWaypoint();
         }
-           
-        controller.CheckDistanceFromWaypoint(controller.waypoints[controller.WaypointIndex]);
+        
+        if(!controller.isACampNPC)
+            controller.CheckDistanceFromWaypoint(controller.waypoints[controller.WaypointIndex]);
     }
 
     void MoveTowardsStartPosition()

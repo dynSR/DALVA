@@ -8,7 +8,7 @@ public class Billboard : MonoBehaviourPun
     [SerializeField] protected TextMeshProUGUI nameText;
 
     #region Ref
-    protected EntityStats Stats => GetComponentInParent<EntityStats>();
+    public EntityDetection EntityDetection => GetComponentInParent<EntityDetection>();
     #endregion
 
     private Canvas Canvas => GetComponent<Canvas>();

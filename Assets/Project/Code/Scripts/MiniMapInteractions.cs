@@ -74,6 +74,7 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
     private void ConvertAPointFromMiniMapToWorldSpace(Vector2 localCursor, PointerEventData requiredEventData)
     {
         Ray miniMapRay = miniMapCamera.ScreenPointToRay(new Vector2(localCursor.x * miniMapCamera.pixelWidth, localCursor.y * miniMapCamera.pixelHeight));
+        PlayerController.Agent.isStopped = false;
 
         if (Physics.Raycast(miniMapRay, out miniMapHit, Mathf.Infinity))
         {
@@ -89,7 +90,7 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
             if (UtilityClass.RightClickIsPressedOnUIElement(requiredEventData))
             {
                 Debug.Log("RIGHT CLICK ON MAP");
-
+                
                 PlayerController.SetNavMeshDestination(miniMapRay);
                 GameObject go = Instantiate(movementFeedbackToInstantiate, miniMapHit.point, Quaternion.identity);
             }

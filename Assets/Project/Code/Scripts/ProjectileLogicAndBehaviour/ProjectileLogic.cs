@@ -95,8 +95,6 @@ public class ProjectileLogic : MonoBehaviour
     #region On hit behaviour
     private void OnTriggerEnter(Collider other)
     {
-        InstantiateHitEffectOnCollision(OnHitEffect);
-
         ApplyDamageOnTargetHit(other);
     }
 
@@ -110,7 +108,10 @@ public class ProjectileLogic : MonoBehaviour
             EntityStats targetStat = targetCollider.GetComponent<EntityStats>();
 
             //Ability projectile damage appplication
-            if (entityFound.TypeOfEntity == TypeOfEntity.Enemy)
+            if (entityFound.TypeOfEntity == TypeOfEntity.EnemyPlayer
+                || entityFound.TypeOfEntity == TypeOfEntity.EnemyMinion
+                || entityFound.TypeOfEntity == TypeOfEntity.EnemyStele
+                || entityFound.TypeOfEntity == TypeOfEntity.Monster)
             {
                 Debug.Log("Projectile Applies Damage !");
                 
@@ -129,6 +130,7 @@ public class ProjectileLogic : MonoBehaviour
                     ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
                     ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
 
+                    InstantiateHitEffectOnCollision(OnHitEffect);
                     Destroy(gameObject);
                 }
                 else if (Target != null && targetCollider.transform.gameObject == Target.gameObject)
@@ -149,6 +151,7 @@ public class ProjectileLogic : MonoBehaviour
                     Debug.Log(TotalPhysicalDamage);
                     Debug.Log(TotalMagicalDamage);
 
+                    InstantiateHitEffectOnCollision(OnHitEffect);
                     Destroy(gameObject);
                 }
             }
@@ -156,6 +159,8 @@ public class ProjectileLogic : MonoBehaviour
         else if (targetCollider.gameObject.GetComponent<SteleLogic>() != null)
         {
             targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0, 0, 1, 0, 0, 0, 0, 0);
+
+            InstantiateHitEffectOnCollision(OnHitEffect);
             Destroy(gameObject);
         }
     }

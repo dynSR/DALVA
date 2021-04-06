@@ -46,7 +46,7 @@ public class NPCController : CharacterController
 
     private void Start()
     {
-        GetGlobalWaypoints();
+        //GetGlobalWaypoints();
 
         if (isACampNPC) ChangeState(new IdlingState());
         else ChangeState(new MovingState());
@@ -105,13 +105,13 @@ public class NPCController : CharacterController
     }
 
     #region Handle waypoints
-    private void GetGlobalWaypoints()
-    {
-        foreach (Transform waypoints in MinionWaypointsManager.Instance.MinionsGlobalWaypoints)
-        {
-            this.waypoints.Add(waypoints);
-        }
-    }
+    //private void GetGlobalWaypoints()
+    //{
+    //    foreach (Transform waypoints in MinionWaypointsManager.Instance.MinionsGlobalWaypoints)
+    //    {
+    //        this.waypoints.Add(waypoints);
+    //    }
+    //}
 
     public virtual void CheckDistanceFromWaypoint(Transform waypoint)
     {
@@ -181,6 +181,8 @@ public class NPCController : CharacterController
 
     public void CompareCurrentPositionFromStartingPosition()
     {
+        if (!isACampNPC) return;
+
         Vector3 currentPosition = transform.position;
 
         float distanceFromStartingDistance = DistanceBetweenAAndB(currentPosition, StartingPosition.position);

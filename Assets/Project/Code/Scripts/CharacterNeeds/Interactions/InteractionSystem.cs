@@ -44,6 +44,7 @@ public class InteractionSystem : MonoBehaviour
         if (Stats.IsDead)
         {
             Target = null;
+            KnownTarget = null;
             return;
         }
 
@@ -69,7 +70,7 @@ public class InteractionSystem : MonoBehaviour
             else if (distance <= minDistance)
             {
                 //Debug.Log("Close enough to target");
-                Controller.Agent.ResetPath();
+                //Controller.Agent.ResetPath();
                 Controller.Agent.isStopped = true;
                 Interact();
             }
@@ -102,7 +103,10 @@ public class InteractionSystem : MonoBehaviour
     {
         if (Target != null)
         {
-            if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Enemy 
+            if ((Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer 
+                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
+                || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
                 && CanPerformAttack)
             {
                 StartCoroutine(AttackInterval());
@@ -162,6 +166,9 @@ public class InteractionSystem : MonoBehaviour
         {
             Debug.Log("Ranged Attack");
 
+            float pPBonus = 0;
+            float mPBonus = 0;
+
             GameObject autoAttackProjectile = Instantiate(rangedAttackProjectile, rangedAttackEmiterPosition.position, rangedAttackProjectile.transform.rotation);
 
             ProjectileLogic attackProjectile = autoAttackProjectile.GetComponent<ProjectileLogic>();
@@ -171,9 +178,12 @@ public class InteractionSystem : MonoBehaviour
             attackProjectile.ProjectileSender = transform;
             attackProjectile.Target = Target;
 
-            float pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
-            float mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
-
+            if (Stats.GetStat(StatType.BonusPhysicalPower) != null && Stats.GetStat(StatType.BonusPhysicalPower) != null)
+            {
+                pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
+                mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
+            }
+            
             HasPerformedAttack = true; 
 
             OnAttacking?.Invoke();

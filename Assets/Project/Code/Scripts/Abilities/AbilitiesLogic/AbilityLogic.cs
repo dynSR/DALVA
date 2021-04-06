@@ -31,7 +31,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [SerializeField] private List<GameObject> abilitVFXToActivate;
     private bool canBeUsed = true;
     private bool characterIsTryingToCast = false;
-    protected Vector3 CastLocation = Vector3.zero;
+    public Vector3 CastLocation = Vector3.zero;
 
     float DistanceFromCastingPosition => Vector3.Distance(transform.position, CastLocation);
     private bool IsInRangeToCast => DistanceFromCastingPosition <= Ability.AbilityRange;
@@ -124,6 +124,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if (characterIsTryingToCast && !Controller.IsCasting && Ability.AbilityRange == 0) 
         {
             Debug.Log("Ability has a equal to 0");
+            Controller.IsCasting = true;
+            Controller.CanMove = false;
             StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
             characterIsTryingToCast = false;
             return; 
@@ -133,6 +135,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if (characterIsTryingToCast && !Controller.IsCasting && IsInRangeToCast)
         {
             Debug.Log("Close enough, can cast now !");
+            Controller.IsCasting = true;
+            Controller.CanMove = false;
             StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
             characterIsTryingToCast = false;
         }
@@ -140,9 +144,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     private IEnumerator ProcessCasting(float castDuration)
     {
-        Controller.IsCasting = true;
-        Controller.CanMove = false;
-
         if (castDuration > 0) Controller.Agent.ResetPath();
 
         yield return new WaitForSeconds(castDuration);
@@ -204,21 +205,52 @@ public abstract class AbilityLogic : MonoBehaviourPun
         return cursorPosition;
     }
 
-    protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false)
+    protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false, bool lostTargetOnCast = false)
     {
         if (resetAutoAttack)
             Interactions.ResetInteractionState();
 
+        if (lostTargetOnCast)
+            Interactions.Target = null;
+
         Controller.CharacterAnimator.SetBool(animationName, true);
     }
 
-    protected void ResetAbilityAnimation(string animationName)
+    public void ResetAbilityAnimation(string animationName)
     {
         Controller.CharacterAnimator.SetBool(animationName, false);
     }
-    protected void ApplyAbilityAtLocation(Vector3 pos, GameObject applicationInstance)
+
+    public void ApplyAbilityAtLocation(Vector3 pos, GameObject applicationInstance)
     {
         Instantiate(applicationInstance, pos, Quaternion.identity);
+
+        Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.05f, pos.z), Ability.AbilityAreaOfEffect);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.GetComponent<EntityStats>() != null
+                && !collider.GetComponent<EntityStats>().IsDead 
+                && collider.transform != transform
+                && (collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
+                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster))
+            {
+                EntityStats targetStat = collider.GetComponent<EntityStats>();
+                EntityStats characterStat = transform.GetComponent<EntityStats>();
+
+                collider.GetComponent<EntityStats>().TakeDamage(
+                    transform,
+                    targetStat.GetStat(StatType.PhysicalResistances).Value,
+                    targetStat.GetStat(StatType.MagicalResistances).Value,
+                    Ability.AbilityPhysicalDamage + (characterStat.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio),
+                    Ability.AbilityMagicalDamage + (characterStat.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio),
+                    characterStat.GetStat(StatType.CriticalStrikeChance).Value,
+                    175f,
+                    characterStat.GetStat(StatType.PhysicalPenetration).Value,
+                    characterStat.GetStat(StatType.MagicalPenetration).Value);
+            }
+        }
     }
     #endregion
 

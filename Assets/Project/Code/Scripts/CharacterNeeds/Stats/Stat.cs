@@ -88,13 +88,11 @@ public class Stat
             }
         }
 
-        
-
         if (CapValue > 0 && finalValue >= CapValue)
             finalValue = CapValue;
 
-        if (finalValue >= MaxValue)
-            finalValue = MaxValue;
+        //if (finalValue >= MaxValue)
+        //    finalValue = MaxValue;
 
         //Debug.Log(Value);
 

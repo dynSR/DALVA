@@ -1,8 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public enum TypeOfEntity { None, Self, Enemy, Ally, Stele, Harvester }
+public enum TypeOfEntity 
+{ 
+    None, 
+    Self, 
+    EnemyPlayer, Monster, EnemyMinion, EnemyStele,
+    AllyPlayer, AllyMinion, AllyStele,
+    Stele,
+    Harvester 
+}
 
 [RequireComponent(typeof(Outline))]
 [RequireComponent(typeof(VisibilityState))]
@@ -20,15 +26,29 @@ public class EntityDetection : MonoBehaviour
         switch (TypeOfEntity)
         {
             case TypeOfEntity.None:
-                enabled = false;
                 break;
             case TypeOfEntity.Self:
-                Outline.OutlineColor = Color.white;
+                Outline.OutlineColor = Color.grey;
                 break;
-            case TypeOfEntity.Enemy:
+            case TypeOfEntity.EnemyPlayer:
                 Outline.OutlineColor = Color.red;
                 break;
-            case TypeOfEntity.Ally:
+            case TypeOfEntity.Monster:
+                Outline.OutlineColor = Color.red;
+                break;
+            case TypeOfEntity.EnemyMinion:
+                Outline.OutlineColor = Color.red;
+                break;
+            case TypeOfEntity.EnemyStele:
+                Outline.OutlineColor = Color.red;
+                break;
+            case TypeOfEntity.AllyPlayer:
+                Outline.OutlineColor = Color.blue;
+                break;
+            case TypeOfEntity.AllyMinion:
+                Outline.OutlineColor = Color.blue;
+                break;
+            case TypeOfEntity.AllyStele:
                 Outline.OutlineColor = Color.blue;
                 break;
             case TypeOfEntity.Stele:

@@ -16,9 +16,9 @@ public class Ability_Warrior_E : AbilityLogic
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                PlayAbilityAnimation("UsesFirstAbility");
-                ApplyAbilityAtLocation(CastLocation, Ability.AbilityEffectObject);
-                ResetAbilityAnimation("UsesFirstAbility");
+                PlayAbilityAnimation("UsesThirdAbility", true, true);
+                //ApplyAbilityAtLocation(CastLocation, Ability.AbilityEffectObject);
+                //StartCoroutine(ResetAbilityAnimation(1f, "UsesThirdAbility"));
                 break;
             case AbilityEffect.II:
                 break;

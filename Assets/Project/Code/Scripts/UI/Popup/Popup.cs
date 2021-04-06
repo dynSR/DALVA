@@ -80,13 +80,15 @@ public class Popup : MonoBehaviourPun
                 break;
             case StatType.RessourcesGiven:
                 textColor = ressourcesColor;
+                ValueText.SetText("+ " + value.ToString("0"));
                 break;
         }
 
         ValueText.color = textColor;
 
-        if (icon != null)
-            Icon.sprite = icon;
+        //Commented in case you want to use icon to represent damage type uncomment and use it
+        //if (icon != null)
+        //    Icon.sprite = icon;
     }
 
     private IEnumerator FadeAndDestroy(float delay, float fadingSpeed, GameObject popup)
@@ -97,7 +99,7 @@ public class Popup : MonoBehaviourPun
         {
             textColor.a -= fadingSpeed * Time.deltaTime;
 
-            Icon.color = textColor;
+            //Icon.color = textColor;
             ValueText.color = textColor;
 
             yield return new WaitForEndOfFrame();

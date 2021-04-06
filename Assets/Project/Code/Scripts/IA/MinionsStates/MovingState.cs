@@ -44,6 +44,8 @@ class MovingState : IState
 
         controller.Stats.RegenerateHealth(controller.transform, controller.Stats.GetStat(StatType.Health).Value * 0.15f);
 
+        if (controller.GetComponentInChildren<AggroRange>() != null) controller.GetComponentInChildren<AggroRange>().gameObject.GetComponent<SphereCollider>().enabled = false;
+
         if (distanceFromStartingPosition > 0.1f)
             controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);
         else if (distanceFromStartingPosition <= 0.1f) controller.ChangeState(new IdlingState());

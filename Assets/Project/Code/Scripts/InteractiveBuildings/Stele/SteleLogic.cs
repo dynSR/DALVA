@@ -22,10 +22,16 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
     public event SteleLifeStatusHandler OnActivation;
     public event SteleLifeStatusHandler OnSteleDeath;
 
-    [SerializeField] private int healthPoints = 0;
-    [SerializeField] private int maxHealthPoints = 0;
+    [Header("HEALTH PARAMTERS")]
+    [SerializeField] private int healthPoints = 0; //debug
+    [SerializeField] private int maxHealthPoints = 0; //debug
+
+    [Header("CURRENT STATE")]
     [SerializeField] private SteleState steleState;
-    [SerializeField] private GameObject activationVX;
+
+    [Header("OTHER ATTRIBUTES")]
+    [SerializeField] private Transform effectEntitySpawnLocation;
+    [SerializeField] private GameObject activationVFX;
     [SerializeField] private List<GameObject> runes;
     private bool interactionIsHandled = false;
     private bool isDead = false;
@@ -64,7 +70,7 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
 
         SetSteleTeam();
 
-        activationVX.SetActive(true);
+        activationVFX.SetActive(true);
 
         InteractingPlayer.Target = null;
         InteractingPlayer = null;
@@ -139,5 +145,11 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
             isDead = true;
             OnDeath();
         }
+    }
+
+    public void SpawnEntityEffect(GameObject entityToSpawn)
+    {
+        Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
+        entityToSpawn.GetComponent<EntityStats>().EntityTeam = InteractingPlayer.GetComponent<EntityStats>().EntityTeam;
     }
 }

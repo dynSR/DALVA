@@ -28,7 +28,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [SerializeField] private EntityTeam entityTeam;
     [SerializeField] private BaseEntity usedEntity;
     [SerializeField] private List<AbilityLogic> entityAbilities;
-    public EntityTeam EntityTeam { get => entityTeam; }
+    public EntityTeam EntityTeam { get => entityTeam; set => entityTeam = value; }
     public BaseEntity UsedEntity { get => usedEntity; }
     public List<AbilityLogic> EntityAbilities { get => entityAbilities; }
 
@@ -38,7 +38,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
     [SerializeField] private float timeToRespawn;
-    [SerializeField] private bool destroyOnDeath = false;
     float regenerationAddedValue;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
     public Transform SourceOfDamage { get; set; }

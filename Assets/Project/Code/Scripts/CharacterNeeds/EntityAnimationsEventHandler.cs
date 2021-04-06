@@ -63,8 +63,13 @@ public class EntityAnimationsEventHandler : MonoBehaviour
         Controller.CanMove = true;
     }
 
+    public void DesactivateCollider()
+    {
+        transform.parent.GetComponent<Collider>().enabled = false;
+    }
+
     public void DestroyGameObject()
     {
-        Destroy(transform.parent.gameObject);
+        Destroy(transform.root.gameObject);
     }
 }

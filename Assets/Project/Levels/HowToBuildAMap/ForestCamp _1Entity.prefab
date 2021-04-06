@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 7946902092188661291}
   - component: {fileID: 7946902092188661290}
   m_Layer: 0
-  m_Name: ForestCamp 1
+  m_Name: ForestCamp _1Entity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -559,7 +559,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7946902092188661269}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -54.75, y: 0, z: 12.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7946902092973499999}
@@ -1684,6 +1684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94568958f66afe5468611032daa91332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityTeam: 2
   usedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
   entityStats:
@@ -1865,6 +1866,7 @@ MonoBehaviour:
     statModifiers: []
   spawnLocation: {fileID: 7946902092147833717}
   timeToRespawn: 15
+  destroyOnDeath: 0
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -1983,7 +1985,7 @@ MonoBehaviour:
   billboard: {fileID: 7946902093342609027}
   timeSeen: 0
   visibilityStateCanChange: 1
-  isVisible: 0
+  isVisible: 1
 --- !u!1 &7946902092993604979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,6 +2175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202f1c13af9706f4884d7122506f8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityA: {fileID: 0}
+  abilityZ: {fileID: 0}
+  abilityE: {fileID: 0}
+  abilityR: {fileID: 0}
 --- !u!1 &7946902093342609027
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 public class IdlingState : IState
 {
     private NPCController controller;
@@ -13,6 +15,8 @@ public class IdlingState : IState
         controller.Stats.CanTakeDamage = true;
         controller.AggroStep = 8;
         controller.AggressionLimitsReached = false;
+
+        if (controller.GetComponentInChildren<AggroRange>() != null) controller.GetComponentInChildren<AggroRange>().gameObject.GetComponent<SphereCollider>().enabled = true;
     }
 
     void IState.Exit()
@@ -23,6 +27,9 @@ public class IdlingState : IState
 
     void IState.OnUpdate()
     {
-
+        if (controller.isACampNPC && controller.NPCInteractions.HasATarget)
+        {
+            controller.ChangeState(new AttackingState());
+        }
     }
 }

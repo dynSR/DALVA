@@ -23,15 +23,15 @@ public class AggroRange : MonoBehaviour
 
     private void AssignTarget(Collider other)
     {
-        //EntityDetection entityDetection = other.GetComponent<EntityDetection>();
+        EntityDetection entityDetection = other.GetComponent<EntityDetection>();
         EntityStats entityStats = other.GetComponent<EntityStats>();
 
-        if (entityStats != null && entityStats.EntityTeam != Stats.EntityTeam
-                /*entityDetection != null
-                && (entityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
-                    || entityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
-                    || entityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
-                    || entityDetection.TypeOfEntity == TypeOfEntity.Monster)*/)
+        if (entityStats != null && entityStats.EntityTeam != Stats.EntityTeam && entityDetection.TypeOfEntity != TypeOfEntity.Monster
+                    /*entityDetection != null
+                    && (entityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
+                        || entityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
+                        || entityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
+                        || entityDetection.TypeOfEntity == TypeOfEntity.Monster)*/)
         {
             if (!other.GetComponent<EntityStats>().IsDead && other.GetComponent<VisibilityState>().IsVisible)
             {

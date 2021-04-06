@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Photon.Pun;
 
 public class PlayerInteractions : InteractionSystem
 {
@@ -16,7 +17,8 @@ public class PlayerInteractions : InteractionSystem
     #region Set player's target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
-        if (UtilityClass.RightClickIsPressed() && !Controller.IsCasting)
+        if (UtilityClass.RightClickIsPressed() && !Controller.IsCasting
+            && (GameObject.Find("GameNetworkManager") == null || GetComponent<PhotonView>().IsMine))
         {
             Debug.Log("Set target on mouse click");
             ResetTarget();
@@ -29,6 +31,9 @@ public class PlayerInteractions : InteractionSystem
                     && hit.collider.GetComponent<EntityDetection>().enabled)
                 {
                     Target = hit.collider.transform;
+                    //Update your target for the other players
+                    if (GameObject.Find("GameNetworkManager") != null)
+                        GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, hit.collider.gameObject.name, "Targeting", GetComponent<PhotonView>().ViewID);
 
                     //Target in an enemy entity
                     if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
@@ -44,6 +49,8 @@ public class PlayerInteractions : InteractionSystem
                 else
                 {
                     //Ground hit
+                    if (GameObject.Find("GameNetworkManager") != null)
+                        GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, null, "Targeting", GetComponent<PhotonView>().ViewID);
                     ResetAgentState();
                 }
             }
@@ -132,5 +139,39 @@ public class PlayerInteractions : InteractionSystem
         IsHarvesting = false;
         Animator.SetBool("IsCollecting", false);
     }
+    #endregion
+
+    #region Network
+
+    //InteractionUpdate
+    [PunRPC]
+    public void InteractionUpdate(string target, string interaction, int photonviewID, PhotonMessageInfo info)
+    {
+        if (interaction == "Targeting")
+        {
+            PlayerInteractions player = PhotonView.Find(photonviewID).GetComponent<PlayerInteractions>();
+
+            player.ResetTarget();
+
+            if (target != null)
+            {
+                if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
+                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
+                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
+                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
+                    StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
+                //Target is an interactive building
+                if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester
+                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele)
+                    StoppingDistance = InteractionRange;
+            }
+            else
+            {
+                ResetAgentState();
+            }
+
+        }
+    }
+
     #endregion
 }

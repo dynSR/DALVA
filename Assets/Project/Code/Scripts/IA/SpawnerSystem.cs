@@ -92,7 +92,7 @@ public class SpawnerSystem : MonoBehaviour
         Debug.Log("MinionBehaviour spawned");
 
         waveIndex++;
-        GameObject currentMinion = Instantiate(minion, new Vector3(spawnPosition.position.x + waveIndex, spawnPosition.position.y, spawnPosition.position.z), spawnPosition.rotation);
+        GameObject currentMinion = Instantiate(minion, new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z), spawnPosition.rotation);
 
         for (int i = 0; i < waypoints.Count; i++)
         {

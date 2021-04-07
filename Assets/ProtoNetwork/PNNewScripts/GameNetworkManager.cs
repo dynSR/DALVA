@@ -16,6 +16,8 @@ namespace GameNetwork
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
 
+        public Transform spawn;
+
         #endregion
 
         #region Callbacks
@@ -36,7 +38,7 @@ namespace GameNetwork
             {
                 if (PlayerManager.localPlayerInstance == null)
                 {
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, spawn.position, Quaternion.identity);
                 }
             }
         }

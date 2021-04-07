@@ -241,7 +241,7 @@ namespace GameNetwork
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.LoadLevel("PNSandbox");
+                PhotonNetwork.LoadLevel("MapInPlaceHolder");
             }
         }
 

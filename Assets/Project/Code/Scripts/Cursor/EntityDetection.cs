@@ -2,10 +2,8 @@
 
 public enum TypeOfEntity 
 { 
-    None, 
-    Self, 
-    EnemyPlayer, Monster, EnemyMinion, EnemyStele,
-    AllyPlayer, AllyMinion, AllyStele,
+    None,
+    Player, Monster, Minion,
     Stele,
     Harvester 
 }
@@ -25,32 +23,6 @@ public class EntityDetection : MonoBehaviour
     {
         switch (TypeOfEntity)
         {
-            //case TypeOfEntity.None:
-            //    break;
-            //case TypeOfEntity.Self:
-            //    Outline.OutlineColor = Color.grey;
-            //    break;
-            //case TypeOfEntity.EnemyPlayer:
-            //    Outline.OutlineColor = Color.red;
-            //    break;
-            //case TypeOfEntity.Monster:
-            //    Outline.OutlineColor = Color.red;
-            //    break;
-            //case TypeOfEntity.EnemyMinion:
-            //    Outline.OutlineColor = Color.red;
-            //    break;
-            //case TypeOfEntity.EnemyStele:
-            //    Outline.OutlineColor = Color.red;
-            //    break;
-            //case TypeOfEntity.AllyPlayer:
-            //    Outline.OutlineColor = Color.blue;
-            //    break;
-            //case TypeOfEntity.AllyMinion:
-            //    Outline.OutlineColor = Color.blue;
-            //    break;
-            //case TypeOfEntity.AllyStele:
-            //    Outline.OutlineColor = Color.blue;
-            //    break;
             case TypeOfEntity.Stele:
                 Outline.OutlineColor = Color.yellow;
                 break;
@@ -62,6 +34,38 @@ public class EntityDetection : MonoBehaviour
         Outline.enabled = false;
     }
 
+    #region Found entity type
+    public bool ThisTargetIsAPlayer(EntityDetection targetFound)
+    {
+        if (targetFound.TypeOfEntity == TypeOfEntity.Player) return true;
+        return false;
+    }
+
+    public bool ThisTargetIsAMonster(EntityDetection targetFound)
+    {
+        if (targetFound.TypeOfEntity == TypeOfEntity.Monster) return true;
+        return false;
+    }
+
+    public bool ThisTargetIsAMinion(EntityDetection targetFound)
+    {
+        if (targetFound.TypeOfEntity == TypeOfEntity.Minion) return true;
+        return false;
+    }
+    public bool ThisTargetIsAStele(EntityDetection targetFound)
+    {
+        if (targetFound.TypeOfEntity == TypeOfEntity.Stele) return true;
+        return false;
+    }
+
+    public bool ThisTargetIsAHarvester(EntityDetection targetFound)
+    {
+        if (targetFound.TypeOfEntity == TypeOfEntity.Harvester) return true;
+        return false;
+    }
+    #endregion
+
+    #region Outilne Toggle
     public void ActivateTargetOutlineOnHover(Outline targetOutlineFound, Color outlineColor)
     {
         targetOutlineFound.enabled = true;
@@ -72,4 +76,5 @@ public class EntityDetection : MonoBehaviour
     {
         targetOutlineFound.enabled = false;
     }
+    #endregion
 }

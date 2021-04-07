@@ -10,13 +10,7 @@ public class IdlingState : IState
         this.controller = controller;
 
         controller.IsInIdleState = true;
-
-        controller.transform.LookAt(controller.PositionToLookAt);
-        controller.Stats.CanTakeDamage = true;
-        controller.AggroStep = 8;
-        controller.AggressionLimitsReached = false;
-
-        if (controller.GetComponentInChildren<AggroRange>() != null) controller.GetComponentInChildren<AggroRange>().gameObject.GetComponent<SphereCollider>().enabled = true;
+        ResetParametersWhenInIdle();
     }
 
     void IState.Exit()
@@ -31,5 +25,24 @@ public class IdlingState : IState
         {
             controller.ChangeState(new AttackingState());
         }
+    }
+
+    void ResetParametersWhenInIdle()
+    {
+        //Stats
+        controller.Stats.GetStat(StatType.Health).Value = controller.Stats.GetStat(StatType.Health).MaxValue;
+        controller.Stats.CanTakeDamage = true;
+
+        //Rotation
+        controller.transform.LookAt(controller.PositionToLookAt);
+        
+        //Aggression attributes
+        controller.AggroStep = 8;
+        controller.AggressionLimitsReached = false;
+
+        AggroRange aggroRange = controller.GetComponentInChildren<AggroRange>();
+
+        if (aggroRange != null)
+            aggroRange.gameObject.GetComponent<SphereCollider>().enabled = true;
     }
 }

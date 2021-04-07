@@ -27,28 +27,31 @@ public class PlayerInteractions : InteractionSystem
 
             if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
             {
-                if (hit.collider.GetComponent<EntityDetection>() != null 
-                    && hit.collider.GetComponent<EntityDetection>().enabled)
+                EntityDetection targetFound = hit.collider.GetComponent<EntityDetection>();
+                InteractiveBuilding interactiveBuilding = hit.collider.GetComponent<InteractiveBuilding>();
+
+                if (targetFound != null && targetFound.enabled)
                 {
-                    Target = hit.collider.transform;
+                    Target = targetFound.transform;
+
                     //Update your target for the other players
                     if (GameObject.Find("GameNetworkManager") != null)
                         GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, hit.collider.gameObject.name, "Targeting", GetComponent<PhotonView>().ViewID);
 
                     //Needs to be modified to only include Player -Interactive building - Monster - Minion
                     //Target in an enemy entity
-                    if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
-                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
-                        || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
-                        StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
-                    //Target is an interactive building
-                    if (Target.GetComponent<InteractiveBuilding>() != null)
+                    if (targetFound.ThisTargetIsAPlayer(targetFound)
+                        || targetFound.ThisTargetIsAMonster(targetFound)
+                        || targetFound.ThisTargetIsAMinion(targetFound))
                     {
-                        if (Target.GetComponent<InteractiveBuilding>().EntityTeam == EntityTeam.NEUTRAL
-                            || Target.GetComponent<InteractiveBuilding>().EntityTeam == Stats.EntityTeam) 
+                        StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
+                    }
+                    //Target is an interactive building
+                    if (interactiveBuilding != null)
+                    {
+                        if (interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL || interactiveBuilding.EntityTeam == Stats.EntityTeam)
                             StoppingDistance = InteractionRange;
-                        else if (Target.GetComponent<InteractiveBuilding>().EntityTeam != Stats.EntityTeam) 
+                        else if (interactiveBuilding.EntityTeam != Stats.EntityTeam) 
                             StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
                     }  
                 }
@@ -162,24 +165,25 @@ public class PlayerInteractions : InteractionSystem
             if (target != null)
             {
                 player.Target = GameObject.Find(target).transform;
+                EntityDetection playerTargetFound = player.Target.GetComponent<EntityDetection>();
 
-                if (player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
-                        || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-                        || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyStele
-                        || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)
+                //Target is an entity
+                if (Stats.EntityTeam != playerTargetFound.GetComponent<EntityStats>().EntityTeam 
+                    || (playerTargetFound.ThisTargetIsAPlayer(playerTargetFound)
+                    || playerTargetFound.ThisTargetIsAMonster(playerTargetFound)
+                    || playerTargetFound.ThisTargetIsAMinion(playerTargetFound)
+                    || playerTargetFound.ThisTargetIsAStele(playerTargetFound)))
                     player.StoppingDistance = player.Stats.GetStat(StatType.AttackRange).Value;
+
                 //Target is an interactive building
-                if (player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Harvester
-                    || player.Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele)
+                if (playerTargetFound.ThisTargetIsAHarvester(playerTargetFound) || playerTargetFound.ThisTargetIsAStele(playerTargetFound))
                     player.StoppingDistance = player.InteractionRange;
             }
             else
             {
                 player.ResetAgentState();
             }
-
         }
     }
-
     #endregion
 }

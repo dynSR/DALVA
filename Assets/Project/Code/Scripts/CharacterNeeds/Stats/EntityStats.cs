@@ -21,7 +21,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
-    private VisibilityState VisibilityState => GetComponent<VisibilityState>();
+    //private VisibilityState VisibilityState => GetComponent<VisibilityState>();
+    private EntityDetection EntityDetection => GetComponent<EntityDetection>();
+    private Collider m_Collider => GetComponent<Collider>();
     #endregion
 
     [Header("CHARACTER INFORMATIONS")]
@@ -85,7 +87,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             deathHUD.SetActive(false);
     }
 
-    protected virtual void Update() { OnDeath(); /*if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f);*/ }
+    protected virtual void Update() { 
+        OnDeath(); 
+        if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); 
+        if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f); 
+    }
 
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
@@ -209,11 +215,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
             }
 
-            if (regenerationAddedValue > (regenerationThreshold * 2))
-            {
-                OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
-                regenerationAddedValue = 0;
-            }
+            OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
         }
     }
 
@@ -255,13 +257,10 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             Controller.CharacterAnimator.SetBool("Attack", false);
             Controller.CharacterAnimator.ResetTrigger("NoTarget");
 
-            if (GetComponent<EntityDetection>() != null) 
-            {
-                GetComponent<EntityDetection>().enabled = false;
+            EntityDetection.enabled = false;
 
-                if (GetComponent<EntityDetection>().Outline.enabled)
-                    GetComponent<EntityDetection>().Outline.enabled = false;
-            }
+            if (EntityDetection.Outline.enabled)
+                EntityDetection.Outline.enabled = false;
 
             if (GetComponent<CursorLogic>() != null) GetComponent<CursorLogic>().SetCursorToNormalAppearance();
 
@@ -299,6 +298,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         GiveRessourcesToAPlayerOnDeath(GetStat(StatType.RessourcesGiven).Value);
 
+        m_Collider.enabled = false;
+
         if (transform.GetComponent<PlayerController>() != null)
             transform.GetComponent<PlayerController>().IsPlayerInHisBase = true;
     }
@@ -313,14 +314,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         yield return new WaitForSeconds(delay - 0.5f);
 
         MasterAudio.FireCustomEvent(spawnCustomEvent, spawnLocation);
-
-        if (transform.GetComponent<PlayerController>() != null)
-        {
-            if (centerCameraOnRespawn)
-            {
-                transform.GetComponent<PlayerController>().CharacterCamera.GetComponent<CameraController>().MoveCameraToASpecificMiniMapPosition(transform.position);
-            }
-        }
 
         yield return new WaitForSeconds(1.3f);
 
@@ -353,19 +346,16 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             respawnVFX.SetActive(true);
 
         //Visibility State
-        if (GetComponent<EntityDetection>() != null)
-        {
-            GetComponent<EntityDetection>().enabled = true;
+        EntityDetection.enabled = true;
+        m_Collider.enabled = true;
 
-            if (GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.AllyPlayer || GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.EnemyPlayer)
-            {
-                VisibilityState.SetToVisible();
-            }
-        }
-            
+        //if (GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.AllyPlayer || GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.EnemyPlayer)
+        //{
+        //    VisibilityState.SetToVisible();
+        //}
 
         //Set Position At Spawn Location
-        if(spawnLocation != null)
+        if (spawnLocation != null)
             transform.position = spawnLocation.position;
 
         SourceOfDamage = null;

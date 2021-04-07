@@ -235,19 +235,20 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         foreach (Collider collider in colliders)
         {
-            if (collider.GetComponent<EntityStats>() != null
-                && !collider.GetComponent<EntityStats>().IsDead
-                && collider.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam
-                /*&& collider.transform != transform
-                && (collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
-                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-                || collider.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster)*/)
-            {
-                EntityStats targetStat = collider.GetComponent<EntityStats>();
-                EntityStats characterStat = transform.GetComponent<EntityStats>();
+            EntityStats targetStat = collider.GetComponent<EntityStats>();
+            EntityDetection targetFound = collider.GetComponent<EntityDetection>();
 
-                collider.GetComponent<EntityStats>().TakeDamage(
-                    transform,
+            EntityStats characterStat = transform.GetComponent<EntityStats>();
+
+            if (targetStat != null && !targetStat.IsDead
+                && targetStat.EntityTeam != Stats.EntityTeam
+                && collider.transform != transform
+                && (targetFound.ThisTargetIsAPlayer(targetFound)
+                || targetFound.ThisTargetIsAMonster(targetFound)
+                || targetFound.ThisTargetIsAMinion(targetFound)))
+            {
+                collider.GetComponent<EntityStats>().TakeDamage
+                    (transform,
                     targetStat.GetStat(StatType.PhysicalResistances).Value,
                     targetStat.GetStat(StatType.MagicalResistances).Value,
                     Ability.AbilityPhysicalDamage + (characterStat.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio),

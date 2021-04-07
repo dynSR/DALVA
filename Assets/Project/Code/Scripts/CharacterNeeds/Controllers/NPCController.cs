@@ -46,8 +46,6 @@ public class NPCController : CharacterController
 
     private void Start()
     {
-        //GetGlobalWaypoints();
-
         if (isACampNPC) ChangeState(new IdlingState());
         else ChangeState(new MovingState());
     }
@@ -55,6 +53,12 @@ public class NPCController : CharacterController
     private void OnEnable()
     {
         Stats.OnDamageTaken += SetSourceOfDamageAsTarget;
+
+        if (isACampNPC)
+        {
+            ChangeState(new IdlingState());
+        }
+        else ChangeState(new MovingState());
     }
 
     private void OnDisable()
@@ -67,7 +71,7 @@ public class NPCController : CharacterController
         base.Update();
         currentState.OnUpdate();
 
-        CurrentStateName = currentState.ToString();
+        CurrentStateName = currentState.ToString(); // debugs
     }
 
     public void ChangeState(IState newState)
@@ -105,14 +109,6 @@ public class NPCController : CharacterController
     }
 
     #region Handle waypoints
-    //private void GetGlobalWaypoints()
-    //{
-    //    foreach (Transform waypoints in MinionWaypointsManager.Instance.MinionsGlobalWaypoints)
-    //    {
-    //        this.waypoints.Add(waypoints);
-    //    }
-    //}
-
     public virtual void CheckDistanceFromWaypoint(Transform waypoint)
     {
         if (Vector3.Distance(transform.position, waypoint.position) <= 1f)

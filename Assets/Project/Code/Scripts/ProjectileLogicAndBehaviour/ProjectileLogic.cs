@@ -109,11 +109,10 @@ public class ProjectileLogic : MonoBehaviour
 
             //Ability projectile damage appplication
             //Needs to be modified to only include Player - Interactive building - Monster - Minion
-            if (entityFound.TypeOfEntity == TypeOfEntity.EnemyPlayer
-                || entityFound.TypeOfEntity == TypeOfEntity.EnemyMinion
-                || entityFound.TypeOfEntity == TypeOfEntity.EnemyStele
-                || entityFound.TypeOfEntity == TypeOfEntity.Monster
-                || entityFound.TypeOfEntity == TypeOfEntity.AllyMinion
+            if (entityFound.ThisTargetIsAPlayer(entityFound)
+                || entityFound.ThisTargetIsAMinion(entityFound)
+                || entityFound.ThisTargetIsAStele(entityFound)
+                || entityFound.ThisTargetIsAMonster(entityFound)
                 || ProjectileSenderCharacterStats.EntityTeam != targetStats.EntityTeam)
             {
                 Debug.Log("Projectile Applies Damage !");

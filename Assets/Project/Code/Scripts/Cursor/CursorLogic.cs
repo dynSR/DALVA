@@ -42,76 +42,47 @@ public class CursorLogic : MonoBehaviour
                 knownTargetDetected = cursorHit.collider.GetComponent<EntityDetection>();
                 knownTargetStats = cursorHit.collider.GetComponent<EntityStats>();
 
+                AssignKnownTarget(knownTargetDetected.transform);
+
                 //Self
                 if (knownTargetDetected.gameObject == transform.gameObject)
                 {
                     SetCursorToNormalAppearance();
                     knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.grey);
-                    AssignKnownTarget(knownTargetDetected.transform);
                     return;
                 }
 
                 //Needs to be modified to only include Player - Interactive building - Monster - Minion
                 switch (knownTargetDetected.TypeOfEntity)
                 {
-                    //case TypeOfEntity.Self:
-                    //    SetCursorToNormalAppearance();
-                    //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.grey);
-                    //    AssignKnownTarget(knownTargetDetected.transform);
-                    //    break;
-                    #region Enemies
-                    case TypeOfEntity.EnemyPlayer: //Imagine its Only Player here
+                    #region Entities
+                    case TypeOfEntity.Player: //Imagine its Only Player here
                         if (Stats.EntityTeam == knownTargetStats.EntityTeam)
                         {
                             SetCursorToNormalAppearance();
                             knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.blue);
-                            AssignKnownTarget(knownTargetDetected.transform);
                         }
                         else if (Stats.EntityTeam != knownTargetStats.EntityTeam)
                         {
                             SetCursorToAttackAppearance();
                             knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
-                            AssignKnownTarget(knownTargetDetected.transform);
                         }
                         break;
                     case TypeOfEntity.Monster:
                         SetCursorToAttackAppearance();
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
-                        AssignKnownTarget(knownTargetDetected.transform);
                         break;
-                    case TypeOfEntity.EnemyMinion:
+                    case TypeOfEntity.Minion:
                         SetCursorToAttackAppearance();
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
-                        AssignKnownTarget(knownTargetDetected.transform);
                         break;
-                    //case TypeOfEntity.EnemyStele:
-                    //    SetCursorToAttackAppearance();
-                    //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
-                    //    AssignKnownTarget(knownTargetDetected.transform);
-                    //    break;
-                    #endregion
-                    #region Allies
-                    //case TypeOfEntity.AllyPlayer:
-                    //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
-                    //    AssignKnownTarget(knownTargetDetected.transform);
-                    //    break;
-                    //case TypeOfEntity.AllyMinion:
-                    //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
-                    //    AssignKnownTarget(knownTargetDetected.transform);
-                    //    break;
-                    //case TypeOfEntity.AllyStele:
-                    //    ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>());
-                    //    AssignKnownTarget(knownTargetDetected.transform);
-                    //    break;
                     #endregion
                     #region Interactive Buildings
                     case TypeOfEntity.Stele:
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
-                        AssignKnownTarget(knownTargetDetected.transform);
-                        break;
+                                                break;
                     case TypeOfEntity.Harvester:
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
-                        AssignKnownTarget(knownTargetDetected.transform);
                         break;
                         #endregion
                 }
@@ -148,6 +119,7 @@ public class CursorLogic : MonoBehaviour
         //Debug.Log("Attack Cursor");
         Cursor.SetCursor(AttackCursorIcon, Vector2.zero, CursorMode.Auto);
     }
+    #endregion
 
     private void AssignKnownTarget(Transform targetFound)
     {
@@ -170,5 +142,4 @@ public class CursorLogic : MonoBehaviour
             }
         }
     }
-    #endregion
 }

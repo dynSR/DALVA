@@ -22,18 +22,17 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
         EntityStats targetStats = other.GetComponent<EntityStats>();
         Outline targetOutline = other.GetComponent<Outline>();
 
-        //Ajouter dans la liste si a des stats et est un ennemi
-        if (targetStats != null && targetOutline != null)
+        targets.Add(other.transform);
+
+        for (int i = 0; i < targets.Count; i++)
         {
-            targets.Add(other.transform);
+            targets[i].gameObject.layer = 2;
 
-            for (int i = 0; i < targets.Count; i++)
+            if (targetStats != null && targetOutline != null)
             {
-                targets[i].gameObject.layer = 2;
-
-                if (Stats.EntityTeam == targets[i].GetComponent<EntityStats>().EntityTeam) 
+                if (Stats.EntityTeam == targets[i].GetComponent<EntityStats>().EntityTeam)
                     targets[i].GetComponent<EntityDetection>().ActivateTargetOutlineOnHover(targets[i].GetComponent<Outline>(), Color.blue);
-                else if (Stats.EntityTeam != targets[i].GetComponent<EntityStats>().EntityTeam) 
+                else if (Stats.EntityTeam != targets[i].GetComponent<EntityStats>().EntityTeam)
                     targets[i].GetComponent<EntityDetection>().ActivateTargetOutlineOnHover(targets[i].GetComponent<Outline>(), Color.red);
             }
         }

@@ -21,6 +21,8 @@ public class InteractionSystem : MonoBehaviour
     [Header("BASIC ATTACK")]
     [SerializeField] private Transform rangedAttackEmiterPosition;
     [SerializeField] private GameObject rangedAttackProjectile;
+    float pPBonus = 0;
+    float mPBonus = 0;
 
     [Header("INTERACTIONS STATE")]
     [SerializeField] private bool canPerformAttack = true;
@@ -56,6 +58,9 @@ public class InteractionSystem : MonoBehaviour
             return;
         }
 
+        if (target != null)
+            distance = Vector3.Distance(transform.position, target.position);
+
         MoveTowardsAnExistingTarget(Target, StoppingDistance);
     }
 
@@ -66,12 +71,12 @@ public class InteractionSystem : MonoBehaviour
         {
             Controller.HandleCharacterRotation(transform, target.position, Controller.RotateVelocity, rotationSpeed);
 
-            distance = Vector3.Distance(transform.position, target.position);
             Controller.Agent.stoppingDistance = minDistance;
 
             if (distance > minDistance)
             {
                 //Debug.Log("Far from target");
+                ResetInteractionState();
                 Controller.Agent.isStopped = false;
                 Controller.SetAgentDestination(Controller.Agent, target.position);
             }
@@ -110,45 +115,32 @@ public class InteractionSystem : MonoBehaviour
     void AttackInteraction()
     {
        if (Target != null)
-        {
-            if (Target.GetComponent<InteractiveBuilding>() != null && Target.GetComponent<InteractiveBuilding>().EntityTeam == EntityTeam.NEUTRAL) return;
+       {
+            EntityDetection targetFound = Target.GetComponent<EntityDetection>();
+            InteractiveBuilding interactiveBuilding = Target.GetComponent<InteractiveBuilding>();
+
+            if (interactiveBuilding != null && interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL) return;
 
             if (CanPerformAttack)
             {
                 //if its a building
-                if (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele 
-                    && Target.GetComponent<InteractiveBuilding>() != null 
-                    && Target.GetComponent<InteractiveBuilding>().EntityTeam != Stats.EntityTeam)
+                if (targetFound.ThisTargetIsAStele(targetFound) && interactiveBuilding != null && interactiveBuilding.EntityTeam != Stats.EntityTeam)
                 {
                     StartCoroutine(AttackInterval());
                     Debug.Log("Attack performed on building !");
                 }
                 //else if its an entity
                 else if (Target.GetComponent<EntityStats>() != null
-                    && (Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer
-                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster
-                    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.AllyMinion)
+                    && (targetFound.ThisTargetIsAPlayer(targetFound)
+                    || targetFound.ThisTargetIsAMinion(targetFound)
+                    || targetFound.ThisTargetIsAMonster(targetFound))
                     && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
                 {
                     StartCoroutine(AttackInterval());
                     Debug.Log("Attack performed on entity!");
                 }
             }
-
-            ////Needs to be modified to only include Player - Interactive building - Monster - Minion
-            //if ((Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer 
-            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyMinion
-            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Stele
-            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.Monster
-            //    || Target.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.AllyMinion)
-            //    && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam
-            //    && CanPerformAttack)
-            //{
-            //    StartCoroutine(AttackInterval());
-            //    Debug.Log("Attack performed !");
-            //}
-        }
+       }
     }
 
     IEnumerator AttackInterval()
@@ -176,8 +168,8 @@ public class InteractionSystem : MonoBehaviour
 
             EntityStats targetStat = Target.GetComponent<EntityStats>();
 
-            float pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
-            float mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
+            pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
+            mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
 
             targetStat.TakeDamage(
                 transform,
@@ -202,8 +194,8 @@ public class InteractionSystem : MonoBehaviour
         {
             Debug.Log("Ranged Attack");
 
-            float pPBonus = 0;
-            float mPBonus = 0;
+            pPBonus = 0;
+            mPBonus = 0;
 
             GameObject autoAttackProjectile = Instantiate(rangedAttackProjectile, rangedAttackEmiterPosition.position, rangedAttackProjectile.transform.rotation);
 

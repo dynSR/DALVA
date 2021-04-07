@@ -46,7 +46,7 @@ class AttackingState : IState
 
                 controller.NPCInteractions.Target = null;
 
-                if (/*!controller.isACampNPC && */controller.AggroRange != null) controller.AggroRange.CheckForNewTarget();
+                if (controller.AggroRange != null) controller.AggroRange.CheckForNewTarget();
 
                 return;
             }
@@ -59,7 +59,7 @@ class AttackingState : IState
             }
             else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.AttackRange).Value
                 && controller.NPCInteractions.CanPerformAttack
-                || !targetVisibilityState.IsVisible)
+                /*|| !targetVisibilityState.IsVisible*/)
             {
                 if (controller.Stats.GetStat(StatType.MovementSpeed).Value <= 0)
                 {

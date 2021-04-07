@@ -23,31 +23,29 @@ class MovingState : IState
 
         if (controller.GetComponent<EntityStats>().IsDead || !controller.CanMove) return;
 
-        controller.CompareCurrentPositionFromStartingPosition();
-
-        if (controller.NPCInteractions.HasATarget)
-            MoveTowardsTarget();
-        //OR
+        if (controller.NPCInteractions.HasATarget) MoveTowardsTarget();
         else if (!controller.NPCInteractions.HasATarget)
         {
-            if (controller.isACampNPC) MoveTowardsStartPosition();
+            if (controller.isACampNPC) MoveTowardsStartingPosition();
             else MoveTowardsWaypoint();
         }
         
         if(!controller.isACampNPC)
             controller.CheckDistanceFromWaypoint(controller.waypoints[controller.WaypointIndex]);
+        else controller.CompareCurrentPositionFromStartingPosition();
     }
 
-    void MoveTowardsStartPosition()
+    void MoveTowardsStartingPosition()
     {
         float distanceFromStartingPosition = Vector3.Distance(controller.transform.position, controller.StartingPosition.position);
 
         controller.Stats.RegenerateHealth(controller.transform, controller.Stats.GetStat(StatType.Health).Value * 0.15f);
 
-        if (controller.GetComponentInChildren<AggroRange>() != null) controller.GetComponentInChildren<AggroRange>().gameObject.GetComponent<SphereCollider>().enabled = false;
+        AggroRange aggroRange = controller.GetComponentInChildren<AggroRange>();
 
-        if (distanceFromStartingPosition > 0.1f)
-            controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);
+        if (aggroRange != null) aggroRange.gameObject.GetComponent<SphereCollider>().enabled = false;
+
+        if (distanceFromStartingPosition > 0.1f) controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);
         else if (distanceFromStartingPosition <= 0.1f) controller.ChangeState(new IdlingState());
     }
 
@@ -58,7 +56,7 @@ class MovingState : IState
         EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
         VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
-        if (targetStat.IsDead || !targetVisibilityState.IsVisible)
+        if (targetStat.IsDead /*|| !targetVisibilityState.IsVisible*/)
         {
             if (controller.Stats.SourceOfDamage == controller.NPCInteractions.Target) controller.Stats.SourceOfDamage = null;
 
@@ -88,13 +86,7 @@ class MovingState : IState
 
     void MoveTowardsWaypoint()
     {
-        //Has no enemy target - target is now a waypoint...
-        Debug.Log("Need to move towards next waypoint");
-
         //Distance is too high towards next waypoint - Keep moving towards it...
         controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.NPCInteractions.StoppingDistance);
-
-        //if while moving an entity does damage to us then its our new target
-        //controller.SetSourceOfDamageAsTarget();
     }
 }

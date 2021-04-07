@@ -51,23 +51,23 @@ public class HealthBarHandler : MonoBehaviour
 
     void SetHealthBarColor()
     {
-        //Modify Colors for correct team idk how
-        if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyPlayer
-            || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyMinion
-            || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyStele)
-        {
-            HealthBarFill.color = allyColor;
-        }
-        else if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
-            || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
-            || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
-            || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.Monster)
-        {
-            HealthBarFill.color = enemyColor;
-        }
-        else
-        {
-            HealthBarFill.color = Color.yellow;
-        }
+        ////Modify Colors for correct team idk how
+        //if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyPlayer
+        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyMinion
+        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyStele)
+        //{
+        //    HealthBarFill.color = allyColor;
+        //}
+        //else if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
+        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
+        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
+        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.Monster)
+        //{
+        //    HealthBarFill.color = enemyColor;
+        //}
+        //else
+        //{
+        //    HealthBarFill.color = Color.yellow;
+        //}
     }
 }

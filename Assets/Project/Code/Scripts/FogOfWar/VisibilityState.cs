@@ -31,17 +31,17 @@ public class VisibilityState : MonoBehaviour
     {
         if (!visibilityStateCanChange) return;
 
-        if (FogOfWarManager.Instance.EntityIsContained(transform)) timeSeen++;
+        //if (FogOfWarManager.Instance.EntityIsContained(transform)) timeSeen++;
 
-        if (!FogOfWarManager.Instance.EntityIsContained(transform))
-        {
-            FogOfWarManager.Instance.VisibleEntities.Add(transform);
-            timeSeen++;
+        //if (!FogOfWarManager.Instance.EntityIsContained(transform))
+        //{
+        //    FogOfWarManager.Instance.VisibleEntities.Add(transform);
+        //    timeSeen++;
 
-            ActivateRenderer(myRenderer);
+        //    ActivateRenderer(myRenderer);
 
-            Debug.Log("Was invisible");
-        }
+        //    Debug.Log("Was invisible");
+        //}
     }
 
     public void SetToInvisible()
@@ -50,18 +50,18 @@ public class VisibilityState : MonoBehaviour
 
         if (timeSeen > 0) timeSeen--;
 
-        if (FogOfWarManager.Instance.EntityIsContained(transform)
-            && timeSeen == 0)
-        {
-            FogOfWarManager.Instance.VisibleEntities.Remove(transform);
-            DeactivateRenderer(myRenderer);
+        //if (FogOfWarManager.Instance.EntityIsContained(transform)
+        //    && timeSeen == 0)
+        //{
+        //    FogOfWarManager.Instance.VisibleEntities.Remove(transform);
+        //    DeactivateRenderer(myRenderer);
 
-        }
-        else if (!FogOfWarManager.Instance.EntityIsContained(transform)
-            && timeSeen == 0)
-        {
-            DeactivateRenderer(myRenderer);
-        }
+        //}
+        //else if (!FogOfWarManager.Instance.EntityIsContained(transform)
+        //    && timeSeen == 0)
+        //{
+        //    DeactivateRenderer(myRenderer);
+        //}
     }
 
     void ActivateRenderer(GameObject renderer)

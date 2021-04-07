@@ -23,27 +23,27 @@ public class FogOfWarManager : MonoBehaviour
     }
     #endregion
 
-    public bool EntityIsContained(Transform source)
-    {
-        bool isContained = false;
+    //public bool EntityIsContained(Transform source)
+    //{
+    //    bool isContained = false;
 
-        if (VisibleEntities.Count <= 0)
-        {
-            isContained = false;
-        }
-        else
-        {
-            for (int i = 0; i < VisibleEntities.Count; i++)
-            {
-                if (VisibleEntities[i].transform == source)
-                {
-                    isContained = true;
-                }
-                else
-                    isContained = false;
-            }
-        }
+    //    if (VisibleEntities.Count <= 0)
+    //    {
+    //        isContained = false;
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < VisibleEntities.Count; i++)
+    //        {
+    //            if (VisibleEntities[i].transform == source)
+    //            {
+    //                isContained = true;
+    //            }
+    //            else
+    //                isContained = false;
+    //        }
+    //    }
 
-        return isContained;
-    }
+    //    return isContained;
+    //}
 }

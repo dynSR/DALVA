@@ -150,6 +150,5 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
     public void SpawnEntityEffect(GameObject entityToSpawn)
     {
         Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
-        entityToSpawn.GetComponent<EntityStats>().EntityTeam = InteractingPlayer.GetComponent<EntityStats>().EntityTeam;
     }
 }

@@ -251,30 +251,22 @@ namespace GameNetwork
             SceneManager.LoadScene("PNMainMenu");
         }
 
-        public void JoinTeam(bool isDalvasButton)
+        public void JoinTeam(int team)
         {
             //gameObject.GetComponent<PhotonView>().RPC("RPCUpdatePlayerList", RpcTarget.All, PhotonNetwork.NickName, isDalvasButton);
             
-            if(isDalvasButton)
+            //if the player already have a team, join the other team (because the actual team button is locked)
+            if(PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
             {
-                joinDalvaButton.interactable = false;
-                joinHulryckButton.interactable = true;
-                PlayerManager.localPlayerInstance.GetComponent<PlayerManager>().dalvasTeam = true;
-                //joiningDalvaTeam = PhotonNetwork.NickName;
-                //playerDalvaList.Add(PhotonNetwork.LocalPlayer.NickName);
-                inDalvaTeam = true;
+                PhotonNetwork.LocalPlayer.CustomProperties["Team"] = team;
             }
+            //else, join the team the player pressed the button
             else
             {
-                joinDalvaButton.interactable = true;
-                joinHulryckButton.interactable = false;
-                PlayerManager.localPlayerInstance.GetComponent<PlayerManager>().dalvasTeam = false;
-                //joiningHulryckTeam = PhotonNetwork.NickName;
-                //playerHulryckList.Add(PhotonNetwork.LocalPlayer.NickName);
-                inDalvaTeam = false;
+                //0 = dalva, 1 = hulryck
+                ExitGames.Client.Photon.Hashtable playerTeam = new ExitGames.Client.Photon.Hashtable { { "Team", team } };
+                PhotonNetwork.SetPlayerCustomProperties(playerTeam);
             }
-
-            joinTeamNickname = PhotonNetwork.NickName;
         }
 
         [PunRPC]

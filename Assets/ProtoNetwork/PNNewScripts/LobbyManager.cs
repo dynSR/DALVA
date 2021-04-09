@@ -15,6 +15,7 @@ namespace GameNetwork
     {
         #region Fields
 
+        [Header("List concern")]
         [Tooltip("The list of all UI text for players' name")]
         [SerializeField]
         public List<TextMeshProUGUI> playerListTMPro;
@@ -24,132 +25,31 @@ namespace GameNetwork
         [SerializeField]
         public List<TextMeshProUGUI> playerDalvaListTMPro;
         public List<string> playerDalvaList = new List<string>();
-        [SerializeField]
-        public string joiningDalvaTeam
-        {
-            get { return _joiningDalvaTeam; }
-            set
-            {
-                _joiningDalvaTeam = value;
-                if (_joiningDalvaTeam == joiningDalvaTeam)
-                {
-                    foreach (TextMeshProUGUI item in playerHulryckListTMPro)
-                    {
-                        if (joiningDalvaTeam != item.text) { }
-                        else playerHulryckList.Remove(_joiningDalvaTeam);
-                        UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
-                    }
-                    playerDalvaList.Add(_joiningDalvaTeam);
-                    UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
-                }
-            }
-        }
-        public string _joiningDalvaTeam;
                 
         [Tooltip("The list of all UI text for Hulryck's players")]
         [SerializeField]
         public List<TextMeshProUGUI> playerHulryckListTMPro;
         public List<string> playerHulryckList = new List<string>();
-        [SerializeField]
-        public string joiningHulryckTeam
-        {
-            get { return _joiningHulryckTeam; }
-            set
-            {
-                _joiningHulryckTeam = value;
-                if (_joiningHulryckTeam == joiningHulryckTeam)
-                {
-                    foreach (TextMeshProUGUI item in playerDalvaListTMPro)
-                    {
-                        if (joiningDalvaTeam != item.text) { }
-                        else playerDalvaList.Remove(_joiningHulryckTeam);
-                        UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
-                    }
-                    playerHulryckList.Add(_joiningHulryckTeam);
-                    UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
-                }
-            }
-        }
-        public string _joiningHulryckTeam;
-
-        [SerializeField]
-        public bool inDalvaTeam;
-
-        [SerializeField]
-        public string joinTeamNickname
-        {
-            get { return _joinTeamNickname; }
-            set
-            {
-                Debug.Log("J'ai bien changé");
-                _joinTeamNickname = value;
-                if (_joinTeamNickname == joinTeamNickname && joinTeamNickname != null)
-                {
-                    if (inDalvaTeam)
-                    {
-                        foreach (TextMeshProUGUI item in playerHulryckListTMPro)
-                        {
-                            if (joinTeamNickname != item.text) { }
-                            else playerHulryckList.Remove(joinTeamNickname);
-                            UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
-                        }
-                        playerDalvaList.Add(joinTeamNickname);
-                        UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
-                    }
-                    else
-                    {
-                        foreach (TextMeshProUGUI item in playerDalvaListTMPro)
-                        {
-                            if (joinTeamNickname != item.text) { }
-                            else playerDalvaList.Remove(joinTeamNickname);
-                            UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
-                        }
-                        playerHulryckList.Add(joinTeamNickname);
-                        UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
-                    }
-                }
-            }
-        }
-        public string _joinTeamNickname;
-
+        
+        [Header("Buttons and other infos")]
         [Tooltip("The button to start a game (master only)")]
-        [SerializeField]
         public Button startGameButton;
 
         [Tooltip("The button to join Dalva's team")]
-        [SerializeField]
         public Button joinDalvaButton;
 
         [Tooltip("The button to join Huleryck's team")]
-        [SerializeField]
         public Button joinHulryckButton;
 
         [Tooltip("The TMPro text for room code")]
-        [SerializeField]
         public TextMeshProUGUI roomCodeText;
         #endregion
 
         #region IPunObservable implementation
-
-
+        
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (stream.IsWriting)
-            {
-                // We own this player: send the others our data
-                //stream.SendNext(_joiningDalvaTeam);
-                //stream.SendNext(_joiningHulryckTeam);
-                stream.SendNext(joinTeamNickname);
-                stream.SendNext(inDalvaTeam);
-            }
-            else
-            {
-                // Network player, receive data
-                //this.joiningDalvaTeam = (string)stream.ReceiveNext();
-                //this.joiningHulryckTeam = (string)stream.ReceiveNext();
-                this.joinTeamNickname = (string)stream.ReceiveNext();
-                this.inDalvaTeam = (bool)stream.ReceiveNext();
-            }
+
         }
 
 
@@ -166,7 +66,24 @@ namespace GameNetwork
             roomCodeText.text = "Room code : " + PhotonNetwork.CurrentRoom.Name;
         }
 
-        public override void OnPlayerEnteredRoom(Photon.Realtime.Player other)
+        public override void OnJoinedRoom()
+        {
+            playerDalvaList.Clear();
+            playerHulryckList.Clear();
+
+            foreach (Player item in PhotonNetwork.PlayerList)
+            {
+                if (item.CustomProperties.ContainsKey("Team"))
+                {
+                    if (item.CustomProperties["Team"].ToString() == "0") playerDalvaList.Add(item.NickName);
+                    else if (item.CustomProperties["Team"].ToString() == "1") playerHulryckList.Add(item.NickName);
+                }
+            }
+            UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
+            UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
+        }
+
+        public override void OnPlayerEnteredRoom(Player other)
         {
             Debug.Log(other.NickName + " entered room");
             UpdatePlayerList(playerList, playerListTMPro);
@@ -184,7 +101,7 @@ namespace GameNetwork
             }*/
         }
 
-        public override void OnPlayerLeftRoom(Photon.Realtime.Player other)
+        public override void OnPlayerLeftRoom(Player other)
         {
             Debug.Log(other.NickName + " leaved room");
             UpdatePlayerList(playerList, playerListTMPro);
@@ -215,12 +132,12 @@ namespace GameNetwork
             if(nameList == playerList)
             {
                 nameList.Clear();
-                foreach (Photon.Realtime.Player item in PhotonNetwork.PlayerList)
+                foreach (Player item in PhotonNetwork.PlayerList)
                 {
                     nameList.Add(item.NickName);
                 }
             }
-
+            //For other lists
             for (int i = 0; i < nameTextList.Count; i++)
             {
                 if(i < nameList.Count)
@@ -253,8 +170,6 @@ namespace GameNetwork
 
         public void JoinTeam(int team)
         {
-            //gameObject.GetComponent<PhotonView>().RPC("RPCUpdatePlayerList", RpcTarget.All, PhotonNetwork.NickName, isDalvasButton);
-            
             //if the player already have a team, join the other team (because the actual team button is locked)
             if(PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
             {
@@ -267,32 +182,46 @@ namespace GameNetwork
                 ExitGames.Client.Photon.Hashtable playerTeam = new ExitGames.Client.Photon.Hashtable { { "Team", team } };
                 PhotonNetwork.SetPlayerCustomProperties(playerTeam);
             }
-        }
 
-        [PunRPC]
-        public void RPCUpdatePlayerList(string nickname, bool team)
-        {
-            if(team)
+            //the button of your team is now non interactable
+            if (team == 0)
             {
-                foreach(TextMeshProUGUI item in playerHulryckListTMPro)
-                {
-                    if (nickname != item.text) { }
-                    else playerHulryckList.Remove(nickname);
-                    UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
-                }
-                playerDalvaList.Add(nickname);
-                UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
+                joinDalvaButton.interactable = false;
+                joinHulryckButton.interactable = true;
             }
             else
             {
+                joinDalvaButton.interactable = true;
+                joinHulryckButton.interactable = false;
+            }
+                
+            gameObject.GetComponent<PhotonView>().RPC("RPC_UpdatePlayerTeam", RpcTarget.All, team);
+
+            Debug.Log("You're in team " + team.ToString() + " (0 = dalva, 1 = hulryck)");
+        }
+
+        [PunRPC]
+        public void RPC_UpdatePlayerTeam(int team, PhotonMessageInfo info)
+        {
+            if(team == 0)
+            {
+                playerDalvaList.Add(info.Sender.NickName);
+                UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
+                foreach (TextMeshProUGUI item in playerHulryckListTMPro)
+                {
+                    if (info.Sender.NickName == item.text) playerHulryckList.Remove(info.Sender.NickName);
+                    UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
+                }
+            }
+            else
+            {
+                playerHulryckList.Add(info.Sender.NickName);
+                UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
                 foreach (TextMeshProUGUI item in playerDalvaListTMPro)
                 {
-                    if (nickname != item.text) { }
-                    else playerDalvaList.Remove(nickname);
+                    if (info.Sender.NickName == item.text) playerDalvaList.Remove(info.Sender.NickName);
                     UpdatePlayerList(playerDalvaList, playerDalvaListTMPro);
                 }
-                playerHulryckList.Add(nickname);
-                UpdatePlayerList(playerHulryckList, playerHulryckListTMPro);
             }
         }
 

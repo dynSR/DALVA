@@ -104,7 +104,5 @@ public class Popup : MonoBehaviourPun
 
             yield return new WaitForEndOfFrame();
         } while (textColor.a > 0);
-
-        Destroy(popup);
     }
 }

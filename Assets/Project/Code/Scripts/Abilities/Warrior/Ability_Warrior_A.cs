@@ -27,9 +27,9 @@ public class Ability_Warrior_A : AbilityLogic
         {
             case AbilityEffect.I:
                 PlayAbilityAnimation("UsesFirstAbility", true);
-                AbilityBuff(Stats, StatType.BonusPhysicalPower, 20 + (Stats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio), this);
+                Debug.Log("using first ability");
+                AbilityGivesABuff(Stats, StatType.BonusPhysicalPower, 20 + (Stats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio), this);
                 ActivateVFX(AbilityVFXToActivate);
-                ResetAbilityAnimation("UsesFirstAbility");
                 break;
             case AbilityEffect.II:
                 break;
@@ -42,7 +42,7 @@ public class Ability_Warrior_A : AbilityLogic
 
     void RemoveEffect()
     {
-        RemoveAbilityBuff(StatType.BonusPhysicalPower, this);
+        RemoveBuffGivenByAnAbility(StatType.BonusPhysicalPower, this);
         DeactivateVFX(AbilityVFXToActivate);
     }
 }

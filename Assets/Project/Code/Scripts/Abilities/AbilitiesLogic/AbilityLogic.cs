@@ -33,7 +33,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [SerializeField] private GameObject rangeDisplayer;
 
     [Header("VFX")]
-    [SerializeField] private List<GameObject> abilitVFXToActivate;
+    [SerializeField] private List<GameObject> abilityVFXToActivate;
     private bool canBeUsed = true;
     private bool characterIsTryingToCast = false;
     public Vector3 CastLocation = Vector3.zero;
@@ -52,7 +52,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public Ability Ability { get => ability; }
     public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
     public AbilityEffect UsedEffectIndex { get; set; }
-    public List<GameObject> AbilityVFXToActivate { get => abilitVFXToActivate; }
+    public List<GameObject> AbilityVFXToActivate { get => abilityVFXToActivate; }
 
     protected abstract void Cast();
 
@@ -119,52 +119,40 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
         {
-            Controller.HandleCharacterRotation(transform, hit.point, Controller.RotateVelocity, Controller.RotationSpeed);
+            Controller.HandleCharacterRotationBeforeCasting(transform, hit.point, Controller.RotateVelocity, Controller.RotationSpeed);
         }
+    }
+    #endregion
+
+    #region Get cursor Informations
+    public static Vector3 GetCursorPosition(Ray ray)
+    {
+        Vector3 cursorPosition = Vector3.zero;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        {
+            cursorPosition = hit.point;
+        }
+
+        return cursorPosition;
     }
     #endregion
 
     #region Handling ability casting
     private void CastWhenInRange()
     {
-        if (characterIsTryingToCast && !Controller.IsCasting && Ability.AbilityRange == 0) 
-        {
-            Debug.Log("Ability has a equal to 0");
-            Controller.IsCasting = true;
-            Controller.CanMove = false;
-            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
-            characterIsTryingToCast = false;
-            return; 
-        }
-
-        //Compare character position with cast position and if ability range is > move and cast else just cast
-        if (characterIsTryingToCast && !Controller.IsCasting && IsInRangeToCast)
+        if (characterIsTryingToCast && !Controller.IsCasting && (IsInRangeToCast || Ability.AbilityRange == 0f))
         {
             Debug.Log("Close enough, can cast now !");
             Controller.IsCasting = true;
             Controller.CanMove = false;
-            StartCoroutine(ProcessCasting(Ability.AbilityCastingTime));
+            Cast();
             characterIsTryingToCast = false;
         }
     }
 
-    private IEnumerator ProcessCasting(float castDuration)
-    {
-        if (castDuration > 0) Controller.Agent.ResetPath();
-
-        yield return new WaitForSeconds(castDuration);
-        Cast();
-
-        if(Ability.AutomaticallyPutInCooldown)
-            StartCoroutine(PutAbilityOnCooldown(Ability.AbilityDuration));
-
-        yield return new WaitForSeconds(0.25f);
-
-        Controller.IsCasting = false;
-        Controller.CanMove = true;
-    }
-
-    private IEnumerator PutAbilityOnCooldown(float delay)
+    //Called in/by animations
+    public IEnumerator PutAbilityOnCooldown(float delay)
     {
         //if delay == 0 it means that it is directly put in cooldoown it is mainly used with ability that do not use duration like auras, boosts, etc.
         //else it is gonna wait before puttin ability in cooldown
@@ -174,8 +162,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     }
     #endregion
 
-    #region Ability Behaviours 
-    protected void AbilityBuff(EntityStats Stat, StatType type, float flatValue, object source, float percentageValue = 0f)
+    protected void AbilityGivesABuff(EntityStats Stat, StatType type, float flatValue, object source, float percentageValue = 0f)
     {
         if (!CanBeUsed) return;
 
@@ -188,7 +175,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
         CanBeUsed = false;
     }
 
-    protected void RemoveAbilityBuff(StatType affectedStat, object source = null)
+    protected void RemoveBuffGivenByAnAbility(StatType affectedStat, object source = null)
     {
         if (!CanBeUsed)
         {
@@ -199,39 +186,11 @@ public abstract class AbilityLogic : MonoBehaviourPun
         }
     }
 
-    private Vector3 GetCursorPosition(Ray ray)
-    {
-        Vector3 cursorPosition = Vector3.zero;
-
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-        {
-            cursorPosition = hit.point;
-        }
-
-        return cursorPosition;
-    }
-
-    protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false, bool lostTargetOnCast = false)
-    {
-        if (resetAutoAttack)
-            Interactions.ResetInteractionState();
-
-        if (lostTargetOnCast)
-            Interactions.Target = null;
-
-        Controller.CharacterAnimator.SetBool(animationName, true);
-    }
-
-    public void ResetAbilityAnimation(string animationName)
-    {
-        Controller.CharacterAnimator.SetBool(animationName, false);
-    }
-
-    public void ApplyAbilityAtLocation(Vector3 pos, GameObject applicationInstance)
+    public void ApplyAbilityEffectAtLocation(Vector3 pos, GameObject applicationInstance)
     {
         Instantiate(applicationInstance, pos, Quaternion.identity);
 
-        Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.05f, pos.z), Ability.AbilityAreaOfEffect);
+        Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.01f, pos.z), Ability.AbilityAreaOfEffect);
 
         foreach (Collider collider in colliders)
         {
@@ -260,9 +219,22 @@ public abstract class AbilityLogic : MonoBehaviourPun
             }
         }
     }
+
+    #region Ability animation Play / Reset
+    protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false, bool lostTargetOnCast = false)
+    {
+        if (resetAutoAttack)
+            Interactions.ResetInteractionState();
+
+        if (lostTargetOnCast)
+            Interactions.Target = null;
+
+        Controller.CharacterAnimator.SetLayerWeight(2, 1);
+        Controller.CharacterAnimator.SetBool(animationName, true);
+    }
     #endregion
 
-    #region VFX
+    #region VFX activation / desactivation
     protected void ActivateVFX(List<GameObject> effects)
     {
         for (int i = 0; i < effects.Count; i++)
@@ -280,6 +252,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     }
     #endregion
 
+    #region Debug Range
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmosColor;
@@ -287,4 +260,5 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if(Ability.AbilityRange > 0f)
             Gizmos.DrawWireSphere(transform.position, Ability.AbilityRange);
     }
+    #endregion
 }

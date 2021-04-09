@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8eb4df1c2e57e840851cc35e981eeb4, type: 3}
   m_Name: Ability_Warrior_E
   m_EditorClassIdentifier: 
-  abilityName: Test
-  abilityDescription: Its a test
+  abilityName: Lightning Strike
+  abilityDescription: Strikes a lightning at a location, dealing 150 magical damage
+    (+0.5% PM), at all enemies, in the targeted zone.
   abilityKey: 101
   abilityIcon: {fileID: 21300000, guid: 4637953d65a24364aab3372a525b9ed2, type: 3}
+  abilityCost: 0
   abilityEffectObject: {fileID: 3496865379352093655, guid: 09817140c6833ac4982bb322fed34f8f, type: 3}
   abilityPhysicalDamage: 0
   abilityMagicalDamage: 150
@@ -23,8 +25,6 @@ MonoBehaviour:
   abilityMagicalRatio: 0.5
   abilityRange: 10
   abilityAreaOfEffect: 4
-  abilityCooldown: 0.5
-  abilityCastingTime: 0.02
-  abilityDuration: 0
+  abilityCooldown: 3
+  abilityDuration: 0.15
   instantCasting: 0
-  automaticallyPutInCooldown: 1

@@ -24,12 +24,10 @@ public class Ability : ScriptableObject
 
     [Header("TIMERS")]
     [SerializeField] private float abilityCooldown = 0f;
-    [SerializeField] private float abilityCastingTime = 0f;
     [SerializeField] private float abilityDuration = 0f;
 
     [Header("PROPERTIES")]
     [SerializeField] private bool instantCasting = false;
-    [SerializeField] private bool automaticallyPutInCooldown = true;
 
     #region Public refs
     public string AbilityName { get => abilityName; }
@@ -37,7 +35,6 @@ public class Ability : ScriptableObject
     public KeyCode AbilityKey { get => abilityKey; }
     public Sprite AbilityIcon { get => abilityIcon; }
     public GameObject AbilityEffectObject { get => abilityEffectObject; }
-    public bool AutomaticallyPutInCooldown { get => automaticallyPutInCooldown; }
 
     public int AbilityCost { get => abilityCost; set => abilityCost = value; }
     public float AbilityPhysicalDamage { get => abilityPhysicalDamage; set => abilityPhysicalDamage = value; }
@@ -49,7 +46,6 @@ public class Ability : ScriptableObject
     public float AbilityAreaOfEffect { get => abilityAreaOfEffect; set => abilityAreaOfEffect = value; }
 
     public float AbilityCooldown { get => abilityCooldown; set => abilityCooldown = value; }
-    public float AbilityCastingTime { get => abilityCastingTime; set => abilityCastingTime = value; }
     public float AbilityDuration { get => abilityDuration; set => abilityDuration = value; }
 
     public bool InstantCasting { get => instantCasting; set => instantCasting = value; }

@@ -75,10 +75,18 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
         animator.SetFloat(animationFloatName, moveSpeed, smoothTime, Time.deltaTime);
     }
 
-    public void HandleCharacterRotation(Transform transform, Vector3 target, float rotateVelocity, float rotationSpeed)
+    public void HandleCharacterRotation(Transform transform)
     {
         if (IsCasting) return;
 
+        if (Agent.velocity.sqrMagnitude > Mathf.Epsilon)
+        {
+            transform.rotation = Quaternion.LookRotation(Agent.velocity.normalized);
+        }
+    }
+
+    public void HandleCharacterRotationBeforeCasting(Transform transform, Vector3 target, float rotateVelocity, float rotationSpeed)
+    {
         Quaternion rotationToLookAt = Quaternion.LookRotation(target - transform.position);
 
         float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y,

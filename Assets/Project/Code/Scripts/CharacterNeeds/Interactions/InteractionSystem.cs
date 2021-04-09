@@ -58,7 +58,7 @@ public class InteractionSystem : MonoBehaviour
             return;
         }
 
-        if (target != null)
+        if (Target != null)
             distance = Vector3.Distance(transform.position, target.position);
 
         MoveTowardsAnExistingTarget(Target, StoppingDistance);
@@ -69,7 +69,7 @@ public class InteractionSystem : MonoBehaviour
     {
         if (target != null)
         {
-            Controller.HandleCharacterRotation(transform, target.position, Controller.RotateVelocity, rotationSpeed);
+            Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
             Controller.Agent.stoppingDistance = minDistance;
 
@@ -150,6 +150,7 @@ public class InteractionSystem : MonoBehaviour
 
         Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.AttackSpeed).Value);
         Animator.SetBool("Attack", true);
+        Animator.SetLayerWeight(1, 1);
 
         //MeleeAttack(); //Debug without animation
 
@@ -236,6 +237,8 @@ public class InteractionSystem : MonoBehaviour
             Animator.SetTrigger("NoTarget");
 
         Animator.SetBool("Attack", false);
+        Animator.SetLayerWeight(1, 0);
+
         CanPerformAttack = true;
         HasPerformedAttack = false;
     }

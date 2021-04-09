@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6355705780830860224}
   - component: {fileID: 1506298973611132945}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,8 @@ GameObject:
   - component: {fileID: 2917069757288152550}
   - component: {fileID: 5117200632880409972}
   - component: {fileID: 1055843485292653331}
-  m_Layer: 0
+  - component: {fileID: -8603908988789735301}
+  m_Layer: 2
   m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,3 +301,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-8603908988789735301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7788752569908500074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8434dec12af50514f899fdc17dd813df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetimeValue: 0.2
+  DestroyAfterTime: 1
+  HideAfterTime: 0

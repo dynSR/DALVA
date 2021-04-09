@@ -23,7 +23,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
     //private VisibilityState VisibilityState => GetComponent<VisibilityState>();
     private EntityDetection EntityDetection => GetComponent<EntityDetection>();
-    private Collider m_Collider => GetComponent<Collider>();
+    private Collider MyCollider => GetComponent<Collider>();
     #endregion
 
     [Header("CHARACTER INFORMATIONS")]
@@ -186,11 +186,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         global::Popup.Create(InFrontOfCharacter, Popup, value, statType, icon);
 
-        if (isASpecialPopup)
-        {
-            if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
-                SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
-        }
+        //if (isASpecialPopup)
+        //{
+        //    if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
+        //        SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+        //}
 
         //Debug.Log(gameObject.name + " Life is : " + CurrentHealth);
     }
@@ -281,6 +281,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon, true));
             SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
+            if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
+                SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+
             //Debug.Log("Ressources have been given to a player, the last stored source of damage");
         }
     }
@@ -298,7 +301,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         GiveRessourcesToAPlayerOnDeath(GetStat(StatType.RessourcesGiven).Value);
 
-        m_Collider.enabled = false;
+        MyCollider.enabled = false;
 
         if (transform.GetComponent<PlayerController>() != null)
             transform.GetComponent<PlayerController>().IsPlayerInHisBase = true;
@@ -347,7 +350,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         //Visibility State
         EntityDetection.enabled = true;
-        m_Collider.enabled = true;
+        MyCollider.enabled = true;
 
         //if (GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.AllyPlayer || GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.EnemyPlayer)
         //{

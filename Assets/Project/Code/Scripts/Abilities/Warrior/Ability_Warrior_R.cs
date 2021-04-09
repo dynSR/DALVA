@@ -19,7 +19,6 @@ public class Ability_Warrior_R : AbilityLogic
             case AbilityEffect.I:
                 PlayAbilityAnimation("UsesFourthAbility");
                 Stats.Heal(transform, 450);
-                ResetAbilityAnimation("UsesFourthAbility");
                 break;
             case AbilityEffect.II:
                 break;

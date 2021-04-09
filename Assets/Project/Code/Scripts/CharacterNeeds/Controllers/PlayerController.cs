@@ -51,7 +51,7 @@ public class PlayerController : CharacterController
             movementFeedbackHasBeenCreated = false;
 
             SetAgentDestination(Agent, raycastHit.point);
-            HandleCharacterRotation(transform, raycastHit.point, RotateVelocity, RotationSpeed);
+            HandleCharacterRotation(transform);
 
             DebugPathing(MyLineRenderer);
         }

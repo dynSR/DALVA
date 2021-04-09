@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public static class UtilityClass
 {
-    #region Left and right click pressure checker
+    #region Left and right click pressure check
     public static bool LeftClickIsPressed()
     {
         if (Input.GetMouseButtonDown(0))
@@ -24,7 +23,7 @@ public static class UtilityClass
     }
     #endregion
 
-    #region Left and right key hold checker
+    #region Left and right key hold check
     public static bool LeftClickIsHeld()
     {
         if (Input.GetMouseButton(0))
@@ -44,7 +43,7 @@ public static class UtilityClass
     }
     #endregion
 
-    #region Left and right click on UI elements pressure checker
+    #region Left and right click on UI elements pressure check
     public static bool LeftClickIsPressedOnUIElement(PointerEventData requiredEventData)
     {
         if (requiredEventData.button == PointerEventData.InputButton.Left)
@@ -64,7 +63,7 @@ public static class UtilityClass
     }
     #endregion
 
-    #region Inputs pressure and hold checker
+    #region Inputs pressure and hold check
     public static bool IsKeyPressed(KeyCode key)
     {
         if (Input.GetKeyDown(key)) return true;

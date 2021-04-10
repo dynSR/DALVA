@@ -4,7 +4,7 @@ using UnityEngine;
 public class StatusEffectHandler : MonoBehaviour
 {
     public delegate void StatusEffectApplicationHandler (StatusEffect statusEffectApplied);
-    public static event StatusEffectApplicationHandler OnApplyingStatusEffect;
+    public event StatusEffectApplicationHandler OnApplyingStatusEffect;
 
     [SerializeField] private List<StatusEffectDurationData> appliedStatusEffects = new List<StatusEffectDurationData>();
 
@@ -22,6 +22,8 @@ public class StatusEffectHandler : MonoBehaviour
     }
 
     void Update() => ProcessDuration();
+
+    private void LateUpdate() => CheckForExpiredStatusEffect();
 
     #region Applying an effect
     public void AddNewEffect(StatusEffect newStatusEffect)
@@ -67,11 +69,23 @@ public class StatusEffectHandler : MonoBehaviour
         }
     }
 
-    public void RemoveEffectFromStatusEffectHandler(StatusEffect newStatusEffect)
+    private void RemoveEffectFromStatusEffectHandler(StatusEffect newStatusEffect)
     {
         for (int i = appliedStatusEffects.Count - 1; i >= 0; i--)
         {
             if (appliedStatusEffects[i].statusEffect == newStatusEffect)
+            {
+                appliedStatusEffects[i].statusEffect.RemoveEffect(transform);
+                appliedStatusEffects.RemoveAt(i);
+            }
+        }
+    }
+
+    private void CheckForExpiredStatusEffect()
+    {
+        for (int i = appliedStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (appliedStatusEffects[i].duration <= 0)
             {
                 appliedStatusEffects[i].statusEffect.RemoveEffect(transform);
                 appliedStatusEffects.RemoveAt(i);

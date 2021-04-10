@@ -33,11 +33,11 @@ public class StatusEffect : ScriptableObject
         {
             TargetStatusEffectHandler = GetTargetStatusEffectHandler(target);
 
-            if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this))
-            {
-                GetTargetStatusEffectHandler(target).ResetCooldown(this);
-                return;
-            }
+            //if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this))
+            //{
+            //    GetTargetStatusEffectHandler(target).ResetCooldown(this);
+            //    return;
+            //}
 
             for (int i = 0; i < statModifiers.Count; i++)
             {
@@ -59,6 +59,7 @@ public class StatusEffect : ScriptableObject
         for (int i = 0; i < statModifiers.Count; i++)
         {
             GetTargetStats(target).GetStat(statModifiers[i].StatType).RemoveModifier(statModifiers[i]);
+            GetTargetStats(target).GetStat(statModifiers[i].StatType).MaxValue = GetTargetStats(target).GetStat(statModifiers[i].StatType).CalculateValue();
 
             if (statModifiers[i].StatType == StatType.MovementSpeed)
             {

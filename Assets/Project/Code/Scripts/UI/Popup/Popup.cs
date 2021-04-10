@@ -66,6 +66,12 @@ public class Popup : MonoBehaviourPun
 
     private void Setup(float value, StatType stat, Sprite icon, bool isCritical = false)
     {
+        if(value == 0)
+        {
+            ValueText.SetText(value.ToString("INVULNERABLE"));
+            return;
+        }
+
         if (isCritical) ValueText.SetText(value.ToString("0") + " !");
         else ValueText.SetText(value.ToString("0"));
 

@@ -54,7 +54,6 @@ public class StatusEffectContainer : MonoBehaviour
 
         if (localTimer <= 0)
         {
-            StatusEffectHandler.RemoveEffectFromStatusEffectHandler(ContainedStatusEffectSystem);
             DestroyContainer();
         }
     }

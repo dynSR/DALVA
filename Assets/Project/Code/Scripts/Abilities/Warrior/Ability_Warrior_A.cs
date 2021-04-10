@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(ThrowingAbilityProjectile))]
 public class Ability_Warrior_A : AbilityLogic
 {
     private void OnEnable()
@@ -21,8 +20,6 @@ public class Ability_Warrior_A : AbilityLogic
 
     protected override void Cast()
     {
-        UsedEffectIndex = AbilityEffect.I; //debug
-
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:

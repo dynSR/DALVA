@@ -28,6 +28,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     [Header("USED ABILITY")]
     [SerializeField] private Ability ability;
+    [SerializeField] private AbilityEffect usedEffectIndex = AbilityEffect.I;
 
     [Header("PREVISUALISATION")]
     [SerializeField] private GameObject rangeDisplayer;
@@ -51,7 +52,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     public Ability Ability { get => ability; }
     public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
-    public AbilityEffect UsedEffectIndex { get; set; }
+    public AbilityEffect UsedEffectIndex { get => usedEffectIndex; set => usedEffectIndex = value; }
     public List<GameObject> AbilityVFXToActivate { get => abilityVFXToActivate; }
 
     protected abstract void Cast();
@@ -239,7 +240,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         for (int i = 0; i < effects.Count; i++)
         {
-            effects[i].SetActive(true);
+            if (effects.Count > 0)
+                effects[i].SetActive(true);
         }
     }
 
@@ -247,7 +249,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         for (int i = 0; i < effects.Count; i++)
         {
-            effects[i].SetActive(false);
+            if (effects.Count > 0)
+                effects[i].SetActive(false);
         }
     }
     #endregion

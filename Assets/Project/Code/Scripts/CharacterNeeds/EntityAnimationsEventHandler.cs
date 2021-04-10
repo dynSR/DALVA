@@ -7,6 +7,7 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     private InteractionSystem Interactions => GetComponentInParent<InteractionSystem>();
     private EntityStats Stats => GetComponentInParent<EntityStats>();
     private CharacterController Controller => GetComponentInParent<CharacterController>();
+    private ThrowingAbilityProjectile ThrowingAbilityProjectile => GetComponentInParent<ThrowingAbilityProjectile>();
     #endregion
 
     private void Awake() => MyAnimator.runtimeAnimatorController = Stats.UsedEntity.AnimatorController;

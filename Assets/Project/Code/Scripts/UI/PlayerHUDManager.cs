@@ -8,6 +8,7 @@ public class PlayerHUDManager : MonoBehaviour
     [Header("STATUS EFFECT PARAMETERS")]
     [SerializeField] private Transform statusEffectLayoutGroup;
     [SerializeField] private GameObject statusEffectContainer;
+    private StatusEffectHandler statusEffectHandler;
 
     [Header("SHOP")]
     [SerializeField] private KeyCode toggleInputKey;
@@ -25,14 +26,19 @@ public class PlayerHUDManager : MonoBehaviour
     public bool IsShopWindowOpen { get => isShopWindowOpen; set => isShopWindowOpen = value; }
     public Transform Player { get => player; }
 
+    private void Awake()
+    {
+        statusEffectHandler = player.GetComponent<StatusEffectHandler>();
+    }
+
     void OnEnable()
     {
-        StatusEffectHandler.OnApplyingStatusEffect += UpdateStatusEffectUI;
+        statusEffectHandler.OnApplyingStatusEffect += UpdateStatusEffectUI;
     }
 
     void OnDisable()
     {
-        StatusEffectHandler.OnApplyingStatusEffect -= UpdateStatusEffectUI;
+        statusEffectHandler.OnApplyingStatusEffect -= UpdateStatusEffectUI;
     }
 
     void Update()

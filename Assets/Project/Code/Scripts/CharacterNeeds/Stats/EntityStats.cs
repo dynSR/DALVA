@@ -40,7 +40,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
     [SerializeField] private float timeToRespawn;
-    float regenerationAddedValue;
+    public bool EntityIsMarked = false/* { get; set; }*/;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
     public Transform SourceOfDamage { get; set; }
 
@@ -176,7 +176,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
 
-            //Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
+            Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
+        }
+        else if (!CanTakeDamage)
+        {
+             global::Popup.Create(InFrontOfCharacter, Popup, 0, 0, null);
         }
     }
 
@@ -185,14 +189,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         yield return new WaitForSeconds(delay);
 
         global::Popup.Create(InFrontOfCharacter, Popup, value, statType, icon);
-
-        //if (isASpecialPopup)
-        //{
-        //    if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
-        //        SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
-        //}
-
-        //Debug.Log(gameObject.name + " Life is : " + CurrentHealth);
     }
     #endregion
 
@@ -204,8 +200,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
         {
             if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
-
-            regenerationAddedValue += regenerationThreshold;
 
             targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
 

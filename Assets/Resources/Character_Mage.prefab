@@ -24017,6 +24017,7 @@ MonoBehaviour:
     statModifiers: []
   spawnLocation: {fileID: 0}
   timeToRespawn: 15
+  EntityIsMarked: 0
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 86403160670093405}
   healVFX: {fileID: 86403162762388380}
@@ -24126,10 +24127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: a56bfc62c058bbe4eb438efb4d33132e, type: 2}
+  usedEffectIndex: 0
   rangeDisplayer: {fileID: 86403161527002803}
-  abilitVFXToActivate:
-  - {fileID: 86403161779687524}
-  - {fileID: 86403161921081838}
+  abilityVFXToActivate: []
   CastLocation: {x: 0, y: 0, z: 0}
   normalCast: 0
   fastCastWithIndication: 0
@@ -24148,8 +24148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: c4a3e2dcb2c888548aea88c05a3423cc, type: 2}
+  usedEffectIndex: 0
   rangeDisplayer: {fileID: 86403161820000112}
-  abilitVFXToActivate: []
+  abilityVFXToActivate: []
   CastLocation: {x: 0, y: 0, z: 0}
   normalCast: 0
   fastCastWithIndication: 1
@@ -24168,8 +24169,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: 473f49738d214aa4090042f6ed82dbd7, type: 2}
+  usedEffectIndex: 0
   rangeDisplayer: {fileID: 86403161918105855}
-  abilitVFXToActivate: []
+  abilityVFXToActivate: []
   CastLocation: {x: 0, y: 0, z: 0}
   normalCast: 1
   fastCastWithIndication: 0
@@ -24188,8 +24190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: b56b880d6162c8d47828674971ee6611, type: 2}
+  usedEffectIndex: 0
   rangeDisplayer: {fileID: 0}
-  abilitVFXToActivate: []
+  abilityVFXToActivate: []
   CastLocation: {x: 0, y: 0, z: 0}
   normalCast: 0
   fastCastWithIndication: 0
@@ -26450,10 +26453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202f1c13af9706f4884d7122506f8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityA: {fileID: 86403161031044818}
-  abilityZ: {fileID: 86403161031044821}
-  abilityE: {fileID: 86403161031044820}
-  abilityR: {fileID: 86403161031044823}
 --- !u!114 &86403161083545154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130073,7 +130072,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8896b7c2709e67145942812d30af10d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer: 8
+  entitiesLayer: 12
+  ignoreRaycastLayer: 2
   Stats: {fileID: 86403161031044822}
+  targets: []
 --- !u!114 &86403162692801308
 MonoBehaviour:
   m_ObjectHideFlags: 0

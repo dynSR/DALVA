@@ -11,14 +11,11 @@ public class Ability_Warrior_E : AbilityLogic
 
     protected override void Cast()
     {
-        UsedEffectIndex = AbilityEffect.I; //debug
+        PlayAbilityAnimation("UsesThirdAbility", true, true);
 
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                PlayAbilityAnimation("UsesThirdAbility", true, true);
-                //ApplyAbilityAtLocation(CastLocation, Ability.AbilityEffectObject);
-                //StartCoroutine(ResetAbilityAnimation(1f, "UsesThirdAbility"));
                 break;
             case AbilityEffect.II:
                 break;

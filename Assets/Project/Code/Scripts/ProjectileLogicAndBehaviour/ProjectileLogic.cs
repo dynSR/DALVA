@@ -8,7 +8,9 @@ public class ProjectileLogic : MonoBehaviour
 {
     [SerializeField] private ProjectileType projectileType;
     [SerializeField] private float projectileSpeed;
-    [SerializeField] private GameObject onHitEffect;
+    [Range(0, 1)][SerializeField] private float projectileBonusDamagePercentage;
+    [SerializeField] private StatusEffect projectileStatusEffect;
+    [SerializeField] private GameObject onHitVFX;
 
     [SerializeField] private Transform projectileSender; //debug
 
@@ -19,12 +21,16 @@ public class ProjectileLogic : MonoBehaviour
 
     Vector3 targetPosition;
 
+    public bool CanGoThroughTarget { get; set; }
+    public bool CanBounce { get; set; }
+
     public float TotalPhysicalDamage { get; set; }
     public float TotalMagicalDamage { get; set; }
 
     public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
     public float ProjectileSpeed { get => projectileSpeed; }
-    public GameObject OnHitEffect { get => onHitEffect; }
+    public StatusEffect ProjectileStatusEffect { get => projectileStatusEffect; }
+    public GameObject OnHitVFX { get => onHitVFX; }
     
     public Transform Target { get => target; set => target = value; }
 
@@ -44,8 +50,6 @@ public class ProjectileLogic : MonoBehaviour
                 break;
             case ProjectileType.TravelsToAPosition:
                 ProjectileMoveToATarget();
-                break;
-            default:
                 break;
         }
     }
@@ -116,55 +120,112 @@ public class ProjectileLogic : MonoBehaviour
                 || ProjectileSenderCharacterStats.EntityTeam != targetStats.EntityTeam)
             {
                 Debug.Log("Projectile Applies Damage !");
-                
+
+                ApplyStatusEffectOnHit(targetCollider);
+
                 //Maybe it needs to add something else for the ratio added to projectile damage +% ????
                 if (Ability != null)
                 {
-                    Debug.Log("Has an ability");
-                    targetStat.TakeDamage(
-                    ProjectileSender,
-                    targetStat.GetStat(StatType.PhysicalResistances).Value,
-                    targetStat.GetStat(StatType.MagicalResistances).Value,
-                    Ability.AbilityPhysicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio),
-                    Ability.AbilityMagicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio),
-                    ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
-                    175f,
-                    ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
-                    ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
-
-                    InstantiateHitEffectOnCollision(OnHitEffect);
-                    Destroy(gameObject);
+                    ApplyProjectileAbilityDamage(targetStat);
                 }
                 else if (Target != null && targetCollider.transform.gameObject == Target.gameObject)
                 {
-                    Debug.Log("No ability");
-
-                    targetStat.TakeDamage(
-                        ProjectileSender,
-                        targetStat.GetStat(StatType.PhysicalResistances).Value,
-                        targetStat.GetStat(StatType.MagicalResistances).Value,
-                        TotalPhysicalDamage,
-                        TotalMagicalDamage,
-                        ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
-                        175f,
-                        ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
-                        ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
-
-                    Debug.Log(TotalPhysicalDamage);
-                    Debug.Log(TotalMagicalDamage);
-
-                    InstantiateHitEffectOnCollision(OnHitEffect);
-                    Destroy(gameObject);
+                    ApplyProjectileAutoAttackDamage(targetStat);
                 }
             }
         }
         else if (targetCollider.gameObject.GetComponent<SteleLogic>() != null)
         {
-            targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0, 0, 1, 0, 0, 0, 0, 0);
-
-            InstantiateHitEffectOnCollision(OnHitEffect);
-            Destroy(gameObject);
+            ApplyProjectileDamageToAnInteractiveBuilding(targetCollider);
         }
+    }
+
+    private void ApplyProjectileAbilityDamage(EntityStats targetStat)
+    {
+        float bonusDamage;
+
+        if (targetStat.EntityIsMarked)
+        {
+            targetStat.EntityIsMarked = false;
+            bonusDamage = projectileBonusDamagePercentage;
+        }
+        else bonusDamage = 0;
+
+        if (Ability.AbilityPhysicalDamage > 0)
+        {
+            TotalPhysicalDamage = Ability.AbilityPhysicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPower).Value * (Ability.AbilityPhysicalRatio + bonusDamage));
+        } 
+        else Ability.AbilityPhysicalDamage = 0;
+
+        if (Ability.AbilityMagicalDamage > 0)
+        {
+           TotalMagicalDamage = Ability.AbilityMagicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + bonusDamage));
+        } 
+        else Ability.AbilityMagicalDamage = 0;
+
+            Debug.Log("Has an ability");
+        targetStat.TakeDamage(
+        ProjectileSender,
+        targetStat.GetStat(StatType.PhysicalResistances).Value,
+        targetStat.GetStat(StatType.MagicalResistances).Value,
+        TotalPhysicalDamage,
+        TotalMagicalDamage,
+        ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
+        175f,
+        ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
+        ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
+
+        if (!CanGoThroughTarget && !CanBounce)
+            InstantiateHitEffectOnCollision(OnHitVFX);
+
+        if (CanBounce) BounceOnOtherNearTarget();
+        else if(!CanGoThroughTarget) Destroy(gameObject);
+    }
+
+    private void ApplyProjectileAutoAttackDamage(EntityStats targetStat)
+    {
+        Debug.Log("No ability");
+
+        targetStat.TakeDamage(
+            ProjectileSender,
+            targetStat.GetStat(StatType.PhysicalResistances).Value,
+            targetStat.GetStat(StatType.MagicalResistances).Value,
+            TotalPhysicalDamage,
+            TotalMagicalDamage,
+            ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
+            175f,
+            ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
+            ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
+
+        Debug.Log(TotalPhysicalDamage);
+        Debug.Log(TotalMagicalDamage);
+
+        InstantiateHitEffectOnCollision(OnHitVFX);
+        Destroy(gameObject);
+    }
+
+    private void ApplyProjectileDamageToAnInteractiveBuilding(Collider targetCollider)
+    {
+        targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0, 0, 1, 0, 0, 0, 0, 0);
+
+        InstantiateHitEffectOnCollision(OnHitVFX);
+        Destroy(gameObject);
+    }
+
+    protected void ApplyStatusEffectOnHit(Collider targetCollider)
+    {
+        StatusEffectHandler targetStatusEffectHandler = targetCollider.GetComponent<StatusEffectHandler>();
+
+        if (ProjectileStatusEffect != null && targetStatusEffectHandler != null)
+        {
+            ProjectileStatusEffect.ApplyEffect(targetCollider.transform);
+        }
+    }
+
+    protected void BounceOnOtherNearTarget()
+    {
+        //Find other near targets and for each of them go to it
+        //then if it hits the last nearer target, destroy
     }
 
     private void InstantiateHitEffectOnCollision(GameObject objToInstantiate)

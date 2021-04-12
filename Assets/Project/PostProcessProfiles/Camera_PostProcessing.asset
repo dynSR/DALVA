@@ -67,7 +67,7 @@ MonoBehaviour:
     value: 1
   softKnee:
     overrideState: 1
-    value: 0.65
+    value: 1
   clamp:
     overrideState: 1
     value: 100
@@ -79,7 +79,7 @@ MonoBehaviour:
     value: 1
   color:
     overrideState: 1
-    value: {r: 0.5046922, g: 0.6698113, b: 0.47076362, a: 1}
+    value: {r: 0.10980392, g: 0.09411765, b: 0.07450981, a: 1}
   fastMode:
     overrideState: 1
     value: 1
@@ -108,10 +108,10 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 5.32
+    value: 4.55
   aperture:
     overrideState: 1
-    value: 32
+    value: 3.8
   focalLength:
     overrideState: 1
     value: 57.1
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -145,7 +145,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.168
+    value: 0.088
   smoothness:
     overrideState: 1
     value: 1
@@ -205,17 +205,17 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   filtering:
-    overrideState: 1
-    value: {x: 54.000008, y: 99}
+    overrideState: 0
+    value: {x: 1, y: 99}
   minLuminance:
-    overrideState: 1
-    value: -0.62
+    overrideState: 0
+    value: 0
   maxLuminance:
-    overrideState: 1
+    overrideState: 0
     value: 9
   keyValue:
-    overrideState: 1
-    value: 1.7
+    overrideState: 0
+    value: 0.74
   eyeAdaptation:
     overrideState: 1
     value: 0

@@ -51,5 +51,6 @@ public class Ability : ScriptableObject
     public float AbilityDuration { get => abilityDuration; set => abilityDuration = value; }
 
     public bool InstantCasting { get => instantCasting; set => instantCasting = value; }
+    public float AbilityHealValue { get => abilityHealValue; set => abilityHealValue = value; }
     #endregion
 }

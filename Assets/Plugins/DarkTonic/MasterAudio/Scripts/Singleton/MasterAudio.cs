@@ -7209,7 +7209,7 @@ namespace DarkTonic.MasterAudio {
                 return;
             }
 
-            Debug.Log("T: " + Time.time + " - MasterAudio: " + message);
+            //Debug.Log("T: " + Time.time + " - MasterAudio: " + message);
         }
 
         /// <summary>

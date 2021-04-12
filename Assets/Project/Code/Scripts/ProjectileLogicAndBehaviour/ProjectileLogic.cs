@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public enum ProjectileType { None, TravelsForward, TravelsToAPosition }
@@ -10,20 +11,16 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private float projectileSpeed = 0f;
     [SerializeField] private float projectileAreaOfEffect = 0f;
     [Range(0, 1)][SerializeField] private float projectileBonusDamagePercentage = 0f;
-    [SerializeField] private int entitiesLayerMaskValue = 12;
+    [SerializeField] private LayerMask entitiesLayerMaskValue;
 
-
+    [SerializeField] private GameObject subProjectile;
     [SerializeField] private StatusEffect projectileStatusEffect;
     [SerializeField] private GameObject onHitVFX;
 
-    [SerializeField] private Transform projectileSender; //debug
-
-    [SerializeField] private Transform target; //debug
-    [SerializeField] private EntityStats targetStats; //debug
-
     public Ability Ability { get; set; }
 
-    Vector3 targetPosition;
+    Vector3 targetPosition = Vector3.zero;
+    List<Transform> nearTargets = new List<Transform>();
 
     public bool CanGoThroughTarget { get; set; }
     public bool CanHeal { get; set; }
@@ -37,19 +34,29 @@ public class ProjectileLogic : MonoBehaviour
     public StatusEffect ProjectileStatusEffect { get => projectileStatusEffect; }
     public GameObject OnHitVFX { get => onHitVFX; }
     
-    public Transform Target { get => target; set => target = value; }
+    public Transform Target { get; set; }
 
-    public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
+    public Transform ProjectileSender { get; set; }
     public EntityStats ProjectileSenderStats => ProjectileSender.GetComponent<EntityStats>();
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
+
+    private void Awake()
+    {
+        if (Target != null)
+        {
+            targetPosition = Target.position;
+        }
+    }
+
     private void FixedUpdate()
     {
+        if (Target != null)
+            targetPosition = Target.position;
+
         switch (projectileType)
         {
-            case ProjectileType.None:
-                break;
             case ProjectileType.TravelsForward:
                 ProjectileTravelsToPosition(ProjectileSender);
                 break;
@@ -62,41 +69,17 @@ public class ProjectileLogic : MonoBehaviour
     #region Projectile Behaviours
     void ProjectileMoveToATarget()
     {
-        if (Target.GetComponent<NavMeshAgent>() != null)
-        {
-            targetPosition = Target.position;
+        Rb.MovePosition(Vector3.MoveTowards(
+            transform.position,
+            targetPosition + new Vector3(0, Target.localScale.y / 2, 0),
+            ProjectileSpeed * Time.fixedDeltaTime));
 
-            Rb.MovePosition(Vector3.MoveTowards(
-                transform.position,
-                targetPosition + new Vector3(0, Target.GetComponent<NavMeshAgent>().height / 2, 0),
-                ProjectileSpeed * Time.fixedDeltaTime));
-
-            transform.LookAt(Target);
-        }
-        else if (Target.GetComponent<NavMeshAgent>() == null)
-        {
-            targetPosition = Target.position;
-
-            Rb.MovePosition(Vector3.MoveTowards(
-                transform.position,
-                targetPosition + new Vector3(0, 0.5f, 0),
-                ProjectileSpeed * Time.fixedDeltaTime));
-
-            transform.LookAt(Target);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        transform.LookAt(Target);
     }
 
     void ProjectileTravelsToPosition(Transform sender)
     {
         ProjectileSender = sender;
-        //Rb.MovePosition(Vector3.MoveTowards(
-        //    transform.position,
-        //    Target.position,
-        //    ProjectileSpeed * Time.fixedDeltaTime));
         Rb.MovePosition(transform.position += transform.forward * (ProjectileSpeed * Time.fixedDeltaTime));
     }
     #endregion
@@ -111,32 +94,39 @@ public class ProjectileLogic : MonoBehaviour
     {
         if (targetCollider.gameObject.GetComponent<EntityStats>() != null)
         {
-            Debug.Log("Enemy touched !");
+            //Debug.Log("Enemy touched !");
 
             EntityDetection entityFound = targetCollider.gameObject.GetComponent<EntityDetection>();
-            EntityStats targetStat = targetCollider.GetComponent<EntityStats>();
+            EntityStats targetStats = targetCollider.GetComponent<EntityStats>();
 
             //Ability projectile damage appplication
             //Needs to be modified to only include Player - Interactive building - Monster - Minion
             if (entityFound.ThisTargetIsAPlayer(entityFound)
                 || entityFound.ThisTargetIsAMinion(entityFound)
                 || entityFound.ThisTargetIsAStele(entityFound)
-                || entityFound.ThisTargetIsAMonster(entityFound)
-                || ProjectileSenderStats.EntityTeam != targetStats.EntityTeam)
+                || entityFound.ThisTargetIsAMonster(entityFound))
             {
-                Debug.Log("Projectile Applies Damage !");
+                //Debug.Log("Projectile Applies Damage !");
+
+                if (Target == null)
+                {
+                    targetStats = targetCollider.GetComponent<EntityStats>();
+                    Target = targetCollider.transform;
+                }
 
                 ApplyStatusEffectOnHit(targetCollider);
 
-                //Maybe it needs to add something else for the ratio added to projectile damage +% ????
-                if (Ability != null)
+                if (Target != null && targetCollider.transform.gameObject == Target.gameObject)
                 {
-                    if (ProjectileSenderStats.EntityTeam != targetStat.EntityTeam) ApplyProjectileAbilityDamage(targetStat);
-                    else if (CanHeal && ProjectileSenderStats.EntityTeam == targetStat.EntityTeam) ApplyProjectileAbilityHeal(targetStat);
-                }
-                else if (Target != null && targetCollider.transform.gameObject == Target.gameObject)
-                {
-                    ApplyProjectileAutoAttackDamage(targetStat);
+                    if(Ability != null)
+                    {
+                        if (ProjectileSenderStats.EntityTeam != targetStats.EntityTeam) ApplyProjectileAbilityDamage(targetStats);
+                        else if (CanHeal && ProjectileSenderStats.EntityTeam == targetStats.EntityTeam) ApplyProjectileAbilityHeal(targetStats);
+                    }
+                    else
+                    {
+                        ApplyProjectileAutoAttackDamage(targetStats);
+                    }
                 }
             }
         }
@@ -148,7 +138,7 @@ public class ProjectileLogic : MonoBehaviour
 
     private void ApplyProjectileAbilityDamage(EntityStats targetStat)
     {
-        Debug.Log("Has an ability");
+        //Debug.Log("Has an ability");
 
         float bonusDamage;
 
@@ -182,30 +172,26 @@ public class ProjectileLogic : MonoBehaviour
         ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
         ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
 
-        if (!CanGoThroughTarget && !CanBounce)
-            InstantiateHitEffectOnCollision(OnHitVFX);
-
-        if (CanBounce) BounceOnOtherNearTarget();
-        else if(!CanGoThroughTarget) Destroy(gameObject);
+        DestroyProjectile();
     }
 
     private void ApplyProjectileAbilityHeal(EntityStats targetStat)
     {
         if (!targetStat.EntityIsMarked) return;
 
-            Debug.Log("Has an ability");
+            //Debug.Log("Has an ability");
 
         if (targetStat.EntityIsMarked)
             targetStat.EntityIsMarked = false;
 
-        targetStat.Heal(targetStat.transform, 25 + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio));
+        targetStat.Heal(targetStat.transform, Ability.AbilityHealValue + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio));
 
-        if (CanBounce) BounceOnOtherNearTarget();
+        DestroyProjectile();
     }
 
     private void ApplyProjectileAutoAttackDamage(EntityStats targetStat)
     {
-        Debug.Log("No ability");
+        //Debug.Log("No ability");
 
         targetStat.TakeDamage(
             ProjectileSender,
@@ -218,19 +204,17 @@ public class ProjectileLogic : MonoBehaviour
             ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
             ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
 
-        Debug.Log(TotalPhysicalDamage);
-        Debug.Log(TotalMagicalDamage);
+        //Debug.Log(TotalPhysicalDamage);
+        //Debug.Log(TotalMagicalDamage);
 
-        InstantiateHitEffectOnCollision(OnHitVFX);
-        Destroy(gameObject);
+        DestroyProjectile();
     }
 
     private void ApplyProjectileDamageToAnInteractiveBuilding(Collider targetCollider)
     {
         targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0, 0, 1, 0, 0, 0, 0, 0);
 
-        InstantiateHitEffectOnCollision(OnHitVFX);
-        Destroy(gameObject);
+        DestroyProjectile();
     }
 
     protected void ApplyStatusEffectOnHit(Collider targetCollider)
@@ -248,17 +232,58 @@ public class ProjectileLogic : MonoBehaviour
         //Find other near targets and for each of them go to it
         //Then if it hits the last nearer target, destroy
 
-        Collider[] nearTarget = Physics.OverlapSphere(transform.position, projectileAreaOfEffect, entitiesLayerMaskValue);
+        Debug.Log("Bounce");
 
-        foreach (Collider targetColliders in nearTarget)
+        Collider[] collidersFound = Physics.OverlapSphere(transform.position, projectileAreaOfEffect, entitiesLayerMaskValue);
+
+        Debug.Log(collidersFound.Length);
+
+        foreach (Collider targetColliders in collidersFound)
         {
-            EntityStats targetStats = targetColliders.GetComponent<EntityStats>();
+            EntityStats nearTargetStats = targetColliders.GetComponent<EntityStats>();
 
-            if (ProjectileSenderStats.EntityTeam == targetStats.EntityTeam)
+            if (targetColliders.gameObject != Target.gameObject 
+                && !nearTargets.Contains(targetColliders.transform))
             {
+                if (CanHeal && ProjectileSenderStats.EntityTeam == nearTargetStats.EntityTeam && nearTargetStats.EntityIsMarked)
+                {
+                    nearTargets.Add(targetColliders.transform);
+                }
+                else if (targetColliders.gameObject != ProjectileSender.gameObject && ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
+                {
+                    nearTargets.Add(targetColliders.transform);
+                }
+            }
 
+            Debug.Log(nearTargets.Count);
+        }
+
+        for (int i = 0; i < nearTargets.Count; i++)
+        {
+            if (nearTargets.Count >= 1)
+            {
+                GameObject projectileInstance = Instantiate(subProjectile, new Vector3(Target.position.x, Target.position.y, Target.position.z + 0.15f), Quaternion.identity);
+
+                ProjectileLogic _projectile = projectileInstance.GetComponent<ProjectileLogic>();
+                _projectile.ProjectileSender = ProjectileSender;
+                _projectile.Ability = Ability;
+                _projectile.CanHeal = CanHeal;
+                _projectile.Target = nearTargets[i];
             }
         }
+    }
+
+    private void DestroyProjectile()
+    {
+        if (!CanGoThroughTarget && !CanBounce)
+            InstantiateHitEffectOnCollision(OnHitVFX);
+
+        if (CanBounce)
+        {
+            BounceOnOtherNearTarget();
+            Destroy(gameObject);
+        }
+        else if (!CanGoThroughTarget) Destroy(gameObject);
     }
 
     private void InstantiateHitEffectOnCollision(GameObject objToInstantiate)

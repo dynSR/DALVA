@@ -20,7 +20,7 @@ public class PlayerInteractions : InteractionSystem
         if (UtilityClass.RightClickIsPressed()
             && (GameObject.Find("GameNetworkManager") == null || GetComponent<PhotonView>().IsMine))
         {
-            Debug.Log("Set target on mouse click");
+            //Debug.Log("Set target on mouse click");
             ResetTarget();
 
             if (GetComponent<PlayerController>().IsCursorHoveringUIElement) return;

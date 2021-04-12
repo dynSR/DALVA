@@ -41,12 +41,12 @@ public class ForestCamp : MonoBehaviour
 
         for (int i = 0; i < npcControllers.Count; i++)
         {
-            Debug.Log("SetEveryNPCToAggressionState()");
+            //Debug.Log("SetEveryNPCToAggressionState()");
             
             if(!npcControllers[i].IsInIdleState)
             {
                 index = Array.IndexOf(npcControllers.ToArray(), npcControllers[i]);
-                Debug.Log(index);
+                //Debug.Log(index);
             }
 
             for (int j = npcControllers.Count - 1; j >= 0; j--)
@@ -54,8 +54,8 @@ public class ForestCamp : MonoBehaviour
                 //And for the others update their target, target being npc's source of damage that have been attacked
                 if (npcControllers[j].IsInIdleState)
                 {
-                    Debug.Log(npcControllers[j].name);
-                    Debug.Log(npcControllers[index].name);
+                    //Debug.Log(npcControllers[j].name);
+                    //Debug.Log(npcControllers[index].name);
 
                     if (!npcControllers[j].NPCInteractions.HasATarget)
                     {

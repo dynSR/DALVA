@@ -86,7 +86,7 @@ public class NPCController : CharacterController
 
         if(IsInIdleState)
         {
-            Debug.Log("Current state is IDLE");
+            //Debug.Log("Current state is IDLE");
             OnEnteringIdleState?.Invoke();
             OnAggroValueChanged?.Invoke(MaxAgroStep);
             AnAllyHasBeenAttacked = false;
@@ -165,7 +165,7 @@ public class NPCController : CharacterController
 
             if (distanceWithCurrentTarget > distanceWithSourceOfDamage)
             {
-                Debug.Log("Current target was too far, need to swap");
+                //Debug.Log("Current target was too far, need to swap");
                 NPCInteractions.Target = Stats.SourceOfDamage;
                 AggroStep--;
                 OnAggroValueChanged?.Invoke(AggroStep);
@@ -187,8 +187,8 @@ public class NPCController : CharacterController
         {
             AggressionLimitsReached = true;
             StartCoroutine(DecreaseAggroStepOnReachingLimits(delayBeforeDecreasingAggroSteps));
-            Debug.Log("Distance from starting pos : " + distanceFromStartingDistance);
-            Debug.Log("2 meters away from starting position");
+            //Debug.Log("Distance from starting pos : " + distanceFromStartingDistance);
+            //Debug.Log("2 meters away from starting position");
         }
     }
 
@@ -198,7 +198,7 @@ public class NPCController : CharacterController
         {
             yield return new WaitForSeconds(tic);
 
-            Debug.Log("Decreasing aggro steps");
+            //Debug.Log("Decreasing aggro steps");
 
             AggroStep--;
             OnAggroValueChanged?.Invoke(AggroStep);

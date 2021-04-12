@@ -34,13 +34,13 @@ public class AggroGaugeBarHandler : MonoBehaviour
 
     void DisplayAggroImage()
     {
-        Debug.Log("DISPLAY AGGRO GAUGE IMAGE");
+        //Debug.Log("DISPLAY AGGRO GAUGE IMAGE");
         aggroFeedbackImage.gameObject.SetActive(true);
     }
 
     void HideAggroImage()
     {
-        Debug.Log("HIDE AGGRO GAUGE IMAGE");
+        //Debug.Log("HIDE AGGRO GAUGE IMAGE");
         aggroFeedbackImage.gameObject.SetActive(false);
     }
 

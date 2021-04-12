@@ -286,7 +286,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.35
+      scalar: 0.1
       minScalar: 0.1
       maxCurve:
         serializedVersion: 2
@@ -18556,9 +18556,8 @@ GameObject:
   - component: {fileID: 7344833928259837053}
   - component: {fileID: 4331988364427824006}
   - component: {fileID: 7400162026258699874}
-  - component: {fileID: -4538603383139120075}
   m_Layer: 0
-  m_Name: Mage_Ability_A_Projectile
+  m_Name: Mage_Ability_A_SubProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18591,7 +18590,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -18606,7 +18605,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7400162026258699874
 MonoBehaviour:
@@ -18620,28 +18619,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9c23c8c658f514f80adc751f2ae8ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileType: 1
+  projectileType: 2
   projectileSpeed: 5
-  projectileAreaOfEffect: 3
+  projectileAreaOfEffect: 0
   projectileBonusDamagePercentage: 0.3
   entitiesLayerMaskValue:
     serializedVersion: 2
     m_Bits: 4096
-  subProjectile: {fileID: 8403224405550740081, guid: d244b529cecea684d9767a3c9fcb7b29, type: 3}
+  subProjectile: {fileID: 8403224405550740081}
   projectileStatusEffect: {fileID: 0}
   onHitVFX: {fileID: 4360343412489667583, guid: 427f8d85fece1fa478ee89bbcfc74370, type: 3}
---- !u!114 &-4538603383139120075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8403224405550740081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8434dec12af50514f899fdc17dd813df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifetimeValue: 1.1
-  DestroyAfterTime: 1
-  HideAfterTime: 0

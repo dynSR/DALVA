@@ -144,7 +144,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (characterIsTryingToCast && !Controller.IsCasting && (IsInRangeToCast || Ability.AbilityRange == 0f))
         {
-            Debug.Log("Close enough, can cast now !");
+            //Debug.Log("Close enough, can cast now !");
             Controller.IsCasting = true;
             Controller.CanMove = false;
             Cast();

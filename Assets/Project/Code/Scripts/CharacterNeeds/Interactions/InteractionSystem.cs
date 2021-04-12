@@ -127,7 +127,7 @@ public class InteractionSystem : MonoBehaviour
                 if (targetFound.ThisTargetIsAStele(targetFound) && interactiveBuilding != null && interactiveBuilding.EntityTeam != Stats.EntityTeam)
                 {
                     StartCoroutine(AttackInterval());
-                    Debug.Log("Attack performed on building !");
+                    //Debug.Log("Attack performed on building !");
                 }
                 //else if its an entity
                 else if (Target.GetComponent<EntityStats>() != null
@@ -137,7 +137,7 @@ public class InteractionSystem : MonoBehaviour
                     && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
                 {
                     StartCoroutine(AttackInterval());
-                    Debug.Log("Attack performed on entity!");
+                    //Debug.Log("Attack performed on entity!");
                 }
             }
        }
@@ -145,7 +145,7 @@ public class InteractionSystem : MonoBehaviour
 
     IEnumerator AttackInterval()
     {
-        Debug.Log("Attack Interval");
+        //Debug.Log("Attack Interval");
         Controller.CanMove = false;
 
         Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.AttackSpeed).Value);
@@ -165,7 +165,7 @@ public class InteractionSystem : MonoBehaviour
         if (Target != null 
             && Target.GetComponent<EntityStats>() != null)
         {
-            Debug.Log("Melee Attack");
+            //Debug.Log("Melee Attack");
 
             EntityStats targetStat = Target.GetComponent<EntityStats>();
 
@@ -193,7 +193,7 @@ public class InteractionSystem : MonoBehaviour
     {
         if (Target != null)
         {
-            Debug.Log("Ranged Attack");
+            //Debug.Log("Ranged Attack");
 
             pPBonus = 0;
             mPBonus = 0;

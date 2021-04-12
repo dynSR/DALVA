@@ -19,7 +19,7 @@ class AttackingState : IState
 
     public void OnUpdate()
     {
-        Debug.Log("ATTACKING");
+        //Debug.Log("ATTACKING");
 
         //Has no enemy target
         if (!controller.NPCInteractions.HasATarget)
@@ -33,7 +33,7 @@ class AttackingState : IState
         //Has an enemy target
         if (controller.NPCInteractions.HasATarget)
         {
-            Debug.Log("Has a target");
+            //Debug.Log("Has a target");
 
             controller.DistanceWithTarget = Vector3.Distance(controller.NPCInteractions.Target.position, controller.transform.position);
 

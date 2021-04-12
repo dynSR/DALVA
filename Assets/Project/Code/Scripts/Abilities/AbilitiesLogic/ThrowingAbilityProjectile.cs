@@ -24,6 +24,6 @@ public class ThrowingAbilityProjectile : MonoBehaviour
 
         if (ability != null) _projectile.Ability = ability;
 
-        Debug.Log("ThrowingProjectile");
+        //Debug.Log("ThrowingProjectile");
     }
 }

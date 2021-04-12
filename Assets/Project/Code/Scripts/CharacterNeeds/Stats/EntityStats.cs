@@ -152,7 +152,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             {
                 //Calculate target resistances / penetration
                 float currentTargetMagicalResistance = targetMagicalResistances - (targetMagicalResistances * (characterMagicalPenetration / 100));
-                Debug.Log("Target physical resistances " + currentTargetMagicalResistance);
+                Debug.Log("Target magical resistances : " + currentTargetMagicalResistance);
 
                 if (currentTargetMagicalResistance > 0)
                 {

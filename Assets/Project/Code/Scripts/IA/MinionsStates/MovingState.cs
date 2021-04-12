@@ -19,7 +19,7 @@ class MovingState : IState
 
     public void OnUpdate()
     {
-        Debug.Log("MOVING");
+        //Debug.Log("MOVING");
 
         if (controller.GetComponent<EntityStats>().IsDead || !controller.CanMove) return;
 
@@ -51,7 +51,7 @@ class MovingState : IState
 
     void MoveTowardsTarget()
     {
-        Debug.Log("Move Towards Target");
+        //Debug.Log("Move Towards Target");
 
         EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
         VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
@@ -72,13 +72,13 @@ class MovingState : IState
             //Distance is ok to interact - Change current state to attack state
             if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.AttackRange).Value)
             {
-                Debug.Log("Can Interact");
+                //Debug.Log("Can Interact");
                 controller.ChangeState(new AttackingState());
             }
             //Distance is not ok to interact - Keep moving
             else if (controller.DistanceWithTarget > controller.Stats.GetStat(StatType.AttackRange).Value)
             {
-                Debug.Log("Too far to Interact");
+                //Debug.Log("Too far to Interact");
                 controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.NPCInteractions.Target, controller.Stats.GetStat(StatType.AttackRange).Value);
             }
         }

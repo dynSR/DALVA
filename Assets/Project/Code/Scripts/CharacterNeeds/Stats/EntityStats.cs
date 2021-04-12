@@ -129,19 +129,18 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                     characterPhysicalPower *= characterCriticalStrikeMultiplier / 100;
                 }
 
-                if (targetPhysicalResistances > 0)
-                {
-                    if (characterPhysicalPenetration > 0)
-                        characterPhysicalPower *= 100 / (100 + (targetPhysicalResistances - (targetPhysicalResistances * (characterPhysicalPenetration / 100))));
-                    else
-                        characterPhysicalPower *= 100 / (100 + targetPhysicalResistances);
-                }
-                else if (targetPhysicalResistances <= 0)
-                {
-                    characterPhysicalPower *= 2 - 100 / (100 - targetPhysicalResistances);
-                }
+                //Calculate target resistances / penetration
+                float currentTargetPhysicalResistances = targetPhysicalResistances - (targetPhysicalResistances * (characterPhysicalPenetration / 100));
+                Debug.Log("Target physical resistances " + currentTargetPhysicalResistances);
 
-                //characterPhysicalPower *= 100 / (100 + (/*( */targetPhysicalResistances /* - armorFlatReduction )*/ * (characterPhysicalPenetration / 100)));
+                if (currentTargetPhysicalResistances > 0)
+                {
+                   characterPhysicalPower *= 100 / (100 + currentTargetPhysicalResistances);
+                }
+                else if (currentTargetPhysicalResistances <= 0)
+                {
+                    characterPhysicalPower *= 2 - 100 / (100 - currentTargetPhysicalResistances);
+                }
 
                 if (isAttackCritical)
                     global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
@@ -151,16 +150,17 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             if (characterMagicalPower > 0)
             {
-                if (targetMagicalResistances > 0)
+                //Calculate target resistances / penetration
+                float currentTargetMagicalResistance = targetMagicalResistances - (targetMagicalResistances * (characterMagicalPenetration / 100));
+                Debug.Log("Target physical resistances " + currentTargetMagicalResistance);
+
+                if (currentTargetMagicalResistance > 0)
                 {
-                    if (characterMagicalPenetration > 0)
-                        characterMagicalPower *= 100 / (100 + (targetMagicalResistances - (targetMagicalResistances * (characterMagicalPenetration / 100))));
-                    else
-                        characterMagicalPower *= 100 / (100 + targetMagicalResistances);
+                    characterMagicalPower *= 100 / (100 + currentTargetMagicalResistance);
                 }
-                else if (targetMagicalResistances <= 0)
+                else if (currentTargetMagicalResistance <= 0)
                 {
-                    characterMagicalPower *= 2 - 100 / (100 - targetMagicalResistances);
+                    characterMagicalPower *= 2 - 100 / (100 - currentTargetMagicalResistance);
                 }
 
                 if (characterPhysicalPower > 0)
@@ -234,6 +234,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             if(healVFX != null)
                 healVFX.SetActive(true);
 
+            global::Popup.Create(InFrontOfCharacter, Popup, healAmount, 0, null, false, true);
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
         }
     }

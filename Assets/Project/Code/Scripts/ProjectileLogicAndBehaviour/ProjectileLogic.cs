@@ -6,9 +6,13 @@ public enum ProjectileType { None, TravelsForward, TravelsToAPosition }
 [RequireComponent(typeof(Rigidbody))]
 public class ProjectileLogic : MonoBehaviour
 {
-    [SerializeField] private ProjectileType projectileType;
-    [SerializeField] private float projectileSpeed;
-    [Range(0, 1)][SerializeField] private float projectileBonusDamagePercentage;
+    [SerializeField] private ProjectileType projectileType = ProjectileType.None;
+    [SerializeField] private float projectileSpeed = 0f;
+    [SerializeField] private float projectileAreaOfEffect = 0f;
+    [Range(0, 1)][SerializeField] private float projectileBonusDamagePercentage = 0f;
+    [SerializeField] private int entitiesLayerMaskValue = 12;
+
+
     [SerializeField] private StatusEffect projectileStatusEffect;
     [SerializeField] private GameObject onHitVFX;
 
@@ -22,6 +26,7 @@ public class ProjectileLogic : MonoBehaviour
     Vector3 targetPosition;
 
     public bool CanGoThroughTarget { get; set; }
+    public bool CanHeal { get; set; }
     public bool CanBounce { get; set; }
 
     public float TotalPhysicalDamage { get; set; }
@@ -35,7 +40,7 @@ public class ProjectileLogic : MonoBehaviour
     public Transform Target { get => target; set => target = value; }
 
     public Transform ProjectileSender { get => projectileSender; set => projectileSender = value; }
-    public EntityStats ProjectileSenderCharacterStats => ProjectileSender.GetComponent<EntityStats>();
+    public EntityStats ProjectileSenderStats => ProjectileSender.GetComponent<EntityStats>();
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
@@ -117,7 +122,7 @@ public class ProjectileLogic : MonoBehaviour
                 || entityFound.ThisTargetIsAMinion(entityFound)
                 || entityFound.ThisTargetIsAStele(entityFound)
                 || entityFound.ThisTargetIsAMonster(entityFound)
-                || ProjectileSenderCharacterStats.EntityTeam != targetStats.EntityTeam)
+                || ProjectileSenderStats.EntityTeam != targetStats.EntityTeam)
             {
                 Debug.Log("Projectile Applies Damage !");
 
@@ -126,7 +131,8 @@ public class ProjectileLogic : MonoBehaviour
                 //Maybe it needs to add something else for the ratio added to projectile damage +% ????
                 if (Ability != null)
                 {
-                    ApplyProjectileAbilityDamage(targetStat);
+                    if (ProjectileSenderStats.EntityTeam != targetStat.EntityTeam) ApplyProjectileAbilityDamage(targetStat);
+                    else if (CanHeal && ProjectileSenderStats.EntityTeam == targetStat.EntityTeam) ApplyProjectileAbilityHeal(targetStat);
                 }
                 else if (Target != null && targetCollider.transform.gameObject == Target.gameObject)
                 {
@@ -155,17 +161,15 @@ public class ProjectileLogic : MonoBehaviour
 
         if (Ability.AbilityPhysicalDamage > 0)
         {
-            TotalPhysicalDamage = Ability.AbilityPhysicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPower).Value * (Ability.AbilityPhysicalRatio + bonusDamage));
+            TotalPhysicalDamage = Ability.AbilityPhysicalDamage + (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value * (Ability.AbilityPhysicalRatio + bonusDamage));
         } 
         else Ability.AbilityPhysicalDamage = 0;
 
         if (Ability.AbilityMagicalDamage > 0)
         {
-           TotalMagicalDamage = Ability.AbilityMagicalDamage + (ProjectileSenderCharacterStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + bonusDamage));
+           TotalMagicalDamage = Ability.AbilityMagicalDamage + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + bonusDamage));
         } 
         else Ability.AbilityMagicalDamage = 0;
-
-        //Regarder si c'est un allié marqué, si oui > Heal 
 
         targetStat.TakeDamage(
         ProjectileSender,
@@ -173,16 +177,30 @@ public class ProjectileLogic : MonoBehaviour
         targetStat.GetStat(StatType.MagicalResistances).Value,
         TotalPhysicalDamage,
         TotalMagicalDamage,
-        ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
+        ProjectileSenderStats.GetStat(StatType.CriticalStrikeChance).Value,
         175f,
-        ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
-        ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
+        ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
+        ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
 
         if (!CanGoThroughTarget && !CanBounce)
             InstantiateHitEffectOnCollision(OnHitVFX);
 
         if (CanBounce) BounceOnOtherNearTarget();
         else if(!CanGoThroughTarget) Destroy(gameObject);
+    }
+
+    private void ApplyProjectileAbilityHeal(EntityStats targetStat)
+    {
+        if (!targetStat.EntityIsMarked) return;
+
+            Debug.Log("Has an ability");
+
+        if (targetStat.EntityIsMarked)
+            targetStat.EntityIsMarked = false;
+
+        targetStat.Heal(targetStat.transform, 25 + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio));
+
+        if (CanBounce) BounceOnOtherNearTarget();
     }
 
     private void ApplyProjectileAutoAttackDamage(EntityStats targetStat)
@@ -195,10 +213,10 @@ public class ProjectileLogic : MonoBehaviour
             targetStat.GetStat(StatType.MagicalResistances).Value,
             TotalPhysicalDamage,
             TotalMagicalDamage,
-            ProjectileSenderCharacterStats.GetStat(StatType.CriticalStrikeChance).Value,
+            ProjectileSenderStats.GetStat(StatType.CriticalStrikeChance).Value,
             175f,
-            ProjectileSenderCharacterStats.GetStat(StatType.PhysicalPenetration).Value,
-            ProjectileSenderCharacterStats.GetStat(StatType.MagicalPenetration).Value);
+            ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
+            ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
 
         Debug.Log(TotalPhysicalDamage);
         Debug.Log(TotalMagicalDamage);
@@ -228,7 +246,19 @@ public class ProjectileLogic : MonoBehaviour
     protected void BounceOnOtherNearTarget()
     {
         //Find other near targets and for each of them go to it
-        //then if it hits the last nearer target, destroy
+        //Then if it hits the last nearer target, destroy
+
+        Collider[] nearTarget = Physics.OverlapSphere(transform.position, projectileAreaOfEffect, entitiesLayerMaskValue);
+
+        foreach (Collider targetColliders in nearTarget)
+        {
+            EntityStats targetStats = targetColliders.GetComponent<EntityStats>();
+
+            if (ProjectileSenderStats.EntityTeam == targetStats.EntityTeam)
+            {
+
+            }
+        }
     }
 
     private void InstantiateHitEffectOnCollision(GameObject objToInstantiate)

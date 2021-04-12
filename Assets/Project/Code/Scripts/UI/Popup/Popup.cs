@@ -16,6 +16,7 @@ public class Popup : MonoBehaviourPun
     [SerializeField] private Color physicalDamageColor;
     [SerializeField] private Color magicalDamageColor;
     [SerializeField] private Color criticalColor;
+    [SerializeField] private Color healColor;
     [SerializeField] private Color ressourcesColor;
 
     [Header("ICONS")]
@@ -31,13 +32,13 @@ public class Popup : MonoBehaviourPun
     public Sprite MagicalDamageIcon { get => magicalDamageIcon; }
     public Sprite PhysicalDamageIcon { get => physicalDamageIcon; }
 
-    public static Popup Create(Vector3 position, GameObject popupGO, float value, StatType stat, Sprite icon, bool isCritical = false)
+    public static Popup Create(Vector3 position, GameObject popupGO, float value, StatType stat, Sprite icon, bool isCritical = false, bool itsAHeal = false)
     {
         GameObject popupInstance = Instantiate(popupGO, position, popupGO.transform.rotation);
 
         Popup popup = popupInstance.GetComponent<Popup>();
 
-        popup.Setup(value, stat, icon, isCritical);
+        popup.Setup(value, stat, icon, isCritical, itsAHeal);
 
         return popup;
     }
@@ -64,7 +65,7 @@ public class Popup : MonoBehaviourPun
         transform.position += new Vector3(moveXSpeed, moveYSpeed) * Time.deltaTime;
     }
 
-    private void Setup(float value, StatType stat, Sprite icon, bool isCritical = false)
+    private void Setup(float value, StatType stat, Sprite icon, bool isCritical = false, bool itsAHeal = false)
     {
         if(value == 0)
         {
@@ -73,6 +74,11 @@ public class Popup : MonoBehaviourPun
         }
 
         if (isCritical) ValueText.SetText(value.ToString("0") + " !");
+        else if (itsAHeal)
+        {
+            textColor = healColor;
+            ValueText.SetText("+ " + value.ToString("0"));
+        }
         else ValueText.SetText(value.ToString("0"));
 
         switch (stat)

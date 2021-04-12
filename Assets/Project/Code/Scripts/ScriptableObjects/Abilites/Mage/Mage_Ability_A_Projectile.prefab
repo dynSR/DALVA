@@ -14455,7 +14455,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -0.1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -18606,7 +18606,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.175
+  m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7400162026258699874
 MonoBehaviour:
@@ -18621,7 +18621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: 1
-  projectileSpeed: 5.5
+  projectileSpeed: 5
   projectileBonusDamagePercentage: 0.3
   projectileStatusEffect: {fileID: 0}
   onHitVFX: {fileID: 4360343412489667583, guid: 427f8d85fece1fa478ee89bbcfc74370, type: 3}
@@ -18640,6 +18640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8434dec12af50514f899fdc17dd813df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetimeValue: 1.25
+  lifetimeValue: 1.1
   DestroyAfterTime: 1
   HideAfterTime: 0

@@ -63343,7 +63343,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854747406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.114637375, y: -0.00000012014061, z: -0.2865876}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3213091999153690647}
@@ -72118,7 +72118,7 @@ Transform:
   m_GameObject: {fileID: 1023922298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35, y: 0.45, z: 1}
+  m_LocalScale: {x: 0.35, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 529190449}
   m_RootOrder: 0
@@ -98069,7 +98069,7 @@ MonoBehaviour:
   - name: PhysicalPower - 32
     statType: 8
     icon: {fileID: 0}
-    baseValue: 500
+    baseValue: 100
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -98077,7 +98077,7 @@ MonoBehaviour:
   - name: MagicalPower - 20
     statType: 9
     icon: {fileID: 0}
-    baseValue: 250
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -122760,7 +122760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2068294593
 Transform:
   m_ObjectHideFlags: 0
@@ -122769,7 +122769,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2068294592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.34, y: 0, z: -0.22}
+  m_LocalPosition: {x: -13.58, y: 0, z: -0.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 922281343}
@@ -122825,7 +122825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1e417e156e64740997068200fc14df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOfEntity: 2
+  typeOfEntity: 1
 --- !u!114 &2068294597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122887,7 +122887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94568958f66afe5468611032daa91332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityTeam: 1
+  entityTeam: 0
   usedEntity: {fileID: 11400000, guid: 24a343b570d8e70419b53d13f9227f62, type: 2}
   entityAbilities: []
   entityStats:
@@ -122925,7 +122925,7 @@ MonoBehaviour:
     statModifiers: []
   spawnLocation: {fileID: 0}
   timeToRespawn: 10
-  EntityIsMarked: 0
+  EntityIsMarked: 1
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -125278,7 +125278,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 824015559753126921, guid: b4adcb41541b5244e9ffbc9df9a0933e, type: 3}
+  - {fileID: 2100000, guid: 99fced4bc2985174cac8512dc765d2bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

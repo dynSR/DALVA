@@ -10,7 +10,7 @@ public class ThrowingAbilityProjectile : MonoBehaviour
     public Transform AimProjectileEmiterPos { get => aimProjectileEmiterPos; }
     #endregion
 
-    public IEnumerator ThrowProjectile(GameObject projectile, float delay, Transform spawnLocation, Ability ability = null, bool goesThroughTargets = false, bool canBounce = false)
+    public IEnumerator ThrowProjectile(GameObject projectile, float delay, Transform spawnLocation, Ability ability = null, bool goesThroughTargets = false, bool canBounce = false, bool canHeal = false)
     {
         yield return new WaitForSeconds(Controller.RotationSpeed + delay);
 
@@ -20,6 +20,7 @@ public class ThrowingAbilityProjectile : MonoBehaviour
         _projectile.ProjectileSender = transform;
         _projectile.CanGoThroughTarget = goesThroughTargets;
         _projectile.CanBounce = canBounce;
+        _projectile.CanHeal = canHeal;
 
         if (ability != null) _projectile.Ability = ability;
 

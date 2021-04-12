@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ability_", menuName = "ScriptableObjects/Abilities", order = 3)]
 public class Ability : ScriptableObject
@@ -17,6 +16,7 @@ public class Ability : ScriptableObject
     [SerializeField] private float abilityMagicalDamage = 0f;
     [Range(0.0f, 1.0f)][SerializeField] private float abilityPhysicalRatio = 0f;
     [Range(0.0f, 1.0f)][SerializeField] private float abilityMagicalRatio = 0f;
+    [SerializeField] private float abilityHealValue = 0f;
 
     [Header("APPLICATION LIMITS")]
     [SerializeField] private float abilityRange = 0f;//Gestion de la range à ajouter -!-

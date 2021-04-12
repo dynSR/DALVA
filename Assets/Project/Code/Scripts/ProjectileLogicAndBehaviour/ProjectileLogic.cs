@@ -142,6 +142,8 @@ public class ProjectileLogic : MonoBehaviour
 
     private void ApplyProjectileAbilityDamage(EntityStats targetStat)
     {
+        Debug.Log("Has an ability");
+
         float bonusDamage;
 
         if (targetStat.EntityIsMarked)
@@ -163,7 +165,8 @@ public class ProjectileLogic : MonoBehaviour
         } 
         else Ability.AbilityMagicalDamage = 0;
 
-            Debug.Log("Has an ability");
+        //Regarder si c'est un allié marqué, si oui > Heal 
+
         targetStat.TakeDamage(
         ProjectileSender,
         targetStat.GetStat(StatType.PhysicalResistances).Value,

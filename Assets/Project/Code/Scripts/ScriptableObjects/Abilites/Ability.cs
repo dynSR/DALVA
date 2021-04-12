@@ -24,6 +24,7 @@ public class Ability : ScriptableObject
 
     [Header("TIMERS")]
     [SerializeField] private float abilityCooldown = 0f;
+    [SerializeField] private float abilityTimeToCast = 0f;
     [SerializeField] private float abilityDuration = 0f;
 
     [Header("PROPERTIES")]
@@ -46,6 +47,7 @@ public class Ability : ScriptableObject
     public float AbilityAreaOfEffect { get => abilityAreaOfEffect; set => abilityAreaOfEffect = value; }
 
     public float AbilityCooldown { get => abilityCooldown; set => abilityCooldown = value; }
+    public float AbilityTimeToCast { get => abilityTimeToCast; set => abilityTimeToCast = value; }
     public float AbilityDuration { get => abilityDuration; set => abilityDuration = value; }
 
     public bool InstantCasting { get => instantCasting; set => instantCasting = value; }

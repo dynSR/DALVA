@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class Ability_Mage_A : AbilityLogic
+﻿public class Ability_Mage_A : AbilityLogic
 {
     protected override void Update()
     {

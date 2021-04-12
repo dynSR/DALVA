@@ -43,7 +43,7 @@ public class AbilityContainerLogic : MonoBehaviour
         keyText.SetText(abilityKey.ToString());
 
             if (containedAbility.Ability.AbilityIcon != null)
-        containedAbilityIcon.sprite = containedAbility.Ability.AbilityIcon;
+                containedAbilityIcon.sprite = containedAbility.Ability.AbilityIcon;
     }
 
     private void UpdateAbilityCooldownUI(AbilityLogic containedAbility)

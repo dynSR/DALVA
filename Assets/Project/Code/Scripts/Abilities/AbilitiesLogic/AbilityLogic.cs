@@ -148,11 +148,11 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Controller.IsCasting = true;
             Controller.CanMove = false;
             Cast();
+            StartCoroutine(PutAbilityOnCooldown(Ability.AbilityTimeToCast + Ability.AbilityDuration));
             characterIsTryingToCast = false;
         }
     }
 
-    //Called in/by animations
     public IEnumerator PutAbilityOnCooldown(float delay)
     {
         //if delay == 0 it means that it is directly put in cooldoown it is mainly used with ability that do not use duration like auras, boosts, etc.

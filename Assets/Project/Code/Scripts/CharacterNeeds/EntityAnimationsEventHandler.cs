@@ -7,7 +7,6 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     private InteractionSystem Interactions => GetComponentInParent<InteractionSystem>();
     private EntityStats Stats => GetComponentInParent<EntityStats>();
     private CharacterController Controller => GetComponentInParent<CharacterController>();
-    private ThrowingAbilityProjectile ThrowingAbilityProjectile => GetComponentInParent<ThrowingAbilityProjectile>();
     #endregion
 
     private void Awake() => MyAnimator.runtimeAnimatorController = Stats.UsedEntity.AnimatorController;
@@ -41,11 +40,6 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     {
         Stats.EntityAbilities[abilityNumber].ApplyAbilityEffectAtLocation
             (Stats.EntityAbilities[abilityNumber].CastLocation, Stats.EntityAbilities[abilityNumber].Ability.AbilityEffectObject);
-    }
-
-    public void ProcessAbilityToCooldown(int abilityNumber)
-    {
-        StartCoroutine(Stats.EntityAbilities[abilityNumber].PutAbilityOnCooldown(Stats.EntityAbilities[abilityNumber].Ability.AbilityDuration));
     }
 
     public void SetAbilityAnimationToFalse(string animationName)

@@ -30,8 +30,8 @@ public class AbilitiesCooldownHandler : MonoBehaviour
     #region Abilities Cooldown Handler Section
     public void PutAbilityOnCooldown(AbilityLogic ability)
     {
-        OnAbitilityUsed?.Invoke(ability);
         allAbilitiesOnCooldown.Add(new AbilityCooldownData(ability, ability.Ability.AbilityCooldown));
+        OnAbitilityUsed?.Invoke(ability);
     }
 
     private void ApplyAbilityCooldown()
@@ -44,7 +44,7 @@ public class AbilitiesCooldownHandler : MonoBehaviour
 
     private void CheckForExpiredAbilityCooldown()
     {
-        for (int i = 0; i < allAbilitiesOnCooldown.Count; i++)
+        for (int i = allAbilitiesOnCooldown.Count - 1; i >= 0; i--)
         {
             if (allAbilitiesOnCooldown[i].cooldown <= 0)
             {
@@ -54,17 +54,6 @@ public class AbilitiesCooldownHandler : MonoBehaviour
                 allAbilitiesOnCooldown.RemoveAt(i);
             }
         }
-
-        //for (int i = allAbilitiesOnCooldown.Count - 1; i >= 0; i--)
-        //{
-        //    if (allAbilitiesOnCooldown[i].cooldown <= 0)
-        //    {
-        //        if (!allAbilitiesOnCooldown[i].ability.CanBeUsed)
-        //            allAbilitiesOnCooldown[i].ability.CanBeUsed = true;
-
-        //        allAbilitiesOnCooldown.RemoveAt(i);
-        //    }
-        //}
     }
 
     public bool IsAbilityOnCooldown(AbilityLogic ability)

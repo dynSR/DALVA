@@ -198,8 +198,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278246911
-  m_fontColor: {r: 1, g: 0.8674295, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -272,10 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d070ec25b966a42bb6d8361c6bccb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpLifeTime: 0.25
-  moveXSpeed: 0
+  popUpLifeTime: 0.45
+  moveXSpeed: 1
   moveYSpeed: 2
-  desappearSpeed: 3
+  desappearSpeed: 2
   physicalDamageColor: {r: 1, g: 1, b: 1, a: 1}
   magicalDamageColor: {r: 0, g: 1, b: 1, a: 1}
   criticalColor: {r: 1, g: 0.6901983, b: 0, a: 1}
@@ -313,6 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8434dec12af50514f899fdc17dd813df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetimeValue: 0.35
+  lifetimeValue: 0.45
   DestroyAfterTime: 1
   HideAfterTime: 0

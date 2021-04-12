@@ -44,7 +44,7 @@ public class AbilitiesCooldownHandler : MonoBehaviour
 
     private void CheckForExpiredAbilityCooldown()
     {
-        for (int i = allAbilitiesOnCooldown.Count - 1; i >= 0; i--)
+        for (int i = 0; i < allAbilitiesOnCooldown.Count; i++)
         {
             if (allAbilitiesOnCooldown[i].cooldown <= 0)
             {
@@ -54,6 +54,17 @@ public class AbilitiesCooldownHandler : MonoBehaviour
                 allAbilitiesOnCooldown.RemoveAt(i);
             }
         }
+
+        //for (int i = allAbilitiesOnCooldown.Count - 1; i >= 0; i--)
+        //{
+        //    if (allAbilitiesOnCooldown[i].cooldown <= 0)
+        //    {
+        //        if (!allAbilitiesOnCooldown[i].ability.CanBeUsed)
+        //            allAbilitiesOnCooldown[i].ability.CanBeUsed = true;
+
+        //        allAbilitiesOnCooldown.RemoveAt(i);
+        //    }
+        //}
     }
 
     public bool IsAbilityOnCooldown(AbilityLogic ability)

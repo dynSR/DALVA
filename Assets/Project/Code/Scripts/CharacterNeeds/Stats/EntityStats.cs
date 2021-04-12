@@ -180,7 +180,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
         else if (!CanTakeDamage)
         {
-             global::Popup.Create(InFrontOfCharacter, Popup, 0, 0, null);
+            StartCoroutine(CreateDamagePopUpWithDelay(0.25f, 0, 0, null));
         }
     }
 

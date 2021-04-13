@@ -25,4 +25,9 @@ public class Ability_Warrior_E : AbilityLogic
                 break;
         }
     }
+
+    protected override void SetAbilityAfterAPurchase()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -9,6 +9,7 @@ public enum EntityType
     DaggerMaster, 
     Mage, 
     Priest,
+    Sorcerer,
     Dummy,
     MeleeMinion,
     DistanceMinion,
@@ -26,7 +27,7 @@ public class BaseEntity : ScriptableObject
     [Header("INFORMATIONS")]
     [SerializeField] private string entityName = "[Type in]";
     [SerializeField] private EntityType entityType = EntityType.None;
-    public EntityType EntityType { get => entityType; }
+    public EntityType EntityType { get => entityType; set => entityType = value; }
 
     [SerializeField] private CombatType combatType = CombatType.None;
     [SerializeField] private List<Stat> entityStats;

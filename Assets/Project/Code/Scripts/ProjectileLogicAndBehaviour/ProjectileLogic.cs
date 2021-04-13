@@ -31,7 +31,7 @@ public class ProjectileLogic : MonoBehaviour
 
     public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
     public float ProjectileSpeed { get => projectileSpeed; }
-    public StatusEffect ProjectileStatusEffect { get => projectileStatusEffect; }
+    public StatusEffect ProjectileStatusEffect { get => projectileStatusEffect; set => projectileStatusEffect = value; }
     public GameObject OnHitVFX { get => onHitVFX; }
     
     public Transform Target { get; set; }
@@ -44,10 +44,7 @@ public class ProjectileLogic : MonoBehaviour
 
     private void Awake()
     {
-        if (Target != null)
-        {
-            targetPosition = Target.position;
-        }
+        if (Ability != null && Ability.AbilityStatusEffect != null) ProjectileStatusEffect = Ability.AbilityStatusEffect;
     }
 
     private void FixedUpdate()
@@ -170,7 +167,10 @@ public class ProjectileLogic : MonoBehaviour
         ProjectileSenderStats.GetStat(StatType.CriticalStrikeChance).Value,
         175f,
         ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
-        ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
+        ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value,
+        ProjectileSenderStats.GetStat(StatType.DamageReduction).Value);
+
+        if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, ProjectileSenderStats.EntityTeam));
 
         DestroyProjectile();
     }
@@ -184,7 +184,9 @@ public class ProjectileLogic : MonoBehaviour
         if (targetStat.EntityIsMarked)
             targetStat.EntityIsMarked = false;
 
-        targetStat.Heal(targetStat.transform, Ability.AbilityHealValue + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio));
+        targetStat.Heal(targetStat.transform, Ability.AbilityHealValue + (
+            ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio), 
+            ProjectileSenderStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
 
         DestroyProjectile();
     }
@@ -202,7 +204,11 @@ public class ProjectileLogic : MonoBehaviour
             ProjectileSenderStats.GetStat(StatType.CriticalStrikeChance).Value,
             175f,
             ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
-            ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
+            ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value, 
+            ProjectileSenderStats.GetStat(StatType.DamageReduction).Value);
+
+        //Peut être utilisé pour marquer les cibles avec des auto attaques de portée ?_?
+        //if (ProjectileSenderStats.GetComponent<InteractionSystem>().AutoAttackCanMark) StartCoroutine(targetStat.MarkEntity(0.5f));
 
         //Debug.Log(TotalPhysicalDamage);
         //Debug.Log(TotalMagicalDamage);
@@ -212,7 +218,7 @@ public class ProjectileLogic : MonoBehaviour
 
     private void ApplyProjectileDamageToAnInteractiveBuilding(Collider targetCollider)
     {
-        targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0, 0, 1, 0, 0, 0, 0, 0);
+        targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
 
         DestroyProjectile();
     }
@@ -242,7 +248,7 @@ public class ProjectileLogic : MonoBehaviour
         {
             EntityStats nearTargetStats = targetColliders.GetComponent<EntityStats>();
 
-            if (targetColliders.gameObject != Target.gameObject 
+            if (Target != null && targetColliders.gameObject != Target.gameObject 
                 && !nearTargets.Contains(targetColliders.transform))
             {
                 if (CanHeal && ProjectileSenderStats.EntityTeam == nearTargetStats.EntityTeam && nearTargetStats.EntityIsMarked)

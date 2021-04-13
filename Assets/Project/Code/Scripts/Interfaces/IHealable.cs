@@ -2,5 +2,5 @@
 
 public interface ICurable
 {
-    void Heal(Transform target, float healAmount);
+    void Heal(Transform target, float healAmount, float healEffectiveness);
 }

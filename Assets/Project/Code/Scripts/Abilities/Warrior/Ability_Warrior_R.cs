@@ -18,7 +18,7 @@ public class Ability_Warrior_R : AbilityLogic
         {
             case AbilityEffect.I:
                 PlayAbilityAnimation("UsesFourthAbility");
-                Stats.Heal(transform, 450);
+                Stats.Heal(transform, 450, Stats.GetStat(StatType.MagicalPower).Value);
                 break;
             case AbilityEffect.II:
                 break;
@@ -27,5 +27,10 @@ public class Ability_Warrior_R : AbilityLogic
             case AbilityEffect.IV:
                 break;
         }
+    }
+
+    protected override void SetAbilityAfterAPurchase()
+    {
+        throw new System.NotImplementedException();
     }
 }

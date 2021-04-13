@@ -12,6 +12,8 @@ public class StatusEffect : ScriptableObject
     [SerializeField] private int statusEffectId;
     [SerializeField] private Sprite statusEffectIcon;
     [SerializeField] private GameObject statusEffectVFXPrefab;
+    [SerializeField] private bool canApplyOnAlly = false;
+    [SerializeField] private bool isStackable = false;
 
     public string StatusEffectName { get => statusEffectName; }
     public string StatusEffectDescription { get => statusEffectDescription; }
@@ -25,6 +27,8 @@ public class StatusEffect : ScriptableObject
     public GameObject CreatedVFX { get; set; }
     public StatusEffectHandler TargetStatusEffectHandler { get; set; }
     public StatusEffectContainer StatusEffectContainer { get; set; }
+    public bool CanApplyOnAlly { get => canApplyOnAlly; set => canApplyOnAlly = value; }
+    public bool IsStackable { get => isStackable; set => isStackable = value; }
 
     #region Apply - Remove Effect
     public void ApplyEffect(Transform target)
@@ -33,11 +37,11 @@ public class StatusEffect : ScriptableObject
         {
             TargetStatusEffectHandler = GetTargetStatusEffectHandler(target);
 
-            //if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this))
-            //{
-            //    GetTargetStatusEffectHandler(target).ResetCooldown(this);
-            //    return;
-            //}
+            if (GetTargetStatusEffectHandler(target).IsEffectAlreadyApplied(this) && !IsStackable)
+            {
+                GetTargetStatusEffectHandler(target).ResetCooldown(this);
+                return;
+            }
 
             for (int i = 0; i < statModifiers.Count; i++)
             {

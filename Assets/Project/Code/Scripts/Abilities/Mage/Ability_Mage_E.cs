@@ -33,4 +33,9 @@ public class Ability_Mage_E : AbilityLogic
                 break;
         }
     }
+
+    protected override void SetAbilityAfterAPurchase()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -42,4 +42,9 @@ public class Ability_Warrior_A : AbilityLogic
         RemoveBuffGivenByAnAbility(StatType.BonusPhysicalPower, this);
         DeactivateVFX(AbilityVFXToActivate);
     }
+
+    protected override void SetAbilityAfterAPurchase()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ShopButton : MonoBehaviour, IPointerDownHandler
+public class InteractiveButton : MonoBehaviour, IPointerDownHandler
 {
     [Header("SHOP BUTTON ATTRIBUTE")]
     [SerializeField] private ShopManager playerShop;

@@ -30,9 +30,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [SerializeField] private EntityTeam entityTeam;
     [SerializeField] private BaseEntity usedEntity;
     [SerializeField] private List<AbilityLogic> entityAbilities;
+    [SerializeField] private float entityLevel = 1f;
     public EntityTeam EntityTeam { get => entityTeam; set => entityTeam = value; }
-    public BaseEntity UsedEntity { get => usedEntity; }
+    public BaseEntity UsedEntity { get => usedEntity; private set => usedEntity = value; }
     public List<AbilityLogic> EntityAbilities { get => entityAbilities; }
+    public float EntityLevel { get => entityLevel; set => entityLevel = value; }
 
     [Header("STATS")]
     public List<Stat> entityStats;
@@ -40,9 +42,14 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
     [SerializeField] private float timeToRespawn;
-    public bool EntityIsMarked = false/* { get; set; }*/;
     public float TimeToRespawn { get => timeToRespawn; private set => timeToRespawn = value; }
     public Transform SourceOfDamage { get; set; }
+
+    [Header("MARK")]
+    [SerializeField] private GameObject allyMarkObject;
+    [SerializeField] private GameObject enemyMarkObject;
+    public float ExtentedMarkTime = 0f /* { get; set; }*/;
+    public bool EntityIsMarked = false/* { get; set; }*/;
 
     public bool IsDead => GetStat(StatType.Health).Value <= 0f;
     public bool CanTakeDamage { get; set; }
@@ -67,7 +74,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [Header("PLAYER OPTIONS")]
     [SerializeField] private bool centerCameraOnRespawn = false;
 
-    public Vector3 InFrontOfCharacter => transform.position + new Vector3(0, Controller.Agent.height / 2, 0);
+    public Vector3 CharacterHalfSize => transform.position + new Vector3(0, Controller.Agent.height / 2, 0);
 
     private void OnEnable()
     {
@@ -75,23 +82,25 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             EventSounds.RegisterReceiver();
     }
 
-    protected virtual void Awake()
+    private void Awake()
     {
         GetAllCharacterAbilities();
         InitStats();
     }
 
-    protected virtual void Start()
+    private void Start()
     {
         if (deathHUD != null)
             deathHUD.SetActive(false);
     }
 
-    protected virtual void Update() { 
+    private void Update() { 
         OnDeath(); 
-        if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0); 
-        if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f); 
+        if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0, 0); 
+        if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value); 
     }
+
+    private void LateUpdate() => RegenerateHealth(transform, GetStat(StatType.HealthRegeneration).Value);
 
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
@@ -113,7 +122,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         float characterCriticalStrikeChance,
         float characterCriticalStrikeMultiplier,
         float characterPhysicalPenetration,
-        float characterMagicalPenetration)
+        float characterMagicalPenetration, 
+        float characterIncomingDamageReduction)
     {
         if (CanTakeDamage)
         {
@@ -142,10 +152,13 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                     characterPhysicalPower *= 2 - 100 / (100 - currentTargetPhysicalResistances);
                 }
 
+                if (GetStat(StatType.IncreasedDamageTaken).Value > 0) characterPhysicalPower += characterPhysicalPower * (GetStat(StatType.IncreasedDamageTaken).Value / 100);
+                if (characterIncomingDamageReduction > 0) characterPhysicalPower -= characterPhysicalPower * (characterIncomingDamageReduction / 100);
+
                 if (isAttackCritical)
-                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
+                    global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
                 else if (characterPhysicalPower > 0)
-                    global::Popup.Create(InFrontOfCharacter, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
+                    global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
             }
 
             if (characterMagicalPower > 0)
@@ -163,10 +176,13 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                     characterMagicalPower *= 2 - 100 / (100 - currentTargetMagicalResistance);
                 }
 
+                if (GetStat(StatType.IncreasedDamageTaken).Value > 0) characterMagicalPower += characterMagicalPower * (GetStat(StatType.IncreasedDamageTaken).Value / 100);
+                if (characterIncomingDamageReduction > 0) characterMagicalPower -= characterMagicalPower * (characterIncomingDamageReduction / 100);
+
                 if (characterPhysicalPower > 0)
                     StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon));
                 else if (characterMagicalPower > 0 && characterMagicalPower > 0)
-                    global::Popup.Create(InFrontOfCharacter, Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
+                    global::Popup.Create(CharacterHalfSize, Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
             }
             
             this.SourceOfDamage = sourceOfDamage;
@@ -188,7 +204,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         yield return new WaitForSeconds(delay);
 
-        global::Popup.Create(InFrontOfCharacter, Popup, value, statType, icon);
+        global::Popup.Create(CharacterHalfSize, Popup, value, statType, icon);
     }
     #endregion
 
@@ -200,6 +216,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
         {
             if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
+
+            if (targetStats.GetStat(StatType.HealAndShieldEffectiveness) != null && targetStats.GetStat(StatType.HealAndShieldEffectiveness).Value > 0)
+                regenerationThreshold += regenerationThreshold * targetStats.GetStat(StatType.HealAndShieldEffectiveness).Value / 100;
 
             targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
 
@@ -213,13 +232,16 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
     }
 
-    public void Heal(Transform target, float healAmount)
+    public void Heal(Transform target, float healAmount, float healEffectiveness)
     {
         EntityStats targetStats = target.GetComponent<EntityStats>();
 
         if (targetStats != null)
         {
             if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
+
+            if (healEffectiveness > 0)
+                healAmount += healAmount * healEffectiveness / 100;
 
             if (targetStats.GetStat(StatType.Health).Value + healAmount >= targetStats.GetStat(StatType.Health).MaxValue)
             {
@@ -234,7 +256,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             if(healVFX != null)
                 healVFX.SetActive(true);
 
-            global::Popup.Create(InFrontOfCharacter, Popup, healAmount, 0, null, false, true);
+            global::Popup.Create(CharacterHalfSize, Popup, healAmount, 0, null, false, true);
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
         }
     }
@@ -364,6 +386,46 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     }
     #endregion
 
+    #region Handle entity mark
+    public IEnumerator MarkEntity(float markDuration, EntityTeam sourceTeam)
+    {
+        //Debug
+        if (allyMarkObject == null || enemyMarkObject == null) Debug.LogError("No mark object detected, need to assign them");
+
+        if (EntityIsMarked) ExtentedMarkTime += markDuration;
+        else if (!EntityIsMarked) { ExtentedMarkTime = markDuration; EntityIsMarked = true; }
+
+        if (sourceTeam == EntityTeam)
+        {
+            allyMarkObject.SetActive(true);
+        }
+        else if (sourceTeam != EntityTeam)
+        {
+            enemyMarkObject.SetActive(true);
+        }
+
+        do
+        {
+            ExtentedMarkTime -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        } while (ExtentedMarkTime > 0);
+
+        ExtentedMarkTime = 0f;
+
+        if (allyMarkObject.activeInHierarchy)
+        {
+            allyMarkObject.SetActive(false);
+
+        }
+        else if (enemyMarkObject.activeInHierarchy)
+        {
+            enemyMarkObject.SetActive(false);
+        }
+
+        EntityIsMarked = false;
+    }
+    #endregion
+
     #region Handle Stats
     void InitStats()
     {
@@ -393,6 +455,35 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
 
         return stat;
+    }
+
+    public void AscendEntity(EntityType newBaseEntity)
+    {
+        UsedEntity.EntityType = newBaseEntity;
+
+        switch (newBaseEntity)
+        {
+            //Prowler
+            case EntityType.Archer:
+                //Augmenter la portée
+                break;
+            case EntityType.DaggerMaster:
+                //Les attaques de base(2) et les compétences(5) appliquent l'effet "
+                //"Faiblesse"". (3 secondes) Faiblesse: réduit de 1 % la RP.Max 15 % (15 marques)"
+                break;
+
+            //Warrior
+            case EntityType.Berzerk:
+                break;
+            case EntityType.Coloss:
+                break;
+            
+            //Mage
+            case EntityType.Priest:
+                break;
+            case EntityType.Sorcerer:
+                break;
+        }
     }
     #endregion
 

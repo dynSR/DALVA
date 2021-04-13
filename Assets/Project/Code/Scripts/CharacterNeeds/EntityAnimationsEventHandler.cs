@@ -38,8 +38,10 @@ public class EntityAnimationsEventHandler : MonoBehaviour
 
     public void SpawnAbilityEffect(int abilityNumber)
     {
-        Stats.EntityAbilities[abilityNumber].ApplyAbilityEffectAtLocation
-            (Stats.EntityAbilities[abilityNumber].CastLocation, Stats.EntityAbilities[abilityNumber].Ability.AbilityEffectObject);
+        StartCoroutine(Stats.EntityAbilities[abilityNumber].ApplyAbilityEffectAtLocation(
+            Stats.EntityAbilities[abilityNumber].CastLocation, 
+            Stats.EntityAbilities[abilityNumber].Ability.AbilityEffectObject, 
+            Stats.EntityAbilities[abilityNumber].Ability.DelayBeforeApplyingDamageOrEffect));
     }
 
     public void SetAbilityAnimationToFalse(string animationName)

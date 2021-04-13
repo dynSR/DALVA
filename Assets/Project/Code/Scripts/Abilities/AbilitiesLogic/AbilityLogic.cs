@@ -163,6 +163,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     }
     #endregion
 
+    #region Giving and removing buff from an ability
     protected void AbilityGivesABuff(EntityStats Stat, StatType type, float flatValue, object source, float percentageValue = 0f)
     {
         if (!CanBeUsed) return;
@@ -186,10 +187,14 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Stats.GetStat(affectedStat).RemoveAllModifiersFromSource(source);
         }
     }
+    #endregion
 
-    public void ApplyAbilityEffectAtLocation(Vector3 pos, GameObject applicationInstance)
+    #region Applying the ability effect at the targeted cast location 
+    public IEnumerator ApplyAbilityEffectAtLocation(Vector3 pos, GameObject applicationInstance, float delay)
     {
         Instantiate(applicationInstance, new Vector3(pos.x, pos.y + 0.03f, pos.z), applicationInstance.transform.rotation);
+
+        yield return new WaitForSeconds(delay);
 
         Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.01f, pos.z), Ability.AbilityAreaOfEffect);
 
@@ -201,13 +206,14 @@ public abstract class AbilityLogic : MonoBehaviourPun
             EntityStats characterStat = transform.GetComponent<EntityStats>();
 
             if (targetStat != null && !targetStat.IsDead
-                && targetStat.EntityTeam != Stats.EntityTeam
-                && collider.transform != transform
+                //&& collider.transform != transform
                 && (targetFound.ThisTargetIsAPlayer(targetFound)
                 || targetFound.ThisTargetIsAMonster(targetFound)
                 || targetFound.ThisTargetIsAMinion(targetFound)))
             {
-                collider.GetComponent<EntityStats>().TakeDamage
+                if(targetStat.EntityTeam != Stats.EntityTeam)
+                {
+                    collider.GetComponent<EntityStats>().TakeDamage
                     (transform,
                     targetStat.GetStat(StatType.PhysicalResistances).Value,
                     targetStat.GetStat(StatType.MagicalResistances).Value,
@@ -216,10 +222,59 @@ public abstract class AbilityLogic : MonoBehaviourPun
                     characterStat.GetStat(StatType.CriticalStrikeChance).Value,
                     175f,
                     characterStat.GetStat(StatType.PhysicalPenetration).Value,
-                    characterStat.GetStat(StatType.MagicalPenetration).Value);
+                    characterStat.GetStat(StatType.MagicalPenetration).Value,
+                    characterStat.GetStat(StatType.DamageReduction).Value);
+                }
+
+                if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));
+
+                if (Ability.AbilityStatusEffect != null)
+                {
+                    if (Ability.AbilityStatusEffect.StatusEffectDuration == 0 && Ability.AbilityCanMark)
+                    {
+                        Ability.AbilityStatusEffect.StatusEffectDuration = Ability.AbilityMarkDuration;
+                    }
+
+                    if (Stats.EntityTeam == targetStat.EntityTeam && Ability.AbilityStatusEffect.CanApplyOnAlly) Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
+                    else if (Stats.EntityTeam != targetStat.EntityTeam) Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
+                }
             }
         }
     }
+    #endregion
+
+    #region Modifying ability's attributes
+    protected abstract void SetAbilityAfterAPurchase();
+
+    protected void SetRange(float range, float areaOfEffect, GameObject normalRangeObject, GameObject augmentedRange, bool usesNormalRange = false)
+    {
+        if (usesNormalRange)
+        {
+            normalRangeObject.SetActive(true);
+            augmentedRange.SetActive(false);
+        }
+        else
+        {
+            normalRangeObject.SetActive(false);
+            augmentedRange.SetActive(true);
+        }
+
+        Ability.AbilityRange = range;
+        Ability.AbilityAreaOfEffect = areaOfEffect;
+    }
+
+    protected void SetAbilityStatusEffect(StatusEffect effect = null)
+    {
+        if (Ability.AbilityStatusEffect != null && effect == null) Ability.AbilityStatusEffect = null;
+        else Ability.AbilityStatusEffect = effect;
+    }
+
+    protected void SetAbilityMarkDuration(float duration)
+    {
+        if (Ability.AbilityCanMark) Ability.AbilityMarkDuration = duration;
+        else Ability.AbilityMarkDuration = 0f;
+    }
+    #endregion
 
     #region Ability animation Play / Reset
     protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false, bool lostTargetOnCast = false)
@@ -229,6 +284,12 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         if (lostTargetOnCast)
             Interactions.Target = null;
+
+        Controller.CharacterAnimator.SetBool("UsesFirstAbility", false);
+        Controller.CharacterAnimator.SetBool("UsesSecondAbility", false);
+        Controller.CharacterAnimator.SetBool("UsesThirdAbility", false);
+        Controller.CharacterAnimator.SetBool("UsesFourthAbility", false);
+
 
         Controller.CharacterAnimator.SetLayerWeight(2, 1);
         Controller.CharacterAnimator.SetBool(animationName, true);

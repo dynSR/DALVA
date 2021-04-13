@@ -18,6 +18,13 @@ public class Ability : ScriptableObject
     [Range(0.0f, 1.0f)][SerializeField] private float abilityMagicalRatio = 0f;
     [SerializeField] private float abilityHealValue = 0f;
 
+    [Header("STATUS EFFECT")]
+    [SerializeField] private StatusEffect abilityStatusEffect;
+
+    [Header("MARK ATTRIBUTES")]
+    [SerializeField] private float abilityMarkDuration = 0f;
+    [SerializeField] private bool abilityCanMark = false;
+
     [Header("APPLICATION LIMITS")]
     [SerializeField] private float abilityRange = 0f;//Gestion de la range à ajouter -!-
     [SerializeField] private float abilityAreaOfEffect = 0f;
@@ -29,6 +36,7 @@ public class Ability : ScriptableObject
 
     [Header("PROPERTIES")]
     [SerializeField] private bool instantCasting = false;
+    [SerializeField] private float delayBeforeApplyingDamageOrEffect = 0f;
 
     #region Public refs
     public string AbilityName { get => abilityName; }
@@ -42,6 +50,12 @@ public class Ability : ScriptableObject
     public float AbilityMagicalDamage { get => abilityMagicalDamage; set => abilityMagicalDamage = value; }
     public float AbilityMagicalRatio { get => abilityMagicalRatio; set => abilityMagicalRatio = value; }
     public float AbilityPhysicalRatio { get => abilityPhysicalRatio; set => abilityPhysicalRatio = value; }
+    public float AbilityHealValue { get => abilityHealValue; set => abilityHealValue = value; }
+
+    public StatusEffect AbilityStatusEffect { get => abilityStatusEffect; set => abilityStatusEffect = value; }
+
+    public float AbilityMarkDuration { get => abilityMarkDuration; set => abilityMarkDuration = value; }
+    public bool AbilityCanMark { get => abilityCanMark; set => abilityCanMark = value; }
 
     public float AbilityRange { get => abilityRange; set => abilityRange = value; }
     public float AbilityAreaOfEffect { get => abilityAreaOfEffect; set => abilityAreaOfEffect = value; }
@@ -51,6 +65,6 @@ public class Ability : ScriptableObject
     public float AbilityDuration { get => abilityDuration; set => abilityDuration = value; }
 
     public bool InstantCasting { get => instantCasting; set => instantCasting = value; }
-    public float AbilityHealValue { get => abilityHealValue; set => abilityHealValue = value; }
+    public float DelayBeforeApplyingDamageOrEffect { get => delayBeforeApplyingDamageOrEffect; set => delayBeforeApplyingDamageOrEffect = value; }
     #endregion
 }

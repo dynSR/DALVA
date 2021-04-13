@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AbilityButton : ShopButton
+public class AbilityButton : InteractiveButton
 {
     [SerializeField] private Ability buttonAbility;
     public Ability ButtonAbility { get => buttonAbility; }

@@ -89,7 +89,7 @@ public class HarvesterLogic : InteractiveBuilding
 
             GiveRessourcesToPlayer((int)CurrentHarvestedRessourcesValue);
             harvestState = HarvestState.Reinitialization;
-            Popup.Create(interactingPlayerStat.InFrontOfCharacter, interactingPlayerStat.Popup, CurrentHarvestedRessourcesValue, StatType.RessourcesGiven, interactingPlayerStat.GetStat(StatType.RessourcesGiven).Icon);
+            Popup.Create(interactingPlayerStat.CharacterHalfSize, interactingPlayerStat.Popup, CurrentHarvestedRessourcesValue, StatType.RessourcesGiven, interactingPlayerStat.GetStat(StatType.RessourcesGiven).Icon);
         }
     }
 

@@ -19,6 +19,8 @@ public class InteractionSystem : MonoBehaviour
     [SerializeField] private float interactionRange = 1.5f;
 
     [Header("BASIC ATTACK")]
+    [SerializeField] private bool autoAttackCanMark = false;
+    [SerializeField] private StatusEffect autoAttackEffect;
     [SerializeField] private Transform rangedAttackEmiterPosition;
     [SerializeField] private GameObject rangedAttackProjectile;
     float pPBonus = 0;
@@ -29,6 +31,9 @@ public class InteractionSystem : MonoBehaviour
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
     public bool HasPerformedAttack { get; set; }
     public float InteractionRange { get => interactionRange; set => interactionRange = value; }
+    public bool AutoAttackCanMark { get => autoAttackCanMark; set => autoAttackCanMark = value; }
+    public StatusEffect AutoAttackEffect { get => autoAttackEffect; set => autoAttackEffect = value; }
+
 
     public Transform Target { get => target; set => target = value; }
     public Transform KnownTarget { get => knownTarget; set => knownTarget = value; }
@@ -72,6 +77,8 @@ public class InteractionSystem : MonoBehaviour
             Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
             Controller.Agent.stoppingDistance = minDistance;
+
+            if (!CanPerformAttack) return;
 
             if (distance > minDistance)
             {
@@ -181,7 +188,14 @@ public class InteractionSystem : MonoBehaviour
                 Stats.GetStat(StatType.CriticalStrikeChance).Value,
                 175f,
                 Stats.GetStat(StatType.PhysicalPenetration).Value,
-                Stats.GetStat(StatType.MagicalPenetration).Value);
+                Stats.GetStat(StatType.MagicalPenetration).Value,
+                Stats.GetStat(StatType.DamageReduction).Value);
+
+
+            //Peut être utilisé pour marquer les cibles avec des auto attaques de mélée ?_?
+            //if (AutoAttackCanMark) targetStat.MarkEntity(0.5f, targetStat.EntityTeam);
+
+            if (AutoAttackEffect != null) AutoAttackEffect.ApplyEffect(Target);
 
             HasPerformedAttack = true;
 
@@ -212,7 +226,9 @@ public class InteractionSystem : MonoBehaviour
                 pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
                 mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
             }
-            
+
+            if (AutoAttackEffect != null) attackProjectile.ProjectileStatusEffect = AutoAttackEffect;
+
             HasPerformedAttack = true; 
 
             OnAttacking?.Invoke();

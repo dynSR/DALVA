@@ -31,4 +31,9 @@
                 break;
         }
     }
+
+    protected override void SetAbilityAfterAPurchase()
+    {
+        throw new System.NotImplementedException();
+    }
 }

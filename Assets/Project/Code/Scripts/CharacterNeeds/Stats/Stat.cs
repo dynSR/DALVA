@@ -13,6 +13,7 @@ public enum StatType
     CriticalStrikeChance,
     Cooldown_Reduction, HealAndShieldEffectiveness, HarmfulEffectReduction,
     RessourcesGiven,
+    IncreasedDamageTaken, DamageReduction,
 }
 
 [Serializable]

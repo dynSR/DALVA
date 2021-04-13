@@ -134,7 +134,17 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
         }
     }
 
-    public void TakeDamage(Transform character, float targetPhysicalResistances, float targetMagicalResistances, float characterPhysicalPower, float characterMagicalPower, float characterCriticalStrikeChance, float characterCriticalStrikeMultiplier, float characterPhysicalPenetration, float characterMagicalPenetration)
+    public void TakeDamage(
+        Transform character, 
+        float targetPhysicalResistances, 
+        float targetMagicalResistances, 
+        float characterPhysicalPower, 
+        float characterMagicalPower, 
+        float characterCriticalStrikeChance, 
+        float characterCriticalStrikeMultiplier, 
+        float characterPhysicalPenetration, 
+        float characterMagicalPenetration, 
+        float damageReduction)
     {
         HealthPoints -= (int)characterPhysicalPower;
         OnHealthValueChanged?.Invoke(HealthPoints, maxHealthPoints);

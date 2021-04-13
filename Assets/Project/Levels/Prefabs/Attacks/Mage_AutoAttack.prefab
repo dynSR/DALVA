@@ -83,12 +83,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileType: 2
   projectileSpeed: 7
+  projectileAreaOfEffect: 0
   projectileBonusDamagePercentage: 0
-  projectileStatusEffect: {fileID: 11400000, guid: 3df64a9d2e5b6c246943f6c0c24fe164, type: 2}
+  entitiesLayerMaskValue:
+    serializedVersion: 2
+    m_Bits: 0
+  subProjectile: {fileID: 0}
+  projectileStatusEffect: {fileID: 0}
   onHitVFX: {fileID: 1129059490326370395, guid: 5edec9f6e21bbde4cb9def818a9e758f, type: 3}
-  projectileSender: {fileID: 0}
-  target: {fileID: 0}
-  targetStats: {fileID: 0}
 --- !u!114 &6636128656484077963
 MonoBehaviour:
   m_ObjectHideFlags: 0

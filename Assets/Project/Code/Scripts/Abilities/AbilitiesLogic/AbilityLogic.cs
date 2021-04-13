@@ -189,7 +189,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     public void ApplyAbilityEffectAtLocation(Vector3 pos, GameObject applicationInstance)
     {
-        Instantiate(applicationInstance, pos, Quaternion.identity);
+        Instantiate(applicationInstance, new Vector3(pos.x, pos.y + 0.03f, pos.z), applicationInstance.transform.rotation);
 
         Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.01f, pos.z), Ability.AbilityAreaOfEffect);
 

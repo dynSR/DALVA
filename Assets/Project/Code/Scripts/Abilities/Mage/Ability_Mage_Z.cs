@@ -11,25 +11,21 @@ public class Ability_Mage_Z : AbilityLogic
 
     protected override void Cast()
     {
-        PlayAbilityAnimation("UsesFirstAbility", true, true);
+        PlayAbilityAnimation("UsesSecondAbility", true, true);
 
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                //Lance un projectile qui inflige(50 + 50 % PM) dégâts magiques. Fait(30 % PM) dégâts supplémentaires si l'ennemi est marqué (consomme la marque).
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability));
+                //Sort de zone.Après 0,5s, inflige(60 + 50 % PM) dégâts magiques et marque les ennemis pendant 3 secondes.
                 break;
             case AbilityEffect.II:
-                //Traverse les unités
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability, true));
+                //Augmente la durée de la marque de 2 secondes
                 break;
             case AbilityEffect.III:
                 //Si l'ennemi touché est marqué, le projectile rebondit sur les ennemis proches (un projectile pour chaque ennemi proche).
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true));
                 break;
             case AbilityEffect.IV:
-                //Le Z marque aussi les alliés.
-                //Peut toucher les alliés marqués pour les soigner de(25 + 50 % PM) points de vie(PV), se propage aux alliés proches.
+                //Les ennemis marqués infligent 10 % dégâts en moins.
                 break;
         }
     }

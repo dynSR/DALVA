@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: Ability_Mage_Z
   m_EditorClassIdentifier: 
   abilityName: 
-  abilityDescription: 
-  abilityKey: 0
-  abilityIcon: {fileID: 0}
+  abilityDescription: "Sort de zone. Apr\xE8s 0,5s, inflige (60 + 50% PM) d\xE9g\xE2ts
+    magiques et marque les ennemis pendant 3 secondes."
+  abilityKey: 122
+  abilityIcon: {fileID: 21300000, guid: e92aaba2844ac8f31e7bb25323e9446e, type: 3}
   abilityCost: 0
-  abilityEffectObject: {fileID: 0}
+  abilityEffectObject: {fileID: 3276490608242782461, guid: 7d6cbb0c3b4b9b145be8f4dd47ef0277, type: 3}
   abilityPhysicalDamage: 0
-  abilityMagicalDamage: 0
+  abilityMagicalDamage: 60
   abilityPhysicalRatio: 0
-  abilityMagicalRatio: 0
-  abilityRange: 0
-  abilityAreaOfEffect: 0
-  abilityCooldown: 0
+  abilityMagicalRatio: 0.5
+  abilityHealValue: 0
+  abilityRange: 10
+  abilityAreaOfEffect: 4
+  abilityCooldown: 9
+  abilityTimeToCast: 0.25
   abilityDuration: 0
   instantCasting: 0

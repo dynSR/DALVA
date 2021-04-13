@@ -11,18 +11,19 @@ namespace GameNetwork
         [Tooltip("Player Prefab HUD")]
         public GameObject playerHUD;
 
-        public bool dalvasTeam;
-        public bool isMine;
+        private bool isMine;
+
+        private PlayerManager[] pmList;
 
         public static EntityStats myCharacterStats = null;
 
         protected virtual void Awake()
         {
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
             //Reseau
             if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
             {
-                localPlayerInstance = this.gameObject;
+                localPlayerInstance = gameObject;
                 localPlayerInstance.GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
             }
             //Local
@@ -30,7 +31,7 @@ namespace GameNetwork
             {
                 GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
                 playerHUD.SetActive(true);
-            }   
+            }
         }
 
         private void Start()
@@ -40,7 +41,11 @@ namespace GameNetwork
             {
                 playerHUD.SetActive(true);
                 isMine = true;
-            }            
+            }
+
+            //Match the team of the player and the character
+            if(photonView.Owner.CustomProperties["Team"].ToString() == "0") photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.DALVA;
+            else photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.HULRYCK;
         }
     }
 }

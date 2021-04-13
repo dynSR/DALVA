@@ -358,10 +358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202f1c13af9706f4884d7122506f8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityA: {fileID: 0}
-  abilityZ: {fileID: 0}
-  abilityE: {fileID: 0}
-  abilityR: {fileID: 0}
 --- !u!95 &49549757
 Animator:
   serializedVersion: 3
@@ -6614,6 +6610,36 @@ Transform:
   m_Father: {fileID: 1346566724}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &847793747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 847793748}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &847793748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847793747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.9566202, y: -4.6569185, z: 0.18679905}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &868784890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9149,6 +9175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4510b9532f1f9469f407f0efd0ef1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityTeam: 0
   InteractingPlayer: {fileID: 0}
   reinitializationDelay: 2
   maxHarvestableRessourcesValue: 10
@@ -10604,7 +10631,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e6478caa91d114e9ed9d92fdda1be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1648361200296935855, guid: d8682f8ed7c3a134887b351d65d39ac0, type: 3}
+  playerPrefab: {fileID: 1098571898022181537, guid: d67005b242ba0e5489cf3005778d546e, type: 3}
+  spawn: {fileID: 847793748}
 --- !u!4 &1500492265
 Transform:
   m_ObjectHideFlags: 0
@@ -10613,7 +10641,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500492262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.000373, y: -6.7515945, z: -3.3797073}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -15328,6 +15356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94568958f66afe5468611032daa91332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityTeam: 0
   usedEntity: {fileID: 11400000, guid: 24a343b570d8e70419b53d13f9227f62, type: 2}
   entityAbilities: []
   entityStats:
@@ -15365,6 +15394,7 @@ MonoBehaviour:
     statModifiers: []
   spawnLocation: {fileID: 0}
   timeToRespawn: 10
+  EntityIsMarked: 0
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -15786,6 +15816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4510b9532f1f9469f407f0efd0ef1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityTeam: 0
   InteractingPlayer: {fileID: 0}
   reinitializationDelay: 2
   maxHarvestableRessourcesValue: 10
@@ -36574,6 +36605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94568958f66afe5468611032daa91332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityTeam: 0
   usedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
   entityStats:
@@ -36755,6 +36787,7 @@ MonoBehaviour:
     statModifiers: []
   spawnLocation: {fileID: 1450184477}
   timeToRespawn: 15
+  EntityIsMarked: 0
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}

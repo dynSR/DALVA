@@ -15,7 +15,8 @@ using UnityEngine;
 ///	maintenir shift	                - Activivé le mode mouvement rapide
 ///	Souris droit  	                - Activé la caméra libre
 ///	Souris			                - caméra libre / rotation
-///     
+///	
+/// Conseil: utiliser les touches clavier pour un mouvements plus fluide et la souris pour un effet plus caméra à la main.    
 
 public class FreeCam : MonoBehaviour
 {

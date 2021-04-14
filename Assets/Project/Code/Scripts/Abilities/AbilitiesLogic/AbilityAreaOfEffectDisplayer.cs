@@ -30,7 +30,14 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != groundLayer && other.gameObject.layer != ignoreRaycastLayer && !targets.Contains(other.transform))
+        if (other.CompareTag("Player"))
+        {
+            print("Héhé");
+        }
+
+        if (other.gameObject.layer != groundLayer 
+            && other.gameObject.layer != ignoreRaycastLayer 
+            && !targets.Contains(other.transform))
             targets.Add(other.transform);
 
         for (int i = 0; i < targets.Count; i++)

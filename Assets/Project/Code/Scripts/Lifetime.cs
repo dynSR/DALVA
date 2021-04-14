@@ -10,6 +10,16 @@ public class Lifetime : MonoBehaviour
 
     public float LifetimeValue { get => lifetimeValue; set => lifetimeValue = value; }
 
+    #region Refs
+    private ProjectileLogic projectile;
+    #endregion
+
+    private void Awake()
+    {
+        if(GetComponent<ProjectileLogic>() != null)
+            projectile = GetComponent<ProjectileLogic>();
+    }
+
     private void OnEnable()
     {
         if(DestroyAfterTime)
@@ -21,12 +31,25 @@ public class Lifetime : MonoBehaviour
     public IEnumerator DestroyAfterATime(float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
+
+        if(projectile != null)
+        {
+            ImmediatlyHideObject();
+            projectile.SpawnDestructionEffect(projectile.DestructionVFX);
+            Debug.Log("Spwaned destruction VFX");
+        }
+
         Destroy(gameObject);
     }
 
     public IEnumerator HideAfterATime(float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
+        gameObject.SetActive(false);
+    }
+
+    private void ImmediatlyHideObject()
+    {
         gameObject.SetActive(false);
     }
 }

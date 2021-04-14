@@ -8,7 +8,8 @@ public class Billboard : MonoBehaviourPun
     [SerializeField] protected TextMeshProUGUI nameText;
 
     #region Ref
-    public EntityDetection EntityDetection => GetComponentInParent<EntityDetection>();
+    protected EntityDetection EntityDetection => GetComponentInParent<EntityDetection>();
+    private EntityStats stats;
     #endregion
 
     private Canvas Canvas => GetComponent<Canvas>();
@@ -19,6 +20,23 @@ public class Billboard : MonoBehaviourPun
     {
         initRot.x = transform.eulerAngles.x;
         SetCharacterName();
+
+        if (GetComponentInParent<EntityStats>() != null)
+        {
+            stats = GetComponentInParent<EntityStats>();
+        }
+    }
+
+    protected virtual void OnEnable()
+    {
+        stats.OnEntityDeath += HideBillboard;
+        stats.OnEntityRespawn += DisplayBillboard;
+    }
+
+    protected virtual void OnDisable()
+    {
+        stats.OnEntityDeath -= HideBillboard;
+        stats.OnEntityRespawn -= DisplayBillboard;
     }
 
     protected virtual void Start()
@@ -40,5 +58,15 @@ public class Billboard : MonoBehaviourPun
     {
         //if (NameText != null)
         //NameText.text = GetPhotonNetworkUsername(); --> à ajouter dans la class Utility
+    }
+
+    void HideBillboard()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    void DisplayBillboard()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 }

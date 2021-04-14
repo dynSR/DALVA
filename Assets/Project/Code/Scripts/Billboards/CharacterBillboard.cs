@@ -7,15 +7,17 @@ public class CharacterBillboard : Billboard
     [SerializeField] private TextMeshProUGUI characterLevelText;
     [SerializeField] private string stunStatus;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         //Call event on level up += setCharacter Level
         //Call event for when character is stunned 
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
-        
+        base.OnDisable();
     }
 
     protected override void Awake()

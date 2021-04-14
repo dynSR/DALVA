@@ -18,6 +18,10 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public delegate void DamageTakenHandler();
     public event DamageTakenHandler OnDamageTaken;
 
+    public delegate void LifeStateHandler();
+    public event LifeStateHandler OnEntityDeath;
+    public event LifeStateHandler OnEntityRespawn;
+
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
@@ -287,6 +291,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
 
             MasterAudio.FireCustomEvent(deathCustomEvent, transform);
+
+            OnEntityDeath?.Invoke();
         }
     }
 
@@ -383,6 +389,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         Debug.Log("is Dead " + IsDead);
 
         isDeathEventHandled = false;
+
+        OnEntityRespawn?.Invoke();
     }
     #endregion
 

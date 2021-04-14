@@ -16,6 +16,7 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private GameObject subProjectile;
     [SerializeField] private StatusEffect projectileStatusEffect;
     [SerializeField] private GameObject onHitVFX;
+    [SerializeField] private GameObject destructionVFX;
 
     public Ability Ability { get; set; }
 
@@ -33,14 +34,14 @@ public class ProjectileLogic : MonoBehaviour
     public float ProjectileSpeed { get => projectileSpeed; }
     public StatusEffect ProjectileStatusEffect { get => projectileStatusEffect; set => projectileStatusEffect = value; }
     public GameObject OnHitVFX { get => onHitVFX; }
-    
+    public GameObject DestructionVFX { get => destructionVFX; }
+
     public Transform Target { get; set; }
 
     public Transform ProjectileSender { get; set; }
     public EntityStats ProjectileSenderStats => ProjectileSender.GetComponent<EntityStats>();
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
-
 
     private void Awake()
     {
@@ -293,6 +294,12 @@ public class ProjectileLogic : MonoBehaviour
     }
 
     private void InstantiateHitEffectOnCollision(GameObject objToInstantiate)
+    {
+        if (objToInstantiate != null)
+            Instantiate(objToInstantiate, transform.position, Quaternion.identity);
+    }
+
+    public void SpawnDestructionEffect(GameObject objToInstantiate)
     {
         if (objToInstantiate != null)
             Instantiate(objToInstantiate, transform.position, Quaternion.identity);

@@ -7,9 +7,11 @@ public class CursorLogic : MonoBehaviour
     [Header("CURSOR ICONS")]
     [SerializeField] private Texture2D normalCursorIcon;
     [SerializeField] private Texture2D attackCursorIcon;
+    [SerializeField] private Texture2D interactionCursorIcon;
 
     public Texture2D NormalCursorIcon { get => normalCursorIcon; }
     public Texture2D AttackCursorIcon { get => attackCursorIcon; }
+    public Texture2D InteractionCursorIcon { get => interactionCursorIcon; }
 
     private PlayerController Controller => GetComponent<PlayerController>();
     private EntityStats Stats => GetComponent<EntityStats>();
@@ -79,9 +81,11 @@ public class CursorLogic : MonoBehaviour
                     #endregion
                     #region Interactive Buildings
                     case TypeOfEntity.Stele:
+                        SetCursorToInteractionAppearance();
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
                                                 break;
                     case TypeOfEntity.Harvester:
+                        SetCursorToInteractionAppearance();
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
                         break;
                         #endregion
@@ -114,10 +118,15 @@ public class CursorLogic : MonoBehaviour
         Cursor.SetCursor(NormalCursorIcon, Vector2.zero, CursorMode.Auto);
     }
 
-    public void SetCursorToAttackAppearance()
+    private void SetCursorToAttackAppearance()
     {
         //Debug.Log("Attack Cursor");
         Cursor.SetCursor(AttackCursorIcon, Vector2.zero, CursorMode.Auto);
+    }
+
+    private void SetCursorToInteractionAppearance()
+    {
+        Cursor.SetCursor(InteractionCursorIcon, Vector2.zero, CursorMode.Auto);
     }
     #endregion
 

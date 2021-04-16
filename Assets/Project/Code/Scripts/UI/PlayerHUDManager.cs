@@ -132,7 +132,8 @@ public class PlayerHUDManager : MonoBehaviour
 
     void ResetShopWindowAnchoredPosition()
     {
-        ShopWindow.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        Vector2 offset = Vector2.zero;
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x, offset.y + 50f);
     }
     #endregion
 }

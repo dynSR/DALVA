@@ -41,7 +41,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public float EntityLevel { get => entityLevel; set => entityLevel = value; }
 
     [Header("STATS")]
+    private float lifePercentage;
     public List<Stat> entityStats;
+    public float LifePercentage { get => lifePercentage; set => lifePercentage = value; }
 
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
@@ -196,6 +198,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
 
+            LifePercentage = CalculateLifePercentage();
+
             Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
         }
         else if (!CanTakeDamage)
@@ -232,6 +236,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
             }
 
+            LifePercentage = CalculateLifePercentage();
+
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
         }
     }
@@ -259,6 +265,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             if(healVFX != null)
                 healVFX.SetActive(true);
+
+            LifePercentage = CalculateLifePercentage();
 
             global::Popup.Create(CharacterHalfSize, Popup, healAmount, 0, null, false, true);
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
@@ -355,6 +363,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         Debug.Log("Respawn");
 
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
+        LifePercentage = CalculateLifePercentage();
 
         CanTakeDamage = true;
 
@@ -447,6 +456,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if(GetStat(StatType.MovementSpeed) != null)
             Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.MovementSpeed).Value);
 
+        LifePercentage = CalculateLifePercentage();
+
         OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
 
@@ -463,6 +474,15 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
 
         return stat;
+    }
+
+    private float CalculateLifePercentage()
+    {
+        float currentLifePercentage = 0f;
+
+        currentLifePercentage = GetStat(StatType.Health).Value / GetStat(StatType.Health).MaxValue * 100f;
+
+        return currentLifePercentage;
     }
 
     public void AscendEntity(EntityType newBaseEntity)

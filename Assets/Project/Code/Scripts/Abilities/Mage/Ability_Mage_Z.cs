@@ -47,6 +47,8 @@ public class Ability_Mage_Z : AbilityLogic
                 SetAbilityMarkDuration(markDuration);
                 SetAbilityStatusEffect(null);
                 SetRange(augmentedAbilityRange, augmentedAbilityAreaOfEffect, normalRange, augmentedRange);
+                //Nouveau: Inflige 50 % dégâts supplémentaires aux ennemis qui ont moins de 25 % de leurs PV
+
                 break;
             case AbilityEffect.IV:
                 //Les ennemis marqués infligent 10 % dégâts en moins.

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBarHandler : MonoBehaviour
@@ -6,6 +7,7 @@ public class HealthBarHandler : MonoBehaviour
     [SerializeField] private bool isAStele = false;
     [SerializeField] private Color allyColor;
     [SerializeField] private Color enemyColor;
+    [SerializeField] private float healthBarBlinkDuration = 0f;
 
     #region Ref
     private Image HealthBarFill => transform.GetChild(1).GetComponent<Image>();
@@ -16,8 +18,6 @@ public class HealthBarHandler : MonoBehaviour
 
     private void Awake()
     {
-        SetHealthBarColor();
-
         if (isAStele) stele = transform.parent.GetComponentInParent<SteleLogic>();
         else stats = transform.parent.GetComponentInParent<EntityStats>();
     }
@@ -27,9 +27,12 @@ public class HealthBarHandler : MonoBehaviour
         if (isAStele)
         {
             stele.OnHealthValueChanged += SetHealthBar;
-            stele.OnActivation += SetHealthBarColor;
         }
-        else stats.OnHealthValueChanged += SetHealthBar;
+        else
+        {
+            stats.OnHealthValueChanged += SetHealthBar;
+            stats.OnDamageTaken += SetHalthBarColor;
+        }
     }
 
     private void OnDisable()
@@ -37,20 +40,35 @@ public class HealthBarHandler : MonoBehaviour
         if (isAStele)
         {
             stele.OnHealthValueChanged -= SetHealthBar;
-            stele.OnActivation -= SetHealthBarColor;
         }
-        else stats.OnHealthValueChanged += SetHealthBar;
+        else
+        {
+            stats.OnHealthValueChanged -= SetHealthBar;
+            stats.OnDamageTaken -= SetHalthBarColor;
+        }
     }
 
     void SetHealthBar(float currentValue, float maxValue)
     {
         HealthBarFill.fillAmount = currentValue / maxValue;
-
-        //SetHealthBarColor();
     }
 
-    void SetHealthBarColor()
+    void SetHalthBarColor()
     {
+        StartCoroutine(HealthBarBlinking(healthBarBlinkDuration));
+    }
+
+    private IEnumerator HealthBarBlinking(float delay)
+    {
+        Color currentColor = HealthBarFill.color;
+
+        HealthBarFill.color = Color.white;
+
+        yield return new WaitForSeconds(delay);
+
+        HealthBarFill.color = currentColor;
+
+
         ////Modify Colors for correct team idk how
         //if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyPlayer
         //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyMinion

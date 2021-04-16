@@ -9,34 +9,32 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private ShopManager shop;
 
     [Header("INVENTORY BOXES AND BOXES SELECTION ICONS")]
-    [HideInInspector]
     [SerializeField] private List<InventoryBox> inventoryBoxes;
-    [HideInInspector]
-    [SerializeField] private List<SelectIcon> selectedIcons;
+    [SerializeField] private List<SelectIcon> parentOfSelectedIcons;
 
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
     public bool InventoryIsEmpty=> NumberOfFullInventoryBoxes <= 0;
 
     public int NumberOfFullInventoryBoxes { get; set; }
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
-    public List<SelectIcon> SelectedIcons { get => selectedIcons; }
+    public List<SelectIcon> ParentOfSelectedIcons { get => parentOfSelectedIcons; }
     public ShopManager Shop { get => shop; set => shop = value; }
 
-    private void Awake() => GetRequiredComponent();
+    //private void Awake() => GetRequiredComponent();
 
     #region Inventory - Shop Management
 
-    private void GetRequiredComponent()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            InventoryBox inventoryBox = transform.GetChild(i).GetComponent<InventoryBox>();
-            InventoryBoxes.Add(inventoryBox);
+    //private void GetRequiredComponent()
+    //{
+    //    for (int i = 0; i < transform.childCount; i++)
+    //    {
+    //        InventoryBox inventoryBox = transform.GetChild(i).GetComponent<InventoryBox>();
+    //        InventoryBoxes.Add(inventoryBox);
 
-            SelectIcon toggleSelectionIcon = transform.GetChild(i).GetComponentInChildren<SelectIcon>();
-            SelectedIcons.Add(toggleSelectionIcon);
-        }
-    }
+    //        SelectIcon toggleSelectionIcon = transform.GetChild(i).GetComponentInChildren<SelectIcon>();
+    //        ParentOfSelectedIcons.Add(toggleSelectionIcon);
+    //    }
+    //}
 
     // Function used to remove an item from inventory
     public void RemoveItemFromInventory(InventoryBox inventoryBox)
@@ -75,9 +73,9 @@ public class InventoryManager : MonoBehaviour
     //Function that resets the state of all boxes selection icons that have been toggled on
     public void ResetAllSelectedIcons()
     {
-        for (int i = 0; i < SelectedIcons.Count; i++)
+        for (int i = 0; i < ParentOfSelectedIcons.Count; i++)
         {
-            SelectedIcons[i].ToggleOff();
+            ParentOfSelectedIcons[i].ToggleOff();
         }
     }
 
@@ -85,14 +83,14 @@ public class InventoryManager : MonoBehaviour
     {
         int selectedIcons = 0;
 
-        for (int i = SelectedIcons.Count - 1; i >= 0; i--)
+        for (int i = ParentOfSelectedIcons.Count - 1; i >= 0; i--)
         {
-            if (SelectedIcons[i].IsSelected)
+            if (ParentOfSelectedIcons[i].IsSelected)
                 selectedIcons++;
 
             if (selectedIcons >= 1)
             {
-                foreach (var item in SelectedIcons)
+                foreach (var item in ParentOfSelectedIcons)
                 {
                     item.ToggleOff();
                 }

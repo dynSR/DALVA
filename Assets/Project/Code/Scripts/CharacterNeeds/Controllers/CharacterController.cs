@@ -14,6 +14,10 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     private bool canMove = true;
     private bool isCasting = false;
 
+    [Header("VFX")]
+    [SerializeField] private GameObject stunVFX;
+    public GameObject StunVFX { get => stunVFX; }
+
     //Network
     [HideInInspector]
     [SerializeField] private Vector3 networkPosition = Vector3.zero;

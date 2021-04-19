@@ -1,26 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ability_Mage_Z : AbilityLogic
 {
     [SerializeField] private float augmentedMarkDuration = 0f;
+    [Range(0,1)] [SerializeField] private float healthThresholdBonusDamage = 0f;
     private float markDuration = 0f;
 
     [SerializeField] private StatusEffect statusEffectToAttribute;
 
-    [SerializeField] private GameObject normalRange;
-    [SerializeField] private GameObject augmentedRange;
-    [SerializeField] private float augmentedAbilityRange;
-    [SerializeField] private float augmentedAbilityAreaOfEffect;
-    private float normalAbilityRange = 0f;
-    private float normalAreaOfEffect = 0f;
+    //[SerializeField] private GameObject normalRange;
+    //[SerializeField] private GameObject augmentedRange;
+    //[SerializeField] private float augmentedAbilityRange;
+    //[SerializeField] private float augmentedAbilityAreaOfEffect;
+    //private float normalAbilityRange = 0f;
+    //private float normalAreaOfEffect = 0f;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         markDuration = Ability.AbilityMarkDuration;
-        normalAbilityRange = Ability.AbilityRange;
-        normalAreaOfEffect = Ability.AbilityAreaOfEffect;
+        Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
+        //normalAbilityRange = Ability.AbilityRange;
+        //normalAreaOfEffect = Ability.AbilityAreaOfEffect;
     }
 
     protected override void Update() => base.Update();
@@ -32,29 +34,31 @@ public class Ability_Mage_Z : AbilityLogic
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                Ability.AbilityMarkDuration = markDuration;
-                SetAbilityStatusEffect(null);
-                SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
+                SetAbilityMarkDuration(markDuration);
+                SetAbilityStatusEffectOnMarkedTarget(null);
+                Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
+                //SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
                 break;
             case AbilityEffect.II:
                 //Augmente la durée de la marque de 2 secondes
                 SetAbilityMarkDuration(augmentedMarkDuration);
-                SetAbilityStatusEffect(null);
-                SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
+                SetAbilityStatusEffectOnMarkedTarget(null);
+                Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
+                //SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
                 break;
             case AbilityEffect.III:
-                //Augmente la portée
+                //Augmente la portée //Nouveau: Inflige 50 % dégâts supplémentaires aux ennemis qui ont moins de 25 % de leurs PV
                 SetAbilityMarkDuration(markDuration);
-                SetAbilityStatusEffect(null);
-                SetRange(augmentedAbilityRange, augmentedAbilityAreaOfEffect, normalRange, augmentedRange);
-                //Nouveau: Inflige 50 % dégâts supplémentaires aux ennemis qui ont moins de 25 % de leurs PV
-
+                SetAbilityStatusEffectOnMarkedTarget(null);
+                Ability.AbilityAddedDamageOnTargetHealthThreshold = healthThresholdBonusDamage;
+                //SetRange(augmentedAbilityRange, augmentedAbilityAreaOfEffect, normalRange, augmentedRange);
                 break;
             case AbilityEffect.IV:
                 //Les ennemis marqués infligent 10 % dégâts en moins.
                 SetAbilityMarkDuration(markDuration);
-                SetAbilityStatusEffect(statusEffectToAttribute);
-                SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
+                SetAbilityStatusEffectOnMarkedTarget(statusEffectToAttribute);
+                Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
+                //SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
                 break;
         }
     }

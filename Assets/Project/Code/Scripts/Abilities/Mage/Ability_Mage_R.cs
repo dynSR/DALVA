@@ -1,13 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Ability_Mage_R : AbilityLogic
+﻿public class Ability_Mage_R : AbilityLogic
 {
-    protected override void Update()
-    {
-        base.Update();
-    }
+    protected override void Awake() => base.Awake();
+
+    protected override void Update() => base.Update();
 
     protected override void Cast()
     {

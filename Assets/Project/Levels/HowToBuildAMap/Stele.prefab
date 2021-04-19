@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 931689850}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: EffectSpawnLocation
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -349,6 +349,18 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6087098847743176438}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SpawnEntityEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -986,6 +998,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SpawnEntityEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6087098847985804660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1179,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SpawnEntityEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6087098848016864690
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,6 +1354,18 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6087098848185993714}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SpawnEntityEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7946902092188661269, guid: ebb6221f53b0ed547b256cd9a3362596, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1765,6 +1813,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SpawnEntityEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6087098848259616412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,6 +1994,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SpawnEntityEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6087098848328281827
 GameObject:
   m_ObjectHideFlags: 0
@@ -2081,7 +2153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6087098848351799502
 Transform:
   m_ObjectHideFlags: 0
@@ -2652,7 +2724,7 @@ GameObject:
   - component: {fileID: 6521251943636404911}
   - component: {fileID: 6522600705964185025}
   - component: {fileID: 6359753844594443308}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ActivationVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7538,7 +7610,7 @@ GameObject:
   - component: {fileID: 6363934447029192877}
   - component: {fileID: 6521572673466678501}
   - component: {fileID: 6521851565510844067}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FX_Heal_Sparkles_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12404,6 +12476,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6087098848484573278}
     m_Modifications:
+    - target: {fileID: 392746782635157446, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 392746782635157446, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 392746782635157446, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903530, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_Name
       value: HealthBar
@@ -12416,6 +12500,14 @@ PrefabInstance:
       propertyPath: isAStele
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: billboard
+      value: 
+      objectReference: {fileID: 6087098848484573264}
+    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: stele
+      value: 
+      objectReference: {fileID: 6087098848328281881}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -12499,6 +12591,18 @@ PrefabInstance:
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8789016292481694829, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8789016292481694829, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8789016292481694829, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: m_Color.b
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}

@@ -26,6 +26,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected DashLogic DashLogic => GetComponent<DashLogic>();
     #endregion
 
+    [SerializeField] private Transform abilityTarget;
+
     [Header("USED ABILITY")]
     [SerializeField] private Ability ability;
     [SerializeField] private AbilityEffect usedEffectIndex = AbilityEffect.I;
@@ -50,12 +52,20 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [Header("DEBUG")]
     [SerializeField] private Color gizmosColor;
 
+    public Transform AbilityTarget { get => abilityTarget; set => abilityTarget = value; }
     public Ability Ability { get => ability; }
     public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
     public AbilityEffect UsedEffectIndex { get => usedEffectIndex; set => usedEffectIndex = value; }
     public List<GameObject> AbilityVFXToActivate { get => abilityVFXToActivate; }
+    public float TotalPhysicalDamage { get; set; }
+    public float TotalMagicalDamage { get; set; }
 
     protected abstract void Cast();
+
+    protected virtual void Awake()
+    {
+        UsedEffectIndex = AbilityEffect.I;
+    }
 
     protected virtual void Update()
     {
@@ -65,6 +75,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
+            if (Interactions.KnownTarget != null) AbilityTarget = Interactions.KnownTarget;
+            else if (Ability.IsPointAndClick && AbilityTarget == null) AbilityTarget = transform;
+
             if (normalCast || fastCastWithIndication)
             {
                 if (rangeDisplayer != null && !rangeDisplayer.activeInHierarchy)
@@ -142,7 +155,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #region Handling ability casting
     private void CastWhenInRange()
     {
-        if (characterIsTryingToCast && !Controller.IsCasting && (IsInRangeToCast || Ability.AbilityRange == 0f))
+        if (characterIsTryingToCast && !Controller.IsCasting && (IsInRangeToCast || Ability.AbilityRange == 0f) || Ability.IsPointAndClick && AbilityTarget == transform)
         {
             //Debug.Log("Close enough, can cast now !");
             Controller.IsCasting = true;
@@ -189,59 +202,116 @@ public abstract class AbilityLogic : MonoBehaviourPun
     }
     #endregion
 
-    #region Applying the ability effect at the targeted cast location 
+    #region Applying the ability at the targeted cast location 
     public IEnumerator ApplyAbilityEffectAtLocation(Vector3 pos, GameObject applicationInstance, float delay)
     {
-        Instantiate(applicationInstance, new Vector3(pos.x, pos.y + 0.03f, pos.z), applicationInstance.transform.rotation);
+        if(applicationInstance != null)
+            Instantiate(applicationInstance, new Vector3(pos.x, pos.y + 0.03f, pos.z), applicationInstance.transform.rotation);
 
         yield return new WaitForSeconds(delay);
 
         Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.01f, pos.z), Ability.AbilityAreaOfEffect);
 
+        if (Ability.IsPointAndClick)
+        {
+            ApplyingDamageOnTarget(abilityTarget.GetComponent<Collider>());
+            yield break;
+        }
+
         foreach (Collider collider in colliders)
         {
-            EntityStats targetStat = collider.GetComponent<EntityStats>();
-            EntityDetection targetFound = collider.GetComponent<EntityDetection>();
-
-            EntityStats characterStat = transform.GetComponent<EntityStats>();
-
-            if (targetStat != null && !targetStat.IsDead
-                //&& collider.transform != transform
-                && (targetFound.ThisTargetIsAPlayer(targetFound)
-                || targetFound.ThisTargetIsAMonster(targetFound)
-                || targetFound.ThisTargetIsAMinion(targetFound)))
-            {
-                if(targetStat.EntityTeam != Stats.EntityTeam)
-                {
-                    collider.GetComponent<EntityStats>().TakeDamage
-                    (transform,
-                    targetStat.GetStat(StatType.PhysicalResistances).Value,
-                    targetStat.GetStat(StatType.MagicalResistances).Value,
-                    Ability.AbilityPhysicalDamage + (characterStat.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio),
-                    Ability.AbilityMagicalDamage + (characterStat.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio),
-                    characterStat.GetStat(StatType.CriticalStrikeChance).Value,
-                    175f,
-                    characterStat.GetStat(StatType.PhysicalPenetration).Value,
-                    characterStat.GetStat(StatType.MagicalPenetration).Value,
-                    characterStat.GetStat(StatType.DamageReduction).Value);
-                }
-
-                if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));
-
-                if (Ability.AbilityStatusEffect != null)
-                {
-                    if (Ability.AbilityStatusEffect.StatusEffectDuration == 0 && Ability.AbilityCanMark)
-                    {
-                        Ability.AbilityStatusEffect.StatusEffectDuration = Ability.AbilityMarkDuration;
-                    }
-
-                    if (Stats.EntityTeam == targetStat.EntityTeam && Ability.AbilityStatusEffect.CanApplyOnAlly) Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
-                    else if (Stats.EntityTeam != targetStat.EntityTeam) Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
-                }
-            }
+            ApplyingDamageOnTarget(collider);
         }
     }
     #endregion
+
+    void ApplyingDamageOnTarget(Collider collider)
+    {
+        EntityStats targetStat = collider.GetComponent<EntityStats>();
+        EntityDetection targetFound = collider.GetComponent<EntityDetection>();
+
+        EntityStats characterStat = transform.GetComponent<EntityStats>();
+
+        if (targetStat != null && !targetStat.IsDead
+            //&& collider.transform != transform
+            && (targetFound.ThisTargetIsAPlayer(targetFound)
+            || targetFound.ThisTargetIsAMonster(targetFound)
+            || targetFound.ThisTargetIsAMinion(targetFound)))
+        {
+            if (targetStat.EntityTeam != Stats.EntityTeam)
+            {
+                #region Calculating ability damage
+                float healthThresholdBonusDamage;
+
+                if (Ability.AbilityAddedDamageOnTargetHealthThreshold > 0 && targetStat.HealthPercentage <= Ability.TargetHealthThreshold)
+                {
+                    healthThresholdBonusDamage = Ability.AbilityAddedDamageOnTargetHealthThreshold;
+                }
+                else healthThresholdBonusDamage = 0;
+
+                if (Ability.AbilityPhysicalDamage > 0)
+                {
+                    TotalPhysicalDamage = Ability.AbilityPhysicalDamage + (Stats.GetStat(StatType.PhysicalPower).Value * (Ability.AbilityPhysicalRatio + healthThresholdBonusDamage));
+                }
+                else Ability.AbilityPhysicalDamage = 0;
+
+                if (Ability.AbilityMagicalDamage > 0)
+                {
+                    TotalMagicalDamage = Ability.AbilityMagicalDamage + (Stats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + healthThresholdBonusDamage));
+                }
+                else Ability.AbilityMagicalDamage = 0;
+                #endregion
+
+                #region Appllying ability damage to target(s)
+                collider.GetComponent<EntityStats>().TakeDamage
+                (transform,
+                targetStat.GetStat(StatType.PhysicalResistances).Value,
+                targetStat.GetStat(StatType.MagicalResistances).Value,
+                TotalPhysicalDamage,
+                TotalMagicalDamage,
+                characterStat.GetStat(StatType.CriticalStrikeChance).Value,
+                175f,
+                characterStat.GetStat(StatType.PhysicalPenetration).Value,
+                characterStat.GetStat(StatType.MagicalPenetration).Value,
+                characterStat.GetStat(StatType.DamageReduction).Value);
+                #endregion
+            }
+
+            #region Handle Mark and ability's status effect
+            //Applying mark to target(s), if the ability can mark it/them
+            if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));
+
+            //Applying ability effect - with a mark or not 
+            if (Ability.AbilityStatusEffect != null || targetStat.EntityIsMarked && Ability.EffectAppliedOnMarkedTarget != null)
+            {
+                //Effect is applied as long as target is marked
+                if (Ability.AbilityStatusEffect.StatusEffectDuration == 0 && Ability.AbilityCanMark)
+                {
+                    Ability.AbilityStatusEffect.StatusEffectDuration = Ability.AbilityMarkDuration;
+                }
+
+                if (Stats.EntityTeam == targetStat.EntityTeam && Ability.AbilityStatusEffect.CanApplyOnAlly
+                    || Stats.EntityTeam == targetStat.EntityTeam && Ability.EffectAppliedOnMarkedTarget.CanApplyOnAlly)
+                {
+                    Debug.Log(Ability.AbilityStatusEffect.ToString());
+
+                    Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
+
+                    Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
+                }
+                else if (Stats.EntityTeam != targetStat.EntityTeam)
+                {
+                    Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
+
+                    Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
+                }
+            }
+            #endregion
+
+            abilityTarget = null;
+        }
+    }
+
 
     #region Modifying ability's attributes
     protected abstract void SetAbilityAfterAPurchase();
@@ -267,6 +337,12 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (Ability.AbilityStatusEffect != null && effect == null) Ability.AbilityStatusEffect = null;
         else Ability.AbilityStatusEffect = effect;
+    }
+
+    protected void SetAbilityStatusEffectOnMarkedTarget(StatusEffect effect = null)
+    {
+        if (Ability.EffectAppliedOnMarkedTarget != null && effect == null) Ability.EffectAppliedOnMarkedTarget = null;
+        else Ability.EffectAppliedOnMarkedTarget = effect;
     }
 
     protected void SetAbilityMarkDuration(float duration)

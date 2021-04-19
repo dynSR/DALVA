@@ -1,91 +1,92 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBarHandler : MonoBehaviour
 {
+    [Header("PROPERTIES")]
     [SerializeField] private bool isAStele = false;
     [SerializeField] private Color allyColor;
     [SerializeField] private Color enemyColor;
-    [SerializeField] private float healthBarBlinkDuration = 0f;
 
-    #region Ref
-    private Image HealthBarFill => transform.GetChild(1).GetComponent<Image>();
-    public Billboard Billboard => GetComponentInParent<Billboard>();
-    private EntityStats stats;
-    private SteleLogic stele;
-    #endregion
+    [Header("HEALTHBAR UI")]
+    [SerializeField] private bool healthBarCanBlink = true;
+    [SerializeField] private float healthBarBlinkDuration = 0f;
+    [SerializeField] private Image healthBarFill;
+
+    [Header("SHIELDBAR UI")]
+    [SerializeField] private Image shieldBarFill;
+
+    [Header("REFERENCES")]
+    [SerializeField] private TextMeshProUGUI valueText;
+    [SerializeField] private EntityStats stats;
+    [SerializeField] private SteleLogic stele;
 
     private void Awake()
     {
-        if (isAStele) stele = transform.parent.GetComponentInParent<SteleLogic>();
-        else stats = transform.parent.GetComponentInParent<EntityStats>();
+        if (stats == null || isAStele && stele == null)
+            Debug.LogError("You need to reference root parent's SteleLogic or EntityStats script. ", transform);
+
+        if (valueText != null)
+            SetHealthBar(stats.GetStat(StatType.Health).Value, stats.GetStat(StatType.Health).MaxValue);
     }
 
     private void OnEnable()
     {
-        if (isAStele)
-        {
-            stele.OnHealthValueChanged += SetHealthBar;
-        }
-        else
+        if (isAStele) stele.OnHealthValueChanged += SetHealthBar;
+
+        if (stats != null)
         {
             stats.OnHealthValueChanged += SetHealthBar;
-            stats.OnDamageTaken += SetHalthBarColor;
+            stats.OnDamageTaken += SetHealthBarColor;
+            stats.OnShieldValueChanged += SetShieldBar;
         }
     }
 
     private void OnDisable()
     {
-        if (isAStele)
-        {
-            stele.OnHealthValueChanged -= SetHealthBar;
-        }
-        else
+        if (isAStele) stele.OnHealthValueChanged -= SetHealthBar;
+
+        if (stats != null)
         {
             stats.OnHealthValueChanged -= SetHealthBar;
-            stats.OnDamageTaken -= SetHalthBarColor;
+            stats.OnDamageTaken -= SetHealthBarColor;
+            stats.OnShieldValueChanged -= SetShieldBar;
         }
     }
 
     void SetHealthBar(float currentValue, float maxValue)
     {
-        HealthBarFill.fillAmount = currentValue / maxValue;
+        healthBarFill.fillAmount = currentValue / maxValue;
+
+        if (valueText != null)
+            valueText.text = currentValue.ToString("0") + " / " + maxValue.ToString("0");
     }
 
-    void SetHalthBarColor()
+    void SetShieldBar(float currentValue, float maxValue)
     {
+        if(shieldBarFill != null)
+            shieldBarFill.fillAmount = currentValue / maxValue;
+
+        if (shieldBarFill.fillAmount >= 0.5f) shieldBarFill.fillAmount = 0.5f;
+    }
+
+    void SetHealthBarColor()
+    {
+        if (!healthBarCanBlink) return;
+        
         StartCoroutine(HealthBarBlinking(healthBarBlinkDuration));
     }
 
     private IEnumerator HealthBarBlinking(float delay)
     {
-        Color currentColor = HealthBarFill.color;
+        Color currentColor = healthBarFill.color;
 
-        HealthBarFill.color = Color.white;
+        healthBarFill.color = Color.white;
 
         yield return new WaitForSeconds(delay);
 
-        HealthBarFill.color = currentColor;
-
-
-        ////Modify Colors for correct team idk how
-        //if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyPlayer
-        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyMinion
-        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.AllyStele)
-        //{
-        //    HealthBarFill.color = allyColor;
-        //}
-        //else if (Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyPlayer
-        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyMinion
-        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.EnemyStele
-        //    || Billboard.EntityDetection.TypeOfEntity == TypeOfEntity.Monster)
-        //{
-        //    HealthBarFill.color = enemyColor;
-        //}
-        //else
-        //{
-        //    HealthBarFill.color = Color.yellow;
-        //}
+        healthBarFill.color = currentColor;
     }
 }

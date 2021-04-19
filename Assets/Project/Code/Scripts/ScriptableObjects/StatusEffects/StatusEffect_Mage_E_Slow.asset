@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d66b99f3a0b6e2f4882ff62c17a6b6e1, type: 3}
-  m_Name: StatusEffect_Chasse
+  m_Name: StatusEffect_Mage_E_Slow
   m_EditorClassIdentifier: 
-  statusEffectName: Chasseur
-  statusEffectDescription: "Inflige 5 d\xE9g\xE2ts suppl\xE9mentaires aux sbires
-    / monstres jungle "
-  statusEffectDuration: 0
-  statusEffectId: 1
+  statusEffectName: E_Slow
+  statusEffectDescription: 
+  statusEffectDuration: 2
+  statusEffectId: 6
   statusEffectIcon: {fileID: 0}
   statusEffectVFXPrefab: {fileID: 0}
-  statusEffectSound: {fileID: 0}
+  canApplyOnAlly: 0
+  isStackable: 0
+  statModifiers:
+  - Value: -0.15
+    StatType: 3
+    Type: 200

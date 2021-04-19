@@ -32,13 +32,13 @@ public class Popup : MonoBehaviourPun
     public Sprite MagicalDamageIcon { get => magicalDamageIcon; }
     public Sprite PhysicalDamageIcon { get => physicalDamageIcon; }
 
-    public static Popup Create(Vector3 position, GameObject popupGO, float value, StatType stat, Sprite icon, bool isCritical = false, bool itsAHeal = false)
+    public static Popup Create(Vector3 position, GameObject popupGO, float value, StatType stat, Sprite icon, bool isCritical = false, bool itsAHeal = false, bool targetIsInvulnerable = false)
     {
         GameObject popupInstance = Instantiate(popupGO, position, popupGO.transform.rotation);
 
         Popup popup = popupInstance.GetComponent<Popup>();
 
-        popup.Setup(value, stat, icon, isCritical, itsAHeal);
+        popup.Setup(value, stat, icon, isCritical, itsAHeal, targetIsInvulnerable);
 
         return popup;
     }
@@ -65,9 +65,9 @@ public class Popup : MonoBehaviourPun
         transform.position += new Vector3(moveXSpeed, moveYSpeed) * Time.deltaTime;
     }
 
-    private void Setup(float value, StatType stat, Sprite icon, bool isCritical = false, bool itsAHeal = false)
+    private void Setup(float value, StatType stat, Sprite icon, bool isCritical = false, bool itsAHeal = false, bool targetIsInvulnerable = false)
     {
-        if(value == 0)
+        if(targetIsInvulnerable)
         {
             ValueText.SetText(value.ToString("INVULNERABLE"));
             return;

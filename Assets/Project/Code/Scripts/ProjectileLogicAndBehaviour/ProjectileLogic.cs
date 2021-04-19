@@ -138,24 +138,31 @@ public class ProjectileLogic : MonoBehaviour
     {
         //Debug.Log("Has an ability");
 
-        float bonusDamage;
+        float markBonusDamage;
+        float healthThresholdBonusDamage;
 
         if (targetStat.EntityIsMarked)
         {
             targetStat.EntityIsMarked = false;
-            bonusDamage = projectileBonusDamagePercentage;
+            markBonusDamage = projectileBonusDamagePercentage;
         }
-        else bonusDamage = 0;
+        else markBonusDamage = 0;
+
+        if (Ability != null && Ability.AbilityAddedDamageOnTargetHealthThreshold > 0 && targetStat.HealthPercentage <= Ability.TargetHealthThreshold)
+        {
+            healthThresholdBonusDamage = Ability.AbilityAddedDamageOnTargetHealthThreshold;
+        }
+        else healthThresholdBonusDamage = 0;
 
         if (Ability.AbilityPhysicalDamage > 0)
         {
-            TotalPhysicalDamage = Ability.AbilityPhysicalDamage + (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value * (Ability.AbilityPhysicalRatio + bonusDamage));
+            TotalPhysicalDamage = Ability.AbilityPhysicalDamage + (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value * (Ability.AbilityPhysicalRatio + markBonusDamage + healthThresholdBonusDamage));
         } 
         else Ability.AbilityPhysicalDamage = 0;
 
         if (Ability.AbilityMagicalDamage > 0)
         {
-           TotalMagicalDamage = Ability.AbilityMagicalDamage + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + bonusDamage));
+           TotalMagicalDamage = Ability.AbilityMagicalDamage + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + markBonusDamage + healthThresholdBonusDamage));
         } 
         else Ability.AbilityMagicalDamage = 0;
 
@@ -195,6 +202,27 @@ public class ProjectileLogic : MonoBehaviour
     private void ApplyProjectileAutoAttackDamage(EntityStats targetStat)
     {
         //Debug.Log("No ability");
+
+        float markBonusDamage;
+
+        if (targetStat.EntityIsMarked)
+        {
+            targetStat.EntityIsMarked = false;
+            markBonusDamage = projectileBonusDamagePercentage;
+        }
+        else markBonusDamage = 0;
+
+        if (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value > 0)
+        {
+            TotalPhysicalDamage = ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value + ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value * (markBonusDamage);
+        }
+        else TotalPhysicalDamage = 0;
+
+        if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
+        {
+            TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value + ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (markBonusDamage);
+        }
+        else TotalMagicalDamage = 0;
 
         targetStat.TakeDamage(
             ProjectileSender,

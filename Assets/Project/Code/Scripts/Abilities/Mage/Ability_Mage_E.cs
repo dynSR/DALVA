@@ -1,35 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ability_Mage_E : AbilityLogic
 {
-    protected override void Update()
-    {
-        base.Update();
-    }
+    [Header("Z EFFECTS")]
+    [SerializeField] private StatusEffect slowEffect;
+    [SerializeField] private StatusEffect shieldEffect;
+
+    protected override void Awake() => base.Awake();
+    protected override void Update() => base.Update();
 
     protected override void Cast()
     {
-        PlayAbilityAnimation("UsesFirstAbility", true, true);
+        PlayAbilityAnimation("UsesThirdAbility", true, true);
 
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                //Lance un projectile qui inflige(50 + 50 % PM) dégâts magiques. Fait(30 % PM) dégâts supplémentaires si l'ennemi est marqué (consomme la marque).
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability));
-                break;
+                //"Sort ciblé : 
+                //- sur ennemi: inflige(40 + 40 % PM) dégâts et ralentit de 15 VD pendant 2s, si la cible est marqué, immobilise au lieu de ralentir
+                //- sur allié: donne un bouclier de(50 + 150 % PM) points de vie(PV) pendant 2s."
+                if (AbilityTarget.GetComponent<EntityStats>().EntityTeam == Stats.EntityTeam)
+                {
+                    Ability.AbilityStatusEffect = shieldEffect;
+
+                    shieldEffect.StatModifiers.Clear();
+                    shieldEffect.StatModifiers.Add(
+                        new StatModifier(Ability.AbilityShieldValue + (Stats.GetStat(StatType.MagicalPower).Value * Ability.ShieldMagicalRatio),
+                        StatType.Shield,
+                        StatModType.Flat,
+                        shieldEffect));
+
+                    AbilityTarget.GetComponent<EntityStats>().ApplyShieldOnTarget(AbilityTarget, shieldEffect.StatModifiers[0].Value, 0f);
+                }
+                else if (AbilityTarget.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam) Ability.AbilityStatusEffect = slowEffect;
+                    break;
             case AbilityEffect.II:
-                //Traverse les unités
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability, true));
+                //Étourdit la cible au lieu de l'immobiliser si elle est marquée.
                 break;
             case AbilityEffect.III:
-                //Si l'ennemi touché est marqué, le projectile rebondit sur les ennemis proches (un projectile pour chaque ennemi proche).
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true));
+                //"Le Z marque aussi les alliés.
+                //Si l'allié est marqué, soigne de (6% PV max) points de vie (PV) en plus du bouclier."
                 break;
             case AbilityEffect.IV:
-                //Le Z marque aussi les alliés.
-                //Peut toucher les alliés marqués pour les soigner de(25 + 50 % PM) points de vie(PV), se propage aux alliés proches.
+                //"Le Z marque aussi les alliés.
+                //Propage le bouclier aux alliés proches marqués."
                 break;
         }
     }

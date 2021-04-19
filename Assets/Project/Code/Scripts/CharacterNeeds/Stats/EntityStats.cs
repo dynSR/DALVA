@@ -10,7 +10,7 @@ public enum EntityTeam
     NEUTRAL
 }
 
-public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IRegenerable
+public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IRegenerable, IShieldable
 {
     public delegate void StatValueChangedHandler(float newValue, float maxValue);
     public event StatValueChangedHandler OnHealthValueChanged;
@@ -21,6 +21,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public delegate void LifeStateHandler();
     public event LifeStateHandler OnEntityDeath;
     public event LifeStateHandler OnEntityRespawn;
+
+    public delegate void ShieldValueHandler(float shieldValue, float maxHealth);
+    public event ShieldValueHandler OnShieldValueChanged;
 
     #region Refs
     private CharacterController Controller => GetComponent<CharacterController>();
@@ -41,9 +44,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public float EntityLevel { get => entityLevel; set => entityLevel = value; }
 
     [Header("STATS")]
-    private float lifePercentage;
+    private float healthPercentage;
     public List<Stat> entityStats;
-    public float LifePercentage { get => lifePercentage; set => lifePercentage = value; }
+    public float HealthPercentage { get => healthPercentage; set => healthPercentage = value; }
 
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
@@ -102,8 +105,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     private void Update() { 
         OnDeath(); 
-        if (Input.GetKeyDown(KeyCode.T)) TakeDamage(transform, 0, 0, 50, 0, 0, 175, 0, 0, 0); 
-        if (Input.GetKeyDown(KeyCode.H)) Heal(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value); 
+        if (Input.GetKeyDown(KeyCode.L)) TakeDamage(transform, 0, 0, 50, 50, 0, 175, 0, 0, 0); 
+        if (Input.GetKeyDown(KeyCode.M)) Heal(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
+        if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
     }
 
     private void LateUpdate() => RegenerateHealth(transform, GetStat(StatType.HealthRegeneration).Value);
@@ -133,9 +137,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         if (CanTakeDamage)
         {
+            bool isAttackCritical = false;
+
+            #region Physical Damage
             if (characterPhysicalPower > 0)
-            {
-                bool isAttackCritical = false;
+            {                
                 float randomValue = Random.Range(0, 100);
 
                 if (characterCriticalStrikeChance > 0 
@@ -160,13 +166,10 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
                 if (GetStat(StatType.IncreasedDamageTaken).Value > 0) characterPhysicalPower += characterPhysicalPower * (GetStat(StatType.IncreasedDamageTaken).Value / 100);
                 if (characterIncomingDamageReduction > 0) characterPhysicalPower -= characterPhysicalPower * (characterIncomingDamageReduction / 100);
-
-                if (isAttackCritical)
-                    global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
-                else if (characterPhysicalPower > 0)
-                    global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
             }
+            #endregion
 
+            #region Magical Damage
             if (characterMagicalPower > 0)
             {
                 //Calculate target resistances / penetration
@@ -184,35 +187,58 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
                 if (GetStat(StatType.IncreasedDamageTaken).Value > 0) characterMagicalPower += characterMagicalPower * (GetStat(StatType.IncreasedDamageTaken).Value / 100);
                 if (characterIncomingDamageReduction > 0) characterMagicalPower -= characterMagicalPower * (characterIncomingDamageReduction / 100);
-
-                if (characterPhysicalPower > 0)
-                    StartCoroutine(CreateDamagePopUpWithDelay(0.25f, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon));
-                else if (characterMagicalPower > 0 && characterMagicalPower > 0)
-                    global::Popup.Create(CharacterHalfSize, Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
             }
-            
+            #endregion
+
+            if (isAttackCritical)
+                global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
+
+            if (characterPhysicalPower > 0)
+                global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
+            if (characterMagicalPower > 0)
+                global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 0.5f, CharacterHalfSize.z), Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
+
             this.SourceOfDamage = sourceOfDamage;
+
             GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
+
+            #region LifeSteal
+            EntityStats sourceOfDamageStats = sourceOfDamage.GetComponent<EntityStats>();
+            float physicalLifeSteal = 0f;
+            float magicalLifeSteal = 0f;
+
+            if (sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal) != null && sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal).Value > 0)
+                physicalLifeSteal = characterPhysicalPower * sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal).Value / 100;
+
+            if (sourceOfDamageStats.GetStat(StatType.MagicalLifesteal) != null && sourceOfDamageStats.GetStat(StatType.MagicalLifesteal).Value > 0)
+                magicalLifeSteal = characterMagicalPower * sourceOfDamageStats.GetStat(StatType.MagicalLifesteal).Value / 100;
+
+            if (physicalLifeSteal > 0f || magicalLifeSteal > 0f)
+                sourceOfDamageStats.Heal(sourceOfDamage, physicalLifeSteal + magicalLifeSteal, sourceOfDamageStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
+            #endregion
+
+            #region Events
 
             OnDamageTaken?.Invoke();
 
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
 
-            LifePercentage = CalculateLifePercentage();
+            HealthPercentage = CalculateLifePercentage();
+            #endregion
 
             Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
         }
         else if (!CanTakeDamage)
         {
-            StartCoroutine(CreateDamagePopUpWithDelay(0.25f, 0, 0, null));
+            StartCoroutine(CreateDamagePopUpWithDelay(0.25f, 0, 0, null, true));
         }
     }
 
-    private IEnumerator CreateDamagePopUpWithDelay(float delay, float value, StatType statType, Sprite icon, bool isASpecialPopup = false)
+    private IEnumerator CreateDamagePopUpWithDelay(float delay, float value, StatType statType, Sprite icon, bool targetIsInvulnerable = false)
     {
         yield return new WaitForSeconds(delay);
 
-        global::Popup.Create(CharacterHalfSize, Popup, value, statType, icon);
+        global::Popup.Create(CharacterHalfSize, Popup, value, statType, icon, targetIsInvulnerable);
     }
     #endregion
 
@@ -236,7 +262,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
             }
 
-            LifePercentage = CalculateLifePercentage();
+            HealthPercentage = CalculateLifePercentage();
 
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
         }
@@ -266,10 +292,40 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             if(healVFX != null)
                 healVFX.SetActive(true);
 
-            LifePercentage = CalculateLifePercentage();
+            HealthPercentage = CalculateLifePercentage();
 
-            global::Popup.Create(CharacterHalfSize, Popup, healAmount, 0, null, false, true);
+            global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 1f, CharacterHalfSize.z), Popup, healAmount, 0, null, false, true);
+
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
+        }
+    }
+    #endregion
+
+    #region Shield Section
+    public void ApplyShieldOnTarget(Transform target, float shieldValue, float shieldEffectiveness)
+    {
+        EntityStats targetStats = target.GetComponent<EntityStats>();
+
+        if (targetStats.GetStat(StatType.Shield) != null && targetStats.GetStat(StatType.HealAndShieldEffectiveness) != null)
+        {
+            if (shieldEffectiveness > 0)
+                shieldValue += shieldValue * shieldEffectiveness / 100;
+            else targetStats.GetStat(StatType.Shield).Value += shieldValue;
+
+            OnShieldValueChanged?.Invoke(targetStats.GetStat(StatType.Shield).Value, targetStats.GetStat(StatType.Health).MaxValue);
+        }
+    }
+
+    public void RemoveShieldOnTarget(Transform target, float shieldValue)
+    {
+        EntityStats targetStats = target.GetComponent<EntityStats>();
+
+        if (targetStats.GetStat(StatType.Shield) != null)
+        {
+            if (targetStats.GetStat(StatType.Shield).Value - shieldValue <= 0) targetStats.GetStat(StatType.Shield).Value = 0;
+            else targetStats.GetStat(StatType.Shield).Value -= shieldValue;
+
+            OnShieldValueChanged?.Invoke(targetStats.GetStat(StatType.Shield).Value, targetStats.GetStat(StatType.Health).MaxValue);
         }
     }
     #endregion
@@ -309,7 +365,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (SourceOfDamage != null
             && SourceOfDamage.GetComponent<CharacterRessources>() != null)
         {
-            StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon, true));
+            StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
             SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
             if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
@@ -363,7 +419,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         Debug.Log("Respawn");
 
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
-        LifePercentage = CalculateLifePercentage();
+        HealthPercentage = CalculateLifePercentage();
 
         CanTakeDamage = true;
 
@@ -456,7 +512,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if(GetStat(StatType.MovementSpeed) != null)
             Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.MovementSpeed).Value);
 
-        LifePercentage = CalculateLifePercentage();
+        HealthPercentage = CalculateLifePercentage();
 
         OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
@@ -480,7 +536,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         float currentLifePercentage = 0f;
 
-        currentLifePercentage = GetStat(StatType.Health).Value / GetStat(StatType.Health).MaxValue * 100f;
+        currentLifePercentage = GetStat(StatType.Health).Value / GetStat(StatType.Health).MaxValue/* * 100f*/;
 
         return currentLifePercentage;
     }

@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class StatusEffectContainer : MonoBehaviour
 {
+    [SerializeField] private Image statusEffectContainedIcon;
+
     private TextMeshProUGUI StatusEffectDurationText => GetComponentInChildren<TextMeshProUGUI>();
     public StatusEffect ContainedStatusEffectSystem { get; set; }
-
-    private Image StatusEffectIconContained { get => GetComponent<Image>(); set => StatusEffectIconContained = value; }
     public StatusEffectHandler StatusEffectHandler { get; set; }
 
     private float localTimer;
@@ -29,7 +29,7 @@ public class StatusEffectContainer : MonoBehaviour
 
     private void SetIcon()
     {
-        StatusEffectIconContained.sprite = ContainedStatusEffectSystem.StatusEffectIcon;
+        statusEffectContainedIcon.sprite = ContainedStatusEffectSystem.StatusEffectIcon;
     }
 
     public void ResetTimer()

@@ -29,6 +29,7 @@ public class StatusEffect : ScriptableObject
     public StatusEffectContainer StatusEffectContainer { get; set; }
     public bool CanApplyOnAlly { get => canApplyOnAlly; set => canApplyOnAlly = value; }
     public bool IsStackable { get => isStackable; set => isStackable = value; }
+    public List<StatModifier> StatModifiers { get => statModifiers; set => statModifiers = value; }
 
     #region Apply - Remove Effect
     public void ApplyEffect(Transform target)
@@ -43,11 +44,11 @@ public class StatusEffect : ScriptableObject
                 return;
             }
 
-            for (int i = 0; i < statModifiers.Count; i++)
+            for (int i = 0; i < StatModifiers.Count; i++)
             {
-                GetTargetStats(target).GetStat(statModifiers[i].StatType).AddModifier(statModifiers[i]);
+                GetTargetStats(target).GetStat(StatModifiers[i].StatType).AddModifier(StatModifiers[i]);
 
-                if (statModifiers[i].StatType == StatType.MovementSpeed)
+                if (StatModifiers[i].StatType == StatType.MovementSpeed)
                 {
                     GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
                 }
@@ -60,14 +61,18 @@ public class StatusEffect : ScriptableObject
 
     public void RemoveEffect(Transform target)
     {
-        for (int i = 0; i < statModifiers.Count; i++)
+        for (int i = 0; i < StatModifiers.Count; i++)
         {
-            GetTargetStats(target).GetStat(statModifiers[i].StatType).RemoveModifier(statModifiers[i]);
-            GetTargetStats(target).GetStat(statModifiers[i].StatType).MaxValue = GetTargetStats(target).GetStat(statModifiers[i].StatType).CalculateValue();
+            GetTargetStats(target).GetStat(StatModifiers[i].StatType).RemoveModifier(StatModifiers[i]);
+            GetTargetStats(target).GetStat(StatModifiers[i].StatType).MaxValue = GetTargetStats(target).GetStat(StatModifiers[i].StatType).CalculateValue();
 
-            if (statModifiers[i].StatType == StatType.MovementSpeed)
+            if (StatModifiers[i].StatType == StatType.MovementSpeed)
             {
                 GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
+            }
+            else if (StatModifiers[i].StatType == StatType.Shield)
+            {
+                GetTargetStats(target).RemoveShieldOnTarget(target, StatModifiers[i].Value);
             }
         }
 

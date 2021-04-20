@@ -13,6 +13,8 @@ public class StatusEffect : ScriptableObject
     [SerializeField] private Sprite statusEffectIcon;
     [SerializeField] private GameObject statusEffectVFXPrefab;
     [SerializeField] private bool canApplyOnAlly = false;
+    [SerializeField] private bool canStunTarget = false;
+    [SerializeField] private bool canRootTarget = false;
     [SerializeField] private bool isStackable = false;
 
     public string StatusEffectName { get => statusEffectName; }
@@ -28,6 +30,8 @@ public class StatusEffect : ScriptableObject
     public StatusEffectHandler TargetStatusEffectHandler { get; set; }
     public StatusEffectContainer StatusEffectContainer { get; set; }
     public bool CanApplyOnAlly { get => canApplyOnAlly; set => canApplyOnAlly = value; }
+    public bool CanStunTarget { get => canStunTarget; set => canStunTarget = value; }
+    public bool CanRootTarget { get => canRootTarget; set => canRootTarget = value; }
     public bool IsStackable { get => isStackable; set => isStackable = value; }
     public List<StatModifier> StatModifiers { get => statModifiers; set => statModifiers = value; }
 
@@ -53,7 +57,10 @@ public class StatusEffect : ScriptableObject
                     GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
                 }
             }
-            
+
+            if (CanRootTarget) GetTargetController(target).RootTarget();
+            if (CanStunTarget) GetTargetController(target).StunTarget();
+
             GetTargetStatusEffectHandler(target).AddNewEffect(this);
             CreateVFXOnApplication(StatusEffectVFXPrefab, target);
         }
@@ -73,6 +80,19 @@ public class StatusEffect : ScriptableObject
             else if (StatModifiers[i].StatType == StatType.Shield)
             {
                 GetTargetStats(target).RemoveShieldOnTarget(target, StatModifiers[i].Value);
+            }
+        }
+
+        //Maybe it will not work has to be checked !!!!!!!!!!!
+        if (GetTargetStatusEffectHandler(target).AppliedStatusEffects.Count >= 1)
+        {
+            for (int i = 0; i < GetTargetStatusEffectHandler(target).AppliedStatusEffects.Count; i++)
+            {
+                if (!GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanRootTarget) 
+                    GetTargetController(target).IsRooted = false;
+
+                if (!GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanStunTarget) 
+                    GetTargetController(target).IsStunned = false;
             }
         }
 

@@ -42,8 +42,7 @@ public class Ability_Mage_E : AbilityLogic
                     break;
             case AbilityEffect.II:
                 //Étourdit la cible au lieu de l'immobiliser si elle est marquée.
-                if (abilityTargetStats.EntityIsMarked) Ability.AbilityStatusEffect = stunEffect;
-                else Ability.AbilityStatusEffect = rootEffect;
+                if (abilityTargetStats.EntityIsMarked) Ability.EffectAppliedOnMarkedTarget = stunEffect;
                 break;
             case AbilityEffect.III:
                 //"Le Z marque aussi les alliés.

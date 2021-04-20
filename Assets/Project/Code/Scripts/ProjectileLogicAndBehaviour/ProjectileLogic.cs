@@ -287,7 +287,9 @@ public class ProjectileLogic : MonoBehaviour
                 else if (targetColliders.gameObject != ProjectileSender.gameObject && ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
                 {
                     nearTargets.Add(targetColliders.transform);
-                    nearTargetStats.EntityIsMarked = false;
+
+                    if (Ability.AbilityCanConsumeMark)
+                        nearTargetStats.EntityIsMarked = false;
                 }
             }
 

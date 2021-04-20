@@ -63,6 +63,8 @@ public class InteractionSystem : MonoBehaviour
             return;
         }
 
+        if (Controller.IsStunned || Controller.IsRooted) return;
+
         if (Target != null)
             distance = Vector3.Distance(transform.position, target.position);
 
@@ -246,7 +248,7 @@ public class InteractionSystem : MonoBehaviour
 
     public virtual void ResetInteractionState()
     {
-        if (!Controller.IsCasting)
+        if (!Controller.IsCasting && !Controller.IsRooted)
             Controller.CanMove = true;
 
         if (Target != null)

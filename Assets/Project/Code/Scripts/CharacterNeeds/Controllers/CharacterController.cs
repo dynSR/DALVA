@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class CharacterController : MonoBehaviourPun, IPunObservable
 {
+    public delegate void StunStateHandler();
+    public event StunStateHandler OnTargetStunned;
+
     [Header("CONTROLLER ATTRIBUTES VALUE")]
     [SerializeField] private float rotationSpeed = 0.1f;
     [SerializeField] private float motionSmoothTime = .1f;
@@ -13,6 +15,8 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     [SerializeField] private Animator characterAnimator;
     private bool canMove = true;
     private bool isCasting = false;
+    [SerializeField] private bool isStunned = false;
+    [SerializeField] private bool isRooted = false;
 
     [Header("VFX")]
     [SerializeField] private GameObject stunVFX;
@@ -38,6 +42,8 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     public float RotateVelocity { get => rotateVelocity; }
     public bool CanMove { get => canMove; set => canMove = value; }
     public bool IsCasting { get => isCasting; set => isCasting = value; }
+    public bool IsStunned { get => isStunned; set => isStunned = value; }
+    public bool IsRooted { get => isRooted; set => isRooted = value; }
 
     public Animator CharacterAnimator { get => characterAnimator; }
 
@@ -62,7 +68,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void SetAgentDestination(NavMeshAgent agent, Vector3 pos)
     {
-        if (!CanMove) return;
+        if (!CanMove || isStunned || IsRooted) return;
             
         agent.SetDestination(pos);
     }
@@ -81,7 +87,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void HandleCharacterRotation(Transform transform)
     {
-        if (IsCasting) return;
+        if (IsCasting || isStunned) return;
 
         if (Agent.velocity.sqrMagnitude > Mathf.Epsilon)
         {
@@ -99,6 +105,20 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
             rotationSpeed * (Time.deltaTime * 5));
 
         transform.eulerAngles = new Vector3(0, rotationY, 0);
+    }
+
+    public void StunTarget()
+    {
+        OnTargetStunned?.Invoke();
+
+        Agent.ResetPath();
+        IsStunned = true;
+    }
+
+    public void RootTarget()
+    {
+        Agent.ResetPath();
+        IsRooted = true;
     }
     #endregion
 

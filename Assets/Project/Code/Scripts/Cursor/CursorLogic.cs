@@ -32,7 +32,7 @@ public class CursorLogic : MonoBehaviour
     #region Set cursor appearance when its hovering an entity
     void SetCursorAppearance()
     {
-        if (Controller.IsCursorHoveringUIElement) return;
+        if (Controller.IsCursorHoveringUIElement || Controller.IsStunned) return;
 
         if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out cursorHit, Mathf.Infinity))
         {

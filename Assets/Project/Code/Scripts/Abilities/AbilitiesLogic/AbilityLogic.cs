@@ -71,7 +71,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) { return; }
 
-        if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed) return;
+        if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed || Controller.IsStunned) return;
 
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
@@ -287,13 +287,14 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 //Effect is applied as long as target is marked
                 if (Ability.EffectAppliedOnMarkedTarget != null && Ability.AbilityCanConsumeMark)
                 {
-                    Ability.EffectAppliedOnMarkedTarget.StatusEffectDuration = Ability.AbilityMarkDuration;
+                    Debug.Log("MONSIEUR DURATION MONSIEUR PITIÉ");
+                    Ability.EffectAppliedOnMarkedTarget.StatusEffectDuration = targetStat.ExtentedMarkTime;
                 }
 
                 if (Stats.EntityTeam == targetStat.EntityTeam && Ability.AbilityStatusEffect.CanApplyOnAlly
                     || Stats.EntityTeam == targetStat.EntityTeam && Ability.EffectAppliedOnMarkedTarget.CanApplyOnAlly)
                 {
-                    Debug.Log(Ability.AbilityStatusEffect.ToString());
+                    //Debug.Log(Ability.AbilityStatusEffect.ToString());
 
                     if (!targetStat.EntityIsMarked)
                         Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
@@ -302,6 +303,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 }
                 else if (Stats.EntityTeam != targetStat.EntityTeam)
                 {
+                    Debug.Log("ENTITY IS MARKED, APPLY THE EFFECT SVP MONSIEUR");
                     if (!targetStat.EntityIsMarked)
                         Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
                     else if (targetStat.EntityIsMarked)

@@ -108,6 +108,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (Input.GetKeyDown(KeyCode.L)) TakeDamage(transform, 0, 0, 50, 50, 0, 175, 0, 0, 0); 
         if (Input.GetKeyDown(KeyCode.M)) Heal(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
         if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
+        if (Input.GetKeyDown(KeyCode.J)) Controller.StunTarget();
+        if (Input.GetKeyDown(KeyCode.N)) Controller.RootTarget();
     }
 
     private void LateUpdate() => RegenerateHealth(transform, GetStat(StatType.HealthRegeneration).Value);

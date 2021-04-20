@@ -23,6 +23,8 @@ class MovingState : IState
 
         if (controller.GetComponent<EntityStats>().IsDead || !controller.CanMove) return;
 
+        if (controller.IsStunned) return;
+
         if (controller.NPCInteractions.HasATarget) MoveTowardsTarget();
         else if (!controller.NPCInteractions.HasATarget)
         {

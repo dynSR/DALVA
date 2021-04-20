@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66b99f3a0b6e2f4882ff62c17a6b6e1, type: 3}
   m_Name: StatusEffect_Mage_E_Stun
   m_EditorClassIdentifier: 
-  statusEffectName: Stun
+  statusEffectName: StatusEffect_Mage_E_Stun
   statusEffectDescription: 
   statusEffectDuration: 0
   statusEffectId: 4
   statusEffectIcon: {fileID: 0}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
+  canStunTarget: 1
+  canRootTarget: 0
   isStackable: 0
   statModifiers: []

@@ -50,32 +50,52 @@ public class PlayerHUDManager : MonoBehaviour
     #region Status effects
     public void UpdateStatusEffectUI(StatusEffect statusEffect)
     {
-        if (statusEffectLayoutGroup.childCount > 0)
+        if (statusEffectLayoutGroup.childCount == 0) CreateContainer(statusEffect);
+
+        if (statusEffectLayoutGroup.childCount >= 1)
         {
-            //Debug.Log("Container already exists");
-            for (int i = statusEffectLayoutGroup.childCount - 1; i >= 0; i--)
+            for (int i = 0; i < statusEffectLayoutGroup.childCount; i++)
             {
-                if (statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainer>().ContainedStatusEffectSystem == statusEffect)
+                StatusEffectContainer statusEffectContainer = statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainer>();
+                StatusEffect containedStatusEffect = statusEffectContainer.ContainedStatusEffect;
+
+                if (containedStatusEffect != statusEffect && !statusEffectHandler.IsEffectAlreadyApplied(statusEffect))
                 {
-                    statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainer>().ResetTimer();
+                    CreateContainer(statusEffect);
+                    Debug.Log("Not the Same Effect ID > Create Container");
+                    return;
+                }
+
+                //Si un de ces effets est le même que celui appliqué > Reset 
+                if (containedStatusEffect.StatusEffectId == statusEffect.StatusEffectId)
+                {
+                    Debug.Log("Same Effect ID");
+                    statusEffectContainer.ResetTimer();
+
+                    //Stackable increment something here
+                    if(containedStatusEffect.IsStackable)
+                    {
+                        //Do something here
+                    }
                 }
             }
         }
-        else
-        {
-            //Debug.Log("Create Container");
+    }
 
-            GameObject containerInstance = Instantiate(statusEffectContainer);
-            containerInstance.transform.SetParent(statusEffectLayoutGroup);
+    private void CreateContainer(StatusEffect statusEffect)
+    {
+        Debug.Log("Create Container");
 
-            StatusEffectContainer container = containerInstance.GetComponent<StatusEffectContainer>();
+        GameObject containerInstance = Instantiate(statusEffectContainer);
+        containerInstance.transform.SetParent(statusEffectLayoutGroup);
 
-            container.StatusEffectHandler = statusEffect.TargetStatusEffectHandler;
+        StatusEffectContainer container = containerInstance.GetComponent<StatusEffectContainer>();
 
-            container.ContainedStatusEffectSystem = statusEffect;
+        container.StatusEffectHandler = statusEffect.TargetStatusEffectHandler;
 
-            statusEffect.StatusEffectContainer = container;
-        }
+        container.ContainedStatusEffect = statusEffect;
+
+        statusEffect.StatusEffectContainer = container;
     }
     #endregion
 

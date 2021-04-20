@@ -8,7 +8,7 @@ public class StatusEffectLogic : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player is in trigger");
+            //Debug.Log("Player is in trigger");
             statusEffect.ApplyEffect(other.transform);
         }
     }
@@ -17,7 +17,7 @@ public class StatusEffectLogic : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player is out of trigger");
+            //Debug.Log("Player is out of trigger");
         }
     }
 }

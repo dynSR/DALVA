@@ -7,7 +7,7 @@ public class StatusEffectContainer : MonoBehaviour
     [SerializeField] private Image statusEffectContainedIcon;
 
     private TextMeshProUGUI StatusEffectDurationText => GetComponentInChildren<TextMeshProUGUI>();
-    public StatusEffect ContainedStatusEffectSystem { get; set; }
+    public StatusEffect ContainedStatusEffect { get; set; }
     public StatusEffectHandler StatusEffectHandler { get; set; }
 
     private float localTimer;
@@ -29,12 +29,12 @@ public class StatusEffectContainer : MonoBehaviour
 
     private void SetIcon()
     {
-        statusEffectContainedIcon.sprite = ContainedStatusEffectSystem.StatusEffectIcon;
+        statusEffectContainedIcon.sprite = ContainedStatusEffect.StatusEffectIcon;
     }
 
     public void ResetTimer()
     {
-        localTimer = ContainedStatusEffectSystem.StatusEffectDuration;
+        localTimer = ContainedStatusEffect.StatusEffectDuration;
         StatusEffectDurationText.text = localTimer.ToString("0");
     }
 

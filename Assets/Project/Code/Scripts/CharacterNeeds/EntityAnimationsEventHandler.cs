@@ -66,12 +66,14 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     #region Move State
     public void SetMoveState_AnimationEvent()
     {
-        Controller.CanMove = false;
+        if(!Controller.IsRooted)
+            Controller.CanMove = false;
     }
 
     public void ResetMoveState_AnimationEvent()
     {
-        Controller.CanMove = true;
+        if (!Controller.IsRooted)
+            Controller.CanMove = true;
     }
     #endregion
 

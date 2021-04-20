@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0144328179d43794b93f3b5a2932c0c2, type: 3}
-  m_Name: Entity_Fox
+  m_Name: Entity_GreatMinion
   m_EditorClassIdentifier: 
   entityName: '[Type in]'
-  entityType: 11
-  combatType: 0
+  entityType: 10
+  combatType: 1
   entityStats:
-  - name: Health - 1700
+  - name: Health - 700
     statType: 0
     icon: {fileID: 0}
-    baseValue: 1700
+    baseValue: 700
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -40,50 +40,50 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 2
+  - name: MovementSpeed - 3,25
     statType: 3
     icon: {fileID: 0}
-    baseValue: 2
+    baseValue: 3.25
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 20
+  - name: PhysicalResistances - 35
     statType: 4
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 35
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 20
+  - name: MagicalResistances - 75
     statType: 5
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 75
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackSpeed - 0,75
+  - name: AttackSpeed - 1
     statType: 6
     icon: {fileID: 0}
-    baseValue: 0.75
+    baseValue: 1
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackRange - 2
+  - name: AttackRange - 3,5
     statType: 7
     icon: {fileID: 0}
-    baseValue: 2
+    baseValue: 3.5
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 40
+  - name: PhysicalPower - 50
     statType: 8
     icon: {fileID: 0}
-    baseValue: 40
+    baseValue: 50
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -184,12 +184,12 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 300
+  - name: RessourcesGiven - 125
     statType: 21
     icon: {fileID: 0}
-    baseValue: 300
+    baseValue: 125
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  animatorController: {fileID: 9100000, guid: f8119f3a16bcc84448f012c88f587b0d, type: 2}
+  animatorController: {fileID: 9100000, guid: 860b07d5b4bf4bd45bdd02c28e1b8222, type: 2}

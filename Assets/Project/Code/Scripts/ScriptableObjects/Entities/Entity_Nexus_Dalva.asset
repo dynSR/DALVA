@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Entity_Nexus_Dalva
   m_EditorClassIdentifier: 
   entityName: '[Type in]'
-  entityType: 12
+  entityType: 13
   combatType: 0
   entityStats:
   - name: Health - 8000
@@ -24,10 +24,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: HealthRegeneration - 0
+  - name: HealthRegeneration - 10
     statType: 1
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 10
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -48,50 +48,50 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 25
+  - name: PhysicalResistances - 150
     statType: 4
     icon: {fileID: 0}
-    baseValue: 25
+    baseValue: 150
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 25
+  - name: MagicalResistances - 100
     statType: 5
     icon: {fileID: 0}
-    baseValue: 25
+    baseValue: 100
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackSpeed - 1,25
+  - name: AttackSpeed - 0,7
     statType: 6
+    icon: {fileID: 0}
+    baseValue: 0.7
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: AttackRange - 1,25
+    statType: 7
     icon: {fileID: 0}
     baseValue: 1.25
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackRange - 2,5
-    statType: 7
-    icon: {fileID: 0}
-    baseValue: 2.5
-    capValue: 0
-    Value: 0
-    MaxValue: 0
-    statModifiers: []
-  - name: PhysicalPower - 50
+  - name: PhysicalPower - 150
     statType: 8
     icon: {fileID: 0}
-    baseValue: 50
+    baseValue: 150
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalPower - 50
+  - name: MagicalPower - 0
     statType: 9
     icon: {fileID: 0}
-    baseValue: 50
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -176,18 +176,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: HarmfulEffectReduction - 0
+  - name: HarmfulEffectReduction - 50
     statType: 20
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 50
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 0
+  - name: RessourcesGiven - 20000
     statType: 21
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 20000
     capValue: 0
     Value: 0
     MaxValue: 0

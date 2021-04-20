@@ -285,9 +285,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
             if (Ability.AbilityStatusEffect != null || targetStat.EntityIsMarked && Ability.EffectAppliedOnMarkedTarget != null)
             {
                 //Effect is applied as long as target is marked
-                if (Ability.AbilityStatusEffect.StatusEffectDuration == 0 && Ability.AbilityCanMark)
+                if (Ability.EffectAppliedOnMarkedTarget != null && Ability.AbilityCanConsumeMark)
                 {
-                    Ability.AbilityStatusEffect.StatusEffectDuration = Ability.AbilityMarkDuration;
+                    Ability.EffectAppliedOnMarkedTarget.StatusEffectDuration = Ability.AbilityMarkDuration;
                 }
 
                 if (Stats.EntityTeam == targetStat.EntityTeam && Ability.AbilityStatusEffect.CanApplyOnAlly
@@ -295,15 +295,17 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 {
                     Debug.Log(Ability.AbilityStatusEffect.ToString());
 
-                    Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
-
-                    Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
+                    if (!targetStat.EntityIsMarked)
+                        Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
+                    else if (targetStat.EntityIsMarked)
+                        Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
                 }
                 else if (Stats.EntityTeam != targetStat.EntityTeam)
                 {
-                    Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
-
-                    Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
+                    if (!targetStat.EntityIsMarked)
+                        Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
+                    else if (targetStat.EntityIsMarked)
+                        Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
                 }
             }
             #endregion

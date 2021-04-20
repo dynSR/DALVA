@@ -468,14 +468,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (EntityIsMarked) ExtentedMarkTime += markDuration;
         else if (!EntityIsMarked) { ExtentedMarkTime = markDuration; EntityIsMarked = true; }
 
-        if (sourceTeam == EntityTeam)
-        {
-            allyMarkObject.SetActive(true);
-        }
-        else if (sourceTeam != EntityTeam)
-        {
-            enemyMarkObject.SetActive(true);
-        }
+        ActiveMarkFeedback(sourceTeam);
 
         do
         {
@@ -485,17 +478,21 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         ExtentedMarkTime = 0f;
 
-        if (allyMarkObject.activeInHierarchy)
-        {
-            allyMarkObject.SetActive(false);
-
-        }
-        else if (enemyMarkObject.activeInHierarchy)
-        {
-            enemyMarkObject.SetActive(false);
-        }
+        DeactivateMarkFeedback();
 
         EntityIsMarked = false;
+    }
+
+    public void ActiveMarkFeedback(EntityTeam sourceTeam)
+    {
+        if (sourceTeam == EntityTeam) allyMarkObject.SetActive(true);
+        else if (sourceTeam != EntityTeam) enemyMarkObject.SetActive(true);
+    }
+
+    public void DeactivateMarkFeedback()
+    {
+        if (allyMarkObject.activeInHierarchy) allyMarkObject.SetActive(false);
+        else if (enemyMarkObject.activeInHierarchy) enemyMarkObject.SetActive(false);
     }
     #endregion
 

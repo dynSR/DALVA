@@ -10,9 +10,6 @@ public class Item : ScriptableObject
     [SerializeField] private int itemCost;
     [SerializeField] private int amountOfGoldRefundedOnSale;
 
-    [SerializeField] private Item itemFirstEvolution;
-    [SerializeField] private Item itemSecondEvolution;
-
     [SerializeField] private List<StatModifier> itemModifiers;
 
     private InventoryBox inventoryBox = null;

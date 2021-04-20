@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d66b99f3a0b6e2f4882ff62c17a6b6e1, type: 3}
-  m_Name: StatusEffect_Root
+  m_Name: StatusEffect_Mage_E_Root
   m_EditorClassIdentifier: 
   statusEffectName: 
   statusEffectDescription: 
@@ -20,4 +20,7 @@ MonoBehaviour:
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
   isStackable: 0
-  statModifiers: []
+  statModifiers:
+  - Value: 1
+    StatType: 3
+    Type: 200

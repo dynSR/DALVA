@@ -35,28 +35,28 @@ public class Ability_Mage_Z : AbilityLogic
         {
             case AbilityEffect.I:
                 SetAbilityMarkDuration(markDuration);
-                SetAbilityStatusEffectOnMarkedTarget(null);
+                SetAbilityStatusEffect(null);
                 Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
                 //SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
                 break;
             case AbilityEffect.II:
                 //Augmente la durée de la marque de 2 secondes
                 SetAbilityMarkDuration(augmentedMarkDuration);
-                SetAbilityStatusEffectOnMarkedTarget(null);
+                SetAbilityStatusEffect(null);
                 Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
                 //SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
                 break;
             case AbilityEffect.III:
                 //Augmente la portée //Nouveau: Inflige 50 % dégâts supplémentaires aux ennemis qui ont moins de 25 % de leurs PV
                 SetAbilityMarkDuration(markDuration);
-                SetAbilityStatusEffectOnMarkedTarget(null);
+                SetAbilityStatusEffect(null);
                 Ability.AbilityAddedDamageOnTargetHealthThreshold = healthThresholdBonusDamage;
                 //SetRange(augmentedAbilityRange, augmentedAbilityAreaOfEffect, normalRange, augmentedRange);
                 break;
             case AbilityEffect.IV:
                 //Les ennemis marqués infligent 10 % dégâts en moins.
                 SetAbilityMarkDuration(markDuration);
-                SetAbilityStatusEffectOnMarkedTarget(statusEffectToAttribute);
+                SetAbilityStatusEffect(statusEffectToAttribute);
                 Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
                 //SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
                 break;

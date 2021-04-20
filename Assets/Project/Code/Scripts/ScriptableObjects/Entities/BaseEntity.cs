@@ -3,8 +3,10 @@ using UnityEngine;
 
 public enum EntityType 
 { 
+    Prowler,
     Archer, 
-    Berzerk, 
+    Berzerk,
+    Warrior,
     Coloss, 
     DaggerMaster, 
     Mage, 

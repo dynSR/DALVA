@@ -19,16 +19,26 @@ MonoBehaviour:
   abilityIcon: {fileID: 21300000, guid: e92aaba2844ac8f31e7bb25323e9446e, type: 3}
   abilityCost: 0
   abilityEffectObject: {fileID: 3276490608242782461, guid: 7d6cbb0c3b4b9b145be8f4dd47ef0277, type: 3}
+  isPointAndClick: 0
   abilityPhysicalDamage: 0
   abilityMagicalDamage: 60
   abilityPhysicalRatio: 0
   abilityMagicalRatio: 0.5
   targetHealthThreshold: 0.25
-  abilityAddedDamageOnTargetHealthThreshold: 0.5
+  abilityAddedDamageOnTargetHealthThreshold: 0
   abilityHealValue: 0
+  abilityCanHealTarget: 0
+  healMagicalRatio: 0
+  healHealthRatio: 0
+  abilityShieldValue: 0
+  abilityCanApplyShieldToTarget: 0
+  shieldMagicalRatio: 0
+  shieldHealthRatio: 0
   abilityStatusEffect: {fileID: 0}
   abilityMarkDuration: 3
   abilityCanMark: 1
+  abilityCanConsumeMark: 1
+  effectAppliedOnMarkedTarget: {fileID: 11400000, guid: bcbc639fa2d36fa4483ea283f931008a, type: 2}
   abilityRange: 10
   abilityAreaOfEffect: 4
   abilityCooldown: 9

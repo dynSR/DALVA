@@ -38,6 +38,7 @@ public class Ability : ScriptableObject
     [Header("MARK ATTRIBUTES")]
     [SerializeField] private float abilityMarkDuration = 0f;
     [SerializeField] private bool abilityCanMark = false;
+    [SerializeField] private bool abilityCanConsumeMark = false;
     [SerializeField] private StatusEffect effectAppliedOnMarkedTarget;
 
 
@@ -85,6 +86,7 @@ public class Ability : ScriptableObject
 
     public float AbilityMarkDuration { get => abilityMarkDuration; set => abilityMarkDuration = value; }
     public bool AbilityCanMark { get => abilityCanMark; set => abilityCanMark = value; }
+    public bool AbilityCanConsumeMark { get => abilityCanConsumeMark; set => abilityCanConsumeMark = value; }
     public StatusEffect EffectAppliedOnMarkedTarget { get => effectAppliedOnMarkedTarget; set => effectAppliedOnMarkedTarget = value; }
 
     public float AbilityRange { get => abilityRange; set => abilityRange = value; }

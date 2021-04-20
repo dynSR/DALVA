@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Entity_Mage
   m_EditorClassIdentifier: 
   entityName: '[Type in]'
-  entityType: 4
+  entityType: 6
   combatType: 1
   entityStats:
   - name: Health - 500
@@ -24,10 +24,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: HealthRegeneration - 0
+  - name: HealthRegeneration - 5
     statType: 1
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 5
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -40,26 +40,26 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 3,5
+  - name: MovementSpeed - 3,6
     statType: 3
     icon: {fileID: 0}
-    baseValue: 3.5
+    baseValue: 3.6
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 10
+  - name: PhysicalResistances - 20
     statType: 4
     icon: {fileID: 0}
-    baseValue: 10
+    baseValue: 20
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 10
+  - name: MagicalResistances - 45
     statType: 5
     icon: {fileID: 0}
-    baseValue: 10
+    baseValue: 45
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -72,26 +72,26 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackRange - 6
+  - name: AttackRange - 3,5
     statType: 7
     icon: {fileID: 0}
-    baseValue: 6
+    baseValue: 3.5
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 32
+  - name: PhysicalPower - 40
     statType: 8
     icon: {fileID: 0}
-    baseValue: 32
+    baseValue: 40
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalPower - 20
+  - name: MagicalPower - 25
     statType: 9
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 25
     capValue: 0
     Value: 0
     MaxValue: 0

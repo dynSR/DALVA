@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0144328179d43794b93f3b5a2932c0c2, type: 3}
-  m_Name: Entity_Raven
+  m_Name: Entity_Prowler
   m_EditorClassIdentifier: 
   entityName: '[Type in]'
-  entityType: 13
-  combatType: 0
+  entityType: 0
+  combatType: 1
   entityStats:
-  - name: Health - 1500
+  - name: Health - 550
     statType: 0
     icon: {fileID: 0}
-    baseValue: 1500
+    baseValue: 550
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: HealthRegeneration - 0
+  - name: HealthRegeneration - 3
     statType: 1
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 3
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -40,18 +40,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 2
+  - name: MovementSpeed - 3,65
     statType: 3
     icon: {fileID: 0}
-    baseValue: 2
+    baseValue: 3.65
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 20
+  - name: PhysicalResistances - 25
     statType: 4
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 25
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -64,26 +64,26 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackSpeed - 0,8
+  - name: AttackSpeed - 0,625
     statType: 6
     icon: {fileID: 0}
-    baseValue: 0.8
+    baseValue: 0.625
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackRange - 2
+  - name: AttackRange - 3,5
     statType: 7
     icon: {fileID: 0}
-    baseValue: 2
+    baseValue: 3.5
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 50
+  - name: PhysicalPower - 58
     statType: 8
     icon: {fileID: 0}
-    baseValue: 50
+    baseValue: 58
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -184,12 +184,28 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 300
+  - name: RessourcesGiven - 350
     statType: 21
     icon: {fileID: 0}
-    baseValue: 300
+    baseValue: 350
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  animatorController: {fileID: 9100000, guid: f8119f3a16bcc84448f012c88f587b0d, type: 2}
+  - name: IncreasedDamageTaken - 0
+    statType: 22
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: DamageReduction - 0
+    statType: 23
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  animatorController: {fileID: 9100000, guid: 576c990add2699f4b867640d970c31b2, type: 2}

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Entity_Dummy
   m_EditorClassIdentifier: 
   entityName: '[Type in]'
-  entityType: 6
+  entityType: 9
   combatType: 2
   entityStats:
-  - name: Health
+  - name: Health - 10000
     statType: 0
     icon: {fileID: 0}
     baseValue: 10000
@@ -24,7 +24,7 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: HealthRegeneration
+  - name: HealthRegeneration - 0,625
     statType: 1
     icon: {fileID: 0}
     baseValue: 0.625
@@ -32,7 +32,7 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances
+  - name: PhysicalResistances - 25
     statType: 4
     icon: {fileID: 0}
     baseValue: 25
@@ -40,7 +40,7 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances
+  - name: MagicalResistances - 25
     statType: 5
     icon: {fileID: 0}
     baseValue: 25

@@ -15,10 +15,13 @@ MonoBehaviour:
   statusEffectName: StatusEffect_Mage_Z_DamageReduction
   statusEffectDescription: Decreases target damage.
   statusEffectDuration: 3
+  type: 1
   statusEffectId: 2
   statusEffectIcon: {fileID: 21300000, guid: 7d0f73aed89f4e146b939c2b5afbcb89, type: 3}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
+  canStunTarget: 0
+  canRootTarget: 0
   isStackable: 0
   statModifiers:
   - Value: 10

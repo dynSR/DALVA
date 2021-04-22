@@ -47,4 +47,9 @@ public class Ability_Warrior_A : AbilityLogic
     {
         throw new System.NotImplementedException();
     }
+
+    protected override void ResetAbilityAttributes()
+    {
+
+    }
 }

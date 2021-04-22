@@ -15,10 +15,10 @@ public class Ability : ScriptableObject
     [Header("DAMAGE ATTRIBUTES")]
     [SerializeField] private float abilityPhysicalDamage = 0f;
     [SerializeField] private float abilityMagicalDamage = 0f;
-    [Range(0.0f, 1.0f)][SerializeField] private float abilityPhysicalRatio = 0f;
-    [Range(0.0f, 1.0f)][SerializeField] private float abilityMagicalRatio = 0f;
-    [Range(0.0f, 1.0f)] [SerializeField] private float targetHealthThreshold = 0f;
-    [Range(0.0f, 1.0f)] [SerializeField] private float abilityAddedDamageOnTargetHealthThreshold = 0f;
+    [Range(0.0f, 10f)][SerializeField] private float abilityPhysicalRatio = 0f;
+    [Range(0.0f, 10f)][SerializeField] private float abilityMagicalRatio = 0f;
+    [Range(0.0f, 10f)] [SerializeField] private float targetHealthThreshold = 0f;
+    [Range(0.0f, 10f)] [SerializeField] private float abilityAddedDamageOnTargetHealthThreshold = 0f;
 
     [Header("HEAL")]
     [SerializeField] private float abilityHealValue = 0f;
@@ -33,13 +33,17 @@ public class Ability : ScriptableObject
     [SerializeField] private float shieldHealthRatio = 0f;
 
     [Header("STATUS EFFECT")]
-    [SerializeField] private StatusEffect abilityStatusEffect;
+    [SerializeField] private StatusEffect defaultEffectAppliedOnAlly;
+    [SerializeField] private StatusEffect defaultEffectAppliedOnEnemy;
 
     [Header("MARK ATTRIBUTES")]
     [SerializeField] private float abilityMarkDuration = 0f;
+    [SerializeField] private float abilityDamageBonusOnMarkedTarget = 0f;
+    [SerializeField] private float abilityHealBonusOnMarkedTarget = 0f;
     [SerializeField] private bool abilityCanMark = false;
     [SerializeField] private bool abilityCanConsumeMark = false;
-    [SerializeField] private StatusEffect effectAppliedOnMarkedTarget;
+    [SerializeField] private StatusEffect effectAppliedOnMarkedAlly;
+    [SerializeField] private StatusEffect effectAppliedOnMarkedEnemy;
 
 
     [Header("APPLICATION LIMITS")]
@@ -82,12 +86,16 @@ public class Ability : ScriptableObject
     public float ShieldHealthRatio { get => shieldHealthRatio; set => shieldHealthRatio = value; }
     public float ShieldMagicalRatio { get => shieldMagicalRatio; set => shieldMagicalRatio = value; }
 
-    public StatusEffect AbilityStatusEffect { get => abilityStatusEffect; set => abilityStatusEffect = value; }
+    public StatusEffect DefaultEffectAppliedOnAlly { get => defaultEffectAppliedOnAlly; set => defaultEffectAppliedOnAlly = value; }
+    public StatusEffect DefaultEffectAppliedOnEnemy { get => defaultEffectAppliedOnEnemy; set => defaultEffectAppliedOnEnemy = value; }
 
     public float AbilityMarkDuration { get => abilityMarkDuration; set => abilityMarkDuration = value; }
+    public float AbilityDamageBonusOnMarkedTarget { get => abilityDamageBonusOnMarkedTarget; set => abilityDamageBonusOnMarkedTarget = value; }
+    public float AbilityHealBonusOnMarkedTarget { get => abilityHealBonusOnMarkedTarget; set => abilityHealBonusOnMarkedTarget = value; }
     public bool AbilityCanMark { get => abilityCanMark; set => abilityCanMark = value; }
     public bool AbilityCanConsumeMark { get => abilityCanConsumeMark; set => abilityCanConsumeMark = value; }
-    public StatusEffect EffectAppliedOnMarkedTarget { get => effectAppliedOnMarkedTarget; set => effectAppliedOnMarkedTarget = value; }
+    public StatusEffect EffectAppliedOnMarkedAlly { get => effectAppliedOnMarkedAlly; set => effectAppliedOnMarkedAlly = value; }
+    public StatusEffect EffectAppliedOnMarkedEnemy { get => effectAppliedOnMarkedEnemy; set => effectAppliedOnMarkedEnemy = value; }
 
     public float AbilityRange { get => abilityRange; set => abilityRange = value; }
     public float AbilityAreaOfEffect { get => abilityAreaOfEffect; set => abilityAreaOfEffect = value; }

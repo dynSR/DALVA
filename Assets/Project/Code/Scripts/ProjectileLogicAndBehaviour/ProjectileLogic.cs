@@ -10,7 +10,6 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private ProjectileType projectileType = ProjectileType.None;
     [SerializeField] private float projectileSpeed = 0f;
     [SerializeField] private float projectileAreaOfEffect = 0f;
-    [Range(0, 1)][SerializeField] private float projectileBonusDamagePercentage = 0f;
     [SerializeField] private LayerMask entitiesLayerMaskValue;
 
     [SerializeField] private GameObject subProjectile;
@@ -43,10 +42,10 @@ public class ProjectileLogic : MonoBehaviour
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
-    private void Awake()
-    {
-        if (Ability != null && Ability.AbilityStatusEffect != null) ProjectileStatusEffect = Ability.AbilityStatusEffect;
-    }
+    //private void Awake()
+    //{
+    //    if (Ability != null && Ability.AbilityStatusEffect != null) ProjectileStatusEffect = Ability.AbilityStatusEffect;
+    //}
 
     private void FixedUpdate()
     {
@@ -144,7 +143,7 @@ public class ProjectileLogic : MonoBehaviour
         if (targetStat.EntityIsMarked)
         {
             targetStat.EntityIsMarked = false;
-            markBonusDamage = projectileBonusDamagePercentage;
+            markBonusDamage = Ability.AbilityDamageBonusOnMarkedTarget;
         }
         else markBonusDamage = 0;
 
@@ -187,13 +186,20 @@ public class ProjectileLogic : MonoBehaviour
     {
         if (!targetStat.EntityIsMarked) return;
 
-            //Debug.Log("Has an ability");
+        float markBonusHeal;
+
+        if (targetStat.EntityIsMarked)
+        {
+            targetStat.EntityIsMarked = false;
+            markBonusHeal = Ability.AbilityHealBonusOnMarkedTarget;
+        }
+        else markBonusHeal = 0;
 
         if (targetStat.EntityIsMarked)
             targetStat.EntityIsMarked = false;
 
         targetStat.Heal(targetStat.transform, Ability.AbilityHealValue + (
-            ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * Ability.AbilityMagicalRatio), 
+            ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + markBonusHeal)), 
             ProjectileSenderStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
 
         DestroyProjectile();
@@ -208,7 +214,7 @@ public class ProjectileLogic : MonoBehaviour
         if (targetStat.EntityIsMarked)
         {
             targetStat.EntityIsMarked = false;
-            markBonusDamage = projectileBonusDamagePercentage;
+            markBonusDamage = Ability.AbilityDamageBonusOnMarkedTarget;
         }
         else markBonusDamage = 0;
 
@@ -260,6 +266,11 @@ public class ProjectileLogic : MonoBehaviour
         {
             ProjectileStatusEffect.ApplyEffect(targetCollider.transform);
         }
+    }
+
+    public void SetProjectileStatusEffect(StatusEffect effectToAttribute)
+    {
+        ProjectileStatusEffect = effectToAttribute;
     }
 
     protected void BounceOnOtherNearTarget()

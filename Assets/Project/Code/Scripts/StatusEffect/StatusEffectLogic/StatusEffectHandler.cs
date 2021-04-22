@@ -76,7 +76,7 @@ public class StatusEffectHandler : MonoBehaviour
         {
             if (AppliedStatusEffects[i].duration <= 0)
             {
-                AppliedStatusEffects[i].statusEffect.RemoveEffect(transform);
+                AppliedStatusEffects[i].statusEffect.RemoveEffect(transform, AppliedStatusEffects[i].statusEffect);
                 AppliedStatusEffects.RemoveAt(i);
             }
         }

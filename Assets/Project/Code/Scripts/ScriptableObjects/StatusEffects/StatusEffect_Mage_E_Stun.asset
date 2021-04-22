@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectName: StatusEffect_Mage_E_Stun
   statusEffectDescription: 
-  statusEffectDuration: 0
+  statusEffectDuration: 1.5856382
+  type: 1
   statusEffectId: 4
   statusEffectIcon: {fileID: 0}
   statusEffectVFXPrefab: {fileID: 0}
@@ -22,4 +23,7 @@ MonoBehaviour:
   canStunTarget: 1
   canRootTarget: 0
   isStackable: 0
-  statModifiers: []
+  statModifiers:
+  - Value: -0.99
+    StatType: 3
+    Type: 200

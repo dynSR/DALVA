@@ -19,7 +19,8 @@ public class HealthBarHandler : MonoBehaviour
     [SerializeField] private Image shieldBarFill;
 
     [Header("REFERENCES")]
-    [SerializeField] private TextMeshProUGUI valueText;
+    [SerializeField] private TextMeshProUGUI healthValueText;
+    [SerializeField] private TextMeshProUGUI regenerationValueText;
     [SerializeField] private EntityStats stats;
     [SerializeField] private SteleLogic stele;
 
@@ -28,7 +29,7 @@ public class HealthBarHandler : MonoBehaviour
         if (stats == null || isAStele && stele == null)
             Debug.LogError("You need to reference root parent's SteleLogic or EntityStats script. ", transform);
 
-        if (valueText != null)
+        if (healthValueText != null)
             SetHealthBar(stats.GetStat(StatType.Health).Value, stats.GetStat(StatType.Health).MaxValue);
     }
 
@@ -60,8 +61,19 @@ public class HealthBarHandler : MonoBehaviour
     {
         healthBarFill.fillAmount = currentValue / maxValue;
 
-        if (valueText != null)
-            valueText.text = currentValue.ToString("0") + " / " + maxValue.ToString("0");
+        if (healthValueText != null)
+            healthValueText.text = currentValue.ToString("0") + " / " + maxValue.ToString("0");
+
+        if (regenerationValueText != null)
+        {
+            if (currentValue >= maxValue || stats.IsDead) { regenerationValueText.gameObject.SetActive(false);}
+
+            else if (currentValue < maxValue && !regenerationValueText.gameObject.activeInHierarchy)
+            {
+                regenerationValueText.gameObject.SetActive(true);
+                regenerationValueText.text = " + " + stats.GetStat(StatType.HealthRegeneration).Value.ToString("0.0");
+            }
+        }
     }
 
     void SetShieldBar(float currentValue, float maxValue)

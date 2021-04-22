@@ -56,24 +56,22 @@ public class PlayerHUDManager : MonoBehaviour
         {
             for (int i = 0; i < statusEffectLayoutGroup.childCount; i++)
             {
-                StatusEffectContainer statusEffectContainer = statusEffectLayoutGroup.GetChild(i).GetComponent<StatusEffectContainer>();
-                StatusEffect containedStatusEffect = statusEffectContainer.ContainedStatusEffect;
-
-                if (containedStatusEffect != statusEffect && !statusEffectHandler.IsEffectAlreadyApplied(statusEffect))
+                if (!statusEffectHandler.IsEffectAlreadyApplied(statusEffect))
                 {
                     CreateContainer(statusEffect);
                     Debug.Log("Not the Same Effect ID > Create Container");
                     return;
                 }
 
-                //Si un de ces effets est le même que celui appliqué > Reset 
-                if (containedStatusEffect.StatusEffectId == statusEffect.StatusEffectId)
+                if (statusEffectHandler.AppliedStatusEffects[i].statusEffect.StatusEffectId == statusEffect.StatusEffectId)
                 {
                     Debug.Log("Same Effect ID");
-                    statusEffectContainer.ResetTimer();
+                    StatusEffect foundStatusEffect = statusEffectHandler.AppliedStatusEffects[i].statusEffect;
+
+                    foundStatusEffect.StatusEffectContainer.ResetTimer();
 
                     //Stackable increment something here
-                    if(containedStatusEffect.IsStackable)
+                    if(foundStatusEffect.IsStackable)
                     {
                         //Do something here
                     }
@@ -87,7 +85,9 @@ public class PlayerHUDManager : MonoBehaviour
         Debug.Log("Create Container");
 
         GameObject containerInstance = Instantiate(statusEffectContainer);
-        containerInstance.transform.SetParent(statusEffectLayoutGroup);
+
+        if (statusEffect.Type == StatusEffectType.Harmless) containerInstance.transform.SetParent(statusEffectLayoutGroup.GetChild(0));
+        else if (statusEffect.Type == StatusEffectType.Harmful) containerInstance.transform.SetParent(statusEffectLayoutGroup.GetChild(1));
 
         StatusEffectContainer container = containerInstance.GetComponent<StatusEffectContainer>();
 

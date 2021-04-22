@@ -35,4 +35,9 @@
     {
         throw new System.NotImplementedException();
     }
+
+    protected override void ResetAbilityAttributes()
+    {
+
+    }
 }

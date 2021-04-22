@@ -21,12 +21,11 @@ class MovingState : IState
     {
         //Debug.Log("MOVING");
 
-        if (controller.GetComponent<EntityStats>().IsDead || !controller.CanMove) return;
-
-        if (controller.IsStunned) return;
+        if (controller.GetComponent<EntityStats>().IsDead || controller.IsStunned || controller.IsRooted) return;
 
         if (controller.NPCInteractions.HasATarget) MoveTowardsTarget();
-        else if (!controller.NPCInteractions.HasATarget)
+        
+        if (!controller.NPCInteractions.HasATarget)
         {
             if (controller.isACampNPC) MoveTowardsStartingPosition();
             else MoveTowardsWaypoint();

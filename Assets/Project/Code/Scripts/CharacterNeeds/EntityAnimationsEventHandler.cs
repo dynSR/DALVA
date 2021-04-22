@@ -9,7 +9,7 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     private CharacterController Controller => GetComponentInParent<CharacterController>();
     #endregion
 
-    private void Awake() => MyAnimator.runtimeAnimatorController = Stats.UsedEntity.AnimatorController;
+    private void Awake() => MyAnimator.runtimeAnimatorController = Stats.BaseUsedEntity.AnimatorController;
 
     #region Attack animation
     public void RangedAttack_AnimationEvent()

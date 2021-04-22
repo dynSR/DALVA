@@ -35,18 +35,20 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     [Header("CHARACTER INFORMATIONS")]
     [SerializeField] private EntityTeam entityTeam;
-    [SerializeField] private BaseEntity usedEntity;
+    [SerializeField] private BaseEntity baseUsedEntity;
     [SerializeField] private List<AbilityLogic> entityAbilities;
     [SerializeField] private float entityLevel = 1f;
     public EntityTeam EntityTeam { get => entityTeam; set => entityTeam = value; }
-    public BaseEntity UsedEntity { get => usedEntity; private set => usedEntity = value; }
+    public BaseEntity BaseUsedEntity { get => baseUsedEntity; private set => baseUsedEntity = value; }
     public List<AbilityLogic> EntityAbilities { get => entityAbilities; }
     public float EntityLevel { get => entityLevel; set => entityLevel = value; }
 
     [Header("STATS")]
     private float healthPercentage;
     public List<Stat> entityStats;
+    [SerializeField] private bool entityIsAscended = false;
     public float HealthPercentage { get => healthPercentage; set => healthPercentage = value; }
+    public bool EntityIsAscended { get => entityIsAscended; set => entityIsAscended = value; }
 
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
@@ -101,6 +103,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         if (deathHUD != null)
             deathHUD.SetActive(false);
+
+        InvokeRepeating("RegenerateHealthOverTime", 1f, 1f);
     }
 
     private void Update() { 
@@ -110,9 +114,19 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
         if (Input.GetKeyDown(KeyCode.J)) Controller.StunTarget();
         if (Input.GetKeyDown(KeyCode.N)) Controller.RootTarget();
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (BaseUsedEntity.EntityType == EntityType.Mage)
+                AscendEntity(EntityType.Sorcerer);
+            else if (BaseUsedEntity.EntityType == EntityType.Sorcerer)
+                AscendEntity(EntityType.Priest);
+            else if (BaseUsedEntity.EntityType == EntityType.Priest)
+                AscendEntity(EntityType.Sorcerer);
+
+        }
     }
 
-    private void LateUpdate() => RegenerateHealth(transform, GetStat(StatType.HealthRegeneration).Value);
+    //private void LateUpdate() => StartCoroutine(RegenerateHealthOverTime(transform, GetStat(StatType.HealthRegeneration).Value, 1f));
 
     #region Settings at start of the game
     private void GetAllCharacterAbilities()
@@ -192,6 +206,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             }
             #endregion
 
+            #region Popup
             if (isAttackCritical)
                 global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
 
@@ -199,10 +214,29 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
             if (characterMagicalPower > 0)
                 global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 0.5f, CharacterHalfSize.z), Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
+            #endregion
 
             this.SourceOfDamage = sourceOfDamage;
 
-            GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
+            if (GetStat(StatType.Shield) == null || GetStat(StatType.Shield).Value <= 0)
+                GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
+
+            if (GetStat(StatType.Shield) != null && GetStat(StatType.Shield).Value > 0)
+            {
+                float totalDamage = ((int)characterPhysicalPower + (int)characterMagicalPower);
+
+                if (totalDamage <= GetStat(StatType.Shield).Value)
+                {
+                    RemoveShieldOnTarget(transform, totalDamage);
+                }
+                else if (totalDamage > GetStat(StatType.Shield).Value)
+                {
+                    float healthToRemoveMinusShield = totalDamage - GetStat(StatType.Shield).Value;
+
+                    RemoveShieldOnTarget(transform, GetStat(StatType.Shield).Value);
+                    GetStat(StatType.Health).Value -= healthToRemoveMinusShield;
+                }
+            }
 
             #region LifeSteal
             EntityStats sourceOfDamageStats = sourceOfDamage.GetComponent<EntityStats>();
@@ -251,23 +285,27 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
         {
-            if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
-
             if (targetStats.GetStat(StatType.HealAndShieldEffectiveness) != null && targetStats.GetStat(StatType.HealAndShieldEffectiveness).Value > 0)
                 regenerationThreshold += regenerationThreshold * targetStats.GetStat(StatType.HealAndShieldEffectiveness).Value / 100;
-
-            targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
 
             if (targetStats.GetStat(StatType.Health).Value + regenerationThreshold >= targetStats.GetStat(StatType.Health).MaxValue)
             {
                 regenerationThreshold = targetStats.GetStat(StatType.Health).MaxValue - targetStats.GetStat(StatType.Health).Value;
                 targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
             }
+            else targetStats.GetStat(StatType.Health).Value += regenerationThreshold;
 
             HealthPercentage = CalculateLifePercentage();
 
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
         }
+    }
+
+    void RegenerateHealthOverTime()
+    {
+        if (IsDead) return;
+
+        RegenerateHealth(transform, GetStat(StatType.HealthRegeneration).Value);
     }
 
     public void Heal(Transform target, float healAmount, float healEffectiveness)
@@ -312,7 +350,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         {
             if (shieldEffectiveness > 0)
                 shieldValue += shieldValue * shieldEffectiveness / 100;
-            else targetStats.GetStat(StatType.Shield).Value += shieldValue;
+            else targetStats.GetStat(StatType.Shield).Value += (int)shieldValue;
 
             OnShieldValueChanged?.Invoke(targetStats.GetStat(StatType.Shield).Value, targetStats.GetStat(StatType.Health).MaxValue);
         }
@@ -498,6 +536,39 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     }
     #endregion
 
+    #region Ascension
+    public void AscendEntity(EntityType newBaseEntity)
+    {
+        BaseUsedEntity.EntityType = newBaseEntity;
+        EntityIsAscended = true;
+        EntityAbilities[3].CanBeUsed = true;
+
+        switch (newBaseEntity)
+        {
+            //Prowler
+            case EntityType.Archer:
+                //Augmenter la portée
+                break;
+            case EntityType.DaggerMaster:
+                //Les attaques de base(2) et les compétences(5) appliquent l'effet "
+                //"Faiblesse"". (3 secondes) Faiblesse: réduit de 1 % la RP.Max 15 % (15 marques)"
+                break;
+
+            //Warrior
+            case EntityType.Berzerk:
+                break;
+            case EntityType.Coloss:
+                break;
+
+            //Mage
+            case EntityType.Priest:
+                break;
+            case EntityType.Sorcerer:
+                break;
+        }
+    }
+    #endregion
+
     #region Handle Stats
     void InitStats()
     {
@@ -539,59 +610,30 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         return currentLifePercentage;
     }
-
-    public void AscendEntity(EntityType newBaseEntity)
-    {
-        UsedEntity.EntityType = newBaseEntity;
-
-        switch (newBaseEntity)
-        {
-            //Prowler
-            case EntityType.Archer:
-                //Augmenter la portée
-                break;
-            case EntityType.DaggerMaster:
-                //Les attaques de base(2) et les compétences(5) appliquent l'effet "
-                //"Faiblesse"". (3 secondes) Faiblesse: réduit de 1 % la RP.Max 15 % (15 marques)"
-                break;
-
-            //Warrior
-            case EntityType.Berzerk:
-                break;
-            case EntityType.Coloss:
-                break;
-            
-            //Mage
-            case EntityType.Priest:
-                break;
-            case EntityType.Sorcerer:
-                break;
-        }
-    }
     #endregion
 
     #region Editor Purpose
     public void RefreshCharacterStats()
     {
-        if (usedEntity != null)
+        if (baseUsedEntity != null)
         {
             entityStats.Clear();
 
-            for (int i = 0; i < usedEntity.EntityStats.Count; i++)
+            for (int i = 0; i < baseUsedEntity.EntityStats.Count; i++)
             {
                 Stat stat = new Stat();
 
                 entityStats.Add(stat);
 
-                entityStats[i].Name = usedEntity.EntityStats[i].Name;
-                entityStats[i].StatType = usedEntity.EntityStats[i].StatType;
+                entityStats[i].Name = baseUsedEntity.EntityStats[i].Name;
+                entityStats[i].StatType = baseUsedEntity.EntityStats[i].StatType;
 
-                if(usedEntity.EntityStats[i].Icon != null)
-                    entityStats[i].Icon = usedEntity.EntityStats[i].Icon;
+                if(baseUsedEntity.EntityStats[i].Icon != null)
+                    entityStats[i].Icon = baseUsedEntity.EntityStats[i].Icon;
 
-                if (usedEntity.EntityStats[i].BaseValue > 0)
+                if (baseUsedEntity.EntityStats[i].BaseValue > 0)
                 {
-                    entityStats[i].BaseValue = usedEntity.EntityStats[i].BaseValue;
+                    entityStats[i].BaseValue = baseUsedEntity.EntityStats[i].BaseValue;
                 }
                 else
                 {
@@ -601,4 +643,16 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
     }
     #endregion
+
+    private void OnApplicationQuit()
+    {
+        if (BaseUsedEntity.EntityType == EntityType.Berzerk || BaseUsedEntity.EntityType == EntityType.Coloss)
+            BaseUsedEntity.EntityType = EntityType.Warrior;
+
+        else if (BaseUsedEntity.EntityType == EntityType.Sorcerer || BaseUsedEntity.EntityType == EntityType.Priest)
+            BaseUsedEntity.EntityType = EntityType.Mage;
+
+        else if (BaseUsedEntity.EntityType == EntityType.Archer || BaseUsedEntity.EntityType == EntityType.DaggerMaster)
+            BaseUsedEntity.EntityType = EntityType.Prowler;
+    }
 }

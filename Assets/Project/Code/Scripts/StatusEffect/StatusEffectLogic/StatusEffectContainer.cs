@@ -4,7 +4,13 @@ using UnityEngine.UI;
 
 public class StatusEffectContainer : MonoBehaviour
 {
+    [Header("REFERENCES")]
     [SerializeField] private Image statusEffectContainedIcon;
+    [SerializeField] private Image timerImage;
+
+    [Header("TIMER IMAGE COLOR")]
+    [SerializeField] private Color harmlessEffectColor;
+    [SerializeField] private Color harmfulEffectColor;
 
     private TextMeshProUGUI StatusEffectDurationText => GetComponentInChildren<TextMeshProUGUI>();
     public StatusEffect ContainedStatusEffect { get; set; }
@@ -20,6 +26,7 @@ public class StatusEffectContainer : MonoBehaviour
     {
         SetIcon();
         ResetTimer();
+        SetTimerImageColor();
     }
 
     public void DestroyContainer()
@@ -44,6 +51,8 @@ public class StatusEffectContainer : MonoBehaviour
 
         StatusEffectDurationText.text = localTimer.ToString("0");
 
+        UpdateTimerImageFillAmount(localTimer, ContainedStatusEffect.StatusEffectDuration);
+
         if (localTimer <= 1)
             StatusEffectDurationText.text = localTimer.ToString("0.0");
     }
@@ -56,5 +65,16 @@ public class StatusEffectContainer : MonoBehaviour
         {
             DestroyContainer();
         }
+    }
+
+    void SetTimerImageColor()
+    {
+        if (ContainedStatusEffect.Type == StatusEffectType.Harmless) timerImage.color = harmlessEffectColor;
+        else if (ContainedStatusEffect.Type == StatusEffectType.Harmful) timerImage.color = harmfulEffectColor;
+    }
+
+    void UpdateTimerImageFillAmount(float current, float min)
+    {
+        timerImage.fillAmount = current / min;
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityDescription: "Sort de zone. Apr\xE8s 0,5s, inflige (60 + 50% PM) d\xE9g\xE2ts
     magiques et marque les ennemis pendant 3 secondes."
   abilityKey: 122
-  abilityIcon: {fileID: 21300000, guid: e92aaba2844ac8f31e7bb25323e9446e, type: 3}
+  abilityIcon: {fileID: 21300000, guid: 3220d304c359df7937163c71f97b872b, type: 3}
   abilityCost: 0
   abilityEffectObject: {fileID: 3276490608242782461, guid: 7d6cbb0c3b4b9b145be8f4dd47ef0277, type: 3}
   isPointAndClick: 0
@@ -34,11 +34,13 @@ MonoBehaviour:
   abilityCanApplyShieldToTarget: 0
   shieldMagicalRatio: 0
   shieldHealthRatio: 0
-  abilityStatusEffect: {fileID: 0}
+  defaultEffectAppliedOnAlly: {fileID: 0}
+  defaultEffectAppliedOnEnemy: {fileID: 0}
   abilityMarkDuration: 3
   abilityCanMark: 1
   abilityCanConsumeMark: 0
-  effectAppliedOnMarkedTarget: {fileID: 0}
+  effectAppliedOnMarkedAlly: {fileID: 0}
+  effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 10
   abilityAreaOfEffect: 4
   abilityCooldown: 9

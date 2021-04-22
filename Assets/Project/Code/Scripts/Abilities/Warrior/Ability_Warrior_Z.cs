@@ -31,4 +31,9 @@ public class Ability_Warrior_Z : AbilityLogic
     {
         throw new System.NotImplementedException();
     }
+
+    protected override void ResetAbilityAttributes()
+    {
+
+    }
 }

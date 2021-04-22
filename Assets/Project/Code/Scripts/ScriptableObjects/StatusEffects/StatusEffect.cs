@@ -1,17 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
+public enum StatusEffectType
+{
+    Harmless,
+    Harmful,
+}
 
 [CreateAssetMenu(fileName = "StatusEffect_", menuName = "ScriptableObjects/StatusEffects", order = 1)]
 public class StatusEffect : ScriptableObject
 {
-    [Header("STATUS EFFECT INFORMATIONS & COMPONENTS")]
+    [Header("CORE INFORMATIONS")]
     [SerializeField] private string statusEffectName;
     [SerializeField] private string statusEffectDescription;
     [SerializeField] private float statusEffectDuration;
+    [SerializeField] private StatusEffectType type;
     [SerializeField] private int statusEffectId;
+
+    [Header("APPEARENCE")]
     [SerializeField] private Sprite statusEffectIcon;
     [SerializeField] private GameObject statusEffectVFXPrefab;
+
+    [Header("PROPERTIES")]
     [SerializeField] private bool canApplyOnAlly = false;
     [SerializeField] private bool canStunTarget = false;
     [SerializeField] private bool canRootTarget = false;
@@ -23,6 +33,7 @@ public class StatusEffect : ScriptableObject
     public int StatusEffectId { get => statusEffectId; }
     public Sprite StatusEffectIcon { get => statusEffectIcon; }
     public GameObject StatusEffectVFXPrefab { get => statusEffectVFXPrefab; }
+    public StatusEffectType Type { get => type; set => type = value; }
 
     [Header("LOGIC STUFFS")]
     [SerializeField] private List<StatModifier> statModifiers;
@@ -66,7 +77,7 @@ public class StatusEffect : ScriptableObject
         }
     }
 
-    public void RemoveEffect(Transform target)
+    public void RemoveEffect(Transform target, StatusEffect effectToRemove)
     {
         for (int i = 0; i < StatModifiers.Count; i++)
         {
@@ -84,16 +95,34 @@ public class StatusEffect : ScriptableObject
         }
 
         //Maybe it will not work has to be checked !!!!!!!!!!!
-        if (GetTargetStatusEffectHandler(target).AppliedStatusEffects.Count >= 1)
+        if (GetTargetStatusEffectHandler(target).AppliedStatusEffects.Count > 1)
         {
             for (int i = 0; i < GetTargetStatusEffectHandler(target).AppliedStatusEffects.Count; i++)
             {
-                if (!GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanRootTarget) 
+                if (GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect != effectToRemove
+                    && effectToRemove.CanRootTarget
+                    && !GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanRootTarget) 
                     GetTargetController(target).IsRooted = false;
 
-                if (!GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanStunTarget) 
+                if (GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect != effectToRemove 
+                    && effectToRemove.CanStunTarget
+                    && !GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanStunTarget)
+                {
+                    GetTargetController(target).GetComponent<InteractionSystem>().CanPerformAttack = true;
                     GetTargetController(target).IsStunned = false;
+                }   
             }
+        }
+        else
+        {
+            if (effectToRemove.CanRootTarget)
+                GetTargetController(target).IsRooted = false;
+
+            if (effectToRemove.CanStunTarget)
+            {
+                GetTargetController(target).GetComponent<InteractionSystem>().CanPerformAttack = true;
+                GetTargetController(target).IsStunned = false;
+            }  
         }
 
         Destroy(CreatedVFX);

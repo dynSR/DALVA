@@ -17,7 +17,7 @@ MonoBehaviour:
     magiques. Fait (30% PM) d\xE9g\xE2ts suppl\xE9mentaires si l'ennemi est marqu\xE9
     (consomme la marque)."
   abilityKey: 97
-  abilityIcon: {fileID: 21300000, guid: 9f69b220176e6964fbd87f5f158d45e3, type: 3}
+  abilityIcon: {fileID: 21300000, guid: 2baffb6b5a0f9cf37637a7131641f493, type: 3}
   abilityCost: 75
   abilityEffectObject: {fileID: 8403224405550740081, guid: fc8cf052bd4191546be55ee2d6d05568, type: 3}
   isPointAndClick: 0
@@ -35,11 +35,13 @@ MonoBehaviour:
   abilityCanApplyShieldToTarget: 0
   shieldMagicalRatio: 0
   shieldHealthRatio: 0
-  abilityStatusEffect: {fileID: 0}
+  defaultEffectAppliedOnAlly: {fileID: 0}
+  defaultEffectAppliedOnEnemy: {fileID: 0}
   abilityMarkDuration: 0
   abilityCanMark: 0
   abilityCanConsumeMark: 1
-  effectAppliedOnMarkedTarget: {fileID: 0}
+  effectAppliedOnMarkedAlly: {fileID: 0}
+  effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 0
   abilityAreaOfEffect: 1.5
   abilityCooldown: 7

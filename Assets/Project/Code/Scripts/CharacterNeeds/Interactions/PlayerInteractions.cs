@@ -3,10 +3,19 @@ using Photon.Pun;
 
 public class PlayerInteractions : InteractionSystem
 {
+    [SerializeField] private KeyCode attackOnMoveInput;
+    [SerializeField] private GameObject attackRange;
+    private bool playerIsTryingToAttack = false;
+    public bool PlayerIsTryingToAttack { get => playerIsTryingToAttack; set => playerIsTryingToAttack = value; }
+
+
     [SerializeField] private bool isHarvesting = false;
     [SerializeField] private bool isInteractingWithAStele = false;
+    public KeyCode AttackOnMoveInput { get => attackOnMoveInput; set => attackOnMoveInput = value; }
     public bool IsHarvesting { get => isHarvesting; set => isHarvesting = value; }
     public bool IsInteractingWithAStele { get => isInteractingWithAStele; set => isInteractingWithAStele = value; }
+
+    private CursorLogic CursorLogicAttached => GetComponent<CursorLogic>();
 
     protected override void Update()
     {
@@ -17,7 +26,17 @@ public class PlayerInteractions : InteractionSystem
     #region Set player's target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
+        if (UtilityClass.IsKeyPressed(AttackOnMoveInput))
+        {
+            CursorLogicAttached.SetCursorToAttackOnMoveAppearance();
+            SetAttackRangeSize();
+            DisplayAttackRange();
+            PlayerIsTryingToAttack = true;
+            return;
+        }
+
         if (UtilityClass.RightClickIsPressed()
+            || UtilityClass.LeftClickIsPressed() && PlayerIsTryingToAttack
             && (GameObject.Find("GameNetworkManager") == null || GetComponent<PhotonView>().IsMine))
         {
             //Debug.Log("Set target on mouse click");
@@ -149,6 +168,21 @@ public class PlayerInteractions : InteractionSystem
 
         IsHarvesting = false;
         Animator.SetBool("IsCollecting", false);
+    }
+
+    private void SetAttackRangeSize()
+    {
+        attackRange.transform.localScale = new Vector3(Stats.GetStat(StatType.AttackRange).Value, Stats.GetStat(StatType.AttackRange).Value, attackRange.transform.localScale.z);
+    }
+
+    private void DisplayAttackRange()
+    {
+        attackRange.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    private void HideAttackRange()
+    {
+        attackRange.GetComponent<SpriteRenderer>().enabled = false;
     }
     #endregion
 

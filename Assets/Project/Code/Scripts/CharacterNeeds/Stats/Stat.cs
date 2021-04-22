@@ -14,6 +14,7 @@ public enum StatType
     Cooldown_Reduction, HealAndShieldEffectiveness, HarmfulEffectReduction,
     RessourcesGiven,
     IncreasedDamageTaken, DamageReduction,
+    EquipementCostReduction, BonusDamageAgaintBuildings
 }
 
 [Serializable]

@@ -8,14 +8,16 @@ public class CursorLogic : MonoBehaviour
     [SerializeField] private Texture2D normalCursorIcon;
     [SerializeField] private Texture2D attackCursorIcon;
     [SerializeField] private Texture2D interactionCursorIcon;
+    [SerializeField] private Texture2D attackOnMoveCursorIcon;
 
     public Texture2D NormalCursorIcon { get => normalCursorIcon; }
     public Texture2D AttackCursorIcon { get => attackCursorIcon; }
     public Texture2D InteractionCursorIcon { get => interactionCursorIcon; }
+    public Texture2D AttackOnMoveCursorIcon { get => attackOnMoveCursorIcon; }
 
     private PlayerController Controller => GetComponent<PlayerController>();
     private EntityStats Stats => GetComponent<EntityStats>();
-    private InteractionSystem TargetHandler => GetComponent<InteractionSystem>();
+    private PlayerInteractions Interactions => GetComponent<PlayerInteractions>();
 
     RaycastHit cursorHit;
 
@@ -32,7 +34,7 @@ public class CursorLogic : MonoBehaviour
     #region Set cursor appearance when its hovering an entity
     void SetCursorAppearance()
     {
-        if (Controller.IsCursorHoveringUIElement || Controller.IsStunned) return;
+        if (Controller.IsCursorHoveringUIElement || Controller.IsStunned || Interactions.PlayerIsTryingToAttack) return;
 
         if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out cursorHit, Mathf.Infinity))
         {
@@ -95,16 +97,16 @@ public class CursorLogic : MonoBehaviour
             {
                 SetCursorToNormalAppearance();
 
-                if (TargetHandler.KnownTarget != null)
+                if (Interactions.KnownTarget != null)
                 {
-                    if (TargetHandler.LastKnownTarget != null)
+                    if (Interactions.LastKnownTarget != null)
                     {
-                        TargetHandler.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(TargetHandler.LastKnownTarget.GetComponent<Outline>());
-                        TargetHandler.LastKnownTarget = null;
+                        Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<Outline>());
+                        Interactions.LastKnownTarget = null;
                     }
 
-                    TargetHandler.KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(TargetHandler.KnownTarget.GetComponent<Outline>());
-                    TargetHandler.KnownTarget = null;
+                    Interactions.KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.KnownTarget.GetComponent<Outline>());
+                    Interactions.KnownTarget = null;
                 }
             }
         }
@@ -128,26 +130,31 @@ public class CursorLogic : MonoBehaviour
     {
         Cursor.SetCursor(InteractionCursorIcon, Vector2.zero, CursorMode.Auto);
     }
+
+    public void SetCursorToAttackOnMoveAppearance()
+    {
+        Cursor.SetCursor(AttackOnMoveCursorIcon, Vector2.zero, CursorMode.Auto);
+    }
     #endregion
 
     private void AssignKnownTarget(Transform targetFound)
     {
         if (targetFound.GetComponent<EntityDetection>() != null)
         {
-            if (TargetHandler.KnownTarget != null)
+            if (Interactions.KnownTarget != null)
             {
-                TargetHandler.LastKnownTarget = TargetHandler.KnownTarget;
-                TargetHandler.KnownTarget = targetFound.transform;
+                Interactions.LastKnownTarget = Interactions.KnownTarget;
+                Interactions.KnownTarget = targetFound.transform;
 
-                if (TargetHandler.LastKnownTarget != TargetHandler.KnownTarget && TargetHandler.LastKnownTarget.GetComponent<Outline>().enabled)
+                if (Interactions.LastKnownTarget != Interactions.KnownTarget && Interactions.LastKnownTarget.GetComponent<Outline>().enabled)
                 {
-                    TargetHandler.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(TargetHandler.LastKnownTarget.GetComponent<Outline>());
+                    Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<Outline>());
                 }
             }
             else
             {
-                TargetHandler.LastKnownTarget = targetFound.transform;
-                TargetHandler.KnownTarget = targetFound.transform;
+                Interactions.LastKnownTarget = targetFound.transform;
+                Interactions.KnownTarget = targetFound.transform;
             }
         }
     }

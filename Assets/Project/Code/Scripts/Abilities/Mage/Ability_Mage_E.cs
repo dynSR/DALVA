@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Ability_Mage_E : AbilityLogic
 {
@@ -10,6 +11,12 @@ public class Ability_Mage_E : AbilityLogic
     [SerializeField] private StatusEffect stunEffect;
     [SerializeField] private StatusEffect rootEffect;
 
+    [Header("SHIELD PROPAGATION AREA OF EFFECT")]
+    [SerializeField] private GameObject shieldZone;
+    [SerializeField] private float shieldZoneSize;
+
+    float ShieldValue => Ability.AbilityShieldValue + (Stats.GetStat(StatType.MagicalPower).Value * Ability.ShieldMagicalRatio);
+
     protected override void Awake() => base.Awake();
     protected override void Update() => base.Update();
 
@@ -19,45 +26,96 @@ public class Ability_Mage_E : AbilityLogic
 
         EntityStats abilityTargetStats = AbilityTarget.GetComponent<EntityStats>();
 
+        //if(UsedEffectIndex != AbilityEffect.IV)
+        //    ApplyShieldOnOneTarget(abilityTargetStats);
+
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
                 //"Sort ciblé : 
                 //- sur ennemi: inflige(40 + 40 % PM) dégâts et ralentit de 15 VD pendant 2s, si la cible est marqué, immobilise au lieu de ralentir
                 //- sur allié: donne un bouclier de(50 + 150 % PM) points de vie(PV) pendant 2s."
-                if (abilityTargetStats.EntityTeam == Stats.EntityTeam)
-                {
-                    Ability.AbilityStatusEffect = shieldEffect;
-
-                    shieldEffect.StatModifiers.Clear();
-                    shieldEffect.StatModifiers.Add(
-                        new StatModifier(Ability.AbilityShieldValue + (Stats.GetStat(StatType.MagicalPower).Value * Ability.ShieldMagicalRatio),
-                        StatType.Shield,
-                        StatModType.Flat,
-                        shieldEffect));
-
-                    abilityTargetStats.ApplyShieldOnTarget(AbilityTarget, shieldEffect.StatModifiers[0].Value, 0f);
-                }
-                else if (abilityTargetStats.EntityTeam != Stats.EntityTeam) Ability.AbilityStatusEffect = slowEffect;
-                    break;
+                Ability.EffectAppliedOnMarkedEnemy = rootEffect;
+                Ability.EffectAppliedOnMarkedAlly = null;
+                break;
             case AbilityEffect.II:
                 //Étourdit la cible au lieu de l'immobiliser si elle est marquée.
-                if (abilityTargetStats.EntityIsMarked) Ability.EffectAppliedOnMarkedTarget = stunEffect;
+                Ability.EffectAppliedOnMarkedEnemy = stunEffect;
+                Ability.EffectAppliedOnMarkedAlly = null;
                 break;
             case AbilityEffect.III:
                 //"Le Z marque aussi les alliés.
                 //Si l'allié est marqué, soigne de (6% PV max) points de vie (PV) en plus du bouclier."
-                if (abilityTargetStats.EntityTeam == Stats.EntityTeam) abilityTargetStats.Heal(AbilityTarget, abilityTargetStats.GetStat(StatType.Health).MaxValue * 0.6f, Stats.GetStat(StatType.HealAndShieldEffectiveness).Value);
+                Ability.EffectAppliedOnMarkedEnemy = rootEffect; //en trop
+                Ability.EffectAppliedOnMarkedAlly = null;
+                if (abilityTargetStats.EntityTeam == Stats.EntityTeam && abilityTargetStats.EntityIsMarked) 
+                    abilityTargetStats.Heal(AbilityTarget, abilityTargetStats.GetStat(StatType.Health).MaxValue * 0.06f, Stats.GetStat(StatType.HealAndShieldEffectiveness).Value);
                 break;
             case AbilityEffect.IV:
                 //"Le Z marque aussi les alliés.
                 //Propage le bouclier aux alliés proches marqués."
+                Ability.EffectAppliedOnMarkedEnemy = rootEffect; //en trop
+                Ability.EffectAppliedOnMarkedAlly = shieldEffect;
+                ApplyShieldOnOtherAllies();
                 break;
         }
+    }
+
+    void ApplyShieldOnOneTarget(EntityStats abilityTargetStats)
+    {
+        if (abilityTargetStats.EntityTeam == Stats.EntityTeam)
+        {
+            shieldEffect.StatModifiers[0].Value = ShieldValue;
+
+            //shieldEffect.ApplyEffect(abilityTargetStats.transform); //Pose PB
+
+            abilityTargetStats.ApplyShieldOnTarget(AbilityTarget, shieldEffect.StatModifiers[0].Value, 0f);
+        }
+    }
+
+    void ApplyShieldOnOtherAllies()
+    {
+        ApplyShieldOnOneTarget(AbilityTarget.GetComponent<EntityStats>());
+
+        GameObject shieldZoneInstance = Instantiate(shieldZone, AbilityTarget.position, Quaternion.identity);
+        ShieldZone _shieldZone = shieldZoneInstance.GetComponent<ShieldZone>();
+
+        _shieldZone.SetShieldZone(shieldZoneSize, this, shieldEffect, shieldEffect.StatusEffectDuration, ShieldValue, 0f, false, true);
+
+        //Collider[] nearMarkedAllies = Physics.OverlapSphere(new Vector3(CastLocation.x, 0.01f, CastLocation.z), shieldPropagationZoneSize);
+
+        //List<EntityStats> nearMarkedAlliesStats = new List<EntityStats>();
+
+        //for (int i = 0; i < nearMarkedAllies.Length; i++)
+        //{
+        //    if (nearMarkedAllies[i].GetComponent<EntityStats>() != null)
+        //        nearMarkedAlliesStats.Add(nearMarkedAllies[i].GetComponent<EntityStats>());
+
+        //    if (nearMarkedAlliesStats.Count >= 1)
+        //    {
+        //        EntityStats allyStats = nearMarkedAllies[i].GetComponent<EntityStats>();
+        //        Debug.Log(nearMarkedAllies[i].name);
+
+        //        if (allyStats != null
+        //            && allyStats.EntityTeam == Stats.EntityTeam
+        //            && allyStats.EntityIsMarked)
+        //        {
+        //            Debug.Log(nearMarkedAllies[i].name + " has entity stats script attached");
+
+        //            allyStats.ApplyShieldOnTarget(AbilityTarget, Ability.AbilityShieldValue + (Stats.GetStat(StatType.MagicalPower).Value * Ability.ShieldMagicalRatio), 0f);
+        //            allyStats.EntityIsMarked = false;
+        //        }
+        //    }
+        //}
     }
 
     protected override void SetAbilityAfterAPurchase()
     {
         throw new System.NotImplementedException();
+    }
+
+    protected override void ResetAbilityAttributes()
+    {
+
     }
 }

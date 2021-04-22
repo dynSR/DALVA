@@ -8,6 +8,8 @@ public class AbilitiesCooldownHandler : MonoBehaviour
 
     [SerializeField] private List<AbilityCooldownData> allAbilitiesOnCooldown = new List<AbilityCooldownData>();
 
+    private EntityStats stats;
+
     [System.Serializable]
     private class AbilityCooldownData
     {
@@ -21,6 +23,11 @@ public class AbilitiesCooldownHandler : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (GetComponent<EntityStats>() != null) stats = GetComponent<EntityStats>();
+    }
+
     private void Update()
     {
         ApplyAbilityCooldown();
@@ -30,7 +37,23 @@ public class AbilitiesCooldownHandler : MonoBehaviour
     #region Abilities Cooldown Handler Section
     public void PutAbilityOnCooldown(AbilityLogic ability)
     {
-        allAbilitiesOnCooldown.Add(new AbilityCooldownData(ability, ability.Ability.AbilityCooldown));
+        float cooldownValue = 0;
+
+        if (stats.GetStat(StatType.Cooldown_Reduction) != null 
+            && stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
+        {
+            cooldownValue = ability.Ability.AbilityCooldown - (ability.Ability.AbilityCooldown * (stats.GetStat(StatType.Cooldown_Reduction).Value / 100));
+        }
+        else if (stats.GetStat(StatType.Cooldown_Reduction) == null 
+            || stats.GetStat(StatType.Cooldown_Reduction) != null 
+            && stats.GetStat(StatType.Cooldown_Reduction).Value == 0)
+        {
+            cooldownValue = ability.Ability.AbilityCooldown;
+        }
+
+
+        allAbilitiesOnCooldown.Add(new AbilityCooldownData(ability, cooldownValue));
+
         OnAbitilityUsed?.Invoke(ability);
     }
 

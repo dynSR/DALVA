@@ -14,16 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: 
   abilityDescription: 
-  abilityKey: 0
-  abilityIcon: {fileID: 0}
+  abilityKey: 114
+  abilityIcon: {fileID: 21300000, guid: c893e7c31d46f23e090dc90b2edf0c5c, type: 3}
   abilityCost: 0
   abilityEffectObject: {fileID: 0}
+  isPointAndClick: 0
   abilityPhysicalDamage: 0
-  abilityMagicalDamage: 0
+  abilityMagicalDamage: 150
   abilityPhysicalRatio: 0
-  abilityMagicalRatio: 0
-  abilityRange: 0
+  abilityMagicalRatio: 1.5
+  targetHealthThreshold: 0
+  abilityAddedDamageOnTargetHealthThreshold: 0
+  abilityHealValue: 25
+  abilityCanHealTarget: 1
+  healMagicalRatio: 0
+  healHealthRatio: 0
+  abilityShieldValue: 0
+  abilityCanApplyShieldToTarget: 0
+  shieldMagicalRatio: 0
+  shieldHealthRatio: 0
+  defaultEffectAppliedOnAlly: {fileID: 0}
+  defaultEffectAppliedOnEnemy: {fileID: 0}
+  abilityMarkDuration: 0
+  abilityDamageBonusOnMarkedTarget: 0
+  abilityHealBonusOnMarkedTarget: 0
+  abilityCanMark: 0
+  abilityCanConsumeMark: 0
+  effectAppliedOnMarkedAlly: {fileID: 0}
+  effectAppliedOnMarkedEnemy: {fileID: 0}
+  abilityRange: 8
   abilityAreaOfEffect: 0
-  abilityCooldown: 0
+  abilityCooldown: 90
+  abilityTimeToCast: 0
   abilityDuration: 0
   instantCasting: 0
+  delayBeforeApplyingDamageOrEffect: 0

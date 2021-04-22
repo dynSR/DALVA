@@ -30,4 +30,9 @@ public class Ability_Warrior_E : AbilityLogic
     {
         throw new System.NotImplementedException();
     }
+
+    protected override void ResetAbilityAttributes()
+    {
+
+    }
 }

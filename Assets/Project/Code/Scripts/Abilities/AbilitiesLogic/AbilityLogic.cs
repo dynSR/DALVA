@@ -64,7 +64,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     protected virtual void Awake()
     {
-        UsedEffectIndex = AbilityEffect.I;
+        //UsedEffectIndex = AbilityEffect.I;
+        if (Stats.EntityAbilities.Count != 0) Stats.EntityAbilities[3].CanBeUsed = false;
     }
 
     protected virtual void Update()
@@ -131,7 +132,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     private void TurnCharacterTowardsLaunchDirection()
     {
-        if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
+        if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity) && AbilityTarget != transform)
         {
             Controller.HandleCharacterRotationBeforeCasting(transform, hit.point, Controller.RotateVelocity, Controller.RotationSpeed);
         }
@@ -215,6 +216,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if (Ability.IsPointAndClick)
         {
             ApplyingDamageOnTarget(abilityTarget.GetComponent<Collider>());
+            Debug.Log("E on me");
             yield break;
         }
 
@@ -225,6 +227,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     }
     #endregion
 
+    #region Applying ability damage
     void ApplyingDamageOnTarget(Collider collider)
     {
         EntityStats targetStat = collider.GetComponent<EntityStats>();
@@ -281,73 +284,53 @@ public abstract class AbilityLogic : MonoBehaviourPun
             //Applying mark to target(s), if the ability can mark it/them
             if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));
 
-            //Applying ability effect - with a mark or not 
-            if (Ability.AbilityStatusEffect != null || targetStat.EntityIsMarked && Ability.EffectAppliedOnMarkedTarget != null)
+            #region Effect applied on enemy target whether it is marked or not
+            if ((Ability.DefaultEffectAppliedOnEnemy != null || Ability.EffectAppliedOnMarkedEnemy != null) && targetStat.EntityTeam != Stats.EntityTeam)
             {
-                //Effect is applied as long as target is marked
-                if (Ability.EffectAppliedOnMarkedTarget != null && Ability.AbilityCanConsumeMark)
+                if (!targetStat.EntityIsMarked)
                 {
-                    Debug.Log("MONSIEUR DURATION MONSIEUR PITIÉ");
-                    Ability.EffectAppliedOnMarkedTarget.StatusEffectDuration = targetStat.ExtentedMarkTime;
+                    //Target's Not Marked
+                    Ability.DefaultEffectAppliedOnEnemy.ApplyEffect(collider.transform);
                 }
 
-                if (Stats.EntityTeam == targetStat.EntityTeam && Ability.AbilityStatusEffect.CanApplyOnAlly
-                    || Stats.EntityTeam == targetStat.EntityTeam && Ability.EffectAppliedOnMarkedTarget.CanApplyOnAlly)
+                //Target's Marked
+                else
                 {
-                    //Debug.Log(Ability.AbilityStatusEffect.ToString());
-
-                    if (!targetStat.EntityIsMarked)
-                        Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
-                    else if (targetStat.EntityIsMarked)
-                        Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
-                }
-                else if (Stats.EntityTeam != targetStat.EntityTeam)
-                {
-                    Debug.Log("ENTITY IS MARKED, APPLY THE EFFECT SVP MONSIEUR");
-                    if (!targetStat.EntityIsMarked)
-                        Ability.AbilityStatusEffect.ApplyEffect(collider.transform);
-                    else if (targetStat.EntityIsMarked)
-                        Ability.EffectAppliedOnMarkedTarget.ApplyEffect(collider.transform);
+                    Ability.EffectAppliedOnMarkedEnemy.StatusEffectDuration = targetStat.ExtentedMarkTime;
+                    Ability.EffectAppliedOnMarkedEnemy.ApplyEffect(collider.transform);
                 }
             }
+            #endregion
+
+            #region Effect applied on ally target whether it is marked or not
+            else if ((Ability.DefaultEffectAppliedOnAlly != null || Ability.EffectAppliedOnMarkedAlly != null) && targetStat.EntityTeam == Stats.EntityTeam)
+            {
+                if (!targetStat.EntityIsMarked)
+                {
+                    //Target's Not Marked
+                    Ability.DefaultEffectAppliedOnAlly.ApplyEffect(collider.transform);
+                }
+                //Target's Marked
+                else
+                {
+                    Ability.EffectAppliedOnMarkedAlly.StatusEffectDuration = targetStat.ExtentedMarkTime;
+                    Ability.EffectAppliedOnMarkedAlly.ApplyEffect(collider.transform);
+                }
+            }
+
+            if(Ability.AbilityCanConsumeMark) targetStat.EntityIsMarked = false;
+
+            #endregion
+
             #endregion
 
             abilityTarget = null;
         }
     }
-
+    #endregion
 
     #region Modifying ability's attributes
     protected abstract void SetAbilityAfterAPurchase();
-
-    protected void SetRange(float range, float areaOfEffect, GameObject normalRangeObject, GameObject augmentedRange, bool usesNormalRange = false)
-    {
-        if (usesNormalRange)
-        {
-            normalRangeObject.SetActive(true);
-            augmentedRange.SetActive(false);
-        }
-        else
-        {
-            normalRangeObject.SetActive(false);
-            augmentedRange.SetActive(true);
-        }
-
-        Ability.AbilityRange = range;
-        Ability.AbilityAreaOfEffect = areaOfEffect;
-    }
-
-    protected void SetAbilityStatusEffect(StatusEffect effect = null)
-    {
-        if (Ability.AbilityStatusEffect != null && effect == null) Ability.AbilityStatusEffect = null;
-        else Ability.AbilityStatusEffect = effect;
-    }
-
-    protected void SetAbilityStatusEffectOnMarkedTarget(StatusEffect effect = null)
-    {
-        if (Ability.EffectAppliedOnMarkedTarget != null && effect == null) Ability.EffectAppliedOnMarkedTarget = null;
-        else Ability.EffectAppliedOnMarkedTarget = effect;
-    }
 
     protected void SetAbilityMarkDuration(float duration)
     {
@@ -405,4 +388,11 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Gizmos.DrawWireSphere(transform.position, Ability.AbilityRange);
     }
     #endregion
+
+    protected abstract void ResetAbilityAttributes();
+
+    private void OnApplicationQuit()
+    {
+        ResetAbilityAttributes();
+    }
 }

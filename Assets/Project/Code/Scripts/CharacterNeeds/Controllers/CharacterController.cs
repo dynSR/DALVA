@@ -13,7 +13,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     [SerializeField] private float motionSmoothTime = .1f;
     [SerializeField] private float rotateVelocity = .1f;
     [SerializeField] private Animator characterAnimator;
-    private bool canMove = true;
+    [SerializeField] private bool canMove = true;
     private bool isCasting = false;
     [SerializeField] private bool isStunned = false;
     [SerializeField] private bool isRooted = false;
@@ -111,13 +111,16 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     {
         OnTargetStunned?.Invoke();
 
-        Agent.ResetPath();
+        //Agent.ResetPath();
+        Interactions.ResetInteractionState();
+        Interactions.CanPerformAttack = false;
+
         IsStunned = true;
     }
 
     public void RootTarget()
     {
-        Agent.ResetPath();
+        //Agent.ResetPath();
         IsRooted = true;
     }
     #endregion

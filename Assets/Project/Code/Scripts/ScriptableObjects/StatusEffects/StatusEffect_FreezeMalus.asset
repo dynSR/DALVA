@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66b99f3a0b6e2f4882ff62c17a6b6e1, type: 3}
   m_Name: StatusEffect_FreezeMalus
   m_EditorClassIdentifier: 
-  statusEffectName: 
-  statusEffectDescription: 
-  statusEffectDuration: 0
-  statusEffectId: 0
-  statusEffectIcon: {fileID: 0}
+  statusEffectName: "G\xE8le"
+  statusEffectDescription: "R\xE9duit de 15%VD/VA"
+  statusEffectDuration: 60
+  statusEffectId: 17
+  statusEffectIcon: {fileID: 21300000, guid: 1ff9efe172d32b91a9de7ba47be2e062, type: 3}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
   isStackable: 0
-  statModifiers: []
+  statModifiers:
+  - Value: -0.15
+    StatType: 3
+    Type: 200
+  - Value: -0.15
+    StatType: 6
+    Type: 200

@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: Item_Catalyseur
   m_EditorClassIdentifier: 
   itemName: Le Catalyseur
-  itemIcon: {fileID: 0}
-  itemDescription: "R\xE9sistances quand bless\xE9 par un h\xE9ros"
+  itemIcon: {fileID: 21300000, guid: 12e30d346d0a26a5cfcf31a3fb845ad6, type: 3}
+  itemDescription: "R\xE9sistances physique, puissance magique et sant\xE9"
   itemCost: 2300
   amountOfGoldRefundedOnSale: 1610
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 40
-    StatType: 8
+    StatType: 9
     Type: 100
   - Value: 180
     StatType: 0
     Type: 100
   - Value: 15
-    StatType: 3
+    StatType: 4
     Type: 100

@@ -13,22 +13,20 @@ MonoBehaviour:
   m_Name: Item_GanteletsDuCombattant
   m_EditorClassIdentifier: 
   itemName: Gantelets du Combattant
-  itemIcon: {fileID: 0}
-  itemDescription: "Marque la cible, d\xE9gats bonus \xE0 la prochaine attaque alli\xE9"
+  itemIcon: {fileID: 21300000, guid: 5186cc7ee52e4b97576ae429d44f3a08, type: 3}
+  itemDescription: "Sant\xE9, r\xE9g\xE9n\xE9ration, r\xE9sistance et puissance physique"
   itemCost: 2500
   amountOfGoldRefundedOnSale: 1750
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 20
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 350
     StatType: 0
     Type: 100
-  - Value: 100
+  - Value: 1
     StatType: 1
     Type: 200
   - Value: 40
-    StatType: 3
+    StatType: 4
     Type: 100

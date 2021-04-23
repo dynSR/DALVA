@@ -13,19 +13,18 @@ MonoBehaviour:
   m_Name: Item_DaguesDAvariceDeGrimur
   m_EditorClassIdentifier: 
   itemName: Dagues d'Avarice de Grimur
-  itemIcon: {fileID: 0}
-  itemDescription: "R\xE9duction des d\xE9lais des comp\xE9tences lors d'une \xE9limination"
+  itemIcon: {fileID: 21300000, guid: 74991653eb6b00508628484b0520d91a, type: 3}
+  itemDescription: "R\xE9duction des d\xE9lais des comp\xE9tences, p\xE9n\xE9tration
+    et puissance physique"
   itemCost: 2100
   amountOfGoldRefundedOnSale: 1470
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 50
-    StatType: 7
+    StatType: 8
     Type: 100
-  - Value: 20
-    StatType: 15
+  - Value: 0.2
+    StatType: 18
     Type: 200
-  - Value: 10
-    StatType: 10
+  - Value: 0.1
+    StatType: 13
     Type: 200

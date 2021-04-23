@@ -13,16 +13,14 @@ MonoBehaviour:
   m_Name: Item_EclatDuDestin
   m_EditorClassIdentifier: 
   itemName: Eclat du Destin
-  itemIcon: {fileID: 0}
-  itemDescription: "Vitesse d'attaque et puissance magique bonus apr\xE8s une comp\xE9tence"
+  itemIcon: {fileID: 21300000, guid: 82bd5951010688565d6a0f6cb23c85c1, type: 3}
+  itemDescription: "Puissance magique et r\xE9duction des d\xE9lais des comp\xE9tences"
   itemCost: 2300
   amountOfGoldRefundedOnSale: 1610
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 60
-    StatType: 8
+    StatType: 9
     Type: 100
-  - Value: 10
-    StatType: 15
+  - Value: 0.1
+    StatType: 18
     Type: 200

@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: Item_TissuDesOmbres
   m_EditorClassIdentifier: 
   itemName: Tissu des Ombres
-  itemIcon: {fileID: 0}
-  itemDescription: "Vitesse de d\xE9placement bonus apr\xE8s 2 attaques cons\xE9cutives"
+  itemIcon: {fileID: 21300000, guid: 77c0cec31c8d8d9106dc714deba464bd, type: 3}
+  itemDescription: "R\xE9duction des effets n\xE9fastes, sant\xE9 et puissance physique"
   itemCost: 2400
   amountOfGoldRefundedOnSale: 1680
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 60
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 250
     StatType: 0
     Type: 100
-  - Value: 10
-    StatType: 17
+  - Value: 0.1
+    StatType: 20
     Type: 200

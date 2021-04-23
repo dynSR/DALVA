@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: Item_ArcTempete
   m_EditorClassIdentifier: 
   itemName: "ArcTemp\xEAte"
-  itemIcon: {fileID: 0}
-  itemDescription: "Vitesse de d\xE9placement bonus lors d'un coup critique"
+  itemIcon: {fileID: 21300000, guid: 25912445c9c8fb0ecd8e25c3e4a4fcda, type: 3}
+  itemDescription: "Vitesse d'attaque, r\xE9sistance et puissance physique"
   itemCost: 2500
   amountOfGoldRefundedOnSale: 1750
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 30
-    StatType: 7
+    StatType: 8
     Type: 100
-  - Value: 25
-    StatType: 5
-    Type: 200
-  - Value: 25
-    StatType: 14
+  - Value: 40
+    StatType: 4
+    Type: 100
+  - Value: 0.25
+    StatType: 6
     Type: 200

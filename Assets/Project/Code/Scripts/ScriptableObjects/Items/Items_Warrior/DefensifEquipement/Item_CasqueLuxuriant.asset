@@ -13,22 +13,21 @@ MonoBehaviour:
   m_Name: Item_CasqueLuxuriant
   m_EditorClassIdentifier: 
   itemName: Casque Luxuriant
-  itemIcon: {fileID: 0}
-  itemDescription: "D\xE9gats critique r\xE9duits"
+  itemIcon: {fileID: 21300000, guid: 38c9a6a909566bb639603988852ba762, type: 3}
+  itemDescription: "R\xE9duction des d\xE9lais des comp\xE9tences, sant\xE9, r\xE9sistance
+    et puissance physique"
   itemCost: 2400
   amountOfGoldRefundedOnSale: 1680
-  itemFirstEvolution: {fileID: 11400000, guid: 99b113a0751e1aa4d916492d7213a3b5, type: 2}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 20
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 300
     StatType: 0
     Type: 100
   - Value: 50
-    StatType: 3
+    StatType: 4
     Type: 100
-  - Value: 10
-    StatType: 15
+  - Value: 0.1
+    StatType: 18
     Type: 200

@@ -15,15 +15,18 @@ MonoBehaviour:
   statusEffectName: Bonus de Vitesse
   statusEffectDescription: Augmente de +10% VD/VA
   statusEffectDuration: 120
+  type: 0
   statusEffectId: 12
   statusEffectIcon: {fileID: 21300000, guid: e3d171ba07d179d8a1c9579b257d8f12, type: 3}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
+  canStunTarget: 0
+  canRootTarget: 0
   isStackable: 0
   statModifiers:
-  - Value: 10
+  - Value: 0.1
     StatType: 6
     Type: 200
-  - Value: 10
+  - Value: 0.1
     StatType: 3
     Type: 200

@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: Item_GanteletsRenforces
   m_EditorClassIdentifier: 
   itemName: "Gantelets Renforc\xE9s"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: fc6b74315e0f849c6f8f9d5a4206e6bc, type: 3}
   itemDescription: "Puissance physique, sant\xE9 et r\xE9g\xE9n\xE9ration"
   itemCost: 1100
   amountOfGoldRefundedOnSale: 770
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 15
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 200
     StatType: 0
     Type: 100
-  - Value: 50
+  - Value: 0.5
     StatType: 1
     Type: 200

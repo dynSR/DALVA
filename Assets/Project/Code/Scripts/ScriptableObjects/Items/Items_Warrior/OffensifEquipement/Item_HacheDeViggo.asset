@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: Item_HacheDeViggo
   m_EditorClassIdentifier: 
   itemName: Hache de Viggo
-  itemIcon: {fileID: 0}
-  itemDescription: "Vitesse d'attaque bonus selon le niveau de sant\xE9"
+  itemIcon: {fileID: 21300000, guid: ea8e55d0b3e5f12ad526091860b211a2, type: 3}
+  itemDescription: "Sant\xE9, vol de vie et puissance physique"
   itemCost: 2200
   amountOfGoldRefundedOnSale: 1540
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 55
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 250
     StatType: 0
     Type: 100
-  - Value: 10
-    StatType: 12
+  - Value: 0.1
+    StatType: 15
     Type: 200

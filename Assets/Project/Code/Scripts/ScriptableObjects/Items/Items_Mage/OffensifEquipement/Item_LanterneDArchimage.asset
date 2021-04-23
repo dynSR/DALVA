@@ -13,19 +13,18 @@ MonoBehaviour:
   m_Name: Item_LanterneDArchimage
   m_EditorClassIdentifier: 
   itemName: Lanterne d'Archimage
-  itemIcon: {fileID: 0}
-  itemDescription: "Soins et d\xE9g\xE2ts bonus sur la prochaine comp\xE9tence"
+  itemIcon: {fileID: 21300000, guid: 0084bd51b183de198e1536d4d752966b, type: 3}
+  itemDescription: "Efficacit\xE9 des soins et bouclier renforc\xE9, r\xE9duction
+    des d\xE9lais des comp\xE9tences et puissance maquique"
   itemCost: 2300
   amountOfGoldRefundedOnSale: 1610
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 50
-    StatType: 8
+    StatType: 9
     Type: 100
-  - Value: 10
-    StatType: 15
+  - Value: 0.1
+    StatType: 18
     Type: 200
-  - Value: 10
-    StatType: 17
+  - Value: 0.1
+    StatType: 19
     Type: 200

@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: Item_GantsDeLaSangsue
   m_EditorClassIdentifier: 
   itemName: Gants de la Sangsue
-  itemIcon: {fileID: 0}
-  itemDescription: " Vol de vie bonus selon le niveau de sant\xE9"
+  itemIcon: {fileID: 21300000, guid: d7124065b11c506c1fbfecd7dfb17c6d, type: 3}
+  itemDescription: ' Vitesse d''attaque, vol de vie et puissance physique'
   itemCost: 2100
   amountOfGoldRefundedOnSale: 1470
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 30
-    StatType: 7
+    StatType: 8
     Type: 100
-  - Value: 20
-    StatType: 5
+  - Value: 0.2
+    StatType: 15
     Type: 200
-  - Value: 10
-    StatType: 12
+  - Value: 0.1
+    StatType: 6
     Type: 200

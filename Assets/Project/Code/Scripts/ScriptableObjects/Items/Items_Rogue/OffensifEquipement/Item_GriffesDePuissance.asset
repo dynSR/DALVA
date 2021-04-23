@@ -13,19 +13,20 @@ MonoBehaviour:
   m_Name: Item_GriffesDePuissance
   m_EditorClassIdentifier: 
   itemName: Griffes de Puissance
-  itemIcon: {fileID: 0}
-  itemDescription: "Puissance et p\xE9n\xE9tration physiques bonus en combat"
+  itemIcon: {fileID: 21300000, guid: 847a48b6e63fd5c7cbb4372b76f784f7, type: 3}
+  itemDescription: "Chance de coup critique, puissance et p\xE9n\xE9tration physiques "
   itemCost: 2800
   amountOfGoldRefundedOnSale: 1960
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
-  - Value: 50
-    StatType: 7
+  - Value: 55
+    StatType: 8
     Type: 100
-  - Value: 20
-    StatType: 5
+  - Value: 0.2
+    StatType: 6
     Type: 200
-  - Value: 25
-    StatType: 14
+  - Value: 0.1
+    StatType: 13
+    Type: 200
+  - Value: 0.1
+    StatType: 17
     Type: 200

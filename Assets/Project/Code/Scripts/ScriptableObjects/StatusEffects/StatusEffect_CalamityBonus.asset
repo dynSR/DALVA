@@ -12,12 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66b99f3a0b6e2f4882ff62c17a6b6e1, type: 3}
   m_Name: StatusEffect_CalamityBonus
   m_EditorClassIdentifier: 
-  statusEffectName: 
-  statusEffectDescription: 
-  statusEffectDuration: 0
-  statusEffectId: 0
-  statusEffectIcon: {fileID: 0}
+  statusEffectName: "Bonus de Calamit\xE9"
+  statusEffectDescription: "Donne 50PP/PM et 150% RPV. Augmente les d\xE9gats inflig\xE9s
+    aux st\xE8les et chefs de guerre de 35%"
+  statusEffectDuration: 300
+  type: 0
+  statusEffectId: 15
+  statusEffectIcon: {fileID: 21300000, guid: 879539d313daf46e923ad3ccb17fb98d, type: 3}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
+  canStunTarget: 0
+  canRootTarget: 0
   isStackable: 0
-  statModifiers: []
+  statModifiers:
+  - Value: 50
+    StatType: 8
+    Type: 100
+  - Value: 50
+    StatType: 9
+    Type: 100
+  - Value: 1.5
+    StatType: 1
+    Type: 200
+  - Value: 0.35
+    StatType: 25
+    Type: 200

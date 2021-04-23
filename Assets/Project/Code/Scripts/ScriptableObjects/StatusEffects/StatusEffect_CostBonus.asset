@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66b99f3a0b6e2f4882ff62c17a6b6e1, type: 3}
   m_Name: StatusEffect_CostBonus
   m_EditorClassIdentifier: 
-  statusEffectName: 
-  statusEffectDescription: 
-  statusEffectDuration: 0
-  statusEffectId: 0
-  statusEffectIcon: {fileID: 0}
+  statusEffectName: "Bonus de Co\xFBt"
+  statusEffectDescription: "R\xE9duit de 20% le cou\xFBt du prochain \xE9quipement"
+  statusEffectDuration: 300
+  type: 0
+  statusEffectId: 14
+  statusEffectIcon: {fileID: 21300000, guid: 686f7d376fcec3762c11c3bf18a9734a, type: 3}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
+  canStunTarget: 0
+  canRootTarget: 0
   isStackable: 0
-  statModifiers: []
+  statModifiers:
+  - Value: 0.2
+    StatType: 24
+    Type: 200

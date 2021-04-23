@@ -13,19 +13,18 @@ MonoBehaviour:
   m_Name: Item_LameDePuissance
   m_EditorClassIdentifier: 
   itemName: Lame de Puissance
-  itemIcon: {fileID: 0}
-  itemDescription: "D\xE9gats pour chaque attaque cons\xE9cutive"
+  itemIcon: {fileID: 21300000, guid: 6ccf00a20a463b77779239e5d123cc7b, type: 3}
+  itemDescription: "R\xE9duction des d\xE9lais des comp\xE9tences, sant\xE9 et puissance
+    physique"
   itemCost: 2100
   amountOfGoldRefundedOnSale: 1470
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 50
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 250
     StatType: 0
     Type: 100
-  - Value: 10
-    StatType: 15
+  - Value: 0.1
+    StatType: 18
     Type: 200

@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: Item_Protecteur
   m_EditorClassIdentifier: 
   itemName: Protecteur
-  itemIcon: {fileID: 0}
-  itemDescription: "R\xE9sistances bonus autour de vous"
+  itemIcon: {fileID: 21300000, guid: b86b238538c13198fbaa09a91159c967, type: 3}
+  itemDescription: "Efficacit\xE9 des soins et bouclier, puissance magique et sant\xE9"
   itemCost: 2200
   amountOfGoldRefundedOnSale: 1540
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 40
-    StatType: 8
+    StatType: 9
     Type: 100
-  - Value: 250
+  - Value: 200
     StatType: 0
     Type: 100
+  - Value: 0.1
+    StatType: 19
+    Type: 200

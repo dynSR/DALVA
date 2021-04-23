@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c75cf5b6273234cb185f17d227fc4c, type: 3}
   m_Name: Item_CarquoisDArgent
   m_EditorClassIdentifier: 
-  itemName: Carquois d'Argent
-  itemIcon: {fileID: 0}
+  itemName: Carreau d'Argent
+  itemIcon: {fileID: 21300000, guid: 4fd6a42b126c95b63cc5b23b7ca448e4, type: 3}
   itemDescription: 'Puissance physique et vitesse d''attaque '
   itemCost: 800
   amountOfGoldRefundedOnSale: 560
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 20
-    StatType: 7
+    StatType: 8
     Type: 100
-  - Value: 10
-    StatType: 5
+  - Value: 0.1
+    StatType: 6
     Type: 200

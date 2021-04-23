@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: Item_EveilDuVampire
   m_EditorClassIdentifier: 
   itemName: Eveil du Vampire
-  itemIcon: {fileID: 0}
-  itemDescription: "Puissance et vol de vie magique en fonction de la sant\xE9 manquante"
+  itemIcon: {fileID: 21300000, guid: a2babeaad1c1a1e46a7c74b677acc1c1, type: 3}
+  itemDescription: "Vol de vie, puissance magique et sant\xE9"
   itemCost: 2300
   amountOfGoldRefundedOnSale: 1610
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 40
-    StatType: 8
+    StatType: 9
     Type: 100
   - Value: 180
     StatType: 0
     Type: 100
-  - Value: 10
-    StatType: 13
+  - Value: 0.1
+    StatType: 16
     Type: 200

@@ -13,22 +13,21 @@ MonoBehaviour:
   m_Name: Item_HeameDuSage
   m_EditorClassIdentifier: 
   itemName: Heame du Sage
-  itemIcon: {fileID: 0}
-  itemDescription: "Vitesse de d\xE9placement bonus apr\xE8s un contr\xF4le"
+  itemIcon: {fileID: 21300000, guid: 858eb5af49dd5e5583778a575acdbc83, type: 3}
+  itemDescription: "Sant\xE9, r\xE9sistance magique, r\xE9duction des effets n\xE9fastes
+    et puissance physique"
   itemCost: 2400
   amountOfGoldRefundedOnSale: 1680
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 20
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 450
     StatType: 0
     Type: 100
   - Value: 40
-    StatType: 4
+    StatType: 5
     Type: 100
-  - Value: 10
-    StatType: 17
+  - Value: 0.1
+    StatType: 20
     Type: 200

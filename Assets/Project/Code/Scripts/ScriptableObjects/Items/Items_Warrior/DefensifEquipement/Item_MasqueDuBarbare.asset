@@ -13,22 +13,20 @@ MonoBehaviour:
   m_Name: Item_MasqueDuBarbare
   m_EditorClassIdentifier: 
   itemName: Masque du Barbare
-  itemIcon: {fileID: 0}
-  itemDescription: "Bouclier selon le niveau de sant\xE9"
+  itemIcon: {fileID: 21300000, guid: 7475e2c95a5ad3248afcdcce882f8cbe, type: 3}
+  itemDescription: "Sant\xE9, r\xE9sistance physique, magique et puissance physique"
   itemCost: 2400
   amountOfGoldRefundedOnSale: 1680
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 15
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 500
     StatType: 0
     Type: 100
   - Value: 30
-    StatType: 3
+    StatType: 4
     Type: 100
   - Value: 30
-    StatType: 4
+    StatType: 5
     Type: 100

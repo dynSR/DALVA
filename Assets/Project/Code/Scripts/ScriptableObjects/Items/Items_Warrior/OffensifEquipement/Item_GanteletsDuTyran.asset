@@ -13,22 +13,21 @@ MonoBehaviour:
   m_Name: Item_GanteletsDuTyran
   m_EditorClassIdentifier: 
   itemName: Gantelets du Tyran
-  itemIcon: {fileID: 0}
-  itemDescription: "Faiblesse de la cible pour un effet de controle octroy\xE9"
+  itemIcon: {fileID: 21300000, guid: 22044e354a5d641795e8c3ebb744c759, type: 3}
+  itemDescription: "R\xE9duction des d\xE9lais des comp\xE9tences, des effets n\xE9fastes,
+    sant\xE9 et puissance physique"
   itemCost: 2200
   amountOfGoldRefundedOnSale: 1540
-  itemFirstEvolution: {fileID: 0}
-  itemSecondEvolution: {fileID: 0}
   itemModifiers:
   - Value: 40
-    StatType: 7
+    StatType: 8
     Type: 100
   - Value: 400
     StatType: 0
     Type: 100
-  - Value: 10
-    StatType: 15
+  - Value: 0.1
+    StatType: 18
     Type: 200
-  - Value: 10
-    StatType: 17
+  - Value: 0.1
+    StatType: 20
     Type: 200

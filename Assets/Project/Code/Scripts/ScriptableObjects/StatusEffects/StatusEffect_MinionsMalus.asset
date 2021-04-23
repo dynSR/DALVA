@@ -12,12 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66b99f3a0b6e2f4882ff62c17a6b6e1, type: 3}
   m_Name: StatusEffect_MinionsMalus
   m_EditorClassIdentifier: 
-  statusEffectName: 
-  statusEffectDescription: 
-  statusEffectDuration: 0
-  statusEffectId: 0
+  statusEffectName: Malus aux Minions
+  statusEffectDescription: "Abaisse les caract\xE9ristiques de 10%PV/PP/RP/RM "
+  statusEffectDuration: 60
+  statusEffectId: 20
   statusEffectIcon: {fileID: 0}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
   isStackable: 0
-  statModifiers: []
+  statModifiers:
+  - Value: -0.1
+    StatType: 0
+    Type: 200
+  - Value: -0.1
+    StatType: 8
+    Type: 200
+  - Value: -0.1
+    StatType: 4
+    Type: 200
+  - Value: -0.1
+    StatType: 5
+    Type: 200

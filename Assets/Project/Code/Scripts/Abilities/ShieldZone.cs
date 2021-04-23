@@ -41,7 +41,7 @@ public class ShieldZone : MonoBehaviour
         if (scaleWithShieldEffectiveness) shieldEffectiveness = ShieldEffectivenessValue;
 
 
-        shieldStatusEffectToApply.ApplyEffect(entityStats.transform); //Pose PB
+        shieldStatusEffectToApply.ApplyEffect(entityStats.transform);
         entityStats.ApplyShieldOnTarget(entityStats.transform, 0, shieldEffectiveness);
 
         if (onlyApplyOnMarkedTarget && entityStats.EntityIsMarked) entityStats.EntityIsMarked = false;

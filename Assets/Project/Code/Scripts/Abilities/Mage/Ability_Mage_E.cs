@@ -26,8 +26,7 @@ public class Ability_Mage_E : AbilityLogic
 
         EntityStats abilityTargetStats = AbilityTarget.GetComponent<EntityStats>();
 
-        //if(UsedEffectIndex != AbilityEffect.IV)
-        //    ApplyShieldOnOneTarget(abilityTargetStats);
+        ApplyShieldOnOneTarget(abilityTargetStats);
 
         switch (UsedEffectIndex)
         {
@@ -37,17 +36,20 @@ public class Ability_Mage_E : AbilityLogic
                 //- sur allié: donne un bouclier de(50 + 150 % PM) points de vie(PV) pendant 2s."
                 Ability.EffectAppliedOnMarkedEnemy = rootEffect;
                 Ability.EffectAppliedOnMarkedAlly = null;
+                Ability.AbilityCanConsumeMark = false;
                 break;
             case AbilityEffect.II:
                 //Étourdit la cible au lieu de l'immobiliser si elle est marquée.
                 Ability.EffectAppliedOnMarkedEnemy = stunEffect;
                 Ability.EffectAppliedOnMarkedAlly = null;
+                Ability.AbilityCanConsumeMark = false;
                 break;
             case AbilityEffect.III:
                 //"Le Z marque aussi les alliés.
                 //Si l'allié est marqué, soigne de (6% PV max) points de vie (PV) en plus du bouclier."
                 Ability.EffectAppliedOnMarkedEnemy = rootEffect; //en trop
                 Ability.EffectAppliedOnMarkedAlly = null;
+                Ability.AbilityCanConsumeMark = false;
                 if (abilityTargetStats.EntityTeam == Stats.EntityTeam && abilityTargetStats.EntityIsMarked) 
                     abilityTargetStats.Heal(AbilityTarget, abilityTargetStats.GetStat(StatType.Health).MaxValue * 0.06f, Stats.GetStat(StatType.HealAndShieldEffectiveness).Value);
                 break;
@@ -56,57 +58,39 @@ public class Ability_Mage_E : AbilityLogic
                 //Propage le bouclier aux alliés proches marqués."
                 Ability.EffectAppliedOnMarkedEnemy = rootEffect; //en trop
                 Ability.EffectAppliedOnMarkedAlly = shieldEffect;
-                ApplyShieldOnOtherAllies();
+                Ability.AbilityCanConsumeMark = true;
+
+                if(AbilityTarget != transform || Stats.EntityIsMarked)
+                    ApplyShieldOnOtherAllies();
                 break;
         }
     }
 
     void ApplyShieldOnOneTarget(EntityStats abilityTargetStats)
     {
+        float shieldValue = shieldEffect.StatModifiers[0].Value;
+        float shieldEffectiveness = Stats.GetStat(StatType.HealAndShieldEffectiveness).Value;
+
         if (abilityTargetStats.EntityTeam == Stats.EntityTeam)
         {
-            shieldEffect.StatModifiers[0].Value = ShieldValue;
+            shieldEffect.StatModifiers[0].Value = shieldValue;
 
-            //shieldEffect.ApplyEffect(abilityTargetStats.transform); //Pose PB
-
-            abilityTargetStats.ApplyShieldOnTarget(AbilityTarget, shieldEffect.StatModifiers[0].Value, 0f);
+            shieldEffect.ApplyEffect(abilityTargetStats.transform);
+            abilityTargetStats.ApplyShieldOnTarget(abilityTargetStats.transform, 0, shieldEffectiveness);
         }
     }
 
     void ApplyShieldOnOtherAllies()
     {
-        ApplyShieldOnOneTarget(AbilityTarget.GetComponent<EntityStats>());
+        if (AbilityTarget.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam) return;
+
+        if (AbilityTarget != transform)
+            ApplyShieldOnOneTarget(AbilityTarget.GetComponent<EntityStats>());
 
         GameObject shieldZoneInstance = Instantiate(shieldZone, AbilityTarget.position, Quaternion.identity);
         ShieldZone _shieldZone = shieldZoneInstance.GetComponent<ShieldZone>();
 
         _shieldZone.SetShieldZone(shieldZoneSize, this, shieldEffect, shieldEffect.StatusEffectDuration, ShieldValue, 0f, false, true);
-
-        //Collider[] nearMarkedAllies = Physics.OverlapSphere(new Vector3(CastLocation.x, 0.01f, CastLocation.z), shieldPropagationZoneSize);
-
-        //List<EntityStats> nearMarkedAlliesStats = new List<EntityStats>();
-
-        //for (int i = 0; i < nearMarkedAllies.Length; i++)
-        //{
-        //    if (nearMarkedAllies[i].GetComponent<EntityStats>() != null)
-        //        nearMarkedAlliesStats.Add(nearMarkedAllies[i].GetComponent<EntityStats>());
-
-        //    if (nearMarkedAlliesStats.Count >= 1)
-        //    {
-        //        EntityStats allyStats = nearMarkedAllies[i].GetComponent<EntityStats>();
-        //        Debug.Log(nearMarkedAllies[i].name);
-
-        //        if (allyStats != null
-        //            && allyStats.EntityTeam == Stats.EntityTeam
-        //            && allyStats.EntityIsMarked)
-        //        {
-        //            Debug.Log(nearMarkedAllies[i].name + " has entity stats script attached");
-
-        //            allyStats.ApplyShieldOnTarget(AbilityTarget, Ability.AbilityShieldValue + (Stats.GetStat(StatType.MagicalPower).Value * Ability.ShieldMagicalRatio), 0f);
-        //            allyStats.EntityIsMarked = false;
-        //        }
-        //    }
-        //}
     }
 
     protected override void SetAbilityAfterAPurchase()

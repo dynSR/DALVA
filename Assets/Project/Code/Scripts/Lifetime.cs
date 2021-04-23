@@ -5,10 +5,12 @@ using UnityEngine;
 public class Lifetime : MonoBehaviour
 {
     [SerializeField] private float lifetimeValue = 0.2f;
-    [SerializeField] private bool DestroyAfterTime = false;
-    [SerializeField] private bool HideAfterTime = false;
+    [SerializeField] private bool destroyAfterTime = false;
+    [SerializeField] private bool hideAfterTime = false;
 
     public float LifetimeValue { get => lifetimeValue; set => lifetimeValue = value; }
+    public bool HideAfterTime { get => hideAfterTime; set => hideAfterTime = value; }
+    public bool DestroyAfterTime { get => destroyAfterTime; set => destroyAfterTime = value; }
 
     #region Refs
     private ProjectileLogic projectile;

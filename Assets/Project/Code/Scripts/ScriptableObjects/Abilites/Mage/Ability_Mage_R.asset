@@ -22,12 +22,12 @@ MonoBehaviour:
   abilityPhysicalDamage: 0
   abilityMagicalDamage: 150
   abilityPhysicalRatio: 0
-  abilityMagicalRatio: 1.5
+  abilityMagicalRatio: 0.75
   targetHealthThreshold: 0
   abilityAddedDamageOnTargetHealthThreshold: 0
   abilityHealValue: 25
   abilityCanHealTarget: 1
-  healMagicalRatio: 0
+  healMagicalRatio: 0.75
   healHealthRatio: 0
   abilityShieldValue: 0
   abilityCanApplyShieldToTarget: 0
@@ -35,17 +35,17 @@ MonoBehaviour:
   shieldHealthRatio: 0
   defaultEffectAppliedOnAlly: {fileID: 0}
   defaultEffectAppliedOnEnemy: {fileID: 0}
-  abilityMarkDuration: 0
+  abilityMarkDuration: 3
   abilityDamageBonusOnMarkedTarget: 0
   abilityHealBonusOnMarkedTarget: 0
   abilityCanMark: 0
   abilityCanConsumeMark: 0
   effectAppliedOnMarkedAlly: {fileID: 0}
   effectAppliedOnMarkedEnemy: {fileID: 0}
-  abilityRange: 8
+  abilityRange: 0
   abilityAreaOfEffect: 0
-  abilityCooldown: 90
+  abilityCooldown: 2.5
   abilityTimeToCast: 0
-  abilityDuration: 0
+  abilityDuration: 3
   instantCasting: 0
   delayBeforeApplyingDamageOrEffect: 0

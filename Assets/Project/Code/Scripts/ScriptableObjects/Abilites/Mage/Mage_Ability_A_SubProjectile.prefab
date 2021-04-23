@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5270592058813504963}
   - component: {fileID: 5470601220585161903}
   - component: {fileID: 5471783698683275601}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FX_Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4901,7 +4901,7 @@ GameObject:
   - component: {fileID: 5276553520913244383}
   - component: {fileID: 5446049565336661219}
   - component: {fileID: 5471738965493292861}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FX_Fireball_Trail_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9453,7 +9453,7 @@ GameObject:
   - component: {fileID: 5270824529838519359}
   - component: {fileID: 5470325902584764501}
   - component: {fileID: 5469662590869912155}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FX_Fireball_Embers_Trail_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14004,7 +14004,7 @@ GameObject:
   - component: {fileID: 5270838143025615439}
   - component: {fileID: 5470064660018565175}
   - component: {fileID: 5471527300714767409}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FX_Fireball_Embers_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18556,7 +18556,7 @@ GameObject:
   - component: {fileID: 7344833928259837053}
   - component: {fileID: 4331988364427824006}
   - component: {fileID: 7400162026258699874}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mage_Ability_A_SubProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18622,10 +18622,10 @@ MonoBehaviour:
   projectileType: 2
   projectileSpeed: 5
   projectileAreaOfEffect: 0
-  projectileBonusDamagePercentage: 0.3
   entitiesLayerMaskValue:
     serializedVersion: 2
     m_Bits: 4096
   subProjectile: {fileID: 8403224405550740081}
   projectileStatusEffect: {fileID: 0}
   onHitVFX: {fileID: 4360343412489667583, guid: 427f8d85fece1fa478ee89bbcfc74370, type: 3}
+  destructionVFX: {fileID: 0}

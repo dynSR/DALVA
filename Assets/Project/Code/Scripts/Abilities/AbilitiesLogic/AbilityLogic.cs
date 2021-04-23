@@ -64,7 +64,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     protected virtual void Awake()
     {
-        //UsedEffectIndex = AbilityEffect.I;
+        //UsedEffectIndex = AbilityEffect.I; à décommenter
         if (Stats.EntityAbilities.Count != 0) Stats.EntityAbilities[3].CanBeUsed = false;
     }
 
@@ -77,7 +77,11 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
             if (Interactions.KnownTarget != null) AbilityTarget = Interactions.KnownTarget;
-            else if (Ability.IsPointAndClick && AbilityTarget == null) AbilityTarget = transform;
+            else if (Ability.IsPointAndClick && Interactions.KnownTarget == null)
+            {
+                AbilityTarget = transform;
+                return;
+            }
 
             if (normalCast || fastCastWithIndication)
             {
@@ -156,12 +160,16 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #region Handling ability casting
     private void CastWhenInRange()
     {
-        if (characterIsTryingToCast && !Controller.IsCasting && (IsInRangeToCast || Ability.AbilityRange == 0f) || Ability.IsPointAndClick && AbilityTarget == transform)
+        if (characterIsTryingToCast && !Controller.IsCasting && !Ability.IsPointAndClick && IsInRangeToCast || Ability.IsPointAndClick && AbilityTarget == transform)
         {
-            //Debug.Log("Close enough, can cast now !");
+            Debug.Log("Close enough, can cast now !");
             Controller.IsCasting = true;
             Controller.CanMove = false;
+
             Cast();
+            abilityTarget = null;
+            CanBeUsed = false;
+
             StartCoroutine(PutAbilityOnCooldown(Ability.AbilityTimeToCast + Ability.AbilityDuration));
             characterIsTryingToCast = false;
         }
@@ -187,8 +195,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         if(percentageValue != 0)
             Stat.GetStat(type).AddModifier(new StatModifier(percentageValue, type, StatModType.PercentAdd, source));
-
-        CanBeUsed = false;
     }
 
     protected void RemoveBuffGivenByAnAbility(StatType affectedStat, object source = null)
@@ -213,13 +219,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         Collider[] colliders = Physics.OverlapSphere(new Vector3(pos.x, 0.01f, pos.z), Ability.AbilityAreaOfEffect);
 
-        if (Ability.IsPointAndClick)
-        {
-            ApplyingDamageOnTarget(abilityTarget.GetComponent<Collider>());
-            Debug.Log("E on me");
-            yield break;
-        }
-
         foreach (Collider collider in colliders)
         {
             ApplyingDamageOnTarget(collider);
@@ -228,7 +227,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #endregion
 
     #region Applying ability damage
-    void ApplyingDamageOnTarget(Collider collider)
+    public void ApplyingDamageOnTarget(Collider collider)
     {
         EntityStats targetStat = collider.GetComponent<EntityStats>();
         EntityDetection targetFound = collider.GetComponent<EntityDetection>();
@@ -281,9 +280,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
             }
 
             #region Handle Mark and ability's status effect
-            //Applying mark to target(s), if the ability can mark it/them
-            if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));
-
             #region Effect applied on enemy target whether it is marked or not
             if ((Ability.DefaultEffectAppliedOnEnemy != null || Ability.EffectAppliedOnMarkedEnemy != null) && targetStat.EntityTeam != Stats.EntityTeam)
             {
@@ -319,6 +315,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
             }
 
             if(Ability.AbilityCanConsumeMark) targetStat.EntityIsMarked = false;
+
+            //Applying mark to target(s), if the ability can mark it/them
+            if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));
 
             #endregion
 

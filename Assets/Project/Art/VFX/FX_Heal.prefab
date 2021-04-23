@@ -9711,9 +9711,8 @@ GameObject:
   - component: {fileID: 5653161531301351727}
   - component: {fileID: 5653161531301351721}
   - component: {fileID: 5653161531301351720}
-  - component: {fileID: 5653161531301351722}
   m_Layer: 2
-  m_Name: HealVFX
+  m_Name: FX_Heal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14518,21 +14517,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &5653161531301351722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5653161531301351726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8434dec12af50514f899fdc17dd813df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifetimeValue: 2
-  DestroyAfterTime: 0
-  HideAfterTime: 1
 --- !u!1 &5653161531698751689
 GameObject:
   m_ObjectHideFlags: 0

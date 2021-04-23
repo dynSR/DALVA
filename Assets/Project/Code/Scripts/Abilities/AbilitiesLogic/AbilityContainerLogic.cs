@@ -7,6 +7,7 @@ public class AbilityContainerLogic : MonoBehaviour
 {
     [Header("CONTAINED ABILITY")]
     [SerializeField] private AbilityLogic containedAbility;
+    [SerializeField] private Animator animator;
     [SerializeField] private Image containedAbilityIcon;
 
     [Header("KEY")]
@@ -91,5 +92,7 @@ public class AbilityContainerLogic : MonoBehaviour
 
         //Désactiver le timer text et l'image filled
         cooldownContainerGameObject.SetActive(false);
+
+        animator.SetTrigger("EndOfCD");
     }
 }

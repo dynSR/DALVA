@@ -23,14 +23,14 @@ public class Ability : ScriptableObject
     [Header("HEAL")]
     [SerializeField] private float abilityHealValue = 0f;
     [SerializeField] private bool abilityCanHealTarget= false;
-    [SerializeField] private float healMagicalRatio = 0f;
-    [SerializeField] private float healHealthRatio = 0f;
+    [Range(0.0f, 10f)] [SerializeField] private float healMagicalRatio = 0f;
+    [Range(0.0f, 10f)] [SerializeField] private float healHealthRatio = 0f;
 
     [Header("SHIELD")]
     [SerializeField] private float abilityShieldValue = 0f;
     [SerializeField] private bool abilityCanApplyShieldToTarget = false;
-    [SerializeField] private float shieldMagicalRatio = 0f;
-    [SerializeField] private float shieldHealthRatio = 0f;
+    [Range(0.0f, 10f)] [SerializeField] private float shieldMagicalRatio = 0f;
+    [Range(0.0f, 10f)] [SerializeField] private float shieldHealthRatio = 0f;
 
     [Header("STATUS EFFECT")]
     [SerializeField] private StatusEffect defaultEffectAppliedOnAlly;

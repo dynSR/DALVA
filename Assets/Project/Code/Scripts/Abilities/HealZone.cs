@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class HealZone : MonoBehaviour
 {
+    EntityStats UserStats { get; set; }
+    public bool IsAttachedToPlayer { get; set; }
+
     private SphereCollider TriggerZone => GetComponent<SphereCollider>();
-    private Lifetime LifeTime => GetComponent<Lifetime>();
+    private Lifetime lifeTime;
+
+    public List<EntityStats> targetsStats = new List<EntityStats>();
 
     public AbilityLogic AbilityUsed { get ; set; }
     public float ActivationDelay { get; set; }
 
     public float HealValue { get; set; }
+    public bool CanMark { get; set; }
     public bool CanApplyOnMarkedTarget { get; set; }
 
     public float MagicalPowerBonusRatio { get; set; }
@@ -21,20 +27,35 @@ public class HealZone : MonoBehaviour
 
     void OnEnable()
     {
-        LifeTime.LifetimeValue = AbilityUsed.Ability.AbilityDuration;
-        InvokeRepeating("EnableTrigger", ActivationDelay, 1f);
+        lifeTime = GetComponent<Lifetime>();
+        InvokeRepeating(nameof(EnableTrigger), ActivationDelay, 1f);
+    }
+
+    private void OnDisable()
+    {
+        UserStats.DeactiveHealVFX();
     }
 
     public void SetZone(
-        AbilityLogic ability, 
-        float activationDelay, 
+        EntityStats userStats,
+        AbilityLogic ability,
+        float activationDelay,
         float baseHealValue,
         float magicalPowerBonusRatio,
         float maxTargetBonusRatio,
+        bool canMark = false,
         bool canApplyOnMarkedTarget = false, 
         bool scaledOnMagicalPower = false,
         bool scaledOnMaxTargetHealth = false)
     {
+        UserStats = userStats;
+
+        if (IsAttachedToPlayer) targetsStats.Add(userStats);
+
+        lifeTime.LifetimeValue = ability.Ability.AbilityDuration;
+        lifeTime.DestroyAfterTime = true;
+        StartCoroutine(lifeTime.DestroyAfterATime(lifeTime.LifetimeValue));
+
         //Set mandatories values
         AbilityUsed = ability;
         ActivationDelay = activationDelay;
@@ -43,6 +64,7 @@ public class HealZone : MonoBehaviour
         MagicalPowerBonusRatio = magicalPowerBonusRatio;
         MaxTargetBonusRatio = maxTargetBonusRatio;
 
+        CanMark = canMark;
         CanApplyOnMarkedTarget = canApplyOnMarkedTarget;
         ScaledOnMagicalPower = scaledOnMagicalPower;
         ScaledOnMaxTargetHealth = scaledOnMaxTargetHealth;
@@ -51,54 +73,77 @@ public class HealZone : MonoBehaviour
     private void EnableTrigger()
     {
         TriggerZone.enabled = true;
+
+        for (int i = 0; i < targetsStats.Count; i++)
+        {
+            EntityStats entityStats = targetsStats[i];
+            Debug.Log(targetsStats[i].name);
+
+            if (entityStats.EntityTeam == UserStats.EntityTeam)
+            {
+                ApplyHealInTheZone(
+                    entityStats,
+                    HealValue,
+                    MagicalPowerBonusRatio,
+                    MaxTargetBonusRatio,
+                    CanMark,
+                    CanApplyOnMarkedTarget,
+                    ScaledOnMagicalPower,
+                    ScaledOnMaxTargetHealth);
+            }
+        }
     }
 
     private void ApplyHealInTheZone(
-        Collider target,
+        EntityStats targetStats,
         float healValue,
         float magicalPowerBonusRatio,
-        float maxTargetBonusRatio,
+        float maxHealthTargetBonusRatio,
+        bool canMark,
         bool canApplyOnMarkedTarget,
         bool scaledOnMagicalPower, 
         bool scaledOnMaxTargetHealth)
     {
-        EntityStats entityStats = target.GetComponent<EntityStats>();
+        Debug.Log("Heal");
+
+        float healRealValue = healValue + (healValue * AbilityUsed.Ability.HealMagicalRatio);
 
         //Si peut marquer et la cible est marquée
         if (canApplyOnMarkedTarget)
         {
-            if (entityStats.EntityIsMarked)
+            if (targetStats.EntityIsMarked)
             {
                 if (scaledOnMagicalPower)
                 {
-                    healValue = healValue + healValue * (magicalPowerBonusRatio / 100);
+                    healRealValue += healValue * (magicalPowerBonusRatio / 100);
                 }
                 else if (scaledOnMaxTargetHealth)
                 {
-                    healValue = healValue + healValue * (maxTargetBonusRatio / 100);
+                    healRealValue += (targetStats.GetStat(StatType.Health).MaxValue * (maxHealthTargetBonusRatio / 100));
                 }
 
-                entityStats.EntityIsMarked = false;
+                targetStats.EntityIsMarked = false;
             }
         }
+
+        Debug.Log("Real Heal Value " + healRealValue);
+
+        if (IsAttachedToPlayer) UserStats.Heal(targetStats.transform, healRealValue, UserStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
+
+        targetStats.Heal(targetStats.transform, healRealValue, UserStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
+
+        if (canMark) targetStats.EntityIsMarked = true;
 
         TriggerZone.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        EntityStats entityStats = other.GetComponent<EntityStats>();
+        EntityStats targetStats = other.GetComponent<EntityStats>();
 
-        if (entityStats != null && !entityStats.IsDead)
+        if (targetStats != null && !targetStats.IsDead)
         {
-            ApplyHealInTheZone(
-                other,
-                HealValue,
-                MagicalPowerBonusRatio,
-                MaxTargetBonusRatio,
-                CanApplyOnMarkedTarget,
-                ScaledOnMagicalPower,
-                ScaledOnMaxTargetHealth);
+            targetsStats.Add(targetStats);
         }
     }
 }

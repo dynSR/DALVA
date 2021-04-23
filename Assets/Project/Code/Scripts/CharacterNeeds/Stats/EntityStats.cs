@@ -312,6 +312,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         EntityStats targetStats = target.GetComponent<EntityStats>();
 
+        ActiveHealVFX();
+
         if (targetStats != null)
         {
             if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
@@ -336,8 +338,20 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 1f, CharacterHalfSize.z), Popup, healAmount, 0, null, false, true);
 
+            Debug.Log("Health = " + GetStat(StatType.Health).Value + " Heal = " + (int)healAmount);
+
             OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).CalculateValue());
         }
+    }
+
+    private void ActiveHealVFX()
+    {
+        healVFX.SetActive(true);
+    }
+
+    public void DeactiveHealVFX()
+    {
+        healVFX.SetActive(false);
     }
     #endregion
 
@@ -562,8 +576,10 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             //Mage
             case EntityType.Priest:
+                Controller.CharacterAnimator.SetBool("IsSorcerer", false);
                 break;
             case EntityType.Sorcerer:
+                Controller.CharacterAnimator.SetBool("IsSorcerer", true);
                 break;
         }
     }

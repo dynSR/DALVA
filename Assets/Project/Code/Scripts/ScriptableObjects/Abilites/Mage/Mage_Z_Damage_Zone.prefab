@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1497487721}
   - component: {fileID: 1497487723}
   - component: {fileID: 1497487722}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Zone_Breathing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4892,8 +4892,8 @@ GameObject:
   - component: {fileID: 660491246702783441}
   - component: {fileID: 7421945396020067838}
   - component: {fileID: 759574096924776486}
-  m_Layer: 0
-  m_Name: Mage_Ability_Zone_Z
+  m_Layer: 2
+  m_Name: Mage_Z_Damage_Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4979,8 +4979,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetimeValue: 1
-  DestroyAfterTime: 1
-  HideAfterTime: 0
+  destroyAfterTime: 1
+  hideAfterTime: 0
 --- !u!198 &7421945396020067838
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9848,7 +9848,7 @@ GameObject:
   - component: {fileID: 8255298888856827867}
   - component: {fileID: 6568069045347528652}
   - component: {fileID: 1404834660244231733}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

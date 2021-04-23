@@ -29,6 +29,8 @@ public class ProjectileLogic : MonoBehaviour
     public float TotalPhysicalDamage { get; set; }
     public float TotalMagicalDamage { get; set; }
 
+    public float BonusProjectileDamageOnMarkedTarget { get; set; }
+
     public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
     public float ProjectileSpeed { get => projectileSpeed; }
     public StatusEffect ProjectileStatusEffect { get => projectileStatusEffect; set => projectileStatusEffect = value; }
@@ -214,19 +216,19 @@ public class ProjectileLogic : MonoBehaviour
         if (targetStat.EntityIsMarked)
         {
             targetStat.EntityIsMarked = false;
-            markBonusDamage = Ability.AbilityDamageBonusOnMarkedTarget;
+            markBonusDamage = BonusProjectileDamageOnMarkedTarget;
         }
         else markBonusDamage = 0;
 
         if (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value > 0)
         {
-            TotalPhysicalDamage = ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value + ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value * (markBonusDamage);
+            TotalPhysicalDamage = ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value + markBonusDamage;
         }
         else TotalPhysicalDamage = 0;
 
         if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
         {
-            TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value + ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (markBonusDamage);
+            TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value + markBonusDamage;
         }
         else TotalMagicalDamage = 0;
 

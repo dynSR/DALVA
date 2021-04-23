@@ -52,7 +52,7 @@ public class PlayerHUDManager : MonoBehaviour
     {
         if (statusEffectLayoutGroup.childCount == 0) CreateContainer(statusEffect);
 
-        if (statusEffectLayoutGroup.childCount >= 1)
+        if (statusEffectLayoutGroup.childCount > 0)
         {
             for (int i = 0; i < statusEffectLayoutGroup.childCount; i++)
             {

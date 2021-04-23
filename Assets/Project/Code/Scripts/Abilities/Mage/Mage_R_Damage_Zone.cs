@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class Mage_R_Damage_Zone : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    EntityStats UserStats { get; set; }
+    public AbilityLogic AbilityUsed { get; set; }
+    public bool CanMark { get; set; }
+
+    public void SetZone(
+        EntityStats userStats,
+        AbilityLogic ability,
+        bool canMark)
     {
-        
+        UserStats = userStats;
+        AbilityUsed = ability;
+        CanMark = canMark;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        EntityStats targetStats = other.GetComponent<EntityStats>();
+
+        if (targetStats != null && !targetStats.IsDead)
+        {
+            //Consume d'abord et applique ensuite si peut
+
+            AbilityUsed.ApplyingDamageOnTarget(other);
+
+            if (CanMark) StartCoroutine(targetStats.MarkEntity(AbilityUsed.Ability.AbilityMarkDuration, UserStats.EntityTeam));
+        }
     }
 }

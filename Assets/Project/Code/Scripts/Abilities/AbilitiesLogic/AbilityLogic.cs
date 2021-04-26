@@ -166,7 +166,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #region Handling ability casting
     private void CastWhenInRange()
     {
-        if (characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange <= 0 || IsInRangeToCast) 
+        if (characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange == 0 || IsInRangeToCast) 
             || Ability.IsPointAndClick && AbilityTarget == transform
             || Ability.IsPointAndClick && characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange <= 0 || IsInRangeToCast))
         {

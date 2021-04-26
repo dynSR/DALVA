@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Ability_Mage_E : AbilityLogic
@@ -25,8 +26,12 @@ public class Ability_Mage_E : AbilityLogic
         PlayAbilityAnimation("UsesThirdAbility", true, true);
 
         EntityStats abilityTargetStats = AbilityTarget.GetComponent<EntityStats>();
+        Collider targetCollider = AbilityTarget.GetComponent<Collider>();
 
         ApplyShieldOnOneTarget(abilityTargetStats);
+
+        if (AbilityTarget.gameObject != transform.gameObject)
+            StartCoroutine(ApplyDamageOnTargetWithDelay(Ability.AbilityTimeToCast  + 0.5f, targetCollider));
 
         switch (UsedEffectIndex)
         {
@@ -35,7 +40,7 @@ public class Ability_Mage_E : AbilityLogic
                 //- sur ennemi: inflige(40 + 40 % PM) dégâts et ralentit de 15 VD pendant 2s, si la cible est marqué, immobilise au lieu de ralentir
                 //- sur allié: donne un bouclier de(50 + 150 % PM) points de vie(PV) pendant 2s."
                 Debug.Log("Applying damage");
-                ApplyingDamageOnTarget(AbilityTarget.GetComponent<Collider>());
+                //ApplyingDamageOnTarget(AbilityTarget.GetComponent<Collider>());
                 Ability.EffectAppliedOnMarkedEnemy = rootEffect;
                 Ability.EffectAppliedOnMarkedAlly = null;
                 Ability.AbilityCanConsumeMark = false;
@@ -66,6 +71,13 @@ public class Ability_Mage_E : AbilityLogic
                     ApplyShieldOnOtherAllies();
                 break;
         }
+    }
+
+    IEnumerator ApplyDamageOnTargetWithDelay(float delay, Collider target)
+    {
+        yield return new WaitForSeconds(delay);
+
+        ApplyingDamageOnTarget(target);
     }
 
     void ApplyShieldOnOneTarget(EntityStats abilityTargetStats)

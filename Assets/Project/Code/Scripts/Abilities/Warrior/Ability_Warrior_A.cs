@@ -43,7 +43,7 @@ public class Ability_Warrior_A : AbilityLogic
         DeactivateVFX(AbilityVFXToActivate);
     }
 
-    protected override void SetAbilityAfterAPurchase()
+    public override void SetAbilityAfterAPurchase()
     {
         throw new System.NotImplementedException();
     }

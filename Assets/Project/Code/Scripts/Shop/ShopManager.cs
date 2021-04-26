@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ShopManager : MonoBehaviour
 {
     public delegate void ShopActionsHandler(int value);
-    public static event ShopActionsHandler OnBuyingAnItem;
-    public static event ShopActionsHandler OnSellingAnItem;
-    public static event ShopActionsHandler OnShopActionCancel;
+    public event ShopActionsHandler OnBuyingAnItem;
+    public event ShopActionsHandler OnSellingAnItem;
+    public event ShopActionsHandler OnShopActionCancel;
 
     public Transform Player => GetComponentInParent<PlayerHUDManager>().Player;
 
@@ -22,6 +23,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private List<ShopIcon> shopBoxesIcon;
 
     private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
+    private EntityStats PlayerStats => Player.GetComponent<EntityStats>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
     public InventoryBox SelectedInventoryBox { get; set; }
     public bool InventoryItemIsSelected { get => inventoryItemIsSelected; set => inventoryItemIsSelected = value; }
@@ -38,7 +40,7 @@ public class ShopManager : MonoBehaviour
         public int itemValue;
         public int transactionID;
 
-        public ShopActionData(string shopActionDataName ,ShopActionType shopActionType, Item item, int itemValue, int transactionID)
+        public ShopActionData(string shopActionDataName ,ShopActionType shopActionType, Item item = null, int itemValue = 0, int transactionID = 0)
         {
             this.shopActionDataName = shopActionDataName;
             this.shopActionType = shopActionType;
@@ -49,24 +51,33 @@ public class ShopManager : MonoBehaviour
     }
 
     #region Buy an item
-    public void AddShopActionOnPurchase(InventoryBox inventoryBoxItem)
+    public void AddShopActionOnPurchase(InventoryBox inventoryBoxItem = null, Item item = null)
     {
-        string shopActionDataName = "Purchase " + inventoryBoxItem.StoredItem.ItemName;
-
         numberOfShopActionsDone++;
 
         Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
 
-        inventoryBoxItem.StoredItemTransactionID = numberOfShopActionsDone;
+        if(inventoryBoxItem != null)
+        {
+            string shopActionDataName = "Purchase " + inventoryBoxItem.StoredItem.ItemName;
 
-        shopActions.Add(new ShopActionData(
-            shopActionDataName, 
-            ShopActionData.ShopActionType.Purchase, 
-            inventoryBoxItem.StoredItem, 
-            inventoryBoxItem.StoredItem.ItemCost, 
-            inventoryBoxItem.StoredItemTransactionID));
+            inventoryBoxItem.StoredItemTransactionID = numberOfShopActionsDone;
 
-        OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - inventoryBoxItem.StoredItem.ItemCost);
+            AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Purchase, inventoryBoxItem);
+
+            OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - inventoryBoxItem.StoredItem.ItemCost);
+        }
+
+        if(item != null) // Item Ability
+        {
+            string shopActionDataName = "Purchase " + item.ItemName;
+
+            AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Purchase);
+
+            OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - item.ItemCost);
+
+            RefreshShopData();
+        }
     }
     #endregion
 
@@ -74,13 +85,21 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void BuyItem(Item shopItem)
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || !CanPurchaseItem(shopItem)) return;
 
         if (UtilityClass.RightClickIsPressed())
         {
-            if (PlayerInventory.InventoryIsFull || !CanPurchaseItem(shopItem) || IsItemAlreadyInInventory(shopItem)) return;
+            if(!shopItem.ItemIsAnAbility)
+            {
+                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem)) return;
 
-            PlayerInventory.AddItemToInventory(shopItem, true);
+                PlayerInventory.AddItemToInventory(shopItem, true);
+            }
+            else
+            {
+                shopItem.EquipItemAsAbility(PlayerStats.EntityAbilities[shopItem.AbilityIndex]);
+                AddShopActionOnPurchase(null, shopItem);
+            }
 
             Debug.Log("Buying item : " + shopItem.ItemName);
         }
@@ -89,9 +108,21 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void BuySelectedItemOnClickingOnButton()
     {
-        if (PlayerInventory.InventoryIsFull || !CanPurchaseItem(SelectedItem) || IsItemAlreadyInInventory(SelectedItem)) return;
+        if (!CanPurchaseItem(SelectedItem)) return;
 
-        PlayerInventory.AddItemToInventory(SelectedItem, true);
+        if (!SelectedItem.ItemIsAnAbility)
+        {
+            if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(SelectedItem)) return;
+
+            PlayerInventory.AddItemToInventory(SelectedItem, true);
+        }
+        else
+        {
+            SelectedItem.EquipItemAsAbility(PlayerStats.EntityAbilities[SelectedItem.AbilityIndex]);
+            AddShopActionOnPurchase(null, SelectedItem);
+        }
+
+        Debug.Log("Buying item : " + SelectedItem.ItemName);
     }
 
     //Its on a button
@@ -101,28 +132,46 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log("Selling item : " + SelectedInventoryBox.StoredItem.ItemName);
 
-        RemoveShopActionOnSell(SelectedInventoryBox);
+        ShopActionOnSell(SelectedInventoryBox);
     }
     #endregion
 
     #region Sell an item
-    public void RemoveShopActionOnSell(InventoryBox inventoryBoxItem)
+    public void ShopActionOnSell(InventoryBox inventoryBoxItem = null)
     {
         string shopActionDataName = "Sale " + inventoryBoxItem.StoredItem.ItemName;
 
         Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
 
-        shopActions.Add(new ShopActionData(
-            shopActionDataName, 
-            ShopActionData.ShopActionType.Sale, 
-            inventoryBoxItem.StoredItem, 
-            inventoryBoxItem.StoredItem.ItemCost, 
-            inventoryBoxItem.StoredItemTransactionID));
+        AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Sale, inventoryBoxItem);
 
         OnSellingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + inventoryBoxItem.StoredItem.AmountOfGoldRefundedOnSale);
 
-        PlayerInventory.RemoveItemFromInventory(inventoryBoxItem);
-        PlayerInventory.ResetAllSelectedIcons();
+        if (inventoryBoxItem != null)
+        {
+            PlayerInventory.RemoveItemFromInventory(inventoryBoxItem);
+            PlayerInventory.ResetAllSelectedIcons();
+        }
+    }
+
+    private void AddShopActionData(string shopActionDataName, ShopActionData.ShopActionType shopActionType, InventoryBox inventoryBoxItem = null)
+    {
+        if (inventoryBoxItem != null)
+        {
+            shopActions.Add(new ShopActionData(
+            shopActionDataName,
+            shopActionType,
+            inventoryBoxItem.StoredItem,
+            inventoryBoxItem.StoredItem.ItemCost,
+            inventoryBoxItem.StoredItemTransactionID));
+        }
+        else
+        {
+           shopActions.Add(new ShopActionData(
+           shopActionDataName,
+           shopActionType));
+        }
+        
     }
     #endregion
 
@@ -145,7 +194,7 @@ public class ShopManager : MonoBehaviour
                             //Debug.Log(PlayerInventory.InventoryBoxes[j].name);
                             //Debug.Log("Last shop action is a purchase action");
 
-                            OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + PlayerInventory.InventoryBoxes[j].StoredItem.ItemCost);
+                            OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + shopActions[i].item.ItemCost);
 
                             PlayerInventory.RemoveItemFromInventory(PlayerInventory.InventoryBoxes[j]);
 
@@ -172,6 +221,7 @@ public class ShopManager : MonoBehaviour
                     shopActions.RemoveAt(i);
                     return;
                 }
+                
             }
         }
     }
@@ -198,39 +248,92 @@ public class ShopManager : MonoBehaviour
     }
     #endregion
 
-    void RefreshShopData()
-    {
-        //Lock les équipements qui ne sont plus achetables - check des ressources
-        //Lock les équipements qui sont déjà dans l'inventaire après l'achat
-    }
-
-    public void ResetSelectionIcon()
+    public void RefreshShopData()
     {
         for (int i = 0; i < shopBoxesIcon.Count; i++)
         {
+            if (!shopBoxesIcon[i].isActiveAndEnabled) continue;
+
+            Item item = shopBoxesIcon[i].ItemButton.ButtonItem;
+
+            if (!item.ItemIsAnAbility)
+            {
+                Debug.Log(item.name + " " + item.ItemIsAnAbility);
+
+                if (!CanPurchaseItem(item))
+                {
+                    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                }
+                else if (IsItemAlreadyInInventory(item))
+                {
+                    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                    shopBoxesIcon[i].ItemButton.DisplayCheckMark();
+                    shopBoxesIcon[i].ItemButton.DisplayPadlock();
+                }
+                else if (!IsItemAlreadyInInventory(item) && CanPurchaseItem(item))
+                {
+                    shopBoxesIcon[i].ItemButton.ObjectIsDisponible();
+                    shopBoxesIcon[i].ItemButton.HideCheckMark();
+                    shopBoxesIcon[i].ItemButton.HidePadlock();
+                }
+            }
+
+            if (item.ItemIsAnAbility)
+            {
+                AbilityLogic ability = PlayerStats.EntityAbilities[item.AbilityIndex];
+
+                Debug.Log(PlayerStats.EntityAbilities[item.AbilityIndex].name);
+                Debug.Log(item.name + " " + item.ItemIsAnAbility);
+
+                if (ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) || !CanPurchaseItem(shopBoxesIcon[i].ItemButton.ButtonItem))
+                {
+                    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                }
+                else if (!ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) && CanPurchaseItem(shopBoxesIcon[i].ItemButton.ButtonItem))
+                {
+                    shopBoxesIcon[i].ItemButton.ObjectIsDisponible();
+                    shopBoxesIcon[i].ItemButton.HideCheckMark();
+                    shopBoxesIcon[i].ItemButton.HidePadlock();
+                }
+                ////Si already equipped
+                //else if (!CanPurchaseItem(shopBoxesIcon[i].ItemButton.ButtonItem))
+                //{
+                //    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                //    shopBoxesIcon[i].ItemButton.DisplayCheckMark();
+                //    shopBoxesIcon[i].ItemButton.DisplayPadlock();
+                //}
+            }
+        }
+    }
+
+    public void ResetSelectionIcon(bool ignoreCurrentObject = false)
+    {
+        for (int i = 0; i < shopBoxesIcon.Count; i++)
+        {
+            if (ignoreCurrentObject && EventSystem.current.currentSelectedGameObject == shopBoxesIcon[i].gameObject) continue;
+
             shopBoxesIcon[i].ResetSelection();
+            shopBoxesIcon[i].ToggleOff();
         }
     }
 
     public bool IsItemAlreadyInInventory(Item item)
     {
-        bool isItemAlreadyInInventory = false;
-
         for (int i = PlayerInventory.InventoryBoxes.Count - 1; i >= 0; i--)
         {
             if (PlayerInventory.InventoryBoxes[i].StoredItem == item)
             {
-                isItemAlreadyInInventory = true;
+                Debug.Log(item + " is already in inventory");
+                return true;
             }
-            else isItemAlreadyInInventory = false;
         }
 
-        return isItemAlreadyInInventory;
+        return false;
     }
 
     public bool CanPurchaseItem(Item item)
     {
-        bool canPurchaseItem = false;
+        bool canPurchaseItem;
 
         if (Player.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= item.ItemCost)
         {

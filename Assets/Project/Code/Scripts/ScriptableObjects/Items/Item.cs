@@ -9,7 +9,13 @@ public class Item : ScriptableObject
     [TextArea][SerializeField] private string itemDescription;
     [SerializeField] private int itemCost;
     [SerializeField] private int amountOfGoldRefundedOnSale;
+    [SerializeReference] private bool itemIsAnAbility = false;
 
+    [Header("ITEM AS AN ABILITY")]
+    [SerializeField] private int abilityIndex = 0;
+    [SerializeField] private AbilityEffect abilityEffectToAssign;
+
+    [Header("ITEM AS AN EQUIPEMENT")]
     [SerializeField] private List<StatModifier> itemModifiers;
 
     private InventoryBox inventoryBox = null;
@@ -20,29 +26,57 @@ public class Item : ScriptableObject
     public int ItemCost { get => itemCost; }
     public int AmountOfGoldRefundedOnSale { get => amountOfGoldRefundedOnSale; }
     public InventoryBox InventoryBox { get => inventoryBox; set => inventoryBox = value; }
+    public bool ItemIsAnAbility { get => itemIsAnAbility; }
+    public AbilityEffect AbilityEffectToAssign { get => abilityEffectToAssign; }
+    public int AbilityIndex { get => abilityIndex; }
 
-    public void Equip(EntityStats c)
+    #region Equipment
+    public void EquipItemAsEquipement(EntityStats c)
     {
-        for (int i = 0; i < c.entityStats.Count; i++)
+        if (!ItemIsAnAbility)
         {
-            for (int j = 0; j < itemModifiers.Count; j++)
+            for (int i = 0; i < c.entityStats.Count; i++)
             {
-                if (c.entityStats[i].StatType == itemModifiers[j].StatType)
+                for (int j = 0; j < itemModifiers.Count; j++)
                 {
-                    c.entityStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
+                    if (c.entityStats[i].StatType == itemModifiers[j].StatType)
+                    {
+                        c.entityStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
+                    }
                 }
             }
         }
     }
 
-    public void Unequip(EntityStats c)
+    public void UnequipItemAsEquipement(EntityStats c)
     {
-        Debug.Log("Casting Unequip");
-        for (int i = c.entityStats.Count - 1; i >= 0; i--)
+        if (!ItemIsAnAbility)
         {
-            Debug.Log("Can't find any item -!-");
-            c.entityStats[i].RemoveAllModifiersFromSource(this);
-            c.entityStats[i].MaxValue = c.entityStats[i].CalculateValue();
+            for (int i = c.entityStats.Count - 1; i >= 0; i--)
+            {
+                Debug.Log("Can't find any item -!-");
+                c.entityStats[i].RemoveAllModifiersFromSource(this);
+                c.entityStats[i].MaxValue = c.entityStats[i].CalculateValue();
+            }
+        }   
+    }
+    #endregion
+
+    #region Ability
+    public void EquipItemAsAbility(AbilityLogic ability)
+    {
+        if (ItemIsAnAbility)
+        {
+            ability.UsedEffectIndex = AbilityEffectToAssign;
         }
     }
+
+    public void UnequipItemAsAbility(AbilityLogic ability)
+    {
+        if (ItemIsAnAbility)
+        {
+            ability.UsedEffectIndex = AbilityEffectToAssign;
+        }
+    }
+    #endregion
 }

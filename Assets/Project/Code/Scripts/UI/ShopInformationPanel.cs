@@ -44,7 +44,9 @@ public class ShopInformationPanel : MonoBehaviour
 
         SetContentInformations(selectedItem);
 
-        if (shopManager.CanPurchaseItem(selectedItem))
+        buyButton.gameObject.SetActive(true);
+
+        if (shopManager.CanPurchaseItem(selectedItem) && !shopManager.IsItemAlreadyInInventory(selectedItem))
         {
             buyButton.interactable = true;
         }
@@ -52,6 +54,9 @@ public class ShopInformationPanel : MonoBehaviour
 
     void ResetInformationPanel(Item selectedItem)
     {
+        if (buyButton.gameObject.activeInHierarchy)
+            buyButton.gameObject.SetActive(false);
+
         buyButton.interactable = false;
         HideContent();
     }

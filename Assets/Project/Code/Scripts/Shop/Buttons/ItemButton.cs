@@ -10,7 +10,6 @@ public class ItemButton : InteractiveButton
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        base.OnPointerDown(eventData);
         PlayerShop.BuyItem(ButtonItem);
     }
 }

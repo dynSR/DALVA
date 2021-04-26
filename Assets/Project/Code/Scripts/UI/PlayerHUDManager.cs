@@ -101,7 +101,7 @@ public class PlayerHUDManager : MonoBehaviour
 
     #region Player HUD windows behaviour
     #region Toggle
-    void ToggleAWindow(bool value, GameObject window)
+    public void ToggleAWindow(bool value, GameObject window)
     {
         if (!value)
         {
@@ -137,6 +137,7 @@ public class PlayerHUDManager : MonoBehaviour
     {
         IsShopWindowOpen = true;
         ResetShopWindowAnchoredPosition();
+        ShopWindow.GetComponent<ShopManager>().RefreshShopData();
     }
 
     void OnClosingShopWindow()

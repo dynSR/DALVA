@@ -34,6 +34,7 @@ public class GetCharacterAbilities : MonoBehaviour
                 for (int j = 0; j < abilityContainers.Count; j++)
                 {
                     abilityContainers[j].ContainedAbility = CharacterStats.EntityAbilities[j];
+                    CharacterStats.EntityAbilities[j].Container = abilityContainers[j];
                 }
             }
         }

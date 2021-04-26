@@ -21,7 +21,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected EntityStats Stats => GetComponent<EntityStats>();
     protected CharacterController Controller => GetComponent<CharacterController>();
     protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
-    protected AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
+    public AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
     protected ThrowingAbilityProjectile ThrowingProjectile => GetComponent<ThrowingAbilityProjectile>();
     protected DashLogic DashLogic => GetComponent<DashLogic>();
     #endregion
@@ -60,11 +60,13 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public float TotalPhysicalDamage { get; set; }
     public float TotalMagicalDamage { get; set; }
 
+    public AbilityContainerLogic Container { get; set; }
+
     protected abstract void Cast();
 
     protected virtual void Awake()
     {
-        //UsedEffectIndex = AbilityEffect.I; à décommenter
+        UsedEffectIndex = AbilityEffect.I;
         if (Stats.EntityAbilities.Count != 0) Stats.EntityAbilities[3].CanBeUsed = false;
     }
 
@@ -160,7 +162,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #region Handling ability casting
     private void CastWhenInRange()
     {
-        if (characterIsTryingToCast && !Controller.IsCasting && !Ability.IsPointAndClick && IsInRangeToCast || Ability.IsPointAndClick && AbilityTarget == transform)
+        if (characterIsTryingToCast && !Controller.IsCasting && !Ability.IsPointAndClick && (Ability.AbilityRange <= 0 || IsInRangeToCast) 
+            || Ability.IsPointAndClick && AbilityTarget == transform)
         {
             Debug.Log("Close enough, can cast now !");
             Controller.IsCasting = true;
@@ -329,7 +332,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #endregion
 
     #region Modifying ability's attributes
-    protected abstract void SetAbilityAfterAPurchase();
+    public abstract void SetAbilityAfterAPurchase();
 
     protected void SetAbilityMarkDuration(float duration)
     {

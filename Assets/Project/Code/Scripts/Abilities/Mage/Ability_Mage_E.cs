@@ -93,7 +93,7 @@ public class Ability_Mage_E : AbilityLogic
         _shieldZone.SetShieldZone(shieldZoneSize, this, shieldEffect, shieldEffect.StatusEffectDuration, ShieldValue, 0f, false, true);
     }
 
-    protected override void SetAbilityAfterAPurchase()
+    public override void SetAbilityAfterAPurchase()
     {
         throw new System.NotImplementedException();
     }

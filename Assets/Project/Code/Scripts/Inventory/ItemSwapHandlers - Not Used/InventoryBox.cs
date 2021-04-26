@@ -8,8 +8,8 @@ public class InventoryBox : MonoBehaviour
     private int storedItemTransactionID;
     public InventoryManager PlayerInventory { get => GetComponentInParent<InventoryManager>(); }
     public Item StoredItem { get; set; }
-    private Image StoredItemIcon => transform.GetChild(0).GetComponent<Image>();
-    private CanvasGroup CanvasGrp => transform.GetChild(0).GetComponent<CanvasGroup>();
+    private Image StoredItemIcon => transform.GetChild(1).GetComponent<Image>();
+    private CanvasGroup CanvasGrp => transform.GetChild(1).GetComponent<CanvasGroup>();
     public int StoredItemTransactionID { get => storedItemTransactionID; set => storedItemTransactionID = value; }
 
     private void Start()

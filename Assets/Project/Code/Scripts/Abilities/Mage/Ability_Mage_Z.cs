@@ -63,7 +63,7 @@ public class Ability_Mage_Z : AbilityLogic
         }
     }
 
-    protected override void SetAbilityAfterAPurchase()
+    public override void SetAbilityAfterAPurchase()
     {
         throw new System.NotImplementedException();
     }

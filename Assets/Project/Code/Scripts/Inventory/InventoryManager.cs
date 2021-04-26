@@ -20,31 +20,20 @@ public class InventoryManager : MonoBehaviour
     public List<SelectIcon> ParentOfSelectedIcons { get => parentOfSelectedIcons; }
     public ShopManager Shop { get => shop; set => shop = value; }
 
-    //private void Awake() => GetRequiredComponent();
 
     #region Inventory - Shop Management
-
-    //private void GetRequiredComponent()
-    //{
-    //    for (int i = 0; i < transform.childCount; i++)
-    //    {
-    //        InventoryBox inventoryBox = transform.GetChild(i).GetComponent<InventoryBox>();
-    //        InventoryBoxes.Add(inventoryBox);
-
-    //        SelectIcon toggleSelectionIcon = transform.GetChild(i).GetComponentInChildren<SelectIcon>();
-    //        ParentOfSelectedIcons.Add(toggleSelectionIcon);
-    //    }
-    //}
-
     // Function used to remove an item from inventory
     public void RemoveItemFromInventory(InventoryBox inventoryBox)
     {
         if (InventoryIsEmpty) return;
 
-        inventoryBox.StoredItem.Unequip(Shop.Player.GetComponent<EntityStats>());
+        inventoryBox.StoredItem.UnequipItemAsEquipement(Shop.Player.GetComponent<EntityStats>());
 
         NumberOfFullInventoryBoxes--;
+
         inventoryBox.ResetInventoryBoxStoredItem(inventoryBox);
+        Shop.RefreshShopData();
+
         //Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
     }
 
@@ -58,10 +47,12 @@ public class InventoryManager : MonoBehaviour
                 NumberOfFullInventoryBoxes++;
                 InventoryBoxes[i].ChangeInventoryBoxStoredItem(item, item.ItemIcon);
 
-                item.Equip(Shop.Player.GetComponent<EntityStats>());
+                item.EquipItemAsEquipement(Shop.Player.GetComponent<EntityStats>());
 
                 if (hasBeenPurchased)
                     Shop.AddShopActionOnPurchase(InventoryBoxes[i]);
+
+                Shop.RefreshShopData();
 
                 //Debug.Log("Add " + item.ItemName + " to inventory");
                 //Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);

@@ -30,7 +30,6 @@ MonoBehaviour:
   healMagicalRatio: 0
   healHealthRatio: 0
   abilityShieldValue: 50
-  abilityCanApplyShieldToTarget: 1
   shieldMagicalRatio: 1.5
   shieldHealthRatio: 0
   defaultEffectAppliedOnAlly: {fileID: 11400000, guid: 9bbad937a6ab3534d9151750625a2111, type: 2}
@@ -39,8 +38,8 @@ MonoBehaviour:
   abilityDamageBonusOnMarkedTarget: 0
   abilityHealBonusOnMarkedTarget: 0
   abilityCanMark: 0
-  abilityCanConsumeMark: 1
-  effectAppliedOnMarkedAlly: {fileID: 11400000, guid: 9bbad937a6ab3534d9151750625a2111, type: 2}
+  abilityCanConsumeMark: 0
+  effectAppliedOnMarkedAlly: {fileID: 0}
   effectAppliedOnMarkedEnemy: {fileID: 11400000, guid: 3445b23ba35a0324b998f5a7c83379f8, type: 2}
   abilityRange: 6
   abilityAreaOfEffect: 0

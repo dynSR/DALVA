@@ -78,7 +78,11 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
-            if (Interactions.KnownTarget != null) AbilityTarget = Interactions.KnownTarget;
+            if (Ability.IsPointAndClick && Interactions.KnownTarget != null)
+            {
+                AbilityTarget = Interactions.KnownTarget;
+                CastLocation = AbilityTarget.position;
+            }
             else if (Ability.IsPointAndClick && Interactions.KnownTarget == null)
             {
                 AbilityTarget = transform;
@@ -162,8 +166,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #region Handling ability casting
     private void CastWhenInRange()
     {
-        if (characterIsTryingToCast && !Controller.IsCasting && !Ability.IsPointAndClick && (Ability.AbilityRange <= 0 || IsInRangeToCast) 
-            || Ability.IsPointAndClick && AbilityTarget == transform)
+        if (characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange <= 0 || IsInRangeToCast) 
+            || Ability.IsPointAndClick && AbilityTarget == transform
+            || Ability.IsPointAndClick && characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange <= 0 || IsInRangeToCast))
         {
             Debug.Log("Close enough, can cast now !");
             Controller.IsCasting = true;
@@ -268,6 +273,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 #endregion
 
                 #region Appllying ability damage to target(s)
+                Debug.Log("Applying Damage");
+
                 collider.GetComponent<EntityStats>().TakeDamage
                 (transform,
                 targetStat.GetStat(StatType.PhysicalResistances).Value,
@@ -284,7 +291,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
             #region Handle Mark and ability's status effect
             #region Effect applied on enemy target whether it is marked or not
-            if ((Ability.DefaultEffectAppliedOnEnemy != null || Ability.EffectAppliedOnMarkedEnemy != null) && targetStat.EntityTeam != Stats.EntityTeam)
+            if ((Ability.DefaultEffectAppliedOnAlly != null || Ability.DefaultEffectAppliedOnEnemy != null) && targetStat.EntityTeam != Stats.EntityTeam)
             {
                 if (!targetStat.EntityIsMarked)
                 {

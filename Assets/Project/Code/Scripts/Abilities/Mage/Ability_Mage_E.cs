@@ -34,6 +34,8 @@ public class Ability_Mage_E : AbilityLogic
                 //"Sort ciblé : 
                 //- sur ennemi: inflige(40 + 40 % PM) dégâts et ralentit de 15 VD pendant 2s, si la cible est marqué, immobilise au lieu de ralentir
                 //- sur allié: donne un bouclier de(50 + 150 % PM) points de vie(PV) pendant 2s."
+                Debug.Log("Applying damage");
+                ApplyingDamageOnTarget(AbilityTarget.GetComponent<Collider>());
                 Ability.EffectAppliedOnMarkedEnemy = rootEffect;
                 Ability.EffectAppliedOnMarkedAlly = null;
                 Ability.AbilityCanConsumeMark = false;

@@ -29,6 +29,7 @@ public class ShopManager : MonoBehaviour
     public bool InventoryItemIsSelected { get => inventoryItemIsSelected; set => inventoryItemIsSelected = value; }
     public bool ShopItemIsSelected { get => shopItemIsSelected; set => shopItemIsSelected = value; }
     public Item SelectedItem { get; set; }
+    public List<ShopIcon> ShopBoxesIcon { get => shopBoxesIcon; }
 
     [System.Serializable]
     public class ShopActionData
@@ -250,11 +251,11 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShopData()
     {
-        for (int i = 0; i < shopBoxesIcon.Count; i++)
+        for (int i = 0; i < ShopBoxesIcon.Count; i++)
         {
-            if (!shopBoxesIcon[i].isActiveAndEnabled) continue;
+            if (!ShopBoxesIcon[i].isActiveAndEnabled) continue;
 
-            Item item = shopBoxesIcon[i].ItemButton.ButtonItem;
+            Item item = ShopBoxesIcon[i].ItemButton.ButtonItem;
 
             if (!item.ItemIsAnAbility)
             {
@@ -262,19 +263,19 @@ public class ShopManager : MonoBehaviour
 
                 if (!CanPurchaseItem(item))
                 {
-                    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                    ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                 }
                 else if (IsItemAlreadyInInventory(item))
                 {
-                    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
-                    shopBoxesIcon[i].ItemButton.DisplayCheckMark();
-                    shopBoxesIcon[i].ItemButton.DisplayPadlock();
+                    ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                    ShopBoxesIcon[i].ItemButton.DisplayCheckMark();
+                    ShopBoxesIcon[i].ItemButton.DisplayPadlock();
                 }
                 else if (!IsItemAlreadyInInventory(item) && CanPurchaseItem(item))
                 {
-                    shopBoxesIcon[i].ItemButton.ObjectIsDisponible();
-                    shopBoxesIcon[i].ItemButton.HideCheckMark();
-                    shopBoxesIcon[i].ItemButton.HidePadlock();
+                    ShopBoxesIcon[i].ItemButton.ObjectIsDisponible();
+                    ShopBoxesIcon[i].ItemButton.HideCheckMark();
+                    ShopBoxesIcon[i].ItemButton.HidePadlock();
                 }
             }
 
@@ -285,15 +286,15 @@ public class ShopManager : MonoBehaviour
                 Debug.Log(PlayerStats.EntityAbilities[item.AbilityIndex].name);
                 Debug.Log(item.name + " " + item.ItemIsAnAbility);
 
-                if (ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) || !CanPurchaseItem(shopBoxesIcon[i].ItemButton.ButtonItem))
+                if (ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) || !CanPurchaseItem(ShopBoxesIcon[i].ItemButton.ButtonItem))
                 {
-                    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                    ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                 }
-                else if (!ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) && CanPurchaseItem(shopBoxesIcon[i].ItemButton.ButtonItem))
+                else if (!ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) && CanPurchaseItem(ShopBoxesIcon[i].ItemButton.ButtonItem))
                 {
-                    shopBoxesIcon[i].ItemButton.ObjectIsDisponible();
-                    shopBoxesIcon[i].ItemButton.HideCheckMark();
-                    shopBoxesIcon[i].ItemButton.HidePadlock();
+                    ShopBoxesIcon[i].ItemButton.ObjectIsDisponible();
+                    ShopBoxesIcon[i].ItemButton.HideCheckMark();
+                    ShopBoxesIcon[i].ItemButton.HidePadlock();
                 }
                 ////Si already equipped
                 //else if (!CanPurchaseItem(shopBoxesIcon[i].ItemButton.ButtonItem))
@@ -308,12 +309,12 @@ public class ShopManager : MonoBehaviour
 
     public void ResetSelectionIcon(bool ignoreCurrentObject = false)
     {
-        for (int i = 0; i < shopBoxesIcon.Count; i++)
+        for (int i = 0; i < ShopBoxesIcon.Count; i++)
         {
-            if (ignoreCurrentObject && EventSystem.current.currentSelectedGameObject == shopBoxesIcon[i].gameObject) continue;
+            if (ignoreCurrentObject && EventSystem.current.currentSelectedGameObject == ShopBoxesIcon[i].gameObject) continue;
 
-            shopBoxesIcon[i].ResetSelection();
-            shopBoxesIcon[i].ToggleOff();
+            ShopBoxesIcon[i].ResetSelection();
+            ShopBoxesIcon[i].ToggleOff();
         }
     }
 

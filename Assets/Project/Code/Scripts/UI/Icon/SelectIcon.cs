@@ -10,7 +10,9 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
     protected Transform SelectionIcon => transform.GetChild(0).transform;
     #endregion
 
+    [SerializeField] private GameObject tooltip;
     public bool IsSelected { get; set; }
+    public GameObject Tooltip { get => tooltip; }
 
     void Awake()
     {
@@ -26,6 +28,8 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
 
         if (!IsSelected)
             DisplayIcon();
+
+        DisplayTooltip(Tooltip);
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
@@ -54,6 +58,8 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
 
         if (!IsSelected)
             HideIcon();
+
+        HideTooltip(Tooltip);
     }
 
     #region Toggle On / Off Selection
@@ -75,12 +81,26 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
     #region Display / Hide Icon
     protected void DisplayIcon()
     {
-        SelectionIcon.gameObject.SetActive(true);
+        if (!SelectionIcon.gameObject.activeInHierarchy)
+            SelectionIcon.gameObject.SetActive(true);
     }
 
     protected void HideIcon()
     {
-        SelectionIcon.gameObject.SetActive(false);
+        if (SelectionIcon.gameObject.activeInHierarchy)
+            SelectionIcon.gameObject.SetActive(false);
+    }
+
+    void DisplayTooltip(GameObject tooltipObject)
+    {
+        if (!tooltipObject.activeInHierarchy)
+            tooltipObject.SetActive(true);
+    }
+
+    public void HideTooltip(GameObject tooltipObject)
+    {
+        if(tooltipObject.activeInHierarchy)
+            tooltipObject.SetActive(false);
     }
     #endregion
 }

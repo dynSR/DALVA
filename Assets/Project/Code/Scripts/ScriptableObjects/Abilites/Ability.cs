@@ -28,7 +28,6 @@ public class Ability : ScriptableObject
 
     [Header("SHIELD")]
     [SerializeField] private float abilityShieldValue = 0f;
-    [SerializeField] private bool abilityCanApplyShieldToTarget = false;
     [Range(0.0f, 10f)] [SerializeField] private float shieldMagicalRatio = 0f;
     [Range(0.0f, 10f)] [SerializeField] private float shieldHealthRatio = 0f;
 
@@ -82,7 +81,6 @@ public class Ability : ScriptableObject
     public float HealHealthRatio { get => healHealthRatio; set => healHealthRatio = value; }
 
     public float AbilityShieldValue { get => abilityShieldValue; set => abilityShieldValue = value; }
-    public bool AbilityCanApplyShieldToTarget { get => abilityCanApplyShieldToTarget; set => abilityCanApplyShieldToTarget = value; }
     public float ShieldHealthRatio { get => shieldHealthRatio; set => shieldHealthRatio = value; }
     public float ShieldMagicalRatio { get => shieldMagicalRatio; set => shieldMagicalRatio = value; }
 

@@ -135,20 +135,32 @@ public class PlayerHUDManager : MonoBehaviour
     #region Shop Window
     void OnOpenningShopWindow()
     {
+        ShopManager shop = ShopWindow.GetComponent<ShopManager>();
+
         IsShopWindowOpen = true;
         ResetShopWindowAnchoredPosition();
-        ShopWindow.GetComponent<ShopManager>().RefreshShopData();
+        shop.RefreshShopData();
+        ResetShopWindowSelectionsOnBoxes();
+
+        for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
+        {
+            shop.ShopBoxesIcon[i].ToggleOff();
+
+            if (!shop.ShopBoxesIcon[i].Tooltip.activeInHierarchy) continue;
+
+            shop.ShopBoxesIcon[i].HideTooltip(shop.ShopBoxesIcon[i].Tooltip);
+        }
     }
 
     void OnClosingShopWindow()
     {
         IsShopWindowOpen = false;
-        ResetShopWindowSelectionsOnBoxes();
     }
 
     void ResetShopWindowSelectionsOnBoxes()
     {
-        ShopWindow.GetComponent<ShopManager>().PlayerInventory.ResetAllSelectedIcons();
+        ShopManager shop = ShopWindow.GetComponent<ShopManager>();
+        shop.PlayerInventory.ResetAllSelectedIcons();
     }
 
     void ResetShopWindowAnchoredPosition()

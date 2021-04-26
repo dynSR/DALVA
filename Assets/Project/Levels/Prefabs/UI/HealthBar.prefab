@@ -133,13 +133,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAStele: 0
-  allyColor: {r: 0, g: 0.4412074, b: 1, a: 1}
-  enemyColor: {r: 0.754717, g: 0, b: 0, a: 1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
   healthBarCanBlink: 1
   healthBarBlinkDuration: 0.001
   healthBarFill: {fileID: 4378267671996777443}
   shieldBarFill: {fileID: 8409161310948605957}
-  valueText: {fileID: 0}
+  healthValueText: {fileID: 0}
+  regenerationValueText: {fileID: 0}
   stats: {fileID: 0}
   stele: {fileID: 0}
 --- !u!222 &230074287139730580

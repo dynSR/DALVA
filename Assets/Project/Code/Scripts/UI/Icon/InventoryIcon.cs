@@ -9,7 +9,13 @@ public class InventoryIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandl
     public override void OnPointerEnter(PointerEventData eventData)
     {
         if(ItemInParentInventoryBox != null)
+        {
             base.OnPointerEnter(eventData);
+
+            Tooltip.GetComponent<TooltipSetter>().SetTooltip(
+               ItemInParentInventoryBox.ItemName,
+               ItemInParentInventoryBox.ItemDescription);
+        }  
     }
 
     public override void OnPointerDown(PointerEventData eventData)

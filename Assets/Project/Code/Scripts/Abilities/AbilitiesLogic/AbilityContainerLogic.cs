@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AbilityContainerLogic : MonoBehaviour
+public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("CONTAINED ABILITY")]
     [SerializeField] private AbilityLogic containedAbility;
@@ -21,6 +22,9 @@ public class AbilityContainerLogic : MonoBehaviour
 
     [Header("TIMER TEXT FORMAT")]
     [SerializeField] private bool onlySeconds = false;
+
+    [Header("Tooltip")]
+    [SerializeField] private GameObject tooltip;
 
     public KeyCode AbilityKey { get => abilityKey; set => abilityKey = value; }
     public AbilityLogic ContainedAbility { get => containedAbility; set => containedAbility = value; }
@@ -94,5 +98,38 @@ public class AbilityContainerLogic : MonoBehaviour
         cooldownContainerGameObject.SetActive(false);
 
         animator.SetTrigger("EndOfCD");
+    }
+
+    void DisplayTooltip()
+    {
+        if (!tooltip.activeInHierarchy)
+            tooltip.SetActive(true);
+    }
+
+    void HideTooltip()
+    {
+        if(tooltip.activeInHierarchy)
+            tooltip.SetActive(false);
+    }
+
+    public void UpdateContainerTooltip()
+    {
+        TooltipSetter tooltipSetter = tooltip.GetComponent<TooltipSetter>();
+
+        tooltipSetter.SetTooltip(
+            ContainedAbility.Ability.AbilityName,
+            ContainedAbility.Ability.AbilityDescription,
+            ContainedAbility.Ability.AbilityCooldown.ToString("0" + " s"));
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        DisplayTooltip();
+        UpdateContainerTooltip();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        HideTooltip();
     }
 }

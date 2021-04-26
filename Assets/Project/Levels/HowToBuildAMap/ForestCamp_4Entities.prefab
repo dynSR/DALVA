@@ -390,14 +390,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3053643047223258005}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8506770721419389881}
   m_Father: {fileID: 3906867380547662313}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 3.25}
@@ -462,14 +462,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3053643047257588947}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3089703505893055153}
   m_Father: {fileID: 3906867379509437441}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 3.25}
@@ -534,14 +534,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3053643048179170163}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 272951523276395923}
   m_Father: {fileID: 3906867379211953839}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 3.25}
@@ -606,14 +606,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3053643048604732991}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5352818751857642945}
   m_Father: {fileID: 3906867379295245458}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 3.25}
@@ -1722,7 +1722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityTeam: 2
-  usedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
+  baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
   entityLevel: 1
   entityStats:
@@ -1918,6 +1918,7 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
+  entityIsAscended: 0
   spawnLocation: {fileID: 3906867380044689512}
   timeToRespawn: 15
   allyMarkObject: {fileID: 8783206219764872465}
@@ -1948,6 +1949,10 @@ MonoBehaviour:
   motionSmoothTime: 0.05
   rotateVelocity: 0.1
   characterAnimator: {fileID: 3906867379320880744}
+  canMove: 1
+  isStunned: 0
+  isRooted: 0
+  stunVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -2527,7 +2532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityTeam: 2
-  usedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
+  baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
   entityLevel: 1
   entityStats:
@@ -2723,6 +2728,7 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
+  entityIsAscended: 0
   spawnLocation: {fileID: 3906867380500796479}
   timeToRespawn: 15
   allyMarkObject: {fileID: 8783206218224532257}
@@ -2753,6 +2759,10 @@ MonoBehaviour:
   motionSmoothTime: 0.05
   rotateVelocity: 0.1
   characterAnimator: {fileID: 3906867379920358789}
+  canMove: 1
+  isStunned: 0
+  isRooted: 0
+  stunVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -3050,7 +3060,7 @@ Animator:
   m_GameObject: {fileID: 3906867379320880747}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9b2b1200ae447d84a8966b780acbe1ec, type: 3}
-  m_Controller: {fileID: 9100000, guid: f8119f3a16bcc84448f012c88f587b0d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51691e270ee1ad44f8956de616736add, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -3727,7 +3737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityTeam: 2
-  usedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
+  baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
   entityLevel: 1
   entityStats:
@@ -3923,6 +3933,7 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
+  entityIsAscended: 0
   spawnLocation: {fileID: 3906867380109706731}
   timeToRespawn: 15
   allyMarkObject: {fileID: 8783206218973170511}
@@ -3953,6 +3964,10 @@ MonoBehaviour:
   motionSmoothTime: 0.05
   rotateVelocity: 0.1
   characterAnimator: {fileID: 3906867380566605154}
+  canMove: 1
+  isStunned: 0
+  isRooted: 0
+  stunVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -4253,7 +4268,7 @@ Animator:
   m_GameObject: {fileID: 3906867379583725832}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9b2b1200ae447d84a8966b780acbe1ec, type: 3}
-  m_Controller: {fileID: 9100000, guid: f8119f3a16bcc84448f012c88f587b0d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51691e270ee1ad44f8956de616736add, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -5404,7 +5419,7 @@ Animator:
   m_GameObject: {fileID: 3906867379920358788}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9b2b1200ae447d84a8966b780acbe1ec, type: 3}
-  m_Controller: {fileID: 9100000, guid: f8119f3a16bcc84448f012c88f587b0d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51691e270ee1ad44f8956de616736add, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -8267,7 +8282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityTeam: 2
-  usedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
+  baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
   entityLevel: 1
   entityStats:
@@ -8463,6 +8478,7 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
+  entityIsAscended: 0
   spawnLocation: {fileID: 3906867380748100439}
   timeToRespawn: 15
   allyMarkObject: {fileID: 8783206217950297838}
@@ -8493,6 +8509,10 @@ MonoBehaviour:
   motionSmoothTime: 0.05
   rotateVelocity: 0.1
   characterAnimator: {fileID: 3906867379583725833}
+  canMove: 1
+  isStunned: 0
+  isRooted: 0
+  stunVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -8729,7 +8749,7 @@ Animator:
   m_GameObject: {fileID: 3906867380566605157}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9b2b1200ae447d84a8966b780acbe1ec, type: 3}
-  m_Controller: {fileID: 9100000, guid: f8119f3a16bcc84448f012c88f587b0d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51691e270ee1ad44f8956de616736add, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -11564,6 +11584,22 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 3906867379295245456}
+    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: defaultColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: defaultColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: defaultColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: defaultColor.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

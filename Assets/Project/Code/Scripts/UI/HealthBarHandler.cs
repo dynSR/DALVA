@@ -7,8 +7,7 @@ public class HealthBarHandler : MonoBehaviour
 {
     [Header("PROPERTIES")]
     [SerializeField] private bool isAStele = false;
-    [SerializeField] private Color allyColor;
-    [SerializeField] private Color enemyColor;
+    [SerializeField] private Color defaultColor;
 
     [Header("HEALTHBAR UI")]
     [SerializeField] private bool healthBarCanBlink = true;
@@ -31,6 +30,8 @@ public class HealthBarHandler : MonoBehaviour
 
         if (healthValueText != null)
             SetHealthBar(stats.GetStat(StatType.Health).Value, stats.GetStat(StatType.Health).MaxValue);
+
+        ResetHealthBarColor();
     }
 
     private void OnEnable()
@@ -40,6 +41,7 @@ public class HealthBarHandler : MonoBehaviour
         if (stats != null)
         {
             stats.OnHealthValueChanged += SetHealthBar;
+            stats.OnEntityRespawn += ResetHealthBarColor;
             stats.OnDamageTaken += SetHealthBarColor;
             stats.OnShieldValueChanged += SetShieldBar;
         }
@@ -52,6 +54,7 @@ public class HealthBarHandler : MonoBehaviour
         if (stats != null)
         {
             stats.OnHealthValueChanged -= SetHealthBar;
+            stats.OnEntityRespawn -= ResetHealthBarColor;
             stats.OnDamageTaken -= SetHealthBarColor;
             stats.OnShieldValueChanged -= SetShieldBar;
         }
@@ -84,6 +87,11 @@ public class HealthBarHandler : MonoBehaviour
         if (shieldBarFill.fillAmount >= 0.5f) shieldBarFill.fillAmount = 0.5f;
     }
 
+    void ResetHealthBarColor()
+    {
+        healthBarFill.color = defaultColor;
+    }
+
     void SetHealthBarColor()
     {
         if (!healthBarCanBlink) return;
@@ -93,6 +101,8 @@ public class HealthBarHandler : MonoBehaviour
 
     private IEnumerator HealthBarBlinking(float delay)
     {
+        if (stats.IsDead) yield break;
+
         Color currentColor = healthBarFill.color;
 
         healthBarFill.color = Color.white;

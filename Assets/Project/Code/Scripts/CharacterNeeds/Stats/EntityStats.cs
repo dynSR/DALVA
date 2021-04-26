@@ -213,7 +213,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             if (characterPhysicalPower > 0)
                 global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
             if (characterMagicalPower > 0)
-                global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 0.5f, CharacterHalfSize.z), Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
+                global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 0.65f, CharacterHalfSize.z), Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
             #endregion
 
             this.SourceOfDamage = sourceOfDamage;

@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryBox : MonoBehaviour
 {
+    [SerializeField] private GameObject tooltip;
+
     private int storedItemTransactionID;
     public InventoryManager PlayerInventory { get => GetComponentInParent<InventoryManager>(); }
     public Item StoredItem { get; set; }

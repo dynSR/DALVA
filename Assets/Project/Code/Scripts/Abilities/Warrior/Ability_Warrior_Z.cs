@@ -29,7 +29,7 @@ public class Ability_Warrior_Z : AbilityLogic
 
     public override void SetAbilityAfterAPurchase()
     {
-        throw new System.NotImplementedException();
+        base.SetAbilityAfterAPurchase();
     }
 
     protected override void ResetAbilityAttributes()

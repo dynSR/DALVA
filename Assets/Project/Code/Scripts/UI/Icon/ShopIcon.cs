@@ -18,6 +18,11 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
+
+        Tooltip.GetComponent<TooltipSetter>().SetTooltip(
+               itemButton.ButtonItem.ItemName,
+               itemButton.ButtonItem.ItemDescription,
+               itemButton.ButtonItem.ItemCost.ToString("0"));
     }
 
     public override void OnPointerDown(PointerEventData eventData)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8eb4df1c2e57e840851cc35e981eeb4, type: 3}
   m_Name: Ability_Mage_A
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: "Orbe d'\xE9nergie"
   abilityDescription: "Lance un projectile qui inflige (50 + 50% PM) d\xE9g\xE2ts
     magiques. Fait (30% PM) d\xE9g\xE2ts suppl\xE9mentaires si l'ennemi est marqu\xE9
     (consomme la marque)."
@@ -32,12 +32,13 @@ MonoBehaviour:
   healMagicalRatio: 0
   healHealthRatio: 0
   abilityShieldValue: 0
-  abilityCanApplyShieldToTarget: 0
   shieldMagicalRatio: 0
   shieldHealthRatio: 0
   defaultEffectAppliedOnAlly: {fileID: 0}
   defaultEffectAppliedOnEnemy: {fileID: 0}
   abilityMarkDuration: 0
+  abilityDamageBonusOnMarkedTarget: 0
+  abilityHealBonusOnMarkedTarget: 0
   abilityCanMark: 0
   abilityCanConsumeMark: 1
   effectAppliedOnMarkedAlly: {fileID: 0}

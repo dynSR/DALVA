@@ -339,7 +339,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #endregion
 
     #region Modifying ability's attributes
-    public abstract void SetAbilityAfterAPurchase();
+    public virtual void SetAbilityAfterAPurchase()
+    {
+        Container.UpdateContainerTooltip();
+    }
 
     protected void SetAbilityMarkDuration(float duration)
     {

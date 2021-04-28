@@ -13,11 +13,8 @@ public class ShopInformationPanel : MonoBehaviour
     [SerializeField] private Button buyButton;
 
     [Header("SELECTED ITEM ATTRIBUTES")]
-    [SerializeField] private Image selectedItemIcon;
     [SerializeField] private TextMeshProUGUI selectedItemName;
     [SerializeField] private TextMeshProUGUI selectedItemCost;
-    [SerializeField] private TextMeshProUGUI selectedItemEffectName;
-    [SerializeField] private TextMeshProUGUI selectedItemEffectDescription;
     [SerializeField] private TextMeshProUGUI selectedItemDescription;
 
     [Header("CONTENTS")]
@@ -64,12 +61,8 @@ public class ShopInformationPanel : MonoBehaviour
     #region Setup
     void SetContentInformations(Item selectedItem)
     {
-        //push toutes les informations de cet équipement
-        selectedItemIcon.sprite = selectedItem.ItemIcon;
         selectedItemName.text = selectedItem.ItemName;
         selectedItemCost.text = selectedItem.ItemCost.ToString();
-        //selectedItemEffectName = selectedItem.ItemEffectName;
-        //selectedItemEffectDescription = selectedItem.ItemEffectDescription;
         selectedItemDescription.text = selectedItem.ItemDescription;
     }
 

@@ -71,11 +71,11 @@ public class Item : ScriptableObject
         }
     }
 
-    public void UnequipItemAsAbility(AbilityLogic ability)
+    public void UnequipItemAsAbility(int index,  EntityStats playerStats, AbilityEffect abilityEffect)
     {
         if (ItemIsAnAbility)
         {
-            ability.UsedEffectIndex = AbilityEffectToAssign;
+            playerStats.EntityAbilities[index].UsedEffectIndex = abilityEffect;
         }
     }
     #endregion

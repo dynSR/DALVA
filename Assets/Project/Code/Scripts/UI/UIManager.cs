@@ -1,13 +1,23 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("DEBUG SECTION")]
-    [SerializeField] private TextMeshProUGUI debugCameraStateText;
-    [SerializeField] private GameObject debugSectionWindow;
-    bool IsDebugSectionWindowOpen = true;
+    private List<SpawnerSystem> spawners = new List<SpawnerSystem>();
+
+    [Header("WAVE COUNT")]
+    [SerializeField] private TextMeshProUGUI placeToDefendHealtAmountText;
+
+    [Header("WAVE")]
+    [SerializeField] private GameObject waveIndicationUI;
+    [SerializeField] private GameObject waveDisplayerParent;
+
+    [Header("TIMER")]
+    [SerializeField] private TextMeshProUGUI timerText;
+
+    [Header("WAVE COUNT")]
+    [SerializeField] private TextMeshProUGUI waveCountText;
 
     #region Singleton
     public static UIManager Instance;
@@ -25,32 +35,52 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    private void Update()
+    private void OnEnable()
     {
-        //switch (UtilityClass.GetMainCamera().GetComponent<CameraController>().CameraLockState)
-        //{
-        //    case CameraLockState.Locked:
-        //        debugCameraStateText.text = "Vérouillée";
-        //        break;
-        //    case CameraLockState.Unlocked:
-        //        debugCameraStateText.text = "Libre";
-        //        break;
-        //    default:
-        //        break;
-        //}
+        PlaceToDefend.OnHealthValueChanged += UpdatePlaceToDefendHealth;
     }
 
-    public void OpenCloseDebugSectionWindow()
+    private void OnDisable()
     {
-        if (IsDebugSectionWindowOpen)
+        PlaceToDefend.OnHealthValueChanged -= UpdatePlaceToDefendHealth;
+    }
+
+    private void Start()
+    {
+        timerText.SetText("00 : 00");
+        PopulateSpawnersList();
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    private void LateUpdate() => UpdapteGameTimer();
+
+    void PopulateSpawnersList()
+    {
+        foreach (SpawnerSystem spawner in GameManager.Instance.Spawners)
         {
-            debugSectionWindow.SetActive(false);
-            IsDebugSectionWindowOpen = false;
+            spawners.Add(spawner);
         }
-        else if (!IsDebugSectionWindowOpen)
-        {
-            debugSectionWindow.SetActive(true);
-            IsDebugSectionWindowOpen = true;
-        }
+    }
+
+    void UpdapteGameTimer()
+    {
+        string minutes = Mathf.Floor(Time.time / 60).ToString("0");
+        string seconds = Mathf.Floor(Time.time % 60).ToString("00");
+
+        timerText.SetText(minutes + " : " + seconds);
+    }
+
+    public void UpdateWaveCount(int amnt)
+    {
+        waveCountText.SetText(amnt.ToString("0"));
+    }
+
+    public void UpdatePlaceToDefendHealth(int amnt)
+    {
+        placeToDefendHealtAmountText.SetText(amnt.ToString("0"));
     }
 }

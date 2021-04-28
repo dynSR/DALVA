@@ -3,22 +3,12 @@ using UnityEngine;
 
 public enum EntityType 
 { 
-    Prowler,
-    Archer, 
-    Berzerk,
     Warrior,
-    Coloss, 
-    DaggerMaster, 
-    Mage, 
-    Priest,
     Sorcerer,
     Dummy,
-    MeleeMinion,
-    DistanceMinion,
-    SpecialMinion,
+    Bear, Boar, Cougar, Deer, Fox, Moose, Rabbit, Raccoon, Tiger, Wolf,
     ForestMonster,
     Boss,
-    Nexus,
     Stele,
     None 
 }

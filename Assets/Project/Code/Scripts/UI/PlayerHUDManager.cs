@@ -138,6 +138,9 @@ public class PlayerHUDManager : MonoBehaviour
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
 
         IsShopWindowOpen = true;
+
+        shop.ShuffleItemsInShop();
+
         ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();
         ResetShopWindowSelectionsOnBoxes();

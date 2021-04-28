@@ -32,41 +32,43 @@ public class Ability_Mage_R : AbilityLogic
 
     protected override void Cast()
     {
-        if (!Stats.EntityIsAscended) return;
+        //if (!Stats.EntityIsAscended) return;
 
         //Joue toujours l'animation sachant que l'animation controller changera en fonction de l'ascension choisie OU ajouter un bool correspondant au check de la classe 
         PlayAbilityAnimation("UsesFourthAbility", true, true);
 
         //En fontion de la classe finale faire des choses en dessous / rapport à l'index (comportement normal)
-        if (Stats.EntityIsAscended)
+
+        if (Stats.BaseUsedEntity.EntityType == EntityType.Sorcerer)
         {
-            if (Stats.BaseUsedEntity.EntityType == EntityType.Sorcerer)
-            {               
-                //Displayers
-                sorcererRangeDisplayer.SetActive(true);
-                priestRangeDisplayer.SetActive(false);
+            //Displayers
+            sorcererRangeDisplayer.SetActive(true);
+            priestRangeDisplayer.SetActive(false);
 
-                Ability.AbilityMagicalRatio = magicalRatioAtStartForSorcerer;
-                Ability.AbilityDuration = 0f;
-                Ability.AbilityCooldown = cooldownAtStartForSorcerer;
-                Ability.InstantCasting = false;
+            Ability.AbilityMagicalRatio = magicalRatioAtStartForSorcerer;
+            Ability.AbilityDuration = 0f;
+            Ability.AbilityCooldown = cooldownAtStartForSorcerer;
+            Ability.InstantCasting = false;
 
-                StartCoroutine(InstantiateCorrectEffect(damageZone, 0.75f));
-            }
-            else if (Stats.BaseUsedEntity.EntityType == EntityType.Priest)
-            {
-                //Displayers
-                sorcererRangeDisplayer.SetActive(false);
-                priestRangeDisplayer.SetActive(true);
-
-                Ability.AbilityMagicalRatio = magicalRatioAtStartForPriest;
-                Ability.AbilityDuration = 3f;
-                Ability.AbilityCooldown = cooldownAtStartForPriest;
-                Ability.InstantCasting = true;
-
-                StartCoroutine(InstantiateCorrectEffect(healZone, 0.15f));
-            }
+            StartCoroutine(InstantiateCorrectEffect(damageZone, 0.75f));
         }
+
+        //if (Stats.EntityIsAscended)
+        //{
+        //    else if (Stats.BaseUsedEntity.EntityType == EntityType.Priest)
+        //    {
+        //        //Displayers
+        //        sorcererRangeDisplayer.SetActive(false);
+        //        priestRangeDisplayer.SetActive(true);
+
+        //        Ability.AbilityMagicalRatio = magicalRatioAtStartForPriest;
+        //        Ability.AbilityDuration = 3f;
+        //        Ability.AbilityCooldown = cooldownAtStartForPriest;
+        //        Ability.InstantCasting = true;
+
+        //        StartCoroutine(InstantiateCorrectEffect(healZone, 0.15f));
+        //    }
+        //}
 
         switch (UsedEffectIndex)
         {
@@ -126,10 +128,10 @@ public class Ability_Mage_R : AbilityLogic
     {
         yield return new WaitForSeconds(delay);
 
-        float maxTargetHealthScalingFactorValue;
+        //float maxTargetHealthScalingFactorValue;
 
-        if (Ability.AbilityCanConsumeMark) maxTargetHealthScalingFactorValue = 12f;
-        else maxTargetHealthScalingFactorValue = 0f;
+        //if (Ability.AbilityCanConsumeMark) maxTargetHealthScalingFactorValue = 12f;
+        //else maxTargetHealthScalingFactorValue = 0f;
 
 
         if (Stats.BaseUsedEntity.EntityType == EntityType.Sorcerer)
@@ -141,25 +143,25 @@ public class Ability_Mage_R : AbilityLogic
                this,
                Ability.AbilityCanMark);
         }
-        else if (Stats.BaseUsedEntity.EntityType == EntityType.Priest)
-        {
-            GameObject gameObject = Instantiate(effect, transform.position, effect.transform.rotation);
-            gameObject.transform.SetParent(transform);
+        //else if (Stats.BaseUsedEntity.EntityType == EntityType.Priest)
+        //{
+        //    GameObject gameObject = Instantiate(effect, transform.position, effect.transform.rotation);
+        //    gameObject.transform.SetParent(transform);
 
-            gameObject.GetComponent<HealZone>().IsAttachedToPlayer = true;
+        //    gameObject.GetComponent<HealZone>().IsAttachedToPlayer = true;
 
-            gameObject.GetComponent<HealZone>().SetZone(
-                Stats,
-                this, 
-                healActivationDelay,
-                Ability.AbilityHealValue,
-                Ability.AbilityMagicalRatio,
-                maxTargetHealthScalingFactorValue, 
-                Ability.AbilityCanMark, 
-                Ability.AbilityCanConsumeMark,
-                false, 
-                true);
-        }
+        //    gameObject.GetComponent<HealZone>().SetZone(
+        //        Stats,
+        //        this, 
+        //        healActivationDelay,
+        //        Ability.AbilityHealValue,
+        //        Ability.AbilityMagicalRatio,
+        //        maxTargetHealthScalingFactorValue, 
+        //        Ability.AbilityCanMark, 
+        //        Ability.AbilityCanConsumeMark,
+        //        false, 
+        //        true);
+        //}
     }
 
     public override void SetAbilityAfterAPurchase()
@@ -175,9 +177,9 @@ public class Ability_Mage_R : AbilityLogic
         {
             Ability.AbilityMagicalRatio = magicalRatioAtStartForSorcerer;
         }
-        else if (Stats.BaseUsedEntity.EntityType != EntityType.Priest)
-        {
-            Ability.AbilityMagicalRatio = magicalRatioAtStartForPriest;
-        }
+        //else if (Stats.BaseUsedEntity.EntityType != EntityType.Priest)
+        //{
+        //    Ability.AbilityMagicalRatio = magicalRatioAtStartForPriest;
+        //}
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public abstract class InteractiveButton : MonoBehaviour, IPointerDownHandler
 {
     [Header("SHOP BUTTON ATTRIBUTE")]
-    [SerializeField] private ShopManager playerShop;
     [SerializeField] private Image buttonIcon;
     [SerializeField] private TextMeshProUGUI buttonCostText;
 
@@ -16,7 +15,7 @@ public abstract class InteractiveButton : MonoBehaviour, IPointerDownHandler
     [SerializeField] private GameObject undisponibilityGameObject;
 
     protected ShopIcon ShopIcon => GetComponent<ShopIcon>();
-    protected ShopManager PlayerShop { get => playerShop; }
+    protected ShopManager PlayerShop { get; set; }
 
     public abstract void OnPointerDown(PointerEventData eventData);
 

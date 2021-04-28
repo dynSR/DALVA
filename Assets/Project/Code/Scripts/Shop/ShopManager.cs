@@ -22,6 +22,18 @@ public class ShopManager : MonoBehaviour
     [Header("SHOP BOXES ICON")]
     [SerializeField] private List<ShopIcon> shopBoxesIcon;
 
+    [Header("ITEMS IN POOL")]
+    [SerializeField] private int amntOfItemsToAddInThePool;
+    [SerializeField] private List<ItemButton> itemCreated;
+
+    [Header("ITEM BUTTON")]
+    [SerializeField] private Transform itemButtonsParent;
+    [SerializeField] private GameObject itemButton;
+
+    [Header("ITEMS IN GAME")]
+    [SerializeField] private List<Item> itemsInGame;
+    
+
     private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
     private EntityStats PlayerStats => Player.GetComponent<EntityStats>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
@@ -40,14 +52,16 @@ public class ShopManager : MonoBehaviour
         public Item item;
         public int itemValue;
         public int transactionID;
+        public AbilityEffect abilityEffect;
 
-        public ShopActionData(string shopActionDataName ,ShopActionType shopActionType, Item item = null, int itemValue = 0, int transactionID = 0)
+        public ShopActionData(string shopActionDataName ,ShopActionType shopActionType, Item item = null, int itemValue = 0, int transactionID = 0, AbilityEffect abilityEffect = 0)
         {
             this.shopActionDataName = shopActionDataName;
             this.shopActionType = shopActionType;
             this.item = item;
             this.itemValue = itemValue;
             this.transactionID = transactionID;
+            this.abilityEffect = abilityEffect;
         }
     }
 
@@ -55,6 +69,7 @@ public class ShopManager : MonoBehaviour
     public void AddShopActionOnPurchase(InventoryBox inventoryBoxItem = null, Item item = null)
     {
         numberOfShopActionsDone++;
+        ResetSelectionIcon();
 
         Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
 
@@ -64,7 +79,7 @@ public class ShopManager : MonoBehaviour
 
             inventoryBoxItem.StoredItemTransactionID = numberOfShopActionsDone;
 
-            AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Purchase, inventoryBoxItem);
+            AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Purchase, null, inventoryBoxItem);
 
             OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - inventoryBoxItem.StoredItem.ItemCost);
         }
@@ -73,7 +88,12 @@ public class ShopManager : MonoBehaviour
         {
             string shopActionDataName = "Purchase " + item.ItemName;
 
-            AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Purchase);
+            AddShopActionData(
+                shopActionDataName, 
+                ShopActionData.ShopActionType.Purchase, 
+                item, 
+                null, 
+                PlayerStats.EntityAbilities[item.AbilityIndex].UsedEffectIndex);
 
             OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - item.ItemCost);
 
@@ -98,8 +118,8 @@ public class ShopManager : MonoBehaviour
             }
             else
             {
-                shopItem.EquipItemAsAbility(PlayerStats.EntityAbilities[shopItem.AbilityIndex]);
                 AddShopActionOnPurchase(null, shopItem);
+                shopItem.EquipItemAsAbility(PlayerStats.EntityAbilities[shopItem.AbilityIndex]);
             }
 
             Debug.Log("Buying item : " + shopItem.ItemName);
@@ -119,8 +139,8 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
+            AddShopActionOnPurchase(null, SelectedItem); 
             SelectedItem.EquipItemAsAbility(PlayerStats.EntityAbilities[SelectedItem.AbilityIndex]);
-            AddShopActionOnPurchase(null, SelectedItem);
         }
 
         Debug.Log("Buying item : " + SelectedItem.ItemName);
@@ -144,9 +164,10 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log("Number of shop actions done : " + numberOfShopActionsDone);
 
-        AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Sale, inventoryBoxItem);
+        AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Sale, null, inventoryBoxItem);
 
         OnSellingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + inventoryBoxItem.StoredItem.AmountOfGoldRefundedOnSale);
+        ResetSelectionIcon();
 
         if (inventoryBoxItem != null)
         {
@@ -155,7 +176,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void AddShopActionData(string shopActionDataName, ShopActionData.ShopActionType shopActionType, InventoryBox inventoryBoxItem = null)
+    private void AddShopActionData(string shopActionDataName, ShopActionData.ShopActionType shopActionType, Item abilityItem = null, InventoryBox inventoryBoxItem = null, AbilityEffect abilityEffect = 0)
     {
         if (inventoryBoxItem != null)
         {
@@ -170,7 +191,11 @@ public class ShopManager : MonoBehaviour
         {
            shopActions.Add(new ShopActionData(
            shopActionDataName,
-           shopActionType));
+           shopActionType,
+           abilityItem, 
+           0, 
+           0,
+           abilityEffect));
         }
         
     }
@@ -187,28 +212,40 @@ public class ShopManager : MonoBehaviour
                 //Undo A Purchase
                 if (shopActions[i].shopActionType == ShopActionData.ShopActionType.Purchase)
                 {
-                    for (int j = 0; j < PlayerInventory.InventoryBoxes.Count; j++)
+                    if (shopActions[i].item.ItemIsAnAbility)
                     {
-                        if (PlayerInventory.InventoryBoxes[j].StoredItemTransactionID == numberOfShopActionsDone)
+                        shopActions[i].item.UnequipItemAsAbility(
+                            shopActions[i].item.AbilityIndex,
+                            PlayerStats,
+                            shopActions[i].abilityEffect);
+                    }
+                    else if (!shopActions[i].item.ItemIsAnAbility)
+                    {
+                        for (int j = 0; j < PlayerInventory.InventoryBoxes.Count; j++)
                         {
-                            //Debug.Log(PlayerInventory.InventoryBoxes[j].StoredItemTransactionID + " / " + numberOfShopActionsDone);
-                            //Debug.Log(PlayerInventory.InventoryBoxes[j].name);
-                            //Debug.Log("Last shop action is a purchase action");
 
-                            OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + shopActions[i].item.ItemCost);
+                            if (PlayerInventory.InventoryBoxes[j].StoredItemTransactionID == numberOfShopActionsDone)
+                            {
+                                //Debug.Log(PlayerInventory.InventoryBoxes[j].StoredItemTransactionID + " / " + numberOfShopActionsDone);
+                                //Debug.Log(PlayerInventory.InventoryBoxes[j].name);
+                                //Debug.Log("Last shop action is a purchase action");
 
-                            PlayerInventory.RemoveItemFromInventory(PlayerInventory.InventoryBoxes[j]);
-
-                            numberOfShopActionsDone--;
-
-                            PlayerInventory.ResetAllSelectedIcons();
-                            PlayerInventory.InventoryBoxes[j].StoredItemTransactionID = 0;
-
-                            shopActions.RemoveAt(i);
-
-                            return;
+                                PlayerInventory.RemoveItemFromInventory(PlayerInventory.InventoryBoxes[j]);
+                                PlayerInventory.ResetAllSelectedIcons();
+                                PlayerInventory.InventoryBoxes[j].StoredItemTransactionID = 0;
+                            }
                         }
                     }
+
+                    OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + shopActions[i].item.ItemCost);
+
+                    numberOfShopActionsDone--;
+
+                    shopActions.RemoveAt(i);
+
+                    return;
+
+
                 }
                 //Undo A Sell
                 else if (shopActions[i].shopActionType == ShopActionData.ShopActionType.Sale)
@@ -248,6 +285,30 @@ public class ShopManager : MonoBehaviour
         }
     }
     #endregion
+
+    public void ShuffleItemsInShop()
+    {
+        for (int i = 0; i < amntOfItemsToAddInThePool; i++)
+        {
+            GameObject _ItemButton = Instantiate(itemButton);
+            _ItemButton.transform.SetParent(itemButtonsParent); 
+            _ItemButton.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+
+            ItemButton itemButtonScript = _ItemButton.GetComponentInChildren<ItemButton>();
+
+            itemCreated.Add(itemButtonScript);
+        }
+
+        for (int i = itemCreated.Count - 1; i >= 0; i--)
+        {
+            int randomValue = Random.Range(0, itemsInGame.Count);
+
+            itemCreated[i].SetButtonInformations(this, itemsInGame[randomValue]);
+
+            ShopIcon shopIcon = itemCreated[i].GetComponent<ShopIcon>();
+            shopBoxesIcon.Add(shopIcon);
+        }
+    }
 
     public void RefreshShopData()
     {

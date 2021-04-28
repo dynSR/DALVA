@@ -45,10 +45,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     [Header("STATS")]
     private float healthPercentage;
+    [SerializeField] private int damageAppliedToThePlaceToDefend = 0;
     public List<Stat> entityStats;
-    [SerializeField] private bool entityIsAscended = false;
+    //[SerializeField] private bool entityIsAscended = false;
     public float HealthPercentage { get => healthPercentage; set => healthPercentage = value; }
-    public bool EntityIsAscended { get => entityIsAscended; set => entityIsAscended = value; }
+    //public bool EntityIsAscended { get => entityIsAscended; set => entityIsAscended = value; }
 
     [Header("LIFE PARAMETERS")]
     [SerializeField] private Transform spawnLocation;
@@ -87,6 +88,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     public Vector3 CharacterHalfSize => transform.position + new Vector3(0, Controller.Agent.height / 2, 0);
 
+    public int DamageAppliedToThePlaceToDefend { get => damageAppliedToThePlaceToDefend; set => damageAppliedToThePlaceToDefend = value; }
+
     private void OnEnable()
     {
         if(EventSounds != null)
@@ -114,16 +117,16 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
         if (Input.GetKeyDown(KeyCode.J)) Controller.StunTarget();
         if (Input.GetKeyDown(KeyCode.N)) Controller.RootTarget();
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            if (BaseUsedEntity.EntityType == EntityType.Mage)
-                AscendEntity(EntityType.Sorcerer);
-            else if (BaseUsedEntity.EntityType == EntityType.Sorcerer)
-                AscendEntity(EntityType.Priest);
-            else if (BaseUsedEntity.EntityType == EntityType.Priest)
-                AscendEntity(EntityType.Sorcerer);
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    if (BaseUsedEntity.EntityType == EntityType.Mage)
+        //        AscendEntity(EntityType.Sorcerer);
+        //    else if (BaseUsedEntity.EntityType == EntityType.Sorcerer)
+        //        AscendEntity(EntityType.Priest);
+        //    else if (BaseUsedEntity.EntityType == EntityType.Priest)
+        //        AscendEntity(EntityType.Sorcerer);
 
-        }
+        //}
     }
 
     //private void LateUpdate() => StartCoroutine(RegenerateHealthOverTime(transform, GetStat(StatType.HealthRegeneration).Value, 1f));
@@ -153,20 +156,13 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         if (CanTakeDamage)
         {
-            bool isAttackCritical = false;
+            //bool isAttackCritical = false;
+
+            float combinedDamage;
 
             #region Physical Damage
             if (characterPhysicalPower > 0)
-            {                
-                float randomValue = Random.Range(0, 100);
-
-                if (characterCriticalStrikeChance > 0 
-                    && randomValue <= characterCriticalStrikeChance)
-                {
-                    isAttackCritical = true;
-                    characterPhysicalPower *= characterCriticalStrikeMultiplier / 100;
-                }
-
+            {
                 //Calculate target resistances / penetration
                 float currentTargetPhysicalResistances = targetPhysicalResistances - (targetPhysicalResistances * (characterPhysicalPenetration / 100));
                 Debug.Log("Target physical resistances " + currentTargetPhysicalResistances);
@@ -206,32 +202,38 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             }
             #endregion
 
-            #region Popup
-            if (isAttackCritical)
-                global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, true);
+            if (characterCriticalStrikeChance > 0)
+            {
+                float randomValue = Random.Range(0, 100);
 
-            if (characterPhysicalPower > 0)
-                global::Popup.Create(CharacterHalfSize, Popup, characterPhysicalPower, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
-            if (characterMagicalPower > 0)
-                global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 0.65f, CharacterHalfSize.z), Popup, characterMagicalPower, StatType.MagicalPower, Popup.GetComponent<Popup>().MagicalDamageIcon);
+                if (randomValue <= characterCriticalStrikeChance)
+                {
+                    //isAttackCritical = true;
+                    combinedDamage = characterPhysicalPower + characterMagicalPower;
+                    combinedDamage *= characterCriticalStrikeMultiplier / 100;
+                }
+                else combinedDamage = characterPhysicalPower + characterMagicalPower;
+            }
+            else combinedDamage = characterPhysicalPower + characterMagicalPower;
+
+            #region Popup
+            global::Popup.Create(CharacterHalfSize, Popup, combinedDamage, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
             #endregion
 
             this.SourceOfDamage = sourceOfDamage;
 
             if (GetStat(StatType.Shield) == null || GetStat(StatType.Shield).Value <= 0)
-                GetStat(StatType.Health).Value -= ((int)characterPhysicalPower + (int)characterMagicalPower);
+                GetStat(StatType.Health).Value -= (int)combinedDamage;
 
             if (GetStat(StatType.Shield) != null && GetStat(StatType.Shield).Value > 0)
             {
-                float totalDamage = ((int)characterPhysicalPower + (int)characterMagicalPower);
-
-                if (totalDamage <= GetStat(StatType.Shield).Value)
+                if (combinedDamage <= GetStat(StatType.Shield).Value)
                 {
-                    RemoveShieldOnTarget(transform, totalDamage);
+                    RemoveShieldOnTarget(transform, combinedDamage);
                 }
-                else if (totalDamage > GetStat(StatType.Shield).Value)
+                else if (combinedDamage > GetStat(StatType.Shield).Value)
                 {
-                    float healthToRemoveMinusShield = totalDamage - GetStat(StatType.Shield).Value;
+                    float healthToRemoveMinusShield = combinedDamage - GetStat(StatType.Shield).Value;
 
                     RemoveShieldOnTarget(transform, GetStat(StatType.Shield).Value);
                     GetStat(StatType.Health).Value -= healthToRemoveMinusShield;
@@ -240,17 +242,15 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             #region LifeSteal
             EntityStats sourceOfDamageStats = sourceOfDamage.GetComponent<EntityStats>();
-            float physicalLifeSteal = 0f;
-            float magicalLifeSteal = 0f;
+            float combinedLifeSteal = 0f;
 
-            if (sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal) != null && sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal).Value > 0)
-                physicalLifeSteal = characterPhysicalPower * sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal).Value / 100;
+            if (sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal) != null && sourceOfDamageStats.GetStat(StatType.MagicalLifesteal) != null)
+            {
+                combinedLifeSteal = combinedDamage * ((sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal).Value + sourceOfDamageStats.GetStat(StatType.MagicalLifesteal).Value) / 100);
+            }
 
-            if (sourceOfDamageStats.GetStat(StatType.MagicalLifesteal) != null && sourceOfDamageStats.GetStat(StatType.MagicalLifesteal).Value > 0)
-                magicalLifeSteal = characterMagicalPower * sourceOfDamageStats.GetStat(StatType.MagicalLifesteal).Value / 100;
-
-            if (physicalLifeSteal > 0f || magicalLifeSteal > 0f)
-                sourceOfDamageStats.Heal(sourceOfDamage, physicalLifeSteal + magicalLifeSteal, sourceOfDamageStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
+            if (combinedLifeSteal > 0f)
+                sourceOfDamageStats.Heal(sourceOfDamage, combinedLifeSteal, sourceOfDamageStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
             #endregion
 
             #region Events
@@ -551,38 +551,38 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #endregion
 
     #region Ascension
-    public void AscendEntity(EntityType newBaseEntity)
-    {
-        BaseUsedEntity.EntityType = newBaseEntity;
-        EntityIsAscended = true;
-        EntityAbilities[3].CanBeUsed = true;
+    //public void AscendEntity(EntityType newBaseEntity)
+    //{
+    //    BaseUsedEntity.EntityType = newBaseEntity;
+    //    EntityIsAscended = true;
+    //    EntityAbilities[3].CanBeUsed = true;
 
-        switch (newBaseEntity)
-        {
-            //Prowler
-            case EntityType.Archer:
-                //Augmenter la portée
-                break;
-            case EntityType.DaggerMaster:
-                //Les attaques de base(2) et les compétences(5) appliquent l'effet "
-                //"Faiblesse"". (3 secondes) Faiblesse: réduit de 1 % la RP.Max 15 % (15 marques)"
-                break;
+    //    switch (newBaseEntity)
+    //    {
+    //        //Prowler
+    //        case EntityType.Archer:
+    //            //Augmenter la portée
+    //            break;
+    //        case EntityType.DaggerMaster:
+    //            //Les attaques de base(2) et les compétences(5) appliquent l'effet "
+    //            //"Faiblesse"". (3 secondes) Faiblesse: réduit de 1 % la RP.Max 15 % (15 marques)"
+    //            break;
 
-            //Warrior
-            case EntityType.Berzerk:
-                break;
-            case EntityType.Coloss:
-                break;
+    //        //Warrior
+    //        case EntityType.Berzerk:
+    //            break;
+    //        case EntityType.Coloss:
+    //            break;
 
-            //Mage
-            case EntityType.Priest:
-                Controller.CharacterAnimator.SetBool("IsSorcerer", false);
-                break;
-            case EntityType.Sorcerer:
-                Controller.CharacterAnimator.SetBool("IsSorcerer", true);
-                break;
-        }
-    }
+    //        //Mage
+    //        case EntityType.Priest:
+    //            Controller.CharacterAnimator.SetBool("IsSorcerer", false);
+    //            break;
+    //        case EntityType.Sorcerer:
+    //            Controller.CharacterAnimator.SetBool("IsSorcerer", true);
+    //            break;
+    //    }
+    //}
     #endregion
 
     #region Handle Stats
@@ -662,13 +662,13 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     private void OnApplicationQuit()
     {
-        if (BaseUsedEntity.EntityType == EntityType.Berzerk || BaseUsedEntity.EntityType == EntityType.Coloss)
-            BaseUsedEntity.EntityType = EntityType.Warrior;
+        //if (BaseUsedEntity.EntityType == EntityType.Berzerk || BaseUsedEntity.EntityType == EntityType.Coloss)
+        //    BaseUsedEntity.EntityType = EntityType.Warrior;
 
-        else if (BaseUsedEntity.EntityType == EntityType.Sorcerer || BaseUsedEntity.EntityType == EntityType.Priest)
-            BaseUsedEntity.EntityType = EntityType.Mage;
+        //else if (BaseUsedEntity.EntityType == EntityType.Sorcerer || BaseUsedEntity.EntityType == EntityType.Priest)
+        //    BaseUsedEntity.EntityType = EntityType.Mage;
 
-        else if (BaseUsedEntity.EntityType == EntityType.Archer || BaseUsedEntity.EntityType == EntityType.DaggerMaster)
-            BaseUsedEntity.EntityType = EntityType.Prowler;
+        //else if (BaseUsedEntity.EntityType == EntityType.Archer || BaseUsedEntity.EntityType == EntityType.DaggerMaster)
+        //    BaseUsedEntity.EntityType = EntityType.Prowler;
     }
 }

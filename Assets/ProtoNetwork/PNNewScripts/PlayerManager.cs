@@ -36,16 +36,16 @@ namespace GameNetwork
 
         private void Start()
         {
-            //Everything that belong to the local player
-            if (photonView.IsMine)
-            {
-                playerHUD.SetActive(true);
-                isMine = true;
-            }
+            ////Everything that belong to the local player
+            //if (photonView.IsMine)
+            //{
+            //    playerHUD.SetActive(true);
+            //    isMine = true;
+            //}
 
-            //Match the team of the player and the character
-            if(photonView.Owner.CustomProperties["Team"].ToString() == "0") photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.DALVA;
-            else photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.HULRYCK;
+            ////Match the team of the player and the character
+            //if(photonView.Owner.CustomProperties["Team"].ToString() == "0") photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.DALVA;
+            //else photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.HULRYCK;
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum AbilityEffect
 {
+    ZERO,
     I,
     II,
     III,
@@ -67,7 +68,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected virtual void Awake()
     {
         UsedEffectIndex = AbilityEffect.I;
-        if (Stats.EntityAbilities.Count != 0) Stats.EntityAbilities[3].CanBeUsed = false;
+        //if (Stats.EntityAbilities.Count != 0) Stats.EntityAbilities[3].CanBeUsed = false;
     }
 
     protected virtual void Update()

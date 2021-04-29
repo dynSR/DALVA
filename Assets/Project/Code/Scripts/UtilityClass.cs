@@ -98,4 +98,13 @@ public static class UtilityClass
         return Camera.main.ScreenPointToRay(Input.mousePosition);
     }
     #endregion
+
+    public static bool ContainsParam(this Animator _Anim, string _ParamName)
+    {
+        foreach (AnimatorControllerParameter param in _Anim.parameters)
+        {
+            if (param.name == _ParamName) return true;
+        }
+        return false;
+    }
 }

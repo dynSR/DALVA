@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IButtonTooltip
 {
     [Header("CONTAINED ABILITY")]
     [SerializeField] private AbilityLogic containedAbility;
@@ -99,16 +99,28 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
 
         animator.SetTrigger("EndOfCD");
     }
+    
 
-    void DisplayTooltip()
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        DisplayTooltip(tooltip);
+        UpdateContainerTooltip();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        HideTooltip(tooltip);
+    }
+
+    public void DisplayTooltip(GameObject tooltip)
     {
         if (!tooltip.activeInHierarchy)
             tooltip.SetActive(true);
     }
 
-    void HideTooltip()
+    public void HideTooltip(GameObject tooltip)
     {
-        if(tooltip.activeInHierarchy)
+        if (tooltip.activeInHierarchy)
             tooltip.SetActive(false);
     }
 
@@ -120,16 +132,5 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
             ContainedAbility.Ability.AbilityName,
             ContainedAbility.Ability.AbilityDescription,
             ContainedAbility.Ability.AbilityCooldown.ToString("0" + " s"));
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        DisplayTooltip();
-        UpdateContainerTooltip();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        HideTooltip();
     }
 }

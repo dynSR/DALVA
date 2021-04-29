@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IButtonTooltip
 {
     #region Refs
     protected PlayerHUDManager ShopWindow => GetComponentInParent<Transform>().GetComponentInParent<PlayerHUDManager>();
@@ -90,17 +90,19 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
         if (SelectionIcon.gameObject.activeInHierarchy)
             SelectionIcon.gameObject.SetActive(false);
     }
+    #endregion
 
-    void DisplayTooltip(GameObject tooltipObject)
+    #region Tooltip
+    public void DisplayTooltip(GameObject tooltip)
     {
-        if (!tooltipObject.activeInHierarchy)
-            tooltipObject.SetActive(true);
+        if (!tooltip.activeInHierarchy)
+            tooltip.SetActive(true);
     }
 
-    public void HideTooltip(GameObject tooltipObject)
+    public void HideTooltip(GameObject tooltip)
     {
-        if(tooltipObject.activeInHierarchy)
-            tooltipObject.SetActive(false);
+        if (tooltip.activeInHierarchy)
+            tooltip.SetActive(false);
     }
     #endregion
 }

@@ -34,8 +34,11 @@ public class GameManager : MonoBehaviour
 
     public static GameState GameState;
 
+    [SerializeField] private ShopManager shop;
+
     [Header("WAVE")]
     [SerializeField] private int waveDone = 0;
+    private int InternalCounter = 0;
     private bool waveCountHasBeenSet = false;
 
     [Header("SPAWNERS")]
@@ -43,36 +46,55 @@ public class GameManager : MonoBehaviour
     public List<SpawnerSystem> Spawners { get => spawners; }
     public int WaveDone { get => waveDone; set => waveDone = value; }
     public bool WaveCountHasBeenSet { get => waveCountHasBeenSet; set => waveCountHasBeenSet = value; }
+    
 
     void Start()
     {
         
     }
 
+    public void FithWaveTracker()
+    {
+        InternalCounter++;
+
+        if (InternalCounter == 6)
+        {
+            InternalCounter = 0;
+            SetGameToStandbyMod();
+            PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
+            
+        }
+    }
+
     #region Game Mods
     public void PauseGame()
     {
         GameState = GameState.Pause;
+        Time.timeScale = 0;
     }
 
     public void SetGameToPlayMod()
     {
         GameState = GameState.PlayMod;
+        Time.timeScale = 1;
     }
 
     public void SetGameToStandbyMod()
     {
         GameState = GameState.StandbyMod;
+        Time.timeScale = 0;
     }
 
     public void Victory()
     {
         GameState = GameState.Victory;
+        Time.timeScale = 0;
     }
 
     public void Defeat()
     {
         GameState = GameState.Defeat;
+        Time.timeScale = 0;
     }
     #endregion
 }

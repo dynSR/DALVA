@@ -158,6 +158,7 @@ public class InteractionSystem : MonoBehaviour
         Controller.CanMove = false;
 
         Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.AttackSpeed).Value);
+
         Animator.SetBool("Attack", true);
         Animator.SetLayerWeight(1, 1);
 

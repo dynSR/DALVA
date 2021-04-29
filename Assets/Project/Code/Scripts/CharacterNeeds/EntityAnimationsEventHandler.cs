@@ -9,24 +9,49 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     private CharacterController Controller => GetComponentInParent<CharacterController>();
     #endregion
 
+    bool attackAnimationHasBeenChosen = false;
+
     private void Awake() => MyAnimator.runtimeAnimatorController = Stats.BaseUsedEntity.AnimatorController;
 
     #region Attack animation
     public void RangedAttack_AnimationEvent()
     {
         Interactions.RangedAttack();
+        //PickAnAttackAnimation();
     }
 
     public void MeleeAttack_AnimationEvent()
     {
         Interactions.MeleeAttack();
+        //PickAnAttackAnimation();
     }
 
     public void ResetAttackState_AnimationEvent()
     {
         Interactions.CanPerformAttack = true;
         Interactions.HasPerformedAttack = false;
+        //attackAnimationHasBeenChosen = false;
     }
+
+    //private void PickAnAttackAnimation()
+    //{
+    //    if (UtilityClass.ContainsParam(MyAnimator, "AttackAnimationValue"))
+    //    {
+    //        if (!attackAnimationHasBeenChosen)
+    //        {
+    //            if (MyAnimator.GetInteger("AttackAnimationValue") == 0 || MyAnimator.GetInteger("AttackAnimationValue") == 2)
+    //            {
+    //                MyAnimator.SetInteger("AttackAnimationValue", 1);
+    //                attackAnimationHasBeenChosen = true;
+    //            }
+    //            else if (MyAnimator.GetInteger("AttackAnimationValue") == 1)
+    //            {
+    //                MyAnimator.SetInteger("AttackAnimationValue", 2);
+    //                attackAnimationHasBeenChosen = true;
+    //            }
+    //        }
+    //    }
+    //}
     #endregion
 
     #region Abilities

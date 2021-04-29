@@ -10,6 +10,7 @@ public class ShopManager : MonoBehaviour
     public event ShopActionsHandler OnBuyingAnItem;
     public event ShopActionsHandler OnSellingAnItem;
     public event ShopActionsHandler OnShopActionCancel;
+    public event ShopActionsHandler OnShopResetDraw;
 
     public Transform Player => GetComponentInParent<PlayerHUDManager>().Player;
 
@@ -23,6 +24,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private List<ShopIcon> shopBoxesIcon;
 
     [Header("ITEMS IN POOL")]
+    [SerializeField] private int costAugmentation;
     [SerializeField] private int amntOfItemsToAddInThePool;
     [SerializeField] private List<ItemButton> itemCreated;
 
@@ -42,6 +44,8 @@ public class ShopManager : MonoBehaviour
     public bool ShopItemIsSelected { get => shopItemIsSelected; set => shopItemIsSelected = value; }
     public Item SelectedItem { get; set; }
     public List<ShopIcon> ShopBoxesIcon { get => shopBoxesIcon; }
+    public int ResetTimes { get; set; }
+    public int ResetDrawCost { get; set; }
 
     [System.Serializable]
     public class ShopActionData
@@ -106,7 +110,7 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void BuyItem(Item shopItem)
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || !CanPurchaseItem(shopItem)) return;
+        Debug.Log("Buying item : " + shopItem.ItemName);
 
         if (UtilityClass.RightClickIsPressed())
         {
@@ -121,15 +125,15 @@ public class ShopManager : MonoBehaviour
                 AddShopActionOnPurchase(null, shopItem);
                 shopItem.EquipItemAsAbility(PlayerStats.EntityAbilities[shopItem.AbilityIndex]);
             }
-
-            Debug.Log("Buying item : " + shopItem.ItemName);
         }
     }
 
     //Its on a button
     public void BuySelectedItemOnClickingOnButton()
     {
-        if (!CanPurchaseItem(SelectedItem)) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || !CanPurchaseItem(SelectedItem)) return;
+
+        Debug.Log("Buying item : " + SelectedItem.ItemName);
 
         if (!SelectedItem.ItemIsAnAbility)
         {
@@ -142,8 +146,6 @@ public class ShopManager : MonoBehaviour
             AddShopActionOnPurchase(null, SelectedItem); 
             SelectedItem.EquipItemAsAbility(PlayerStats.EntityAbilities[SelectedItem.AbilityIndex]);
         }
-
-        Debug.Log("Buying item : " + SelectedItem.ItemName);
     }
 
     //Its on a button
@@ -307,7 +309,39 @@ public class ShopManager : MonoBehaviour
 
             ShopIcon shopIcon = itemCreated[i].GetComponent<ShopIcon>();
             shopBoxesIcon.Add(shopIcon);
+            RefreshShopData();
         }
+    }
+
+    public void DeleteDraw()
+    {
+        for (int i = itemCreated.Count - 1; i >= 0; i--)
+        {
+            Destroy(itemCreated[i].transform.parent.gameObject);
+        }
+
+        itemCreated.Clear();
+        shopBoxesIcon.Clear();
+    }
+
+    //On a button
+    public void ResetDrawAndShuffleAgain()
+    {
+        ResetDrawCost = GetResetDrawCost();
+
+        if (ResetDrawCost <= PlayerRessources.CurrentAmountOfPlayerRessources)
+        {
+            ResetTimes++;
+            OnShopResetDraw?.Invoke(ResetDrawCost);
+            DeleteDraw();
+            ShuffleItemsInShop();
+            OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - ResetDrawCost);
+        }
+    }
+
+    public int GetResetDrawCost()
+    {
+        return ResetTimes * costAugmentation;
     }
 
     public void RefreshShopData()
@@ -322,7 +356,7 @@ public class ShopManager : MonoBehaviour
             {
                 Debug.Log(item.name + " " + item.ItemIsAnAbility);
 
-                if (!CanPurchaseItem(item))
+                if (!CanPurchaseItem(item) && !IsItemAlreadyInInventory(item))
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                 }

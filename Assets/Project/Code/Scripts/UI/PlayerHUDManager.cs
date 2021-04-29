@@ -19,17 +19,29 @@ public class PlayerHUDManager : MonoBehaviour
     [Header("INVENTORY")]
     [SerializeField] private TextMeshProUGUI inventoryPlayerRessourcesValueText;
 
-    private GameObject ShopWindow { get => shopWindow; }
+    public GameObject ShopWindow { get => shopWindow; }
     public TextMeshProUGUI ShopPlayerRessourcesValueText { get => shopPlayerRessourcesValueText; }
     public TextMeshProUGUI InventoryPlayerRessourcesValueText { get => inventoryPlayerRessourcesValueText; }
 
     public bool IsShopWindowOpen { get => isShopWindowOpen; set => isShopWindowOpen = value; }
     public Transform Player { get => player; }
 
+    #region Singleton
+    public static PlayerHUDManager Instance;
+
     private void Awake()
     {
-        statusEffectHandler = player.GetComponent<StatusEffectHandler>();
+        if (Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+            statusEffectHandler = player.GetComponent<StatusEffectHandler>();
+        }
     }
+    #endregion
 
     void OnEnable()
     {
@@ -43,6 +55,7 @@ public class PlayerHUDManager : MonoBehaviour
 
     void Update()
     {
+        //To comment
         if (UtilityClass.IsKeyPressed(toggleInputKey))
             ToggleAWindow(IsShopWindowOpen, ShopWindow);
     }
@@ -157,7 +170,9 @@ public class PlayerHUDManager : MonoBehaviour
 
     void OnClosingShopWindow()
     {
+        ShopManager shop = ShopWindow.GetComponent<ShopManager>();
         IsShopWindowOpen = false;
+        shop.DeleteDraw();
     }
 
     void ResetShopWindowSelectionsOnBoxes()

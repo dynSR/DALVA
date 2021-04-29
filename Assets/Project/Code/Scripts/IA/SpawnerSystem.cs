@@ -111,7 +111,8 @@ public class SpawnerSystem : MonoBehaviour
 
         for (int i = 0; i < currentWave.waveMinions.Length; i++)
         {
-            SpawnMinions(currentWave.waveMinions[i]);
+            //if(currentWave.waveMinions[i] != null)
+                SpawnMinions(currentWave.waveMinions[i]);
 
             yield return new WaitForSeconds(spawnRate);
         }
@@ -127,6 +128,7 @@ public class SpawnerSystem : MonoBehaviour
             GameManager.Instance.WaveCountHasBeenSet = true;
             GameManager.Instance.WaveDone++;
             UIManager.Instance.UpdateWaveCount(GameManager.Instance.WaveDone);
+            GameManager.Instance.FithWaveTracker();
         }
 
         if (CanSpawnWave())

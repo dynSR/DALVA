@@ -74,13 +74,13 @@ public class PlayerInteractions : InteractionSystem
                             StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
                     }  
                 }
-                else
-                {
-                    //Ground hit
-                    if (GameObject.Find("GameNetworkManager") != null)
-                        GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, null, "Targeting", GetComponent<PhotonView>().ViewID);
-                    ResetAgentState();
-                }
+                //else
+                //{
+                //    //Ground hit
+                //    if (GameObject.Find("GameNetworkManager") != null)
+                //        GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, null, "Targeting", GetComponent<PhotonView>().ViewID);
+                //    ResetAgentState();
+                //}
             }
         }
     }
@@ -95,7 +95,7 @@ public class PlayerInteractions : InteractionSystem
             {
                 Target.GetComponent<HarvesterLogic>().ResetAfterInteraction();
             }
-            else if (Target.GetComponent<SteleLogic>() != null && Target.GetComponent<SteleLogic>().SteleState != SteleState.Active  /* + vérification team ? */)
+            else if (Target.GetComponent<SteleLogic>() != null /*&& Target.GetComponent<SteleLogic>().SteleState != SteleState.Active*/  /* + vérification team ? */)
             {
                 Target.GetComponent<SteleLogic>().InteractingPlayer = null;
             }
@@ -130,7 +130,7 @@ public class PlayerInteractions : InteractionSystem
         {
             SteleLogic stele = Target.GetComponent<SteleLogic>();
 
-            if (stele != null && stele.IsInteractable && stele.SteleState != SteleState.Active /*uncomment here if a stele can be interactive even when active*/)
+            if (stele != null && stele.IsInteractable /*&& stele.SteleState != SteleState.Active*/ /*uncomment here if a stele can be interactive even when active*/)
             {
                 IsInteractingWithAStele = true;
                 Animator.SetBool("Attack", false);

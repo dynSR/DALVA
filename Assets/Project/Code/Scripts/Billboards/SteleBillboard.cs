@@ -2,7 +2,16 @@
 
 public class SteleBillboard : Billboard
 {
-    [SerializeField] private GameObject buttonHolder;
+    [Header("BUTTONS GROUP")]
+    [SerializeField] private GameObject buttonsSectionsHolder;
+    [SerializeField] private GameObject inactiveButtonSection;
+    [SerializeField] private GameObject evolutionOneButtonSection;
+    [SerializeField] private GameObject evolutionTwoButtonSection;
+    [SerializeField] private GameObject evolutionThreeButtonSection;
+    [SerializeField] private GameObject finalEvolutionButtonSection;
+    [SerializeField] private GameObject onlySellButtonSection;
+
+    [Header("MISC")]
     [SerializeField] private GameObject healthBar;
     private SteleLogic stele;
 
@@ -35,12 +44,40 @@ public class SteleBillboard : Billboard
 
     void DisplayBuildButtons()
     {
-        buttonHolder.SetActive(true);
+        switch (stele.SteleLevel)
+        {
+            case SteleLevel.EvolutionI:
+                evolutionOneButtonSection.SetActive(true);
+                break;
+            case SteleLevel.EvolutionII:
+                evolutionTwoButtonSection.SetActive(true);
+                break;
+            case SteleLevel.EvolutionIII:
+                evolutionThreeButtonSection.SetActive(true);
+                break;
+            case SteleLevel.FinalEvolution:
+                finalEvolutionButtonSection.SetActive(true);
+                break;
+            case SteleLevel.OnlySell:
+                onlySellButtonSection.SetActive(true);
+                break;
+            default:
+                inactiveButtonSection.SetActive(true);
+                break;
+        }
+
+        buttonsSectionsHolder.SetActive(true);
     }
 
     public void HideBuildButtons()
     {
-        buttonHolder.SetActive(false);
+        buttonsSectionsHolder.SetActive(false);
+    }
+
+    //On Button
+    public void HideButtonSection(GameObject sectionToHide)
+    {
+        sectionToHide.SetActive(false);
     }
 
     //void DisplayHealthBar()

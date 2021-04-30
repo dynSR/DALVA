@@ -5,8 +5,18 @@ using UnityEngine;
 public enum SteleState
 {
     Inactive, 
-    Active, 
+    Active,
     StandBy,
+}
+
+public enum SteleLevel
+{
+    Default,
+    EvolutionI,
+    EvolutionII,
+    EvolutionIII,
+    FinalEvolution,
+    OnlySell
 }
 
 public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
@@ -28,15 +38,18 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
     [Header("CURRENT STATE")]
     [SerializeField] private SteleState steleState;
+    [SerializeField] private SteleLevel steleLevel;
 
     [Header("OTHER ATTRIBUTES")]
     [SerializeField] private Transform effectEntitySpawnLocation;
+    public GameObject spawnedEffectObject;
     [SerializeField] private GameObject activationVFX;
     [SerializeField] private List<GameObject> runes;
     private bool interactionIsHandled = false;
     private bool isDead = false;
     //public int HealthPoints { get => healthPoints; set => healthPoints = value; }
     public SteleState SteleState { get => steleState; private set => steleState = value; }
+    public SteleLevel SteleLevel { get => steleLevel; private set => steleLevel = value; }
 
     #region Ref
     private Outline Outline => GetComponent<Outline>();
@@ -79,6 +92,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         //maxHealthPoints = steleHealthPointsRelativeToEffect;
         //HealthPoints = maxHealthPoints;
+    }
+
+    public void SetSteleLevel(int steleLevel)
+    {
+        SteleLevel = (SteleLevel)steleLevel;
     }
 
     public void ActiveRuneEffect(GameObject rune)
@@ -160,5 +178,6 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void SpawnEntityEffect(GameObject entityToSpawn)
     {
         Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
+        spawnedEffectObject = entityToSpawn;
     }
 }

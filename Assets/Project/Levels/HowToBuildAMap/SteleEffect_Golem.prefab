@@ -2123,10 +2123,10 @@ MonoBehaviour:
   CurrentStateName: 
   isACampNPC: 1
   positionToLookAt: {fileID: 7946902093128847021}
-  aggressionLimitsValue: 5
+  aggressionLimitsValue: 3.5
   delayBeforeDecreasingAggroSteps: 0.25
-  maxAggroStep: 8
-  aggroStep: 8
+  maxAggroStep: 4
+  aggroStep: 4
 --- !u!114 &7946902092973499984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3046,6 +3046,10 @@ PrefabInstance:
     - target: {fileID: 4363914639395512195, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_Name
       value: AggroGaugeBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4363914639395512195, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}

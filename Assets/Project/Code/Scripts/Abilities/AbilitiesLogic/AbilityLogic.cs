@@ -14,7 +14,6 @@ public enum AbilityEffect
 
 [RequireComponent(typeof(AbilitiesCooldownHandler))]
 [RequireComponent(typeof(ThrowingAbilityProjectile))]
-[RequireComponent(typeof(DashLogic))]
 public abstract class AbilityLogic : MonoBehaviourPun
 {
     #region Refs
@@ -24,7 +23,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
     public AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
     protected ThrowingAbilityProjectile ThrowingProjectile => GetComponent<ThrowingAbilityProjectile>();
-    protected DashLogic DashLogic => GetComponent<DashLogic>();
     #endregion
 
     [SerializeField] private Transform abilityTarget;

@@ -26,7 +26,10 @@ public class AggroRange : MonoBehaviour
         EntityDetection entityFound = other.GetComponent<EntityDetection>();
         EntityStats entityStats = other.GetComponent<EntityStats>();
 
-        if (entityStats != null && entityStats.EntityTeam != Stats.EntityTeam && !entityFound.ThisTargetIsAMonster(entityFound))
+        if (entityStats != null 
+            && entityStats.EntityTeam != Stats.EntityTeam 
+            && !entityFound.ThisTargetIsAMonster(entityFound) 
+            && !entityFound.ThisTargetIsAStele(entityFound))
         {
             if (!entityStats.IsDead /*&& other.GetComponent<VisibilityState>().IsVisible*/)
             {

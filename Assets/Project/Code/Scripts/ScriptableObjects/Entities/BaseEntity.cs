@@ -9,8 +9,8 @@ public enum EntityType
     Bear, Boar, Cougar, Deer, Fox, Moose, Rabbit, Raccoon, Tiger, Wolf,
     ForestMonster,
     Boss,
-    Stele,
-    None 
+    Stele, SteleEffect,
+    None
 }
 
 [CreateAssetMenu(fileName = "Entity_", menuName = "ScriptableObjects/Entities", order = 2)]

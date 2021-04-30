@@ -6,22 +6,22 @@ public class SteleBillboard : Billboard
     [SerializeField] private GameObject healthBar;
     private SteleLogic stele;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         stele.OnInteraction += DisplayBuildButtons;
         stele.OnEndOFInteraction += HideBuildButtons;
 
-        stele.OnActivation += DisplayHealthBar;
-        stele.OnSteleDeath += HideHealthBar;
+        //stele.OnActivation += DisplayHealthBar;
+        //stele.OnSteleDeath += HideHealthBar;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         stele.OnInteraction -= DisplayBuildButtons;
         stele.OnEndOFInteraction -= HideBuildButtons;
 
-        stele.OnActivation -= DisplayHealthBar;
-        stele.OnSteleDeath -= HideHealthBar;
+        //stele.OnActivation -= DisplayHealthBar;
+        //stele.OnSteleDeath -= HideHealthBar;
     }
 
     protected override void Awake()
@@ -43,13 +43,13 @@ public class SteleBillboard : Billboard
         buttonHolder.SetActive(false);
     }
 
-    void DisplayHealthBar()
-    {
-        healthBar.SetActive(true);
-    }
+    //void DisplayHealthBar()
+    //{
+    //    healthBar.SetActive(true);
+    //}
 
-    public void HideHealthBar()
-    {
-        healthBar.SetActive(false);
-    }
+    //public void HideHealthBar()
+    //{
+    //    healthBar.SetActive(false);
+    //}
 }

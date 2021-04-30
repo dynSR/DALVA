@@ -80,6 +80,10 @@ public class CursorLogic : MonoBehaviour
                         SetCursorToAttackAppearance();
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
                         break;
+                    case TypeOfEntity.SteleEffect:
+                        SetCursorToNormalAppearance();
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.blue);
+                        break;
                     #endregion
                     #region Interactive Buildings
                     case TypeOfEntity.Stele:

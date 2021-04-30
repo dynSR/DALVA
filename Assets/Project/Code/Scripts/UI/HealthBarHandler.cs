@@ -36,7 +36,7 @@ public class HealthBarHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        if (isAStele) stele.OnHealthValueChanged += SetHealthBar;
+        //if (isAStele) stele.OnHealthValueChanged += SetHealthBar;
 
         if (stats != null)
         {
@@ -49,7 +49,7 @@ public class HealthBarHandler : MonoBehaviour
 
     private void OnDisable()
     {
-        if (isAStele) stele.OnHealthValueChanged -= SetHealthBar;
+        //if (isAStele) stele.OnHealthValueChanged -= SetHealthBar;
 
         if (stats != null)
         {

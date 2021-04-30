@@ -346,12 +346,14 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     private void ActiveHealVFX()
     {
-        healVFX.SetActive(true);
+        if(healVFX != null)
+            healVFX.SetActive(true);
     }
 
     public void DeactiveHealVFX()
     {
-        healVFX.SetActive(false);
+        if (healVFX != null)
+            healVFX.SetActive(false);
     }
     #endregion
 

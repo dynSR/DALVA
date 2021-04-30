@@ -12,21 +12,25 @@
         {
             case AbilityEffect.I:
                 //Lance un projectile qui inflige(50 + 50 % PM) dégâts magiques. Fait(30 % PM) dégâts supplémentaires si l'ennemi est marqué (consomme la marque).
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability));
+                //Calcul des dégâts bonus
+                Ability.AbilityDamageBonusOnMarkedTarget = 0.3f;
+                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityTimeToCast, ThrowingProjectile.AimProjectileEmiterPos, Ability));
                 break;
             case AbilityEffect.II:
                 //Traverse les unités
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability, true));
+                Ability.AbilityDamageBonusOnMarkedTarget = 0;
+                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityTimeToCast, ThrowingProjectile.AimProjectileEmiterPos, Ability, true));
                 break;
             case AbilityEffect.III:
                 //Si l'ennemi touché est marqué, le projectile rebondit sur les ennemis proches (un projectile pour chaque ennemi proche).
-                //Ability.AbilityMagicalRatio = 1f;
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true));
+                Ability.AbilityDamageBonusOnMarkedTarget = 0;
+                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityTimeToCast, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true));
                 break;
             case AbilityEffect.IV:
                 //Le Z marque aussi les alliés.
                 //Peut toucher les alliés marqués pour les soigner de(25 + 50 % PM) points de vie(PV), se propage aux alliés proches.
-                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityDuration, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true, true));
+                Ability.AbilityDamageBonusOnMarkedTarget = 0;
+                StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityTimeToCast, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true, true));
                 break;
         }
     }

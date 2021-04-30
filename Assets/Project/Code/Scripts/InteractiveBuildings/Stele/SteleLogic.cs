@@ -9,22 +9,22 @@ public enum SteleState
     StandBy,
 }
 
-public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
+public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 {
     public delegate void SteleInteractionHandler();
     public event SteleInteractionHandler OnInteraction;
     public event SteleInteractionHandler OnEndOFInteraction;
 
-    public delegate void SteleHealthHandler(float value, float max);
-    public event SteleHealthHandler OnHealthValueChanged;
+    //public delegate void SteleHealthHandler(float value, float max);
+    //public event SteleHealthHandler OnHealthValueChanged;
 
-    public delegate void SteleLifeStatusHandler();
-    public event SteleLifeStatusHandler OnActivation;
-    public event SteleLifeStatusHandler OnSteleDeath;
+    //public delegate void SteleLifeStatusHandler();
+    //public event SteleLifeStatusHandler OnActivation;
+    //public event SteleLifeStatusHandler OnSteleDeath;
 
-    [Header("HEALTH PARAMTERS")]
-    [SerializeField] private int healthPoints = 0; //debug
-    [SerializeField] private int maxHealthPoints = 0; //debug
+    //[Header("HEALTH PARAMTERS")]
+    //[SerializeField] private int healthPoints = 0; //debug
+    //[SerializeField] private int maxHealthPoints = 0; //debug
 
     [Header("CURRENT STATE")]
     [SerializeField] private SteleState steleState;
@@ -35,7 +35,7 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
     [SerializeField] private List<GameObject> runes;
     private bool interactionIsHandled = false;
     private bool isDead = false;
-    public int HealthPoints { get => healthPoints; set => healthPoints = value; }
+    //public int HealthPoints { get => healthPoints; set => healthPoints = value; }
     public SteleState SteleState { get => steleState; private set => steleState = value; }
 
     #region Ref
@@ -75,10 +75,10 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
         InteractingPlayer.Target = null;
         InteractingPlayer = null;
 
-        OnActivation?.Invoke();
+        //OnActivation?.Invoke();
 
-        maxHealthPoints = steleHealthPointsRelativeToEffect;
-        HealthPoints = maxHealthPoints;
+        //maxHealthPoints = steleHealthPointsRelativeToEffect;
+        //HealthPoints = maxHealthPoints;
     }
 
     public void ActiveRuneEffect(GameObject rune)
@@ -120,42 +120,42 @@ public class SteleLogic : InteractiveBuilding, IKillable, IDamageable
         }
     }
 
-    public void OnDeath()
-    {
-        OnSteleDeath?.Invoke();
-        EntityTeam = EntityTeam.NEUTRAL;
-        IsInteractable = false;
-        StartCoroutine(SetSteleToStandByMode());
+    //public void OnDeath()
+    //{
+    //    OnSteleDeath?.Invoke();
+    //    EntityTeam = EntityTeam.NEUTRAL;
+    //    IsInteractable = false;
+    //    StartCoroutine(SetSteleToStandByMode());
 
-        for (int i = 0; i < runes.Count; i++)
-        {
-            if (runes[i].activeInHierarchy)
-                runes[i].SetActive(false);
-        }
-    }
+    //    for (int i = 0; i < runes.Count; i++)
+    //    {
+    //        if (runes[i].activeInHierarchy)
+    //            runes[i].SetActive(false);
+    //    }
+    //}
 
-    public void TakeDamage(
-        Transform character, 
-        float targetPhysicalResistances, 
-        float targetMagicalResistances, 
-        float characterPhysicalPower, 
-        float characterMagicalPower, 
-        float characterCriticalStrikeChance, 
-        float characterCriticalStrikeMultiplier, 
-        float characterPhysicalPenetration, 
-        float characterMagicalPenetration, 
-        float damageReduction)
-    {
-        HealthPoints -= (int)characterPhysicalPower;
-        OnHealthValueChanged?.Invoke(HealthPoints, maxHealthPoints);
-        Debug.Log("STELE TOOK DAMAGE");
+    //public void TakeDamage(
+    //    Transform character, 
+    //    float targetPhysicalResistances, 
+    //    float targetMagicalResistances, 
+    //    float characterPhysicalPower, 
+    //    float characterMagicalPower, 
+    //    float characterCriticalStrikeChance, 
+    //    float characterCriticalStrikeMultiplier, 
+    //    float characterPhysicalPenetration, 
+    //    float characterMagicalPenetration, 
+    //    float damageReduction)
+    //{
+    //    HealthPoints -= (int)characterPhysicalPower;
+    //    OnHealthValueChanged?.Invoke(HealthPoints, maxHealthPoints);
+    //    Debug.Log("STELE TOOK DAMAGE");
 
-        if (HealthPoints == 0)
-        {
-            isDead = true;
-            OnDeath();
-        }
-    }
+    //    if (HealthPoints == 0)
+    //    {
+    //        isDead = true;
+    //        OnDeath();
+    //    }
+    //}
 
     public void SpawnEntityEffect(GameObject entityToSpawn)
     {

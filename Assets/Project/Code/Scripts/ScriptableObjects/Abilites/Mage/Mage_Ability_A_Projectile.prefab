@@ -18623,8 +18623,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: 1
-  projectileSpeed: 5
-  projectileAreaOfEffect: 3
+  projectileSpeed: 5.5
+  projectileAreaOfEffect: 4
   entitiesLayerMaskValue:
     serializedVersion: 2
     m_Bits: 4096
@@ -20212,6 +20212,14 @@ PrefabInstance:
       propertyPath: ColorModule.gradient.maxGradient.m_NumColorKeys
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4398184165274696971, guid: 8e6b956cae82c77468414ac7bf09de3a, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4965665904997888454, guid: 8e6b956cae82c77468414ac7bf09de3a, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5369709026120754623, guid: 8e6b956cae82c77468414ac7bf09de3a, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.size
       value: 4
@@ -20367,6 +20375,10 @@ PrefabInstance:
     - target: {fileID: 6793670010376682476, guid: 8e6b956cae82c77468414ac7bf09de3a, type: 3}
       propertyPath: m_Name
       value: Fx_RotatingBeams
+      objectReference: {fileID: 0}
+    - target: {fileID: 6793670010376682476, guid: 8e6b956cae82c77468414ac7bf09de3a, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e6b956cae82c77468414ac7bf09de3a, type: 3}

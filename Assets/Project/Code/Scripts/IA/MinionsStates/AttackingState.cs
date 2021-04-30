@@ -40,7 +40,7 @@ class AttackingState : IState
             EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
             VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
-            if (targetStat.IsDead || !targetVisibilityState.IsVisible)
+            if (targetStat.IsDead /*|| !targetVisibilityState.IsVisible*/)
             {
                 if (controller.Stats.SourceOfDamage == controller.NPCInteractions.Target) controller.Stats.SourceOfDamage = null;
 
@@ -52,7 +52,7 @@ class AttackingState : IState
             }
 
             //Enemy target is close enough to interact...
-            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.AttackRange).Value && targetVisibilityState.IsVisible)
+            if (controller.DistanceWithTarget <= controller.Stats.GetStat(StatType.AttackRange).Value /*&& targetVisibilityState.IsVisible*/)
             {
                 //Interact
                 controller.NPCInteractions.Interact();

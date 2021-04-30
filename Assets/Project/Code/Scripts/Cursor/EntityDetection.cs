@@ -4,7 +4,7 @@ public enum TypeOfEntity
 { 
     None,
     Player, Monster, Minion,
-    Stele,
+    Stele, SteleEffect,
     Harvester 
 }
 

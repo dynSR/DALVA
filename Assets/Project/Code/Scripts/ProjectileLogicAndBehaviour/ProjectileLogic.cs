@@ -117,7 +117,7 @@ public class ProjectileLogic : MonoBehaviour
 
                 if (Target != null && targetCollider.transform.gameObject == Target.gameObject)
                 {
-                    if(Ability != null)
+                    if (Ability != null)
                     {
                         if (ProjectileSenderStats.EntityTeam != targetStats.EntityTeam) ApplyProjectileAbilityDamage(targetStats);
                         else if (CanHeal && ProjectileSenderStats.EntityTeam == targetStats.EntityTeam) ApplyProjectileAbilityHeal(targetStats);
@@ -129,10 +129,10 @@ public class ProjectileLogic : MonoBehaviour
                 }
             }
         }
-        else if (targetCollider.gameObject.GetComponent<SteleLogic>() != null)
-        {
-            ApplyProjectileDamageToAnInteractiveBuilding(targetCollider);
-        }
+        //else if (targetCollider.gameObject.GetComponent<SteleLogic>() != null)
+        //{
+        //    ApplyProjectileDamageToAnInteractiveBuilding(targetCollider);
+        //}
     }
 
     private void ApplyProjectileAbilityDamage(EntityStats targetStat)
@@ -253,12 +253,12 @@ public class ProjectileLogic : MonoBehaviour
         DestroyProjectile();
     }
 
-    private void ApplyProjectileDamageToAnInteractiveBuilding(Collider targetCollider)
-    {
-        targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
+    //private void ApplyProjectileDamageToAnInteractiveBuilding(Collider targetCollider)
+    //{
+    //    //targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
 
-        DestroyProjectile();
-    }
+    //    DestroyProjectile();
+    //}
 
     protected void ApplyStatusEffectOnHit(Collider targetCollider)
     {
@@ -286,18 +286,27 @@ public class ProjectileLogic : MonoBehaviour
 
         Debug.Log(collidersFound.Length);
 
+        for (int i = 0; i < collidersFound.Length; i++)
+        {
+            Debug.Log(collidersFound[i].name);
+        }
+
         foreach (Collider targetColliders in collidersFound)
         {
             EntityStats nearTargetStats = targetColliders.GetComponent<EntityStats>();
 
-            if (Target != null && targetColliders.gameObject != Target.gameObject 
+            if (nearTargetStats != null && Target != null && targetColliders.gameObject != Target.gameObject
                 && !nearTargets.Contains(targetColliders.transform))
             {
-                if (CanHeal && ProjectileSenderStats.EntityTeam == nearTargetStats.EntityTeam && nearTargetStats.EntityIsMarked)
+                //nearTargets.Add(targetColliders.transform);
+
+                if (CanHeal && ProjectileSenderStats.EntityTeam == nearTargetStats.EntityTeam 
+                    && nearTargetStats.EntityIsMarked 
+                    && nearTargetStats.GetStat(StatType.Health).Value < nearTargetStats.GetStat(StatType.Health).MaxValue)
                 {
                     nearTargets.Add(targetColliders.transform);
                 }
-                else if (targetColliders.gameObject != ProjectileSender.gameObject && ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
+                else if (ProjectileSender.gameObject != targetColliders.gameObject && ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
                 {
                     nearTargets.Add(targetColliders.transform);
 

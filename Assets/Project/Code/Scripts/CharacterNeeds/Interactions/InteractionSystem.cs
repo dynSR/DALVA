@@ -172,12 +172,12 @@ public class InteractionSystem : MonoBehaviour
     #region Behaviours of every type of attack - Melee / Ranged
     public void MeleeAttack()
     {
+        EntityStats targetStat = Target.GetComponent<EntityStats>();
+
         if (Target != null 
-            && Target.GetComponent<EntityStats>() != null)
+            && targetStat != null)
         {
             //Debug.Log("Melee Attack");
-
-            EntityStats targetStat = Target.GetComponent<EntityStats>();
 
             pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
             mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;

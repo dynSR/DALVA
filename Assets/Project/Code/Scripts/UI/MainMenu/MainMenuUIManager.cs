@@ -100,8 +100,10 @@ public class MainMenuUIManager : MonoBehaviour
     #region Fields
 
     //General
-    private GameObject currentOpenedTab;
-    private GameObject nextOpenedTab;
+    private Animator myAnimator;
+
+    private int currentOpenedTab;
+    private int nextOpenedTab;
 
     private bool characterClass; //false = Warrior, true = mage
 
@@ -133,6 +135,8 @@ public class MainMenuUIManager : MonoBehaviour
     void Start()
     {
         //Init
+        myAnimator = GetComponent<Animator>();
+
         currentLifeMalus = 0;
         currentAttackMalus = 0;
         currentSpeedMalus = 0;
@@ -193,31 +197,28 @@ public class MainMenuUIManager : MonoBehaviour
 
     #region Buttons methods
 
-    public void ChangeOpenedTab()
+    public void ChangeOpenedTab(int tab)
     {
-        nextOpenedTab = null;
+        nextOpenedTab = tab;
 
         if (currentOpenedTab != nextOpenedTab)
         {
-            if (currentOpenedTab == null)
-            {
-                //Open the next tab
-                currentOpenedTab = nextOpenedTab;
-                return;
-            }
-
-            //Close the current tab
-            //Then open the next tab
+            myAnimator.SetBool("TabOpen", true);
+            myAnimator.SetInteger("OpenedTab", tab);
+            
             currentOpenedTab = nextOpenedTab;
         }
         else
         {
-            //Close the current tab
-            currentOpenedTab = null;
+            myAnimator.SetBool("TabOpen", false);
+            myAnimator.SetInteger("OpenedTab", 0);
+
+            currentOpenedTab = 0;
         }
 
-        nextOpenedTab = null;
+        nextOpenedTab = 0;
     }
+    //0 = None, 1 = Play, 2 = Encyclopedia, 3 = Shop, 4 = Options, 5 = Quit
 
     public void ChangeDifficultyButton(DifficultyButton button)
     {

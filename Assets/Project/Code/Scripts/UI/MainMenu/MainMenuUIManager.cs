@@ -112,10 +112,11 @@ public class MainMenuUIManager : MonoBehaviour
     private bool characterClass; //false = Warrior, true = mage
 
     //Difficulty
+    [Header("Difficulty limits")]
+    public int mediumDifficulty;
+    public int hardDifficulty;
+    public int impossibleDifficulty;
     private int totalDifficulty;
-    private int mediumDifficulty;
-    private int hardDifficulty;
-    private int impossibleDifficulty;
 
     [Header("Difficulty meter values")]
     public int maxLifeMalus;
@@ -151,7 +152,7 @@ public class MainMenuUIManager : MonoBehaviour
 
 
         //Init text
-        DifficultyTextUpdate(MalusType.All);
+        DifficultyMalusTextUpdate(MalusType.All);
     }
 
     void Update()
@@ -161,31 +162,33 @@ public class MainMenuUIManager : MonoBehaviour
 
     #region Methods
 
-    private void DifficultyTextUpdate(MalusType malus)
+    private void DifficultyMalusTextUpdate(MalusType malus)
     {
         switch (malus)
         {
             case MalusType.Life:
-                currentLifeMalusText.text = "+ " + (currentLifeMalus * 20).ToString() + "%";
+                currentLifeMalusText.text = "+ " + (currentLifeMalus * (100/maxLifeMalus)).ToString() + "%";
                 break;
             case MalusType.Attack:
-                currentAttackMalusText.text = "+ " + (currentAttackMalus * 25).ToString() + "%";
+                currentAttackMalusText.text = "+ " + (currentAttackMalus * (100 / maxAttackMalus)).ToString() + "%";
                 break;
             case MalusType.Speed:
-                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * 10).ToString() + "%";
+                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * (100 / maxSpeedMalus)).ToString() + "%";
                 break;
             case MalusType.Stele:
                 currentSteleMalusText.text = "- " + (currentSteleMalus * 2).ToString();
                 break;
             case MalusType.All:
-                currentLifeMalusText.text = "+ " + (currentLifeMalus * 20).ToString() + "%";
-                currentAttackMalusText.text = "+ " + (currentAttackMalus * 25).ToString() + "%";
-                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * 10).ToString() + "%";
+                currentLifeMalusText.text = "+ " + (currentLifeMalus * (100 / maxLifeMalus)).ToString() + "%";
+                currentAttackMalusText.text = "+ " + (currentAttackMalus * (100 / maxAttackMalus)).ToString() + "%";
+                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * (100 / maxSpeedMalus)).ToString() + "%";
                 currentSteleMalusText.text = "- " + (currentSteleMalus * 2).ToString();
                 break;
             default:
                 break;
         }
+
+        DifficultyValueTextUpdate();
     }
     //Update the text of the corresponding malus
 
@@ -200,6 +203,44 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
     //Makes the minus/plus button (difficulty) non-interactable/interactable depending of the new malus value
+
+    private void DifficultyValueTextUpdate()
+    {
+        if(totalDifficulty <= mediumDifficulty)
+        {
+            easyText.SetActive(true);
+            mediumText.SetActive(false);
+            hardText.SetActive(false);
+            impossibleText.SetActive(false);
+            return;
+        }
+        else if(totalDifficulty <= hardDifficulty)
+        {
+            easyText.SetActive(false);
+            mediumText.SetActive(true);
+            hardText.SetActive(false);
+            impossibleText.SetActive(false);
+            return;
+        }
+        else if (totalDifficulty <= impossibleDifficulty)
+        {
+            easyText.SetActive(false);
+            mediumText.SetActive(false);
+            hardText.SetActive(true);
+            impossibleText.SetActive(false);
+            return;
+        }
+        else if (totalDifficulty > impossibleDifficulty)
+        {
+            easyText.SetActive(false);
+            mediumText.SetActive(false);
+            hardText.SetActive(false);
+            impossibleText.SetActive(true);
+            return;
+        }
+    }
+    //Update the general difficulty text
+    //(Miam le bon code d'UI)
 
     #endregion
 
@@ -260,26 +301,26 @@ public class MainMenuUIManager : MonoBehaviour
         {
             case MalusType.Life:
                 currentLifeMalus += sign;
-                totalDifficulty += difficultyValueLifeMalus;
-                DifficultyTextUpdate(MalusType.Life);
+                totalDifficulty += difficultyValueLifeMalus * sign;
+                DifficultyMalusTextUpdate(MalusType.Life);
                 DifficultyButtonsUpdate(currentLifeMalus, maxLifeMalus, minusLifeButton, plusLifeButton);
                 break;
             case MalusType.Attack:
                 currentAttackMalus += sign;
-                totalDifficulty += difficultyValueAttackMalus;
-                DifficultyTextUpdate(MalusType.Attack);
+                totalDifficulty += difficultyValueAttackMalus * sign;
+                DifficultyMalusTextUpdate(MalusType.Attack);
                 DifficultyButtonsUpdate(currentAttackMalus, maxAttackMalus, minusAttackButton, plusAttackButton);
                 break;
             case MalusType.Speed:
                 currentSpeedMalus += sign;
-                totalDifficulty += difficultyValueSpeedMalus;
-                DifficultyTextUpdate(MalusType.Speed);
+                totalDifficulty += difficultyValueSpeedMalus * sign;
+                DifficultyMalusTextUpdate(MalusType.Speed);
                 DifficultyButtonsUpdate(currentSpeedMalus, maxSpeedMalus, minusSpeedButton, plusSpeedButton);
                 break;
             case MalusType.Stele:
                 currentSteleMalus += sign;
-                totalDifficulty += difficultyValueSteleMalus;
-                DifficultyTextUpdate(MalusType.Stele);
+                totalDifficulty += difficultyValueSteleMalus * sign;
+                DifficultyMalusTextUpdate(MalusType.Stele);
                 DifficultyButtonsUpdate(currentSteleMalus, maxSteleMalus, minusSteleButton, plusSteleButton);
                 break;
             case MalusType.All:

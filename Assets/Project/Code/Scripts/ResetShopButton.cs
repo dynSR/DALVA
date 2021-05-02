@@ -12,12 +12,12 @@ public class ResetShopButton : UIButtonWithTooltip, IPointerEnterHandler, IPoint
 
     private void OnEnable()
     {
-        shop.OnShopResetDraw += SetResetDrawCostText;
+        shop.OnShopDrawSetResetCost += SetResetDrawCostText;
     }
 
     private void OnDisable()
     {
-        shop.OnShopResetDraw -= SetResetDrawCostText;
+        shop.OnShopDrawSetResetCost -= SetResetDrawCostText;
     }
 
     public override void OnPointerEnter(PointerEventData eventData)

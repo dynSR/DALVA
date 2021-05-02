@@ -10,7 +10,7 @@ public class ShopManager : MonoBehaviour
     public event ShopActionsHandler OnBuyingAnItem;
     public event ShopActionsHandler OnSellingAnItem;
     public event ShopActionsHandler OnShopActionCancel;
-    public event ShopActionsHandler OnShopResetDraw;
+    public event ShopActionsHandler OnShopDrawSetResetCost;
 
     public Transform Player => GetComponentInParent<PlayerHUDManager>().Player;
 
@@ -24,6 +24,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private List<ShopIcon> shopBoxesIcon;
 
     [Header("ITEMS IN POOL")]
+    [SerializeField] private bool canStackSameItem = false;
+    [SerializeField] private bool shuffleItemsOnlyWhenFifthWaveIsOver = true;
+    [SerializeField] private bool costScalesUP = false;
     [SerializeField] private int costAugmentation;
     [SerializeField] private int amntOfItemsToAddInThePool;
     [SerializeField] private List<ItemButton> itemCreated;
@@ -35,7 +38,6 @@ public class ShopManager : MonoBehaviour
     [Header("ITEMS IN GAME")]
     [SerializeField] private List<Item> itemsInGame;
     
-
     private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
     private EntityStats PlayerStats => Player.GetComponent<EntityStats>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
@@ -46,6 +48,7 @@ public class ShopManager : MonoBehaviour
     public List<ShopIcon> ShopBoxesIcon { get => shopBoxesIcon; }
     public int ResetTimes { get; set; }
     public int ResetDrawCost { get; set; }
+    public bool ShuffleItemsOnlyWhenFifthWaveIsOver { get => shuffleItemsOnlyWhenFifthWaveIsOver; set => shuffleItemsOnlyWhenFifthWaveIsOver = value; }
 
     [System.Serializable]
     public class ShopActionData
@@ -67,6 +70,17 @@ public class ShopManager : MonoBehaviour
             this.transactionID = transactionID;
             this.abilityEffect = abilityEffect;
         }
+    }
+
+    private void Start()
+    {
+        if (!costScalesUP)
+        {
+            ResetDrawCost = costAugmentation;
+            OnShopDrawSetResetCost?.Invoke(ResetDrawCost);
+        }
+
+        ShuffleItemsInShop();
     }
 
     #region Buy an item
@@ -116,7 +130,7 @@ public class ShopManager : MonoBehaviour
         {
             if(!shopItem.ItemIsAnAbility)
             {
-                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem)) return;
+                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem) && !canStackSameItem) return;
 
                 PlayerInventory.AddItemToInventory(shopItem, true);
             }
@@ -137,7 +151,7 @@ public class ShopManager : MonoBehaviour
 
         if (!SelectedItem.ItemIsAnAbility)
         {
-            if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(SelectedItem)) return;
+            if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(SelectedItem) && !canStackSameItem) return;
 
             PlayerInventory.AddItemToInventory(SelectedItem, true);
         }
@@ -288,6 +302,7 @@ public class ShopManager : MonoBehaviour
     }
     #endregion
 
+    #region Shuffle
     public void ShuffleItemsInShop()
     {
         for (int i = 0; i < amntOfItemsToAddInThePool; i++)
@@ -327,12 +342,13 @@ public class ShopManager : MonoBehaviour
     //On a button
     public void ResetDrawAndShuffleAgain()
     {
-        ResetDrawCost = GetResetDrawCost();
+        if (costScalesUP) ResetDrawCost = GetResetDrawCost();
+        else ResetDrawCost = costAugmentation;
 
         if (ResetDrawCost <= PlayerRessources.CurrentAmountOfPlayerRessources)
         {
             ResetTimes++;
-            OnShopResetDraw?.Invoke(ResetDrawCost);
+            OnShopDrawSetResetCost?.Invoke(ResetDrawCost);
             DeleteDraw();
             ShuffleItemsInShop();
             OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - ResetDrawCost);
@@ -343,6 +359,7 @@ public class ShopManager : MonoBehaviour
     {
         return ResetTimes * costAugmentation;
     }
+    #endregion
 
     public void RefreshShopData()
     {
@@ -360,7 +377,7 @@ public class ShopManager : MonoBehaviour
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                 }
-                else if (IsItemAlreadyInInventory(item))
+                else if (IsItemAlreadyInInventory(item) && !canStackSameItem)
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                     ShopBoxesIcon[i].ItemButton.DisplayCheckMark();

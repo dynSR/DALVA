@@ -24,7 +24,7 @@ public class PlayerController : CharacterController
 
     protected override void Update()
     {
-        if (Stats.IsDead) return;
+        if (Stats.IsDead || !GameManager.Instance.GameIsInPlayMod()) return;
 
         if (GameObject.Find("GameNetworkManager") == null || photonView.IsMine)
         {

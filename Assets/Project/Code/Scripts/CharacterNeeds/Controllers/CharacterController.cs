@@ -20,7 +20,9 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     [Header("VFX")]
     [SerializeField] private GameObject stunVFX;
+    [SerializeField] private GameObject rootedVFX;
     public GameObject StunVFX { get => stunVFX; }
+    public GameObject RootedVFX { get => rootedVFX; }
 
     //Network
     [HideInInspector]
@@ -115,13 +117,27 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
         Interactions.ResetInteractionState();
         Interactions.CanPerformAttack = false;
 
+        StunVFX.SetActive(true);
+
         IsStunned = true;
+    }
+    public void UnStunTarget()
+    {
+        IsStunned = false;
+        StunVFX.SetActive(false);
     }
 
     public void RootTarget()
     {
         //Agent.ResetPath();
         IsRooted = true;
+        RootedVFX.SetActive(true);
+    }
+
+    public void UnRootTarget()
+    {
+        IsRooted = false;
+        RootedVFX.SetActive(false);
     }
     #endregion
 

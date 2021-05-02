@@ -99,17 +99,19 @@ public class StatusEffect : ScriptableObject
         {
             for (int i = 0; i < GetTargetStatusEffectHandler(target).AppliedStatusEffects.Count; i++)
             {
-                if (GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect != effectToRemove
-                    && effectToRemove.CanRootTarget
-                    && !GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanRootTarget) 
-                    GetTargetController(target).IsRooted = false;
+                StatusEffect effect = GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect;
 
-                if (GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect != effectToRemove 
+                if (effect != effectToRemove
+                    && effectToRemove.CanRootTarget
+                    && !effect.CanRootTarget) 
+                    GetTargetController(target).UnRootTarget();
+
+                if (effect != effectToRemove 
                     && effectToRemove.CanStunTarget
-                    && !GetTargetStatusEffectHandler(target).AppliedStatusEffects[i].statusEffect.CanStunTarget)
+                    && !effect.CanStunTarget)
                 {
                     GetTargetController(target).GetComponent<InteractionSystem>().CanPerformAttack = true;
-                    GetTargetController(target).IsStunned = false;
+                    GetTargetController(target).UnStunTarget();
                 }   
             }
         }

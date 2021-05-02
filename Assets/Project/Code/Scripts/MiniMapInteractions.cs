@@ -87,7 +87,7 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
                 PlayerCameraController.MoveCameraToASpecificMiniMapPosition(miniMapHit.point);
             }
 
-            if (UtilityClass.RightClickIsPressedOnUIElement(requiredEventData))
+            if (UtilityClass.RightClickIsPressedOnUIElement(requiredEventData) && GameManager.Instance.GameIsInPlayMod())
             {
                 Debug.Log("RIGHT CLICK ON MAP");
                 

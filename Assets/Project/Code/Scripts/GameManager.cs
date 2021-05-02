@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        ShopPhase();
     }
 
     public void FithWaveTracker()
@@ -60,30 +60,55 @@ public class GameManager : MonoBehaviour
         if (InternalCounter == 6)
         {
             InternalCounter = 0;
-            SetGameToStandbyMod();
-            PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
-            
+            ShopPhase();
         }
     }
 
+    public void ShopPhase()
+    {
+        SetGameToStandbyMod();
+        PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
+    }
+
     #region Game Mods
+    #region Pause
     public void PauseGame()
     {
         GameState = GameState.Pause;
         Time.timeScale = 0;
     }
 
+    public bool GameIsInPause()
+    {
+        return GameState == GameState.Pause;
+    }
+    #endregion
+
+    #region PlayMod
     public void SetGameToPlayMod()
     {
         GameState = GameState.PlayMod;
         Time.timeScale = 1;
     }
 
+    public bool GameIsInPlayMod()
+    {
+        return GameState == GameState.PlayMod;
+    }
+    #endregion
+
+    #region Standby
     public void SetGameToStandbyMod()
     {
         GameState = GameState.StandbyMod;
         Time.timeScale = 0;
     }
+
+    public bool GameIsInStandBy()
+    {
+        return GameState == GameState.StandbyMod;
+    }
+    #endregion
 
     public void Victory()
     {

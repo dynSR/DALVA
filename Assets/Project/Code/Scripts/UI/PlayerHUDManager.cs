@@ -56,7 +56,7 @@ public class PlayerHUDManager : MonoBehaviour
     void Update()
     {
         //To comment
-        if (UtilityClass.IsKeyPressed(toggleInputKey))
+        if (UtilityClass.IsKeyPressed(toggleInputKey) && GameManager.Instance.GameIsInPlayMod())
             ToggleAWindow(IsShopWindowOpen, ShopWindow);
     }
 
@@ -152,7 +152,12 @@ public class PlayerHUDManager : MonoBehaviour
 
         IsShopWindowOpen = true;
 
-        shop.ShuffleItemsInShop();
+        if (shop.ShuffleItemsOnlyWhenFifthWaveIsOver && GameManager.Instance.WaveDone == 6)
+        {
+            shop.DeleteDraw();
+            shop.ShuffleItemsInShop();
+        }
+        else if (!shop.ShuffleItemsOnlyWhenFifthWaveIsOver) shop.ShuffleItemsInShop();
 
         ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();
@@ -172,7 +177,9 @@ public class PlayerHUDManager : MonoBehaviour
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
         IsShopWindowOpen = false;
-        shop.DeleteDraw();
+
+        if (shop.ShuffleItemsOnlyWhenFifthWaveIsOver && GameManager.Instance.WaveDone == 6) shop.DeleteDraw();
+        else if (!shop.ShuffleItemsOnlyWhenFifthWaveIsOver) shop.DeleteDraw();
     }
 
     void ResetShopWindowSelectionsOnBoxes()

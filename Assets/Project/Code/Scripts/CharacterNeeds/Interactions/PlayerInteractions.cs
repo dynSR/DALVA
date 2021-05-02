@@ -20,6 +20,9 @@ public class PlayerInteractions : InteractionSystem
     protected override void Update()
     {
         base.Update();
+
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
         SetTargetOnMouseClick();
     }
    
@@ -74,13 +77,13 @@ public class PlayerInteractions : InteractionSystem
                             StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
                     }  
                 }
-                //else
-                //{
-                //    //Ground hit
-                //    if (GameObject.Find("GameNetworkManager") != null)
-                //        GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, null, "Targeting", GetComponent<PhotonView>().ViewID);
-                //    ResetAgentState();
-                //}
+                else
+                {
+                    //Ground hit
+                    //if (GameObject.Find("GameNetworkManager") != null)
+                    //    GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, null, "Targeting", GetComponent<PhotonView>().ViewID);
+                    ResetAgentState();
+                }
             }
         }
     }

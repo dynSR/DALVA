@@ -51,6 +51,10 @@ public class MainMenuUIManager : MonoBehaviour
     public Button warriorButton;
     [Tooltip("The Mage class button.")]
     public Button mageButton;
+    [Tooltip("The Warrior class button.")]
+    public GameObject warriorText;
+    [Tooltip("The Mage class button.")]
+    public GameObject mageText;
     [Space(10)]
         //Difficulty
             //Life assets
@@ -116,31 +120,35 @@ public class MainMenuUIManager : MonoBehaviour
     [Header("Difficulty meter values")]
     public int maxLifeMalus;
     private int currentLifeMalus;
-    private int difficultyValueLifeMalus;
+    public int difficultyValueLifeMalus;
 
     public int maxAttackMalus;
     private int currentAttackMalus;
-    private int difficultyValueAttackMalus;
+    public int difficultyValueAttackMalus;
 
     public int maxSpeedMalus;
     private int currentSpeedMalus;
-    private int difficultyValueSpeedMalus;
+    public int difficultyValueSpeedMalus;
 
     public int maxSteleMalus;
     private int currentSteleMalus;
-    private int difficultyValueSteleMalus;
+    public int difficultyValueSteleMalus;
 
     #endregion
 
     void Start()
     {
         //Init
-        myAnimator = GetComponent<Animator>();
+        myAnimator = GetComponentInParent<Animator>();
+
+        //Play Tab
+        characterClass = false; //Warrior by default
 
         currentLifeMalus = 0;
         currentAttackMalus = 0;
         currentSpeedMalus = 0;
         currentSteleMalus = 0;
+
 
         //Init text
         DifficultyTextUpdate(MalusType.All);
@@ -197,21 +205,43 @@ public class MainMenuUIManager : MonoBehaviour
 
     #region Buttons methods
 
+    public void SwitchClass()
+    {
+        characterClass = !characterClass;
+
+        if (characterClass)
+        {
+            warriorButton.interactable = true;
+            mageButton.interactable = false;
+            myAnimator.SetBool("isMage", true);
+            warriorText.SetActive(false);
+            mageText.SetActive(true);
+        }
+        else
+        {
+            warriorButton.interactable = false;
+            mageButton.interactable = true;
+            myAnimator.SetBool("isMage", false);
+            warriorText.SetActive(true);
+            mageText.SetActive(false);
+        }
+    }
+
     public void ChangeOpenedTab(int tab)
     {
         nextOpenedTab = tab;
 
         if (currentOpenedTab != nextOpenedTab)
         {
-            myAnimator.SetBool("TabOpen", true);
-            myAnimator.SetInteger("OpenedTab", tab);
+            myAnimator.SetBool("aTabIsOpen", true);
+            myAnimator.SetInteger("openedTab", tab);
             
             currentOpenedTab = nextOpenedTab;
         }
         else
         {
-            myAnimator.SetBool("TabOpen", false);
-            myAnimator.SetInteger("OpenedTab", 0);
+            myAnimator.SetBool("aTabIsOpen", false);
+            myAnimator.SetInteger("openedTab", 0);
 
             currentOpenedTab = 0;
         }

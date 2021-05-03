@@ -31,19 +31,6 @@ public class MainMenuUIManager : MonoBehaviour
     [Tooltip("The quit button from the main tab (always visible).")]
     public Button quitTabButton;
 
-    //Secondary tabs (not always visible)
-    [Header("Secondary tabs")]
-    [Tooltip("The play tab.")]
-    public GameObject playTab;
-    [Tooltip("The encyclopedia tab.")]
-    public GameObject encyclopediaTab;
-    [Tooltip("The shop tab.")]
-    public GameObject shopTab;
-    [Tooltip("The options tab.")]
-    public GameObject optionsTab;
-    [Tooltip("The quit tab.")]
-    public GameObject quitTab;
-
     //Play Tab
     [Header("Play tab assets")]
         //Class
@@ -111,6 +98,8 @@ public class MainMenuUIManager : MonoBehaviour
 
     private bool characterClass; //false = Warrior, true = mage
 
+    private bool faded;
+
     //Difficulty
     [Header("Difficulty limits")]
     public int mediumDifficulty;
@@ -153,6 +142,9 @@ public class MainMenuUIManager : MonoBehaviour
 
         //Init text
         DifficultyMalusTextUpdate(MalusType.All);
+
+        //Fade
+        myAnimator.SetBool("fadingOut", true);
     }
 
     void Update()
@@ -242,6 +234,11 @@ public class MainMenuUIManager : MonoBehaviour
     //Update the general difficulty text
     //(Miam le bon code d'UI)
 
+    public void StartGame()
+    {
+        SceneManager.LoadScene(gameSceneName);
+    }
+
     #endregion
 
     #region Buttons methods
@@ -289,7 +286,7 @@ public class MainMenuUIManager : MonoBehaviour
 
         nextOpenedTab = 0;
     }
-    //0 = None, 1 = Play, 2 = Encyclopedia, 3 = Shop, 4 = Options, 5 = Quit
+    //0 = None, 1 = Play, 2 = Encyclopedia, 3 = Shop, 4 = Options, 5 = Credits, 6 = Quit
 
     public void ChangeDifficultyButton(DifficultyButton button)
     {
@@ -331,6 +328,18 @@ public class MainMenuUIManager : MonoBehaviour
     }
     //When a malus button is clicked, check which one (minus/plus), and remove/add an unit to the corresponding malus type.
     //Also, makes the button non-interactable if it's out of range (0 to maxValue).
+
+    public void StartGameButton()
+    {
+        myAnimator.SetBool("fadingOut", false);
+        myAnimator.SetBool("startGame", true);
+    }
+
+
+    public void QuitGameButton()
+    {
+        Application.Quit();
+    }
 
     #endregion
 

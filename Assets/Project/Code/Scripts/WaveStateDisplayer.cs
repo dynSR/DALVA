@@ -7,20 +7,26 @@ public class WaveStateDisplayer : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject content;
-    [SerializeField] private SpawnerSystem spawner;
+    [SerializeField] private SpawnerSystem[] spawner;
     public float timerAssigned;
     public float localTimer;
 
 
     private void OnEnable()
     {
-        spawner.OnWaveStartinSoon += SetWaveDisplayerFillAmount;
-        spawner.OnWavePossibilityToSpawnState += ToggleContent;
+        for (int i = 0; i < spawner.Length; i++)
+        {
+            spawner[i].OnWaveStartinSoon += SetWaveDisplayerFillAmount;
+            spawner[i].OnWavePossibilityToSpawnState += ToggleContent;
+        }
     }
     private void OnDisable()
     {
-        spawner.OnWaveStartinSoon -= SetWaveDisplayerFillAmount;
-        spawner.OnWavePossibilityToSpawnState -= ToggleContent;
+        for (int i = 0; i < spawner.Length; i++)
+        {
+            spawner[i].OnWaveStartinSoon -= SetWaveDisplayerFillAmount;
+            spawner[i].OnWavePossibilityToSpawnState -= ToggleContent;
+        }
     }
 
     private void Update()

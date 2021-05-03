@@ -124,6 +124,8 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void BuyItem(Item shopItem)
     {
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || !CanPurchaseItem(shopItem)) return;
+
         Debug.Log("Buying item : " + shopItem.ItemName);
 
         if (UtilityClass.RightClickIsPressed())
@@ -255,6 +257,8 @@ public class ShopManager : MonoBehaviour
 
                     OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + shopActions[i].item.ItemCost);
 
+                    RefreshShopData();
+
                     numberOfShopActionsDone--;
 
                     shopActions.RemoveAt(i);
@@ -293,6 +297,8 @@ public class ShopManager : MonoBehaviour
                 PlayerInventory.InventoryBoxes[i].StoredItemTransactionID = transactionIDData;
 
                 OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - itemToAdd.InventoryBox.StoredItem.AmountOfGoldRefundedOnSale);
+
+                RefreshShopData();
 
                 Debug.Log("Add " + itemToAdd.ItemName + " to inventory");
                 Debug.Log("Number of full inventory boxes : " + PlayerInventory.NumberOfFullInventoryBoxes);
@@ -352,6 +358,7 @@ public class ShopManager : MonoBehaviour
             DeleteDraw();
             ShuffleItemsInShop();
             OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - ResetDrawCost);
+            RefreshShopData();
         }
     }
 
@@ -373,7 +380,8 @@ public class ShopManager : MonoBehaviour
             {
                 Debug.Log(item.name + " " + item.ItemIsAnAbility);
 
-                if (!CanPurchaseItem(item) && !IsItemAlreadyInInventory(item))
+                if (!CanPurchaseItem(item) && !IsItemAlreadyInInventory(item) && !canStackSameItem
+                    || !CanPurchaseItem(item) && canStackSameItem)
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                 }

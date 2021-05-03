@@ -51,11 +51,6 @@ public class UIManager : MonoBehaviour
         PopulateSpawnersList();
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void LateUpdate() => UpdapteGameTimer();
 
     void PopulateSpawnersList()

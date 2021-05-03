@@ -14,9 +14,18 @@ public enum SteleLevel
     Default,
     EvolutionI,
     EvolutionII,
-    EvolutionIII,
     FinalEvolution,
     OnlySell
+}
+
+public enum SteleEffect
+{
+    Guardian,
+    Frost,
+    Weakness,
+    Inferno,
+    Sentinel,
+    Ramapart,
 }
 
 public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
@@ -46,7 +55,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     [SerializeField] private GameObject activationVFX;
     [SerializeField] private List<GameObject> runes;
     private bool interactionIsHandled = false;
-    private bool isDead = false;
+    //private bool isDead = false;
     //public int HealthPoints { get => healthPoints; set => healthPoints = value; }
     public SteleState SteleState { get => steleState; private set => steleState = value; }
     public SteleLevel SteleLevel { get => steleLevel; private set => steleLevel = value; }
@@ -103,13 +112,24 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     {
         rune.SetActive(true);
     }
+
+    public void SpawnEntityEffect(GameObject entityToSpawn)
+    {
+        Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
+        spawnedEffectObject = entityToSpawn;
+    }
+
+    public void SellEffect()
+    {
+        Destroy(spawnedEffectObject);
+    }
     #endregion
 
     private void SetSteleToInactiveMode()
     {
         IsInteractable = true;
 
-        isDead = false;
+        //isDead = false;
         SteleState = SteleState.Inactive;
     }
 
@@ -174,10 +194,4 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     //        OnDeath();
     //    }
     //}
-
-    public void SpawnEntityEffect(GameObject entityToSpawn)
-    {
-        Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
-        spawnedEffectObject = entityToSpawn;
-    }
 }

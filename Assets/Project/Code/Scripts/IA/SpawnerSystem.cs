@@ -147,16 +147,40 @@ public class SpawnerSystem : MonoBehaviour
 
         if (IndexOfCurrentWave >= Waves.Count) return false;
 
-        if (IndexOfCurrentWave >= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length < 0)
+        if (IndexOfCurrentWave <= Waves.Count)
         {
-            canSpawn = false;
-            OnWavePossibilityToSpawnState?.Invoke(0);
+            float indexNotNull = 0;
+
+            for (int i = 0; i < Waves[IndexOfCurrentWave].waveMinions.Length; i++)
+            {
+                if (Waves[IndexOfCurrentWave].waveMinions[i].gameObject != null)
+                {
+                    indexNotNull++;
+                }
+
+                if (indexNotNull == 0)
+                {
+                    canSpawn = false;
+                    OnWavePossibilityToSpawnState?.Invoke(0);
+                }
+                else if (indexNotNull >= 1 )
+                {
+                    canSpawn = true;
+                    OnWavePossibilityToSpawnState?.Invoke(1);
+                }
+            }
         }
-        else if (IndexOfCurrentWave <= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length > 0)
-        {
-            canSpawn = true;
-            OnWavePossibilityToSpawnState?.Invoke(1);
-        }
+
+        //if (IndexOfCurrentWave >= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length < 0)
+        //{
+        //    canSpawn = false;
+        //    OnWavePossibilityToSpawnState?.Invoke(0);
+        //}
+        //else if (IndexOfCurrentWave <= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length > 0)
+        //{
+        //    canSpawn = true;
+        //    OnWavePossibilityToSpawnState?.Invoke(1);
+        //}
 
         return canSpawn;
     }

@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
 
     public static GameState GameState;
 
-    [SerializeField] private ShopManager shop;
-
     [Header("WAVE")]
     [SerializeField] private int waveDone = 0;
     private int InternalCounter = 0;
@@ -46,11 +44,14 @@ public class GameManager : MonoBehaviour
     public List<SpawnerSystem> Spawners { get => spawners; }
     public int WaveDone { get => waveDone; set => waveDone = value; }
     public bool WaveCountHasBeenSet { get => waveCountHasBeenSet; set => waveCountHasBeenSet = value; }
+
+    public Transform Player { get; set; }
     
 
     void Start()
     {
         ShopPhase();
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public void FithWaveTracker()

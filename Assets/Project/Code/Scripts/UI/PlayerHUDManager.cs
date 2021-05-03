@@ -19,12 +19,16 @@ public class PlayerHUDManager : MonoBehaviour
     [Header("INVENTORY")]
     [SerializeField] private TextMeshProUGUI inventoryPlayerRessourcesValueText;
 
+    [Header("STELETOOLTIP")]
+    [SerializeField] private GameObject steleTooltip;
+
     public GameObject ShopWindow { get => shopWindow; }
     public TextMeshProUGUI ShopPlayerRessourcesValueText { get => shopPlayerRessourcesValueText; }
     public TextMeshProUGUI InventoryPlayerRessourcesValueText { get => inventoryPlayerRessourcesValueText; }
 
     public bool IsShopWindowOpen { get => isShopWindowOpen; set => isShopWindowOpen = value; }
     public Transform Player { get => player; }
+    public GameObject SteleTooltip { get => steleTooltip; }
 
     #region Singleton
     public static PlayerHUDManager Instance;

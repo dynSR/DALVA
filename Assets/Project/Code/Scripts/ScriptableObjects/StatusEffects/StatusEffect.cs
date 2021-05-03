@@ -69,6 +69,8 @@ public class StatusEffect : ScriptableObject
                 }
             }
 
+            GetTargetStats(target).UpdateStats();
+
             if (CanRootTarget) GetTargetController(target).RootTarget();
             if (CanStunTarget) GetTargetController(target).StunTarget();
 
@@ -92,6 +94,8 @@ public class StatusEffect : ScriptableObject
             {
                 GetTargetStats(target).RemoveShieldOnTarget(target, StatModifiers[i].Value);
             }
+
+            GetTargetStats(target).UpdateStats();
         }
 
         //Maybe it will not work has to be checked !!!!!!!!!!!

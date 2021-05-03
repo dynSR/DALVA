@@ -42,6 +42,7 @@ public class Item : ScriptableObject
                     if (c.entityStats[i].StatType == itemModifiers[j].StatType)
                     {
                         c.entityStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
+                        c.UpdateStats();
                     }
                 }
             }
@@ -57,6 +58,7 @@ public class Item : ScriptableObject
                 Debug.Log("Can't find any item -!-");
                 c.entityStats[i].RemoveAllModifiersFromSource(this);
                 c.entityStats[i].MaxValue = c.entityStats[i].CalculateValue();
+                c.UpdateStats();
             }
         }   
     }

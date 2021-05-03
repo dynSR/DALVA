@@ -7,7 +7,6 @@ public class SteleBillboard : Billboard
     [SerializeField] private GameObject inactiveButtonSection;
     [SerializeField] private GameObject evolutionOneButtonSection;
     [SerializeField] private GameObject evolutionTwoButtonSection;
-    [SerializeField] private GameObject evolutionThreeButtonSection;
     [SerializeField] private GameObject finalEvolutionButtonSection;
     [SerializeField] private GameObject onlySellButtonSection;
 
@@ -51,9 +50,6 @@ public class SteleBillboard : Billboard
                 break;
             case SteleLevel.EvolutionII:
                 evolutionTwoButtonSection.SetActive(true);
-                break;
-            case SteleLevel.EvolutionIII:
-                evolutionThreeButtonSection.SetActive(true);
                 break;
             case SteleLevel.FinalEvolution:
                 finalEvolutionButtonSection.SetActive(true);

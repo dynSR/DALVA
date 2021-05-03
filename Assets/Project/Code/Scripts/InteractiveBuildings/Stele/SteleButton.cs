@@ -1,29 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SteleButton : MonoBehaviour, IPointerDownHandler
+public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler,  IButtonTooltip
 {
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        HideTooltip(GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        DisplayTooltip(GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip);
+        //GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.GetComponent<SteleTooltip>().SetTooltip();
+    }
+    public void DisplayTooltip(GameObject tooltip)
+    {
+        tooltip.SetActive(true);
+    }
+
+    public void HideTooltip(GameObject tooltip)
+    {
+        tooltip.SetActive(false);
+    }
+
+    #region Debug
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("COUCOU STELE BUTTON CLIQUÉ");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void DebugButton()
     {
         Debug.Log("COUCOU STELE BUTTON CLIQUÉ");
     }
+    #endregion
 }

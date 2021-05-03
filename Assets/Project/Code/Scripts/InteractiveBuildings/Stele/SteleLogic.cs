@@ -20,12 +20,12 @@ public enum SteleLevel
 
 public enum SteleEffect
 {
+    NoEffectSetYet,
     Guardian,
     Frost,
     Weakness,
-    Inferno,
     Sentinel,
-    Ramapart,
+    Rampart,
 }
 
 public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
@@ -48,6 +48,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     [Header("CURRENT STATE")]
     [SerializeField] private SteleState steleState;
     [SerializeField] private SteleLevel steleLevel;
+    [SerializeField] private SteleEffect steleEffect;
 
     [Header("OTHER ATTRIBUTES")]
     [SerializeField] private Transform effectEntitySpawnLocation;
@@ -59,6 +60,17 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     //public int HealthPoints { get => healthPoints; set => healthPoints = value; }
     public SteleState SteleState { get => steleState; private set => steleState = value; }
     public SteleLevel SteleLevel { get => steleLevel; private set => steleLevel = value; }
+    public SteleEffect SteleEffect { get => steleEffect; private set => steleEffect = value; }
+
+    [System.Serializable]
+    public class EffectDescription
+    {
+        public string effectName;
+        public SteleEffect steleEffect;
+        [Multiline]
+        public string description;
+        public int effectCost;
+    }
 
     #region Ref
     private Outline Outline => GetComponent<Outline>();
@@ -86,8 +98,10 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     }
 
     #region Button Methods
-    public void SetSteleToActiveMode(int steleHealthPointsRelativeToEffect)
+    public void SetSteleToActiveMode(int cost)
     {
+        if (InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < cost) return;
+
         SteleState = SteleState.Active;
 
         SetSteleTeam();
@@ -108,6 +122,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         SteleLevel = (SteleLevel)steleLevel;
     }
 
+    public void SetSteleEffect(int steleEffect)
+    {
+        SteleEffect = (SteleEffect)steleEffect;
+    }
+
     public void ActiveRuneEffect(GameObject rune)
     {
         rune.SetActive(true);
@@ -122,6 +141,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void SellEffect()
     {
         Destroy(spawnedEffectObject);
+        SteleLevel = SteleLevel.Default;
     }
     #endregion
 

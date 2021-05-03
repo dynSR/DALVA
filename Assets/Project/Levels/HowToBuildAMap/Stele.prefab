@@ -836,6 +836,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &8998566511371241534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2578,6 +2584,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &667514303345528500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2925,6 +2937,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &266724660861609744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3298,6 +3316,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &1242933179930917821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3708,6 +3732,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &2773659464638149080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3905,6 +3935,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &7218370608777445135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4433,6 +4469,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &6087098847237661032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5026,7 +5068,7 @@ GameObject:
   - component: {fileID: 6087098847877834081}
   - component: {fileID: 6384475999261150102}
   m_Layer: 14
-  m_Name: Button
+  m_Name: Button - Weakness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5104,6 +5146,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &6087098847877834081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5154,7 +5202,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 500
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5219,6 +5267,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SetSteleEffect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6384475999261150102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5247,7 +5307,7 @@ GameObject:
   - component: {fileID: 6087098847985804662}
   - component: {fileID: 2928783246888516932}
   m_Layer: 14
-  m_Name: Button
+  m_Name: Button - Frost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5325,6 +5385,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &6087098847985804662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5375,7 +5441,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
+          m_IntArgument: 500
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5440,6 +5506,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SetSteleEffect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2928783246888516932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5468,7 +5546,7 @@ GameObject:
   - component: {fileID: 6087098848016864692}
   - component: {fileID: 5453206996562806403}
   m_Layer: 14
-  m_Name: Button
+  m_Name: Button - Guardian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5546,6 +5624,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: Guardian
+    steleEffect: 1
+    description: "Invoque un golem face \xE0 cette st\xE8le, \xE0 3 unit\xE9s de
+      distance.\nCe golem reste dans ce p\xE9rim\xE8tre pour le d\xE9fendre.\nEn
+      cas de mort il r\xE9appara\xEEt apr\xE8s un certain d\xE9lai, dans la m\xEAme
+      zone."
+    effectCost: 500
 --- !u!114 &6087098848016864692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5596,7 +5683,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
+          m_IntArgument: 250
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5652,6 +5739,18 @@ MonoBehaviour:
       - m_Target: {fileID: 6087098848328281881}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SetSteleLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SetSteleEffect
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5961,7 +6060,7 @@ GameObject:
   - component: {fileID: 6087098848206555277}
   - component: {fileID: 1500930097846912033}
   m_Layer: 14
-  m_Name: Button
+  m_Name: Button - Rampart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6039,6 +6138,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &6087098848206555277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6089,7 +6194,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
+          m_IntArgument: 500
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6154,6 +6259,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SetSteleEffect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1500930097846912033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6182,7 +6299,7 @@ GameObject:
   - component: {fileID: 6087098848259616414}
   - component: {fileID: 518138738378349668}
   m_Layer: 14
-  m_Name: Button
+  m_Name: Button - Sentinel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6260,6 +6377,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &6087098848259616414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6310,7 +6433,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 500
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6371,6 +6494,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6087098848328281881}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SetSteleEffect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6458,6 +6593,7 @@ MonoBehaviour:
   reinitializationDelay: 2
   steleState: 0
   steleLevel: 0
+  steleEffect: 0
   effectEntitySpawnLocation: {fileID: 931689850}
   spawnedEffectObject: {fileID: 0}
   activationVFX: {fileID: 6359753844594443311}
@@ -6784,14 +6920,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6087098848484573277}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6087098848465647095}
   m_Father: {fileID: 6087098848328281880}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 3.5}
@@ -6852,7 +6988,6 @@ MonoBehaviour:
   inactiveButtonSection: {fileID: 1111630402210696174}
   evolutionOneButtonSection: {fileID: 150672391918373594}
   evolutionTwoButtonSection: {fileID: 3133310454601590637}
-  evolutionThreeButtonSection: {fileID: 4512473474011345771}
   finalEvolutionButtonSection: {fileID: 1846152293020416083}
   onlySellButtonSection: {fileID: 5817014395743529270}
   healthBar: {fileID: 0}
@@ -7192,6 +7327,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &1257681773388519438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17221,6 +17362,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &6314028415231873173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17406,6 +17553,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &8347701179272556657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17828,6 +17981,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &281649933520232380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18238,6 +18397,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392b72b7198563347948b5c6c67a5182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  affectedStele: {fileID: 6087098848328281881}
+  effectDescription:
+    effectName: 
+    steleEffect: 0
+    description: 
+    effectCost: 0
 --- !u!114 &3539822291842701521
 MonoBehaviour:
   m_ObjectHideFlags: 0

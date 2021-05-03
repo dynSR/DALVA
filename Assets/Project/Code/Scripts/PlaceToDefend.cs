@@ -8,7 +8,6 @@ public class PlaceToDefend : MonoBehaviour
     public static event HealthValueHandler OnHealthValueChanged;
 
     public int health;
-    public List<EntityStats> targetFoundStats = new List<EntityStats>();
     public EntityTeam team;
 
     private void Start()
@@ -32,4 +31,5 @@ public class PlaceToDefend : MonoBehaviour
             }
         }
     }
+
 }

@@ -64,6 +64,9 @@ public class CharacterRessources : MonoBehaviour
 
         if(PlayerHUD.IsShopWindowOpen)
             playerShop.RefreshShopData();
+
+        if(PlayerHUD.SteleTooltip.activeInHierarchy)
+            PlayerHUD.SteleTooltip.GetComponent<SteleTooltip>().SetCostTextColor();
     }
 
     public void RemoveRessources(int amountToRemove)
@@ -75,6 +78,9 @@ public class CharacterRessources : MonoBehaviour
 
         if (PlayerHUD.IsShopWindowOpen)
             playerShop.RefreshShopData();
+
+        if (PlayerHUD.SteleTooltip.activeInHierarchy)
+            PlayerHUD.SteleTooltip.GetComponent<SteleTooltip>().SetCostTextColor();
     }
 
     private void UpdatePlayerRessourcesValueText(int value)

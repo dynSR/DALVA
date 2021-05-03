@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using Photon.Pun;
 
-namespace GameNetwork
-{
-    public class PlayerManager : MonoBehaviourPun
+    public class PlayerManager : MonoBehaviour
     {
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject localPlayerInstance;
@@ -19,19 +16,23 @@ namespace GameNetwork
 
         protected virtual void Awake()
         {
-            DontDestroyOnLoad(gameObject);
-            //Reseau
-            if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
-            {
-                localPlayerInstance = gameObject;
-                localPlayerInstance.GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
-            }
-            //Local
-            else if (GameObject.Find("GameNetworkManager") == null)
-            {
-                GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
-                playerHUD.SetActive(true);
-            }
+
+            GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
+            playerHUD.SetActive(true);
+
+            //DontDestroyOnLoad(gameObject);
+            ////Reseau
+            //if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
+            //{
+            //    localPlayerInstance = gameObject;
+            //    localPlayerInstance.GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
+            //}
+            ////Local
+            //else if (GameObject.Find("GameNetworkManager") == null)
+            //{
+            //    GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
+            //    playerHUD.SetActive(true);
+            //}
         }
 
         private void Start()
@@ -48,5 +49,4 @@ namespace GameNetwork
             //else photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.HULRYCK;
         }
     }
-}
 

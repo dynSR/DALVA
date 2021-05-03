@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SteleBillboard : Billboard
 {
@@ -67,6 +68,7 @@ public class SteleBillboard : Billboard
 
     public void HideBuildButtons()
     {
+        GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.SetActive(false);
         buttonsSectionsHolder.SetActive(false);
     }
 

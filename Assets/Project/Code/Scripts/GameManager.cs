@@ -23,11 +23,14 @@ public class GameManager : MonoBehaviour
     {
         if (Instance != null)
         {
+            Debug.Log("COUCOU", transform);
             Destroy(this);
         }
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+            Debug.Log("COUCOU", transform);
         }
     }
     #endregion

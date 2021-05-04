@@ -22,6 +22,7 @@ public class PlaceToDefend : MonoBehaviour
         if(stats != null && stats.EntityTeam != team && stats.EntityTeam != EntityTeam.NEUTRAL)
         {
             health -= stats.DamageAppliedToThePlaceToDefend;
+            Destroy(stats.gameObject);
 
             OnHealthValueChanged?.Invoke(health);
 

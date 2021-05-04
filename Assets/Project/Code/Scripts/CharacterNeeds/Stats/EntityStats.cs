@@ -40,11 +40,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [SerializeField] private EntityTeam entityTeam;
     [SerializeField] private BaseEntity baseUsedEntity;
     [SerializeField] private List<AbilityLogic> entityAbilities;
-    [SerializeField] private float entityLevel = 1f;
+    //[SerializeField] private float entityLevel = 1f;
     public EntityTeam EntityTeam { get => entityTeam; set => entityTeam = value; }
     public BaseEntity BaseUsedEntity { get => baseUsedEntity; private set => baseUsedEntity = value; }
     public List<AbilityLogic> EntityAbilities { get => entityAbilities; }
-    public float EntityLevel { get => entityLevel; set => entityLevel = value; }
+    //public float EntityLevel { get => entityLevel; set => entityLevel = value; }
 
     [Header("STATS")]
     private float healthPercentage;

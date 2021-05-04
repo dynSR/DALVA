@@ -29,10 +29,13 @@ public class AggroRange : MonoBehaviour
         if (entityStats != null 
             && entityStats.EntityTeam != Stats.EntityTeam 
             && !entityFound.ThisTargetIsAMonster(entityFound) 
-            && !entityFound.ThisTargetIsAStele(entityFound))
+            && !entityFound.ThisTargetIsAStele(entityFound)
+            && !entityFound.ThisTargetIsASteleEffect(entityFound))
         {
             if (!entityStats.IsDead /*&& other.GetComponent<VisibilityState>().IsVisible*/)
             {
+                Debug.Log(entityStats.name, transform);
+
                 if (Interactions.HasATarget) return;
                 else
                     Interactions.Target = other.transform;

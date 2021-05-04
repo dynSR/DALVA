@@ -58,6 +58,12 @@ public class EntityDetection : MonoBehaviour
         return false;
     }
 
+    public bool ThisTargetIsASteleEffect(EntityDetection targetFound)
+    {
+        if (targetFound.TypeOfEntity == TypeOfEntity.SteleEffect) return true;
+        return false;
+    }
+
     public bool ThisTargetIsAHarvester(EntityDetection targetFound)
     {
         if (targetFound.TypeOfEntity == TypeOfEntity.Harvester) return true;

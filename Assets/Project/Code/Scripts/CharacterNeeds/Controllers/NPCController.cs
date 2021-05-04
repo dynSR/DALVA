@@ -123,6 +123,8 @@ public class NPCController : CharacterController
     #region Handle target and source of damage
     public void SetSourceOfDamageAsTarget()
     {
+        if (Stats.SourceOfDamage.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.SteleEffect) return;
+
         //if an entity did damage to me it becomes my new current target...
         if (Stats.SourceOfDamage != null && Stats.SourceOfDamage.GetComponent<VisibilityState>().IsVisible && Stats.SourceOfDamage != NPCInteractions.Target)
         {

@@ -63,6 +63,8 @@ public class ProjectileLogic : MonoBehaviour
                 ProjectileMoveToATarget();
                 break;
         }
+
+        if (Target != null && Target.GetComponent<EntityStats>().IsDead) Destroy(gameObject);
     }
 
     #region Projectile Behaviours
@@ -226,11 +228,14 @@ public class ProjectileLogic : MonoBehaviour
         }
         else TotalPhysicalDamage = 0;
 
-        if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
-        {
-            TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value + markBonusDamage;
-        }
-        else TotalMagicalDamage = 0;
+        //Auto Attack Scales only on Physical Power
+        //if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
+        //{
+        //    TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value + markBonusDamage;
+        //}
+        //else TotalMagicalDamage = 0;
+
+        TotalMagicalDamage = 0;
 
         targetStat.TakeDamage(
             ProjectileSender,

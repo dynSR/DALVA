@@ -93,36 +93,40 @@ public class MainMenuUIManager : MonoBehaviour
     //General
     private Animator myAnimator;
 
+    private GameParameters myGameParameters;
+
     private int currentOpenedTab;
     private int nextOpenedTab;
 
     private bool characterClass; //false = Warrior, true = mage
 
-    private bool faded;
-
     //Difficulty
     [Header("Difficulty limits")]
-    public int mediumDifficulty;
-    public int hardDifficulty;
-    public int impossibleDifficulty;
-    private int totalDifficulty;
+    public float mediumDifficulty;
+    public float hardDifficulty;
+    public float impossibleDifficulty;
+    private float totalDifficulty;
 
     [Header("Difficulty meter values")]
     public int maxLifeMalus;
     private int currentLifeMalus;
-    public int difficultyValueLifeMalus;
+    public int maxLifePercent;
+    public float difficultyValueLifeMalus;
 
     public int maxAttackMalus;
     private int currentAttackMalus;
-    public int difficultyValueAttackMalus;
+    public int maxAttackPercent;
+    public float difficultyValueAttackMalus;
 
     public int maxSpeedMalus;
     private int currentSpeedMalus;
-    public int difficultyValueSpeedMalus;
+    public int maxSpeedPercent;
+    public float difficultyValueSpeedMalus;
 
     public int maxSteleMalus;
     private int currentSteleMalus;
-    public int difficultyValueSteleMalus;
+    public int maxStelePercent;
+    public float difficultyValueSteleMalus;
 
     #endregion
 
@@ -130,14 +134,15 @@ public class MainMenuUIManager : MonoBehaviour
     {
         //Init
         myAnimator = GetComponentInParent<Animator>();
+        myGameParameters = GameParameters.singleton;
 
         //Play Tab
-        characterClass = false; //Warrior by default
+        characterClass = myGameParameters.characterClass;
 
-        currentLifeMalus = 0;
-        currentAttackMalus = 0;
-        currentSpeedMalus = 0;
-        currentSteleMalus = 0;
+        currentLifeMalus = myGameParameters.lifeMalus;
+        currentAttackMalus = myGameParameters.attackMalus;
+        currentSpeedMalus = myGameParameters.speedMalus;
+        currentSteleMalus = myGameParameters.steleMalus;
 
 
         //Init text
@@ -159,22 +164,22 @@ public class MainMenuUIManager : MonoBehaviour
         switch (malus)
         {
             case MalusType.Life:
-                currentLifeMalusText.text = "+ " + (currentLifeMalus * (100/maxLifeMalus)).ToString() + "%";
+                currentLifeMalusText.text = "+ " + (currentLifeMalus * (maxLifePercent / maxLifeMalus)).ToString() + "%";
                 break;
             case MalusType.Attack:
-                currentAttackMalusText.text = "+ " + (currentAttackMalus * (100 / maxAttackMalus)).ToString() + "%";
+                currentAttackMalusText.text = "+ " + (currentAttackMalus * (maxAttackPercent / maxAttackMalus)).ToString() + "%";
                 break;
             case MalusType.Speed:
-                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * (100 / maxSpeedMalus)).ToString() + "%";
+                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * (maxSpeedPercent / maxSpeedMalus)).ToString() + "%";
                 break;
             case MalusType.Stele:
-                currentSteleMalusText.text = "- " + (currentSteleMalus * 2).ToString();
+                currentSteleMalusText.text = "- " + (currentSteleMalus * maxStelePercent).ToString();
                 break;
             case MalusType.All:
-                currentLifeMalusText.text = "+ " + (currentLifeMalus * (100 / maxLifeMalus)).ToString() + "%";
-                currentAttackMalusText.text = "+ " + (currentAttackMalus * (100 / maxAttackMalus)).ToString() + "%";
-                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * (100 / maxSpeedMalus)).ToString() + "%";
-                currentSteleMalusText.text = "- " + (currentSteleMalus * 2).ToString();
+                currentLifeMalusText.text = "+ " + (currentLifeMalus * (maxLifePercent / maxLifeMalus)).ToString() + "%";
+                currentAttackMalusText.text = "+ " + (currentAttackMalus * (maxAttackPercent / maxAttackMalus)).ToString() + "%";
+                currentSpeedMalusText.text = "+ " + (currentSpeedMalus * (maxSpeedPercent / maxSpeedMalus)).ToString() + "%";
+                currentSteleMalusText.text = "- " + (currentSteleMalus * maxStelePercent).ToString();
                 break;
             default:
                 break;
@@ -333,6 +338,7 @@ public class MainMenuUIManager : MonoBehaviour
     {
         myAnimator.SetBool("fadingOut", false);
         myAnimator.SetBool("startGame", true);
+        myGameParameters.SetGameParameters(characterClass, currentLifeMalus, currentAttackMalus, currentSpeedMalus, currentSteleMalus);
     }
 
 

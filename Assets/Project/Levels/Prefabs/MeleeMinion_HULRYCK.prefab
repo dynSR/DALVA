@@ -1700,13 +1700,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityTeam: 1
-  usedEntity: {fileID: 11400000, guid: 94cfd4484a5c1f746b21b83668f1b4be, type: 2}
+  baseUsedEntity: {fileID: 11400000, guid: a8771bc3ba0a94b47a51701398aa0900, type: 2}
   entityAbilities: []
+  entityLevel: 1
+  damageAppliedToThePlaceToDefend: 0
   entityStats:
-  - name: Health - 600
+  - name: Health - 1000
     statType: 0
     icon: {fileID: 0}
-    baseValue: 600
+    baseValue: 1000
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -1727,50 +1729,50 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 3,5
+  - name: MovementSpeed - 4
     statType: 3
     icon: {fileID: 0}
-    baseValue: 3.5
+    baseValue: 4
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 15
+  - name: PhysicalResistances - 20
     statType: 4
     icon: {fileID: 0}
-    baseValue: 15
+    baseValue: 20
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 10
+  - name: MagicalResistances - 20
     statType: 5
     icon: {fileID: 0}
-    baseValue: 10
+    baseValue: 20
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackSpeed - 0,625
+  - name: AttackSpeed - 0,7
     statType: 6
     icon: {fileID: 0}
-    baseValue: 0.625
+    baseValue: 0.7
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackRange - 2
+  - name: AttackRange - 3
     statType: 7
     icon: {fileID: 0}
-    baseValue: 2
+    baseValue: 3
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 50
+  - name: PhysicalPower - 40
     statType: 8
     icon: {fileID: 0}
-    baseValue: 50
+    baseValue: 40
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -1871,16 +1873,52 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 50
+  - name: RessourcesGiven - 110
     statType: 21
     icon: {fileID: 0}
-    baseValue: 50
+    baseValue: 110
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: IncreasedDamageTaken - 0
+    statType: 22
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: DamageReduction - 0
+    statType: 23
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: EquipementCostReduction - 0
+    statType: 24
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: BonusDamageAgaintBuildings - 0
+    statType: 25
+    icon: {fileID: 0}
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
   spawnLocation: {fileID: 0}
   timeToRespawn: 15
+  allyMarkObject: {fileID: 0}
+  enemyMarkObject: {fileID: 0}
+  ExtentedMarkTime: 0
+  EntityIsMarked: 0
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -1905,6 +1943,11 @@ MonoBehaviour:
   motionSmoothTime: 0.05
   rotateVelocity: 0.1
   characterAnimator: {fileID: 7562763377274397346}
+  canMove: 1
+  isStunned: 0
+  isRooted: 0
+  stunVFX: {fileID: 0}
+  rootedVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -1934,6 +1977,8 @@ MonoBehaviour:
   characterAnimator: {fileID: 7562763377274397346}
   rotationSpeed: 0.075
   interactionRange: 1.5
+  autoAttackCanMark: 0
+  autoAttackEffect: {fileID: 0}
   rangedAttackEmiterPosition: {fileID: 4114622951037513530}
   rangedAttackProjectile: {fileID: 2285543129751055425, guid: 24c6c3dc7c345c249af1ac64340be9fd, type: 3}
   canPerformAttack: 1
@@ -2362,10 +2407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202f1c13af9706f4884d7122506f8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityA: {fileID: 0}
-  abilityZ: {fileID: 0}
-  abilityE: {fileID: 0}
-  abilityR: {fileID: 0}
 --- !u!1 &8732242589187355681
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,6 +2651,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthBar
       objectReference: {fileID: 0}
+    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 8025055686667686396}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

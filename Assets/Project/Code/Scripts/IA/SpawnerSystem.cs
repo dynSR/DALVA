@@ -147,11 +147,11 @@ public class SpawnerSystem : MonoBehaviour
 
         if (IndexOfCurrentWave >= Waves.Count) return false;
 
-        if (IndexOfCurrentWave <= Waves.Count)
+        if (IndexOfCurrentWave <= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length > 0)
         {
             float indexNotNull = 0;
 
-            for (int i = 0; i < Waves[IndexOfCurrentWave].waveMinions.Length; i++)
+            for (int i = Waves[IndexOfCurrentWave].waveMinions.Length - 1; i >= 0; i--)
             {
                 if (Waves[IndexOfCurrentWave].waveMinions[i].gameObject != null)
                 {
@@ -163,7 +163,7 @@ public class SpawnerSystem : MonoBehaviour
                     canSpawn = false;
                     OnWavePossibilityToSpawnState?.Invoke(0);
                 }
-                else if (indexNotNull >= 1 )
+                else if (indexNotNull >= 1)
                 {
                     canSpawn = true;
                     OnWavePossibilityToSpawnState?.Invoke(1);

@@ -66,17 +66,22 @@ public class InteractionSystem : MonoBehaviour
         if (Controller.IsStunned || Controller.IsRooted) return;
 
         if (Target != null)
+        {
             distance = Vector3.Distance(transform.position, target.position);
 
-        MoveTowardsAnExistingTarget(Target, StoppingDistance);
+            MoveTowardsAnExistingTarget(Target, StoppingDistance);
+        }
     }
 
     #region Moving to a target
-    public void MoveTowardsAnExistingTarget(Transform target, float minDistance)
+    public void MoveTowardsAnExistingTarget(Transform _target, float minDistance)
     {
-        if (target != null)
+        Debug.Log(_target.name);
+        Debug.Log("Moving Towards Target");
+
+        if (_target != null)
         {
-            Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
+            Controller.HandleCharacterRotationBeforeCasting(transform, _target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
             Controller.Agent.stoppingDistance = minDistance;
 
@@ -87,7 +92,7 @@ public class InteractionSystem : MonoBehaviour
                 //Debug.Log("Far from target");
                 ResetInteractionState();
                 Controller.Agent.isStopped = false;
-                Controller.SetAgentDestination(Controller.Agent, target.position);
+                Controller.SetAgentDestination(Controller.Agent, _target.position);
             }
             else if (distance <= minDistance)
             {
@@ -103,7 +108,8 @@ public class InteractionSystem : MonoBehaviour
     #region Interaction
     public virtual void Interact()
     {
-        if (Target.GetComponent<EntityStats>() != null 
+        if (Target != null
+            && Target.GetComponent<EntityStats>() != null 
             && Target.GetComponent<EntityStats>().IsDead
             || !Target.GetComponent<EntityDetection>().enabled)
         {

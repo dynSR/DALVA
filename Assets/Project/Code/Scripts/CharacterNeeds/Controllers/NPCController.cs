@@ -53,12 +53,6 @@ public class NPCController : CharacterController
     private void OnEnable()
     {
         Stats.OnDamageTaken += SetSourceOfDamageAsTarget;
-
-        if (isACampNPC)
-        {
-            ChangeState(new IdlingState());
-        }
-        else ChangeState(new MovingState());
     }
 
     private void OnDisable()
@@ -100,6 +94,8 @@ public class NPCController : CharacterController
 
     private void Reset()
     {
+        Debug.Log("Reset");
+
         ChangeState(new MovingState());
 
         Stats.SourceOfDamage = null;
@@ -127,18 +123,15 @@ public class NPCController : CharacterController
         //if an entity did damage to me it becomes my new current target...
         if (Stats.SourceOfDamage != null && Stats.SourceOfDamage.GetComponent<VisibilityState>().IsVisible && Stats.SourceOfDamage != NPCInteractions.Target)
         {
-            if(isACampNPC)
+            if (!NPCInteractions.HasATarget)
             {
-                if(!NPCInteractions.HasATarget)
-                {
-                    NPCInteractions.Target = Stats.SourceOfDamage;
-                    ChangeState(new AttackingState());
-                }
-                else if(NPCInteractions.HasATarget)
-                {
-                    CompareTargetAndSourceOfDamagePositions();
-                }
+                NPCInteractions.Target = Stats.SourceOfDamage;
+                ChangeState(new AttackingState());
             }
+            //else if (NPCInteractions.HasATarget)
+            //{
+            //    CompareTargetAndSourceOfDamagePositions();
+            //}
         }
     }
 

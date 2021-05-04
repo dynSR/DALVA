@@ -21,7 +21,7 @@ class MovingState : IState
     {
         //Debug.Log("MOVING");
 
-        if (controller.GetComponent<EntityStats>().IsDead || controller.IsStunned || controller.IsRooted) return;
+        if (controller.Stats.IsDead || controller.IsStunned || controller.IsRooted) return;
 
         if (controller.NPCInteractions.HasATarget) MoveTowardsTarget();
         
@@ -32,7 +32,7 @@ class MovingState : IState
         }
         
         if(!controller.isACampNPC)
-            controller.CheckDistanceFromWaypoint(controller.waypoints[controller.WaypointIndex]);
+            controller.CheckDistanceFromWaypoint(/*controller.waypoints[controller.WaypointIndex]*/ controller.waypointTarget);
         else controller.CompareCurrentPositionFromStartingPosition();
     }
 
@@ -52,12 +52,11 @@ class MovingState : IState
 
     void MoveTowardsTarget()
     {
-        //Debug.Log("Move Towards Target");
+        Debug.Log("Move Towards Target");
 
         EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
-        VisibilityState targetVisibilityState = controller.NPCInteractions.Target.GetComponent<VisibilityState>();
 
-        if (targetStat.IsDead /*|| !targetVisibilityState.IsVisible*/)
+        if (targetStat.IsDead)
         {
             if (controller.Stats.SourceOfDamage == controller.NPCInteractions.Target) controller.Stats.SourceOfDamage = null;
 
@@ -66,7 +65,7 @@ class MovingState : IState
         }
 
         //Has an enemy target
-        if (!targetStat.IsDead && targetVisibilityState.IsVisible)
+        if (!targetStat.IsDead)
         {
             controller.DistanceWithTarget = Vector3.Distance(controller.transform.position, controller.NPCInteractions.Target.position);
 
@@ -88,6 +87,7 @@ class MovingState : IState
     void MoveTowardsWaypoint()
     {
         //Distance is too high towards next waypoint - Keep moving towards it...
+        Debug.Log("Moving towards waypoint");
         controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.NPCInteractions.StoppingDistance);
     }
 }

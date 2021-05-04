@@ -78,17 +78,20 @@ public class NPCController : CharacterController
         currentState = newState;
         currentState.Enter(this);
 
-        if(IsInIdleState)
+        if (isACampNPC)
         {
-            //Debug.Log("Current state is IDLE");
-            OnEnteringIdleState?.Invoke();
-            OnAggroValueChanged?.Invoke(MaxAgroStep);
-            AnAllyHasBeenAttacked = false;
-        }
-        else if (!IsInIdleState && !AnAllyHasBeenAttacked)
-        {
-            AnAllyHasBeenAttacked = true;
-            OnExitingIdleState?.Invoke();
+            if (IsInIdleState)
+            {
+                //Debug.Log("Current state is IDLE");
+                OnEnteringIdleState?.Invoke();
+                OnAggroValueChanged?.Invoke(MaxAgroStep);
+                AnAllyHasBeenAttacked = false;
+            }
+            else if (!IsInIdleState && !AnAllyHasBeenAttacked)
+            {
+                AnAllyHasBeenAttacked = true;
+                OnExitingIdleState?.Invoke();
+            }
         }
     }
 
@@ -109,7 +112,7 @@ public class NPCController : CharacterController
     {
         if (Vector3.Distance(transform.position, waypoint.position) <= 1f)
         {
-            if (WaypointIndex >= waypoints.Count) return;
+            if (WaypointIndex > waypoints.Count) return;
 
             WaypointIndex++;
             waypointTarget = waypoints[WaypointIndex];

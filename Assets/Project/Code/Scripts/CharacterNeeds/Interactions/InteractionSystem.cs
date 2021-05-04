@@ -67,7 +67,7 @@ public class InteractionSystem : MonoBehaviour
 
         if (Target != null)
         {
-            distance = Vector3.Distance(transform.position, target.position);
+            distance = Vector3.Distance(transform.position, Target.position);
 
             MoveTowardsAnExistingTarget(Target, StoppingDistance);
         }
@@ -86,6 +86,8 @@ public class InteractionSystem : MonoBehaviour
             Controller.Agent.stoppingDistance = minDistance;
 
             if (!CanPerformAttack) return;
+
+            distance = Vector3.Distance(transform.position, _target.position);
 
             if (distance > minDistance)
             {
@@ -108,10 +110,9 @@ public class InteractionSystem : MonoBehaviour
     #region Interaction
     public virtual void Interact()
     {
-        if (Target != null
-            && Target.GetComponent<EntityStats>() != null 
-            && Target.GetComponent<EntityStats>().IsDead
-            || !Target.GetComponent<EntityDetection>().enabled)
+        EntityStats targetStats = Target.GetComponent<EntityStats>();
+
+        if (targetStats != null && targetStats.IsDead)
         {
             ResetInteractionState();
 
@@ -180,8 +181,7 @@ public class InteractionSystem : MonoBehaviour
     {
         EntityStats targetStat = Target.GetComponent<EntityStats>();
 
-        if (Target != null 
-            && targetStat != null)
+        if (targetStat != null)
         {
             //Debug.Log("Melee Attack");
 

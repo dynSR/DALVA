@@ -93,12 +93,12 @@ public class MainMenuUIManager : MonoBehaviour
     //General
     private Animator myAnimator;
 
+    private GameParameters myGameParameters;
+
     private int currentOpenedTab;
     private int nextOpenedTab;
 
     private bool characterClass; //false = Warrior, true = mage
-
-    private bool faded;
 
     //Difficulty
     [Header("Difficulty limits")]
@@ -130,14 +130,15 @@ public class MainMenuUIManager : MonoBehaviour
     {
         //Init
         myAnimator = GetComponentInParent<Animator>();
+        myGameParameters = GameParameters.singleton;
 
         //Play Tab
-        characterClass = false; //Warrior by default
+        characterClass = myGameParameters.characterClass;
 
-        currentLifeMalus = 0;
-        currentAttackMalus = 0;
-        currentSpeedMalus = 0;
-        currentSteleMalus = 0;
+        currentLifeMalus = myGameParameters.lifeMalus;
+        currentAttackMalus = myGameParameters.attackMalus;
+        currentSpeedMalus = myGameParameters.speedMalus;
+        currentSteleMalus = myGameParameters.steleMalus;
 
 
         //Init text
@@ -333,6 +334,7 @@ public class MainMenuUIManager : MonoBehaviour
     {
         myAnimator.SetBool("fadingOut", false);
         myAnimator.SetBool("startGame", true);
+        myGameParameters.SetGameParameters(characterClass, currentLifeMalus, currentAttackMalus, currentSpeedMalus, currentSteleMalus);
     }
 
 

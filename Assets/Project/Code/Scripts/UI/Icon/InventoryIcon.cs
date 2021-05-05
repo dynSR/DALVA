@@ -14,7 +14,8 @@ public class InventoryIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandl
 
             Tooltip.GetComponent<TooltipSetter>().SetTooltip(
                ItemInParentInventoryBox.ItemName,
-               ItemInParentInventoryBox.ItemDescription);
+               ItemInParentInventoryBox.ItemDescription,
+               (ItemInParentInventoryBox.ItemCost / 2).ToString("0"));
         }  
     }
 

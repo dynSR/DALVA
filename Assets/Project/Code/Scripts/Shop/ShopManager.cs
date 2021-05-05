@@ -184,7 +184,7 @@ public class ShopManager : MonoBehaviour
 
         AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Sale, null, inventoryBoxItem);
 
-        OnSellingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + inventoryBoxItem.StoredItem.AmountOfGoldRefundedOnSale);
+        OnSellingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources + (inventoryBoxItem.StoredItem.ItemCost / 2));
         ResetSelectionIcon();
 
         if (inventoryBoxItem != null)
@@ -296,7 +296,8 @@ public class ShopManager : MonoBehaviour
                 PlayerInventory.AddItemToInventory(itemToAdd);
                 PlayerInventory.InventoryBoxes[i].StoredItemTransactionID = transactionIDData;
 
-                OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - itemToAdd.InventoryBox.StoredItem.AmountOfGoldRefundedOnSale);
+                OnShopActionCancel?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - 
+                    (itemToAdd.InventoryBox.StoredItem.ItemCost / 2));
 
                 RefreshShopData();
 
@@ -384,6 +385,7 @@ public class ShopManager : MonoBehaviour
                     || !CanPurchaseItem(item) && canStackSameItem)
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                    ShopBoxesIcon[i].ItemButton.DisplayPadlock();
                 }
                 else if (IsItemAlreadyInInventory(item) && !canStackSameItem)
                 {

@@ -77,9 +77,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     [Header("VFX")]
     [SerializeField] private GameObject healVFX;
+    [SerializeField] private GameObject shieldVFX;
     [SerializeField] private GameObject respawnVFX;
     [SerializeField] private GameObject ressourcesGainedVFX;
     public GameObject RessourcesGainedVFX { get => ressourcesGainedVFX; }
+    public GameObject ShieldVFX { get => shieldVFX; }
 
     [Header("SOUNDS")]
     [MasterCustomEvent] public string spawnCustomEvent;
@@ -149,7 +151,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         if (CanTakeDamage)
         {
-            //bool isAttackCritical = false;
+            bool isAttackCritical = false;
 
             float combinedDamage;
 
@@ -201,7 +203,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
                 if (randomValue <= characterCriticalStrikeChance)
                 {
-                    //isAttackCritical = true;
+                    isAttackCritical = true;
                     combinedDamage = characterPhysicalPower + characterMagicalPower;
                     combinedDamage *= characterCriticalStrikeMultiplier / 100;
                 }
@@ -210,7 +212,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             else combinedDamage = characterPhysicalPower + characterMagicalPower;
 
             #region Popup
-            global::Popup.Create(CharacterHalfSize, Popup, combinedDamage, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon);
+            global::Popup.Create(CharacterHalfSize, Popup, combinedDamage, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, isAttackCritical);
             #endregion
 
             this.SourceOfDamage = sourceOfDamage;
@@ -324,12 +326,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 targetStats.GetStat(StatType.Health).Value += healAmount;
             }
 
-            if(healVFX != null)
-                healVFX.SetActive(true);
-
             HealthPercentage = CalculateLifePercentage();
 
-            global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 1f, CharacterHalfSize.z), Popup, healAmount, 0, null, false, true);
+            global::Popup.Create(new Vector3(CharacterHalfSize.x, CharacterHalfSize.y - 1f, CharacterHalfSize.z), Popup, healAmount, StatType.Health, null, false);
 
             Debug.Log("Health = " + GetStat(StatType.Health).Value + " Heal = " + (int)healAmount);
 
@@ -351,17 +350,29 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #endregion
 
     #region Shield Section
-    public void ApplyShieldOnTarget(Transform target, float shieldValue, float shieldEffectiveness)
+    public void ApplyShieldOnTarget(Transform target, float shieldValue, float shieldEffectiveness, bool comesFromAnEffect = false)
     {
         EntityStats targetStats = target.GetComponent<EntityStats>();
 
         if (targetStats.GetStat(StatType.Shield) != null && targetStats.GetStat(StatType.HealAndShieldEffectiveness) != null)
         {
-            if (shieldEffectiveness > 0)
-                shieldValue += shieldValue * shieldEffectiveness / 100;
-            else targetStats.GetStat(StatType.Shield).Value += (int)shieldValue;
+            float shieldValueBeforeCalcul = shieldValue;
+
+            if (comesFromAnEffect) shieldValue = 0;
+            else
+            {
+                if (shieldEffectiveness > 0)
+                    shieldValue += shieldValue * shieldEffectiveness / 100;
+                else targetStats.GetStat(StatType.Shield).Value += (int)shieldValue;
+
+                shieldValueBeforeCalcul = shieldValue;
+            }
 
             OnShieldValueChanged?.Invoke(targetStats.GetStat(StatType.Shield).Value, targetStats.GetStat(StatType.Health).MaxValue);
+
+            global::Popup.Create(new Vector3(target.position.x, target.position.y + 1f, target.position.z), Popup, shieldValueBeforeCalcul, StatType.Shield, null);
+
+            ActiveShieldVFX();
         }
     }
 
@@ -371,12 +382,29 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         if (targetStats.GetStat(StatType.Shield) != null)
         {
-            if (targetStats.GetStat(StatType.Shield).Value - shieldValue <= 0) targetStats.GetStat(StatType.Shield).Value = 0;
+            if (targetStats.GetStat(StatType.Shield).Value - shieldValue <= 0)
+            {
+                targetStats.GetStat(StatType.Shield).Value = 0;
+                DeactiveShieldVFX();
+            }
             else targetStats.GetStat(StatType.Shield).Value -= shieldValue;
 
             OnShieldValueChanged?.Invoke(targetStats.GetStat(StatType.Shield).Value, targetStats.GetStat(StatType.Health).MaxValue);
         }
     }
+
+    private void ActiveShieldVFX()
+    {
+        if (shieldVFX != null)
+            shieldVFX.SetActive(true);
+    }
+
+    public void DeactiveShieldVFX()
+    {
+        if (shieldVFX != null)
+            shieldVFX.SetActive(false);
+    }
+
     #endregion
 
     #region Death and respawn
@@ -590,7 +618,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             entityStats[i].InitValue();
         }
 
-        if(GetStat(StatType.MovementSpeed) != null)
+        if(GetStat(StatType.MovementSpeed) != null && Controller != null)
             Controller.SetNavMeshAgentSpeed(Controller.Agent, GetStat(StatType.MovementSpeed).Value);
 
         HealthPercentage = CalculateLifePercentage();

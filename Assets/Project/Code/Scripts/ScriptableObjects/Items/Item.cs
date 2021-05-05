@@ -8,7 +8,6 @@ public class Item : ScriptableObject
     [SerializeField] private Sprite itemIcon;
     [TextArea][SerializeField] private string itemDescription;
     [SerializeField] private int itemCost;
-    [SerializeField] private int amountOfGoldRefundedOnSale;
     [SerializeReference] private bool itemIsAnAbility = false;
 
     [Header("ITEM AS AN ABILITY")]
@@ -24,7 +23,6 @@ public class Item : ScriptableObject
     public Sprite ItemIcon { get => itemIcon; set => itemIcon = value; }
     public string ItemDescription { get => itemDescription; }
     public int ItemCost { get => itemCost; }
-    public int AmountOfGoldRefundedOnSale { get => amountOfGoldRefundedOnSale; }
     public InventoryBox InventoryBox { get => inventoryBox; set => inventoryBox = value; }
     public bool ItemIsAnAbility { get => itemIsAnAbility; }
     public AbilityEffect AbilityEffectToAssign { get => abilityEffectToAssign; }

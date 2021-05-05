@@ -9,6 +9,8 @@ public class TowerRange : MonoBehaviour
 
     private void Update()
     {
+        if (entitiesFound.Count == 0) return;
+
         if (Tower.CanAttack && entitiesFound.Count > 0 && entitiesFound[0] != null && !entitiesFound[0].IsDead)
             StartCoroutine(Tower.ShotProjectileOntoTarget(entitiesFound[0]));
         else if (entitiesFound.Count > 0 && entitiesFound[0] == null || entitiesFound[0].IsDead) RefreshList();

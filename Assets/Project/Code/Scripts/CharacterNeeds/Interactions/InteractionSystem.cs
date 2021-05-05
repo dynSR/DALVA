@@ -230,6 +230,7 @@ public class InteractionSystem : MonoBehaviour
             attackProjectile.ProjectileSender = transform;
             attackProjectile.Target = Target;
 
+
             if (Stats.GetStat(StatType.BonusPhysicalPower) != null && Stats.GetStat(StatType.BonusPhysicalPower) != null)
             {
                 pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;

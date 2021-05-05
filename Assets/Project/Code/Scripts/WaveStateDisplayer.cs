@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class WaveStateDisplayer : MonoBehaviour
@@ -16,6 +14,9 @@ public class WaveStateDisplayer : MonoBehaviour
     {
         for (int i = 0; i < spawner.Length; i++)
         {
+            if (spawner[i] == null)
+                Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
+
             spawner[i].OnWaveStartinSoon += SetWaveDisplayerFillAmount;
             spawner[i].OnWavePossibilityToSpawnState += ToggleContent;
         }

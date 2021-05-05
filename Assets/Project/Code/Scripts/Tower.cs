@@ -21,7 +21,7 @@ public class Tower : MonoBehaviour
 
             CanAttack = false;
 
-            yield return new WaitForSeconds(delayBetweenShot);
+            yield return new WaitForSeconds(0.05f);
 
             GameObject autoAttackProjectile = Instantiate(projectile, rangedAttackEmiterPosition.position, projectile.transform.rotation);
 
@@ -32,6 +32,8 @@ public class Tower : MonoBehaviour
             attackProjectile.ProjectileSender = transform;
             attackProjectile.Target = targetStats.transform;
         }
+
+        yield return new WaitForSeconds(delayBetweenShot);
 
         CanAttack = true;
     }

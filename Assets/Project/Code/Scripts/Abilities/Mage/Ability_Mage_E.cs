@@ -90,7 +90,7 @@ public class Ability_Mage_E : AbilityLogic
             shieldEffect.StatModifiers[0].Value = shieldValue;
 
             shieldEffect.ApplyEffect(abilityTargetStats.transform);
-            abilityTargetStats.ApplyShieldOnTarget(abilityTargetStats.transform, 0, shieldEffectiveness);
+            abilityTargetStats.ApplyShieldOnTarget(abilityTargetStats.transform, shieldValue, shieldEffectiveness, true);
         }
     }
 

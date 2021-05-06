@@ -20,10 +20,33 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < effectDescription.effectCost)
             ButtonComponent.interactable = false;
 
+        string steleEffectName = string.Empty;
+        string steleEffectDescription = string.Empty;
+
+        switch (affectedStele.SteleLevel)
+        {
+            case SteleLevel.Default:
+                steleEffectName = effectDescription.effectName;
+                steleEffectDescription = effectDescription.description;
+                break;
+            case SteleLevel.EvolutionI:
+                steleEffectName = effectDescription.effectName;
+                steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionI;
+                break;
+            case SteleLevel.EvolutionII:
+                steleEffectName = effectDescription.effectName;
+                steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionII;
+                break;
+            case SteleLevel.FinalEvolution:
+                steleEffectName = effectDescription.effectName;
+                steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionFinalEvolution;
+                break;
+        }
+
         DisplayTooltip(GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip);
         GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.GetComponent<SteleTooltip>().SetTooltip(
-            effectDescription.steleEffect.ToString(), 
-            effectDescription.description, 
+            /*effectDescription.effectName*/ steleEffectName,
+            /*effectDescription.description*/ steleEffectDescription, 
             effectDescription.effectCost.ToString("0"), 
             effectDescription.effectCost);
     }

@@ -838,10 +838,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   affectedStele: {fileID: 6087098848328281881}
   effectDescription:
-    effectName: 
+    effectName: Vendre l'effet actif
     steleEffect: 0
-    description: 
-    effectCost: 0
+    description: "Vous r\xE9cup\xE9rer la moiti\xE9 de la somme investie pour l'effet
+      actif .\nCette st\xE8le sera alors inactive et son effet dispara\xEEtra."
+    effectCost: 75
 --- !u!114 &8998566511371241534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2942,7 +2943,7 @@ MonoBehaviour:
     effectName: 
     steleEffect: 0
     description: 
-    effectCost: 0
+    effectCost: 450
 --- !u!114 &266724660861609744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3321,7 +3322,7 @@ MonoBehaviour:
     effectName: 
     steleEffect: 0
     description: 
-    effectCost: 0
+    effectCost: 600
 --- !u!114 &1242933179930917821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3940,7 +3941,7 @@ MonoBehaviour:
     effectName: 
     steleEffect: 0
     description: 
-    effectCost: 0
+    effectCost: 600
 --- !u!114 &7218370608777445135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4391,12 +4392,12 @@ GameObject:
   - component: {fileID: 6087098847237661032}
   - component: {fileID: 5572502157335926851}
   m_Layer: 14
-  m_Name: SellButton
+  m_Name: SellButton - Inactif
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6087098847237661047
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5150,7 +5151,7 @@ MonoBehaviour:
   effectDescription:
     effectName: Zone de Faiblesse
     steleEffect: 3
-    description: 
+    description: "Les r\xE9sistances des ennemis pr\xE9sents dans la zone sont affaiblies."
     effectCost: 150
 --- !u!114 &6087098847877834081
 MonoBehaviour:
@@ -5389,7 +5390,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Zone de Gel
     steleEffect: 2
-    description: 
+    description: "Les vitesse de d\xE9placement et la vitesse d'attaque des ennemis
+      pr\xE9sents dans la zone sont affaiblies."
     effectCost: 150
 --- !u!114 &6087098847985804662
 MonoBehaviour:
@@ -5628,10 +5630,9 @@ MonoBehaviour:
   effectDescription:
     effectName: Gardien
     steleEffect: 1
-    description: "Invoque un golem face \xE0 cette st\xE8le, \xE0 3 unit\xE9s de
-      distance.\nCe golem reste dans ce p\xE9rim\xE8tre pour le d\xE9fendre.\nEn
-      cas de mort il r\xE9appara\xEEt apr\xE8s un certain d\xE9lai, dans la m\xEAme
-      zone."
+    description: "Invoque un golem protecteur \xE0 proximit\xE9 de la st\xE8le.\r\nCe
+      golem reste dans ce p\xE9rim\xE8tre pour le d\xE9fendre.\r\nEn cas de mort
+      il r\xE9appara\xEEt  dans la m\xEAme zone, apr\xE8s un certain d\xE9lai."
     effectCost: 150
 --- !u!114 &6087098848016864692
 MonoBehaviour:
@@ -6142,7 +6143,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Rampart
     steleEffect: 5
-    description: 
+    description: "Invoque un bloc de boucliers protecteurs \xE0 proximit\xE9 de la
+      st\xE8le.\r\nCe bloc permet de ralentir grandement la propagation de la corruption."
     effectCost: 150
 --- !u!114 &6087098848206555277
 MonoBehaviour:
@@ -6381,7 +6383,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Sentinelle
     steleEffect: 4
-    description: 
+    description: "Invoque une tour protectrice \xE0 proximit\xE9 de la st\xE8le.\nAttaque
+      lentement une cible."
     effectCost: 150
 --- !u!114 &6087098848259616414
 MonoBehaviour:
@@ -6595,7 +6598,6 @@ MonoBehaviour:
   steleLevel: 0
   steleEffect: 0
   effectEntitySpawnLocation: {fileID: 931689850}
-  spawnedEffectObject: {fileID: 0}
   activationVFX: {fileID: 6359753844594443311}
   runes:
   - {fileID: 6087098848185993714}
@@ -17367,7 +17369,7 @@ MonoBehaviour:
     effectName: 
     steleEffect: 0
     description: 
-    effectCost: 0
+    effectCost: 300
 --- !u!114 &6314028415231873173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18402,7 +18404,7 @@ MonoBehaviour:
     effectName: 
     steleEffect: 0
     description: 
-    effectCost: 0
+    effectCost: 600
 --- !u!114 &3539822291842701521
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,7 +52,6 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
     [Header("OTHER ATTRIBUTES")]
     [SerializeField] private Transform effectEntitySpawnLocation;
-    public GameObject spawnedEffectObject;
     [SerializeField] private GameObject activationVFX;
     [SerializeField] private List<GameObject> runes;
     private bool interactionIsHandled = false;
@@ -61,6 +60,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public SteleState SteleState { get => steleState; private set => steleState = value; }
     public SteleLevel SteleLevel { get => steleLevel; private set => steleLevel = value; }
     public SteleEffect SteleEffect { get => steleEffect; private set => steleEffect = value; }
+    public GameObject SpawnedEffectObject { get; set; }
 
     [System.Serializable]
     public class EffectDescription
@@ -135,13 +135,14 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void SpawnEntityEffect(GameObject entityToSpawn)
     {
         Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
-        spawnedEffectObject = entityToSpawn;
+        SpawnedEffectObject = entityToSpawn;
     }
 
-    public void SellEffect()
+    public void SellEffect(int amountToRefund)
     {
-        Destroy(spawnedEffectObject);
+        Destroy(SpawnedEffectObject);
         SteleLevel = SteleLevel.Default;
+        InteractingPlayer.GetComponent<CharacterRessources>().AddRessources(amountToRefund);
     }
     #endregion
 

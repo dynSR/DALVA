@@ -381,8 +381,8 @@ public class ShopManager : MonoBehaviour
             {
                 Debug.Log(item.name + " " + item.ItemIsAnAbility);
 
-                if (!CanPurchaseItem(item) && !IsItemAlreadyInInventory(item) && !canStackSameItem
-                    || !CanPurchaseItem(item) && canStackSameItem)
+                if ((!CanPurchaseItem(item) && !IsItemAlreadyInInventory(item) && !canStackSameItem
+                    || !CanPurchaseItem(item) && canStackSameItem) && !PlayerInventory.InventoryIsFull)
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                     ShopBoxesIcon[i].ItemButton.DisplayPadlock();
@@ -393,11 +393,16 @@ public class ShopManager : MonoBehaviour
                     ShopBoxesIcon[i].ItemButton.DisplayCheckMark();
                     ShopBoxesIcon[i].ItemButton.DisplayPadlock();
                 }
-                else if (!IsItemAlreadyInInventory(item) && CanPurchaseItem(item))
+                else if (!IsItemAlreadyInInventory(item) && CanPurchaseItem(item) && !PlayerInventory.InventoryIsFull)
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsDisponible();
                     ShopBoxesIcon[i].ItemButton.HideCheckMark();
                     ShopBoxesIcon[i].ItemButton.HidePadlock();
+                }
+                else if (PlayerInventory.InventoryIsFull)
+                {
+                    ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+                    ShopBoxesIcon[i].ItemButton.DisplayPadlock();
                 }
             }
 

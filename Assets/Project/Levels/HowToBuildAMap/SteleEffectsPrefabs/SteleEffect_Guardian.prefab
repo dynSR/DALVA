@@ -726,8 +726,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7946902092188661291}
   - component: {fileID: 7946902092188661290}
+  - component: {fileID: 1903629940}
   m_Layer: 0
-  m_Name: SteleEffect_Golem
+  m_Name: SteleEffect_Guardian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -768,6 +769,22 @@ MonoBehaviour:
   - {fileID: 7946902092719392719}
   - {fileID: 7946902092294066698}
   - {fileID: 7946902093128847021}
+--- !u!114 &1903629940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946902092188661269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a123385e704b3214ab625b60fa84d0fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stele: {fileID: 0}
+  upgradeDescriptionI: 
+  upgradeDescriptionII: 
+  upgradeDescriptionFinalEvolution: 
 --- !u!1 &7946902092294066933
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,7 +1887,6 @@ MonoBehaviour:
   entityTeam: 0
   baseUsedEntity: {fileID: 11400000, guid: ea15933ed97cdc44998989a0771d3b0d, type: 2}
   entityAbilities: []
-  entityLevel: 1
   damageAppliedToThePlaceToDefend: 0
   entityStats:
   - name: Health - 1500
@@ -2090,6 +2106,7 @@ MonoBehaviour:
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
+  shieldVFX: {fileID: 0}
   respawnVFX: {fileID: 0}
   ressourcesGainedVFX: {fileID: 0}
   spawnCustomEvent: 
@@ -2115,6 +2132,7 @@ MonoBehaviour:
   isStunned: 0
   isRooted: 0
   stunVFX: {fileID: 0}
+  rootedVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0

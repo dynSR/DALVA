@@ -947,6 +947,7 @@ GameObject:
   - component: {fileID: 2372240202247375384}
   - component: {fileID: 2372240202247375385}
   - component: {fileID: 2372240202247375389}
+  - component: {fileID: 5891933870460082954}
   m_Layer: 12
   m_Name: SteleEffect_Tower
   m_TagString: Untagged
@@ -961,8 +962,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2372240202247375388}
-  m_LocalRotation: {x: -0.004363368, y: -0, z: 0, w: 0.9999905}
-  m_LocalPosition: {x: -33.83, y: 0.12, z: -13.93}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2372240201477802822}
@@ -971,7 +972,7 @@ Transform:
   - {fileID: 5473236970513961378}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0.5, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2372240202247375378
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1305,9 +1306,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountOfProjectileToSpawn: 4
   projectile: {fileID: 2285543129751055425, guid: 24c6c3dc7c345c249af1ac64340be9fd, type: 3}
-  delayBetweenShot: 0.05
+  delayBetweenShot: 0.25
   rangedAttackEmiterPosition: {fileID: 2372240202464609772}
   CanAttack: 1
+--- !u!114 &5891933870460082954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372240202247375388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b52c051415da24586be02b022a20c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stele: {fileID: 0}
+  upgradeDescriptionI: 
+  upgradeDescriptionII: 
+  upgradeDescriptionFinalEvolution: 
 --- !u!1 &2372240202251125046
 GameObject:
   m_ObjectHideFlags: 0

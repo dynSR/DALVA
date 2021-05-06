@@ -132,10 +132,20 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         rune.SetActive(true);
     }
 
+    public void DeactivateRuneEffect()
+    {
+        for (int i = 0; i < runes.Count; i++)
+        {
+            if (runes[i].activeInHierarchy)
+            {
+                runes[i].SetActive(false);
+            }
+        }
+    }
+
     public void SpawnEntityEffect(GameObject entityToSpawn)
     {
-        Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
-        SpawnedEffectObject = entityToSpawn;
+        SpawnedEffectObject = Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
     }
 
     public void SellEffect(int amountToRefund)
@@ -143,6 +153,8 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         Destroy(SpawnedEffectObject);
         SteleLevel = SteleLevel.Default;
         InteractingPlayer.GetComponent<CharacterRessources>().AddRessources(amountToRefund);
+        SetSteleEffect(0);
+        DeactivateRuneEffect();
     }
     #endregion
 

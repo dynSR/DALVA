@@ -13,7 +13,11 @@ public class TowerRange : MonoBehaviour
 
         if (Tower.CanAttack && entitiesFound.Count > 0 && entitiesFound[0] != null && !entitiesFound[0].IsDead)
             StartCoroutine(Tower.ShotProjectileOntoTarget(entitiesFound[0]));
-        else if (entitiesFound.Count > 0 && entitiesFound[0] == null || entitiesFound[0].IsDead) RefreshList();
+        else if (entitiesFound.Count > 0 && entitiesFound[0] == null || entitiesFound[0].IsDead)
+        {
+            Tower.CanAttack = true;
+            RefreshList();
+        }
     }
 
     private void OnTriggerEnter(Collider other)

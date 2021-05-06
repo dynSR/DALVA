@@ -13,6 +13,11 @@ GameObject:
   - component: {fileID: 8080816707480801909}
   - component: {fileID: 8080816707480801908}
   - component: {fileID: 8080816707480801911}
+  - component: {fileID: 3313565196994395093}
+  - component: {fileID: 5160101695996781198}
+  - component: {fileID: 6101063058421026703}
+  - component: {fileID: 9140190576069270267}
+  - component: {fileID: 915002898}
   m_Layer: 0
   m_Name: SteleEffect_Rampart
   m_TagString: Untagged
@@ -27,8 +32,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8080816707480801910}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.91, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -112,3 +117,308 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &3313565196994395093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080816707480801910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94568958f66afe5468611032daa91332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityTeam: 0
+  baseUsedEntity: {fileID: 11400000, guid: f549973ced3ed9b458dfa579b3e73a6e, type: 2}
+  entityAbilities: []
+  damageAppliedToThePlaceToDefend: 0
+  entityStats:
+  - name: Health - 1500
+    statType: 0
+    icon: {fileID: 0}
+    baseValue: 1500
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: HealthRegeneration - 0
+    statType: 1
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: Shield - 0
+    statType: 2
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MovementSpeed - 0
+    statType: 3
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: PhysicalResistances - 75
+    statType: 4
+    icon: {fileID: 0}
+    baseValue: 75
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MagicalResistances - 0
+    statType: 5
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: AttackSpeed - 0,75
+    statType: 6
+    icon: {fileID: 0}
+    baseValue: 0.75
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: AttackRange - 10
+    statType: 7
+    icon: {fileID: 0}
+    baseValue: 10
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: PhysicalPower - 100
+    statType: 8
+    icon: {fileID: 0}
+    baseValue: 100
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MagicalPower - 0
+    statType: 9
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: BonusPhysicalPower - 0
+    statType: 10
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: BonusMagicalPower - 0
+    statType: 11
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: AdaptativePenetration - 0
+    statType: 12
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: PhysicalPenetration - 0
+    statType: 13
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MagicalPenetration - 0
+    statType: 14
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: PhysicalLifesteal - 0
+    statType: 15
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: MagicalLifesteal - 0
+    statType: 16
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: CriticalStrikeChance - 0
+    statType: 17
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: Cooldown_Reduction - 0
+    statType: 18
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: HealAndShieldEffectiveness - 0
+    statType: 19
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: HarmfulEffectReduction - 0
+    statType: 20
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: RessourcesGiven - 50
+    statType: 21
+    icon: {fileID: 0}
+    baseValue: 50
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: IncreasedDamageTaken - 0
+    statType: 22
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: DamageReduction - 0
+    statType: 23
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: EquipementCostReduction - 0
+    statType: 24
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  - name: BonusDamageAgaintBuildings - 0
+    statType: 25
+    icon: {fileID: 0}
+    baseValue: 0
+    capValue: 0
+    Value: 0
+    MaxValue: 0
+    statModifiers: []
+  spawnLocation: {fileID: 0}
+  timeToRespawn: 0
+  allyMarkObject: {fileID: 0}
+  enemyMarkObject: {fileID: 0}
+  ExtentedMarkTime: 0
+  EntityIsMarked: 0
+  popup: {fileID: 0}
+  deathHUD: {fileID: 0}
+  healVFX: {fileID: 0}
+  shieldVFX: {fileID: 0}
+  respawnVFX: {fileID: 0}
+  ressourcesGainedVFX: {fileID: 0}
+  spawnCustomEvent: 
+  deathCustomEvent: 
+  centerCameraOnRespawn: 0
+--- !u!114 &5160101695996781198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080816707480801910}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &6101063058421026703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080816707480801910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1e417e156e64740997068200fc14df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeOfEntity: 5
+--- !u!114 &9140190576069270267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080816707480801910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9382738cf927e418421b4ca9fd94a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRenderer: {fileID: 0}
+  miniMapIcon: {fileID: 0}
+  billboard: {fileID: 0}
+  timeSeen: 0
+  visibilityStateCanChange: 1
+  isVisible: 0
+--- !u!114 &915002898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080816707480801910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738756e2f4e0b694f8dea468012d010a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stele: {fileID: 0}
+  upgradeDescriptionI: 
+  upgradeDescriptionII: 
+  upgradeDescriptionFinalEvolution: 

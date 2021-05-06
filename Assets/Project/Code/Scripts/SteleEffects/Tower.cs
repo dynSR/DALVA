@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    [Range(0,4)]
+    [Range(1,4)]
     [SerializeField] private int amountOfProjectileToSpawn = 1;
     [SerializeField] private GameObject projectile;
     [SerializeField] private float delayBetweenShot = 0.15f;
@@ -21,7 +21,7 @@ public class Tower : MonoBehaviour
 
             CanAttack = false;
 
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(delayBetweenShot);
 
             GameObject autoAttackProjectile = Instantiate(projectile, rangedAttackEmiterPosition.position, projectile.transform.rotation);
 

@@ -6,6 +6,7 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 {
     [SerializeField] private SteleLogic affectedStele;
     [SerializeField] private SteleLogic.EffectDescription effectDescription;
+    [SerializeField] private bool isASellingButton = false;
 
     Button ButtonComponent => GetComponent<Button>();
 
@@ -30,8 +31,16 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
                 steleEffectDescription = effectDescription.description;
                 break;
             case SteleLevel.EvolutionI:
-                steleEffectName = effectDescription.effectName;
-                steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionI;
+                if (!isASellingButton)
+                {
+                    steleEffectName = effectDescription.effectName;
+                    steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionI;
+                }
+                else
+                {
+                    steleEffectName = effectDescription.effectName;
+                    steleEffectDescription = effectDescription.description;
+                }
                 break;
             case SteleLevel.EvolutionII:
                 steleEffectName = effectDescription.effectName;
@@ -41,6 +50,11 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
                 steleEffectName = effectDescription.effectName;
                 steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionFinalEvolution;
                 break;
+            case SteleLevel.OnlySell:
+                steleEffectName = effectDescription.effectName;
+                steleEffectDescription = effectDescription.description;
+                break;
+
         }
 
         DisplayTooltip(GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip);

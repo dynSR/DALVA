@@ -15,8 +15,12 @@ public class MainMenuUIManager : MonoBehaviour
     [Header("General assets")]
     [Tooltip("The big black image for the fade in/fade out transition.")]
     public Image fadeInImage;
-    [Tooltip("The name of the game scene.")]
-    public string gameSceneName;
+    [Tooltip("The easy game scene name.")]
+    public string easyGameSceneName;
+    [Tooltip("The medium game scene name.")]
+    public string mediumGameSceneName;
+    [Tooltip("The hard game scene name.")]
+    public string hardGameSceneName;
 
     //Main tab's buttons (always visible)
     [Header("Main tab")]
@@ -43,9 +47,9 @@ public class MainMenuUIManager : MonoBehaviour
     [Tooltip("The Mage class button.")]
     public GameObject mageText;
     [Space(10)]
-        //Difficulty
-            //Life assets
-    [Tooltip("The minus button for the enemies' life bonus.")]
+    //Difficulty
+    //Life assets
+    /*[Tooltip("The minus button for the enemies' life bonus.")]
     public Button minusLifeButton;
     [Tooltip("The plus button for the enemies' life bonus.")]
     public Button plusLifeButton;
@@ -84,7 +88,19 @@ public class MainMenuUIManager : MonoBehaviour
     [Tooltip("The text  for the hard difficulty.")]
     public GameObject hardText;
     [Tooltip("The text  for the impossible difficulty.")]
-    public GameObject impossibleText;
+    public GameObject impossibleText;*/
+
+    //New difficulty
+    [Tooltip("The toggle for easy difficulty.")]
+    public Toggle easyToggle;
+    [Tooltip("The toggle for medium difficulty.")]
+    public Toggle mediumToggle;
+    [Tooltip("The toggle for hard difficulty.")]
+    public Toggle hardToggle;
+    [Space(10)]
+
+    [Tooltip("The button that start the game.")]
+    public Button startGameButton;
 
     #endregion
 
@@ -95,13 +111,17 @@ public class MainMenuUIManager : MonoBehaviour
 
     private GameParameters myGameParameters;
 
+    private bool hasPickedADifficulty;
+    private string gameSceneName;
+
     private int currentOpenedTab;
     private int nextOpenedTab;
 
-    private bool characterClass; //false = Warrior, true = mage
+    private bool hasPickedAClass = false;
+    private bool characterClass = false; //false = Warrior, true = mage
 
     //Difficulty
-    [Header("Difficulty limits")]
+    /*[Header("Difficulty limits")]
     public float mediumDifficulty;
     public float hardDifficulty;
     public float impossibleDifficulty;
@@ -126,7 +146,7 @@ public class MainMenuUIManager : MonoBehaviour
     public int maxSteleMalus;
     private int currentSteleMalus;
     public int maxStelePercent;
-    public float difficultyValueSteleMalus;
+    public float difficultyValueSteleMalus;*/
 
     #endregion
 
@@ -137,16 +157,14 @@ public class MainMenuUIManager : MonoBehaviour
         myGameParameters = GameParameters.singleton;
 
         //Play Tab
-        characterClass = myGameParameters.characterClass;
-
-        currentLifeMalus = myGameParameters.lifeMalus;
-        currentAttackMalus = myGameParameters.attackMalus;
-        currentSpeedMalus = myGameParameters.speedMalus;
-        currentSteleMalus = myGameParameters.steleMalus;
+        //currentLifeMalus = myGameParameters.lifeMalus;
+        //currentAttackMalus = myGameParameters.attackMalus;
+        //currentSpeedMalus = myGameParameters.speedMalus;
+        //currentSteleMalus = myGameParameters.steleMalus;
 
 
         //Init text
-        DifficultyMalusTextUpdate(MalusType.All);
+        //DifficultyMalusTextUpdate(MalusType.All);
 
         //Fade
         myAnimator.SetBool("fadingOut", true);
@@ -159,7 +177,7 @@ public class MainMenuUIManager : MonoBehaviour
 
     #region Methods
 
-    private void DifficultyMalusTextUpdate(MalusType malus)
+    /*private void DifficultyMalusTextUpdate(MalusType malus)
     {
         switch (malus)
         {
@@ -186,10 +204,10 @@ public class MainMenuUIManager : MonoBehaviour
         }
 
         DifficultyValueTextUpdate();
-    }
+    }*/
     //Update the text of the corresponding malus
 
-    private void DifficultyButtonsUpdate(int value, int maxValue, Button minusButton, Button plusButton)
+    /*private void DifficultyButtonsUpdate(int value, int maxValue, Button minusButton, Button plusButton)
     {
         if (value == 0) minusButton.interactable = false;
         else if (value == maxValue) plusButton.interactable = false;
@@ -198,10 +216,10 @@ public class MainMenuUIManager : MonoBehaviour
             minusButton.interactable = true;
             plusButton.interactable = true;
         }
-    }
+    }*/
     //Makes the minus/plus button (difficulty) non-interactable/interactable depending of the new malus value
 
-    private void DifficultyValueTextUpdate()
+    /*private void DifficultyValueTextUpdate()
     {
         if(totalDifficulty <= mediumDifficulty)
         {
@@ -235,9 +253,15 @@ public class MainMenuUIManager : MonoBehaviour
             impossibleText.SetActive(true);
             return;
         }
-    }
+    }*/
     //Update the general difficulty text
     //(Miam le bon code d'UI)
+
+    private void CanStartGameCheck()
+    {
+        if (hasPickedAClass && hasPickedADifficulty) startGameButton.interactable = true;
+        else startGameButton.interactable = false;
+    }
 
     public void StartGame()
     {
@@ -248,9 +272,9 @@ public class MainMenuUIManager : MonoBehaviour
 
     #region Buttons methods
 
-    public void SwitchClass()
+    public void SwitchClass(bool charaClass)
     {
-        characterClass = !characterClass;
+        characterClass = charaClass;
 
         if (characterClass)
         {
@@ -268,6 +292,9 @@ public class MainMenuUIManager : MonoBehaviour
             warriorText.SetActive(true);
             mageText.SetActive(false);
         }
+
+        hasPickedAClass = true;
+        CanStartGameCheck();
     }
 
     public void ChangeOpenedTab(int tab)
@@ -293,7 +320,42 @@ public class MainMenuUIManager : MonoBehaviour
     }
     //0 = None, 1 = Play, 2 = Encyclopedia, 3 = Shop, 4 = Options, 5 = Credits, 6 = Quit
 
-    public void ChangeDifficultyButton(DifficultyButton button)
+    public void ChangeNewDifficultyButton(int difficulty)
+    {
+        Debug.Log("Bouton difficulté");
+
+        switch (difficulty)
+        {
+            case 0:
+                gameSceneName = easyGameSceneName;
+                easyToggle.interactable = false;
+                mediumToggle.interactable = true;
+                hardToggle.interactable = true;
+                Debug.Log("Easy difficulty");
+                break;
+            case 1:
+                gameSceneName = mediumGameSceneName;
+                easyToggle.interactable = true;
+                mediumToggle.interactable = false;
+                hardToggle.interactable = true;
+                Debug.Log("Medium difficulty");
+                break;
+            case 2:
+                gameSceneName = hardGameSceneName;
+                easyToggle.interactable = true;
+                mediumToggle.interactable = true;
+                hardToggle.interactable = false;
+                Debug.Log("Hard difficulty");
+                break;
+            default:
+                break;
+        }
+
+        hasPickedADifficulty = true;
+        CanStartGameCheck();
+    }
+
+    /*public void ChangeDifficultyButton(DifficultyButton button)
     {
         int sign = 0;
         if (button.plus) sign = 1;
@@ -330,7 +392,7 @@ public class MainMenuUIManager : MonoBehaviour
             default:
                 break;
         }
-    }
+    }*/
     //When a malus button is clicked, check which one (minus/plus), and remove/add an unit to the corresponding malus type.
     //Also, makes the button non-interactable if it's out of range (0 to maxValue).
 
@@ -338,7 +400,7 @@ public class MainMenuUIManager : MonoBehaviour
     {
         myAnimator.SetBool("fadingOut", false);
         myAnimator.SetBool("startGame", true);
-        myGameParameters.SetGameParameters(characterClass, currentLifeMalus, currentAttackMalus, currentSpeedMalus, currentSteleMalus);
+        //myGameParameters.SetGameParameters(characterClass, currentLifeMalus, currentAttackMalus, currentSpeedMalus, currentSteleMalus);
     }
 
 

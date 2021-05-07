@@ -1,5 +1,6 @@
 ﻿using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
@@ -7,6 +8,18 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private Color normalColor;
     [SerializeField] private Color highlightColor;
     [SerializeField] private Color pressedColor;
+
+    private Button myButton;
+
+    void Start()
+    {
+        myButton = GetComponent<Button>();
+    }
+
+    void Update()
+    {
+        if (!myButton.IsInteractable()) ChangeTextColor(normalColor);
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {

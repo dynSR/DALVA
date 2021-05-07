@@ -139,6 +139,8 @@ public class PlayerInteractions : InteractionSystem
                 Animator.SetBool("Attack", false);
                 Animator.SetBool("IsCollecting", false);
 
+                CursorLogicAttached.SetCursorToNormalAppearance();
+
                 stele.InteractingPlayer = this;
 
                 Debug.Log("Interaction with a stele !");

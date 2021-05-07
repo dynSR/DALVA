@@ -18,6 +18,8 @@ public class DragWindowHandler : MonoBehaviour, IDragHandler, IBeginDragHandler,
         DragWindowCanvasGroup.alpha = 1f;
     }
 
+    void Start () { } 
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (LeftClickIsHeld)

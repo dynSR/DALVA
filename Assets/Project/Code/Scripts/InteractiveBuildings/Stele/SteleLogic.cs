@@ -106,6 +106,8 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         SetSteleTeam();
 
+        PurchaseSteleEffect(cost);
+
         activationVFX.SetActive(true);
 
         InteractingPlayer.Target = null;
@@ -146,6 +148,13 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void SpawnEntityEffect(GameObject entityToSpawn)
     {
         SpawnedEffectObject = Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
+
+        entityToSpawn.GetComponent<SteleAmelioration>().Stele = this;
+    }
+
+    public void PurchaseSteleEffect(int purchaseCost)
+    {
+        InteractingPlayer.GetComponent<CharacterRessources>().RemoveRessources(purchaseCost);
     }
 
     public void SellEffect(int amountToRefund)
@@ -155,6 +164,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         InteractingPlayer.GetComponent<CharacterRessources>().AddRessources(amountToRefund);
         SetSteleEffect(0);
         DeactivateRuneEffect();
+    }
+
+    public void UpgradeEffect()
+    {
+        SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeEffect();
     }
     #endregion
 
@@ -166,13 +180,13 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         SteleState = SteleState.Inactive;
     }
 
-    IEnumerator SetSteleToStandByMode()
-    {
-        yield return new WaitForSeconds(ReinitializationDelay);
-        yield return new WaitForEndOfFrame();
+    //IEnumerator SetSteleToStandByMode()
+    //{
+    //    yield return new WaitForSeconds(ReinitializationDelay);
+    //    yield return new WaitForEndOfFrame();
 
-        SetSteleToInactiveMode();
-    }
+    //    SetSteleToInactiveMode();
+    //}
 
     private void SetSteleTeam()
     {

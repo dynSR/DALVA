@@ -16,7 +16,9 @@ MonoBehaviour:
   itemIcon: {fileID: 21300000, guid: 847a48b6e63fd5c7cbb4372b76f784f7, type: 3}
   itemDescription: "Chance de coup critique, puissance et p\xE9n\xE9tration physiques "
   itemCost: 2800
-  amountOfGoldRefundedOnSale: 1960
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 55
     StatType: 8
@@ -27,6 +29,6 @@ MonoBehaviour:
   - Value: 0.1
     StatType: 13
     Type: 200
-  - Value: 0.1
+  - Value: 10
     StatType: 17
-    Type: 200
+    Type: 100

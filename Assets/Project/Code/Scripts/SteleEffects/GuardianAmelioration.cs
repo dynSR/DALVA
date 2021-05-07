@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GuardianAmelioration : SteleAmelioration
 {
-    protected override void UpgradeEffect()
+    public override void UpgradeEffect()
     {
         throw new System.NotImplementedException();
     }

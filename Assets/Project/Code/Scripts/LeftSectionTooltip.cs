@@ -8,29 +8,31 @@ public class LeftSectionTooltip : MonoBehaviour
 
     [Header("TEXTS")]
     [SerializeField] private TextMeshProUGUI attackValueText;
-    [SerializeField] private TextMeshProUGUI physicalResistancesValueText;
-    [SerializeField] private TextMeshProUGUI magicalResistancesValueText;
+    [SerializeField] private TextMeshProUGUI attackSpeedValueText;
+    [SerializeField] private TextMeshProUGUI resistances;
     [SerializeField] private TextMeshProUGUI chanceOfCriticalStrikesValueText;
     [SerializeField] private TextMeshProUGUI cooldownReductionValueText;
     [SerializeField] private TextMeshProUGUI movementSpeedValueText;
 
+    public EntityStats CharacterStats { get => characterStats; }
+
     private void OnEnable()
     {
-        characterStats.OnStatsValueChanged += SetLeftSectionInformations;
+        CharacterStats.OnStatsValueChanged += SetLeftSectionInformations;
     }
 
     private void OnDisable()
     {
-        characterStats.OnStatsValueChanged -= SetLeftSectionInformations;
+        CharacterStats.OnStatsValueChanged -= SetLeftSectionInformations;
     }
 
     void SetLeftSectionInformations(EntityStats stats)
     {
         attackValueText.SetText((stats.GetStat(StatType.PhysicalPower).Value + stats.GetStat(StatType.MagicalPower).Value).ToString("0"));
-        physicalResistancesValueText.SetText(stats.GetStat(StatType.PhysicalResistances).Value.ToString("0"));
-        magicalResistancesValueText.SetText(stats.GetStat(StatType.MagicalResistances).Value.ToString("0"));
+        attackSpeedValueText.SetText(stats.GetStat(StatType.AttackSpeed).Value.ToString("0.0"));
+        resistances.SetText((stats.GetStat(StatType.PhysicalResistances).Value + stats.GetStat(StatType.MagicalResistances).Value).ToString("0"));
         chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0"));
         cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0"));
-        movementSpeedValueText.SetText((stats.GetStat(StatType.MovementSpeed).Value * 100).ToString("0"));
+        movementSpeedValueText.SetText((stats.GetStat(StatType.MovementSpeed).Value * 10).ToString("0"));
     }
 }

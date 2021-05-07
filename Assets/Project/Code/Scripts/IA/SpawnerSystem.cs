@@ -31,6 +31,7 @@ public class SpawnerSystem : MonoBehaviour
     private float countdown = 0f;
     private int indexOfCurrentWave = 0; // to delete after tests
     [SerializeField] private List<Transform> waypoints;
+    [SerializeField] private GameObject spawnObjectFeedback;
 
     [Header("WAVES")]
     [SerializeField] private List<Wave> waves;
@@ -104,6 +105,10 @@ public class SpawnerSystem : MonoBehaviour
         waveState = WaveState.IsSpawning;
         GameManager.Instance.WaveCountHasBeenSet = false;
 
+        if (spawnObjectFeedback != null)
+            spawnObjectFeedback.SetActive(true);
+        else Debug.LogError("Add the spawnObjectFeedback in the empty field");
+
         Wave currentWave = Waves[IndexOfCurrentWave];
         Debug.Log(currentWave.waveName);
 
@@ -116,6 +121,10 @@ public class SpawnerSystem : MonoBehaviour
 
             yield return new WaitForSeconds(spawnRate);
         }
+
+        if (spawnObjectFeedback != null)
+            spawnObjectFeedback.SetActive(false);
+        else Debug.LogError("Add the spawnObjectFeedback in the empty field");
 
         //Change wave state
         waveState = WaveState.Standby;

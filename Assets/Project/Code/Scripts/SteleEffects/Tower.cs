@@ -6,22 +6,26 @@ public class Tower : MonoBehaviour
     [Range(1,4)]
     [SerializeField] private int amountOfProjectileToSpawn = 1;
     [SerializeField] private GameObject projectile;
-    [SerializeField] private float delayBetweenShot = 0.15f;
     [SerializeField] private Transform rangedAttackEmiterPosition;
 
     public bool CanAttack = true;
 
+    EntityStats Stats => GetComponent<EntityStats>();
+
     public GameObject Projectile { get => projectile; }
+    public int AmountOfProjectileToSpawn { get => amountOfProjectileToSpawn; set => amountOfProjectileToSpawn = value; }
 
     public IEnumerator ShotProjectileOntoTarget(EntityStats targetStats)
     {
-        for (int i = 0; i < amountOfProjectileToSpawn; i++)
+        float delay = Stats.GetStat(StatType.AttackSpeed).Value;
+
+        for (int i = 0; i < AmountOfProjectileToSpawn; i++)
         {
             if (targetStats.IsDead) yield break;
 
             CanAttack = false;
 
-            yield return new WaitForSeconds(delayBetweenShot);
+            yield return new WaitForSeconds(delay);
 
             GameObject autoAttackProjectile = Instantiate(projectile, rangedAttackEmiterPosition.position, projectile.transform.rotation);
 
@@ -33,7 +37,7 @@ public class Tower : MonoBehaviour
             attackProjectile.Target = targetStats.transform;
         }
 
-        yield return new WaitForSeconds(delayBetweenShot);
+        yield return new WaitForSeconds(delay);
 
         CanAttack = true;
     }

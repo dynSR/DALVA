@@ -6,7 +6,7 @@ public class Item : ScriptableObject
 {
     [SerializeField] private string itemName;
     [SerializeField] private Sprite itemIcon;
-    [TextArea][SerializeField] private string itemDescription;
+    [Multiline][SerializeField] private string itemDescription;
     [SerializeField] private int itemCost;
     [SerializeReference] private bool itemIsAnAbility = false;
 

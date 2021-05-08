@@ -1724,7 +1724,6 @@ MonoBehaviour:
   entityTeam: 2
   baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
-  entityLevel: 1
   damageAppliedToThePlaceToDefend: 0
   entityStats:
   - name: Health - 1000
@@ -1928,6 +1927,7 @@ MonoBehaviour:
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
+  shieldVFX: {fileID: 0}
   respawnVFX: {fileID: 0}
   ressourcesGainedVFX: {fileID: 0}
   spawnCustomEvent: 
@@ -1953,6 +1953,7 @@ MonoBehaviour:
   isStunned: 0
   isRooted: 0
   stunVFX: {fileID: 0}
+  rootedVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -2534,7 +2535,6 @@ MonoBehaviour:
   entityTeam: 2
   baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
-  entityLevel: 1
   damageAppliedToThePlaceToDefend: 0
   entityStats:
   - name: Health - 1000
@@ -2738,6 +2738,7 @@ MonoBehaviour:
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
+  shieldVFX: {fileID: 0}
   respawnVFX: {fileID: 0}
   ressourcesGainedVFX: {fileID: 0}
   spawnCustomEvent: 
@@ -2763,6 +2764,7 @@ MonoBehaviour:
   isStunned: 0
   isRooted: 0
   stunVFX: {fileID: 0}
+  rootedVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -3739,7 +3741,6 @@ MonoBehaviour:
   entityTeam: 2
   baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
-  entityLevel: 1
   damageAppliedToThePlaceToDefend: 0
   entityStats:
   - name: Health - 1000
@@ -3943,6 +3944,7 @@ MonoBehaviour:
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
+  shieldVFX: {fileID: 0}
   respawnVFX: {fileID: 0}
   ressourcesGainedVFX: {fileID: 0}
   spawnCustomEvent: 
@@ -3968,6 +3970,7 @@ MonoBehaviour:
   isStunned: 0
   isRooted: 0
   stunVFX: {fileID: 0}
+  rootedVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -5419,7 +5422,7 @@ Animator:
   m_GameObject: {fileID: 3906867379920358788}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9b2b1200ae447d84a8966b780acbe1ec, type: 3}
-  m_Controller: {fileID: 9100000, guid: 51691e270ee1ad44f8956de616736add, type: 2}
+  m_Controller: {fileID: 9100000, guid: 860b07d5b4bf4bd45bdd02c28e1b8222, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -8284,7 +8287,6 @@ MonoBehaviour:
   entityTeam: 2
   baseUsedEntity: {fileID: 11400000, guid: b88fed75da99ffd49bfc26f8da5a26dc, type: 2}
   entityAbilities: []
-  entityLevel: 1
   damageAppliedToThePlaceToDefend: 0
   entityStats:
   - name: Health - 1000
@@ -8488,6 +8490,7 @@ MonoBehaviour:
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
+  shieldVFX: {fileID: 0}
   respawnVFX: {fileID: 0}
   ressourcesGainedVFX: {fileID: 0}
   spawnCustomEvent: 
@@ -8513,6 +8516,7 @@ MonoBehaviour:
   isStunned: 0
   isRooted: 0
   stunVFX: {fileID: 0}
+  rootedVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -10519,14 +10523,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthBar
       objectReference: {fileID: 0}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: billboard
-      value: 
-      objectReference: {fileID: 3053643047223258007}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 3906867380547662311}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10999,14 +10995,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
---- !u!1 &8783206218224532257 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5752166186394240522, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
-  m_PrefabInstance: {fileID: 3906867379829521707}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &942550412803602833 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4261363703758374074, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
+  m_PrefabInstance: {fileID: 3906867379829521707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8783206218224532257 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5752166186394240522, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 3906867379829521707}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &9194579044693002327 stripped
@@ -11025,18 +11021,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthBar
       objectReference: {fileID: 0}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: healthBarFill
-      value: 
-      objectReference: {fileID: 789608155058189345}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: billboard
-      value: 
-      objectReference: {fileID: 3053643048179170161}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 3906867379211953837}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11128,17 +11112,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
   m_PrefabInstance: {fileID: 3906867380261713858}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &789608155058189345 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4378267671996777443, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-  m_PrefabInstance: {fileID: 3906867380261713858}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3906867380355456546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11146,33 +11119,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3089703505893055153}
     m_Modifications:
-    - target: {fileID: 1423379525311906978, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903530, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_Name
       value: HealthBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: billboard
-      value: 
-      objectReference: {fileID: 3053643047257588945}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 3906867379509437471}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: defaultColor.r
-      value: 0.6132076
-      objectReference: {fileID: 0}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: defaultColor.g
-      value: 0.6132076
-      objectReference: {fileID: 0}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: defaultColor.b
-      value: 0.6132076
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11258,14 +11207,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7090576891448318248, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9103178113505768096, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
 --- !u!224 &789608154927993359 stripped
@@ -11330,7 +11271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4363914639395512194, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00000034086406
+      value: -0.0000003427267
       objectReference: {fileID: 0}
     - target: {fileID: 4363914639395512194, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -11346,7 +11287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4363914639395512194, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.41803437
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4363914639395512194, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -11354,7 +11295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4363914639395512194, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.64616627
+      value: 0.7767632
       objectReference: {fileID: 0}
     - target: {fileID: 4363914639395512194, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_Pivot.x
@@ -11367,10 +11308,6 @@ PrefabInstance:
     - target: {fileID: 4363914639395512195, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_Name
       value: AggroGaugeBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 4363914639690923935, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
@@ -11461,14 +11398,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5752166186394240522, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 3906867380444138821}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9194579046242908217 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5309268712562488700, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
-  m_PrefabInstance: {fileID: 3906867380444138821}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &942550412210063871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4261363703758374074, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
+  m_PrefabInstance: {fileID: 3906867380444138821}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9194579046242908217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5309268712562488700, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 3906867380444138821}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3906867380454215538
@@ -11589,28 +11526,20 @@ PrefabInstance:
       value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: billboard
-      value: 
-      objectReference: {fileID: 3053643048604732989}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: stats
       value: 
       objectReference: {fileID: 3906867379295245456}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: defaultColor.r
-      value: 1
+      value: 0.92549026
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: defaultColor.g
-      value: 1
+      value: 0.10196079
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: defaultColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
-      propertyPath: defaultColor.a
-      value: 1
+      value: 0.10196079
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11686,7 +11615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.41803437
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903533, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: m_Pivot.x
@@ -11780,9 +11709,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
---- !u!4 &942550411936413601 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4261363703758374074, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
+--- !u!1 &9194579045436425831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5309268712562488700, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 3906867380698805019}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8783206219764872465 stripped
@@ -11790,8 +11719,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5752166186394240522, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 3906867380698805019}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9194579045436425831 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5309268712562488700, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
+--- !u!4 &942550411936413601 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4261363703758374074, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 3906867380698805019}
   m_PrefabAsset: {fileID: 0}

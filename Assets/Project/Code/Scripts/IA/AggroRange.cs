@@ -27,7 +27,8 @@ public class AggroRange : MonoBehaviour
         EntityStats entityStats = other.GetComponent<EntityStats>();
 
         if (entityStats != null 
-            && entityStats.EntityTeam != Stats.EntityTeam 
+            && entityStats.EntityTeam != Stats.EntityTeam
+            && entityStats.EntityTeam != EntityTeam.NEUTRAL
             && !entityFound.ThisTargetIsAMonster(entityFound) 
             && !entityFound.ThisTargetIsAStele(entityFound)
             && !entityFound.ThisTargetIsASteleEffect(entityFound))

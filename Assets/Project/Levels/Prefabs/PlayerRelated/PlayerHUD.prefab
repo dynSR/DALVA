@@ -10067,7 +10067,7 @@ GameObject:
   - component: {fileID: 2230966668370378676}
   - component: {fileID: 9002089346068516395}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: CostTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13319,6 +13319,7 @@ MonoBehaviour:
   effectNameText: {fileID: 4698933352658512502}
   effectDescriptionNameText: {fileID: 3844663515013138882}
   costText: {fileID: 6395309425538655649}
+  titleCostText: {fileID: 9002089346068516395}
 --- !u!1 &4637517483304503230
 GameObject:
   m_ObjectHideFlags: 0
@@ -22400,7 +22401,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 01c98a0a316ea034fb9e62edded33a9d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2cf172a5088cea749982aa571e688b48, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -27702,7 +27703,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 45
     m_Right: 0
-    m_Top: 19
+    m_Top: 21
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 3
@@ -30750,7 +30751,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_HighlightedColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
@@ -35702,7 +35703,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.09142603, y: 1}
-  m_AnchoredPosition: {x: -5.2006836, y: 0.0000076293945}
+  m_AnchoredPosition: {x: -5.200714, y: 0.0000076293945}
   m_SizeDelta: {x: 72.713425, y: 34.989937}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7340467773368027810

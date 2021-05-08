@@ -21,7 +21,7 @@ public class IdlingState : IState
 
     void IState.OnUpdate()
     {
-        if (controller.isACampNPC && controller.NPCInteractions.HasATarget)
+        if (controller.IsACampNPC && controller.NPCInteractions.HasATarget)
         {
             controller.ChangeState(new AttackingState());
         }

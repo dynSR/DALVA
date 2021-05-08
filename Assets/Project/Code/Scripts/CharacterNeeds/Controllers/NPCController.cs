@@ -20,7 +20,8 @@ public class NPCController : CharacterController
     public string CurrentStateName; //for tests purpose
 
     [Header("NPC TYPE")]
-    public bool isACampNPC = false;
+    [SerializeField] private bool isACampNPC = false;
+    [SerializeField] private bool isABoss = false;
 
     [Header("FOREST CAMP NPCS ATTRIBUTES")]
     [SerializeField] private Transform positionToLookAt;
@@ -38,6 +39,8 @@ public class NPCController : CharacterController
     public bool IsInIdleState { get; set; }
     public bool AggressionLimitsReached { get => aggressionLimitsReached; set => aggressionLimitsReached = value; }
     public bool AnAllyHasBeenAttacked { get => anAllyHasBeenAttacked; set => anAllyHasBeenAttacked = value; }
+    public bool IsABoss { get => isABoss; set => isABoss = value; }
+    public bool IsACampNPC { get => isACampNPC; set => isACampNPC = value; }
 
     #region Refs
     public NPCInteractions NPCInteractions => GetComponent<NPCInteractions>();
@@ -46,7 +49,7 @@ public class NPCController : CharacterController
 
     private void Start()
     {
-        if (isACampNPC) ChangeState(new IdlingState());
+        if (IsACampNPC) ChangeState(new IdlingState());
         else ChangeState(new MovingState());
     }
 
@@ -78,7 +81,7 @@ public class NPCController : CharacterController
         currentState = newState;
         currentState.Enter(this);
 
-        if (isACampNPC)
+        if (IsACampNPC)
         {
             if (IsInIdleState)
             {
@@ -175,7 +178,7 @@ public class NPCController : CharacterController
 
     public void CompareCurrentPositionFromStartingPosition()
     {
-        if (!isACampNPC) return;
+        if (!IsACampNPC) return;
 
         Vector3 currentPosition = transform.position;
 

@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CharacterRessources : MonoBehaviour
 {
+    public delegate void CharacterRessourcesHandler();
+    public event CharacterRessourcesHandler OnCharacterRessourcesChanged;
+
     [Header("PLAYER SHOP AND INVENTORY")]
     [SerializeField] private ShopManager playerShop;
     [SerializeField] private InventoryManager playerInventory;
@@ -65,8 +68,10 @@ public class CharacterRessources : MonoBehaviour
         if(PlayerHUD.IsShopWindowOpen)
             playerShop.RefreshShopData();
 
-        if(PlayerHUD.SteleTooltip.activeInHierarchy)
-            PlayerHUD.SteleTooltip.GetComponent<SteleTooltip>().SetCostTextColor();
+        //if(PlayerHUD.SteleTooltip.activeInHierarchy)
+        //    PlayerHUD.SteleTooltip.GetComponent<SteleTooltip>().SetCostTextColor();
+
+        OnCharacterRessourcesChanged?.Invoke();
     }
 
     public void RemoveRessources(int amountToRemove)
@@ -79,8 +84,10 @@ public class CharacterRessources : MonoBehaviour
         if (PlayerHUD.IsShopWindowOpen)
             playerShop.RefreshShopData();
 
-        if (PlayerHUD.SteleTooltip.activeInHierarchy)
-            PlayerHUD.SteleTooltip.GetComponent<SteleTooltip>().SetCostTextColor();
+        OnCharacterRessourcesChanged?.Invoke();
+
+        //if (PlayerHUD.SteleTooltip.activeInHierarchy)
+        //    PlayerHUD.SteleTooltip.GetComponent<SteleTooltip>().SetCostTextColor();
     }
 
     private void UpdatePlayerRessourcesValueText(int value)

@@ -2,8 +2,9 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler,  IButtonTooltip
+public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler,  IPointerUpHandler, IButtonTooltip
 {
+    [SerializeField] private GameObject buttonTooltip;
     [SerializeField] private SteleLogic affectedStele;
     [SerializeField] private SteleLogic.EffectDescription effectDescription;
     [SerializeField] private bool isASellingButton = false;
@@ -12,6 +13,8 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [SerializeField] private Image selectionImage;
 
     Button ButtonComponent => GetComponent<Button>();
+
+    public bool IsASellingButton { get => isASellingButton; set => isASellingButton = value; }
 
     void Awake()
     {
@@ -23,7 +26,7 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     private void LateUpdate()
     {
-        if ((!isASellingButton || impossibilityToPurchaseImage != null) && affectedStele.InteractingPlayer != null)
+        if ((!IsASellingButton || impossibilityToPurchaseImage != null) && affectedStele.InteractingPlayer != null)
         {
             float playerRessources = affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources;
 
@@ -41,6 +44,7 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void OnPointerExit(PointerEventData eventData)
     {
         HideTooltip(GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip);
+        HideTooltip(buttonTooltip);
         ButtonComponent.interactable = true;
 
         if (selectionImage.gameObject.activeInHierarchy)
@@ -49,7 +53,7 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < effectDescription.effectCost)
+        if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < effectDescription.effectCost)
             ButtonComponent.interactable = false;
 
         if (!selectionImage.gameObject.activeInHierarchy)
@@ -65,31 +69,31 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
                 steleEffectDescription = effectDescription.description;
                 break;
             case SteleLevel.EvolutionI:
-                if (!isASellingButton)
+                if (!IsASellingButton)
                 {
                     steleEffectName = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionI;
                 }
                 else
                 {
-                    steleEffectName = effectDescription.effectName  + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = effectDescription.effectName  +/* '\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = effectDescription.description;
                 }
                 break;
             case SteleLevel.EvolutionII:
-                if (!isASellingButton)
+                if (!IsASellingButton)
                 {
                     steleEffectName = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionII;
                 }
                 else
                 {
-                    steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = effectDescription.effectName + /*'\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = effectDescription.description;
                 }
                 break;
             case SteleLevel.FinalEvolution:
-                if (!isASellingButton)
+                if (!IsASellingButton)
                 {
                     if (finalEvolutionNumber == 1)
                     {
@@ -104,24 +108,36 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
                 }
                 else
                 {
-                    steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = effectDescription.effectName + /*'\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = effectDescription.description;
                 }
                 break;
             case SteleLevel.OnlySell:
-                steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                steleEffectName = effectDescription.effectName + /*'\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                 steleEffectDescription = effectDescription.description;
                 break;
 
         }
 
+        //Tooltip en bas à droite
         DisplayTooltip(GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip);
+
         GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.GetComponent<SteleTooltip>().SetTooltip(
             /*effectDescription.effectName*/ steleEffectName,
             /*effectDescription.description*/ steleEffectDescription, 
             effectDescription.effectCost.ToString("0"), 
-            effectDescription.effectCost);
+            effectDescription.effectCost, IsASellingButton);
+
+        //Tooltip au-dessus des boutons
+        DisplayTooltip(buttonTooltip);
+
+        buttonTooltip.GetComponent<SteleTooltip>().SetTooltip(
+            /*effectDescription.effectName*/ steleEffectName,
+            /*effectDescription.description*/ steleEffectDescription,
+            effectDescription.effectCost.ToString("0"),
+            effectDescription.effectCost, IsASellingButton);
     }
+
     public void DisplayTooltip(GameObject tooltip)
     {
         tooltip.SetActive(true);
@@ -137,12 +153,17 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         Debug.Log("COUCOU STELE BUTTON CLIQUÉ");
 
-        if (affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < effectDescription.effectCost)
+        if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < effectDescription.effectCost)
             ButtonComponent.interactable = false;
-        else if (affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= effectDescription.effectCost)
+        else if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= effectDescription.effectCost)
             ButtonComponent.interactable = true;
 
         selectionImage.gameObject.SetActive(false);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        HideTooltip(buttonTooltip);
     }
 
     public void DebugButton()

@@ -37,9 +37,14 @@ public class PlayerInteractions : InteractionSystem
             PlayerIsTryingToAttack = true;
             return;
         }
+        else if (PlayerIsTryingToAttack && UtilityClass.LeftClickIsPressed())
+        {
+            HideAttackRange();
+            CursorLogicAttached.SetCursorToNormalAppearance();
+            PlayerIsTryingToAttack = false;
+        }
 
         if (UtilityClass.RightClickIsPressed()
-            || UtilityClass.LeftClickIsPressed() && PlayerIsTryingToAttack
             && (GameObject.Find("GameNetworkManager") == null || GetComponent<PhotonView>().IsMine))
         {
             //Debug.Log("Set target on mouse click");
@@ -52,7 +57,7 @@ public class PlayerInteractions : InteractionSystem
                 EntityDetection targetFound = hit.collider.GetComponent<EntityDetection>();
                 InteractiveBuilding interactiveBuilding = hit.collider.GetComponent<InteractiveBuilding>();
 
-                if (targetFound != null && targetFound.enabled)
+                if (targetFound != null && targetFound.enabled && !targetFound.ThisTargetIsASteleEffect(targetFound))
                 {
                     Target = targetFound.transform;
 
@@ -73,8 +78,8 @@ public class PlayerInteractions : InteractionSystem
                     {
                         if (interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL || interactiveBuilding.EntityTeam == Stats.EntityTeam)
                             StoppingDistance = InteractionRange;
-                        else if (interactiveBuilding.EntityTeam != Stats.EntityTeam) 
-                            StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
+                        //else if (interactiveBuilding.EntityTeam != Stats.EntityTeam) 
+                        //    StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
                     }  
                 }
                 else
@@ -177,7 +182,12 @@ public class PlayerInteractions : InteractionSystem
 
     private void SetAttackRangeSize()
     {
-        attackRange.transform.localScale = new Vector3(Stats.GetStat(StatType.AttackRange).Value, Stats.GetStat(StatType.AttackRange).Value, attackRange.transform.localScale.z);
+        //attackRange.transform.localScale = new Vector3(Stats.GetStat(StatType.AttackRange).Value, Stats.GetStat(StatType.AttackRange).Value, attackRange.transform.localScale.z);
+
+        attackRange.GetComponent<SphereCollider>().radius = Stats.GetStat(StatType.AttackRange).Value;
+
+        SpriteRenderer attackRangeRenderer = attackRange.GetComponent<SpriteRenderer>();
+        attackRangeRenderer.size = new Vector2(Stats.GetStat(StatType.AttackRange).Value * 2, Stats.GetStat(StatType.AttackRange).Value * 2);
     }
 
     private void DisplayAttackRange()

@@ -266,8 +266,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.215
-  m_fontSizeBase: 0.215
+  m_fontSize: 0.185
+  m_fontSizeBase: 0.185
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0.1
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -10
+  m_characterSpacing: -5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -667,7 +667,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 0.75, y: 0.2}
+  m_CellSize: {x: 0.65, y: 0.25}
   m_Spacing: {x: -0.08, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -826,8 +826,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.215
-  m_fontSizeBase: 0.215
+  m_fontSize: 0.2
+  m_fontSizeBase: 0.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0.1
@@ -1200,8 +1200,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.215
-  m_fontSizeBase: 0.215
+  m_fontSize: 0.2
+  m_fontSizeBase: 0.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0.1
@@ -2413,8 +2413,8 @@ MonoBehaviour:
   effectDescription:
     effectName: 
     steleEffect: 0
-    description: "Vous r\xE9cup\xE9rer la moiti\xE9 de la somme investie pour l'effet
-      actif .\nCette st\xE8le sera alors inactive et son effet dispara\xEEtra."
+    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
+      des ressources."
     effectCost: 75
   isASellingButton: 1
   finalEvolutionNumber: 0
@@ -4517,8 +4517,8 @@ MonoBehaviour:
   effectDescription:
     effectName: 
     steleEffect: 0
-    description: "Vous r\xE9cup\xE9rer la moiti\xE9 de la somme investie pour l'effet
-      actif .\nCette st\xE8le sera alors inactive et son effet dispara\xEEtra."
+    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
+      des ressources."
     effectCost: 300
   isASellingButton: 1
   finalEvolutionNumber: 0
@@ -5800,8 +5800,8 @@ MonoBehaviour:
   effectDescription:
     effectName: 
     steleEffect: 0
-    description: "Vous r\xE9cup\xE9rer la moiti\xE9 de la somme investie pour l'effet
-      actif .\nCette st\xE8le sera alors inactive et son effet dispara\xEEtra."
+    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
+      des ressources."
     effectCost: 375
   isASellingButton: 1
   finalEvolutionNumber: 0
@@ -8859,7 +8859,6 @@ GameObject:
   - component: {fileID: 6087098848484573279}
   - component: {fileID: 6087098848484573265}
   - component: {fileID: 6087098848484573264}
-  - component: {fileID: 2058278258}
   m_Layer: 14
   m_Name: Billboard
   m_TagString: Untagged
@@ -8946,28 +8945,6 @@ MonoBehaviour:
   finalEvolutionButtonSection: {fileID: 1846152293020416083}
   onlySellButtonSection: {fileID: 5817014395743529270}
   healthBar: {fileID: 0}
---- !u!114 &2058278258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6087098848484573277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 100
 --- !u!1 &6087098848641875475
 GameObject:
   m_ObjectHideFlags: 0
@@ -9208,8 +9185,8 @@ MonoBehaviour:
   effectDescription:
     effectName: 
     steleEffect: 0
-    description: "Vous r\xE9cup\xE9rer la moiti\xE9 de la somme investie pour l'effet
-      actif .\nCette st\xE8le sera alors inactive et son effet dispara\xEEtra."
+    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
+      des ressources."
     effectCost: 225
   isASellingButton: 1
   finalEvolutionNumber: 0

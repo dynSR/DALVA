@@ -41,6 +41,7 @@ public class NPCController : CharacterController
     public bool AnAllyHasBeenAttacked { get => anAllyHasBeenAttacked; set => anAllyHasBeenAttacked = value; }
     public bool IsABoss { get => isABoss; set => isABoss = value; }
     public bool IsACampNPC { get => isACampNPC; set => isACampNPC = value; }
+    public bool IsABossWaveMember { get; set; }
 
     #region Refs
     public NPCInteractions NPCInteractions => GetComponent<NPCInteractions>();

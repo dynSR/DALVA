@@ -37,7 +37,7 @@ public class Tower : MonoBehaviour
             attackProjectile.Target = targetStats.transform;
         }
 
-        yield return new WaitForSeconds(delay);
+        //yield return new WaitForSeconds(delay);
 
         CanAttack = true;
     }

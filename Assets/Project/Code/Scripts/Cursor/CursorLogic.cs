@@ -52,7 +52,7 @@ public class CursorLogic : MonoBehaviour
                 if (knownTargetDetected.gameObject == transform.gameObject)
                 {
                     SetCursorToNormalAppearance();
-                    knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.grey);
+                    knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.white);
                     return;
                 }
 

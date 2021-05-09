@@ -116,8 +116,13 @@ public class SpawnerSystem : MonoBehaviour
 
         for (int i = 0; i < currentWave.waveMinions.Length; i++)
         {
+            NPCController spawningMinionController = currentWave.waveMinions[i].GetComponent<NPCController>();
+
+            if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
+                GameManager.Instance.ItIsABossWave = true;
+
             //if(currentWave.waveMinions[i] != null)
-                SpawnMinions(currentWave.waveMinions[i]);
+            SpawnMinions(currentWave.waveMinions[i]);
 
             yield return new WaitForSeconds(spawnRate);
         }
@@ -132,14 +137,8 @@ public class SpawnerSystem : MonoBehaviour
         //Swap Wave ID to spawn an another type of wave
         IndexOfCurrentWave++;
 
-        if(!GameManager.Instance.WaveCountHasBeenSet)
-        {
-            GameManager.Instance.WaveCountHasBeenSet = true;
-            GameManager.Instance.WaveDone++;
-            UIManager.Instance.UpdateWaveCount(GameManager.Instance.WaveDone);
-            GameManager.Instance.FithWaveTracker();
-        }
-
+        GameManager.Instance.UpdateWaveCount();
+        
         if (CanSpawnWave())
             OnWavePossibilityToSpawnState?.Invoke(1);
         else OnWavePossibilityToSpawnState?.Invoke(0);
@@ -154,7 +153,7 @@ public class SpawnerSystem : MonoBehaviour
     {
         bool canSpawn = false;
 
-        if (IndexOfCurrentWave >= Waves.Count) return false;
+        if (IndexOfCurrentWave >= Waves.Count || GameManager.Instance.ItIsABossWave) return false;
 
         if (IndexOfCurrentWave <= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length > 0)
         {
@@ -202,12 +201,21 @@ public class SpawnerSystem : MonoBehaviour
 
         GameObject currentMinion = Instantiate(minion, new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z), spawnPosition.rotation);
 
+        NPCController spawningMinionController = currentMinion.GetComponent<NPCController>();
+
+        if (GameManager.Instance.ItIsABossWave)
+        {
+            GameManager.Instance.UpdateRemainingMonsterValue(1);
+            spawningMinionController.IsABossWaveMember = true;
+
+            Debug.Log("SET SPAWNED MINION AS A BOSS WAVE MEMBER !!!!!!!!!!!!");
+        }
+
         for (int i = 0; i < Waypoints.Count; i++)
         {
             currentMinion.GetComponent<NPCController>().waypoints.Add(Waypoints[i]);
         }
     }
-
 
     private IEnumerator WaitingState(float delay, IEnumerator enumerator)
     {

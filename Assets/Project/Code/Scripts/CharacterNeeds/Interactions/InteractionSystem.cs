@@ -56,7 +56,7 @@ public class InteractionSystem : MonoBehaviour
 
             if (KnownTarget != null)
             {
-                KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(KnownTarget.GetComponent<Outline>());
+                KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(KnownTarget.GetComponent<EntityDetection>().Outline);
                 KnownTarget = null;
             } 
            

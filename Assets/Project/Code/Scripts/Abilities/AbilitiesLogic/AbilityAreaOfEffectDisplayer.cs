@@ -19,7 +19,7 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
                 EntityDetection targetFound = targets[i].GetComponent<EntityDetection>();
 
                 if (targetFound != null)
-                    targetFound.DeactivateTargetOutlineOnHover(targets[i].GetComponent<Outline>());
+                    targetFound.DeactivateTargetOutlineOnHover(targetFound.Outline);
 
                 targets[i].gameObject.layer = 12;
             }
@@ -45,21 +45,21 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
             targets[i].gameObject.layer = ignoreRaycastLayer;
 
             EntityStats targetStats = targets[i].GetComponent<EntityStats>();
-            Outline targetOutline = targets[i].GetComponent<Outline>();
+            EntityDetection entityDetected = targets[i].GetComponent<EntityDetection>();
 
-            if (targetStats != null && targetOutline != null)
+            if (targetStats != null && entityDetected != null)
             {
                 if (targets[i].GetComponent<EntityStats>().EntityTeam == Stats.EntityTeam)
-                    targets[i].GetComponent<EntityDetection>().ActivateTargetOutlineOnHover(targets[i].GetComponent<Outline>(), Color.blue);
+                    entityDetected.ActivateTargetOutlineOnHover(entityDetected.Outline, Color.blue);
                 else if (targets[i].GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
-                    targets[i].GetComponent<EntityDetection>().ActivateTargetOutlineOnHover(targets[i].GetComponent<Outline>(), Color.red);
+                    entityDetected.ActivateTargetOutlineOnHover(entityDetected.Outline, Color.red);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Outline targetOutline = other.GetComponent<Outline>();
+        EntityDetection targetDetected = other.GetComponent<EntityDetection>();
 
         //Enlever de la liste si other = i list
         if (targets.Count >= 1)
@@ -68,8 +68,8 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
             {
                 if (other.transform.gameObject == targets[i].gameObject)
                 {
-                    if (targetOutline != null)
-                        targets[i].GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(targets[i].GetComponent<Outline>());
+                    if (targetDetected != null)
+                        targetDetected.DeactivateTargetOutlineOnHover(targetDetected.Outline);
 
                     targets[i].gameObject.layer = entitiesLayer;
                     targets.Remove(targets[i]);

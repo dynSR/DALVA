@@ -269,7 +269,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         yield return new WaitForSeconds(delay);
 
-        global::Popup.Create(CharacterHalfSize, Popup, value, statType, icon, targetIsInvulnerable);
+        global::Popup.Create(CharacterHalfSize, Popup, value, statType, icon, false, targetIsInvulnerable);
     }
     #endregion
 
@@ -428,6 +428,14 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             Controller.Agent.ResetPath();
             GetStat(StatType.Health).Value = 0f;
+
+            //For NPCs
+            NPCController npcController = GetComponent<NPCController>();
+
+            if (npcController != null && npcController.IsABossWaveMember)
+            {
+                GameManager.Instance.UpdateRemainingMonsterValue(-1);
+            }
 
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
 

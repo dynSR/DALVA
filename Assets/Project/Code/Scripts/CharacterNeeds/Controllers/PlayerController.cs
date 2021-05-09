@@ -57,6 +57,12 @@ public class PlayerController : CharacterController
     }
     #endregion
 
+    private void CreateMovementFeedback(GameObject _movementFeedback, Vector3 pos)
+    {
+        if (_movementFeedback != null)
+            Instantiate(_movementFeedback, pos, Quaternion.identity);
+    }
+
     #region Debug
     public void DebugPathing(LineRenderer line)
     {
@@ -68,12 +74,6 @@ public class PlayerController : CharacterController
         }
         else
             line.enabled = false;
-    }
-
-    private void CreateMovementFeedback(GameObject _movementFeedback, Vector3 pos)
-    {
-        if (_movementFeedback != null)
-            Instantiate(_movementFeedback, pos, Quaternion.identity);
     }
     #endregion
 

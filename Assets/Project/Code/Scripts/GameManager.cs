@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
     public List<SpawnerSystem> Spawners { get => spawners; }
     public int WaveDone { get => waveDone; set => waveDone = value; }
     public bool WaveCountHasBeenSet { get => waveCountHasBeenSet; set => waveCountHasBeenSet = value; }
+    public bool ItIsABossWave = false;
+    public int RemainingMonstersValue = 0;
 
     public Transform Player { get; set; }
     
@@ -57,7 +59,7 @@ public class GameManager : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    public void FithWaveTracker()
+    private void UpdateInternalCounter()
     {
         InternalCounter++;
 
@@ -67,6 +69,36 @@ public class GameManager : MonoBehaviour
             ShopPhase();
         }
     }
+
+    public void UpdateRemainingMonsterValue(int value)
+    {
+        RemainingMonstersValue += value;
+        //Display & Update UI
+
+        if (RemainingMonstersValue == 0)
+        {
+            ResetWhenBossWaveIsDone();
+            //Hide UI
+        }
+    }
+
+    public void ResetWhenBossWaveIsDone()
+    {
+        ItIsABossWave = false;
+        UpdateWaveCount();
+    }
+
+    public void UpdateWaveCount()
+    {
+        if (!WaveCountHasBeenSet)
+        {
+            WaveCountHasBeenSet = true;
+            WaveDone++;
+            UIManager.Instance.UpdateWaveCount(GameManager.Instance.WaveDone);
+            UpdateInternalCounter();
+        }
+    }
+    
 
     public void ShopPhase()
     {

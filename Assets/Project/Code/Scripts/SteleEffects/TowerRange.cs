@@ -5,7 +5,11 @@ using UnityEngine;
 public class TowerRange : MonoBehaviour
 {
     Tower Tower => GetComponentInParent<Tower>();
+    public SphereCollider SphereCollider => GetComponent<SphereCollider>();
     protected List<EntityStats> entitiesFound = new List<EntityStats>();
+
+
+    void Start() => SetTowerRange(GetComponentInParent<EntityStats>().GetStat(StatType.AttackRange).Value);
 
     private void Update()
     {
@@ -49,11 +53,16 @@ public class TowerRange : MonoBehaviour
         }
     }
 
+    public void SetTowerRange(float value)
+    {
+        SphereCollider.radius = value;
+    }
+
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.black;
+        Gizmos.color = Color.yellow;
 
-        Gizmos.DrawWireSphere(transform.position, GetComponent<SphereCollider>().radius);
+        Gizmos.DrawWireSphere(transform.position, GetComponentInParent<EntityStats>().GetStat(StatType.AttackRange).Value);
     }
 }

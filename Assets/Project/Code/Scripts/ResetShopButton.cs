@@ -9,9 +9,9 @@ public class ResetShopButton : UIButtonWithTooltip, IPointerEnterHandler, IPoint
     [SerializeField] private ShopManager shop;
     [SerializeField] private TextMeshProUGUI resetDrawCostText;
 
-
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         shop.OnShopDrawSetResetCost += SetResetDrawCostText;
     }
 

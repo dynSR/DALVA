@@ -5,6 +5,11 @@ public class UIButtonWithTooltip : MonoBehaviour, IPointerEnterHandler, IPointer
 {
     [SerializeField] private GameObject tooltip;
 
+    protected virtual void OnEnable()
+    {
+        HideTooltip(tooltip);
+    }
+
     public void DisplayTooltip(GameObject tooltip)
     {
         if (!tooltip.activeInHierarchy)

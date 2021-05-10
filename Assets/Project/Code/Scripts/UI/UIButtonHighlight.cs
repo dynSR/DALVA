@@ -13,6 +13,12 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private Button myButton;
 
+    private void OnEnable()
+    {
+        HideBorder();
+        ChangeTextColor(normalColor);
+    }
+
     void Start()
     {
         myButton = GetComponent<Button>();

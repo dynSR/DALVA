@@ -79,16 +79,15 @@ public class MainMenuUIManager : MonoBehaviour
     public Button plusSteleButton;
     [Tooltip("The text of the current value of the stele malus.")]
     public TMP_Text currentSteleMalusText;
-    [Space(10)]
-            //Difficulty text
+    [Space(10)]*/
+            
+    //Difficulty text
     [Tooltip("The text  for the easy difficulty.")]
     public GameObject easyText;
     [Tooltip("The text  for the medium difficulty.")]
     public GameObject mediumText;
     [Tooltip("The text  for the hard difficulty.")]
     public GameObject hardText;
-    [Tooltip("The text  for the impossible difficulty.")]
-    public GameObject impossibleText;*/
 
     //New difficulty
     [Tooltip("The toggle for easy difficulty.")]
@@ -337,6 +336,10 @@ public class MainMenuUIManager : MonoBehaviour
             mediumButton.GetComponent<UIButtonHighlight>().HideBorder();
             hardButton.interactable = true;
             hardButton.GetComponent<UIButtonHighlight>().HideBorder();
+
+            easyText.SetActive(true);
+            mediumText.SetActive(false);
+            hardText.SetActive(false);
         }
 
         if (button == mediumButton)
@@ -347,6 +350,10 @@ public class MainMenuUIManager : MonoBehaviour
             mediumButton.interactable = false;
             hardButton.interactable = true;
             hardButton.GetComponent<UIButtonHighlight>().HideBorder();
+
+            easyText.SetActive(false);
+            mediumText.SetActive(true);
+            hardText.SetActive(false);
         }
 
         if (button == hardButton)
@@ -357,6 +364,10 @@ public class MainMenuUIManager : MonoBehaviour
             mediumButton.interactable = true;
             mediumButton.GetComponent<UIButtonHighlight>().HideBorder();
             hardButton.interactable = false;
+
+            easyText.SetActive(false);
+            mediumText.SetActive(false);
+            hardText.SetActive(true);
         }
 
         hasPickedADifficulty = true;

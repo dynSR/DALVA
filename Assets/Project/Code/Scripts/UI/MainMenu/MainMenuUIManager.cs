@@ -92,11 +92,11 @@ public class MainMenuUIManager : MonoBehaviour
 
     //New difficulty
     [Tooltip("The toggle for easy difficulty.")]
-    public Toggle easyToggle;
+    public Button easyButton;
     [Tooltip("The toggle for medium difficulty.")]
-    public Toggle mediumToggle;
+    public Button mediumButton;
     [Tooltip("The toggle for hard difficulty.")]
-    public Toggle hardToggle;
+    public Button hardButton;
     [Space(10)]
 
     [Tooltip("The button that start the game.")]
@@ -111,7 +111,7 @@ public class MainMenuUIManager : MonoBehaviour
 
     private GameParameters myGameParameters;
 
-    private bool hasPickedADifficulty;
+    private bool hasPickedADifficulty = false;
     private string gameSceneName;
 
     private int currentOpenedTab;
@@ -161,7 +161,6 @@ public class MainMenuUIManager : MonoBehaviour
         //currentAttackMalus = myGameParameters.attackMalus;
         //currentSpeedMalus = myGameParameters.speedMalus;
         //currentSteleMalus = myGameParameters.steleMalus;
-
 
         //Init text
         //DifficultyMalusTextUpdate(MalusType.All);
@@ -279,8 +278,11 @@ public class MainMenuUIManager : MonoBehaviour
         if (characterClass)
         {
             warriorButton.interactable = true;
+            warriorButton.GetComponent<UIButtonHighlight>().ResetBorder();
             mageButton.interactable = false;
+
             myAnimator.SetBool("isMage", true);
+
             warriorText.SetActive(false);
             mageText.SetActive(true);
         }
@@ -288,12 +290,17 @@ public class MainMenuUIManager : MonoBehaviour
         {
             warriorButton.interactable = false;
             mageButton.interactable = true;
+            mageButton.GetComponent<UIButtonHighlight>().ResetBorder();
+
             myAnimator.SetBool("isMage", false);
+
             warriorText.SetActive(true);
             mageText.SetActive(false);
         }
 
+        myAnimator.SetBool("classSelected", true);
         hasPickedAClass = true;
+
         CanStartGameCheck();
     }
 
@@ -320,35 +327,36 @@ public class MainMenuUIManager : MonoBehaviour
     }
     //0 = None, 1 = Play, 2 = Encyclopedia, 3 = Shop, 4 = Options, 5 = Credits, 6 = Quit
 
-    public void ChangeNewDifficultyButton(int difficulty)
+    public void ChangeNewDifficultyButton(Button button)
     {
-        Debug.Log("Bouton difficulté");
-
-        switch (difficulty)
+        if (button == easyButton)
         {
-            case 0:
-                gameSceneName = easyGameSceneName;
-                easyToggle.interactable = false;
-                mediumToggle.interactable = true;
-                hardToggle.interactable = true;
-                Debug.Log("Easy difficulty");
-                break;
-            case 1:
-                gameSceneName = mediumGameSceneName;
-                easyToggle.interactable = true;
-                mediumToggle.interactable = false;
-                hardToggle.interactable = true;
-                Debug.Log("Medium difficulty");
-                break;
-            case 2:
-                gameSceneName = hardGameSceneName;
-                easyToggle.interactable = true;
-                mediumToggle.interactable = true;
-                hardToggle.interactable = false;
-                Debug.Log("Hard difficulty");
-                break;
-            default:
-                break;
+            gameSceneName = easyGameSceneName;
+            easyButton.interactable = false;
+            mediumButton.interactable = true;
+            mediumButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            hardButton.interactable = true;
+            hardButton.GetComponent<UIButtonHighlight>().ResetBorder();
+        }
+
+        if (button == mediumButton)
+        {
+            gameSceneName = mediumGameSceneName;
+            easyButton.interactable = true;
+            easyButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            mediumButton.interactable = false;
+            hardButton.interactable = true;
+            hardButton.GetComponent<UIButtonHighlight>().ResetBorder();
+        }
+
+        if (button == hardButton)
+        {
+            gameSceneName = hardGameSceneName;
+            easyButton.interactable = true;
+            easyButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            mediumButton.interactable = true;
+            mediumButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            hardButton.interactable = false;
         }
 
         hasPickedADifficulty = true;

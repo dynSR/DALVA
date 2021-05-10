@@ -9,6 +9,8 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private Color highlightColor;
     [SerializeField] private Color pressedColor;
 
+    public GameObject myBorder;
+
     private Button myButton;
 
     void Start()
@@ -18,7 +20,11 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     void Update()
     {
-        if (!myButton.IsInteractable()) ChangeTextColor(normalColor);
+        if (!myButton.IsInteractable())
+        {
+            ChangeTextColor(normalColor);
+            if (myBorder != null) myBorder.SetActive(true);
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -29,11 +35,15 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerEnter(PointerEventData eventData)
     {
         ChangeTextColor(highlightColor);
+
+        if (myBorder != null) myBorder.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         ChangeTextColor(normalColor);
+
+        if (myBorder != null) myBorder.SetActive(false);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -51,5 +61,10 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 transform.GetChild(i).GetComponent<TextMeshProUGUI>().color = colorToAssign;
             }
         }
+    }
+
+    public void ResetBorder()
+    {
+        if (myBorder != null) myBorder.SetActive(false);
     }
 }

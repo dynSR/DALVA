@@ -23,7 +23,7 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (!myButton.IsInteractable())
         {
             ChangeTextColor(normalColor);
-            if (myBorder != null) myBorder.SetActive(true);
+            DisplayBorder();
         }
     }
 
@@ -36,14 +36,14 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         ChangeTextColor(highlightColor);
 
-        if (myBorder != null) myBorder.SetActive(true);
+        DisplayBorder();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         ChangeTextColor(normalColor);
 
-        if (myBorder != null) myBorder.SetActive(false);
+        HideBorder();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -63,7 +63,12 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
     }
 
-    public void ResetBorder()
+    private void DisplayBorder()
+    {
+        if (myBorder != null) myBorder.SetActive(true);
+    }
+
+    public void HideBorder()
     {
         if (myBorder != null) myBorder.SetActive(false);
     }

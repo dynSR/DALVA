@@ -278,7 +278,7 @@ public class MainMenuUIManager : MonoBehaviour
         if (characterClass)
         {
             warriorButton.interactable = true;
-            warriorButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            warriorButton.GetComponent<UIButtonHighlight>().HideBorder();
             mageButton.interactable = false;
 
             myAnimator.SetBool("isMage", true);
@@ -290,7 +290,7 @@ public class MainMenuUIManager : MonoBehaviour
         {
             warriorButton.interactable = false;
             mageButton.interactable = true;
-            mageButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            mageButton.GetComponent<UIButtonHighlight>().HideBorder();
 
             myAnimator.SetBool("isMage", false);
 
@@ -334,28 +334,28 @@ public class MainMenuUIManager : MonoBehaviour
             gameSceneName = easyGameSceneName;
             easyButton.interactable = false;
             mediumButton.interactable = true;
-            mediumButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            mediumButton.GetComponent<UIButtonHighlight>().HideBorder();
             hardButton.interactable = true;
-            hardButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            hardButton.GetComponent<UIButtonHighlight>().HideBorder();
         }
 
         if (button == mediumButton)
         {
             gameSceneName = mediumGameSceneName;
             easyButton.interactable = true;
-            easyButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            easyButton.GetComponent<UIButtonHighlight>().HideBorder();
             mediumButton.interactable = false;
             hardButton.interactable = true;
-            hardButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            hardButton.GetComponent<UIButtonHighlight>().HideBorder();
         }
 
         if (button == hardButton)
         {
             gameSceneName = hardGameSceneName;
             easyButton.interactable = true;
-            easyButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            easyButton.GetComponent<UIButtonHighlight>().HideBorder();
             mediumButton.interactable = true;
-            mediumButton.GetComponent<UIButtonHighlight>().ResetBorder();
+            mediumButton.GetComponent<UIButtonHighlight>().HideBorder();
             hardButton.interactable = false;
         }
 

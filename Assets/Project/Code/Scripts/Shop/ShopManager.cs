@@ -24,7 +24,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private List<ShopIcon> shopBoxesIcon;
 
     [Header("ITEMS IN POOL")]
-    [SerializeField] private bool canStackSameItem = false;
+    //[SerializeField] private bool canStackSameItem = false;
     [SerializeField] private bool shuffleItemsOnlyWhenFifthWaveIsOver = true;
     [SerializeField] private bool costScalesUP = false;
     [SerializeField] private int costAugmentation;
@@ -132,7 +132,7 @@ public class ShopManager : MonoBehaviour
         {
             if(!shopItem.ItemIsAnAbility)
             {
-                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem) && !canStackSameItem) return;
+                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem) /*&& !canStackSameItem*/) return;
 
                 PlayerInventory.AddItemToInventory(shopItem, true);
             }
@@ -153,7 +153,7 @@ public class ShopManager : MonoBehaviour
 
         if (!SelectedItem.ItemIsAnAbility)
         {
-            if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(SelectedItem) && !canStackSameItem) return;
+            if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(SelectedItem) /*&& !canStackSameItem*/) return;
 
             PlayerInventory.AddItemToInventory(SelectedItem, true);
         }
@@ -167,11 +167,15 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void SellItem()
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || PlayerInventory.InventoryIsEmpty || !InventoryItemIsSelected || SelectedInventoryBox.StoredItem == null) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase 
+            || PlayerInventory.InventoryIsEmpty 
+            || !InventoryItemIsSelected 
+            || SelectedInventoryBox == null) return;
 
         Debug.Log("Selling item : " + SelectedInventoryBox.StoredItem.ItemName);
 
         ShopActionOnSell(SelectedInventoryBox);
+        SelectedInventoryBox = null;
     }
     #endregion
 
@@ -371,6 +375,8 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShopData()
     {
+        Debug.Log("REFRESH SHOP DATA");
+
         for (int i = 0; i < ShopBoxesIcon.Count; i++)
         {
             if (!ShopBoxesIcon[i].isActiveAndEnabled) continue;
@@ -381,23 +387,25 @@ public class ShopManager : MonoBehaviour
             {
                 Debug.Log(item.name + " " + item.ItemIsAnAbility);
 
-                if ((!CanPurchaseItem(item) && !IsItemAlreadyInInventory(item) && !canStackSameItem
-                    || !CanPurchaseItem(item) && canStackSameItem) && !PlayerInventory.InventoryIsFull)
+                if (/*(*/!IsItemAlreadyInInventory(item)  
+                    //&& !canStackSameItem
+                    //|| !CanPurchaseItem(item) && canStackSameItem) 
+                    && !PlayerInventory.InventoryIsFull)
                 {
-                    ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
-                    ShopBoxesIcon[i].ItemButton.DisplayPadlock();
+                    ShopBoxesIcon[i].ItemButton.HidePadlock();
+                    ShopBoxesIcon[i].ItemButton.HideCheckMark();
+
+                    if (!CanPurchaseItem(item))
+                        ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
+
+                    else if (CanPurchaseItem(item))
+                        ShopBoxesIcon[i].ItemButton.ObjectIsDisponible();
                 }
-                else if (IsItemAlreadyInInventory(item) && !canStackSameItem)
+                else if (IsItemAlreadyInInventory(item) /*&& !canStackSameItem*/)
                 {
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                     ShopBoxesIcon[i].ItemButton.DisplayCheckMark();
                     ShopBoxesIcon[i].ItemButton.DisplayPadlock();
-                }
-                else if (!IsItemAlreadyInInventory(item) && CanPurchaseItem(item) && !PlayerInventory.InventoryIsFull)
-                {
-                    ShopBoxesIcon[i].ItemButton.ObjectIsDisponible();
-                    ShopBoxesIcon[i].ItemButton.HideCheckMark();
-                    ShopBoxesIcon[i].ItemButton.HidePadlock();
                 }
                 else if (PlayerInventory.InventoryIsFull)
                 {

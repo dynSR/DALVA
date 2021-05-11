@@ -44,6 +44,6 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
     {
         Gizmos.color = Color.black;
 
-        Gizmos.DrawWireSphere(transform.position, GetComponent<SphereCollider>().radius);
+        Gizmos.DrawWireSphere(transform.position, GetComponent<SphereCollider>().radius * transform.parent.localScale.magnitude / 1.73f);
     }
 }

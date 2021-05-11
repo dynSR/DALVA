@@ -61,73 +61,90 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         string steleEffectName = string.Empty;
         string steleEffectDescription = string.Empty;
+        Sprite effectIcon = null;
 
         switch (affectedStele.SteleLevel)
         {
             case SteleLevel.Default:
                 steleEffectName = effectDescription.effectName;
                 steleEffectDescription = effectDescription.description;
+                effectIcon = effectDescription.effectIcon;
                 break;
             case SteleLevel.EvolutionI:
                 if (!IsASellingButton)
                 {
-                    steleEffectName = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = "Amélioration I" + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionI;
+                    effectIcon = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleIconImage;
                 }
                 else
                 {
-                    steleEffectName = effectDescription.effectName  +/* '\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = effectDescription.description;
+                    effectIcon = effectDescription.effectIcon;
                 }
                 break;
             case SteleLevel.EvolutionII:
                 if (!IsASellingButton)
                 {
-                    steleEffectName = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = "Amélioration II" + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionII;
+                    effectIcon = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleIconImage;
                 }
                 else
                 {
-                    steleEffectName = effectDescription.effectName + /*'\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = effectDescription.description;
+                    effectIcon = effectDescription.effectIcon;
                 }
                 break;
             case SteleLevel.FinalEvolution:
                 if (!IsASellingButton)
                 {
+                    effectIcon = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleIconImage;
+
                     if (finalEvolutionNumber == 1)
                     {
-                        steleEffectName = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                        steleEffectName = "Amélioration III" + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                         steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionFinalEvolutionI;
+                        
                     }
                     else if (finalEvolutionNumber == 2)
                     {
-                        steleEffectName = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                        steleEffectName = "Amélioration III" + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                         steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionFinalEvolutionII;
                     }
                 }
                 else
                 {
-                    steleEffectName = effectDescription.effectName + /*'\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                     steleEffectDescription = effectDescription.description;
+                    effectIcon = effectDescription.effectIcon;
                 }
                 break;
             case SteleLevel.OnlySell:
-                steleEffectName = effectDescription.effectName + /*'\n' +*/ affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                 steleEffectDescription = effectDescription.description;
                 break;
 
         }
 
+        #region Player HUD Tooltip
         //Tooltip en bas à droite
         DisplayTooltip(GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip);
 
-        GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.GetComponent<SteleTooltip>().SetTooltip(
+        SteleTooltip steleTooltip = GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.GetComponent<SteleTooltip>();
+
+        steleTooltip.SetTooltip(
             /*effectDescription.effectName*/ steleEffectName,
             /*effectDescription.description*/ steleEffectDescription, 
             effectDescription.effectCost.ToString("0"), 
-            effectDescription.effectCost, IsASellingButton);
+            effectDescription.effectCost, IsASellingButton, effectIcon);
 
+        steleTooltip.SetCostTextColor();
+        #endregion
+
+        #region Button Tooltip
         //Tooltip au-dessus des boutons
         DisplayTooltip(buttonTooltip);
 
@@ -135,7 +152,10 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             /*effectDescription.effectName*/ steleEffectName,
             /*effectDescription.description*/ steleEffectDescription,
             effectDescription.effectCost.ToString("0"),
-            effectDescription.effectCost, IsASellingButton);
+            effectDescription.effectCost, IsASellingButton, effectIcon);
+
+        steleTooltip.SetCostTextColor();
+        #endregion
     }
 
     public void DisplayTooltip(GameObject tooltip)

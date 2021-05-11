@@ -4,6 +4,7 @@ public abstract class SteleAmelioration : MonoBehaviour
 {
     [SerializeField] private SteleLogic stele;
     [SerializeField] private string steleEffectName;
+    [SerializeField] private Sprite steleIconImage;
     [Multiline][SerializeField] private string upgradeDescriptionI;
     [Multiline] [SerializeField] private string upgradeDescriptionII;
     [Multiline] [SerializeField] private string upgradeDescriptionFinalEvolutionI;
@@ -15,6 +16,7 @@ public abstract class SteleAmelioration : MonoBehaviour
     public string UpgradeDescriptionFinalEvolutionII { get => upgradeDescriptionFinalEvolutionII; }
     public SteleLogic Stele { get => stele; set => stele = value; }
     public string SteleEffectName { get => steleEffectName; set => steleEffectName = value; }
+    public Sprite SteleIconImage { get => steleIconImage; set => steleIconImage = value; }
 
     public abstract void UpgradeEffect();
 }

@@ -70,6 +70,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         [Multiline]
         public string description;
         public int effectCost;
+        public Sprite effectIcon;
     }
 
     #region Ref
@@ -109,6 +110,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         PurchaseSteleEffect(cost);
 
         activationVFX.SetActive(true);
+        //Throw build/actiavtion sound event here -!-
 
         InteractingPlayer.Target = null;
         InteractingPlayer = null;
@@ -169,6 +171,10 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void UpgradeEffect()
     {
         SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeEffect();
+
+        if (activationVFX.activeInHierarchy) activationVFX.SetActive(false);
+        activationVFX.SetActive(true);
+        //Throw upgrade sound event here -!-
     }
     #endregion
 
@@ -179,14 +185,6 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         //isDead = false;
         SteleState = SteleState.Inactive;
     }
-
-    //IEnumerator SetSteleToStandByMode()
-    //{
-    //    yield return new WaitForSeconds(ReinitializationDelay);
-    //    yield return new WaitForEndOfFrame();
-
-    //    SetSteleToInactiveMode();
-    //}
 
     private void SetSteleTeam()
     {

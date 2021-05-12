@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Bottes de Protection
   itemIcon: {fileID: 21300000, guid: 8b52b35738eeb2b2846e1a56d690f292, type: 3}
-  itemDescription: "+ 30 vitesse de d\xE9placement\n+ 18 r\xE9sistances magiques"
+  itemDescription: "+ 30% vitesse de d\xE9placement\n+ 18 r\xE9sistances magiques"
   itemCost: 1000
   itemIsAnAbility: 0
   abilityIndex: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   itemModifiers:
   - Value: 30
     StatType: 3
-    Type: 100
+    Type: 200
   - Value: 18
     StatType: 5
     Type: 100

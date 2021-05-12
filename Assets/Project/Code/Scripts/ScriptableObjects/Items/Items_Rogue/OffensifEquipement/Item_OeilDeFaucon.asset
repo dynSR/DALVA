@@ -17,7 +17,9 @@ MonoBehaviour:
   itemDescription: "Chances et d\xE9g\xE2ts des coups critiques, vitesse d'attaque
     et puissance physique"
   itemCost: 2800
-  amountOfGoldRefundedOnSale: 1960
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 50
     StatType: 8
@@ -25,6 +27,6 @@ MonoBehaviour:
   - Value: 0.25
     StatType: 6
     Type: 200
-  - Value: 0.3
+  - Value: 30
     StatType: 17
-    Type: 200
+    Type: 100

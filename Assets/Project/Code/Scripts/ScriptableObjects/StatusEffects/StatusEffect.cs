@@ -62,11 +62,11 @@ public class StatusEffect : ScriptableObject
             for (int i = 0; i < StatModifiers.Count; i++)
             {
                 GetTargetStats(target).GetStat(StatModifiers[i].StatType).AddModifier(StatModifiers[i]);
-
-                if (StatModifiers[i].StatType == StatType.MovementSpeed)
-                {
-                    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
-                }
+                GetTargetStats(target).UpdateNavMeshAgentSpeed(StatModifiers[i].StatType);
+                //if (StatModifiers[i].StatType == StatType.MovementSpeed)
+                //{
+                //    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
+                //}
             }
 
             GetTargetStats(target).UpdateStats();
@@ -86,11 +86,13 @@ public class StatusEffect : ScriptableObject
             GetTargetStats(target).GetStat(StatModifiers[i].StatType).RemoveModifier(StatModifiers[i]);
             GetTargetStats(target).GetStat(StatModifiers[i].StatType).MaxValue = GetTargetStats(target).GetStat(StatModifiers[i].StatType).CalculateValue();
 
-            if (StatModifiers[i].StatType == StatType.MovementSpeed)
-            {
-                GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
-            }
-            else if (StatModifiers[i].StatType == StatType.Shield)
+            GetTargetStats(target).UpdateNavMeshAgentSpeed(StatModifiers[i].StatType);
+
+            //if (StatModifiers[i].StatType == StatType.MovementSpeed)
+            //{
+            //    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
+            //}
+            if (StatModifiers[i].StatType == StatType.Shield)
             {
                 GetTargetStats(target).RemoveShieldOnTarget(target, StatModifiers[i].Value);
             }

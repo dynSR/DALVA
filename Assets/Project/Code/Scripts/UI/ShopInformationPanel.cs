@@ -25,6 +25,7 @@ public class ShopInformationPanel : MonoBehaviour
     {
         ShopIcon.OnSelectingAnItem += SetInformationPanel;
         ShopIcon.OnDeselectingAnItem += ResetInformationPanel;
+
         shopManager.Player.GetComponent<CharacterRessources>().OnCharacterRessourcesChanged += SetBuyButton;
     }
 
@@ -32,6 +33,7 @@ public class ShopInformationPanel : MonoBehaviour
     {
         ShopIcon.OnSelectingAnItem -= SetInformationPanel;
         ShopIcon.OnDeselectingAnItem -= ResetInformationPanel;
+        shopManager.Player.GetComponent<CharacterRessources>().OnCharacterRessourcesChanged -= SetBuyButton;
     }
 
     private void Awake() => HideContent();

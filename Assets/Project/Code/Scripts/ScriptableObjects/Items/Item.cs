@@ -40,6 +40,10 @@ public class Item : ScriptableObject
                     if (c.entityStats[i].StatType == itemModifiers[j].StatType)
                     {
                         c.entityStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
+
+                        if (itemModifiers[j].StatType == StatType.MovementSpeed)
+                            c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
+
                         c.UpdateStats();
                     }
                 }

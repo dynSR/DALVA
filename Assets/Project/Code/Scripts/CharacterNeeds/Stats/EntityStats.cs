@@ -29,7 +29,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public event StatsValueHandler OnStatsValueChanged;
 
     #region Refs
-    private CharacterController Controller => GetComponent<CharacterController>();
+    public CharacterController Controller => GetComponent<CharacterController>();
     private InteractionSystem Interactions => GetComponent<InteractionSystem>();
     //private VisibilityState VisibilityState => GetComponent<VisibilityState>();
     private EntityDetection EntityDetection => GetComponent<EntityDetection>();
@@ -662,6 +662,14 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         OnStatsValueChanged?.Invoke(this);
         OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
+    }
+
+    public void UpdateNavMeshAgentSpeed(StatType statType)
+    {
+        if (statType == StatType.MovementSpeed)
+        {
+            Controller.SetNavMeshAgentSpeed(Controller.Agent, this.GetStat(StatType.MovementSpeed).Value);
+        }
     }
     #endregion
 

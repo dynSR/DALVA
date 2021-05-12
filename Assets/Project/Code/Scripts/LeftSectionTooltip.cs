@@ -31,7 +31,7 @@ public class LeftSectionTooltip : MonoBehaviour
         attackValueText.SetText((stats.GetStat(StatType.PhysicalPower).Value + stats.GetStat(StatType.MagicalPower).Value).ToString("0"));
         attackSpeedValueText.SetText(stats.GetStat(StatType.AttackSpeed).Value.ToString("0.0"));
         resistances.SetText((stats.GetStat(StatType.PhysicalResistances).Value + stats.GetStat(StatType.MagicalResistances).Value).ToString("0"));
-        chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0"));
+        chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0") + "%");
         cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0"));
         movementSpeedValueText.SetText((stats.GetStat(StatType.MovementSpeed).Value * 10).ToString("0"));
     }

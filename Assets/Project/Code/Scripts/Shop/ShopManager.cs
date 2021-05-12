@@ -169,13 +169,37 @@ public class ShopManager : MonoBehaviour
     {
         if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase 
             || PlayerInventory.InventoryIsEmpty 
-            || !InventoryItemIsSelected 
-            || SelectedInventoryBox == null) return;
+            //|| !InventoryItemIsSelected 
+            /*|| SelectedInventoryBox == null*/) return;
 
-        Debug.Log("Selling item : " + SelectedInventoryBox.StoredItem.ItemName);
+        InventoryBox inventoryBox = null;
 
-        ShopActionOnSell(SelectedInventoryBox);
-        SelectedInventoryBox = null;
+        if (SelectedInventoryBox != null) inventoryBox = SelectedInventoryBox;
+        else if (SelectedInventoryBox == null)
+        {
+            for (int i = 0; i < PlayerInventory.InventoryBoxes.Count; i++)
+            {
+                if (PlayerInventory.InventoryBoxes[i].StoredItem != null)
+                {
+                    inventoryBox = PlayerInventory.InventoryBoxes[i];
+                }
+                else continue;
+            }
+
+            //for (int i = PlayerInventory.InventoryBoxes.Count - 1; i >= 0; i--)
+            //{
+            //    if (PlayerInventory.InventoryBoxes[i].StoredItem != null)
+            //    {
+            //        inventoryBox = PlayerInventory.InventoryBoxes[i];
+            //    }
+            //    else continue;
+            //}
+        }
+
+        Debug.Log("Selling item : " + inventoryBox.StoredItem.ItemName);
+
+        ShopActionOnSell(/*SelectedInventoryBox*/inventoryBox);
+        //SelectedInventoryBox = null;
     }
     #endregion
 

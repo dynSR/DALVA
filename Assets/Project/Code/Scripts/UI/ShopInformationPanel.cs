@@ -25,6 +25,7 @@ public class ShopInformationPanel : MonoBehaviour
     {
         ShopIcon.OnSelectingAnItem += SetInformationPanel;
         ShopIcon.OnDeselectingAnItem += ResetInformationPanel;
+        shopManager.Player.GetComponent<CharacterRessources>().OnCharacterRessourcesChanged += SetBuyButton;
     }
 
     private void OnDisable()
@@ -43,9 +44,29 @@ public class ShopInformationPanel : MonoBehaviour
 
         buyButton.gameObject.SetActive(true);
 
+        SetBuyButton();
+
+        //if (shopManager.CanPurchaseItem(selectedItem) && !shopManager.IsItemAlreadyInInventory(selectedItem))
+        //{
+        //    buyButton.interactable = true;
+        //    buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().HighlightColor);
+        //}
+        //else buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
+    }
+
+    void SetBuyButton()
+    {
+        Item selectedItem = shopManager.SelectedItem;
+
         if (shopManager.CanPurchaseItem(selectedItem) && !shopManager.IsItemAlreadyInInventory(selectedItem))
         {
             buyButton.interactable = true;
+            buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().HighlightColor);
+        }
+        else
+        {
+            buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
+            buyButton.interactable = false; 
         }
     }
 
@@ -55,6 +76,7 @@ public class ShopInformationPanel : MonoBehaviour
             buyButton.gameObject.SetActive(false);
 
         buyButton.interactable = false;
+        buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
         HideContent();
     }
 

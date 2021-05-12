@@ -27,7 +27,8 @@ public class InventoryManager : MonoBehaviour
     {
         if (InventoryIsEmpty) return;
 
-        inventoryBox.StoredItem.UnequipItemAsEquipement(Shop.Player.GetComponent<EntityStats>());
+        if (inventoryBox.StoredItem != null)
+            inventoryBox.StoredItem.UnequipItemAsEquipement(Shop.Player.GetComponent<EntityStats>());
 
         NumberOfFullInventoryBoxes--;
 

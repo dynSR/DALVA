@@ -13,10 +13,13 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private Button myButton;
 
+    public Color HighlightColor { get => highlightColor; }
+    public Color NormalColor { get => normalColor; }
+
     private void OnEnable()
     {
         HideBorder();
-        ChangeTextColor(normalColor);
+        ChangeTextColor(NormalColor);
     }
 
     void Start()
@@ -28,7 +31,7 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         if (!myButton.IsInteractable())
         {
-            ChangeTextColor(normalColor);
+            ChangeTextColor(NormalColor);
             DisplayBorder();
         }
     }
@@ -40,24 +43,24 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ChangeTextColor(highlightColor);
+        ChangeTextColor(HighlightColor);
 
         DisplayBorder();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        ChangeTextColor(normalColor);
+        ChangeTextColor(NormalColor);
 
         HideBorder();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        ChangeTextColor(highlightColor);
+        ChangeTextColor(HighlightColor);
     }
 
-    void ChangeTextColor(Color colorToAssign)
+    public void ChangeTextColor(Color colorToAssign)
     {
         for (int i = 0; i < transform.childCount; i++)
         {

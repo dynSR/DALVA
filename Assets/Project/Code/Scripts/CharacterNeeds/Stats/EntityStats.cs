@@ -477,6 +477,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         if (transform.GetComponent<PlayerController>() != null)
             transform.GetComponent<PlayerController>().IsPlayerInHisBase = true;
+
+        if (Controller.StunVFX.activeInHierarchy) Controller.StunVFX.SetActive(false);
+        if (Controller.RootedVFX.activeInHierarchy) Controller.RootedVFX.SetActive(false);
     }
 
     private IEnumerator ProcessDeathTimer(float delay)
@@ -524,6 +527,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         //Visibility State
         EntityDetection.enabled = true;
         MyCollider.enabled = true;
+
+        if (Controller.IsStunned) Controller.IsStunned = false;
+        if (Controller.IsRooted) Controller.IsRooted = false;
 
         //if (GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.AllyPlayer || GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.EnemyPlayer)
         //{

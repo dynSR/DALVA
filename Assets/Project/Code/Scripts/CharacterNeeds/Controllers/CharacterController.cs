@@ -113,13 +113,13 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     {
         OnTargetStunned?.Invoke();
 
-        //Agent.ResetPath();
+        Agent.ResetPath();
         Interactions.ResetInteractionState();
         Interactions.CanPerformAttack = false;
 
-        StunVFX.SetActive(true);
-
         IsStunned = true;
+
+        StunVFX.SetActive(true);
     }
     public void UnStunTarget()
     {
@@ -129,7 +129,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void RootTarget()
     {
-        //Agent.ResetPath();
+        Agent.ResetPath();
         IsRooted = true;
         RootedVFX.SetActive(true);
     }

@@ -65,7 +65,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     protected virtual void Awake()
     {
-        UsedEffectIndex = AbilityEffect.I;
+        //UsedEffectIndex = AbilityEffect.I;
         //if (Stats.EntityAbilities.Count != 0) Stats.EntityAbilities[3].CanBeUsed = false;
     }
 

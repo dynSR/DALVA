@@ -21,7 +21,7 @@ public class Tower : MonoBehaviour
 
         for (int i = 0; i < AmountOfProjectileToSpawn; i++)
         {
-            if (targetStats.IsDead) yield break;
+            if (targetStats.IsDead /*&& !CanAttack*/) yield break;
 
             CanAttack = false;
 

@@ -151,7 +151,9 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     {
         SpawnedEffectObject = Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
 
-        entityToSpawn.GetComponent<SteleAmelioration>().Stele = this;
+        SteleAmelioration steleAmelioration = SpawnedEffectObject.GetComponent<SteleAmelioration>();
+
+        steleAmelioration.Stele = this;
     }
 
     public void PurchaseSteleEffect(int purchaseCost)
@@ -175,6 +177,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         if (activationVFX.activeInHierarchy) activationVFX.SetActive(false);
         activationVFX.SetActive(true);
         //Throw upgrade sound event here -!-
+    }
+
+    public void SetFinalEvolutionValueOfSteleEffect(int value)
+    {
+        SpawnedEffectObject.GetComponent<SteleAmelioration>().FinalEvolutionNumber = value;
     }
     #endregion
 

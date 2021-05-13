@@ -7,6 +7,8 @@ public class TowerAmelioration : SteleAmelioration
     Tower Tower => GetComponent<Tower>();
     EntityStats Stats => GetComponent<EntityStats>();
 
+    [SerializeField] private TowerRange towerRange;
+
     public override void UpgradeEffect()
     {
         switch (Stele.SteleLevel)
@@ -26,6 +28,13 @@ public class TowerAmelioration : SteleAmelioration
                 Debug.Log("UPGRADE 2");
                 break;
             case SteleLevel.FinalEvolution:
+                if (FinalEvolutionNumber == 2)
+                {
+                    Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.45f, StatType.PhysicalPower, StatModType.PercentAdd, this));
+                }
+                else towerRange.gameObject.SetActive(false);
+
+                Debug.Log("UPGRADE 3");
                 break;
         }
     }

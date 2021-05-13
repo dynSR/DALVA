@@ -12,7 +12,7 @@ public class ShopManager : MonoBehaviour
     public event ShopActionsHandler OnShopActionCancel;
     public event ShopActionsHandler OnShopDrawSetResetCost;
 
-    public Transform Player => GetComponentInParent<PlayerHUDManager>().Player;
+    public Transform Player;
 
     [Header("SHOP ACTIONS MADE")]
     [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();

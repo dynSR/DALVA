@@ -116,15 +116,17 @@ public class SpawnerSystem : MonoBehaviour
 
         for (int i = 0; i < currentWave.waveMinions.Length; i++)
         {
-            NPCController spawningMinionController = currentWave.waveMinions[i].GetComponent<NPCController>();
+            if (currentWave.waveMinions[i] != null)
+            {
+                NPCController spawningMinionController = currentWave.waveMinions[i].GetComponent<NPCController>();
 
-            if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
-                GameManager.Instance.ItIsABossWave = true;
+                if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
+                    GameManager.Instance.ItIsABossWave = true;
 
-            //if(currentWave.waveMinions[i] != null)
-            SpawnMinions(currentWave.waveMinions[i]);
+                SpawnMinions(currentWave.waveMinions[i]);
 
-            yield return new WaitForSeconds(spawnRate);
+                yield return new WaitForSeconds(spawnRate);
+            }   
         }
 
         if (spawnObjectFeedback != null)

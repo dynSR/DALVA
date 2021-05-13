@@ -269,6 +269,11 @@ public abstract class AbilityLogic : MonoBehaviourPun
                     TotalMagicalDamage = Ability.AbilityMagicalDamage + (Stats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + healthThresholdBonusDamage));
                 }
                 else Ability.AbilityMagicalDamage = 0;
+
+                if (targetStat.EntityIsMarked && Ability.AbilityCanConsumeMark)
+                {
+                    TotalMagicalDamage += Ability.AbilityDamageBonusOnMarkedTarget;
+                }
                 #endregion
 
                 #region Appllying ability damage to target(s)

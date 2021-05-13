@@ -495,7 +495,7 @@ public class ShopManager : MonoBehaviour
     {
         bool canPurchaseItem;
 
-        if (Player.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= item.ItemCost)
+        if (item != null && Player.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= item.ItemCost)
         {
             canPurchaseItem = true;
         }

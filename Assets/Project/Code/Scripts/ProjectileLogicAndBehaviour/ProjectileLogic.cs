@@ -64,7 +64,7 @@ public class ProjectileLogic : MonoBehaviour
                 break;
         }
 
-        if (Target != null && Target.GetComponent<EntityStats>().IsDead || ProjectileSender == null) Destroy(gameObject);
+        if (ProjectileType == ProjectileType.TravelsToAPosition && Target != null && (Target.GetComponent<EntityStats>().IsDead || ProjectileSender == null)) Destroy(gameObject);
     }
 
     #region Projectile Behaviours

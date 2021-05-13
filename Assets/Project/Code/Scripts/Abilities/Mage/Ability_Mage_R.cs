@@ -26,7 +26,10 @@ public class Ability_Mage_R : AbilityLogic
     [SerializeField] private GameObject damageZone;
     [SerializeField] private GameObject healZone;
 
-    protected override void Awake() => base.Awake();
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 
     protected override void Update() => base.Update();
 
@@ -72,28 +75,28 @@ public class Ability_Mage_R : AbilityLogic
 
         switch (UsedEffectIndex)
         {
-            case AbilityEffect.I: // SORCERER - Rayon de flux magique, après 0,5s, inflige (150 + 150% PM) dégats magiques.	
-                                  // PRIEST - Crée une zone autour de soi qui soigne de(25 + 75 % PM) points de vie(PV) toutes les 0,5 secondes, pendant 3 secondes.
+            //case AbilityEffect.I: // SORCERER - Rayon de flux magique, après 0,5s, inflige (150 + 150% PM) dégats magiques.	
+            //                      // PRIEST - Crée une zone autour de soi qui soigne de(25 + 75 % PM) points de vie(PV) toutes les 0,5 secondes, pendant 3 secondes.
 
-                Ability.AbilityCanMark = false;
-                Ability.AbilityCanConsumeMark = false;
+            //    Ability.AbilityCanMark = false;
+            //    Ability.AbilityCanConsumeMark = false;
 
-                Ability.AbilityMagicalDamage = magicalDamageAtStart;
+            //    Ability.AbilityMagicalDamage = magicalDamageAtStart;
 
-                Ability.AbilityDamageBonusOnMarkedTarget = 0;
+            //    Ability.AbilityDamageBonusOnMarkedTarget = 0;
 
-                break;
+            //    break;
 
-            case AbilityEffect.II: //Marque les personnages touchés par la compétence.
+            //case AbilityEffect.II: //Marque les personnages touchés par la compétence.
 
-                Ability.AbilityCanMark = true;
-                Ability.AbilityCanConsumeMark = false;
+            //    Ability.AbilityCanMark = true;
+            //    Ability.AbilityCanConsumeMark = false;
 
-                Ability.AbilityMagicalDamage = magicalDamageAtStart;
+            //    Ability.AbilityMagicalDamage = magicalDamageAtStart;
 
-                Ability.AbilityDamageBonusOnMarkedTarget = 0;
+            //    Ability.AbilityDamageBonusOnMarkedTarget = 0;
 
-                break;
+            //    break;
 
             case AbilityEffect.III:  //Consomme la marque pour améliorer l'effet de la compétence.
                                      //SORCERER - +30 % PM dégâts magiques supplémentaires
@@ -103,24 +106,23 @@ public class Ability_Mage_R : AbilityLogic
                 Ability.AbilityCanConsumeMark = true;
 
                 Ability.AbilityMagicalDamage = magicalDamageAtStart;
-
                 Ability.AbilityDamageBonusOnMarkedTarget = magicalDamageAtStart * 0.3f;
 
                 break;
 
-            case AbilityEffect.IV: //Nouveau: Réduction fixe de cooldown / Efficacité réduite"
+                //case AbilityEffect.IV: //Nouveau: Réduction fixe de cooldown / Efficacité réduite"
 
-                Ability.AbilityCanMark = false; 
-                Ability.AbilityCanConsumeMark = false;
+                //    Ability.AbilityCanMark = false;
+                //    Ability.AbilityCanConsumeMark = false;
 
-                #region Effectiveness/CD Reduction
-                Ability.AbilityMagicalDamage = Ability.AbilityMagicalDamage - (Ability.AbilityMagicalDamage * (effectivenessReduction / 100));
-                Ability.AbilityCooldown = Ability.AbilityCooldown - (Ability.AbilityCooldown * (cooldownReduction / 100));
-                #endregion
+                //    #region Effectiveness/CD Reduction
+                //    Ability.AbilityMagicalDamage = Ability.AbilityMagicalDamage - (Ability.AbilityMagicalDamage * (effectivenessReduction / 100));
+                //    Ability.AbilityCooldown = Ability.AbilityCooldown - (Ability.AbilityCooldown * (cooldownReduction / 100));
+                //    #endregion
 
-                Ability.AbilityDamageBonusOnMarkedTarget = 0;
+                //    Ability.AbilityDamageBonusOnMarkedTarget = 0;
 
-                break;
+                //    break;
         }
     }
 

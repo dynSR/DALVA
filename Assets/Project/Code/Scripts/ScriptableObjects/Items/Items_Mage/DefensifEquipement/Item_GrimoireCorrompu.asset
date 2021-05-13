@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Grimoire Corrompu
   itemIcon: {fileID: 21300000, guid: 3f8c87f6ec6b059b2502dd1789ff3465, type: 3}
-  itemDescription: "Puissance magique et sant\xE9"
+  itemDescription: '+ 50 puissance
+
+    + 250 vie maximale'
   itemCost: 2200
-  amountOfGoldRefundedOnSale: 1540
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 50
     StatType: 8

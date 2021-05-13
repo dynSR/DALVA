@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "Fl\xE8che d'Argent"
   itemIcon: {fileID: 21300000, guid: bedcc15ee7ba4bb79b8f14f0fae6387b, type: 3}
-  itemDescription: 'Puissance physique et vitesse d''attaque '
+  itemDescription: + 15 puissance
   itemCost: 400
-  amountOfGoldRefundedOnSale: 280
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 15
     StatType: 8

@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Eveil du Vampire
   itemIcon: {fileID: 21300000, guid: a2babeaad1c1a1e46a7c74b677acc1c1, type: 3}
-  itemDescription: "Vol de vie, puissance magique et sant\xE9"
+  itemDescription: '+ 40 puissance
+
+    + 180 vie maximale
+
+    + 10 % vol de vie'
   itemCost: 2300
-  amountOfGoldRefundedOnSale: 1610
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 40
     StatType: 9

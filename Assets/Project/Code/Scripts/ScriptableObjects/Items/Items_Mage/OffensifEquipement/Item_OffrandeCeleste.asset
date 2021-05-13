@@ -14,14 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "Offrande C\xE9leste"
   itemIcon: {fileID: 21300000, guid: 37db60b88953f8cb360c3a3771066587, type: 3}
-  itemDescription: "Efficacit\xE9 des soins et bouclier renforc\xE9 et puissance
-    maquique"
+  itemDescription: + 60 puissance
   itemCost: 2500
-  amountOfGoldRefundedOnSale: 1750
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 60
     StatType: 9
     Type: 100
-  - Value: 0.2
-    StatType: 19
-    Type: 200

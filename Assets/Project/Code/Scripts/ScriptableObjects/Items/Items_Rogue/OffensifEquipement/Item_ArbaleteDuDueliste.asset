@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "Arbal\xE8te du Dueliste"
   itemIcon: {fileID: 21300000, guid: 6756243144501fb676feee8a7973eb99, type: 3}
-  itemDescription: Chance de coup critique, vol de vie et puissance physique
+  itemDescription: '+ 60 puissance
+
+    + 25% coups critiques
+
+    + 15% vol de vie'
   itemCost: 2800
-  amountOfGoldRefundedOnSale: 1960
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 60
     StatType: 8

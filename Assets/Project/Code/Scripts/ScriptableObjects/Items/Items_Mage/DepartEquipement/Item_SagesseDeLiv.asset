@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Item_SagesseDeLiv
   m_EditorClassIdentifier: 
   itemName: Sagesse de Liv
-  itemIcon: {fileID: 0}
-  itemDescription: "Vitesse de d\xE9placement bonus si les comp\xE9tences infligent
-    des d\xE9gats"
+  itemIcon: {fileID: 21300000, guid: 374f7d366e0647d85a467d81fdb34e7c, type: 3}
+  itemDescription: "+ 60 puissance\n+ 200 vie maximale\n+ 10% r\xE9cup\xE9ration
+    comp\xE9tences"
   itemCost: 2400
-  amountOfGoldRefundedOnSale: 1680
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 60
     StatType: 9

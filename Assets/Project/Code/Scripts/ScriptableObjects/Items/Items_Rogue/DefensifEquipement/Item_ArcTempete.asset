@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "ArcTemp\xEAte"
   itemIcon: {fileID: 21300000, guid: 25912445c9c8fb0ecd8e25c3e4a4fcda, type: 3}
-  itemDescription: "Vitesse d'attaque, r\xE9sistance et puissance physique"
+  itemDescription: "+ 30 puissance\n+ 40 r\xE9sistances\n+ 25% vitesse d'attaque"
   itemCost: 2500
-  amountOfGoldRefundedOnSale: 1750
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
   itemModifiers:
   - Value: 30
     StatType: 8

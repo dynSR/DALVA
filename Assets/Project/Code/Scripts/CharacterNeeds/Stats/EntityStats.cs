@@ -440,8 +440,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
 
             MasterAudio.FireCustomEvent(deathCustomEvent, transform);
-
-            OnEntityDeath?.Invoke();
         }
     }
 
@@ -480,6 +478,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         if (Controller.StunVFX.activeInHierarchy) Controller.StunVFX.SetActive(false);
         if (Controller.RootedVFX.activeInHierarchy) Controller.RootedVFX.SetActive(false);
+
+        OnEntityDeath?.Invoke();
     }
 
     private IEnumerator ProcessDeathTimer(float delay)

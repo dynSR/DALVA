@@ -43,6 +43,8 @@ public class NPCController : CharacterController
     public bool IsACampNPC { get => isACampNPC; set => isACampNPC = value; }
     public bool IsABossWaveMember { get; set; }
 
+    public float AggressionLimitsValue { get => aggressionLimitsValue; set => aggressionLimitsValue = value; }
+
     #region Refs
     public NPCInteractions NPCInteractions => GetComponent<NPCInteractions>();
     public AggroRange AggroRange => GetComponentInChildren<AggroRange>();
@@ -185,7 +187,7 @@ public class NPCController : CharacterController
 
         float distanceFromStartingDistance = DistanceBetweenAAndB(currentPosition, StartingPosition.position);
 
-        if (distanceFromStartingDistance >= aggressionLimitsValue && !AggressionLimitsReached)
+        if (distanceFromStartingDistance >= AggressionLimitsValue && !AggressionLimitsReached)
         {
             AggressionLimitsReached = true;
             StartCoroutine(DecreaseAggroStepOnReachingLimits(delayBeforeDecreasingAggroSteps));

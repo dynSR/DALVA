@@ -152,7 +152,12 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
     public void SpawnEntityEffect(GameObject entityToSpawn)
     {
-        SpawnedEffectObject = Instantiate(entityToSpawn, effectEntitySpawnLocation.position, Quaternion.identity);
+        SpawnedEffectObject = Instantiate(
+            entityToSpawn, 
+            new Vector3(effectEntitySpawnLocation.position.x, 
+            effectEntitySpawnLocation.position.y + entityToSpawn.transform.position.y,
+            effectEntitySpawnLocation.position.z), 
+            entityToSpawn.transform.rotation);
 
         SteleAmelioration steleAmelioration = SpawnedEffectObject.GetComponent<SteleAmelioration>();
 

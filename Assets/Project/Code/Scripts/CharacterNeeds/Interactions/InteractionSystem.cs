@@ -81,7 +81,8 @@ public class InteractionSystem : MonoBehaviour
 
         if (_target != null)
         {
-            Controller.HandleCharacterRotationBeforeCasting(transform, _target.position, Controller.RotateVelocity, Controller.RotationSpeed);
+            if(CanPerformAttack)
+                Controller.HandleCharacterRotationBeforeCasting(transform, _target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
             Controller.Agent.stoppingDistance = minDistance;
 

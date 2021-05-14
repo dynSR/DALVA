@@ -66,4 +66,14 @@ public class ForestCamp : MonoBehaviour
             }
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+
+        for (int i = 0; i < npcControllers.Count; i++)
+        {
+            Gizmos.DrawWireSphere(npcControllers[i].transform.position, npcControllers[i].GetComponent<NPCController>().AggressionLimitsValue);
+        }
+    }
 }

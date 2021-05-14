@@ -14,15 +14,15 @@ public class TowerAmelioration : SteleAmelioration
         switch (Stele.SteleLevel)
         {
             case SteleLevel.EvolutionI: // 25% puissance, 25% as, proj *2
-                Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.25f, StatType.PhysicalPower, StatModType.PercentAdd, this));
-                Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.25f, StatType.AttackSpeed, StatModType.PercentAdd, this));
+                Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.15f, StatType.PhysicalPower, StatModType.PercentAdd, this));
+                Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.15f, StatType.AttackSpeed, StatModType.PercentAdd, this));
                 Tower.AmountOfProjectileToSpawn *= 2;
 
                 Debug.Log("UPGRADE 1");
                 break;
             case SteleLevel.EvolutionII: // 35% puissance, 35% as, proj *2
-                Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.35f, StatType.PhysicalPower, StatModType.PercentAdd, this));
-                Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.35f, StatType.AttackSpeed, StatModType.PercentAdd, this));
+                Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.2f, StatType.PhysicalPower, StatModType.PercentAdd, this));
+                Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.2f, StatType.AttackSpeed, StatModType.PercentAdd, this));
                 Tower.AmountOfProjectileToSpawn *= 2;
 
                 Debug.Log("UPGRADE 2");
@@ -30,7 +30,8 @@ public class TowerAmelioration : SteleAmelioration
             case SteleLevel.FinalEvolution:
                 if (FinalEvolutionNumber == 2)
                 {
-                    Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.45f, StatType.PhysicalPower, StatModType.PercentAdd, this));
+                    Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.35f, StatType.PhysicalPower, StatModType.PercentAdd, this));
+                    Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.35f, StatType.AttackSpeed, StatModType.PercentAdd, this));
                 }
                 else towerRange.gameObject.SetActive(false);
 

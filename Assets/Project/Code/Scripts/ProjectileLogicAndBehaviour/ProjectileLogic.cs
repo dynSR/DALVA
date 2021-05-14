@@ -63,13 +63,17 @@ public class ProjectileLogic : MonoBehaviour
                 ProjectileMoveToATarget();
                 break;
         }
-
-        if (ProjectileType == ProjectileType.TravelsToAPosition && Target != null && (Target.GetComponent<EntityStats>().IsDead || ProjectileSender == null)) Destroy(gameObject);
     }
 
     #region Projectile Behaviours
     void ProjectileMoveToATarget()
     {
+        if(Target == null || ProjectileSender == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Rb.MovePosition(Vector3.MoveTowards(
             transform.position,
             targetPosition + new Vector3(0, Target.localScale.y / 2, 0),

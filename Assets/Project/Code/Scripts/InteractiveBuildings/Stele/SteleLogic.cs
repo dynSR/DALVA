@@ -53,6 +53,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     [Header("OTHER ATTRIBUTES")]
     [SerializeField] private Transform effectEntitySpawnLocation;
     [SerializeField] private GameObject activationVFX;
+    [SerializeField] private GameObject activatedVFX;
     [SerializeField] private List<GameObject> runes;
     private bool interactionIsHandled = false;
     //private bool isDead = false;
@@ -134,6 +135,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void ActiveRuneEffect(GameObject rune)
     {
         rune.SetActive(true);
+        activatedVFX.SetActive(true);
     }
 
     public void DeactivateRuneEffect()
@@ -143,6 +145,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
             if (runes[i].activeInHierarchy)
             {
                 runes[i].SetActive(false);
+                activatedVFX.SetActive(false);
             }
         }
     }

@@ -67,9 +67,24 @@ public class InteractionSystem : MonoBehaviour
 
         if (Target != null)
         {
+            if (!CanPerformAttack) return;
+
             distance = Vector3.Distance(transform.position, Target.position);
 
-            MoveTowardsAnExistingTarget(Target, StoppingDistance);
+            if (distance > StoppingDistance)
+            {
+                //Debug.Log("Far from target");
+                ResetInteractionState();
+                Controller.Agent.isStopped = false;
+                Controller.SetAgentDestination(Controller.Agent, Target.position);
+            }
+            else if (distance <= StoppingDistance)
+            {
+                //Debug.Log("Close enough to target");
+                Controller.Agent.ResetPath();
+                Controller.Agent.isStopped = true;
+                Interact();
+            }
         }
     }
 
@@ -85,25 +100,6 @@ public class InteractionSystem : MonoBehaviour
                 Controller.HandleCharacterRotationBeforeCasting(transform, _target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
             Controller.Agent.stoppingDistance = minDistance;
-
-            if (!CanPerformAttack) return;
-
-            distance = Vector3.Distance(transform.position, _target.position);
-
-            if (distance > minDistance)
-            {
-                //Debug.Log("Far from target");
-                ResetInteractionState();
-                Controller.Agent.isStopped = false;
-                Controller.SetAgentDestination(Controller.Agent, _target.position);
-            }
-            else if (distance <= minDistance)
-            {
-                //Debug.Log("Close enough to target");
-                Controller.Agent.ResetPath();
-                Controller.Agent.isStopped = true;
-                Interact();
-            }
         }
     }
     #endregion
@@ -143,7 +139,7 @@ public class InteractionSystem : MonoBehaviour
                 //if its a building
                 if (targetFound.ThisTargetIsAStele(targetFound) && interactiveBuilding != null && interactiveBuilding.EntityTeam != Stats.EntityTeam)
                 {
-                    StartCoroutine(AttackInterval());
+                    StartCoroutine(AttackInterval(Target));
                     //Debug.Log("Attack performed on building !");
                 }
                 //else if its an entity
@@ -153,17 +149,19 @@ public class InteractionSystem : MonoBehaviour
                     || targetFound.ThisTargetIsAMonster(targetFound))
                     && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
                 {
-                    StartCoroutine(AttackInterval());
+                    StartCoroutine(AttackInterval(Target));
                     //Debug.Log("Attack performed on entity!");
                 }
             }
        }
     }
 
-    IEnumerator AttackInterval()
+    IEnumerator AttackInterval(Transform target)
     {
         //Debug.Log("Attack Interval");
         Controller.CanMove = false;
+
+        Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
         Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.AttackSpeed).Value);
 

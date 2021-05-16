@@ -7,6 +7,7 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     private InteractionSystem Interactions => GetComponentInParent<InteractionSystem>();
     private EntityStats Stats => GetComponentInParent<EntityStats>();
     private CharacterController Controller => GetComponentInParent<CharacterController>();
+    private EntityDetection EDetection => GetComponentInParent<EntityDetection>();
     #endregion
 
     bool attackAnimationHasBeenChosen = false;
@@ -114,7 +115,8 @@ public class EntityAnimationsEventHandler : MonoBehaviour
 
     public void DestroyGameObject()
     {
-        Destroy(transform.root.gameObject);
+        if(EDetection.TypeOfEntity != TypeOfEntity.Monster)
+         Destroy(transform.root.gameObject);
     }
     #endregion
 }

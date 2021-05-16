@@ -71,8 +71,9 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     public void SetAgentDestination(NavMeshAgent agent, Vector3 pos)
     {
         if (!CanMove || isStunned || IsRooted) return;
-            
-        agent.SetDestination(pos);
+
+        agent.destination = pos;
+        //agent.SetDestination(pos);
     }
 
     public void HandleMotionAnimation(NavMeshAgent agent, Animator animator, string animationFloatName, float smoothTime)

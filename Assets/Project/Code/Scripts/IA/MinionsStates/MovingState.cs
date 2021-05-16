@@ -14,7 +14,7 @@ class MovingState : IState
 
     public void Exit()
     {
-        controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.AttackRange).Value;
+        //controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.AttackRange).Value;
     }
 
     public void OnUpdate()
@@ -40,14 +40,19 @@ class MovingState : IState
     {
         float distanceFromStartingPosition = Vector3.Distance(controller.transform.position, controller.StartingPosition.position);
 
+        if (controller.Agent.stoppingDistance != 0f)
+            controller.Agent.stoppingDistance = 0f;
+
         controller.Stats.RegenerateHealth(controller.transform, controller.Stats.GetStat(StatType.Health).Value * 0.15f);
 
         AggroRange aggroRange = controller.GetComponentInChildren<AggroRange>();
 
         if (aggroRange != null) aggroRange.gameObject.GetComponent<SphereCollider>().enabled = false;
 
-        if (distanceFromStartingPosition > 0.1f) controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);
+        if (distanceFromStartingPosition > 0.1f) /*controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);*/ controller.SetAgentDestination(controller.Agent, controller.StartingPosition.position);
         else if (distanceFromStartingPosition <= 0.1f) controller.ChangeState(new IdlingState());
+
+        Debug.Log("< " + distanceFromStartingPosition + " >");
     }
 
     void MoveTowardsTarget()
@@ -55,6 +60,9 @@ class MovingState : IState
         Debug.Log("Move Towards Target");
 
         EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
+
+        if (controller.Agent.stoppingDistance != controller.Stats.GetStat(StatType.AttackRange).Value)
+            controller.Agent.stoppingDistance = controller.Stats.GetStat(StatType.AttackRange).Value;
 
         if (targetStat.IsDead)
         {
@@ -88,6 +96,10 @@ class MovingState : IState
     {
         //Distance is too high towards next waypoint - Keep moving towards it...
         Debug.Log("Moving towards waypoint");
+
+        if (controller.Agent.stoppingDistance != 0f)
+            controller.Agent.stoppingDistance = 0f;
+
         controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.NPCInteractions.StoppingDistance);
     }
 }

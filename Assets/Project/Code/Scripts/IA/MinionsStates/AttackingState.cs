@@ -7,6 +7,7 @@ class AttackingState : IState
     public void Enter(NPCController controller)
     {
         this.controller = controller;
+        controller.NPCInteractions.StoppingDistance = controller.Stats.GetStat(StatType.AttackRange).Value;
     }
 
     public void Exit()

@@ -80,7 +80,9 @@ public class PlayerInteractions : InteractionSystem
                             StoppingDistance = InteractionRange;
                         //else if (interactiveBuilding.EntityTeam != Stats.EntityTeam) 
                         //    StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
-                    }  
+                    }
+
+                    MoveTowardsAnExistingTarget(Target, StoppingDistance);
                 }
                 else
                 {

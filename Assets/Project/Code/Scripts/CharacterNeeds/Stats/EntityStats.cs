@@ -448,6 +448,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (SourceOfDamage != null
             && SourceOfDamage.GetComponent<CharacterRessources>() != null)
         {
+            SourceOfDamage = GameManager.Instance.Player;
+
             StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
             SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
@@ -538,7 +540,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         //Set Position At Spawn Location
         if (spawnLocation != null)
-            transform.position = spawnLocation.position;
+            transform.localPosition = spawnLocation.position;
 
         SourceOfDamage = null;
 

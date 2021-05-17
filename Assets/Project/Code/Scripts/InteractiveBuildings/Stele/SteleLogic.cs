@@ -62,6 +62,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public SteleLevel SteleLevel { get => steleLevel; private set => steleLevel = value; }
     public SteleEffect SteleEffect { get => steleEffect; private set => steleEffect = value; }
     public GameObject SpawnedEffectObject { get; set; }
+    public List<SpawnedEffectTransformData> spawnedEffectTransformDatas;
 
     [System.Serializable]
     public class EffectDescription
@@ -72,6 +73,14 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         public string description;
         public int effectCost;
         public Sprite effectIcon;
+    }
+
+    [System.Serializable]
+    public class SpawnedEffectTransformData
+    {
+        public string effectName;
+        public Vector3 position;
+        public float yAxisValue;
     }
 
     #region Ref
@@ -201,7 +210,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         SteleState = SteleState.Inactive;
     }
 
-    public void SetSpawnedEffectPosition(Vector3 positionToAssign)
+    public void SetSpawnedEffectTransformValues(int concernedIndex)
     {
 
     }

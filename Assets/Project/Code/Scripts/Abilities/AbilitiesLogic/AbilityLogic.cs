@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using DarkTonic.MasterAudio;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,6 +49,11 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [SerializeField] private bool fastCastWithIndication = false;
     [SerializeField] private bool smartCast = false;
 
+    [Header("SOUNDS")]
+    [MasterCustomEvent] public string castCustomEvent;
+    [SerializeField] private float delayBeforeThrowingSoundEvent = 0f;
+    EventSounds EventSounds => GetComponent<EventSounds>();
+
     [Header("DEBUG")]
     [SerializeField] private Color gizmosColor;
 
@@ -58,10 +64,15 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public List<GameObject> AbilityVFXToActivate { get => abilityVFXToActivate; }
     public float TotalPhysicalDamage { get; set; }
     public float TotalMagicalDamage { get; set; }
-
     public AbilityContainerLogic Container { get; set; }
 
     protected abstract void Cast();
+
+    protected virtual void OnEnable()
+    {
+        if (EventSounds != null)
+            EventSounds.RegisterReceiver();
+    }
 
     protected virtual void Awake()
     {
@@ -111,7 +122,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
         }
 
         if (normalCast && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.LeftClickIsPressed()
-            || fastCastWithIndication && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.IsKeyUnpressed(Ability.AbilityKey))
+            || fastCastWithIndication && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && ( UtilityClass.IsKeyUnpressed(Ability.AbilityKey) || UtilityClass.LeftClickIsPressed()))
         {
             characterIsTryingToCast = true;
 
@@ -174,6 +185,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Controller.CanMove = false;
 
             Cast();
+            StartCoroutine(UtilityClass.ThrowSoundEventWithDelay(castCustomEvent, transform, delayBeforeThrowingSoundEvent));
+            //MasterAudio.FireCustomEvent(castCustomEvent, transform);
             abilityTarget = null;
             CanBeUsed = false;
 

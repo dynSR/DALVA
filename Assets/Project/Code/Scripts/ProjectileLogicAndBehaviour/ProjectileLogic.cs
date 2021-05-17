@@ -150,11 +150,15 @@ public class ProjectileLogic : MonoBehaviour
 
         if (targetStat.EntityIsMarked)
         {
+            CanBounce = true;
             targetStat.EntityIsMarked = false;
             markBonusDamage = Ability.AbilityDamageBonusOnMarkedTarget;
         }
-        else markBonusDamage = 0;
-
+        else
+        {
+            CanBounce = false;
+            markBonusDamage = 0;
+        }
         if (Ability != null && Ability.AbilityAddedDamageOnTargetHealthThreshold > 0 && targetStat.HealthPercentage <= Ability.TargetHealthThreshold)
         {
             healthThresholdBonusDamage = Ability.AbilityAddedDamageOnTargetHealthThreshold;

@@ -60,6 +60,13 @@ public class Item : ScriptableObject
                 Debug.Log("Can't find any item -!-");
                 c.entityStats[i].RemoveAllModifiersFromSource(this);
                 c.entityStats[i].MaxValue = c.entityStats[i].CalculateValue();
+
+                for (int j = 0; j < itemModifiers.Count; j++)
+                {
+                    if (itemModifiers[j].StatType == StatType.MovementSpeed)
+                        c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
+                }
+
                 c.UpdateStats();
             }
         }   

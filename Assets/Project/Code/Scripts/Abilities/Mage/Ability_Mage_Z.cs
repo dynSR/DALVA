@@ -25,6 +25,8 @@ public class Ability_Mage_Z : AbilityLogic
         //normalAreaOfEffect = Ability.AbilityAreaOfEffect;
     }
 
+    protected override void OnEnable() => base.OnEnable();
+
     protected override void Update() => base.Update();
 
     protected override void Cast()

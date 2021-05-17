@@ -183,17 +183,7 @@ public class ShopManager : MonoBehaviour
                 {
                     inventoryBox = PlayerInventory.InventoryBoxes[i];
                 }
-                else continue;
             }
-
-            //for (int i = PlayerInventory.InventoryBoxes.Count - 1; i >= 0; i--)
-            //{
-            //    if (PlayerInventory.InventoryBoxes[i].StoredItem != null)
-            //    {
-            //        inventoryBox = PlayerInventory.InventoryBoxes[i];
-            //    }
-            //    else continue;
-            //}
         }
 
         Debug.Log("Selling item : " + inventoryBox.StoredItem.ItemName);

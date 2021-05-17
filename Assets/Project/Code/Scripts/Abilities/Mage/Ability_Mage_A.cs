@@ -2,6 +2,8 @@
 {
     protected override void Awake() => base.Awake();
 
+    protected override void OnEnable() => base.OnEnable();
+
     protected override void Update() => base.Update();
 
     protected override void Cast()
@@ -23,7 +25,7 @@
                 break;
             case AbilityEffect.III:
                 //Si l'ennemi touché est marqué, le projectile rebondit sur les ennemis proches (un projectile pour chaque ennemi proche).
-                Ability.AbilityDamageBonusOnMarkedTarget = 0;
+                Ability.AbilityDamageBonusOnMarkedTarget = 0.3f;
                 StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityTimeToCast, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true));
                 break;
             case AbilityEffect.IV:

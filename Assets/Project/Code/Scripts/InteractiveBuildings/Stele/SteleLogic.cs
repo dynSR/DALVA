@@ -201,6 +201,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         SteleState = SteleState.Inactive;
     }
 
+    public void SetSpawnedEffectPosition(Vector3 positionToAssign)
+    {
+
+    }
+
     private void SetSteleTeam()
     {
         if (InteractingPlayer.GetComponent<EntityStats>().EntityTeam == EntityTeam.DALVA)

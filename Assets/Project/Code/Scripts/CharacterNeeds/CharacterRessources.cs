@@ -93,6 +93,7 @@ public class CharacterRessources : MonoBehaviour
     private void UpdatePlayerRessourcesValueText(int value)
     {
         CurrentAmountOfPlayerRessources = value;
+        OnCharacterRessourcesChanged?.Invoke();
         ShopPlayerRessourcesValueText.text = value.ToString();
         InventoryPlayerRessourcesValueText.text = value.ToString();
     }

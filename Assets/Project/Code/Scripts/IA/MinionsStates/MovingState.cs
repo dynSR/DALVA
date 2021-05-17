@@ -100,6 +100,7 @@ class MovingState : IState
         if (controller.Agent.stoppingDistance != 0f)
             controller.Agent.stoppingDistance = 0f;
 
-        controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.NPCInteractions.StoppingDistance);
+        controller.SetAgentDestination(controller.Agent, controller.waypointTarget.position);
+        //controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.waypointTarget, controller.NPCInteractions.StoppingDistance);
     }
 }

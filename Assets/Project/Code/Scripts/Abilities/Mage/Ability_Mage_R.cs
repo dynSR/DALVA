@@ -26,10 +26,9 @@ public class Ability_Mage_R : AbilityLogic
     [SerializeField] private GameObject damageZone;
     [SerializeField] private GameObject healZone;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    protected override void Awake() => base.Awake();
+
+    protected override void OnEnable() => base.OnEnable();
 
     protected override void Update() => base.Update();
 

@@ -26,10 +26,13 @@ public class InventoryBox : MonoBehaviour
 
     public void ResetInventoryBoxStoredItem(InventoryBox inventoryBoxToReset)
     {
-        inventoryBoxToReset.StoredItem.InventoryBox = null;
-        inventoryBoxToReset.StoredItem = null;
+        if (inventoryBoxToReset.StoredItem != null)
+        {
+            inventoryBoxToReset.StoredItem.InventoryBox = null;
+            inventoryBoxToReset.StoredItem = null;
 
-        inventoryBoxToReset.CanvasGrp.alpha = 0;
-        inventoryBoxToReset.StoredItemIcon.sprite = null;
+            inventoryBoxToReset.CanvasGrp.alpha = 0;
+            inventoryBoxToReset.StoredItemIcon.sprite = null;
+        }
     }
 }

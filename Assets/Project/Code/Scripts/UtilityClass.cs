@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using DarkTonic.MasterAudio;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public static class UtilityClass
@@ -106,5 +108,12 @@ public static class UtilityClass
             if (param.name == _ParamName) return true;
         }
         return false;
+    }
+
+    public static IEnumerator ThrowSoundEventWithDelay(string eventSound, Transform originCenter, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        MasterAudio.FireCustomEvent(eventSound, originCenter);
     }
 }

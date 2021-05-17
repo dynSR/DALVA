@@ -5,9 +5,11 @@ public class UIButtonWithTooltip : MonoBehaviour, IPointerEnterHandler, IPointer
 {
     [SerializeField] private GameObject tooltip;
 
+    public GameObject Tooltip { get => tooltip; }
+
     protected virtual void OnEnable()
     {
-        HideTooltip(tooltip);
+        HideTooltip(Tooltip);
     }
 
     public void DisplayTooltip(GameObject tooltip)
@@ -24,11 +26,11 @@ public class UIButtonWithTooltip : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        DisplayTooltip(tooltip);
+        DisplayTooltip(Tooltip);
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        HideTooltip(tooltip);
+        HideTooltip(Tooltip);
     }
 }

@@ -44,7 +44,7 @@ public class WaveStateDisplayer : MonoBehaviour
 
     void UpdateFillAmount()
     {
-        if (localTimer > 0)
+        if (localTimer > 0 && GameManager.GameState == GameState.PlayMod)
         {
             localTimer -= Time.deltaTime;
             fillImage.fillAmount = localTimer / timerAssigned;

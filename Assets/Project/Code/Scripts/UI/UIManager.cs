@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     [Header("WAVE COUNT")]
     [SerializeField] private TextMeshProUGUI waveCountText;
 
+    float timeValue = 0f;
+
     #region Singleton
     public static UIManager Instance;
 
@@ -49,6 +51,8 @@ public class UIManager : MonoBehaviour
     {
         timerText.SetText("00 : 00");
         PopulateSpawnersList();
+
+        UpdapteGameTimer();
     }
 
     private void LateUpdate() => UpdapteGameTimer();
@@ -63,8 +67,12 @@ public class UIManager : MonoBehaviour
 
     void UpdapteGameTimer()
     {
-        string minutes = Mathf.Floor(Time.time / 60).ToString("0");
-        string seconds = Mathf.Floor(Time.time % 60).ToString("00");
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
+        timeValue += Time.deltaTime;
+
+        string minutes = Mathf.Floor(timeValue / 60).ToString("0");
+        string seconds = Mathf.Floor(timeValue % 60).ToString("00");
 
         timerText.SetText(minutes + " : " + seconds);
     }

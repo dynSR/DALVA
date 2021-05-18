@@ -13,17 +13,18 @@ public class TowerRange : MonoBehaviour
 
     void Start() => SetTowerRange(GetComponentInParent<EntityStats>().GetStat(StatType.AttackRange).Value);
 
-    private void Update()
+    private void LateUpdate()
     {
         if (entitiesFound.Count == 0)
         {
-            if (!rotationPivot.ParticleStarColorAlphaEqualsZero && rotationPivot.gameObject.activeInHierarchy)
-                rotationPivot.FadeParticleEffectOvertime(0f);
-
+            if (rotationPivot.gameObject.activeInHierarchy)
+                rotationPivot.gameObject.SetActive(false);
             return;
         }
 
-        if (Tower.CanAttack && entitiesFound.Count > 0 && entitiesFound[0] != null && !entitiesFound[0].IsDead)
+        RefreshList();
+
+        if (Tower.CanAttack && entitiesFound.Count > 0 && (entitiesFound[0] == null || !entitiesFound[0].IsDead))
         {
             if (TowerAmelioration.FinalEvolutionNumber != 1)
             {
@@ -31,15 +32,17 @@ public class TowerRange : MonoBehaviour
             }
             else if (TowerAmelioration.FinalEvolutionNumber == 1)
             {
-                rotationPivot.FadeParticleEffectOvertime(255f);
+                if (!rotationPivot.gameObject.activeInHierarchy)
+                    rotationPivot.gameObject.SetActive(true);
 
                 rotationPivot.HandleRotation(rotationPivot.transform, entitiesFound[0].transform.position, rotationPivot.RotateVelocity, rotationPivot.RotationSpeed);
             }
         }
-        else if (entitiesFound.Count > 0 && entitiesFound[0] == null || entitiesFound[0].IsDead)
+        else if (!Tower.CanAttack && entitiesFound.Count > 0 && (entitiesFound[0] == null || entitiesFound[0].IsDead))
         {
+            Debug.Log("entitiesFound.Count > 0 && (entitiesFound[0] == null || entitiesFound[0].IsDead)");
+            ResetTrigger();
             Tower.CanAttack = true;
-            RefreshList();
         }
     }
 
@@ -47,27 +50,33 @@ public class TowerRange : MonoBehaviour
     {
         EntityStats entityStats = other.GetComponent<EntityStats>();
 
-        if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
+        if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA && !entitiesFound.Contains(entityStats))
         {
-            RefreshList();
+            //RefreshList();
             entitiesFound.Add(entityStats);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        RefreshList();
+        //RefreshList();
 
         EntityStats entityStats = other.GetComponent<EntityStats>();
 
         if (entityStats != null && entitiesFound.Contains(entityStats)) entitiesFound.Remove(entityStats);
     }
 
+    void ResetTrigger()
+    {
+        SphereCollider.enabled = false;
+        SphereCollider.enabled = true;
+    }
+
     void RefreshList()
     {
         for (int i = entitiesFound.Count - 1; i >= 0; i--)
         {
-            if (entitiesFound[i] == null) entitiesFound.RemoveAt(i);
+            if (entitiesFound[i] == null || entitiesFound[i].IsDead) entitiesFound.Remove(entitiesFound[i]);
         }
     }
 

@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    [Range(1,4)]
-    [SerializeField] private int amountOfProjectileToSpawn = 1;
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform rangedAttackEmiterPosition;
 
@@ -13,31 +11,25 @@ public class Tower : MonoBehaviour
     EntityStats Stats => GetComponent<EntityStats>();
 
     public GameObject Projectile { get => projectile; }
-    public int AmountOfProjectileToSpawn { get => amountOfProjectileToSpawn; set => amountOfProjectileToSpawn = value; }
 
     public IEnumerator ShotProjectileOntoTarget(EntityStats targetStats)
     {
+        Debug.Log("ShotProjectileOntoTarget");
+
         float delay = Stats.GetStat(StatType.AttackSpeed).Value;
 
-        for (int i = 0; i < AmountOfProjectileToSpawn; i++)
-        {
-            if (targetStats.IsDead /*&& !CanAttack*/) yield break;
+        if (targetStats.IsDead || !CanAttack) yield break;
 
-            CanAttack = false;
+        GameObject autoAttackProjectile = Instantiate(projectile, rangedAttackEmiterPosition.position, projectile.transform.rotation);
+        ProjectileLogic attackProjectile = autoAttackProjectile.GetComponent<ProjectileLogic>();
 
-            yield return new WaitForSeconds(delay);
+        attackProjectile.ProjectileType = ProjectileType.TravelsToAPosition;
+        attackProjectile.ProjectileSender = transform;
+        attackProjectile.Target = targetStats.transform;
 
-            GameObject autoAttackProjectile = Instantiate(projectile, rangedAttackEmiterPosition.position, projectile.transform.rotation);
+        CanAttack = false;
 
-            ProjectileLogic attackProjectile = autoAttackProjectile.GetComponent<ProjectileLogic>();
-
-            attackProjectile.ProjectileType = ProjectileType.TravelsToAPosition;
-
-            attackProjectile.ProjectileSender = transform;
-            attackProjectile.Target = targetStats.transform;
-        }
-
-        //yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay);
 
         CanAttack = true;
     }

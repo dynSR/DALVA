@@ -178,6 +178,8 @@ public class InteractionSystem : MonoBehaviour
     #region Behaviours of every type of attack - Melee / Ranged
     public void MeleeAttack()
     {
+        if (Stats.IsDead) return;
+
         EntityStats targetStat = Target.GetComponent<EntityStats>();
 
         if (targetStat != null)
@@ -213,6 +215,8 @@ public class InteractionSystem : MonoBehaviour
 
     public void RangedAttack()
     {
+        if (Stats.IsDead) return;
+
         if (Target != null)
         {
             //Debug.Log("Ranged Attack");

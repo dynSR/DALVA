@@ -47,6 +47,8 @@ public class StatusEffectContainer : MonoBehaviour
 
     void UpdateTimer()
     {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
         localTimer -= Time.deltaTime;
 
         StatusEffectDurationText.text = localTimer.ToString("0");

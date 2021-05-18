@@ -16,14 +16,12 @@ public class TowerAmelioration : SteleAmelioration
             case SteleLevel.EvolutionI: // 25% puissance, 25% as, proj *2
                 Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.15f, StatType.PhysicalPower, StatModType.PercentAdd, this));
                 Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.15f, StatType.AttackSpeed, StatModType.PercentAdd, this));
-                Tower.AmountOfProjectileToSpawn *= 2;
 
                 Debug.Log("UPGRADE 1");
                 break;
             case SteleLevel.EvolutionII: // 35% puissance, 35% as, proj *2
                 Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.2f, StatType.PhysicalPower, StatModType.PercentAdd, this));
                 Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.2f, StatType.AttackSpeed, StatModType.PercentAdd, this));
-                Tower.AmountOfProjectileToSpawn *= 2;
 
                 Debug.Log("UPGRADE 2");
                 break;

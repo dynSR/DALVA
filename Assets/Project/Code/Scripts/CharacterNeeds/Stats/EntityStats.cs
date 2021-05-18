@@ -257,7 +257,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             HealthPercentage = CalculateLifePercentage();
             #endregion
 
-            Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower);
+            Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower, transform);
 
             NPCController npcController = GetComponent<NPCController>();
             if (npcController != null && npcController.IsACampNPC) npcController.CompareTargetAndSourceOfDamagePositions();
@@ -481,8 +481,10 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (transform.GetComponent<PlayerController>() != null)
             transform.GetComponent<PlayerController>().IsPlayerInHisBase = true;
 
-        if (Controller.StunVFX.activeInHierarchy) Controller.StunVFX.SetActive(false);
-        if (Controller.RootedVFX.activeInHierarchy) Controller.RootedVFX.SetActive(false);
+        if (Controller.StunVFX != null && Controller.StunVFX.activeInHierarchy) Controller.StunVFX.SetActive(false);
+        if (Controller.RootedVFX != null && Controller.RootedVFX.activeInHierarchy) Controller.RootedVFX.SetActive(false);
+
+        else if (Controller.StunVFX == null || Controller.RootedVFX == null) Debug.LogError("Need to fill the controller stun or rooted field -!-");
 
         OnEntityDeath?.Invoke();
     }

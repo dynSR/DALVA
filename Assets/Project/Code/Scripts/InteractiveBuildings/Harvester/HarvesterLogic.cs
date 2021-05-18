@@ -20,6 +20,8 @@ public class HarvesterLogic : InteractiveBuilding
 
     [Header("FEEDBACKS")]
     [SerializeField] private Image harvestingFeedbackImage;
+    [SerializeField] private GameObject glowEffectObject;
+    [SerializeField] private GameObject harvestingEffectObject;
     public HarvestState harvestState; //Its in public for debug purpose
     private bool LimitReached => CurrentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
 
@@ -63,19 +65,23 @@ public class HarvesterLogic : InteractiveBuilding
         if (InteractingPlayer != null)
         {
             harvestState = HarvestState.PlayerIsHarvestingRessources;
+            if (harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(false);
             return;
         }
 
         if (CurrentHarvestedRessourcesValue >= 1.25f)
         {
             IsInteractable = true;
+            glowEffectObject.SetActive(true);
         }
 
         if (!LimitReached)
         {
+            if (!harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(true);
             CurrentHarvestedRessourcesValue += Time.deltaTime;
             OnHarvestingRessources?.Invoke(CurrentHarvestedRessourcesValue, maxHarvestableRessourcesValue);
         }
+        else if (LimitReached && harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(false);
     }
 
     private void Interaction()
@@ -115,6 +121,8 @@ public class HarvesterLogic : InteractiveBuilding
     private void ReinitializeHarvester()
     {
         InitHarvester();
+
+        glowEffectObject.SetActive(false);
 
         timeSpentHarvesting = 0;
 

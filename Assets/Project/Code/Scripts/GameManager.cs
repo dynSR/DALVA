@@ -59,6 +59,21 @@ public class GameManager : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    void Update()
+    {
+        if (UtilityClass.IsKeyPressed(KeyCode.Escape))
+        {
+            if (!GameIsInPause())
+            {
+                PauseGame();
+            }
+            else if (GameIsInPause())
+            {
+                SetGameToPlayMod();
+            }
+        }
+    }
+
     private void UpdateInternalCounter()
     {
         InternalCounter++;
@@ -114,7 +129,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public bool GameIsInPause()
+    private bool GameIsInPause()
     {
         return GameState == GameState.Pause;
     }
@@ -137,7 +152,7 @@ public class GameManager : MonoBehaviour
     public void SetGameToStandbyMod()
     {
         GameState = GameState.StandbyMod;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     public bool GameIsInStandBy()

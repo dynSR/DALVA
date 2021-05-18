@@ -252,6 +252,7 @@ Transform:
   m_LocalPosition: {x: -20, y: 0, z: -11.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7485926874898436860}
   - {fileID: 7485926874438511093}
   - {fileID: 7615799759417731213}
   m_Father: {fileID: 0}
@@ -306,7 +307,7 @@ GameObject:
   - component: {fileID: 3015031390815144497}
   - component: {fileID: 2319943832537592529}
   - component: {fileID: 2975123965253618941}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blue_Cristal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,12 +389,12 @@ GameObject:
   - component: {fileID: 7485926874438511099}
   - component: {fileID: 7485926874438511098}
   m_Layer: 2
-  m_Name: FX_StaffGlow
+  m_Name: FX_GlowEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7485926874438511093
 Transform:
   m_ObjectHideFlags: 0
@@ -405,10 +406,9 @@ Transform:
   m_LocalPosition: {x: -0.063, y: 2.2520006, z: -0.199}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7485926874898436860}
   - {fileID: 7485926875996963554}
   m_Father: {fileID: 8808611961231028211}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!198 &7485926874438511099
 ParticleSystem:
@@ -5197,7 +5197,7 @@ GameObject:
   - component: {fileID: 7485926874898436834}
   - component: {fileID: 7485926874898436861}
   m_Layer: 2
-  m_Name: FX_RainbowGlow_Sparkles_01
+  m_Name: FX_HarvestingFeedback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5210,11 +5210,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7485926874898436863}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0122, y: 0, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.050800323, y: 2.2520006, z: -0.19900036}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7485926874438511093}
+  m_Father: {fileID: 8808611961231028211}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &7485926874898436834
@@ -5469,7 +5469,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
+      scalar: 0.35
       minScalar: 0.15
       maxCurve:
         serializedVersion: 2
@@ -5931,7 +5931,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.01
+      value: 0.78
       mode: 0
       spread: 0
       speed:
@@ -10067,7 +10067,7 @@ GameObject:
   - component: {fileID: 7485926875996963552}
   - component: {fileID: 7485926875996963555}
   m_Layer: 2
-  m_Name: FX_RainbowGlow_Ring_01
+  m_Name: FX_RainbowGlow_Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10085,7 +10085,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7485926874438511093}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &7485926875996963552
 ParticleSystem:
@@ -15289,7 +15289,7 @@ GameObject:
   - component: {fileID: 7615799759199449701}
   - component: {fileID: 7615799759199449702}
   - component: {fileID: 6073267219915341867}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17536,7 +17536,7 @@ Transform:
   - {fileID: 7615799759467895322}
   - {fileID: 7615799758113766560}
   m_Father: {fileID: 8808611961231028211}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7615799759417731215
 MonoBehaviour:
@@ -17557,6 +17557,8 @@ MonoBehaviour:
   delayBeforeHarvesting: 2
   totalTimeToHarvest: 5
   harvestingFeedbackImage: {fileID: 7615799758844155686}
+  glowEffectObject: {fileID: 7485926874438511092}
+  harvestingEffectObject: {fileID: 7485926874898436863}
   harvestState: 0
 --- !u!114 &7615799759417731208
 MonoBehaviour:

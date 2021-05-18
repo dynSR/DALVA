@@ -68,7 +68,7 @@ public class ProjectileLogic : MonoBehaviour
     #region Projectile Behaviours
     void ProjectileMoveToATarget()
     {
-        if(Target == null || ProjectileSender == null)
+        if(Target == null || ProjectileSender == null || Target.GetComponent<EntityStats>().IsDead)
         {
             Destroy(gameObject);
             return;

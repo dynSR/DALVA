@@ -74,6 +74,8 @@ public class SpawnerSystem : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
         if (waveState == WaveState.Standby && Countdown <= 0)
         {
             if (waveState != WaveState.IsSpawning)
@@ -98,6 +100,8 @@ public class SpawnerSystem : MonoBehaviour
         {
             yield break;
         }
+
+        if (!GameManager.Instance.GameIsInPlayMod()) yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
 
         MasterAudio.FireCustomEvent(spawnCustomEvent, transform);
 

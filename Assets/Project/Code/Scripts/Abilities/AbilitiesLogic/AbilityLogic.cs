@@ -82,7 +82,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     protected virtual void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected || Stats.IsDead) { return; }
+        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected 
+            || Stats.IsDead 
+            || !GameManager.Instance.GameIsInPlayMod()) { return; }
 
         if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed || Controller.IsStunned) return;
 

@@ -14,6 +14,11 @@ public class SentinelDamageZone : MonoBehaviour
         InvokeRepeating("ApplyDamageOverTime", 1, delayBetweenDamageApplications);
     }
 
+    void LateUpdate()
+    {
+        RefreshList();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         EntityStats entityStats = other.GetComponent<EntityStats>();

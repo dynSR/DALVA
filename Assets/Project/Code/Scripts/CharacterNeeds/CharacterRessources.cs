@@ -15,6 +15,10 @@ public class CharacterRessources : MonoBehaviour
     [SerializeField] private float passiveEarningDelay = 1f;
     [SerializeField] private float passiveRessourcesEarnOvertime = 5f;
 
+    [Header("PLAYER RESSOURCES FEEDBACK TEXTS")]
+    [SerializeField] private GameObject ressourcesLossFeedbackPlayerHUD;
+    [SerializeField] private GameObject ressourcesLossFeedbackUIManager;
+
     private PlayerHUDManager PlayerHUD => GetComponentInChildren<PlayerHUDManager>();
     private TextMeshProUGUI ShopPlayerRessourcesValueText => PlayerHUD.ShopPlayerRessourcesValueText;
     private TextMeshProUGUI InventoryPlayerRessourcesValueText => PlayerHUD.InventoryPlayerRessourcesValueText;
@@ -56,13 +60,14 @@ public class CharacterRessources : MonoBehaviour
 
     private void AddRessourcesOvertime()
     {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+        
         AddRessources((int)passiveRessourcesEarnOvertime);
     }
 
     public void AddRessources(int amountToAdd)
     {
         CurrentAmountOfPlayerRessources += amountToAdd;
-        UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);
         UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);
 
         if(PlayerHUD.IsShopWindowOpen)
@@ -92,9 +97,35 @@ public class CharacterRessources : MonoBehaviour
 
     private void UpdatePlayerRessourcesValueText(int value)
     {
+        //Means that a purchase has been done
+        if(CurrentAmountOfPlayerRessources > value)
+            SetLossRessourcesFeedback(value);
+
         CurrentAmountOfPlayerRessources = value;
         OnCharacterRessourcesChanged?.Invoke();
         ShopPlayerRessourcesValueText.text = value.ToString();
         InventoryPlayerRessourcesValueText.text = value.ToString();
+    }
+
+    private void SetLossRessourcesFeedback(int newValue)
+    {
+        //Maybe add the logic for when we add gold to inventory
+        // --> Changing color / "+" or "-"
+        //Maybe play the animation in reverse to add contrast : in =/= out
+
+        //PlayerHUD ------------------------------------------------------------------------------
+        TextMeshProUGUI playerHUDTextToSetup = ressourcesLossFeedbackPlayerHUD.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        playerHUDTextToSetup.text = (newValue - CurrentAmountOfPlayerRessources).ToString();
+
+        Animator playerHUDAnimator = ressourcesLossFeedbackPlayerHUD.GetComponent<Animator>();
+        playerHUDAnimator.SetTrigger("TriggerFeedback");
+
+        //UIManager ------------------------------------------------------------------------------
+        TextMeshProUGUI UIManagerTextToSetup = ressourcesLossFeedbackUIManager.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        UIManagerTextToSetup.text = (newValue - CurrentAmountOfPlayerRessources).ToString();
+
+        Animator UIManagerAnimator = ressourcesLossFeedbackUIManager.GetComponent<Animator>();
+        UIManagerAnimator.SetTrigger("TriggerFeedback");
+
     }
 }

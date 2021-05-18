@@ -83,11 +83,11 @@ public class MainMenuUIManager : MonoBehaviour
             
     //Difficulty text
     [Tooltip("The text  for the easy difficulty.")]
-    public GameObject easyText;
+    public GameObject easyWindow;
     [Tooltip("The text  for the medium difficulty.")]
-    public GameObject mediumText;
+    public GameObject mediumWindow;
     [Tooltip("The text  for the hard difficulty.")]
-    public GameObject hardText;
+    public GameObject hardWindow;
 
     //New difficulty
     [Tooltip("The toggle for easy difficulty.")]
@@ -170,7 +170,8 @@ public class MainMenuUIManager : MonoBehaviour
 
     void Update()
     {
-        
+        ClassTextHighlight();
+        DifficultyTextHighlight();
     }
 
     #region Methods
@@ -255,6 +256,139 @@ public class MainMenuUIManager : MonoBehaviour
     //Update the general difficulty text
     //(Miam le bon code d'UI)
 
+    private void ClassTextHighlight()
+    {
+        if (warriorButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+        {
+            if (!hasPickedAClass) warriorText.SetActive(true);
+            else if(characterClass)
+            {
+                warriorText.SetActive(true);
+                mageText.SetActive(false);
+            }
+        }
+        else if (!hasPickedAClass) warriorText.SetActive(false);
+        else
+        {
+            warriorText.SetActive(false);
+            mageText.SetActive(true);
+        }
+
+        if (mageButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+        {
+            if (!hasPickedAClass) mageText.SetActive(true);
+            else if (!characterClass)
+            {
+                warriorText.SetActive(false);
+                mageText.SetActive(true);
+            }
+        }
+        else if (!hasPickedAClass) mageText.SetActive(false);
+        else
+        {
+            warriorText.SetActive(true);
+            mageText.SetActive(false);
+        }
+    }
+
+    private void DifficultyTextHighlight()
+    {
+        if (!hasPickedADifficulty)
+        {
+            if (easyButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy) easyWindow.SetActive(true);
+            else easyWindow.SetActive(false);
+
+            if (mediumButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy) mediumWindow.SetActive(true);
+            else mediumWindow.SetActive(false);
+
+            if (hardButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy) hardWindow.SetActive(true);
+            else hardWindow.SetActive(false);
+        }
+        else
+        {
+            if(gameSceneName == easyGameSceneName)
+            {
+                if (mediumButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+                {
+                    easyWindow.SetActive(false);
+                    mediumWindow.SetActive(true);
+                    return;
+                }
+                else
+                {
+                    easyWindow.SetActive(true);
+                    mediumWindow.SetActive(false);
+                }
+
+                if (hardButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+                {
+                    easyWindow.SetActive(false);
+                    hardWindow.SetActive(true);
+                    return;
+                }
+                else
+                {
+                    easyWindow.SetActive(true);
+                    hardWindow.SetActive(false);
+                }
+            }
+
+            if (gameSceneName == mediumGameSceneName)
+            {
+                if (easyButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+                {
+                    mediumWindow.SetActive(false);
+                    easyWindow.SetActive(true);
+                    return;
+                }
+                else
+                {
+                    mediumWindow.SetActive(true);
+                    easyWindow.SetActive(false);
+                }
+
+                if (hardButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+                {
+                    mediumWindow.SetActive(false);
+                    hardWindow.SetActive(true);
+                    return;
+                }
+                else
+                {
+                    mediumWindow.SetActive(true);
+                    hardWindow.SetActive(false);
+                }
+            }
+
+            if (gameSceneName == hardGameSceneName)
+            {
+                if (easyButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+                {
+                    hardWindow.SetActive(false);
+                    easyWindow.SetActive(true);
+                    return;
+                }
+                else
+                {
+                    hardWindow.SetActive(true);
+                    easyWindow.SetActive(false);
+                }
+
+                if (mediumButton.GetComponent<UIButtonHighlight>().myBorder.activeInHierarchy)
+                {
+                    hardWindow.SetActive(false);
+                    mediumWindow.SetActive(true);
+                    return;
+                }
+                else
+                {
+                    hardWindow.SetActive(true);
+                    mediumWindow.SetActive(false);
+                }
+            }
+        }
+    }
+
     private void CanStartGameCheck()
     {
         if (hasPickedAClass && hasPickedADifficulty) startGameButton.interactable = true;
@@ -303,6 +437,29 @@ public class MainMenuUIManager : MonoBehaviour
         CanStartGameCheck();
     }
 
+    public void ResetClassAndDifficulty()
+    {
+        //Class
+        hasPickedAClass = false;
+        myAnimator.SetBool("classSelected", false);
+        characterClass = false;
+        myAnimator.SetBool("isMage", false);
+        warriorButton.interactable = true;
+        warriorButton.GetComponent<UIButtonHighlight>().HideBorder();
+        mageButton.interactable = true;
+        mageButton.GetComponent<UIButtonHighlight>().HideBorder();
+
+        //Difficulty
+        hasPickedADifficulty = false;
+        easyButton.interactable = true;
+        easyButton.GetComponent<UIButtonHighlight>().HideBorder();
+        mediumButton.interactable = true;
+        mediumButton.GetComponent<UIButtonHighlight>().HideBorder();
+        hardButton.interactable = true;
+        hardButton.GetComponent<UIButtonHighlight>().HideBorder();
+
+    }
+
     public void ChangeOpenedTab(int tab)
     {
         nextOpenedTab = tab;
@@ -337,9 +494,9 @@ public class MainMenuUIManager : MonoBehaviour
             hardButton.interactable = true;
             hardButton.GetComponent<UIButtonHighlight>().HideBorder();
 
-            easyText.SetActive(true);
-            mediumText.SetActive(false);
-            hardText.SetActive(false);
+            easyWindow.SetActive(true);
+            mediumWindow.SetActive(false);
+            hardWindow.SetActive(false);
         }
 
         if (button == mediumButton)
@@ -351,9 +508,9 @@ public class MainMenuUIManager : MonoBehaviour
             hardButton.interactable = true;
             hardButton.GetComponent<UIButtonHighlight>().HideBorder();
 
-            easyText.SetActive(false);
-            mediumText.SetActive(true);
-            hardText.SetActive(false);
+            easyWindow.SetActive(false);
+            mediumWindow.SetActive(true);
+            hardWindow.SetActive(false);
         }
 
         if (button == hardButton)
@@ -365,9 +522,9 @@ public class MainMenuUIManager : MonoBehaviour
             mediumButton.GetComponent<UIButtonHighlight>().HideBorder();
             hardButton.interactable = false;
 
-            easyText.SetActive(false);
-            mediumText.SetActive(false);
-            hardText.SetActive(true);
+            easyWindow.SetActive(false);
+            mediumWindow.SetActive(false);
+            hardWindow.SetActive(true);
         }
 
         hasPickedADifficulty = true;

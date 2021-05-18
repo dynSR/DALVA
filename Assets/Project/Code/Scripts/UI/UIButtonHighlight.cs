@@ -13,6 +13,8 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private Button myButton;
 
+    public bool isAMainMenuButton;
+
     public Color HighlightColor { get => highlightColor; }
     public Color NormalColor { get => normalColor; }
 
@@ -33,7 +35,7 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (!myButton.IsInteractable())
         {
             ChangeTextColor(NormalColor);
-            HideBorder();
+            if(!isAMainMenuButton) HideBorder();
         }
     }
 
@@ -52,6 +54,8 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerExit(PointerEventData eventData)
     {
         ChangeTextColor(NormalColor);
+
+        if (isAMainMenuButton && !myButton.IsInteractable()) return;
 
         HideBorder();
     }

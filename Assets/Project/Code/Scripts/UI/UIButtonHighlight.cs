@@ -29,6 +29,7 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     void LateUpdate()
     {
+        //J'en ai besoin pour les boutons du shop
         if (!myButton.IsInteractable())
         {
             ChangeTextColor(NormalColor);

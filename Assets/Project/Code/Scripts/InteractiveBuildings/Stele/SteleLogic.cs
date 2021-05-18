@@ -212,7 +212,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
     public void SetSpawnedEffectTransformValues(int concernedIndex)
     {
+        //index = valeurs pour le transform
+        //effet position = listDatas[concernedIndex]
+        //effet rotation.Y = listDatas[concernedIndex]
 
+        //Spawned
     }
 
     private void SetSteleTeam()

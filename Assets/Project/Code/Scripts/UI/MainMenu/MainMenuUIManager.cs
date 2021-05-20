@@ -22,19 +22,6 @@ public class MainMenuUIManager : MonoBehaviour
     [Tooltip("The hard game scene name.")]
     public string hardGameSceneName;
 
-    //Main tab's buttons (always visible)
-    [Header("Main tab")]
-    [Tooltip("The play button from the main tab (always visible).")]
-    public Button playTabButton;
-    [Tooltip("The encyclopedia button from the main tab (always visible).")]
-    public Button encyclopediaTabButton;
-    [Tooltip("The shop button from the main tab (always visible).")]
-    public Button shopTabButton;
-    [Tooltip("The options button from the main tab (always visible).")]
-    public Button optionsTabButton;
-    [Tooltip("The quit button from the main tab (always visible).")]
-    public Button quitTabButton;
-
     //Play Tab
     [Header("Play tab assets")]
         //Class
@@ -458,6 +445,7 @@ public class MainMenuUIManager : MonoBehaviour
         hardButton.interactable = true;
         hardButton.GetComponent<UIButtonHighlight>().HideBorder();
 
+        CanStartGameCheck();
     }
 
     public void ChangeOpenedTab(int tab)
@@ -481,7 +469,7 @@ public class MainMenuUIManager : MonoBehaviour
 
         nextOpenedTab = 0;
     }
-    //0 = None, 1 = Play, 2 = Encyclopedia, 3 = Shop, 4 = Options, 5 = Credits, 6 = Quit
+    //0 = None, 1 = Play, 2 = Encyclopedia, 3 = Shop, 4 = Options, 5 = Credits, 6 = Quit, 7 = Cutscenes
 
     public void ChangeNewDifficultyButton(Button button)
     {

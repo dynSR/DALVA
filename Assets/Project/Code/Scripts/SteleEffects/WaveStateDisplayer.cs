@@ -5,33 +5,29 @@ public class WaveStateDisplayer : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject content;
-    [SerializeField] private SpawnerSystem[] spawner;
+    [SerializeField] private SpawnerSystem spawner;
     public float timerAssigned;
     public float localTimer;
 
 
     private void OnEnable()
     {
-        for (int i = 0; i < spawner.Length; i++)
-        {
-            if (spawner[i] == null)
-                Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
+        if (spawner == null)
+            Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
 
-            spawner[i].OnWaveStartinSoon += SetWaveDisplayerFillAmount;
-            spawner[i].OnWavePossibilityToSpawnState += ToggleContent;
-        }
+        spawner.OnWaveStartinSoon += SetWaveDisplayerFillAmount;
+        spawner.OnWavePossibilityToSpawnState += ToggleContent;
     }
     private void OnDisable()
     {
-        for (int i = 0; i < spawner.Length; i++)
-        {
-            spawner[i].OnWaveStartinSoon -= SetWaveDisplayerFillAmount;
-            spawner[i].OnWavePossibilityToSpawnState -= ToggleContent;
-        }
+        spawner.OnWaveStartinSoon -= SetWaveDisplayerFillAmount;
+        spawner.OnWavePossibilityToSpawnState -= ToggleContent;
     }
 
     private void Update()
     {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
         UpdateFillAmount();
     }
 
@@ -44,7 +40,7 @@ public class WaveStateDisplayer : MonoBehaviour
 
     void UpdateFillAmount()
     {
-        if (localTimer > 0 && GameManager.GameState == GameState.PlayMod)
+        if (localTimer > 0)
         {
             localTimer -= Time.deltaTime;
             fillImage.fillAmount = localTimer / timerAssigned;

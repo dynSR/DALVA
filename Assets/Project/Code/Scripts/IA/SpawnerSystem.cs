@@ -16,21 +16,27 @@ public class SpawnerSystem : MonoBehaviour
     public class Wave
     {
         public string waveName;
-        public int waveID;
-        public GameObject [] waveMinions;
+        public List<MinionsData> minionsData;
+    }
+
+    [System.Serializable]
+    public class MinionsData
+    {
+        public GameObject[] minionsObject;
+        public Transform spawnLocation; //Set the spawner it can spawns
+        public int usedPathIndex; //Set the path followed
     }
 
     public WaveState waveState; // public for debug purpose
 
     [Header("SPAWNER PARAMETERS")]
-    [SerializeField] private Transform spawnPosition;
     [SerializeField] private float delayBeforeSpawningFirstWave = 45f;
     [SerializeField] private float spawnRate = 5f;
     [SerializeField] private float delayBetweenWaves = 30f;
     private float firstCountdown = 0f; // put in private after tests
     private float countdown = 0f;
     private int indexOfCurrentWave = 0; // to delete after tests
-    [SerializeField] private List<Transform> waypoints;
+    [SerializeField] private List<Transform> paths;
     [SerializeField] private GameObject spawnObjectFeedback;
 
     [Header("WAVES")]
@@ -39,9 +45,9 @@ public class SpawnerSystem : MonoBehaviour
     [Header("SOUNDS")]
     [MasterCustomEvent] public string spawnCustomEvent;
 
-    private int waveIndex = 0;
+    public bool spawnEventEndedHasBeenHandled = false;
 
-    public List<Transform> Waypoints { get => waypoints; }
+    public List<Transform> Paths { get => paths; }
     public int IndexOfCurrentWave { get => indexOfCurrentWave; set => indexOfCurrentWave = value; }
     public List<Wave> Waves { get => waves; }
     public float FirstCountdown { get => firstCountdown; set => firstCountdown = value; }
@@ -60,13 +66,15 @@ public class SpawnerSystem : MonoBehaviour
     void Start()
     {
         //Waits for a certain time then change wave state to spawn (it's taking in count the delay before the game realy starts)
-        StartCoroutine(WaitingState(DelayBeforeSpawningFirstWave, SpawnWave()));
+        //StartCoroutine(WaitingState(DelayBeforeSpawningFirstWave, SpawnWave()));
 
         FirstCountdown = DelayBeforeSpawningFirstWave;
         OnWaveStartinSoon?.Invoke(DelayBeforeSpawningFirstWave);
 
-        if (CanSpawnWave())
+        if (HasEntityToSpawn())
             OnWavePossibilityToSpawnState?.Invoke(1);
+
+        Debug.Log(HasEntityToSpawn(), transform);
            
         //Set Fill amount here for the first delay
         Countdown = DelayBetweenWaves;
@@ -76,136 +84,106 @@ public class SpawnerSystem : MonoBehaviour
     {
         if (!GameManager.Instance.GameIsInPlayMod()) return;
 
-        if (waveState == WaveState.Standby && Countdown <= 0)
+        if (waveState == WaveState.Standby && Countdown > 0)
         {
-            if (waveState != WaveState.IsSpawning)
+            Countdown -= Time.deltaTime;
+
+            if (Countdown <= 0 && waveState != WaveState.IsSpawning)
             {
                 StartCoroutine(SpawnWave());
             }
         }
-        else if (waveState == WaveState.Standby)
-        {
-            Countdown -= Time.deltaTime;
-        }
-        else if (waveState == WaveState.WaitUntilStartOfTheGame)
+        else if (waveState == WaveState.WaitUntilStartOfTheGame && FirstCountdown > 0)
         {
             FirstCountdown -= Time.deltaTime;
+
+            if (FirstCountdown <= 0 && waveState != WaveState.IsSpawning)
+            {
+                StartCoroutine(SpawnWave());
+            }
         }
     }
-
     private IEnumerator SpawnWave()
     {
-        //Deactivate fill displayer content
-        if (!CanSpawnWave()) 
-        {
-            yield break;
-        }
+        //yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
 
-        if (!GameManager.Instance.GameIsInPlayMod()) yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
+        if (!HasEntityToSpawn()) yield break;
 
-        MasterAudio.FireCustomEvent(spawnCustomEvent, transform);
-
-        OnWavePossibilityToSpawnState?.Invoke(0);
         waveState = WaveState.IsSpawning;
-        GameManager.Instance.WaveCountHasBeenSet = false;
+
+        //Hide Spawn State Displayer(s)
+        OnWavePossibilityToSpawnState?.Invoke(0);
+
+        //Spawn Sound Event
+        MasterAudio.FireCustomEvent(spawnCustomEvent, transform);
 
         if (spawnObjectFeedback != null)
             spawnObjectFeedback.SetActive(true);
         else Debug.LogError("Add the spawnObjectFeedback in the empty field");
 
+        //Waves[0,1,2...]
         Wave currentWave = Waves[IndexOfCurrentWave];
         Debug.Log(currentWave.waveName);
 
         //For each minions in it, loop spawning
-
-        for (int i = 0; i < currentWave.waveMinions.Length; i++)
+        for (int i = 0; i < currentWave.minionsData.Count; i++)
         {
-            if (currentWave.waveMinions[i] != null)
+            for (int j = 0; j < currentWave.minionsData[i].minionsObject.Length; j++)
             {
-                NPCController spawningMinionController = currentWave.waveMinions[i].GetComponent<NPCController>();
+                MinionsData minionData = currentWave.minionsData[i];
+
+                Debug.Log(minionData.minionsObject.Length);
+                NPCController spawningMinionController = minionData.minionsObject[j].GetComponent<NPCController>();
 
                 if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
+                {
                     GameManager.Instance.ItIsABossWave = true;
+                }
 
-                SpawnMinions(currentWave.waveMinions[i]);
+                SpawnMinions(
+                   minionData.minionsObject[j],
+                    minionData.spawnLocation,
+                    minionData.usedPathIndex);
 
                 yield return new WaitForSeconds(spawnRate);
-            }   
-        }
 
-        if (spawnObjectFeedback != null)
-            spawnObjectFeedback.SetActive(false);
-        else Debug.LogError("Add the spawnObjectFeedback in the empty field");
-
-        //Change wave state
-        waveState = WaveState.Standby;
-
-        //Swap Wave ID to spawn an another type of wave
-        IndexOfCurrentWave++;
-
-        GameManager.Instance.UpdateWaveCount();
-        
-        if (CanSpawnWave())
-            OnWavePossibilityToSpawnState?.Invoke(1);
-        else OnWavePossibilityToSpawnState?.Invoke(0);
-
-        Countdown = DelayBetweenWaves;
-        //Set Displayer fill amount here
-        OnWaveStartinSoon?.Invoke(DelayBetweenWaves);
-        yield break;
-    }
-
-    bool CanSpawnWave()
-    {
-        bool canSpawn = false;
-
-        if (IndexOfCurrentWave >= Waves.Count || GameManager.Instance.ItIsABossWave) return false;
-
-        if (IndexOfCurrentWave <= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length > 0)
-        {
-            float indexNotNull = 0;
-
-            for (int i = Waves[IndexOfCurrentWave].waveMinions.Length - 1; i >= 0; i--)
-            {
-                if (Waves[IndexOfCurrentWave].waveMinions[i].gameObject != null)
-                {
-                    indexNotNull++;
-                }
-
-                if (indexNotNull == 0)
-                {
-                    canSpawn = false;
-                    OnWavePossibilityToSpawnState?.Invoke(0);
-                }
-                else if (indexNotNull >= 1)
-                {
-                    canSpawn = true;
-                    OnWavePossibilityToSpawnState?.Invoke(1);
-                }
+                if(j == minionData.minionsObject.Length - 1 && !spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
+                    GameManager.Instance.UpdateWaveCount();
             }
         }
 
-        //if (IndexOfCurrentWave >= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length < 0)
-        //{
-        //    canSpawn = false;
-        //    OnWavePossibilityToSpawnState?.Invoke(0);
-        //}
-        //else if (IndexOfCurrentWave <= Waves.Count && Waves[IndexOfCurrentWave].waveMinions.Length > 0)
-        //{
-        //    canSpawn = true;
-        //    OnWavePossibilityToSpawnState?.Invoke(1);
-        //}
+        //if (!spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
+        //    GameManager.Instance.UpdateWaveCount();
 
-        return canSpawn;
+        //Change spawner state
+        waveState = WaveState.Standby;
     }
 
-    void SpawnMinions(GameObject minion)
+    public bool HasEntityToSpawn()
     {
-        Debug.Log("MinionBehaviour spawned");
+        bool hasEntityToSpawn = false;
 
-        waveIndex++;
+        if (Waves.Count < IndexOfCurrentWave
+            || GameManager.Instance.ItIsABossWave
+            || Waves[IndexOfCurrentWave].minionsData.Count == 0)
+        {
+            hasEntityToSpawn = false;
+            OnWavePossibilityToSpawnState?.Invoke(0);
+        }
+        else if (Waves.Count >= IndexOfCurrentWave)
+        {
+            hasEntityToSpawn = true;
+            OnWavePossibilityToSpawnState?.Invoke(1);
+        }
 
-        GameObject currentMinion = Instantiate(minion, new Vector3(spawnPosition.position.x, spawnPosition.position.y, spawnPosition.position.z), spawnPosition.rotation);
+        return hasEntityToSpawn;
+    }
+
+    void SpawnMinions(GameObject minion, Transform spawnLocation, int pathIndex)
+    {
+        Debug.Log(minion.name + " spawned !");
+
+        GameObject currentMinion = Instantiate(minion, spawnLocation.position, spawnLocation.rotation);
 
         NPCController spawningMinionController = currentMinion.GetComponent<NPCController>();
 
@@ -217,15 +195,27 @@ public class SpawnerSystem : MonoBehaviour
             Debug.Log("SET SPAWNED MINION AS A BOSS WAVE MEMBER !!!!!!!!!!!!");
         }
 
-        for (int i = 0; i < Waypoints.Count; i++)
+        Transform pathUsed = Paths[pathIndex];
+
+        foreach (Transform waypoint in pathUsed)
         {
-            currentMinion.GetComponent<NPCController>().waypoints.Add(Waypoints[i]);
+            currentMinion.GetComponent<NPCController>().waypoints.Add(waypoint);
         }
     }
 
-    private IEnumerator WaitingState(float delay, IEnumerator enumerator)
+    public void UpdateElementsOnSpawnFinished()
     {
-        yield return new WaitForSeconds(delay);
-        StartCoroutine(SpawnWave());
+        //Deactive Portal effect
+        if (spawnObjectFeedback != null)
+            spawnObjectFeedback.SetActive(false);
+
+        //Display or Hide wave spawn state
+        if (HasEntityToSpawn()) OnWavePossibilityToSpawnState?.Invoke(1);
+        else OnWavePossibilityToSpawnState?.Invoke(0);
+
+        OnWaveStartinSoon?.Invoke(DelayBetweenWaves);
+        Countdown = DelayBetweenWaves;
+
+        spawnEventEndedHasBeenHandled = false;
     }
 }

@@ -75,7 +75,7 @@ public class HarvesterLogic : InteractiveBuilding
             glowEffectObject.SetActive(true);
         }
 
-        if (!LimitReached)
+        if (!LimitReached && GameManager.Instance.GameIsInPlayMod())
         {
             if (!harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(true);
             CurrentHarvestedRessourcesValue += Time.deltaTime;
@@ -86,7 +86,9 @@ public class HarvesterLogic : InteractiveBuilding
 
     private void Interaction()
     {
-        timeSpentHarvesting += Time.deltaTime;
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
+            timeSpentHarvesting += Time.deltaTime;
         harvestingFeedbackImage.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
 
         if (timeSpentHarvesting >= totalTimeToHarvest)
@@ -138,6 +140,8 @@ public class HarvesterLogic : InteractiveBuilding
 
     private IEnumerator WaitingState(float delay, HarvestState newHarvestState)
     {
+        yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
+
         yield return new WaitForSeconds(delay);
         yield return new WaitForEndOfFrame();
 

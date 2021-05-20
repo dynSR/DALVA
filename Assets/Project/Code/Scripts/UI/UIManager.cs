@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    private List<SpawnerSystem> spawners = new List<SpawnerSystem>();
+    private SpawnerSystem spawner;
 
     [Header("WAVE COUNT")]
     [SerializeField] private TextMeshProUGUI placeToDefendHealtAmountText;
@@ -57,12 +57,9 @@ public class UIManager : MonoBehaviour
 
     private void LateUpdate() => UpdapteGameTimer();
 
-    void PopulateSpawnersList()
+    SpawnerSystem PopulateSpawnersList()
     {
-        foreach (SpawnerSystem spawner in GameManager.Instance.Spawners)
-        {
-            spawners.Add(spawner);
-        }
+        return this.spawner = GameManager.Instance.Spawner;
     }
 
     void UpdapteGameTimer()

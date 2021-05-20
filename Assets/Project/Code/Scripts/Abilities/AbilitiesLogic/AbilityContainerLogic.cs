@@ -65,8 +65,7 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
 
     private IEnumerator UpdateCooldownUIComponents(AbilityLogic containedAbility)
     {
-        if (!GameManager.Instance.GameIsInPlayMod()) 
-            yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
+        yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
 
         float storedCooldown = containedAbility.Ability.AbilityCooldown;
 

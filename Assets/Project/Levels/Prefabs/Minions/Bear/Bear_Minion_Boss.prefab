@@ -303,7 +303,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 761721908316458078}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.9
+  m_Radius: 0.4
   m_Speed: 3.25
   m_Acceleration: 120
   avoidancePriority: 50
@@ -312,7 +312,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.8
+  m_Height: 1.25
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -387,26 +387,26 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 4
+  - name: MovementSpeed - 2
     statType: 3
     icon: {fileID: 0}
-    baseValue: 4
+    baseValue: 2
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 20
+  - name: PhysicalResistances - 30
     statType: 4
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 30
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 20
+  - name: MagicalResistances - 30
     statType: 5
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 30
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -603,7 +603,7 @@ MonoBehaviour:
   rotateVelocity: 0.1
   characterAnimator: {fileID: 761721909082024652}
   canMove: 1
-  isStunned: 1
+  isStunned: 0
   isRooted: 0
   stunVFX: {fileID: 0}
   rootedVFX: {fileID: 0}

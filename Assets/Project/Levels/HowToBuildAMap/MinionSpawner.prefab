@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 135097940297449537}
   m_Layer: 0
-  m_Name: StartPos
+  m_Name: StartPos_Middle
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 135097940514469031}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &135097940514469029
 GameObject:
@@ -59,7 +59,9 @@ Transform:
   m_LocalPosition: {x: -22.25, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 6215672056819117673}
   - {fileID: 135097940297449537}
+  - {fileID: 4187064400164967857}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -76,29 +78,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveState: 0
-  spawnPosition: {fileID: 135097940297449537}
-  delayBeforeSpawningFirstWave: 15
+  delayBeforeSpawningFirstWave: 2
   spawnRate: 0.75
-  delayBetweenWaves: 5
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  delayBetweenWaves: 2.5
+  paths: []
+  spawnObjectFeedback: {fileID: 0}
   waves:
-  - waveName: First
-    waveID: 0
+  - waveName: First Wave
+    usedPathIndex: 0
     waveMinions:
-    - {fileID: 0}
-    - {fileID: 0}
-  - waveName: First
-    waveID: 1
-    waveMinions:
-    - {fileID: 0}
-    - {fileID: 0}
+    - minionDataName: Minion to spawn
+      minionsObject:
+      - {fileID: 0}
+      - {fileID: 0}
+      spawnLocation: {fileID: 0}
+    - minionDataName: Minion to spawn
+      minionsObject:
+      - {fileID: 0}
+      spawnLocation: {fileID: 0}
   spawnCustomEvent: OnSpawnEvent
+  spawnEventEndedHasBeenHandled: 0
 --- !u!114 &4979981578991491615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1498,3 +1497,63 @@ MonoBehaviour:
   useUnitySubmitSound: 0
   useUnityCancelSound: 0
   useUnityToggleSound: 0
+--- !u!1 &2414084335708627633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6215672056819117673}
+  m_Layer: 0
+  m_Name: StartPos_Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6215672056819117673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2414084335708627633}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: -8.730031, y: 0, z: 16.760262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 135097940514469031}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
+--- !u!1 &4556000230212901675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4187064400164967857}
+  m_Layer: 0
+  m_Name: StartPos_Down
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4187064400164967857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4556000230212901675}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.46, y: 0, z: 6.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 135097940514469031}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

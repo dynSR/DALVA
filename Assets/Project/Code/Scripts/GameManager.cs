@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour
     private bool waveCountHasBeenSet = false;
 
     [Header("SPAWNERS")]
-    [SerializeField] private List<SpawnerSystem> spawners = new List<SpawnerSystem>();
-    public List<SpawnerSystem> Spawners { get => spawners; }
+    [SerializeField] private SpawnerSystem spawner;
+    public SpawnerSystem Spawner { get => spawner; }
     public int WaveDone { get => waveDone; set => waveDone = value; }
     public bool WaveCountHasBeenSet { get => waveCountHasBeenSet; set => waveCountHasBeenSet = value; }
     public bool ItIsABossWave = false;
@@ -74,6 +74,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if(GameIsInPlayMod() && !ItIsABossWave)
+            UpdateSpawnersState();
+    }
+
     private void UpdateInternalCounter()
     {
         InternalCounter++;
@@ -90,7 +96,7 @@ public class GameManager : MonoBehaviour
         RemainingMonstersValue += value;
         //Display & Update UI
 
-        if (RemainingMonstersValue == 0)
+        if (RemainingMonstersValue == 0 && ItIsABossWave)
         {
             ResetWhenBossWaveIsDone();
             //Hide UI
@@ -101,16 +107,26 @@ public class GameManager : MonoBehaviour
     {
         ItIsABossWave = false;
         UpdateWaveCount();
+        UpdateSpawnersState();
     }
 
     public void UpdateWaveCount()
     {
-        if (!WaveCountHasBeenSet)
+        WaveDone++;
+        UIManager.Instance.UpdateWaveCount(WaveDone);
+        UpdateInternalCounter(); 
+        WaveCountHasBeenSet = true;
+    }
+
+    public void UpdateSpawnersState()
+    {
+        if (spawner.waveState == WaveState.Standby && WaveCountHasBeenSet)
         {
-            WaveCountHasBeenSet = true;
-            WaveDone++;
-            UIManager.Instance.UpdateWaveCount(GameManager.Instance.WaveDone);
-            UpdateInternalCounter();
+            spawner.IndexOfCurrentWave++;
+            spawner.spawnEventEndedHasBeenHandled = true;
+            spawner.UpdateElementsOnSpawnFinished();
+
+            WaveCountHasBeenSet = false;
         }
     }
     

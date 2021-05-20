@@ -35,7 +35,30 @@ public class GetCharacterAbilities : MonoBehaviour
                 {
                     abilityContainers[j].ContainedAbility = CharacterStats.EntityAbilities[j];
                     CharacterStats.EntityAbilities[j].Container = abilityContainers[j];
+                    abilityContainers[j].Parent = this;
                 }
+            }
+        }
+    }
+
+    public void LockOtherUnusedAbilities(KeyCode input)
+    {
+        for (int i = abilitiesInputKeys.Count - 1; i >= 0; i--)
+        {
+            if (abilityContainers[i].AbilityKey != input)
+            {
+                abilityContainers[i].ContainedAbility.CanBeUsed = false;
+            }
+        }
+    }
+
+    public void UnlockOtherUnusedAbilities(KeyCode input)
+    {
+        for (int i = abilitiesInputKeys.Count - 1; i >= 0; i--)
+        {
+            if (abilityContainers[i].AbilityKey != input)
+            {
+                abilityContainers[i].ContainedAbility.CanBeUsed = true;
             }
         }
     }

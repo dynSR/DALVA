@@ -63,13 +63,10 @@ public class StatusEffect : ScriptableObject
             {
                 GetTargetStats(target).GetStat(StatModifiers[i].StatType).AddModifier(StatModifiers[i]);
                 GetTargetStats(target).UpdateNavMeshAgentSpeed(StatModifiers[i].StatType);
-                //if (StatModifiers[i].StatType == StatType.MovementSpeed)
-                //{
-                //    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
-                //}
-            }
 
-            GetTargetStats(target).UpdateStats();
+                if (StatModifiers[i].StatType != StatType.Shield)
+                    GetTargetStats(target).UpdateStats();
+            }
 
             if (CanRootTarget) GetTargetController(target).RootTarget();
             if (CanStunTarget) GetTargetController(target).StunTarget();
@@ -88,16 +85,13 @@ public class StatusEffect : ScriptableObject
 
             GetTargetStats(target).UpdateNavMeshAgentSpeed(StatModifiers[i].StatType);
 
-            //if (StatModifiers[i].StatType == StatType.MovementSpeed)
-            //{
-            //    GetTargetController(target).SetNavMeshAgentSpeed(GetTargetController(target).Agent, GetTargetStats(target).GetStat(StatType.MovementSpeed).Value);
-            //}
             if (StatModifiers[i].StatType == StatType.Shield)
             {
                 GetTargetStats(target).RemoveShieldOnTarget(target, StatModifiers[i].Value);
             }
 
-            GetTargetStats(target).UpdateStats();
+            if (StatModifiers[i].StatType != StatType.Shield)
+                GetTargetStats(target).UpdateStats();
         }
 
         //Maybe it will not work has to be checked !!!!!!!!!!!

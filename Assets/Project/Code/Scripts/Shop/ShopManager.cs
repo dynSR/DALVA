@@ -188,8 +188,9 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log("Selling item : " + inventoryBox.StoredItem.ItemName);
 
-        ShopActionOnSell(/*SelectedInventoryBox*/inventoryBox);
-        //SelectedInventoryBox = null;
+        ShopActionOnSell(inventoryBox);
+
+        if(SelectedInventoryBox != null) SelectedInventoryBox = null;
     }
     #endregion
 
@@ -282,8 +283,6 @@ public class ShopManager : MonoBehaviour
                     shopActions.RemoveAt(i);
 
                     return;
-
-
                 }
                 //Undo A Sell
                 else if (shopActions[i].shopActionType == ShopActionData.ShopActionType.Sale)
@@ -297,7 +296,6 @@ public class ShopManager : MonoBehaviour
                     shopActions.RemoveAt(i);
                     return;
                 }
-                
             }
         }
     }
@@ -309,7 +307,7 @@ public class ShopManager : MonoBehaviour
             if (PlayerInventory.InventoryIsFull) return;
 
             if (PlayerInventory.InventoryBoxes[i].StoredItem == null
-                && shopActionData.transactionID == PlayerInventory.InventoryBoxes[i].StoredItemTransactionID)
+                /*&& shopActionData.transactionID == PlayerInventory.InventoryBoxes[i].StoredItemTransactionID*/)
             {
                 PlayerInventory.AddItemToInventory(itemToAdd);
                 PlayerInventory.InventoryBoxes[i].StoredItemTransactionID = transactionIDData;

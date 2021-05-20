@@ -45,7 +45,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
     private bool IsInRangeToCast => DistanceFromCastingPosition <= Ability.AbilityRange;
 
     [Header("CASTING TYPE")]
-    [SerializeField] private bool normalCast = true;
     [SerializeField] private bool fastCastWithIndication = false;
     [SerializeField] private bool smartCast = false;
 
@@ -90,6 +89,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
+            #region Point and Click
             if (Ability.IsPointAndClick && Interactions.KnownTarget != null)
             {
                 AbilityTarget = Interactions.KnownTarget;
@@ -100,13 +100,22 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 AbilityTarget = transform;
                 return;
             }
+            #endregion
 
-            if (normalCast || fastCastWithIndication)
+            #region Normal Cast
+            if (fastCastWithIndication)
             {
+                characterIsTryingToCast = true;
+
                 if (rangeDisplayer != null && !rangeDisplayer.activeInHierarchy)
                 {
                     rangeDisplayer.SetActive(true);
                 }
+
+                //Find the ability container corresponding to the ability key pressed
+                //Then activate the feedback with the animation
+                Container.DisplayAbilityInUseFeedback();
+                Container.Parent.LockOtherUnusedAbilities(Ability.AbilityKey);
             }
             else if (smartCast)
             {
@@ -121,14 +130,21 @@ public abstract class AbilityLogic : MonoBehaviourPun
                     Controller.Agent.SetDestination(CastLocation);
                 }
             }
+            #endregion
         }
 
-        if (normalCast && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && UtilityClass.LeftClickIsPressed()
-            || fastCastWithIndication && rangeDisplayer != null && rangeDisplayer.activeInHierarchy && ( UtilityClass.IsKeyUnpressed(Ability.AbilityKey) || UtilityClass.LeftClickIsPressed()))
+        if (fastCastWithIndication 
+            && rangeDisplayer != null 
+            && rangeDisplayer.activeInHierarchy 
+            && ( UtilityClass.IsKeyUnpressed(Ability.AbilityKey) || UtilityClass.LeftClickIsPressed()))
         {
-            characterIsTryingToCast = true;
+            //characterIsTryingToCast = true;
 
             rangeDisplayer.SetActive(false);
+
+            //Find the ability container corresponding to the ability key pressed
+            //Then deactivate the feedback with the animation
+            Container.HideAbilityInUseFeedback();
 
             AdjustCharacterPositioning();
             CastLocation = GetCursorPosition(UtilityClass.RayFromMainCameraToMousePosition());
@@ -178,7 +194,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     #region Handling ability casting
     private void CastWhenInRange()
     {
-        if (characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange == 0 || IsInRangeToCast) 
+        if (characterIsTryingToCast && !rangeDisplayer.activeInHierarchy && !Controller.IsCasting && (Ability.AbilityRange == 0 || IsInRangeToCast) 
             || Ability.IsPointAndClick && AbilityTarget == transform
             || Ability.IsPointAndClick && characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange <= 0 || IsInRangeToCast))
         {
@@ -188,12 +204,13 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
             Cast();
             StartCoroutine(UtilityClass.ThrowSoundEventWithDelay(castCustomEvent, transform, delayBeforeThrowingSoundEvent));
-            //MasterAudio.FireCustomEvent(castCustomEvent, transform);
             abilityTarget = null;
             CanBeUsed = false;
 
             StartCoroutine(PutAbilityOnCooldown(Ability.AbilityTimeToCast + Ability.AbilityDuration));
             characterIsTryingToCast = false;
+
+            Container.Parent.UnlockOtherUnusedAbilities(Ability.AbilityKey);
         }
     }
 

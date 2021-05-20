@@ -20,6 +20,10 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
     [SerializeField] private Image cooldownFiller;
     [SerializeField] private TextMeshProUGUI cooldownText;
 
+    [Header("FEEDBACK")]
+    [SerializeField] private GameObject usingAbilityFeedbackObject;
+    public GameObject UsingAbilityFeedbackObject { get => usingAbilityFeedbackObject; }
+
     [Header("TIMER TEXT FORMAT")]
     [SerializeField] private bool onlySeconds = false;
 
@@ -28,7 +32,8 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public KeyCode AbilityKey { get => abilityKey; set => abilityKey = value; }
     public AbilityLogic ContainedAbility { get => containedAbility; set => containedAbility = value; }
-
+    public GetCharacterAbilities Parent { get; set; }
+   
     private void OnEnable()
     {
         AbilitiesCooldownHandler.OnAbitilityUsed += UpdateAbilityCooldownUI;
@@ -101,8 +106,18 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
 
         animator.SetTrigger("EndOfCD");
     }
-    
 
+    public void DisplayAbilityInUseFeedback()
+    {
+        UsingAbilityFeedbackObject.SetActive(true);
+    }
+
+    public void HideAbilityInUseFeedback()
+    {
+        UsingAbilityFeedbackObject.SetActive(false);
+    }
+
+    #region Event System behaviours
     public void OnPointerEnter(PointerEventData eventData)
     {
         DisplayTooltip(tooltip);
@@ -135,4 +150,5 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
             ContainedAbility.Ability.AbilityDescription,
             ContainedAbility.Ability.AbilityCooldown.ToString("0" + " s"));
     }
+    #endregion
 }

@@ -98,8 +98,7 @@ public class CharacterRessources : MonoBehaviour
     private void UpdatePlayerRessourcesValueText(int value)
     {
         //Means that a purchase has been done
-        if(CurrentAmountOfPlayerRessources > value)
-            SetLossRessourcesFeedback(value);
+        SetLossRessourcesFeedback(value);
 
         CurrentAmountOfPlayerRessources = value;
         OnCharacterRessourcesChanged?.Invoke();
@@ -113,19 +112,36 @@ public class CharacterRessources : MonoBehaviour
         // --> Changing color / "+" or "-"
         //Maybe play the animation in reverse to add contrast : in =/= out
 
-        //PlayerHUD ------------------------------------------------------------------------------
+        //PlayerHUD -----------------------------------------------------------------------------------------------------------------
         TextMeshProUGUI playerHUDTextToSetup = ressourcesLossFeedbackPlayerHUD.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        playerHUDTextToSetup.text = (newValue - CurrentAmountOfPlayerRessources).ToString();
-
         Animator playerHUDAnimator = ressourcesLossFeedbackPlayerHUD.GetComponent<Animator>();
-        playerHUDAnimator.SetTrigger("TriggerFeedback");
-
-        //UIManager ------------------------------------------------------------------------------
+        //UIManager -----------------------------------------------------------------------------------------------------------------
         TextMeshProUGUI UIManagerTextToSetup = ressourcesLossFeedbackUIManager.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        UIManagerTextToSetup.text = (newValue - CurrentAmountOfPlayerRessources).ToString();
-
         Animator UIManagerAnimator = ressourcesLossFeedbackUIManager.GetComponent<Animator>();
-        UIManagerAnimator.SetTrigger("TriggerFeedback");
 
+        if (CurrentAmountOfPlayerRessources > newValue)
+        {
+            //PlayerHUD ------------------------------------------------------------------------------
+            playerHUDTextToSetup.color = Color.red;
+            playerHUDTextToSetup.text = (newValue - CurrentAmountOfPlayerRessources).ToString();
+            playerHUDAnimator.SetTrigger("TriggerFeedback");
+
+            //UIManager ------------------------------------------------------------------------------
+            UIManagerTextToSetup.color = Color.red;
+            UIManagerTextToSetup.text = (newValue - CurrentAmountOfPlayerRessources).ToString();
+            UIManagerAnimator.SetTrigger("TriggerFeedback");
+        }
+        else if (CurrentAmountOfPlayerRessources < newValue)
+        {
+            //PlayerHUD ------------------------------------------------------------------------------
+            playerHUDTextToSetup.color = Color.green;
+            playerHUDTextToSetup.text = "+" + (newValue - CurrentAmountOfPlayerRessources).ToString();
+            playerHUDAnimator.SetTrigger("TriggerFeedbackOut");
+
+            //UIManager ------------------------------------------------------------------------------
+            UIManagerTextToSetup.color = Color.green;
+            UIManagerTextToSetup.text = "+" + (newValue - CurrentAmountOfPlayerRessources).ToString();
+            UIManagerAnimator.SetTrigger("TriggerFeedbackOut");
+        }
     }
 }

@@ -106,6 +106,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
             if (fastCastWithIndication)
             {
                 characterIsTryingToCast = true;
+                Container.Parent.DisplayGlowEffect();
 
                 if (rangeDisplayer != null && !rangeDisplayer.activeInHierarchy)
                 {
@@ -145,6 +146,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
             //Find the ability container corresponding to the ability key pressed
             //Then deactivate the feedback with the animation
             Container.HideAbilityInUseFeedback();
+            Container.Parent.HideGlowEffect();
 
             AdjustCharacterPositioning();
             CastLocation = GetCursorPosition(UtilityClass.RayFromMainCameraToMousePosition());

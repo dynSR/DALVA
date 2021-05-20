@@ -12,6 +12,9 @@ public class GetCharacterAbilities : MonoBehaviour
     [SerializeField] private List<KeyCode> abilitiesInputKeys;
     [SerializeField] private GameObject abilityContainerPrefab;
 
+    [Header("ABILITY IN USE FEEDBACK")]
+    [SerializeField] private GameObject glowFeedbackAnimator;
+
     private readonly List<AbilityContainerLogic> abilityContainers = new List<AbilityContainerLogic>();
     
     private void Start()
@@ -50,6 +53,7 @@ public class GetCharacterAbilities : MonoBehaviour
                 abilityContainers[i].ContainedAbility.CanBeUsed = false;
             }
         }
+        
     }
 
     public void UnlockOtherUnusedAbilities(KeyCode input)
@@ -61,5 +65,17 @@ public class GetCharacterAbilities : MonoBehaviour
                 abilityContainers[i].ContainedAbility.CanBeUsed = true;
             }
         }
+    }
+
+    public void DisplayGlowEffect()
+    {
+        //Start Glow Animation
+        glowFeedbackAnimator.SetActive(true);
+    }
+
+    public void HideGlowEffect()
+    {
+        //Stop Glow Animation
+        glowFeedbackAnimator.SetActive(false);
     }
 }

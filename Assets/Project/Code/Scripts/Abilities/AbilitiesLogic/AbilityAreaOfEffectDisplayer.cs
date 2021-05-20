@@ -10,6 +10,8 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
     [SerializeField] private EntityStats Stats;
     public List<Transform> targets = new List<Transform>();
 
+    [SerializeField] private Color targetOutlineColor;
+
     private void OnDisable()
     {
         if(targets.Count >= 1)
@@ -52,10 +54,10 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
                 if (targets[i].GetComponent<EntityStats>().EntityTeam == Stats.EntityTeam)
                     entityDetected.ActivateTargetOutlineOnHover(entityDetected.Outline, Color.blue);
                 else if (targets[i].GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
-                    entityDetected.ActivateTargetOutlineOnHover(entityDetected.Outline, Color.red);
+                    entityDetected.ActivateTargetOutlineOnHover(entityDetected.Outline, targetOutlineColor);
             }
         }
-    }
+    } 
 
     private void OnTriggerExit(Collider other)
     {

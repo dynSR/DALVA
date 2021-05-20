@@ -39,7 +39,7 @@ public class LeftSectionTooltip : MonoBehaviour
         penetrationValueText.SetText((stats.GetStat(StatType.PhysicalPenetration).Value + stats.GetStat(StatType.MagicalPenetration).Value).ToString("0") + "%");
         lifeStealValueText.SetText((stats.GetStat(StatType.PhysicalLifesteal).Value + stats.GetStat(StatType.MagicalLifesteal).Value).ToString("0") + "%");
 
-        //Trigger animation 
+        //Trigger animation
         Animator attachedAnimator = GetComponent<Animator>();
         attachedAnimator.SetTrigger("TriggerFeedback");
     }

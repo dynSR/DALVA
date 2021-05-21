@@ -84,9 +84,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public GameObject ShieldVFX { get => shieldVFX; }
 
     [Header("SOUNDS")]
-    [MasterCustomEvent] public string spawnCustomEvent;
-    [MasterCustomEvent] public string deathCustomEvent;
-    EventSounds EventSounds => GetComponent<EventSounds>();
+    [SoundGroup] public string spawnSoundGroup;
+    [SoundGroup] public string deathSoundGroup;
 
     [Header("PLAYER OPTIONS")]
     [SerializeField] private bool centerCameraOnRespawn = false;
@@ -94,12 +93,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public Vector3 CharacterHalfSize => transform.position + new Vector3(0, Controller.Agent.height / 2, 0);
 
     public int DamageAppliedToThePlaceToDefend { get => damageAppliedToThePlaceToDefend; set => damageAppliedToThePlaceToDefend = value; }
-
-    private void OnEnable()
-    {
-        if(EventSounds != null)
-            EventSounds.RegisterReceiver();
-    }
 
     private void Awake()
     {
@@ -442,7 +435,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             StartCoroutine(ProcessDeathTimer(TimeToRespawn));
 
-            MasterAudio.FireCustomEvent(deathCustomEvent, transform);
+            UtilityClass.PlaySoundGroupImmediatly(deathSoundGroup, transform);
         }
     }
 
@@ -498,7 +491,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         yield return new WaitForSeconds(delay - 0.5f);
 
-        MasterAudio.FireCustomEvent(spawnCustomEvent, spawnLocation);
+        UtilityClass.PlaySoundGroupImmediatly(spawnSoundGroup, spawnLocation);
 
         yield return new WaitForSeconds(1.3f);
 

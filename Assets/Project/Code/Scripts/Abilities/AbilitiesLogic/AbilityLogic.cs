@@ -49,9 +49,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [SerializeField] private bool smartCast = false;
 
     [Header("SOUNDS")]
-    [MasterCustomEvent] public string castCustomEvent;
-    [SerializeField] private float delayBeforeThrowingSoundEvent = 0f;
-    EventSounds EventSounds => GetComponent<EventSounds>();
+    [SoundGroup] public string castSoundGroup;
+    [SerializeField] private float delayBeforePlayingSoundGroup = 0f;
 
     [Header("DEBUG")]
     [SerializeField] private Color gizmosColor;
@@ -66,12 +65,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public AbilityContainerLogic Container { get; set; }
 
     protected abstract void Cast();
-
-    protected virtual void OnEnable()
-    {
-        if (EventSounds != null)
-            EventSounds.RegisterReceiver();
-    }
 
     protected virtual void Awake()
     {
@@ -205,7 +198,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Controller.CanMove = false;
 
             Cast();
-            StartCoroutine(UtilityClass.ThrowSoundEventWithDelay(castCustomEvent, transform, delayBeforeThrowingSoundEvent));
+            StartCoroutine(UtilityClass.PlaySoundGroupWithDelay(castSoundGroup, transform, delayBeforePlayingSoundGroup));
             abilityTarget = null;
             CanBeUsed = false;
 

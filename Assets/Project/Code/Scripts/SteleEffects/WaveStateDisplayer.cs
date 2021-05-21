@@ -5,16 +5,17 @@ public class WaveStateDisplayer : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject content;
-    [SerializeField] private SpawnerSystem spawner;
+    private SpawnerSystem spawner;
     public float timerAssigned;
     public float localTimer;
 
+    private void Awake()
+    {
+        spawner = GameManager.Instance.Spawner;
+    }
 
     private void OnEnable()
     {
-        if (spawner == null)
-            Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
-
         spawner.OnWaveStartinSoon += SetWaveDisplayerFillAmount;
         spawner.OnWavePossibilityToSpawnState += ToggleContent;
     }

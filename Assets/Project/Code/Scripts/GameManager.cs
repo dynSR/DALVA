@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            if (Spawner == null)
+                Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
+
             Debug.Log("COUCOU", transform);
         }
     }
@@ -52,7 +56,6 @@ public class GameManager : MonoBehaviour
 
     public Transform Player { get; set; }
     
-
     void Start()
     {
         ShopPhase();

@@ -52,15 +52,19 @@ public class ResetShopButton : UIButtonWithTooltip, IPointerEnterHandler, IPoint
 
     void ToggleButtonStatus()
     {
+        UIButtonSound uiButtonSoundScript = GetComponent<UIButtonSound>();
+
         if (PlayerRessources.CurrentAmountOfPlayerRessources >= shop.ResetDrawCost)
         {
             resetDrawCostText.color = initialResetDrawCostTextColor;
             backgroundImage.color = enabledColor;
+            uiButtonSoundScript.enabled = true;
         }
         else if (PlayerRessources.CurrentAmountOfPlayerRessources < shop.ResetDrawCost)
         {
             resetDrawCostText.color = Color.red;
             backgroundImage.color = disabledColor;
+            uiButtonSoundScript.enabled = false;
         }
     }
 }

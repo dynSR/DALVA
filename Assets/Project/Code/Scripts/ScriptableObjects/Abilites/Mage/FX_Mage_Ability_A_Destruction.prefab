@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8067492461599802328}
   - component: {fileID: 4642924201446719373}
   - component: {fileID: 439068184027771830}
+  - component: {fileID: 3025088774349035934}
   m_Layer: 2
   m_Name: FX_Mage_Ability_A_Destruction
   m_TagString: Untagged
@@ -4879,3 +4880,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3025088774349035934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5544391137096342156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8434dec12af50514f899fdc17dd813df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetimeValue: 0.35
+  destroyAfterTime: 1
+  hideAfterTime: 0

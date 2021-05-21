@@ -59,16 +59,19 @@ public class ShopInformationPanel : MonoBehaviour
     void SetBuyButton()
     {
         Item selectedItem = shopManager.SelectedItem;
+        UIButtonSound UIButtonSoundScript = buyButton.GetComponent<UIButtonSound>();
 
         if (shopManager.CanPurchaseItem(selectedItem) && !shopManager.IsItemAlreadyInInventory(selectedItem))
         {
             buyButton.interactable = true;
             buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().HighlightColor);
+            UIButtonSoundScript.enabled = true;
         }
         else
         {
             buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
-            buyButton.interactable = false; 
+            buyButton.interactable = false;
+            UIButtonSoundScript.enabled = false;
         }
     }
 

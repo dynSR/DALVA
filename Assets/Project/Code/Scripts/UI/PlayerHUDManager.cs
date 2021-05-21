@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DarkTonic.MasterAudio;
+using TMPro;
 using UnityEngine;
 
 public class PlayerHUDManager : MonoBehaviour
@@ -21,6 +22,10 @@ public class PlayerHUDManager : MonoBehaviour
 
     [Header("STELETOOLTIP")]
     [SerializeField] private GameObject steleTooltip;
+
+    [Header("UI SOUNDS")]
+    [SoundGroup] public string oppeningShopSoundGroup;
+    [SoundGroup] public string closingShopSoundGroup;
 
     public GameObject ShopWindow { get => shopWindow; }
     public TextMeshProUGUI ShopPlayerRessourcesValueText { get => shopPlayerRessourcesValueText; }
@@ -155,6 +160,8 @@ public class PlayerHUDManager : MonoBehaviour
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
 
         IsShopWindowOpen = true;
+        UtilityClass.PlaySoundGroupImmediatly(oppeningShopSoundGroup, UtilityClass.GetMainCamera().transform);
+        //MasterAudio.PlaySound(oppeningShopSoundGroup);
 
         if (shop.ShuffleItemsOnlyWhenFifthWaveIsOver && GameManager.Instance.WaveDone == 6)
         {
@@ -180,7 +187,11 @@ public class PlayerHUDManager : MonoBehaviour
     void OnClosingShopWindow()
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
+
         IsShopWindowOpen = false;
+
+        UtilityClass.PlaySoundGroupImmediatly(closingShopSoundGroup, UtilityClass.GetMainCamera().transform);
+        //MasterAudio.PlaySound(closingShopSoundGroup);
 
         if (shop.ShuffleItemsOnlyWhenFifthWaveIsOver && GameManager.Instance.WaveDone == 6) shop.DeleteDraw();
         else if (!shop.ShuffleItemsOnlyWhenFifthWaveIsOver) shop.DeleteDraw();

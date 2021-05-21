@@ -22,9 +22,10 @@ public class SpawnerSystem : MonoBehaviour
     [System.Serializable]
     public class MinionsData
     {
-        public GameObject[] minionsObject;
+        public string spawnLocationName;
         public Transform spawnLocation; //Set the spawner it can spawns
-        public int usedPathIndex; //Set the path followed
+        [Range(0,8)] public int usedPathIndex; //Set the path followed
+        public GameObject[] minionsUsedInTheWave;
     }
 
     public WaveState waveState; // public for debug purpose
@@ -43,7 +44,7 @@ public class SpawnerSystem : MonoBehaviour
     [SerializeField] private List<Wave> waves;
 
     [Header("SOUNDS")]
-    [MasterCustomEvent] public string spawnCustomEvent;
+    [SoundGroup] public string spawnCustomEvent;
 
     public bool spawnEventEndedHasBeenHandled = false;
 
@@ -54,14 +55,6 @@ public class SpawnerSystem : MonoBehaviour
     public float Countdown { get => countdown; set => countdown = value; }
     public float DelayBeforeSpawningFirstWave { get => delayBeforeSpawningFirstWave; set => delayBeforeSpawningFirstWave = value; }
     public float DelayBetweenWaves { get => delayBetweenWaves; set => delayBetweenWaves = value; }
-
-    EventSounds EventSounds => GetComponent<EventSounds>();
-
-    private void OnEnable()
-    {
-        if (EventSounds != null)
-            EventSounds.RegisterReceiver();
-    }
 
     void Start()
     {
@@ -114,8 +107,8 @@ public class SpawnerSystem : MonoBehaviour
         //Hide Spawn State Displayer(s)
         OnWavePossibilityToSpawnState?.Invoke(0);
 
-        //Spawn Sound Event
-        MasterAudio.FireCustomEvent(spawnCustomEvent, transform);
+        //Spawn Sound Event : Oppening Portal
+        UtilityClass.PlaySoundGroupImmediatly(spawnCustomEvent, transform);
 
         if (spawnObjectFeedback != null)
             spawnObjectFeedback.SetActive(true);
@@ -128,12 +121,16 @@ public class SpawnerSystem : MonoBehaviour
         //For each minions in it, loop spawning
         for (int i = 0; i < currentWave.minionsData.Count; i++)
         {
-            for (int j = 0; j < currentWave.minionsData[i].minionsObject.Length; j++)
+            for (int j = 0; j < currentWave.minionsData[i].minionsUsedInTheWave.Length; j++)
             {
+                //Spawn Sound Event : Portal Loop
+                //if(MasterAudio.SoundsReady)
+                //     UtilityClass.PlaySoundGroupImmediatly(spawnCustomEvent, transform);
+
                 MinionsData minionData = currentWave.minionsData[i];
 
-                Debug.Log(minionData.minionsObject.Length);
-                NPCController spawningMinionController = minionData.minionsObject[j].GetComponent<NPCController>();
+                Debug.Log(minionData.minionsUsedInTheWave.Length);
+                NPCController spawningMinionController = minionData.minionsUsedInTheWave[j].GetComponent<NPCController>();
 
                 if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
                 {
@@ -141,19 +138,23 @@ public class SpawnerSystem : MonoBehaviour
                 }
 
                 SpawnMinions(
-                   minionData.minionsObject[j],
+                   minionData.minionsUsedInTheWave[j],
                     minionData.spawnLocation,
                     minionData.usedPathIndex);
 
                 yield return new WaitForSeconds(spawnRate);
 
-                if(j == minionData.minionsObject.Length - 1 && !spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
+                //Update GameManager
+                if(j == minionData.minionsUsedInTheWave.Length - 1 && !spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
+                {
                     GameManager.Instance.UpdateWaveCount();
+                    //Spawn Sound Event : Portal Closing
+                    // UtilityClass.PlaySoundGroupImmediatly(spawnCustomEvent, transform);
+                    //Spawn Sound Event : Stop Looping spawning
+                    //MasterAudio.StopAllOfSound(spawnCustomEvent);
+                }
             }
         }
-
-        //if (!spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
-        //    GameManager.Instance.UpdateWaveCount();
 
         //Change spawner state
         waveState = WaveState.Standby;
@@ -217,5 +218,18 @@ public class SpawnerSystem : MonoBehaviour
         Countdown = DelayBetweenWaves;
 
         spawnEventEndedHasBeenHandled = false;
+    }
+
+    void OnValidate()
+    {
+        for (int i = 0; i < Waves.Count; i++)
+        {
+            for (int j = 0; j < Waves[i].minionsData.Count; j++)
+            {
+                if (Waves[i].minionsData[j].spawnLocation != null)
+                    Waves[i].minionsData[j].spawnLocationName = Waves[i].minionsData[j].spawnLocation.name;
+                else Waves[i].minionsData[j].spawnLocationName = string.Empty;
+            }
+        }
     }
 }

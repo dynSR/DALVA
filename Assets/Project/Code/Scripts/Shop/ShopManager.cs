@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DarkTonic.MasterAudio;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -37,7 +38,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("ITEMS IN GAME")]
     [SerializeField] private List<Item> itemsInGame;
-    
+
     private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
     private EntityStats PlayerStats => Player.GetComponent<EntityStats>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }

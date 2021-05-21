@@ -110,10 +110,17 @@ public static class UtilityClass
         return false;
     }
 
-    public static IEnumerator ThrowSoundEventWithDelay(string eventSound, Transform originCenter, float delay)
+    public static IEnumerator PlaySoundGroupWithDelay(string sound, Transform originCenter, float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        MasterAudio.FireCustomEvent(eventSound, originCenter);
+        MasterAudio.PlaySound3DAtTransform(sound, originCenter);
+
+        Debug.Log("Firing Sound Event !");
+    }
+
+    public static void PlaySoundGroupImmediatly(string sound, Transform originCenter)
+    {
+        MasterAudio.PlaySound3DAtTransform(sound, originCenter);
     }
 }

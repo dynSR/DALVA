@@ -1,9 +1,6 @@
 ﻿public class Ability_Mage_A : AbilityLogic
 {
     protected override void Awake() => base.Awake();
-
-    protected override void OnEnable() => base.OnEnable();
-
     protected override void Update() => base.Update();
 
     protected override void Cast()

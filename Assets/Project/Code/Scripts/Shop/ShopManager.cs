@@ -337,7 +337,9 @@ public class ShopManager : MonoBehaviour
 
             ItemButton itemButtonScript = _ItemButton.GetComponentInChildren<ItemButton>();
 
-            itemCreated.Add(itemButtonScript);
+            //Ajouter le fait qu'un item déjà présent dans cette liste ne soit pas choisi
+            if (!itemCreated.Contains(itemButtonScript))
+                itemCreated.Add(itemButtonScript);
         }
 
         for (int i = itemCreated.Count - 1; i >= 0; i--)

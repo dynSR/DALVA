@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DarkTonic.MasterAudio;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,17 +35,6 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public event SteleInteractionHandler OnInteraction;
     public event SteleInteractionHandler OnEndOFInteraction;
 
-    //public delegate void SteleHealthHandler(float value, float max);
-    //public event SteleHealthHandler OnHealthValueChanged;
-
-    //public delegate void SteleLifeStatusHandler();
-    //public event SteleLifeStatusHandler OnActivation;
-    //public event SteleLifeStatusHandler OnSteleDeath;
-
-    //[Header("HEALTH PARAMTERS")]
-    //[SerializeField] private int healthPoints = 0; //debug
-    //[SerializeField] private int maxHealthPoints = 0; //debug
-
     [Header("CURRENT STATE")]
     [SerializeField] private SteleState steleState;
     [SerializeField] private SteleLevel steleLevel;
@@ -54,10 +44,13 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     [SerializeField] private Transform effectEntitySpawnLocation;
     [SerializeField] private GameObject activationVFX;
     [SerializeField] private GameObject activatedVFX;
-    [SerializeField] private List<GameObject> runes;
+
+    [Header("SFX")]
+    [SoundGroup] [SerializeField] private string activationSFX;
+    [SoundGroup] [SerializeField] private string upgradeSFX;
+    [SoundGroup] [SerializeField] private string sellingSFX;
+
     private bool interactionIsHandled = false;
-    //private bool isDead = false;
-    //public int HealthPoints { get => healthPoints; set => healthPoints = value; }
     public SteleState SteleState { get => steleState; private set => steleState = value; }
     public SteleLevel SteleLevel { get => steleLevel; private set => steleLevel = value; }
     public SteleEffect SteleEffect { get => steleEffect; private set => steleEffect = value; }
@@ -79,8 +72,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public class SpawnedEffectTransformData
     {
         public string effectName;
-        public Vector3 position;
-        public float yAxisValue;
+        public Transform position;
     }
 
     #region Ref
@@ -120,15 +112,10 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         PurchaseSteleEffect(cost);
 
         activationVFX.SetActive(true);
-        //Throw build/actiavtion sound event here -!-
+        UtilityClass.PlaySoundGroupImmediatly(activationSFX, transform);
 
         InteractingPlayer.Target = null;
         InteractingPlayer = null;
-
-        //OnActivation?.Invoke();
-
-        //maxHealthPoints = steleHealthPointsRelativeToEffect;
-        //HealthPoints = maxHealthPoints;
     }
 
     public void SetSteleLevel(int steleLevel)
@@ -139,24 +126,6 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void SetSteleEffect(int steleEffect)
     {
         SteleEffect = (SteleEffect)steleEffect;
-    }
-
-    public void ActiveRuneEffect(GameObject rune)
-    {
-        rune.SetActive(true);
-        activatedVFX.SetActive(true);
-    }
-
-    public void DeactivateRuneEffect()
-    {
-        for (int i = 0; i < runes.Count; i++)
-        {
-            if (runes[i].activeInHierarchy)
-            {
-                runes[i].SetActive(false);
-                activatedVFX.SetActive(false);
-            }
-        }
     }
 
     public void SpawnEntityEffect(GameObject entityToSpawn)
@@ -184,7 +153,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         SteleLevel = SteleLevel.Default;
         InteractingPlayer.GetComponent<CharacterRessources>().AddRessources(amountToRefund);
         SetSteleEffect(0);
-        DeactivateRuneEffect();
+        UtilityClass.PlaySoundGroupImmediatly(sellingSFX, transform);
     }
 
     public void UpgradeEffect()
@@ -193,7 +162,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         if (activationVFX.activeInHierarchy) activationVFX.SetActive(false);
         activationVFX.SetActive(true);
-        //Throw upgrade sound event here -!-
+        UtilityClass.PlaySoundGroupImmediatly(upgradeSFX, transform);
     }
 
     public void SetFinalEvolutionValueOfSteleEffect(int value)
@@ -214,9 +183,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     {
         //index = valeurs pour le transform
         //effet position = listDatas[concernedIndex]
-        //effet rotation.Y = listDatas[concernedIndex]
+        Debug.Log("SetSpawnedEffectTransformValues", transform);
 
         //Spawned
+        SpawnedEffectObject.transform.position = spawnedEffectTransformDatas[concernedIndex].position.position;
+        SpawnedEffectObject.transform.rotation = spawnedEffectTransformDatas[concernedIndex].position.rotation;
     }
 
     private void SetSteleTeam()

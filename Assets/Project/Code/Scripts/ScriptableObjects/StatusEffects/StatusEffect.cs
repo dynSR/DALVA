@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DarkTonic.MasterAudio;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum StatusEffectType
@@ -26,6 +27,10 @@ public class StatusEffect : ScriptableObject
     [SerializeField] private bool canStunTarget = false;
     [SerializeField] private bool canRootTarget = false;
     [SerializeField] private bool isStackable = false;
+
+    [Header("SFX")]
+    [SoundGroup] [SerializeField] private string stunSFX;
+    [SoundGroup] [SerializeField] private string rootedSFX;
 
     public string StatusEffectName { get => statusEffectName; }
     public string StatusEffectDescription { get => statusEffectDescription; }
@@ -68,8 +73,20 @@ public class StatusEffect : ScriptableObject
                     GetTargetStats(target).UpdateStats();
             }
 
-            if (CanRootTarget) GetTargetController(target).RootTarget();
-            if (CanStunTarget) GetTargetController(target).StunTarget();
+            if (CanRootTarget)
+            {
+                GetTargetController(target).RootTarget();
+                UtilityClass.PlaySoundGroupImmediatly(rootedSFX, target);
+            }
+            if (CanStunTarget)
+            {
+                GetTargetController(target).StunTarget();
+                UtilityClass.PlaySoundGroupImmediatly(stunSFX, target);
+            }
+
+            EntityStats targetStats = target.GetComponent<EntityStats>();
+
+            if (targetStats != null && targetStats.EntityIsMarked) targetStats.DeactivateMarkFeedback();
 
             GetTargetStatusEffectHandler(target).AddNewEffect(this);
             CreateVFXOnApplication(StatusEffectVFXPrefab, target);
@@ -118,12 +135,12 @@ public class StatusEffect : ScriptableObject
         else
         {
             if (effectToRemove.CanRootTarget)
-                GetTargetController(target).IsRooted = false;
+                GetTargetController(target).UnRootTarget();
 
             if (effectToRemove.CanStunTarget)
             {
                 GetTargetController(target).GetComponent<InteractionSystem>().CanPerformAttack = true;
-                GetTargetController(target).IsStunned = false;
+                GetTargetController(target).UnStunTarget();
             }  
         }
 

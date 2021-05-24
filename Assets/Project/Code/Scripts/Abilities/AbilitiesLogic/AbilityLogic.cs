@@ -355,7 +355,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 }
             }
 
-            if(Ability.AbilityCanConsumeMark) targetStat.EntityIsMarked = false;
+            if(Ability.AbilityCanConsumeMark) /*targetStat.EntityIsMarked = false;*/ targetStat.DeactivateMarkFeedback();
 
             //Applying mark to target(s), if the ability can mark it/them
             if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));

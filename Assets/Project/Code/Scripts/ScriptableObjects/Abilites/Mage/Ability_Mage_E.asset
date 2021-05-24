@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Ability_Mage_E
   m_EditorClassIdentifier: 
   abilityName: "Volont\xE9 du Sorcier"
-  abilityDescription: 
+  abilityDescription: "<color=#ff0000ff>Ennemi :</color> inflige des d\xE9g\xE2ts
+    magiques et ralentit la cible pendant 2s, si elle est marqu\xE9e, elle est immobilis\xE9e.\n<color=#5dade2>Alli\xE9
+    :</color> octroie un bouclier protecteur pendant 2s, si la cible est marqu\xE9e,
+    elle est \xE9galement soign\xE9e."
   abilityKey: 101
   abilityIcon: {fileID: 21300000, guid: c707039c47907f1fa3446c0a244c4133, type: 3}
   abilityCost: 0
@@ -43,6 +46,10 @@ MonoBehaviour:
   effectAppliedOnMarkedEnemy: {fileID: 11400000, guid: 3445b23ba35a0324b998f5a7c83379f8, type: 2}
   abilityRange: 6
   abilityAreaOfEffect: 0
+  noneType: 0
+  targetedType: 1
+  aimedType: 0
+  zoneType: 0
   abilityCooldown: 1
   abilityTimeToCast: 0.25
   abilityDuration: 0

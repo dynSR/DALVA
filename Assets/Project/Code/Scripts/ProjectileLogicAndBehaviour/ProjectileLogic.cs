@@ -202,13 +202,11 @@ public class ProjectileLogic : MonoBehaviour
 
         if (targetStat.EntityIsMarked)
         {
-            targetStat.EntityIsMarked = false;
+            targetStat.DeactivateMarkFeedback();
+            //targetStat.EntityIsMarked = false;
             markBonusHeal = Ability.AbilityHealBonusOnMarkedTarget;
         }
         else markBonusHeal = 0;
-
-        if (targetStat.EntityIsMarked)
-            targetStat.EntityIsMarked = false;
 
         targetStat.Heal(targetStat.transform, Ability.AbilityHealValue + (
             ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + markBonusHeal)), 
@@ -221,18 +219,18 @@ public class ProjectileLogic : MonoBehaviour
     {
         //Debug.Log("No ability");
 
-        float markBonusDamage;
+        //float markBonusDamage;
 
-        if (targetStat.EntityIsMarked)
-        {
-            targetStat.EntityIsMarked = false;
-            markBonusDamage = BonusProjectileDamageOnMarkedTarget;
-        }
-        else markBonusDamage = 0;
+        //if (targetStat.EntityIsMarked)
+        //{
+        //    targetStat.EntityIsMarked = false;
+        //    markBonusDamage = BonusProjectileDamageOnMarkedTarget;
+        //}
+        //else markBonusDamage = 0;
 
         if (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value > 0)
         {
-            TotalPhysicalDamage = ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value + markBonusDamage;
+            TotalPhysicalDamage = ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value /*+ markBonusDamage*/;
         }
         else TotalPhysicalDamage = 0;
 
@@ -324,7 +322,8 @@ public class ProjectileLogic : MonoBehaviour
                     nearTargets.Add(targetColliders.transform);
 
                     if (Ability.AbilityCanConsumeMark)
-                        nearTargetStats.EntityIsMarked = false;
+                        nearTargetStats.DeactivateMarkFeedback();
+                        //nearTargetStats.EntityIsMarked = false;
                 }
             }
 

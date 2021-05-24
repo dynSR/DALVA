@@ -29,7 +29,7 @@ public class Tower : MonoBehaviour
 
         CanAttack = false;
 
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(1 / delay);
 
         CanAttack = true;
     }

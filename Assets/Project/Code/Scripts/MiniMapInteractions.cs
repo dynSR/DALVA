@@ -80,14 +80,14 @@ public class MiniMapInteractions : MonoBehaviour, IPointerDownHandler, IPointerU
         {
             //Debug.Log("Object touched by the character controller raycast " + miniMapHit.collider.gameObject);
 
-            if (UtilityClass.LeftClickIsPressedOnUIElement(requiredEventData))
+            if (UtilityClass.LeftClickIsPressedOnUIElement(requiredEventData) && GameManager.Instance.GameIsInPlayMod())
             {
                 Debug.Log("LETF CLICK ON MAP");
 
                 PlayerCameraController.MoveCameraToASpecificMiniMapPosition(miniMapHit.point);
             }
 
-            if (UtilityClass.RightClickIsPressedOnUIElement(requiredEventData) && GameManager.Instance.GameIsInPlayMod())
+            if (UtilityClass.RightClickIsPressedOnUIElement(requiredEventData) && GameManager.Instance.GameIsInPlayMod() && !PlayerController.IsStunned && !PlayerController.IsRooted && !PlayerController.IsCasting)
             {
                 Debug.Log("RIGHT CLICK ON MAP");
                 

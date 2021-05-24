@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: "Orbe d'\xC9nergie"
   abilityDescription: "Lance un projectile magique vers l'avant. \nSi l'ennemi touch\xE9
-    est marqu\xE9, il inflige des d\xE9g\xE2ts suppl\xE9mentaires et rebondit sur
-    les ennemis proches.\nLa marque est consum\xE9e."
+    est marqu\xE9, ce projectile inflige des d\xE9g\xE2ts suppl\xE9mentaires et rebondit
+    sur les ennemis proches de la cible.\nLa marque est consum\xE9e."
   abilityKey: 97
   abilityIcon: {fileID: 21300000, guid: 2baffb6b5a0f9cf37637a7131641f493, type: 3}
   abilityCost: 75
@@ -45,6 +45,10 @@ MonoBehaviour:
   effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 0
   abilityAreaOfEffect: 1.5
+  noneType: 0
+  targetedType: 0
+  aimedType: 1
+  zoneType: 0
   abilityCooldown: 7
   abilityTimeToCast: 0.15
   abilityDuration: 0

@@ -28,7 +28,7 @@ public class PlayerController : CharacterController
 
         if (GameObject.Find("GameNetworkManager") == null || photonView.IsMine)
         {
-            if (UtilityClass.RightClickIsHeld() && !IsCursorHoveringUIElement)
+            if (UtilityClass.RightClickIsHeld() && !IsCursorHoveringUIElement && !IsCasting)
             {
                 SetNavMeshDestination(UtilityClass.RayFromMainCameraToMousePosition());
             }
@@ -50,6 +50,8 @@ public class PlayerController : CharacterController
             movementFeedbackHasBeenCreated = false;
 
             SetAgentDestination(Agent, raycastHit.point);
+
+            if (Interactions.Target != null) return;
             HandleCharacterRotation(transform);
 
             DebugPathing(MyLineRenderer);

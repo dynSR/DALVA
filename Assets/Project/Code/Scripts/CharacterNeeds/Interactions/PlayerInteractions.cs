@@ -21,7 +21,7 @@ public class PlayerInteractions : InteractionSystem
     {
         base.Update();
 
-        if (!GameManager.Instance.GameIsInPlayMod()) return;
+        if (!GameManager.Instance.GameIsInPlayMod() || Controller.IsCasting) return;
 
         SetTargetOnMouseClick();
     }
@@ -44,8 +44,7 @@ public class PlayerInteractions : InteractionSystem
             PlayerIsTryingToAttack = false;
         }
 
-        if (UtilityClass.RightClickIsPressed()
-            && (GameObject.Find("GameNetworkManager") == null || GetComponent<PhotonView>().IsMine))
+        if (UtilityClass.RightClickIsPressed())
         {
             //Debug.Log("Set target on mouse click");
             ResetTarget();
@@ -60,10 +59,7 @@ public class PlayerInteractions : InteractionSystem
                 if (targetFound != null && targetFound.enabled && !targetFound.ThisTargetIsASteleEffect(targetFound))
                 {
                     Target = targetFound.transform;
-
-                    //Update your target for the other players
-                    if (GameObject.Find("GameNetworkManager") != null)
-                        GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, hit.collider.gameObject.name, "Targeting", GetComponent<PhotonView>().ViewID);
+                    //Controller.HandleCharacterRotation(Target);
 
                     //Needs to be modified to only include Player -Interactive building - Monster - Minion
                     //Target in an enemy entity
@@ -78,8 +74,6 @@ public class PlayerInteractions : InteractionSystem
                     {
                         if (interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL || interactiveBuilding.EntityTeam == Stats.EntityTeam)
                             StoppingDistance = InteractionRange;
-                        //else if (interactiveBuilding.EntityTeam != Stats.EntityTeam) 
-                        //    StoppingDistance = Stats.GetStat(StatType.AttackRange).Value;
                     }
 
                     MoveTowardsAnExistingTarget(Target, StoppingDistance);
@@ -87,8 +81,6 @@ public class PlayerInteractions : InteractionSystem
                 else
                 {
                     //Ground hit
-                    //if (GameObject.Find("GameNetworkManager") != null)
-                    //    GetComponent<PhotonView>().RPC("InteractionUpdate", RpcTarget.Others, null, "Targeting", GetComponent<PhotonView>().ViewID);
                     ResetAgentState();
                 }
             }
@@ -105,7 +97,7 @@ public class PlayerInteractions : InteractionSystem
             {
                 Target.GetComponent<HarvesterLogic>().ResetAfterInteraction();
             }
-            else if (Target.GetComponent<SteleLogic>() != null /*&& Target.GetComponent<SteleLogic>().SteleState != SteleState.Active*/  /* + vérification team ? */)
+            else if (Target.GetComponent<SteleLogic>() != null)
             {
                 Target.GetComponent<SteleLogic>().InteractingPlayer = null;
             }
@@ -140,7 +132,7 @@ public class PlayerInteractions : InteractionSystem
         {
             SteleLogic stele = Target.GetComponent<SteleLogic>();
 
-            if (stele != null && stele.IsInteractable /*&& stele.SteleState != SteleState.Active*/ /*uncomment here if a stele can be interactive even when active*/)
+            if (stele != null && stele.IsInteractable)
             {
                 IsInteractingWithAStele = true;
                 Animator.SetBool("Attack", false);
@@ -184,8 +176,6 @@ public class PlayerInteractions : InteractionSystem
 
     private void SetAttackRangeSize()
     {
-        //attackRange.transform.localScale = new Vector3(Stats.GetStat(StatType.AttackRange).Value, Stats.GetStat(StatType.AttackRange).Value, attackRange.transform.localScale.z);
-
         attackRange.GetComponent<SphereCollider>().radius = Stats.GetStat(StatType.AttackRange).Value;
 
         SpriteRenderer attackRangeRenderer = attackRange.GetComponent<SpriteRenderer>();
@@ -200,43 +190,6 @@ public class PlayerInteractions : InteractionSystem
     private void HideAttackRange()
     {
         attackRange.GetComponent<SpriteRenderer>().enabled = false;
-    }
-    #endregion
-
-    #region Network
-
-    //InteractionUpdate
-    [PunRPC]
-    public void InteractionUpdate(string target, string interaction, int photonviewID, PhotonMessageInfo info)
-    {
-        if (interaction == "Targeting")
-        {
-            PlayerInteractions player = PhotonView.Find(photonviewID).GetComponent<PlayerInteractions>();
-
-            player.ResetTarget();
-
-            if (target != null)
-            {
-                player.Target = GameObject.Find(target).transform;
-                EntityDetection playerTargetFound = player.Target.GetComponent<EntityDetection>();
-
-                //Target is an entity
-                if (Stats.EntityTeam != playerTargetFound.GetComponent<EntityStats>().EntityTeam 
-                    || (playerTargetFound.ThisTargetIsAPlayer(playerTargetFound)
-                    || playerTargetFound.ThisTargetIsAMonster(playerTargetFound)
-                    || playerTargetFound.ThisTargetIsAMinion(playerTargetFound)
-                    || playerTargetFound.ThisTargetIsAStele(playerTargetFound)))
-                    player.StoppingDistance = player.Stats.GetStat(StatType.AttackRange).Value;
-
-                //Target is an interactive building
-                if (playerTargetFound.ThisTargetIsAHarvester(playerTargetFound) || playerTargetFound.ThisTargetIsAStele(playerTargetFound))
-                    player.StoppingDistance = player.InteractionRange;
-            }
-            else
-            {
-                player.ResetAgentState();
-            }
-        }
     }
     #endregion
 }

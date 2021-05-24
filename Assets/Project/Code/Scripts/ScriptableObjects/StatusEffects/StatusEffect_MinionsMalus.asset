@@ -15,11 +15,16 @@ MonoBehaviour:
   statusEffectName: Malus aux Minions
   statusEffectDescription: "Abaisse les caract\xE9ristiques de 10%PV/PP/RP/RM "
   statusEffectDuration: 60
+  type: 0
   statusEffectId: 20
   statusEffectIcon: {fileID: 0}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
+  canStunTarget: 0
+  canRootTarget: 0
   isStackable: 0
+  stunSFX: SFX_EMageStun
+  rootedSFX: 
   statModifiers:
   - Value: -0.1
     StatType: 0

@@ -26,17 +26,7 @@ public class TowerRange : MonoBehaviour
 
         if (Tower.CanAttack && entitiesFound.Count > 0 && (entitiesFound[0] == null || !entitiesFound[0].IsDead))
         {
-            if (TowerAmelioration.FinalEvolutionNumber != 1)
-            {
-                StartCoroutine(Tower.ShotProjectileOntoTarget(entitiesFound[0]));
-            }
-            else if (TowerAmelioration.FinalEvolutionNumber == 1)
-            {
-                if (!rotationPivot.gameObject.activeInHierarchy)
-                    rotationPivot.gameObject.SetActive(true);
-
-                rotationPivot.HandleRotation(rotationPivot.transform, entitiesFound[0].transform.position, rotationPivot.RotateVelocity, rotationPivot.RotationSpeed);
-            }
+            StartCoroutine(Tower.ShotProjectileOntoTarget(entitiesFound[0]));
         }
         else if (!Tower.CanAttack && entitiesFound.Count > 0 && (entitiesFound[0] == null || entitiesFound[0].IsDead))
         {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using DarkTonic.MasterAudio;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class CharacterController : MonoBehaviourPun, IPunObservable
@@ -21,6 +22,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     [Header("VFX")]
     [SerializeField] private GameObject stunVFX;
     [SerializeField] private GameObject rootedVFX;
+    [SerializeField] private GameObject[] slowedVFX;
     public GameObject StunVFX { get => stunVFX; }
     public GameObject RootedVFX { get => rootedVFX; }
 
@@ -139,6 +141,22 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     {
         IsRooted = false;
         RootedVFX.SetActive(false);
+    }
+
+    public void ActivateSlowVFX()
+    {
+        foreach (var item in slowedVFX)
+        {
+            item.SetActive(true);
+        }
+    }
+
+    public void DeactivateSlowVFX()
+    {
+        foreach (var item in slowedVFX)
+        {
+            item.SetActive(false);
+        }
     }
     #endregion
 

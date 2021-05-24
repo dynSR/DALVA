@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8eb4df1c2e57e840851cc35e981eeb4, type: 3}
   m_Name: Ability_Mage_R
   m_EditorClassIdentifier: 
-  abilityName: "Rayon puissant d'\xE9nergie"
-  abilityDescription: 
+  abilityName: Rayon de Flux Magique
+  abilityDescription: "Projette un puissant rayon de flux magique vers l'avant. Tous
+    les ennemis touch\xE9s subissent d'importants d\xE9g\xE2ts magiques.\nLes ennemis
+    marqu\xE9s subissent des d\xE9g\xE2ts suppl\xE9mentaires."
   abilityKey: 114
   abilityIcon: {fileID: 21300000, guid: c893e7c31d46f23e090dc90b2edf0c5c, type: 3}
   abilityCost: 0
@@ -43,7 +45,11 @@ MonoBehaviour:
   effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 0
   abilityAreaOfEffect: 0
-  abilityCooldown: 35
+  noneType: 0
+  targetedType: 0
+  aimedType: 1
+  zoneType: 0
+  abilityCooldown: 0
   abilityTimeToCast: 0
   abilityDuration: 3
   instantCasting: 0

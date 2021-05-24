@@ -44,10 +44,19 @@ public class Ability : ScriptableObject
     [SerializeField] private StatusEffect effectAppliedOnMarkedAlly;
     [SerializeField] private StatusEffect effectAppliedOnMarkedEnemy;
 
-
     [Header("APPLICATION LIMITS")]
     [SerializeField] private float abilityRange = 0f;
     [SerializeField] private float abilityAreaOfEffect = 0f;
+
+    [Header("APPLICATION TYPES")]
+    [SerializeField] private bool noneType = false;
+    [SerializeField] private bool targetedType = false;
+    [SerializeField] private bool aimedType = false;
+    [SerializeField] private bool zoneType = false;
+    public bool NoneType { get => noneType; set => noneType = value; }
+    public bool TargetedType { get => targetedType; set => targetedType = value; }
+    public bool AimedType { get => aimedType; set => aimedType = value; }
+    public bool ZoneType { get => zoneType; set => zoneType = value; }
 
     [Header("TIMERS")]
     [SerializeField] private float abilityCooldown = 0f;

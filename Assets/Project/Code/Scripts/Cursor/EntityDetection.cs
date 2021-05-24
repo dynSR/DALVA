@@ -8,30 +8,29 @@ public enum TypeOfEntity
     Harvester 
 }
 
-[RequireComponent(typeof(Outline))]
 [RequireComponent(typeof(VisibilityState))]
 public class EntityDetection : MonoBehaviour
 {
     [SerializeField] private TypeOfEntity typeOfEntity;
     public TypeOfEntity TypeOfEntity { get => typeOfEntity; set => typeOfEntity = value; }
 
-    public Outline Outline => GetComponent<Outline>();
+    public Outline Outline;
 
     private void Start() => SetOutlineColor();
 
     void SetOutlineColor()
     {
-        switch (TypeOfEntity)
-        {
-            case TypeOfEntity.Stele:
-                Outline.OutlineColor = Color.yellow;
-                break;
-            case TypeOfEntity.Harvester:
-                Outline.OutlineColor = Color.yellow;
-                break;
-        }
+        //switch (TypeOfEntity)
+        //{
+        //    case TypeOfEntity.Stele:
+        //        Outline.OutlineColor = Color.yellow;
+        //        break;
+        //    case TypeOfEntity.Harvester:
+        //        Outline.OutlineColor = Color.yellow;
+        //        break;
+        //}
 
-        Outline.enabled = false;
+        Outline.OutlineColor = Color.black;
     }
 
     #region Found entity type
@@ -71,7 +70,7 @@ public class EntityDetection : MonoBehaviour
     }
     #endregion
 
-    #region Outilne Toggle
+    #region Outline Toggle
     public void ActivateTargetOutlineOnHover(Outline targetOutlineFound, Color outlineColor)
     {
         targetOutlineFound.enabled = true;

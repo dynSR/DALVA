@@ -5,14 +5,9 @@ public class WaveStateDisplayer : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject content;
-    private SpawnerSystem spawner;
+    [SerializeField] private SpawnerSystem spawner;
     public float timerAssigned;
     public float localTimer;
-
-    private void Awake()
-    {
-        spawner = GameManager.Instance.Spawner;
-    }
 
     private void OnEnable()
     {
@@ -52,5 +47,13 @@ public class WaveStateDisplayer : MonoBehaviour
     {
         if (boolValue == 0 && content.activeInHierarchy) content.SetActive(false);
         else if (boolValue == 1 && !content.activeInHierarchy) content.SetActive(true);
+    }
+
+    public void SpawnWaveOnButtonClick()
+    {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+        
+        StartCoroutine(spawner.SpawnWave());
+        ToggleContent(0);
     }
 }

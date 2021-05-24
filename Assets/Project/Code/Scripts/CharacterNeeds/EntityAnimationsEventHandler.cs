@@ -37,26 +37,6 @@ public class EntityAnimationsEventHandler : MonoBehaviour
         Interactions.HasPerformedAttack = false;
         //attackAnimationHasBeenChosen = false;
     }
-
-    //private void PickAnAttackAnimation()
-    //{
-    //    if (UtilityClass.ContainsParam(MyAnimator, "AttackAnimationValue"))
-    //    {
-    //        if (!attackAnimationHasBeenChosen)
-    //        {
-    //            if (MyAnimator.GetInteger("AttackAnimationValue") == 0 || MyAnimator.GetInteger("AttackAnimationValue") == 2)
-    //            {
-    //                MyAnimator.SetInteger("AttackAnimationValue", 1);
-    //                attackAnimationHasBeenChosen = true;
-    //            }
-    //            else if (MyAnimator.GetInteger("AttackAnimationValue") == 1)
-    //            {
-    //                MyAnimator.SetInteger("AttackAnimationValue", 2);
-    //                attackAnimationHasBeenChosen = true;
-    //            }
-    //        }
-    //    }
-    //}
     #endregion
 
     #region Abilities

@@ -26,12 +26,8 @@ public class TowerAmelioration : SteleAmelioration
                 Debug.Log("UPGRADE 2");
                 break;
             case SteleLevel.FinalEvolution: // 35% puissance, 35% as
-                if (FinalEvolutionNumber == 2)
-                {
-                    Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.35f, StatType.PhysicalPower, StatModType.PercentAdd, this));
-                    Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.35f, StatType.AttackSpeed, StatModType.PercentAdd, this));
-                }
-                else towerRange.gameObject.SetActive(false);
+                Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.35f, StatType.PhysicalPower, StatModType.PercentAdd, this));
+                Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.45f, StatType.AttackSpeed, StatModType.PercentAdd, this));
 
                 Debug.Log("UPGRADE 3");
                 break;

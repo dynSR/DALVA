@@ -29,7 +29,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 267939187489312821}
-  - {fileID: 267939187298140453}
   - {fileID: 561424237152797487}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -51,9 +50,9 @@ MonoBehaviour:
   steleIconImage: {fileID: 21300000, guid: 1836675502c0fa348bfbbb019590c060, type: 3}
   upgradeDescriptionI: 
   upgradeDescriptionII: 
-  upgradeDescriptionFinalEvolutionI: 
-  upgradeDescriptionFinalEvolutionII: 
-  FinalEvolutionNumber: 0
+  upgradeDescriptionFinalEvolution: 
+  renderers: {fileID: 613961539616190110}
+  frostZone: {fileID: 267939187489312820}
 --- !u!1 &267939187298140458
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,8 +62,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 267939187298140453}
-  m_Layer: 0
-  m_Name: Renderer
+  m_Layer: 2
+  m_Name: Base_Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,12 +76,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267939187298140458}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 267939185849387318}
-  m_RootOrder: 1
+  m_Father: {fileID: 5229592623298359315}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &267939187489312826
 GameObject:
@@ -96,7 +95,7 @@ GameObject:
   - component: {fileID: 267939187489312822}
   - component: {fileID: 267939187489312823}
   - component: {fileID: 267939187489312820}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +112,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 5229592623298359315}
   m_Father: {fileID: 267939185849387318}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7fb68354eea7d43a48cf3f79fe1069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectColor: {r: 0.65882355, g: 0.85882354, b: 0.9254902, a: 1}
   movementSpeedReduction: 0.15
   attackSpeedReduction: 0.15
 --- !u!1 &558970252750498369
@@ -206,7 +207,7 @@ GameObject:
   - component: {fileID: 561424237152797487}
   - component: {fileID: 360815552604105935}
   - component: {fileID: 361415232461689387}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FX_Blizzard_Snow_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +227,7 @@ Transform:
   m_Children:
   - {fileID: 561484140112477687}
   m_Father: {fileID: 267939185849387318}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &360815552604105935
 ParticleSystemRenderer:
@@ -4987,7 +4988,7 @@ GameObject:
   - component: {fileID: 561484140112477687}
   - component: {fileID: 360747811507859511}
   - component: {fileID: 361502842269331021}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FX_Blizzard_Cloud_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9698,3 +9699,96 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &613961539616190110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5229592623298359315}
+  m_Layer: 2
+  m_Name: Renderers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5229592623298359315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613961539616190110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 267939187298140453}
+  - {fileID: 5203540519684921628}
+  - {fileID: 1820079862363732777}
+  m_Father: {fileID: 267939187489312821}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3800622967179787940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1820079862363732777}
+  m_Layer: 2
+  m_Name: Augmented_Renderer_02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1820079862363732777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800622967179787940}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5229592623298359315}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7408906238776938288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5203540519684921628}
+  m_Layer: 2
+  m_Name: Augmented_Renderer_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5203540519684921628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7408906238776938288}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5229592623298359315}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

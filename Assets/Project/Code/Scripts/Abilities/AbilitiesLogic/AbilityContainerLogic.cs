@@ -30,6 +30,12 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
     [Header("Tooltip")]
     [SerializeField] private GameObject tooltip;
 
+    [Header("ABILITY APPLICATION TYPE ICONS")]
+    [SerializeField] private GameObject iconParent;
+    [SerializeField] private Sprite aimedType;
+    [SerializeField] private Sprite targetedType;
+    [SerializeField] private Sprite zoneType;
+
     public KeyCode AbilityKey { get => abilityKey; set => abilityKey = value; }
     public AbilityLogic ContainedAbility { get => containedAbility; set => containedAbility = value; }
     public GetCharacterAbilities Parent { get; set; }
@@ -145,10 +151,41 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
     {
         TooltipSetter tooltipSetter = tooltip.GetComponent<TooltipSetter>();
 
+        TextMeshProUGUI textToSet = iconParent.GetComponentInChildren<TextMeshProUGUI>();
+        Sprite spriteToSend = null;
+
+        //ACTIVATE OR DEACTIVATE ICON'S PARENT
+        if(ContainedAbility.Ability.ZoneType || ContainedAbility.Ability.AimedType || ContainedAbility.Ability.TargetedType)
+        {
+            if (!iconParent.activeInHierarchy) iconParent.SetActive(true);
+        }
+        else if (ContainedAbility.Ability.NoneType) iconParent.SetActive(false);
+
+        //ZONE
+        if (ContainedAbility.Ability.ZoneType)
+        {
+            spriteToSend = zoneType;
+            textToSet.SetText("Sort de zone");
+        }
+        //AIMED
+        else if (ContainedAbility.Ability.AimedType)
+        {
+            spriteToSend = aimedType;
+            textToSet.SetText("Sort Visé");
+        }
+        //TARGETED
+        else if (ContainedAbility.Ability.TargetedType)
+        {
+            spriteToSend = targetedType;
+            textToSet.SetText("Sort Ciblé");
+        }
+
+        //SETTING THE TOOLTIP WITH THE WANTED INFORMATIONS
         tooltipSetter.SetTooltip(
             ContainedAbility.Ability.AbilityName,
             ContainedAbility.Ability.AbilityDescription,
-            ContainedAbility.Ability.AbilityCooldown.ToString("0" + " s"));
+            ContainedAbility.Ability.AbilityCooldown.ToString("0" + "s"),
+            spriteToSend);
     }
     #endregion
 }

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Ability_Mage_Z
   m_EditorClassIdentifier: 
   abilityName: Marque du Sorcier
-  abilityDescription: "Sort de zone. Apr\xE8s 0,5s, inflige (60 + 50% PM) d\xE9g\xE2ts
-    magiques et marque les ennemis pendant 3 secondes."
+  abilityDescription: "Apr\xE8s 0,5 secondes, inflige des d\xE9g\xE2ts magiques \xE0
+    tous les ennemis pr\xE9sents dans la zone et les marque pendant 3 secondes."
   abilityKey: 122
   abilityIcon: {fileID: 21300000, guid: 3220d304c359df7937163c71f97b872b, type: 3}
   abilityCost: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   abilityPhysicalRatio: 0
   abilityMagicalRatio: 0.5
   targetHealthThreshold: 0.25
-  abilityAddedDamageOnTargetHealthThreshold: 0.5
+  abilityAddedDamageOnTargetHealthThreshold: 0
   abilityHealValue: 0
   abilityCanHealTarget: 0
   healMagicalRatio: 0
@@ -44,6 +44,10 @@ MonoBehaviour:
   effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 10
   abilityAreaOfEffect: 4
+  noneType: 0
+  targetedType: 0
+  aimedType: 0
+  zoneType: 1
   abilityCooldown: 9
   abilityTimeToCast: 0.25
   abilityDuration: 0

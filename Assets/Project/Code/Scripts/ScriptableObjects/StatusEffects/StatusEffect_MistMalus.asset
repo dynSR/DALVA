@@ -15,11 +15,16 @@ MonoBehaviour:
   statusEffectName: Affaiblie
   statusEffectDescription: "R\xE9duit de 25%RP/RM"
   statusEffectDuration: 60
+  type: 0
   statusEffectId: 18
   statusEffectIcon: {fileID: 21300000, guid: e18221dbb5ce29feee8171599fdcc46c, type: 3}
   statusEffectVFXPrefab: {fileID: 0}
   canApplyOnAlly: 0
+  canStunTarget: 0
+  canRootTarget: 0
   isStackable: 0
+  stunSFX: SFX_EMageStun
+  rootedSFX: 
   statModifiers:
   - Value: -0.25
     StatType: 4

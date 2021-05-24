@@ -65,6 +65,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [SerializeField] private GameObject enemyMarkObject;
     public float ExtentedMarkTime = 0f /* { get; set; }*/;
     public bool EntityIsMarked = false/* { get; set; }*/;
+    public GameObject markVFX;
 
     public bool IsDead => GetStat(StatType.Health).Value <= 0f;
     public bool CanTakeDamage { get; set; }
@@ -86,9 +87,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [Header("SOUNDS")]
     [SoundGroup] public string spawnSoundGroup;
     [SoundGroup] public string deathSoundGroup;
-
-    [Header("PLAYER OPTIONS")]
-    [SerializeField] private bool centerCameraOnRespawn = false;
 
     public Vector3 CharacterHalfSize => transform.position + new Vector3(0, Controller.Agent.height / 2, 0);
 
@@ -417,8 +415,10 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             EntityDetection.enabled = false;
 
-            if (EntityDetection.Outline.enabled)
-                EntityDetection.Outline.enabled = false;
+            if (!EntityDetection.Outline.enabled)
+                EntityDetection.Outline.enabled = true;
+
+            EntityDetection.Outline.OutlineColor = Color.black;
 
             if (GetComponent<CursorLogic>() != null) GetComponent<CursorLogic>().SetCursorToNormalAppearance();
 
@@ -441,19 +441,22 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     void GiveRessourcesToAPlayerOnDeath(float valueToGive)
     {
-        if (SourceOfDamage != null
-            && SourceOfDamage.GetComponent<CharacterRessources>() != null)
-        {
-            SourceOfDamage = GameManager.Instance.Player;
+        //if (SourceOfDamage != null
+        //    && SourceOfDamage.GetComponent<CharacterRessources>() != null)
+        //{
+        //    SourceOfDamage = GameManager.Instance.Player;
 
-            StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
-            SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
+        //    StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
+        //    SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
-            if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
-                SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+        //    if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
+        //        SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
 
-            //Debug.Log("Ressources have been given to a player, the last stored source of damage");
-        }
+        //    //Debug.Log("Ressources have been given to a player, the last stored source of damage");
+        //}
+
+        StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
+        GameManager.Instance.Player.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
     }
 
     private void Die()
@@ -528,13 +531,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         EntityDetection.enabled = true;
         MyCollider.enabled = true;
 
-        if (Controller.IsStunned) Controller.IsStunned = false;
-        if (Controller.IsRooted) Controller.IsRooted = false;
-
-        //if (GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.AllyPlayer || GetComponent<EntityDetection>().TypeOfEntity != TypeOfEntity.EnemyPlayer)
-        //{
-        //    VisibilityState.SetToVisible();
-        //}
+        if (Controller.IsStunned) Controller.UnStunTarget();
+        if (Controller.IsRooted) Controller.UnRootTarget();
 
         //Set Position At Spawn Location
         if (spawnLocation != null)
@@ -557,9 +555,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (allyMarkObject == null || enemyMarkObject == null) Debug.LogError("No mark object detected, need to assign them");
 
         if (EntityIsMarked) ExtentedMarkTime += markDuration;
-        else if (!EntityIsMarked) { ExtentedMarkTime = markDuration; EntityIsMarked = true; }
+        else if (!EntityIsMarked) { ExtentedMarkTime = markDuration; ActivateMarkFeedback(); }
 
-        ActiveMarkFeedback(sourceTeam);
+        ActivateMarkFeedback();
 
         do
         {
@@ -570,20 +568,24 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         ExtentedMarkTime = 0f;
 
         DeactivateMarkFeedback();
-
-        EntityIsMarked = false;
     }
 
-    public void ActiveMarkFeedback(EntityTeam sourceTeam)
+    public void ActivateMarkFeedback()
     {
-        if (sourceTeam == EntityTeam) allyMarkObject.SetActive(true);
-        else if (sourceTeam != EntityTeam) enemyMarkObject.SetActive(true);
+        EntityIsMarked = true;
+
+        if (EntityTeam == EntityTeam.DALVA) allyMarkObject.SetActive(true);
+        else if (EntityTeam == EntityTeam.HULRYCK) enemyMarkObject.SetActive(true);
+
+        if(markVFX != null)
+            markVFX.SetActive(true);
     }
 
     public void DeactivateMarkFeedback()
     {
         if (allyMarkObject.activeInHierarchy) allyMarkObject.SetActive(false);
         else if (enemyMarkObject.activeInHierarchy) enemyMarkObject.SetActive(false);
+        EntityIsMarked = false;
     }
     #endregion
 

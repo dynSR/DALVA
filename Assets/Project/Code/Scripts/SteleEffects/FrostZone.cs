@@ -7,10 +7,13 @@ public class FrostZone : StatusEffectZoneCore
     [Range(0f, 0.75f)]
     [SerializeField] private float attackSpeedReduction = 0f;
 
+    public float MovementSpeedReduction { get => movementSpeedReduction; set => movementSpeedReduction = value; }
+    public float AttackSpeedReduction { get => attackSpeedReduction; set => attackSpeedReduction = value; }
+
     protected override void ApplyAffect(EntityStats target)
     {
-        target.GetStat(StatType.MovementSpeed).AddModifier(new StatModifier(-movementSpeedReduction, StatType.MovementSpeed, StatModType.PercentAdd, this));
-        target.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(-attackSpeedReduction, StatType.AttackSpeed, StatModType.PercentAdd, this));
+        target.GetStat(StatType.MovementSpeed).AddModifier(new StatModifier(-MovementSpeedReduction, StatType.MovementSpeed, StatModType.PercentAdd, this));
+        target.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(-AttackSpeedReduction, StatType.AttackSpeed, StatModType.PercentAdd, this));
 
         GetTargetController(target).Agent.speed = target.GetStat(StatType.MovementSpeed).Value;
     }

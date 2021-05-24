@@ -78,6 +78,7 @@ public class Ability_Mage_E : AbilityLogic
         yield return new WaitForSeconds(delay);
 
         ApplyingDamageOnTarget(target);
+        target.GetComponent<EntityStats>().DeactivateMarkFeedback();
     }
 
     void ApplyShieldOnOneTarget(EntityStats abilityTargetStats)

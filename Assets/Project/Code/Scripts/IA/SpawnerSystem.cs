@@ -96,7 +96,8 @@ public class SpawnerSystem : MonoBehaviour
             }
         }
     }
-    private IEnumerator SpawnWave()
+
+    public IEnumerator SpawnWave()
     {
         //yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
 

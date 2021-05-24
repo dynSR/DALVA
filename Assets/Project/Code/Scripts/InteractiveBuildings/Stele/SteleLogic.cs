@@ -158,16 +158,25 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
     public void UpgradeEffect()
     {
-        SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeEffect();
+        SteleAmelioration steleAmeliorationScript = SpawnedEffectObject.GetComponent<SteleAmelioration>();
+
+        steleAmeliorationScript.UpgradeEffect();
 
         if (activationVFX.activeInHierarchy) activationVFX.SetActive(false);
         activationVFX.SetActive(true);
         UtilityClass.PlaySoundGroupImmediatly(upgradeSFX, transform);
-    }
 
-    public void SetFinalEvolutionValueOfSteleEffect(int value)
-    {
-        SpawnedEffectObject.GetComponent<SteleAmelioration>().FinalEvolutionNumber = value;
+        switch (SteleLevel)
+        {
+            case SteleLevel.EvolutionII:
+                steleAmeliorationScript.renderers.transform.GetChild(0).gameObject.SetActive(false);
+                steleAmeliorationScript.renderers.transform.GetChild(1).gameObject.SetActive(true);
+                break;
+            case SteleLevel.FinalEvolution:
+                steleAmeliorationScript.renderers.transform.GetChild(1).gameObject.SetActive(false);
+                steleAmeliorationScript.renderers.transform.GetChild(2).gameObject.SetActive(true);
+                break;
+        }
     }
     #endregion
 

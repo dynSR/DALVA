@@ -8,7 +8,6 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [SerializeField] private SteleLogic affectedStele;
     [SerializeField] private SteleLogic.EffectDescription effectDescription;
     [SerializeField] private bool isASellingButton = false;
-    [SerializeField] private int finalEvolutionNumber = 0;
     [SerializeField] private Image impossibilityToPurchaseImage;
     [SerializeField] private Image selectionImage;
 
@@ -103,17 +102,8 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
                 {
                     effectIcon = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleIconImage;
 
-                    if (finalEvolutionNumber == 1)
-                    {
-                        steleEffectName = "Amélioration III" + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
-                        steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionFinalEvolutionI;
-                        
-                    }
-                    else if (finalEvolutionNumber == 2)
-                    {
-                        steleEffectName = "Amélioration III" + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
-                        steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionFinalEvolutionII;
-                    }
+                    steleEffectName = "Amélioration III" + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
+                    steleEffectDescription = affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().UpgradeDescriptionFinalEvolution;
                 }
                 else
                 {

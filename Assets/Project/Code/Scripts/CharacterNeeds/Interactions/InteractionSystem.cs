@@ -259,7 +259,7 @@ public class InteractionSystem : MonoBehaviour
 
     public virtual void ResetInteractionState()
     {
-        if (!Controller.IsCasting && !Controller.IsRooted)
+        if (!Controller.IsCasting && !Controller.IsRooted && !Controller.IsStunned)
             Controller.CanMove = true;
 
         if (Target != null)

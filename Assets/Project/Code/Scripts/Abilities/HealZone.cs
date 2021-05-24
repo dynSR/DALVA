@@ -122,7 +122,8 @@ public class HealZone : MonoBehaviour
                     healRealValue += (targetStats.GetStat(StatType.Health).MaxValue * (maxHealthTargetBonusRatio / 100));
                 }
 
-                targetStats.EntityIsMarked = false;
+                targetStats.DeactivateMarkFeedback();
+                //targetStats.EntityIsMarked = false;
             }
         }
 
@@ -132,7 +133,7 @@ public class HealZone : MonoBehaviour
 
         targetStats.Heal(targetStats.transform, healRealValue, UserStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
 
-        if (canMark) targetStats.EntityIsMarked = true;
+        if (canMark) /*targetStats.EntityIsMarked = true;*/ targetStats.ActivateMarkFeedback();
 
         TriggerZone.enabled = false;
     }

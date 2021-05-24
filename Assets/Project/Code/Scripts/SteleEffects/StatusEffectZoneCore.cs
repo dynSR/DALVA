@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class StatusEffectZoneCore : MonoBehaviour
 {
-    protected List<EntityStats> entitiesFound = new List<EntityStats>();
+    public Color effectColor;
 
     protected abstract void ApplyAffect(EntityStats target);
     protected abstract void RemoveEffect(EntityStats target);
@@ -14,31 +14,35 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
 
         if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
         {
-            RefreshList();
-            entitiesFound.Add(entityStats);
             ApplyAffect(entityStats);
+            ActivateOutlineEffect(other);
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        EntityStats entityStats = other.GetComponent<EntityStats>();
+
+        if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
+            ActivateOutlineEffect(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        RefreshList();
-
         EntityStats entityStats = other.GetComponent<EntityStats>();
-
-        if (entityStats != null && entitiesFound.Contains(entityStats)) entitiesFound.Remove(entityStats);
+        RemoveEffect(entityStats);
     }
 
-
-    void RefreshList()
+    private void ActivateOutlineEffect(Collider other)
     {
-        for (int i = entitiesFound.Count - 1; i >= 0; i--)
-        {
-            if (entitiesFound[i] == null) entitiesFound.RemoveAt(i);
-            RemoveEffect(entitiesFound[i]);
-        }
-    }
+        EntityDetection otherEntityDetection = other.GetComponent<EntityDetection>();
 
+        if (otherEntityDetection.Outline != null && !otherEntityDetection.Outline.enabled)
+        {
+            Debug.Log("Reassigning outline color");
+            otherEntityDetection.ActivateTargetOutlineOnHover(otherEntityDetection.Outline, effectColor);
+        }  
+    }
 
     private void OnDrawGizmos()
     {

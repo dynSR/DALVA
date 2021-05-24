@@ -25,6 +25,8 @@ public class CameraController : MonoBehaviour
     [Header("CAMERA BOUNDARIES PARAMETERS")]
     [SerializeField] private BoxCollider cameraConfiner;
 
+    public float zoom = 80f;
+
     public bool CameraIsLocked => CameraLockState == CameraLockState.Locked;
     public bool CameraIsUnlocked => CameraLockState == CameraLockState.Unlocked;
 
@@ -38,7 +40,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if(UtilityClass.IsKeyPressed(changeCameraLockStateKey))
+        if(UtilityClass.IsKeyPressed(changeCameraLockStateKey) && GameManager.Instance.GameIsInPlayMod())
         {
             switch (CameraLockState)
             {
@@ -56,6 +58,8 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
         if (CameraIsLocked)
         {
             //Debug.Log("Camera is locked and it's following a target");
@@ -72,6 +76,8 @@ public class CameraController : MonoBehaviour
                 FollowATarget(TargetToFollow);
             }
         }
+
+        HandlerCameraZoom();
     }
 
     #region Camera Behaviours
@@ -146,6 +152,23 @@ public class CameraController : MonoBehaviour
         //cameraPosition.Normalize();
     }
     #endregion
+
+    void HandlerCameraZoom()
+    {
+        float zoomChangeAmount = 80f;
+
+        if (Input.mouseScrollDelta.y > 0)
+        {
+            zoom -= zoomChangeAmount * Time.deltaTime;
+        }
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            zoom += zoomChangeAmount * Time.deltaTime;
+        }
+
+        zoom = Mathf.Clamp(zoom, 20f, 60f);
+        GetComponent<Camera>().fieldOfView = zoom;
+    }
 
     void SetCameraPosition(Vector3 newPos)
     {

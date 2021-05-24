@@ -52,7 +52,7 @@ public class CursorLogic : MonoBehaviour
                 if (knownTargetDetected.gameObject == transform.gameObject)
                 {
                     SetCursorToNormalAppearance();
-                    knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.white);
+                    knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.white);
                     return;
                 }
 
@@ -64,35 +64,35 @@ public class CursorLogic : MonoBehaviour
                         if (Stats.EntityTeam == knownTargetStats.EntityTeam)
                         {
                             SetCursorToNormalAppearance();
-                            knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.blue);
+                            knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.blue);
                         }
                         else if (Stats.EntityTeam != knownTargetStats.EntityTeam)
                         {
                             SetCursorToAttackAppearance();
-                            knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
+                            knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.red);
                         }
                         break;
                     case TypeOfEntity.Monster:
                         SetCursorToAttackAppearance();
-                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.red);
                         break;
                     case TypeOfEntity.Minion:
                         SetCursorToAttackAppearance();
-                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.red);
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.red);
                         break;
                     case TypeOfEntity.SteleEffect:
                         SetCursorToNormalAppearance();
-                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.blue);
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.blue);
                         break;
                     #endregion
                     #region Interactive Buildings
                     case TypeOfEntity.Stele:
                         SetCursorToInteractionAppearance();
-                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.yellow);
                                                 break;
                     case TypeOfEntity.Harvester:
                         SetCursorToInteractionAppearance();
-                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.GetComponent<Outline>(), Color.yellow);
+                        knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.yellow);
                         break;
                         #endregion
                 }
@@ -105,12 +105,12 @@ public class CursorLogic : MonoBehaviour
                 {
                     if (Interactions.LastKnownTarget != null)
                     {
-                        Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<Outline>());
+                        if(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline.OutlineColor != Color.black)
+                            Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline.OutlineColor = Color.black;
+
+                        //Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);
                         Interactions.LastKnownTarget = null;
                     }
-
-                    Interactions.KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.KnownTarget.GetComponent<Outline>());
-                    Interactions.KnownTarget = null;
                 }
             }
         }
@@ -150,9 +150,9 @@ public class CursorLogic : MonoBehaviour
                 Interactions.LastKnownTarget = Interactions.KnownTarget;
                 Interactions.KnownTarget = targetFound.transform;
 
-                if (Interactions.LastKnownTarget != Interactions.KnownTarget && Interactions.LastKnownTarget.GetComponent<Outline>().enabled)
+                if (Interactions.LastKnownTarget != Interactions.KnownTarget && Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline.enabled)
                 {
-                    Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<Outline>());
+                    Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);
                 }
             }
             else

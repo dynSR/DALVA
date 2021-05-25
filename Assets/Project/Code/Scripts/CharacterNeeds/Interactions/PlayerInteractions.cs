@@ -29,20 +29,20 @@ public class PlayerInteractions : InteractionSystem
     #region Set player's target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
-        if (UtilityClass.IsKeyPressed(AttackOnMoveInput))
-        {
-            CursorLogicAttached.SetCursorToAttackOnMoveAppearance();
-            SetAttackRangeSize();
-            DisplayAttackRange();
-            PlayerIsTryingToAttack = true;
-            return;
-        }
-        else if (PlayerIsTryingToAttack && UtilityClass.LeftClickIsPressed())
-        {
-            HideAttackRange();
-            CursorLogicAttached.SetCursorToNormalAppearance();
-            PlayerIsTryingToAttack = false;
-        }
+        //if (UtilityClass.IsKeyPressed(AttackOnMoveInput))
+        //{
+        //    CursorLogicAttached.SetCursorToAttackOnMoveAppearance();
+        //    SetAttackRangeSize();
+        //    DisplayAttackRange();
+        //    PlayerIsTryingToAttack = true;
+        //    return;
+        //}
+        //else if (PlayerIsTryingToAttack && UtilityClass.LeftClickIsPressed())
+        //{
+        //    HideAttackRange();
+        //    CursorLogicAttached.SetCursorToNormalAppearance();
+        //    PlayerIsTryingToAttack = false;
+        //}
 
         if (UtilityClass.RightClickIsPressed())
         {

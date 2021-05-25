@@ -203,12 +203,13 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             global::Popup.Create(CharacterHalfSize, Popup, combinedDamage, StatType.PhysicalPower, Popup.GetComponent<Popup>().PhysicalDamageIcon, isAttackCritical);
             #endregion
 
-            this.SourceOfDamage = sourceOfDamage;
+            if (sourceOfDamage != null)
+                this.SourceOfDamage = sourceOfDamage;
 
             if (GetStat(StatType.Shield) == null || GetStat(StatType.Shield).Value <= 0)
                 GetStat(StatType.Health).Value -= (int)combinedDamage;
 
-            if (GetStat(StatType.Shield) != null && GetStat(StatType.Shield).Value > 0)
+            if (sourceOfDamage != null && GetStat(StatType.Shield) != null && GetStat(StatType.Shield).Value > 0)
             {
                 if (combinedDamage <= GetStat(StatType.Shield).Value)
                 {
@@ -224,12 +225,17 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             }
 
             #region LifeSteal
-            EntityStats sourceOfDamageStats = sourceOfDamage.GetComponent<EntityStats>();
+            EntityStats sourceOfDamageStats = null;
             float combinedLifeSteal = 0f;
 
-            if (sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal) != null && sourceOfDamageStats.GetStat(StatType.MagicalLifesteal) != null)
+            if (sourceOfDamage != null)
             {
-                combinedLifeSteal = combinedDamage * ((sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal).Value + sourceOfDamageStats.GetStat(StatType.MagicalLifesteal).Value) / 100);
+                sourceOfDamageStats = sourceOfDamage.GetComponent<EntityStats>();
+
+                if (sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal) != null && sourceOfDamageStats.GetStat(StatType.MagicalLifesteal) != null)
+                {
+                    combinedLifeSteal = combinedDamage * ((sourceOfDamageStats.GetStat(StatType.PhysicalLifesteal).Value + sourceOfDamageStats.GetStat(StatType.MagicalLifesteal).Value) / 100);
+                }
             }
 
             if (combinedLifeSteal > 0f)

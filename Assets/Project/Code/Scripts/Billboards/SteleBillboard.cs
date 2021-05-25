@@ -42,7 +42,7 @@ public class SteleBillboard : Billboard
 
     protected override void LateUpdate() => base.LateUpdate();
 
-    void DisplayBuildButtons()
+    public void DisplayBuildButtons()
     {
         switch (stele.SteleLevel)
         {

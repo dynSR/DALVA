@@ -3,7 +3,6 @@ using UnityEngine;
 
 public abstract class StatusEffectZoneCore : MonoBehaviour
 {
-    public Color effectColor;
     public List<EntityStats> statsOfEntitiesInTrigger = new List<EntityStats>();
 
     protected abstract void ApplyAffect(EntityStats target);
@@ -46,6 +45,7 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
     {
         Gizmos.color = Color.black;
 
-        Gizmos.DrawWireSphere(transform.position, GetComponent<SphereCollider>().radius * transform.parent.localScale.magnitude / 1.73f);
+        if(transform.parent  != null)
+            Gizmos.DrawWireSphere(transform.position, GetComponent<SphereCollider>().radius * transform.parent.localScale.magnitude / 1.73f);
     }
 }

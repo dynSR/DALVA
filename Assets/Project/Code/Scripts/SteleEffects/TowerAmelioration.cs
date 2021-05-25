@@ -25,9 +25,10 @@ public class TowerAmelioration : SteleAmelioration
 
                 Debug.Log("UPGRADE 2");
                 break;
-            case SteleLevel.FinalEvolution: // 35% puissance, 35% as
-                Stats.GetStat(StatType.PhysicalPower).AddModifier(new StatModifier(0.35f, StatType.PhysicalPower, StatModType.PercentAdd, this));
-                Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.45f, StatType.AttackSpeed, StatModType.PercentAdd, this));
+            case SteleLevel.FinalEvolution: //25% as + dégâts en zone
+                Stats.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(0.25f, StatType.AttackSpeed, StatModType.PercentAdd, this));
+
+                Tower.ProjectileCanApplyDamageInZone = true;
 
                 Debug.Log("UPGRADE 3");
                 break;

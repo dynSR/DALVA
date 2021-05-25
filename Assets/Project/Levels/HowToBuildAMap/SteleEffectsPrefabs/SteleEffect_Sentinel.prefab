@@ -1351,8 +1351,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e2978c1763044048bbee3a302cd7f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2285543129751055425, guid: 24c6c3dc7c345c249af1ac64340be9fd, type: 3}
+  projectile: {fileID: 2285543129751055425, guid: 22fc4628ff6e0374b8eb899b97db9cd7, type: 3}
   rangedAttackEmiterPosition: {fileID: 2372240202464609772}
+  ProjectileCanApplyDamageInZone: 0
   CanAttack: 1
 --- !u!114 &5891933870460082954
 MonoBehaviour:
@@ -1369,15 +1370,11 @@ MonoBehaviour:
   stele: {fileID: 0}
   steleEffectName: Sentinelle
   steleIconImage: {fileID: 21300000, guid: 8ca9a3a8f82e01d428c13b07b5d40638, type: 3}
-  upgradeDescriptionI: '+15% vitesse d''attaque
-
-    +15% puissance'
-  upgradeDescriptionII: '+20% vitesse d''attaque
-
-    +20% puissance'
-  upgradeDescriptionFinalEvolution: '- +45% vitesse d''attaque
-
-    - +35% puissance'
+  upgradeDescriptionI: "Vitesse d'attaque et puissance augment\xE9es de <color=#ffa500ff>15%</color>."
+  upgradeDescriptionII: "Vitesse d'attaque et puissance augment\xE9es de <color=#ffa500ff>20%</color>."
+  upgradeDescriptionFinalEvolution: "Vitesse d'attaque augment\xE9e de <color=#ffa500ff>25%</color>.\n<color=#ffa500ff>Ajout
+    d'un nouvel effet :</color>\n\xC0 l'impact les projectiles infligent 35 d\xE9g\xE2ts
+    magiques brutes."
   renderers: {fileID: 2372240201477802825}
   towerRange: {fileID: 5473236970513961376}
 --- !u!208 &1244458506
@@ -1420,7 +1417,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2372240202464609773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0.13}
+  m_LocalPosition: {x: 0, y: 2.83, z: 0.082}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2372240202247375386}

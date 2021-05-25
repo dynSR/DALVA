@@ -115,7 +115,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         UtilityClass.PlaySoundGroupImmediatly(activationSFX, transform);
 
         InteractingPlayer.Target = null;
-        InteractingPlayer = null;
+        //InteractingPlayer = null;
     }
 
     public void SetSteleLevel(int steleLevel)
@@ -154,6 +154,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         InteractingPlayer.GetComponent<CharacterRessources>().AddRessources(amountToRefund);
         SetSteleEffect(0);
         UtilityClass.PlaySoundGroupImmediatly(sellingSFX, transform);
+        InteractingPlayer = null;
     }
 
     public void UpgradeEffect()

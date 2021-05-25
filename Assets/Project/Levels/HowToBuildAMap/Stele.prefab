@@ -1734,18 +1734,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SpawnEntityEffect
@@ -1798,6 +1786,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SetSpawnedEffectTransformValues
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2948,18 +2948,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SpawnEntityEffect
@@ -3016,6 +3004,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8742,18 +8742,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4942728277304173959}
         m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
         m_MethodName: HideButtonSection
         m_Mode: 2
         m_Arguments:
@@ -8796,6 +8784,30 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 600
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5856840166989928446}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: PurchaseSteleEffect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 600
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9289,7 +9301,7 @@ GameObject:
   - component: {fileID: 5757608854224001532}
   - component: {fileID: 9215113601239755760}
   m_Layer: 14
-  m_Name: Button
+  m_Name: UpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9426,18 +9438,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4942728277304173959}
         m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
         m_MethodName: HideButtonSection
         m_Mode: 2
         m_Arguments:
@@ -9480,6 +9480,30 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5856840166989928446}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: SetSteleLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -19346,18 +19370,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4942728277304173959}
         m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
         m_MethodName: HideButtonSection
         m_Mode: 2
         m_Arguments:
@@ -19400,6 +19412,30 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 300
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5856840166989928446}
+        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
+        m_MethodName: PurchaseSteleEffect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 300
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -26081,7 +26117,7 @@ MonoBehaviour:
   effectDescription:
     effectName: Zone de Faiblesse
     steleEffect: 3
-    description: "Les r\xE9sistances des ennemis pr\xE9sents dans la zone sont affaiblies."
+    description: "Les r\xE9sistances des ennemis pr\xE9sents dans la zone sont r\xE9duites."
     effectCost: 150
     effectIcon: {fileID: 21300000, guid: ef0075fcbd8ae0a41805a7e2b994078c, type: 3}
   isASellingButton: 0
@@ -26142,18 +26178,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SpawnEntityEffect
@@ -26210,6 +26234,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -26513,8 +26549,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Zone de Gel
     steleEffect: 2
-    description: "La vitesse de d\xE9placement et la vitesse d'attaque des ennemis
-      pr\xE9sents dans la zone sont affaiblies."
+    description: "Les vitesses de d\xE9placement et d'attaque des ennemis pr\xE9sents
+      dans la zone sont r\xE9duites."
     effectCost: 150
     effectIcon: {fileID: 21300000, guid: 1836675502c0fa348bfbbb019590c060, type: 3}
   isASellingButton: 0
@@ -26575,18 +26611,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SpawnEntityEffect
@@ -26643,6 +26667,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -34211,8 +34247,7 @@ MonoBehaviour:
   effectDescription:
     effectName: Sentinelle
     steleEffect: 4
-    description: "Invoque une tour \xE0 proximit\xE9 de la st\xE8le.\nAttaque lentement
-      une cible."
+    description: "Invoque une tour \xE0 proximit\xE9 de la st\xE8le."
     effectCost: 150
     effectIcon: {fileID: 21300000, guid: 8ca9a3a8f82e01d428c13b07b5d40638, type: 3}
   isASellingButton: 0
@@ -34273,18 +34308,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4942728277304173959}
-        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
-        m_MethodName: HideBuildButtons
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SpawnEntityEffect
@@ -34341,6 +34364,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4942728277304173959}
+        m_TargetAssemblyTypeName: SteleBillboard, Assembly-CSharp
+        m_MethodName: DisplayBuildButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

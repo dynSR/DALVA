@@ -24,7 +24,7 @@ public class GuardianAmelioration : SteleAmelioration
                 Debug.Log("UPGRADE 2");
                 break;
             case SteleLevel.FinalEvolution: // Stun zone added
-                Instantiate(stunZone, guardianStats.transform);
+                if (!stunZone.activeInHierarchy) stunZone.SetActive(true);
 
                 Debug.Log("UPGRADE 3");
                 break;

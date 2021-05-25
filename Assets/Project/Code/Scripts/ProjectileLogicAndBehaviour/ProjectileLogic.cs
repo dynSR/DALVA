@@ -16,6 +16,7 @@ public class ProjectileLogic : MonoBehaviour
     [SerializeField] private StatusEffect projectileStatusEffect;
     [SerializeField] private GameObject onHitVFX;
     [SerializeField] private GameObject destructionVFX;
+    [SerializeField] private GameObject damageZone;
 
     public Ability Ability { get; set; }
 
@@ -25,6 +26,7 @@ public class ProjectileLogic : MonoBehaviour
     public bool CanGoThroughTarget { get; set; }
     public bool CanHeal { get; set; }
     public bool CanBounce { get; set; }
+    public bool CanApplyDamageInZone { get; set; }
 
     public float TotalPhysicalDamage { get; set; }
     public float TotalMagicalDamage { get; set; }
@@ -340,6 +342,14 @@ public class ProjectileLogic : MonoBehaviour
             Destroy(gameObject);
         }
         else if (!CanGoThroughTarget) Destroy(gameObject);
+
+        if(CanApplyDamageInZone && damageZone != null)
+        {
+            Instantiate(damageZone, new Vector3(transform.position.x, 0.1f, transform.position.z), damageZone.transform.rotation);
+            damageZone.GetComponent<SentinelProjectileDamageZone>().projectile = this;
+            //damageZone.SetActive(true);
+            Destroy(gameObject);
+        }
     }
 
     private void InstantiateHitEffectOnCollision(GameObject objToInstantiate)

@@ -5,6 +5,7 @@ public class Tower : MonoBehaviour
 {
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform rangedAttackEmiterPosition;
+    public bool ProjectileCanApplyDamageInZone = false;
 
     public bool CanAttack = true;
 
@@ -26,6 +27,8 @@ public class Tower : MonoBehaviour
         attackProjectile.ProjectileType = ProjectileType.TravelsToAPosition;
         attackProjectile.ProjectileSender = transform;
         attackProjectile.Target = targetStats.transform;
+
+        if (ProjectileCanApplyDamageInZone) attackProjectile.CanApplyDamageInZone = true;
 
         CanAttack = false;
 

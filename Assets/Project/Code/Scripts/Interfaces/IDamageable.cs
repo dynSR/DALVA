@@ -13,6 +13,5 @@ public interface IDamageable
         float characterCriticalStrikeChance, 
         float characterCriticalStrikeMultiplier, 
         float characterPhysicalPenetration, 
-        float characterMagicalPenetration,
-        float characterIncomingDamageReduction);
+        float characterMagicalPenetration);
 }

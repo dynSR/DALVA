@@ -115,6 +115,7 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             case SteleLevel.OnlySell:
                 steleEffectName = effectDescription.effectName + '\n' + affectedStele.SpawnedEffectObject.GetComponent<SteleAmelioration>().SteleEffectName;
                 steleEffectDescription = effectDescription.description;
+                effectIcon = effectDescription.effectIcon;
                 break;
 
         }

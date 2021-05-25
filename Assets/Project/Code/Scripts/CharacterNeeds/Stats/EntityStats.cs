@@ -65,7 +65,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     [SerializeField] private GameObject enemyMarkObject;
     public float ExtentedMarkTime = 0f /* { get; set; }*/;
     public bool EntityIsMarked = false/* { get; set; }*/;
-    public GameObject markVFX;
+    public GameObject consumedMarkVFX;
 
     public bool IsDead => GetStat(StatType.Health).Value <= 0f;
     public bool CanTakeDamage { get; set; }
@@ -110,7 +110,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     private void Update() { 
         OnDeath(); 
-        if (Input.GetKeyDown(KeyCode.L)) TakeDamage(transform, 0, 0, 50, 50, 0, 175, 0, 0, 0); 
+        if (Input.GetKeyDown(KeyCode.L)) TakeDamage(transform, 0, 0, 50, 50, 0, 175, 0, 0); 
         if (Input.GetKeyDown(KeyCode.M)) Heal(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
         if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
         if (Input.GetKeyDown(KeyCode.J)) Controller.StunTarget();
@@ -137,8 +137,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         float characterCriticalStrikeChance,
         float characterCriticalStrikeMultiplier,
         float characterPhysicalPenetration,
-        float characterMagicalPenetration, 
-        float characterIncomingDamageReduction)
+        float characterMagicalPenetration)
     {
         if (CanTakeDamage)
         {
@@ -163,7 +162,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 }
 
                 if (GetStat(StatType.IncreasedDamageTaken).Value > 0) characterPhysicalPower += characterPhysicalPower * (GetStat(StatType.IncreasedDamageTaken).Value / 100);
-                if (characterIncomingDamageReduction > 0) characterPhysicalPower -= characterPhysicalPower * (characterIncomingDamageReduction / 100);
             }
             #endregion
 
@@ -184,7 +182,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 }
 
                 if (GetStat(StatType.IncreasedDamageTaken).Value > 0) characterMagicalPower += characterMagicalPower * (GetStat(StatType.IncreasedDamageTaken).Value / 100);
-                if (characterIncomingDamageReduction > 0) characterMagicalPower -= characterMagicalPower * (characterIncomingDamageReduction / 100);
             }
             #endregion
 
@@ -576,16 +573,16 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         if (EntityTeam == EntityTeam.DALVA) allyMarkObject.SetActive(true);
         else if (EntityTeam == EntityTeam.HULRYCK) enemyMarkObject.SetActive(true);
-
-        if(markVFX != null)
-            markVFX.SetActive(true);
     }
 
     public void DeactivateMarkFeedback()
     {
         if (allyMarkObject.activeInHierarchy) allyMarkObject.SetActive(false);
         else if (enemyMarkObject.activeInHierarchy) enemyMarkObject.SetActive(false);
+
         EntityIsMarked = false;
+
+        if (consumedMarkVFX != null && !consumedMarkVFX.activeInHierarchy) consumedMarkVFX.SetActive(true);
     }
     #endregion
 

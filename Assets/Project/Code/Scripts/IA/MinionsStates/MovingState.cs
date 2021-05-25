@@ -52,12 +52,12 @@ class MovingState : IState
         if (distanceFromStartingPosition > 0.1f) /*controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);*/ controller.SetAgentDestination(controller.Agent, controller.StartingPosition.position);
         else if (distanceFromStartingPosition <= 0.1f) controller.ChangeState(new IdlingState());
 
-        Debug.Log("< " + distanceFromStartingPosition + " >");
+        //Debug.Log("< " + distanceFromStartingPosition + " >");
     }
 
     void MoveTowardsTarget()
     {
-        Debug.Log("Move Towards Target");
+        //Debug.Log("Move Towards Target");
 
         EntityStats targetStat = controller.NPCInteractions.Target.GetComponent<EntityStats>();
 

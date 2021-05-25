@@ -48,9 +48,15 @@ MonoBehaviour:
   stele: {fileID: 0}
   steleEffectName: Zone de Gel
   steleIconImage: {fileID: 21300000, guid: 1836675502c0fa348bfbbb019590c060, type: 3}
-  upgradeDescriptionI: 
-  upgradeDescriptionII: 
-  upgradeDescriptionFinalEvolution: 
+  upgradeDescriptionI: "Les r\xE9ductions de vitesse d'attaque et de d\xE9placement
+    sont augment\xE9es de <color=#ffa500ff>10%</color>."
+  upgradeDescriptionII: "Les r\xE9ductions de vitesse d'attaque et de d\xE9placement
+    sont augment\xE9es de <color=#ffa500ff>7.5%</color>.\nLa port\xE9e de la zone
+    est augment\xE9e d'<color=#ffa500ff>1 unit\xE9</color>."
+  upgradeDescriptionFinalEvolution: "La port\xE9e de la zone est augment\xE9e d'<color=#ffa500ff>1
+    unit\xE9</color>.\n<color=#ffa500ff>Ajout d'un nouvel effet :</color>\nLes ennemis
+    pr\xE9sents dans la zone infligent <color=#ffa500ff>15%</color> de d\xE9g\xE2ts
+    en moins.\n"
   renderers: {fileID: 613961539616190110}
   frostZone: {fileID: 267939187489312820}
 --- !u!1 &267939187298140458
@@ -194,8 +200,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectColor: {r: 0.65882355, g: 0.85882354, b: 0.9254902, a: 1}
+  statsOfEntitiesInTrigger: []
   movementSpeedReduction: 0.15
   attackSpeedReduction: 0.15
+  CanReduceDamage: 0
+  damageReduction: 0.15
 --- !u!1 &558970252750498369
 GameObject:
   m_ObjectHideFlags: 0

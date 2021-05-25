@@ -187,19 +187,38 @@ public class InteractionSystem : MonoBehaviour
             //Debug.Log("Melee Attack");
 
             pPBonus = Stats.GetStat(StatType.BonusPhysicalPower).Value;
-            mPBonus = Stats.GetStat(StatType.BonusMagicalPower).Value;
+
+            float totalPhysicalDamage = Stats.GetStat(StatType.PhysicalPower).Value + pPBonus;
+            float totalMagicalDamage = Stats.GetStat(StatType.MagicalPower).Value + mPBonus;
+
+            if (Stats.GetStat(StatType.DamageReduction).Value > 0)
+            {
+                totalPhysicalDamage -= totalPhysicalDamage * Stats.GetStat(StatType.DamageReduction).Value;
+                totalMagicalDamage -= totalMagicalDamage * Stats.GetStat(StatType.DamageReduction).Value;
+
+                Debug.Log("REDUCING DAMAGE", transform);
+                Debug.Log(totalPhysicalDamage, transform);
+                Debug.Log(totalMagicalDamage, transform);
+            }
+
+            if (targetStat.GetStat(StatType.IncreasedDamageTaken).Value > 0)
+            {
+                totalPhysicalDamage += totalPhysicalDamage * Stats.GetStat(StatType.IncreasedDamageTaken).Value;
+                totalMagicalDamage += totalMagicalDamage * Stats.GetStat(StatType.IncreasedDamageTaken).Value;
+
+                Debug.Log("AUGMENTING DAMAGE", transform);
+            }
 
             targetStat.TakeDamage(
                 transform,
                 targetStat.GetStat(StatType.PhysicalResistances).Value,
                 targetStat.GetStat(StatType.MagicalResistances).Value,
-                Stats.GetStat(StatType.PhysicalPower).Value + pPBonus,
-                Stats.GetStat(StatType.MagicalPower).Value + mPBonus,
+                totalPhysicalDamage,
+                totalMagicalDamage,
                 Stats.GetStat(StatType.CriticalStrikeChance).Value,
                 175f,
                 Stats.GetStat(StatType.PhysicalPenetration).Value,
-                Stats.GetStat(StatType.MagicalPenetration).Value,
-                Stats.GetStat(StatType.DamageReduction).Value);
+                Stats.GetStat(StatType.MagicalPenetration).Value);
 
 
             //Peut être utilisé pour marquer les cibles avec des auto attaques de mélée ?_?

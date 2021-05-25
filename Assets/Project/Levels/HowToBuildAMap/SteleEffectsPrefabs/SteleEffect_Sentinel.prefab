@@ -526,7 +526,7 @@ MonoBehaviour:
   enemyMarkObject: {fileID: 0}
   ExtentedMarkTime: 0
   EntityIsMarked: 0
-  markVFX: {fileID: 0}
+  consumedMarkVFX: {fileID: 0}
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -549,6 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeOfEntity: 5
   Outline: {fileID: 0}
+  SelectionObject: {fileID: 0}
 --- !u!114 &2372240202247375384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1368,12 +1369,12 @@ MonoBehaviour:
   stele: {fileID: 0}
   steleEffectName: Sentinelle
   steleIconImage: {fileID: 21300000, guid: 8ca9a3a8f82e01d428c13b07b5d40638, type: 3}
-  upgradeDescriptionI: '- +15% vitesse d''attaque
+  upgradeDescriptionI: '+15% vitesse d''attaque
 
-    - +15% puissance'
-  upgradeDescriptionII: '- +20% vitesse d''attaque
+    +15% puissance'
+  upgradeDescriptionII: '+20% vitesse d''attaque
 
-    - +20% puissance'
+    +20% puissance'
   upgradeDescriptionFinalEvolution: '- +45% vitesse d''attaque
 
     - +35% puissance'

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FrostZoneAmelioration : SteleAmelioration
 {
@@ -10,23 +8,29 @@ public class FrostZoneAmelioration : SteleAmelioration
     {
         switch (Stele.SteleLevel)
         {
-            case SteleLevel.EvolutionI: // reductions +5%
-                frostZone.MovementSpeedReduction = 0.2f;
-                frostZone.AttackSpeedReduction = 0.2f;
+            case SteleLevel.EvolutionI: // reductions +10%
+                frostZone.MovementSpeedReduction = 0.25f;
+                frostZone.AttackSpeedReduction = 0.25f;
 
                 Debug.Log("UPGRADE 1");
                 break;
-            case SteleLevel.EvolutionII: // reductions +10%
-                frostZone.MovementSpeedReduction = 0.3f;
-                frostZone.AttackSpeedReduction = 0.3f;
+            case SteleLevel.EvolutionII: // reductions +7.5% + 1 range
+                frostZone.MovementSpeedReduction = 0.325f;
+                frostZone.AttackSpeedReduction = 0.325f;
+
+                transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
                 Debug.Log("UPGRADE 2");
                 break;
-            case SteleLevel.FinalEvolution: // reductions +15%
-                frostZone.MovementSpeedReduction = 0.45f;
+            case SteleLevel.FinalEvolution: // damage reduction + 1 range
+                frostZone.CanReduceDamage = true;
+
+                transform.localScale = new Vector3(2f, 2f, 2f);
 
                 Debug.Log("UPGRADE 3");
                 break;
         }
+
+        frostZone.ResetTrigger();
     }
 }

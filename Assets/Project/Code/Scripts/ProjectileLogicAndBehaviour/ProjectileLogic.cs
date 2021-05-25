@@ -44,11 +44,6 @@ public class ProjectileLogic : MonoBehaviour
   
     private Rigidbody Rb => GetComponent<Rigidbody>();
 
-    //private void Awake()
-    //{
-    //    if (Ability != null && Ability.AbilityStatusEffect != null) ProjectileStatusEffect = Ability.AbilityStatusEffect;
-    //}
-
     private void FixedUpdate()
     {
         if (Target != null)
@@ -135,10 +130,6 @@ public class ProjectileLogic : MonoBehaviour
                 }
             }
         }
-        //else if (targetCollider.gameObject.GetComponent<SteleLogic>() != null)
-        //{
-        //    ApplyProjectileDamageToAnInteractiveBuilding(targetCollider);
-        //}
     }
 
     private void ApplyProjectileAbilityDamage(EntityStats targetStat)
@@ -164,30 +155,37 @@ public class ProjectileLogic : MonoBehaviour
             healthThresholdBonusDamage = Ability.AbilityAddedDamageOnTargetHealthThreshold;
         }
         else healthThresholdBonusDamage = 0;
-
-        if (Ability.AbilityPhysicalDamage > 0)
-        {
-            TotalPhysicalDamage = Ability.AbilityPhysicalDamage + (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value * (Ability.AbilityPhysicalRatio + markBonusDamage + healthThresholdBonusDamage));
-        } 
-        else Ability.AbilityPhysicalDamage = 0;
-
+        
         if (Ability.AbilityMagicalDamage > 0)
         {
            TotalMagicalDamage = Ability.AbilityMagicalDamage + (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + markBonusDamage + healthThresholdBonusDamage));
         } 
         else Ability.AbilityMagicalDamage = 0;
 
+        if (ProjectileSenderStats.GetStat(StatType.DamageReduction).Value > 0)
+        {
+            TotalMagicalDamage -= TotalMagicalDamage * ProjectileSenderStats.GetStat(StatType.DamageReduction).Value;
+
+            Debug.Log("REDUCING DAMAGE", transform);
+        }
+
+        if (targetStat.GetStat(StatType.IncreasedDamageTaken).Value > 0)
+        {
+            TotalMagicalDamage += TotalMagicalDamage * ProjectileSenderStats.GetStat(StatType.IncreasedDamageTaken).Value;
+
+            Debug.Log("AUGMENTING DAMAGE", transform);
+        }
+
         targetStat.TakeDamage(
         ProjectileSender,
         targetStat.GetStat(StatType.PhysicalResistances).Value,
         targetStat.GetStat(StatType.MagicalResistances).Value,
-        TotalPhysicalDamage,
+        0,
         TotalMagicalDamage,
         ProjectileSenderStats.GetStat(StatType.CriticalStrikeChance).Value,
         175f,
         ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
-        ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value,
-        ProjectileSenderStats.GetStat(StatType.DamageReduction).Value);
+        ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
 
         if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, ProjectileSenderStats.EntityTeam));
 
@@ -203,7 +201,6 @@ public class ProjectileLogic : MonoBehaviour
         if (targetStat.EntityIsMarked)
         {
             targetStat.DeactivateMarkFeedback();
-            //targetStat.EntityIsMarked = false;
             markBonusHeal = Ability.AbilityHealBonusOnMarkedTarget;
         }
         else markBonusHeal = 0;
@@ -219,29 +216,33 @@ public class ProjectileLogic : MonoBehaviour
     {
         //Debug.Log("No ability");
 
-        //float markBonusDamage;
-
-        //if (targetStat.EntityIsMarked)
-        //{
-        //    targetStat.EntityIsMarked = false;
-        //    markBonusDamage = BonusProjectileDamageOnMarkedTarget;
-        //}
-        //else markBonusDamage = 0;
-
         if (ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value > 0)
         {
-            TotalPhysicalDamage = ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value /*+ markBonusDamage*/;
+            TotalPhysicalDamage = ProjectileSenderStats.GetStat(StatType.PhysicalPower).Value;
         }
         else TotalPhysicalDamage = 0;
 
-        //Auto Attack Scales only on Physical Power
-        //if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
-        //{
-        //    TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value + markBonusDamage;
-        //}
-        //else TotalMagicalDamage = 0;
+        if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
+        {
+            TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value;
+        }
+        else TotalMagicalDamage = 0;
 
-        TotalMagicalDamage = 0;
+        if (ProjectileSenderStats.GetStat(StatType.DamageReduction).Value > 0)
+        {
+            TotalPhysicalDamage -= TotalPhysicalDamage * ProjectileSenderStats.GetStat(StatType.DamageReduction).Value;
+            TotalMagicalDamage -= TotalMagicalDamage * ProjectileSenderStats.GetStat(StatType.DamageReduction).Value;
+
+            Debug.Log("REDUCING DAMAGE", transform);
+        }
+
+        if (targetStat.GetStat(StatType.IncreasedDamageTaken).Value > 0)
+        {
+            TotalPhysicalDamage += TotalPhysicalDamage * ProjectileSenderStats.GetStat(StatType.IncreasedDamageTaken).Value;
+            TotalMagicalDamage -= TotalMagicalDamage * ProjectileSenderStats.GetStat(StatType.DamageReduction).Value;
+
+            Debug.Log("AUGMENTING DAMAGE", transform);
+        }
 
         targetStat.TakeDamage(
             ProjectileSender,
@@ -252,24 +253,10 @@ public class ProjectileLogic : MonoBehaviour
             ProjectileSenderStats.GetStat(StatType.CriticalStrikeChance).Value,
             175f,
             ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
-            ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value, 
-            ProjectileSenderStats.GetStat(StatType.DamageReduction).Value);
-
-        //Peut être utilisé pour marquer les cibles avec des auto attaques de portée ?_?
-        //if (ProjectileSenderStats.GetComponent<InteractionSystem>().AutoAttackCanMark) StartCoroutine(targetStat.MarkEntity(0.5f));
-
-        //Debug.Log(TotalPhysicalDamage);
-        //Debug.Log(TotalMagicalDamage);
+            ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
 
         DestroyProjectile();
     }
-
-    //private void ApplyProjectileDamageToAnInteractiveBuilding(Collider targetCollider)
-    //{
-    //    //targetCollider.gameObject.GetComponent<SteleLogic>().TakeDamage(ProjectileSender, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
-
-    //    DestroyProjectile();
-    //}
 
     protected void ApplyStatusEffectOnHit(Collider targetCollider)
     {
@@ -309,8 +296,6 @@ public class ProjectileLogic : MonoBehaviour
             if (nearTargetStats != null && Target != null && targetColliders.gameObject != Target.gameObject
                 && !nearTargets.Contains(targetColliders.transform))
             {
-                //nearTargets.Add(targetColliders.transform);
-
                 if (CanHeal && ProjectileSenderStats.EntityTeam == nearTargetStats.EntityTeam 
                     && nearTargetStats.EntityIsMarked 
                     && nearTargetStats.GetStat(StatType.Health).Value < nearTargetStats.GetStat(StatType.Health).MaxValue)
@@ -323,7 +308,6 @@ public class ProjectileLogic : MonoBehaviour
 
                     if (Ability.AbilityCanConsumeMark)
                         nearTargetStats.DeactivateMarkFeedback();
-                        //nearTargetStats.EntityIsMarked = false;
                 }
             }
 

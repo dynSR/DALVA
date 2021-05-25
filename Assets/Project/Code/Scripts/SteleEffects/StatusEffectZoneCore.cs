@@ -4,9 +4,15 @@ using UnityEngine;
 public abstract class StatusEffectZoneCore : MonoBehaviour
 {
     public Color effectColor;
+    public List<EntityStats> statsOfEntitiesInTrigger = new List<EntityStats>();
 
     protected abstract void ApplyAffect(EntityStats target);
     protected abstract void RemoveEffect(EntityStats target);
+
+    private void OnDisable()
+    {
+        RemoveEffectOnEachEntitiesFound();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,46 +20,25 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
 
         if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
         {
+            //RemoveEffect(entityStats);
             ApplyAffect(entityStats);
-            SetOutlineEffect(other);
+            statsOfEntitiesInTrigger.Add(entityStats);
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        EntityStats entityStats = other.GetComponent<EntityStats>();
-
-        if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
-            SetOutlineEffect(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
         EntityStats entityStats = other.GetComponent<EntityStats>();
         RemoveEffect(entityStats);
+
+        if(statsOfEntitiesInTrigger.Contains(entityStats)) statsOfEntitiesInTrigger.Remove(entityStats);
     }
 
-    private void SetOutlineEffect(Collider other)
+    public void RemoveEffectOnEachEntitiesFound()
     {
-        EntityDetection otherEntityDetection = other.GetComponent<EntityDetection>();
-        otherEntityDetection.CanSetOutlineColorToBlack = false;
-
-        if (otherEntityDetection.Outline != null && !otherEntityDetection.Outline.enabled)
+        for (int i = 0; i < statsOfEntitiesInTrigger.Count; i++)
         {
-            Debug.Log("Reassigning outline color");
-            otherEntityDetection.ActivateTargetOutlineOnHover(otherEntityDetection.Outline, effectColor);
-        }  
-    }
-
-    private void ResetOutlineEffect(Collider other)
-    {
-        EntityDetection otherEntityDetection = other.GetComponent<EntityDetection>();
-        otherEntityDetection.CanSetOutlineColorToBlack = true;
-
-        if (otherEntityDetection.Outline != null && !otherEntityDetection.Outline.enabled)
-        {
-            Debug.Log("Reassigning outline color");
-            otherEntityDetection.ActivateTargetOutlineOnHover(otherEntityDetection.Outline, Color.black);
+            RemoveEffect(statsOfEntitiesInTrigger[i]);
         }
     }
 

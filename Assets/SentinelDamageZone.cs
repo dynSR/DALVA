@@ -55,7 +55,7 @@ public class SentinelDamageZone : MonoBehaviour
         {
             if (entitiesFound[i] != null && !entitiesFound[i].IsDead)
             {
-                entitiesFound[i].TakeDamage(parent, 0, 0, stats.GetStat(StatType.PhysicalPower).Value, 0, 0, 0, 0, 0, 0);
+                entitiesFound[i].TakeDamage(parent, 0, 0, stats.GetStat(StatType.PhysicalPower).Value, 0, 0, 0, 0, 0);
             }
         }
     }

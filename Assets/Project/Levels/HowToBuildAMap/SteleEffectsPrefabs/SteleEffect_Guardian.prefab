@@ -95061,10 +95061,13 @@ MonoBehaviour:
   stele: {fileID: 0}
   steleEffectName: Gardien
   steleIconImage: {fileID: 21300000, guid: 9e88194509777c74aa3a0957de700148, type: 3}
-  upgradeDescriptionI: "- R\xE9sistances  +\n- D\xE9g\xE2ts +"
-  upgradeDescriptionII: "- AS +\n- D\xE9g\xE2ts +"
-  upgradeDescriptionFinalEvolution: '- Stun en Zone'
+  upgradeDescriptionI: "Les r\xE9sistances du gardien sont augment\xE9es de <color=#b1e5f8>10%</color>."
+  upgradeDescriptionII: "Les r\xE9sistances du gardien sont augment\xE9es de <color=#b1e5f8>20%</color>"
+  upgradeDescriptionFinalEvolution: "<color=#ffa500ff>Ajout d'un nouvel effet :</color>\nToutes
+    les 4 secondes, \xE9tourdit les ennemis proches pendant 0.35 secondes."
   renderers: {fileID: 3911414989122762208}
+  guardianStats: {fileID: 7946902092973499985}
+  stunZone: {fileID: 0}
 --- !u!1 &7946902092294066933
 GameObject:
   m_ObjectHideFlags: 0
@@ -95518,7 +95521,7 @@ MonoBehaviour:
   enemyMarkObject: {fileID: 5367932501267737027}
   ExtentedMarkTime: 0
   EntityIsMarked: 0
-  markVFX: {fileID: 0}
+  consumedMarkVFX: {fileID: 0}
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 8994597874819175911}
@@ -95612,6 +95615,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeOfEntity: 1
   Outline: {fileID: 0}
+  SelectionObject: {fileID: 0}
 --- !u!114 &7946902092973499997
 MonoBehaviour:
   m_ObjectHideFlags: 0

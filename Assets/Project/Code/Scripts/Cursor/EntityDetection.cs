@@ -16,8 +16,6 @@ public class EntityDetection : MonoBehaviour
 
     public Outline Outline;
     public GameObject SelectionObject;
-    private GameObject spawnedSelectionObject;
-    public bool CanSetOutlineColorToBlack = true;
 
     private void Awake()
     {
@@ -78,24 +76,25 @@ public class EntityDetection : MonoBehaviour
     public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
     {
         if (targetOutlineFound.OutlineColor != Color.black)
-        targetOutlineFound.OutlineColor = Color.black;
+            targetOutlineFound.OutlineColor = Color.black;
+
+        Debug.Log("SETTING OUTLINE TO BLACK COLOR", transform);
         //targetOutlineFound.enabled = false;
     }
     #endregion
 
     void SetSelectionObject()
     {
-        GameObject selectionObjectInstance = Instantiate(SelectionObject, transform);
-        spawnedSelectionObject = selectionObjectInstance;
+        if (SelectionObject == null) return;
 
-        ParticleSystem selectionObjectPSComponent = spawnedSelectionObject.GetComponent<ParticleSystem>();
+        ParticleSystem selectionObjectPSComponent = SelectionObject.GetComponent<ParticleSystem>();
         EntityStats stats = transform.GetComponent<EntityStats>();
-        InteractiveBuilding interactivveBuilding = transform.GetComponent<InteractiveBuilding>();
+        InteractiveBuilding interactiveBuilding = transform.GetComponent<InteractiveBuilding>();
 
         var main = selectionObjectPSComponent.main;
 
         if (stats != null && stats.EntityTeam == EntityTeam.DALVA 
-            || interactivveBuilding  != null && interactivveBuilding.EntityTeam == EntityTeam.DALVA)
+            || interactiveBuilding  != null && interactiveBuilding.EntityTeam == EntityTeam.DALVA)
         {
             main.startColor = Color.blue;
         }
@@ -104,9 +103,9 @@ public class EntityDetection : MonoBehaviour
             main.startColor = Color.red;
         }
         else if (stats != null && stats.EntityTeam == EntityTeam.NEUTRAL
-            || interactivveBuilding != null && interactivveBuilding.EntityTeam == EntityTeam.NEUTRAL)
+            || interactiveBuilding != null && interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL)
         {
-            if (typeOfEntity == TypeOfEntity.Stele)
+            if (typeOfEntity == TypeOfEntity.Stele || typeOfEntity == TypeOfEntity.Harvester)
             {
                 main.startColor = Color.yellow;
             }
@@ -119,6 +118,6 @@ public class EntityDetection : MonoBehaviour
 
     public void DisplaySelectionEffect()
     {
-        if (!spawnedSelectionObject.activeInHierarchy) spawnedSelectionObject.SetActive(true);
+        if (SelectionObject != null && !SelectionObject.activeInHierarchy) SelectionObject.SetActive(true);
     }
 }

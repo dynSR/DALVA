@@ -315,8 +315,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 characterStat.GetStat(StatType.CriticalStrikeChance).Value,
                 175f,
                 characterStat.GetStat(StatType.PhysicalPenetration).Value,
-                characterStat.GetStat(StatType.MagicalPenetration).Value,
-                characterStat.GetStat(StatType.DamageReduction).Value);
+                characterStat.GetStat(StatType.MagicalPenetration).Value);
                 #endregion
             }
 

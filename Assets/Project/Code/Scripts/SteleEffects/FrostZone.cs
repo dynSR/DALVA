@@ -10,12 +10,18 @@ public class FrostZone : StatusEffectZoneCore
     public float MovementSpeedReduction { get => movementSpeedReduction; set => movementSpeedReduction = value; }
     public float AttackSpeedReduction { get => attackSpeedReduction; set => attackSpeedReduction = value; }
 
+    public bool CanReduceDamage = false;
+    public float damageReduction = 0.15f;
+
     protected override void ApplyAffect(EntityStats target)
     {
         target.GetStat(StatType.MovementSpeed).AddModifier(new StatModifier(-MovementSpeedReduction, StatType.MovementSpeed, StatModType.PercentAdd, this));
         target.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(-AttackSpeedReduction, StatType.AttackSpeed, StatModType.PercentAdd, this));
 
         GetTargetController(target).Agent.speed = target.GetStat(StatType.MovementSpeed).Value;
+
+        if (CanReduceDamage)
+            target.GetStat(StatType.DamageReduction).AddModifier(new StatModifier(damageReduction, StatType.DamageReduction, StatModType.Flat, this));
     }
 
     protected override void RemoveEffect(EntityStats target)
@@ -24,6 +30,19 @@ public class FrostZone : StatusEffectZoneCore
         target.GetStat(StatType.AttackSpeed).RemoveAllModifiersFromSource(this);
 
         GetTargetController(target).Agent.speed = target.GetStat(StatType.MovementSpeed).Value;
+
+        if (CanReduceDamage)
+            target.GetStat(StatType.DamageReduction).RemoveAllModifiersFromSource(this);
+    }
+
+    public void ResetTrigger()
+    {
+        Collider colliderAttached = GetComponent<Collider>();
+
+        colliderAttached.enabled = false;
+        colliderAttached.enabled = true;
+
+        RemoveEffectOnEachEntitiesFound();
     }
 
     CharacterController GetTargetController(EntityStats target)

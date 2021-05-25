@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 919132148870901582}
   m_LocalRotation: {x: -0, y: -1.2246467e-16, z: -7.498799e-33, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 0.8, y: 0.75, z: 1}
   m_Children:
   - {fileID: 356318394802325966}
   - {fileID: 7405882755135569649}
@@ -336,7 +336,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8080816707480801907}
-  - component: {fileID: 2735563264095383752}
   - component: {fileID: 8080816707480801911}
   - component: {fileID: 3313565196994395093}
   - component: {fileID: 5160101695996781198}
@@ -365,19 +364,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2735563264095383752
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8080816707480801910}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.75, y: 1, z: 0.55}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!208 &8080816707480801911
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -388,11 +374,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.875, y: 0.5, z: 0.275}
+  m_Extents: {x: 2.075, y: 1, z: 0.575}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.75, z: -0.15}
   m_TimeToStationary: 0.5
 --- !u!114 &3313565196994395093
 MonoBehaviour:
@@ -625,7 +611,7 @@ MonoBehaviour:
   enemyMarkObject: {fileID: 0}
   ExtentedMarkTime: 0
   EntityIsMarked: 0
-  markVFX: {fileID: 0}
+  consumedMarkVFX: {fileID: 0}
   popup: {fileID: 0}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -641,7 +627,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8080816707480801910}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
@@ -665,7 +651,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfEntity: 5
-  Outline: {fileID: 0}
+  Outline: {fileID: 5160101695996781198}
+  SelectionObject: {fileID: 0}
 --- !u!114 &9140190576069270267
 MonoBehaviour:
   m_ObjectHideFlags: 0

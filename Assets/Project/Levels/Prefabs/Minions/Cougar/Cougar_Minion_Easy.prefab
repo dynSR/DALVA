@@ -34006,7 +34006,6 @@ GameObject:
   - component: {fileID: 677056945882420876}
   - component: {fileID: 677056945882420877}
   - component: {fileID: 677056945882420878}
-  - component: {fileID: 677056945882420879}
   - component: {fileID: 677056945882420872}
   m_Layer: 12
   m_Name: Cougar_Minion_Easy
@@ -34318,6 +34317,7 @@ MonoBehaviour:
   enemyMarkObject: {fileID: 4668874328894121362}
   ExtentedMarkTime: 2
   EntityIsMarked: 0
+  markVFX: {fileID: 0}
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -34326,7 +34326,6 @@ MonoBehaviour:
   ressourcesGainedVFX: {fileID: 0}
   spawnSoundGroup: 
   deathSoundGroup: 
-  centerCameraOnRespawn: 0
 --- !u!114 &677056945882420867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34348,6 +34347,7 @@ MonoBehaviour:
   isRooted: 0
   stunVFX: {fileID: 2446701183133432280}
   rootedVFX: {fileID: 7914872194115929664}
+  slowedVFX: []
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -34410,24 +34410,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfEntity: 3
---- !u!114 &677056945882420879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677056945882420875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 0, g: 0.07363987, b: 1, a: 1}
-  outlineWidth: 1.5
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  Outline: {fileID: 1418873627}
+  SelectionObject: {fileID: 5651810250121186550, guid: cc803fd403996284292faf134dcb0d3d, type: 3}
 --- !u!114 &677056945882420872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85486,14 +85470,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4261363703758374074, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 677056946146988270}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4668874328894121362 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5309268712562488700, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
-  m_PrefabInstance: {fileID: 677056946146988270}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5095452576544429796 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5752166186394240522, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
+  m_PrefabInstance: {fileID: 677056946146988270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4668874328894121362 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5309268712562488700, guid: 53e95200a1b161e44b7513ba676c3a93, type: 3}
   m_PrefabInstance: {fileID: 677056946146988270}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &677056946739217626

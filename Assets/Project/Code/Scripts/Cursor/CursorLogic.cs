@@ -105,7 +105,8 @@ public class CursorLogic : MonoBehaviour
                 {
                     if (Interactions.LastKnownTarget != null)
                     {
-                        if(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline.OutlineColor != Color.black)
+                        if(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline.OutlineColor != Color.black 
+                           && Interactions.LastKnownTarget.GetComponent<EntityDetection>().CanSetOutlineColorToBlack)
                             Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline.OutlineColor = Color.black;
 
                         //Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);

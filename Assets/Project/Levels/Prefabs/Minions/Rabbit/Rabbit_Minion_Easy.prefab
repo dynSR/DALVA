@@ -51659,7 +51659,6 @@ GameObject:
   - component: {fileID: 5396686405339889376}
   - component: {fileID: 5396686405339889377}
   - component: {fileID: 5396686405339889378}
-  - component: {fileID: 5396686405339889379}
   - component: {fileID: 5396686405339889380}
   m_Layer: 12
   m_Name: Rabbit_Minion_Easy
@@ -51971,6 +51970,7 @@ MonoBehaviour:
   enemyMarkObject: {fileID: 237193739214409214}
   ExtentedMarkTime: 2
   EntityIsMarked: 0
+  markVFX: {fileID: 0}
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -51979,7 +51979,6 @@ MonoBehaviour:
   ressourcesGainedVFX: {fileID: 0}
   spawnSoundGroup: 
   deathSoundGroup: 
-  centerCameraOnRespawn: 0
 --- !u!114 &5396686405339889391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52001,6 +52000,7 @@ MonoBehaviour:
   isRooted: 0
   stunVFX: {fileID: 6331211681781081503}
   rootedVFX: {fileID: 2017560865058511367}
+  slowedVFX: []
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -52063,24 +52063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfEntity: 3
---- !u!114 &5396686405339889379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5396686405339889383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 0, g: 0.07363987, b: 1, a: 1}
-  outlineWidth: 1.5
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  Outline: {fileID: 675884884}
+  SelectionObject: {fileID: 5651810250121186550, guid: cc803fd403996284292faf134dcb0d3d, type: 3}
 --- !u!114 &5396686405339889380
 MonoBehaviour:
   m_ObjectHideFlags: 0

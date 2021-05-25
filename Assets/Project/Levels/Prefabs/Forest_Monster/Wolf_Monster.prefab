@@ -67190,7 +67190,6 @@ GameObject:
   - component: {fileID: 8483657519993294635}
   - component: {fileID: 8483657519993294634}
   - component: {fileID: 8483657519993294633}
-  - component: {fileID: 8483657519993294632}
   - component: {fileID: 8483657519993294639}
   m_Layer: 12
   m_Name: Wolf_Monster
@@ -67501,6 +67500,7 @@ MonoBehaviour:
   enemyMarkObject: {fileID: 4328608311485234229}
   ExtentedMarkTime: 2
   EntityIsMarked: 0
+  markVFX: {fileID: 0}
   popup: {fileID: 7788752569908500074, guid: 8cc33a8cee48a04429b6d7ce14ac30fd, type: 3}
   deathHUD: {fileID: 0}
   healVFX: {fileID: 0}
@@ -67509,7 +67509,6 @@ MonoBehaviour:
   ressourcesGainedVFX: {fileID: 0}
   spawnSoundGroup: 
   deathSoundGroup: 
-  centerCameraOnRespawn: 0
 --- !u!114 &8483657519993294628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67531,6 +67530,7 @@ MonoBehaviour:
   isRooted: 0
   stunVFX: {fileID: 1147843285535406917}
   rootedVFX: {fileID: 4886087780279518429}
+  slowedVFX: []
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0
@@ -67593,24 +67593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfEntity: 2
---- !u!114 &8483657519993294632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8483657519993294636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 0, g: 0.07363987, b: 1, a: 1}
-  outlineWidth: 1.5
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  Outline: {fileID: 1260603161}
+  SelectionObject: {fileID: 5651810250121186550, guid: cc803fd403996284292faf134dcb0d3d, type: 3}
 --- !u!114 &8483657519993294639
 MonoBehaviour:
   m_ObjectHideFlags: 0

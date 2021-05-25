@@ -15,21 +15,19 @@ public class EntityDetection : MonoBehaviour
     public TypeOfEntity TypeOfEntity { get => typeOfEntity; set => typeOfEntity = value; }
 
     public Outline Outline;
+    public GameObject SelectionObject;
+    private GameObject spawnedSelectionObject;
+    public bool CanSetOutlineColorToBlack = true;
+
+    private void Awake()
+    {
+        SetSelectionObject();
+    }
 
     private void Start() => SetOutlineColor();
 
     void SetOutlineColor()
     {
-        //switch (TypeOfEntity)
-        //{
-        //    case TypeOfEntity.Stele:
-        //        Outline.OutlineColor = Color.yellow;
-        //        break;
-        //    case TypeOfEntity.Harvester:
-        //        Outline.OutlineColor = Color.yellow;
-        //        break;
-        //}
-
         Outline.OutlineColor = Color.black;
     }
 
@@ -79,7 +77,48 @@ public class EntityDetection : MonoBehaviour
 
     public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
     {
-        targetOutlineFound.enabled = false;
+        if (targetOutlineFound.OutlineColor != Color.black)
+        targetOutlineFound.OutlineColor = Color.black;
+        //targetOutlineFound.enabled = false;
     }
     #endregion
+
+    void SetSelectionObject()
+    {
+        GameObject selectionObjectInstance = Instantiate(SelectionObject, transform);
+        spawnedSelectionObject = selectionObjectInstance;
+
+        ParticleSystem selectionObjectPSComponent = spawnedSelectionObject.GetComponent<ParticleSystem>();
+        EntityStats stats = transform.GetComponent<EntityStats>();
+        InteractiveBuilding interactivveBuilding = transform.GetComponent<InteractiveBuilding>();
+
+        var main = selectionObjectPSComponent.main;
+
+        if (stats != null && stats.EntityTeam == EntityTeam.DALVA 
+            || interactivveBuilding  != null && interactivveBuilding.EntityTeam == EntityTeam.DALVA)
+        {
+            main.startColor = Color.blue;
+        }
+        else if (stats != null && stats.EntityTeam == EntityTeam.HULRYCK)
+        {
+            main.startColor = Color.red;
+        }
+        else if (stats != null && stats.EntityTeam == EntityTeam.NEUTRAL
+            || interactivveBuilding != null && interactivveBuilding.EntityTeam == EntityTeam.NEUTRAL)
+        {
+            if (typeOfEntity == TypeOfEntity.Stele)
+            {
+                main.startColor = Color.yellow;
+            }
+            else if (typeOfEntity == TypeOfEntity.Monster)
+            {
+                main.startColor = Color.red;
+            }
+        }
+    }
+
+    public void DisplaySelectionEffect()
+    {
+        if (!spawnedSelectionObject.activeInHierarchy) spawnedSelectionObject.SetActive(true);
+    }
 }

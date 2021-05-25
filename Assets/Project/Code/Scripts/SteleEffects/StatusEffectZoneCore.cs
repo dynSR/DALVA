@@ -15,7 +15,7 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
         if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
         {
             ApplyAffect(entityStats);
-            ActivateOutlineEffect(other);
+            SetOutlineEffect(other);
         }
     }
 
@@ -24,7 +24,7 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
         EntityStats entityStats = other.GetComponent<EntityStats>();
 
         if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
-            ActivateOutlineEffect(other);
+            SetOutlineEffect(other);
     }
 
     private void OnTriggerExit(Collider other)
@@ -33,15 +33,28 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
         RemoveEffect(entityStats);
     }
 
-    private void ActivateOutlineEffect(Collider other)
+    private void SetOutlineEffect(Collider other)
     {
         EntityDetection otherEntityDetection = other.GetComponent<EntityDetection>();
+        otherEntityDetection.CanSetOutlineColorToBlack = false;
 
         if (otherEntityDetection.Outline != null && !otherEntityDetection.Outline.enabled)
         {
             Debug.Log("Reassigning outline color");
             otherEntityDetection.ActivateTargetOutlineOnHover(otherEntityDetection.Outline, effectColor);
         }  
+    }
+
+    private void ResetOutlineEffect(Collider other)
+    {
+        EntityDetection otherEntityDetection = other.GetComponent<EntityDetection>();
+        otherEntityDetection.CanSetOutlineColorToBlack = true;
+
+        if (otherEntityDetection.Outline != null && !otherEntityDetection.Outline.enabled)
+        {
+            Debug.Log("Reassigning outline color");
+            otherEntityDetection.ActivateTargetOutlineOnHover(otherEntityDetection.Outline, Color.black);
+        }
     }
 
     private void OnDrawGizmos()

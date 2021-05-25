@@ -59,7 +59,7 @@ public class PlayerInteractions : InteractionSystem
                 if (targetFound != null && targetFound.enabled && !targetFound.ThisTargetIsASteleEffect(targetFound))
                 {
                     Target = targetFound.transform;
-                    //Controller.HandleCharacterRotation(Target);
+                    targetFound.DisplaySelectionEffect();
 
                     //Needs to be modified to only include Player -Interactive building - Monster - Minion
                     //Target in an enemy entity

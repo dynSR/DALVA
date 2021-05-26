@@ -16,10 +16,10 @@ MonoBehaviour:
   entityType: 3
   combatType: 0
   entityStats:
-  - name: Health - 1000
+  - name: Health - 1600
     statType: 0
     icon: {fileID: 0}
-    baseValue: 1000
+    baseValue: 1600
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -40,26 +40,26 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 4
+  - name: MovementSpeed - 2,25
     statType: 3
     icon: {fileID: 0}
-    baseValue: 4
+    baseValue: 2.25
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 0
+  - name: PhysicalResistances - 20
     statType: 4
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 20
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 0
+  - name: MagicalResistances - 20
     statType: 5
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 20
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -80,18 +80,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 60
+  - name: PhysicalPower - 0
     statType: 8
     icon: {fileID: 0}
-    baseValue: 60
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalPower - 0
+  - name: MagicalPower - 80
     statType: 9
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 80
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -184,10 +184,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 150
+  - name: RessourcesGiven - 600
     statType: 21
     icon: {fileID: 0}
-    baseValue: 150
+    baseValue: 600
     capValue: 0
     Value: 0
     MaxValue: 0

@@ -14,7 +14,7 @@ public class GuardianStunZone : StatusEffectZoneCore
     {
         for (int i = 0; i < statsOfEntitiesInTrigger.Count; i++)
         {
-            guardianStatusEffect.ApplyEffect(statsOfEntitiesInTrigger[i].transform);
+            ApplyAffect(statsOfEntitiesInTrigger[i]);
         }
     }
 

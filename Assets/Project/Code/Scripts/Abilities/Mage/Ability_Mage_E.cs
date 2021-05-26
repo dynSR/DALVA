@@ -23,7 +23,7 @@ public class Ability_Mage_E : AbilityLogic
 
     protected override void Cast()
     {
-        PlayAbilityAnimation("UsesThirdAbility", true, true);
+        PlayAbilityAnimation("UsesThirdAbility", true);
 
         EntityStats abilityTargetStats = AbilityTarget.GetComponent<EntityStats>();
         Collider targetCollider = AbilityTarget.GetComponent<Collider>();
@@ -86,7 +86,9 @@ public class Ability_Mage_E : AbilityLogic
         float shieldValue = shieldEffect.StatModifiers[0].Value;
         float shieldEffectiveness = Stats.GetStat(StatType.HealAndShieldEffectiveness).Value;
 
-        if (abilityTargetStats.EntityTeam == Stats.EntityTeam)
+        if (abilityTargetStats != null 
+            && abilityTargetStats.EntityTeam == Stats.EntityTeam 
+            && abilityTargetStats.GetStat(StatType.Shield) != null)
         {
             shieldEffect.StatModifiers[0].Value = shieldValue;
 

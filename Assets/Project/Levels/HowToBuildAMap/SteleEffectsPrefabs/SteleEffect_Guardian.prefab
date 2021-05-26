@@ -19738,7 +19738,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d257e5b38a499384db779c534f42382c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectColor: {r: 1, g: 0, b: 0, a: 1}
   statsOfEntitiesInTrigger: []
   guardianStatusEffect: {fileID: 11400000, guid: 2b51864a301f1a04e9c39c853d3de2c4, type: 2}
   delayBeforeApplyingEffect: 3
@@ -19795,12 +19794,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2ce17562aabfb954a99959b6908270e6, type: 3}
-  m_Color: {r: 0.6792453, g: 0.583824, b: 0.3556426, a: 0.49019608}
+  m_Sprite: {fileID: 21300000, guid: 727e96b26f927a7439aaf9cccaa62a4c, type: 3}
+  m_Color: {r: 1, g: 0.61752665, b: 0, a: 0.21960784}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 7, y: 7}
+  m_Size: {x: 9.75, y: 9.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -59076,12 +59075,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2ce17562aabfb954a99959b6908270e6, type: 3}
-  m_Color: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.39607844}
+  m_Sprite: {fileID: 21300000, guid: 727e96b26f927a7439aaf9cccaa62a4c, type: 3}
+  m_Color: {r: 1, g: 0.61752665, b: 0, a: 0.21960784}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 13, y: 13}
+  m_Size: {x: 18, y: 18}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -95177,7 +95176,8 @@ MonoBehaviour:
   upgradeDescriptionI: "R\xE9sistances du gardien <color=#ffa500ff>+10%</color>."
   upgradeDescriptionII: "R\xE9sistances du gardien <color=#ffa500ff>+20%</color>"
   upgradeDescriptionFinalEvolution: "<color=#ffa500ff>Ajout d'un nouvel effet :</color>\nToutes
-    les 3 secondes, \xE9tourdit les ennemis proches pendant 1 seconde."
+    les <color=#ffa500ff>3 secondes</color>, \xE9tourdit les ennemis proches pendant
+    <color=#ffa500ff>1 seconde</color>."
   renderers: {fileID: 3911414989122762208}
   guardianStats: {fileID: 7946902092973499985}
   stunZone: {fileID: 2437046422639010413}

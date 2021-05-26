@@ -460,6 +460,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
         GameManager.Instance.Player.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
+
+        if (GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX != null)
+            GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
     }
 
     private void Die()

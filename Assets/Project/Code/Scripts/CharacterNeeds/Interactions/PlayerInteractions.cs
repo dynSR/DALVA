@@ -47,7 +47,7 @@ public class PlayerInteractions : InteractionSystem
         if (UtilityClass.RightClickIsPressed())
         {
             //Debug.Log("Set target on mouse click");
-            ResetTarget();
+            ResetTarget(true);
 
             if (GetComponent<PlayerController>().IsCursorHoveringUIElement) return;
 
@@ -89,17 +89,23 @@ public class PlayerInteractions : InteractionSystem
     #endregion
 
     #region Interaction
-    private void ResetTarget()
+    public void ResetTarget(bool canResetTarget = false)
     {
         if (Target != null)
         {
             if (Target.GetComponent<HarvesterLogic>() != null)
             {
                 Target.GetComponent<HarvesterLogic>().ResetAfterInteraction();
+                Target = null;
             }
             else if (Target.GetComponent<SteleLogic>() != null)
             {
                 Target.GetComponent<SteleLogic>().InteractingPlayer = null;
+                Target = null;
+            }
+            else if(canResetTarget)
+            {
+                Target = null;
             }
         }
 
@@ -107,7 +113,7 @@ public class PlayerInteractions : InteractionSystem
 
         ResetInteractionState();
 
-        Target = null;
+        //Target = null;
     }
 
     void ResetAgentState()

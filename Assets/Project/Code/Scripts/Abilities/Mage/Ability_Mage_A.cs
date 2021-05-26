@@ -5,7 +5,7 @@
 
     protected override void Cast()
     {
-        PlayAbilityAnimation("UsesFirstAbility", true, true);
+        PlayAbilityAnimation("UsesFirstAbility", true);
 
         switch (UsedEffectIndex)
         {

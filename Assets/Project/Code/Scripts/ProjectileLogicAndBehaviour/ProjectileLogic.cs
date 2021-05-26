@@ -346,9 +346,13 @@ public class ProjectileLogic : MonoBehaviour
         if(CanApplyDamageInZone && damageZone != null)
         {
             Instantiate(damageZone, new Vector3(transform.position.x, 0.1f, transform.position.z), damageZone.transform.rotation);
-            damageZone.GetComponent<SentinelProjectileDamageZone>().projectile = this;
-            //damageZone.SetActive(true);
-            Destroy(gameObject);
+
+            SentinelProjectileDamageZone sentinelProjectileDamageZone = damageZone.GetComponent<SentinelProjectileDamageZone>();
+            sentinelProjectileDamageZone.projectile = this;
+            sentinelProjectileDamageZone.projectileTarget = Target;
+
+           //damageZone.SetActive(true);
+           Destroy(gameObject);
         }
     }
 

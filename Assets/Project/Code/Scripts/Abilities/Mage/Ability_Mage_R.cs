@@ -35,7 +35,7 @@ public class Ability_Mage_R : AbilityLogic
 
         //Joue toujours l'animation sachant que l'animation controller changera en fonction de l'ascension choisie OU ajouter un bool correspondant au check de la classe 
         Controller.CharacterAnimator.SetBool("IsSorcerer", true);
-        PlayAbilityAnimation("UsesFourthAbility", true, true);
+        PlayAbilityAnimation("UsesFourthAbility", true);
 
         //En fontion de la classe finale faire des choses en dessous / rapport à l'index (comportement normal)
 

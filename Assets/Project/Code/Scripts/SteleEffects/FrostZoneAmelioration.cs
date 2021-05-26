@@ -18,14 +18,14 @@ public class FrostZoneAmelioration : SteleAmelioration
                 frostZone.MovementSpeedReduction = 0.325f;
                 frostZone.AttackSpeedReduction = 0.325f;
 
-                transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                frostZone.AugmentZoneRange(1.25f);
 
                 Debug.Log("UPGRADE 2");
                 break;
             case SteleLevel.FinalEvolution: // damage reduction + 1 range
                 frostZone.CanReduceDamage = true;
 
-                transform.localScale = new Vector3(2f, 2f, 2f);
+                frostZone.AugmentZoneRange(1.5f);
 
                 Debug.Log("UPGRADE 3");
                 break;

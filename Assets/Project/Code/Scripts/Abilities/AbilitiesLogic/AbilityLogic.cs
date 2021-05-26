@@ -21,7 +21,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public Transform Player => GetComponent<Transform>();
     protected EntityStats Stats => GetComponent<EntityStats>();
     protected CharacterController Controller => GetComponent<CharacterController>();
-    protected InteractionSystem Interactions => GetComponent<InteractionSystem>();
+    protected PlayerInteractions Interactions => GetComponent<PlayerInteractions>();
     public AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();
     protected ThrowingAbilityProjectile ThrowingProjectile => GetComponent<ThrowingAbilityProjectile>();
     #endregion
@@ -82,11 +82,27 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {
+            Interactions.ResetTarget();
+
             #region Point and Click
+            EntityDetection knownTargetDetected = null;
+
             if (Ability.IsPointAndClick && Interactions.KnownTarget != null)
             {
-                AbilityTarget = Interactions.KnownTarget;
-                CastLocation = AbilityTarget.position;
+                //Assigning knowtarget entity detection script
+                knownTargetDetected = Interactions.KnownTarget.GetComponent<EntityDetection>();
+
+                if (knownTargetDetected.ThisTargetIsAStele(knownTargetDetected) 
+                    || knownTargetDetected.ThisTargetIsAHarvester(knownTargetDetected) 
+                    || knownTargetDetected.ThisTargetIsASteleEffect(knownTargetDetected))
+                {
+                    AbilityTarget = transform;
+                }
+                else
+                {
+                    AbilityTarget = Interactions.KnownTarget;
+                    CastLocation = AbilityTarget.position;
+                }
             }
             else if (Ability.IsPointAndClick && Interactions.KnownTarget == null)
             {
@@ -127,6 +143,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
             #endregion
         }
 
+        #region Fast Cast
         if (fastCastWithIndication 
             && rangeDisplayer != null 
             && rangeDisplayer.activeInHierarchy 
@@ -150,6 +167,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 Controller.Agent.SetDestination(CastLocation);
             }
         }
+        #endregion
 
         CastWhenInRange();
     }

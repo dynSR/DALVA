@@ -35,16 +35,6 @@ public class FrostZone : StatusEffectZoneCore
             target.GetStat(StatType.DamageReduction).RemoveAllModifiersFromSource(this);
     }
 
-    public void ResetTrigger()
-    {
-        Collider colliderAttached = GetComponent<Collider>();
-
-        colliderAttached.enabled = false;
-        colliderAttached.enabled = true;
-
-        RemoveEffectOnEachEntitiesFound();
-    }
-
     CharacterController GetTargetController(EntityStats target)
     {
         return target.GetComponent<CharacterController>();

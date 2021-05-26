@@ -147,7 +147,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -710365080650085836, guid: 6c38767038a59c442890af96ba0f374b, type: 2}
+  - {fileID: -8275589194869782772, guid: ac773cde664a6e74faaf1bf8aeb5f038, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_text: 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ac773cde664a6e74faaf1bf8aeb5f038, type: 2}
-  m_sharedMaterial: {fileID: -710365080650085836, guid: 6c38767038a59c442890af96ba0f374b, type: 2}
+  m_sharedMaterial: {fileID: -8275589194869782772, guid: ac773cde664a6e74faaf1bf8aeb5f038, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -272,10 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d070ec25b966a42bb6d8361c6bccb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpLifeTime: 0.45
-  moveXSpeed: 0.2
+  popUpLifeTime: 0.25
+  moveXSpeed: 0.5
   moveYSpeed: 2
-  desappearSpeed: 1
+  desappearSpeed: 50
   physicalDamageColor: {r: 1, g: 1, b: 1, a: 1}
   magicalDamageColor: {r: 0, g: 1, b: 1, a: 1}
   criticalColor: {r: 1, g: 0.6901983, b: 0, a: 1}
@@ -315,6 +315,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8434dec12af50514f899fdc17dd813df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetimeValue: 0.45
+  lifetimeValue: 0.25
   destroyAfterTime: 1
   hideAfterTime: 0

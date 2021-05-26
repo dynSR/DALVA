@@ -42,7 +42,7 @@ public class CharacterRessources : MonoBehaviour
     private void Start()
     {
         UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);
-        InvokeRepeating(nameof(AddRessourcesOvertime), passiveEarningDelay, 1);
+        //InvokeRepeating(nameof(AddRessourcesOvertime), passiveEarningDelay, 1);
     }
 
     void Update()
@@ -82,9 +82,9 @@ public class CharacterRessources : MonoBehaviour
     public void RemoveRessources(int amountToRemove)
     {
         CurrentAmountOfPlayerRessources -= amountToRemove;
-        UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);
-
         if (CurrentAmountOfPlayerRessources <= 0) CurrentAmountOfPlayerRessources = 0;
+
+        UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);
 
         if (PlayerHUD.IsShopWindowOpen)
             playerShop.RefreshShopData();
@@ -97,8 +97,10 @@ public class CharacterRessources : MonoBehaviour
 
     private void UpdatePlayerRessourcesValueText(int value)
     {
+        Debug.Log("! UpdatePlayerRessourcesValueText !");
+        Debug.Log("! VALUE ! : " + value);
         //Means that a purchase has been done
-        SetLossRessourcesFeedback(value);
+        SetRessourcesFeedback(value);
 
         CurrentAmountOfPlayerRessources = value;
         OnCharacterRessourcesChanged?.Invoke();
@@ -106,11 +108,13 @@ public class CharacterRessources : MonoBehaviour
         InventoryPlayerRessourcesValueText.text = value.ToString();
     }
 
-    private void SetLossRessourcesFeedback(int newValue)
+    public void SetRessourcesFeedback(int newValue)
     {
         //Maybe add the logic for when we add gold to inventory
         // --> Changing color / "+" or "-"
         //Maybe play the animation in reverse to add contrast : in =/= out
+
+        Debug.Log("!!! SetRessourcesFeedback !!!");
 
         //PlayerHUD -----------------------------------------------------------------------------------------------------------------
         TextMeshProUGUI playerHUDTextToSetup = ressourcesLossFeedbackPlayerHUD.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -121,6 +125,8 @@ public class CharacterRessources : MonoBehaviour
 
         if (CurrentAmountOfPlayerRessources > newValue)
         {
+            Debug.Log("!!! SetRessourcesFeedback - CurrentAmountOfPlayerRessources > newValue !!!");
+
             //PlayerHUD ------------------------------------------------------------------------------
             playerHUDTextToSetup.color = Color.red;
             playerHUDTextToSetup.text = (newValue - CurrentAmountOfPlayerRessources).ToString();
@@ -133,6 +139,8 @@ public class CharacterRessources : MonoBehaviour
         }
         else if (CurrentAmountOfPlayerRessources < newValue)
         {
+            Debug.Log("!!! SetRessourcesFeedback - CurrentAmountOfPlayerRessources > newValue !!!");
+
             //PlayerHUD ------------------------------------------------------------------------------
             playerHUDTextToSetup.color = Color.green;
             playerHUDTextToSetup.text = "+" + (newValue - CurrentAmountOfPlayerRessources).ToString();

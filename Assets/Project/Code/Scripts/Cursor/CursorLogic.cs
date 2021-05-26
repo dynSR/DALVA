@@ -34,7 +34,10 @@ public class CursorLogic : MonoBehaviour
     #region Set cursor appearance when its hovering an entity
     void SetCursorAppearance()
     {
-        if (Controller.IsCursorHoveringUIElement || Controller.IsStunned || Interactions.PlayerIsTryingToAttack) return;
+        if (Controller.IsCursorHoveringUIElement 
+            || Controller.IsStunned 
+            || Interactions.PlayerIsTryingToAttack 
+            || !GameManager.Instance.GameIsInPlayMod()) return;
 
         if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out cursorHit, Mathf.Infinity))
         {
@@ -97,7 +100,7 @@ public class CursorLogic : MonoBehaviour
                         #endregion
                 }
             }
-            else
+            else //Nothing is aimed
             {
                 SetCursorToNormalAppearance();
 
@@ -105,10 +108,12 @@ public class CursorLogic : MonoBehaviour
                 {
                     if (Interactions.LastKnownTarget != null)
                     {
+                        Interactions.KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.KnownTarget.GetComponent<EntityDetection>().Outline);
                         Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);
 
                         //Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);
                         Interactions.LastKnownTarget = null;
+                        Interactions.KnownTarget = null;
                     }
                 }
             }

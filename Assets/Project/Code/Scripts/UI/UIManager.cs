@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveCountText;
 
     float timeValue = 0f;
+
+    public GameObject pauseMenu;
 
     #region Singleton
     public static UIManager Instance;
@@ -83,4 +85,44 @@ public class UIManager : MonoBehaviour
     {
         placeToDefendHealtAmountText.SetText(amnt.ToString("0"));
     }
+
+    #region Popup
+    public void DisplayValidationPopup(GameObject popup)
+    {
+        if (!popup.activeInHierarchy) popup.SetActive(true);
+    }
+
+    public void HideValidationPopup(GameObject popup)
+    {
+        if (!popup.activeInHierarchy) popup.SetActive(false);
+    }
+    #endregion
+
+    #region PauseMenu
+    public void DisplayPauseMenu()
+    {
+        if (!pauseMenu.activeInHierarchy) pauseMenu.SetActive(true);
+    }
+
+    public void HidePauseMenu()
+    {
+        if (pauseMenu.activeInHierarchy) pauseMenu.SetActive(false);
+    }
+
+    public void GetBackToMainMenu()
+    {
+        SceneManager.LoadScene("Scene_MainMenu");
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().ToString(), LoadSceneMode.Single);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    #endregion
 }

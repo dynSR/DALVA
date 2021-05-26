@@ -1401,9 +1401,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Revente d'Effet
     steleEffect: 0
-    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
-      des ressources."
-    effectCost: 525
+    description: "<color=#ff0000>La st\xE8le est inactive et son effet est supprim\xE9.\nVous
+      r\xE9cup\xE9rez le montant de ressources indiqu\xE9 ci-dessous.</color>"
     effectIcon: {fileID: 21300000, guid: 1663bf63b76a0724ab2a5bd92c3effdd, type: 3}
   isASellingButton: 1
   impossibilityToPurchaseImage: {fileID: 0}
@@ -1454,7 +1453,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SellEffect
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1674,7 +1673,6 @@ MonoBehaviour:
     steleEffect: 1
     description: "Invoque un golem \xE0 proximit\xE9 de la st\xE8le.\r\nS'il meurt,
       il r\xE9appara\xEEt apr\xE8s un certain d\xE9lai."
-    effectCost: 150
     effectIcon: {fileID: 21300000, guid: 9e88194509777c74aa3a0957de700148, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 8188925741992910825}
@@ -1725,7 +1723,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SetSteleToActiveMode
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1754,18 +1752,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 6453885090031796494}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: SetSteleLevel
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1994,9 +1980,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Revente d'Effet
     steleEffect: 0
-    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
-      des ressources."
-    effectCost: 300
+    description: "<color=#ff0000>La st\xE8le est inactive et son effet est supprim\xE9.\nVous
+      r\xE9cup\xE9rez le montant de ressources indiqu\xE9 ci-dessous.</color>"
     effectIcon: {fileID: 21300000, guid: 1663bf63b76a0724ab2a5bd92c3effdd, type: 3}
   isASellingButton: 1
   impossibilityToPurchaseImage: {fileID: 0}
@@ -2047,7 +2032,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SellEffect
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2888,7 +2873,6 @@ MonoBehaviour:
     steleEffect: 5
     description: "Invoque un bloc de boucliers protecteurs \xE0 proximit\xE9 de la
       st\xE8le.\r\nCe bloc est invuln\xE9rable."
-    effectCost: 150
     effectIcon: {fileID: 21300000, guid: 5dd259ac47253d04999c221c8773f141, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 1685944015758270407}
@@ -2939,7 +2923,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SetSteleToActiveMode
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2968,18 +2952,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 6453885090031796494}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: SetSteleLevel
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8692,7 +8664,6 @@ MonoBehaviour:
     effectName: Ne rien renseigner ici
     steleEffect: 0
     description: Ne rien renseigner ici
-    effectCost: 600
     effectIcon: {fileID: 0}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 5515029784340897143}
@@ -8772,18 +8743,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: PurchaseSteleEffect
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 600
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9388,7 +9347,6 @@ MonoBehaviour:
     effectName: Ne rien renseigner ici
     steleEffect: 0
     description: Ne rien renseigner ici
-    effectCost: 1050
     effectIcon: {fileID: 0}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 9077859873711806870}
@@ -9450,36 +9408,12 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: PurchaseSteleEffect
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1100
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: UpgradeEffect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: SetSteleLevel
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10388,9 +10322,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Revente d'Effet
     steleEffect: 0
-    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
-      des ressources."
-    effectCost: 225
+    description: "<color=#ff0000>La st\xE8le est inactive et son effet est supprim\xE9.\nVous
+      r\xE9cup\xE9rez le montant de ressources indiqu\xE9 ci-dessous.</color>"
     effectIcon: {fileID: 21300000, guid: 1663bf63b76a0724ab2a5bd92c3effdd, type: 3}
   isASellingButton: 1
   impossibilityToPurchaseImage: {fileID: 0}
@@ -10441,7 +10374,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SellEffect
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12596,7 +12529,6 @@ MonoBehaviour:
     effectName: 
     steleEffect: 0
     description: 
-    effectCost: 0
     effectIcon: {fileID: 0}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 0}
@@ -13399,7 +13331,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0.7863488, b: 1, a: 1}
+      maxColor: {r: 0, g: 0.7882352, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -13461,7 +13393,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 6
       minScalar: 3.4
       maxCurve:
         serializedVersion: 2
@@ -13567,7 +13499,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 6
       minScalar: 3.4
       maxCurve:
         serializedVersion: 2
@@ -19320,7 +19252,6 @@ MonoBehaviour:
     effectName: Ne rien renseigner ici
     steleEffect: 0
     description: 
-    effectCost: 300
     effectIcon: {fileID: 0}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 7691993832248613562}
@@ -19400,30 +19331,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: PurchaseSteleEffect
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 300
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: PurchaseSteleEffect
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 300
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -26117,8 +26024,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Zone de Faiblesse
     steleEffect: 3
-    description: "Les r\xE9sistances des ennemis pr\xE9sents dans la zone sont r\xE9duites."
-    effectCost: 150
+    description: "Les r\xE9sistances des ennemis, pr\xE9sents dans la zone, sont
+      r\xE9duites."
     effectIcon: {fileID: 21300000, guid: ef0075fcbd8ae0a41805a7e2b994078c, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 1839687330476701980}
@@ -26169,7 +26076,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SetSteleToActiveMode
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -26198,18 +26105,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 6453885090031796494}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: SetSteleLevel
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -26549,9 +26444,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Zone de Gel
     steleEffect: 2
-    description: "Les vitesses de d\xE9placement et d'attaque des ennemis pr\xE9sents
-      dans la zone sont r\xE9duites."
-    effectCost: 150
+    description: "La vitesses de d'attaque et la vitesse de d\xE9placement des ennemis,
+      pr\xE9sents dans la zone, sont r\xE9duites."
     effectIcon: {fileID: 21300000, guid: 1836675502c0fa348bfbbb019590c060, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 7164559377256134742}
@@ -26602,7 +26496,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SetSteleToActiveMode
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -26631,18 +26525,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 6453885090031796494}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: SetSteleLevel
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -27382,9 +27264,8 @@ MonoBehaviour:
   effectDescription:
     effectName: Revente d'Effet
     steleEffect: 0
-    description: "La st\xE8le est inactive et son effet est supprim\xE9.\nVous r\xE9cup\xE9rer
-      des ressources."
-    effectCost: 75
+    description: "<color=#ff0000>La st\xE8le est inactive et son effet est supprim\xE9.\nVous
+      r\xE9cup\xE9rez le montant de ressources indiqu\xE9 ci-dessous.</color>"
     effectIcon: {fileID: 21300000, guid: 1663bf63b76a0724ab2a5bd92c3effdd, type: 3}
   isASellingButton: 1
   impossibilityToPurchaseImage: {fileID: 0}
@@ -27435,7 +27316,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SellEffect
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -34248,7 +34129,6 @@ MonoBehaviour:
     effectName: Sentinelle
     steleEffect: 4
     description: "Invoque une tour \xE0 proximit\xE9 de la st\xE8le."
-    effectCost: 150
     effectIcon: {fileID: 21300000, guid: 8ca9a3a8f82e01d428c13b07b5d40638, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 9019411871053626412}
@@ -34299,7 +34179,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5856840166989928446}
         m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
         m_MethodName: SetSteleToActiveMode
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -34328,18 +34208,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 6453885090031796494}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5856840166989928446}
-        m_TargetAssemblyTypeName: SteleLogic, Assembly-CSharp
-        m_MethodName: SetSteleLevel
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

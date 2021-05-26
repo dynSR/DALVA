@@ -19,6 +19,7 @@ public class SteleBillboard : Billboard
     {
         stele.OnInteraction += DisplayBuildButtons;
         stele.OnEndOFInteraction += HideBuildButtons;
+        stele.OnPurchase += HideBuildButtons;
 
         //stele.OnActivation += DisplayHealthBar;
         //stele.OnSteleDeath += HideHealthBar;
@@ -28,9 +29,7 @@ public class SteleBillboard : Billboard
     {
         stele.OnInteraction -= DisplayBuildButtons;
         stele.OnEndOFInteraction -= HideBuildButtons;
-
-        //stele.OnActivation -= DisplayHealthBar;
-        //stele.OnSteleDeath -= HideHealthBar;
+        stele.OnPurchase -= HideBuildButtons;
     }
 
     protected override void Awake()
@@ -77,14 +76,4 @@ public class SteleBillboard : Billboard
     {
         sectionToHide.SetActive(false);
     }
-
-    //void DisplayHealthBar()
-    //{
-    //    healthBar.SetActive(true);
-    //}
-
-    //public void HideHealthBar()
-    //{
-    //    healthBar.SetActive(false);
-    //}
 }

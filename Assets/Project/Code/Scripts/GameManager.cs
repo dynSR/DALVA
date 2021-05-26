@@ -146,6 +146,8 @@ public class GameManager : MonoBehaviour
     {
         GameState = GameState.Pause;
         Time.timeScale = 0;
+
+        UIManager.Instance.DisplayPauseMenu();
     }
 
     private bool GameIsInPause()
@@ -159,6 +161,8 @@ public class GameManager : MonoBehaviour
     {
         GameState = GameState.PlayMod;
         Time.timeScale = 1;
+
+        UIManager.Instance.HidePauseMenu();
     }
 
     public bool GameIsInPlayMod()

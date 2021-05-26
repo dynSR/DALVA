@@ -15,11 +15,12 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        SortEntities();
+
         EntityStats entityStats = other.GetComponent<EntityStats>();
 
-        if (entityStats != null && entityStats.EntityTeam != EntityTeam.DALVA)
+        if (entityStats != null && !entityStats.IsDead && entityStats.EntityTeam != EntityTeam.DALVA)
         {
-            //RemoveEffect(entityStats);
             ApplyAffect(entityStats);
             statsOfEntitiesInTrigger.Add(entityStats);
         }
@@ -27,10 +28,29 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        EntityStats entityStats = other.GetComponent<EntityStats>();
-        RemoveEffect(entityStats);
+        SortEntities();
 
-        if(statsOfEntitiesInTrigger.Contains(entityStats)) statsOfEntitiesInTrigger.Remove(entityStats);
+        EntityStats entityStats = other.GetComponent<EntityStats>();
+
+        if (entityStats != null && !entityStats.IsDead && statsOfEntitiesInTrigger.Contains(entityStats))
+        {
+            RemoveEffect(entityStats);
+
+            statsOfEntitiesInTrigger.Remove(entityStats);
+        }
+    }
+
+    void SortEntities()
+    {
+        for (int i = 0; i < statsOfEntitiesInTrigger.Count; i++)
+        {
+            if (statsOfEntitiesInTrigger[i].IsDead)
+            {
+                RemoveEffect(statsOfEntitiesInTrigger[i]);
+                statsOfEntitiesInTrigger.Remove(statsOfEntitiesInTrigger[i]);
+                statsOfEntitiesInTrigger.Sort();
+            }
+        }
     }
 
     public void RemoveEffectOnEachEntitiesFound()
@@ -38,7 +58,23 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
         for (int i = 0; i < statsOfEntitiesInTrigger.Count; i++)
         {
             RemoveEffect(statsOfEntitiesInTrigger[i]);
+            statsOfEntitiesInTrigger.Clear();
         }
+    }
+
+    public void AugmentZoneRange(float scaleValue)
+    {
+        transform.localScale = new Vector3(scaleValue, scaleValue, scaleValue);
+    }
+
+    public void ResetTrigger()
+    {
+        Collider colliderAttached = GetComponent<Collider>();
+
+        colliderAttached.enabled = false;
+        colliderAttached.enabled = true;
+
+        RemoveEffectOnEachEntitiesFound();
     }
 
     private void OnDrawGizmos()

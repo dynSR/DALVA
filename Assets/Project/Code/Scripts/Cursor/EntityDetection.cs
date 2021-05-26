@@ -78,7 +78,7 @@ public class EntityDetection : MonoBehaviour
         if (targetOutlineFound.OutlineColor != Color.black)
             targetOutlineFound.OutlineColor = Color.black;
 
-        Debug.Log("SETTING OUTLINE TO BLACK COLOR", transform);
+        //Debug.Log("SETTING OUTLINE TO BLACK COLOR", transform);
         //targetOutlineFound.enabled = false;
     }
     #endregion

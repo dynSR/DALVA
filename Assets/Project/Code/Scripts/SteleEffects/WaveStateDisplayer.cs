@@ -8,6 +8,7 @@ public class WaveStateDisplayer : MonoBehaviour
     [SerializeField] private SpawnerSystem spawner;
     public float timerAssigned;
     public float localTimer;
+    [SerializeField] private GameObject button;
 
     private void OnEnable()
     {
@@ -22,6 +23,9 @@ public class WaveStateDisplayer : MonoBehaviour
 
     private void Update()
     {
+        ToggleButtonState();
+
+
         if (!GameManager.Instance.GameIsInPlayMod()) return;
 
         UpdateFillAmount();
@@ -55,5 +59,20 @@ public class WaveStateDisplayer : MonoBehaviour
         
         StartCoroutine(spawner.SpawnWave());
         ToggleContent(0);
+        button.GetComponent<UIButtonWithTooltip>().Tooltip.SetActive(false);
+    }
+
+    private void ToggleButtonState()
+    {
+        if (!GameManager.Instance.GameIsInPlayMod() && button.activeInHierarchy)
+        {
+            button.SetActive(false);
+            Debug.Log("ToggleButtonState - OFF");
+        }
+        else if (GameManager.Instance.GameIsInPlayMod() && !button.activeInHierarchy)
+        {
+            button.SetActive(true);
+            Debug.Log("ToggleButtonState - ON");
+        }
     }
 }

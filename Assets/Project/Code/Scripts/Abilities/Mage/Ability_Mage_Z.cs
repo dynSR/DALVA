@@ -29,7 +29,7 @@ public class Ability_Mage_Z : AbilityLogic
 
     protected override void Cast()
     {
-        PlayAbilityAnimation("UsesSecondAbility", true, true);
+        PlayAbilityAnimation("UsesSecondAbility", true);
 
         switch (UsedEffectIndex)
         {

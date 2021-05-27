@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
 
             if (Spawner == null)
                 Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
     {
         if (spawner.waveState == WaveState.Standby && WaveCountHasBeenSet)
         {
+            Debug.Log("Update Check", transform);
             spawner.IndexOfCurrentWave++;
             spawner.spawnEventEndedHasBeenHandled = true;
             spawner.UpdateElementsOnSpawnFinished();

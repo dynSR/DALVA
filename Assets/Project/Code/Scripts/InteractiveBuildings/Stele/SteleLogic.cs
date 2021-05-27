@@ -35,6 +35,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public event SteleInteractionHandler OnInteraction;
     public event SteleInteractionHandler OnEndOFInteraction;
     public event SteleInteractionHandler OnPurchase;
+    public event SteleInteractionHandler OnSell;
 
     [Header("CURRENT STATE")]
     [SerializeField] private SteleState steleState;
@@ -58,6 +59,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public GameObject SpawnedEffectObject { get; set; }
     public List<SpawnedEffectTransformData> spawnedEffectTransformDatas;
     private CharacterRessources interactingPlayerRessources;
+    public List<GameObject> steleEffects;
 
     [System.Serializable]
     public class EffectDescription
@@ -103,7 +105,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     }
 
     #region Button Methods
-    public void SetSteleToActiveMode()
+    public void SetSteleToActiveMode(int index)
     {
         if (interactingPlayerRessources.CurrentAmountOfPlayerRessources < CurrentPurchaseCost()) return;
 
@@ -115,38 +117,23 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         SetSteleLevel(1);
 
+        SetSteleEffect(index + 1);
+
+        SpawnEntityEffect(steleEffects[index]);
+
+        SetSpawnedEffectTransformValues(index);
+
         activationVFX.SetActive(true);
         UtilityClass.PlaySoundGroupImmediatly(activationSFX, transform);
 
         activatedVFX.SetActive(true);
 
+
+        //To keep !
         //InteractingPlayer.Target = null;
         //InteractingPlayer = null;
     }
-
-    public void SetSteleLevel(int steleLevel)
-    {
-        SteleLevel = (SteleLevel)steleLevel;
-    }
-
-    public void SetSteleEffect(int steleEffect)
-    {
-        SteleEffect = (SteleEffect)steleEffect;
-    }
-
-    public void SpawnEntityEffect(GameObject entityToSpawn)
-    {
-        SpawnedEffectObject = Instantiate(
-            entityToSpawn, 
-            new Vector3(effectEntitySpawnLocation.position.x, 
-            effectEntitySpawnLocation.position.y + entityToSpawn.transform.position.y,
-            effectEntitySpawnLocation.position.z), 
-            entityToSpawn.transform.rotation);
-
-        SteleAmelioration steleAmelioration = SpawnedEffectObject.GetComponent<SteleAmelioration>();
-
-        steleAmelioration.Stele = this;
-    }
+    #endregion
 
     #region Ressources
     public int CurrentPurchaseCost()
@@ -205,7 +192,9 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     private void PurchaseSteleEffect()
     {
         interactingPlayerRessources.RemoveRessources(CurrentPurchaseCost());
+
         interactingPlayerRessources.SetRessourcesFeedback(interactingPlayerRessources.CurrentAmountOfPlayerRessources - CurrentPurchaseCost());
+
         OnPurchase?.Invoke();
     }
 
@@ -225,6 +214,8 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
             InteractingPlayer = null;
 
         activatedVFX.SetActive(false);
+
+        OnSell?.Invoke();
     }
 
     public void UpgradeEffect()
@@ -252,7 +243,31 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         }
     }
     #endregion
-    #endregion
+
+    #region Change Stele settings
+    private void SetSteleLevel(int steleLevel)
+    {
+        SteleLevel = (SteleLevel)steleLevel;
+    }
+
+    private void SetSteleEffect(int steleEffect)
+    {
+        SteleEffect = (SteleEffect)steleEffect;
+    }
+
+    private void SpawnEntityEffect(GameObject entityToSpawn)
+    {
+        SpawnedEffectObject = Instantiate(
+            entityToSpawn,
+            new Vector3(effectEntitySpawnLocation.position.x,
+            effectEntitySpawnLocation.position.y + entityToSpawn.transform.position.y,
+            effectEntitySpawnLocation.position.z),
+            entityToSpawn.transform.rotation);
+
+        SteleAmelioration steleAmelioration = SpawnedEffectObject.GetComponent<SteleAmelioration>();
+
+        steleAmelioration.Stele = this;
+    }
 
     private void SetSteleToInactiveMode()
     {
@@ -287,41 +302,5 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
             Outline.OutlineColor = Color.red;
         }
     }
-
-    //public void OnDeath()
-    //{
-    //    OnSteleDeath?.Invoke();
-    //    EntityTeam = EntityTeam.NEUTRAL;
-    //    IsInteractable = false;
-    //    StartCoroutine(SetSteleToStandByMode());
-
-    //    for (int i = 0; i < runes.Count; i++)
-    //    {
-    //        if (runes[i].activeInHierarchy)
-    //            runes[i].SetActive(false);
-    //    }
-    //}
-
-    //public void TakeDamage(
-    //    Transform character, 
-    //    float targetPhysicalResistances, 
-    //    float targetMagicalResistances, 
-    //    float characterPhysicalPower, 
-    //    float characterMagicalPower, 
-    //    float characterCriticalStrikeChance, 
-    //    float characterCriticalStrikeMultiplier, 
-    //    float characterPhysicalPenetration, 
-    //    float characterMagicalPenetration, 
-    //    float damageReduction)
-    //{
-    //    HealthPoints -= (int)characterPhysicalPower;
-    //    OnHealthValueChanged?.Invoke(HealthPoints, maxHealthPoints);
-    //    Debug.Log("STELE TOOK DAMAGE");
-
-    //    if (HealthPoints == 0)
-    //    {
-    //        isDead = true;
-    //        OnDeath();
-    //    }
-    //}
+    #endregion
 }

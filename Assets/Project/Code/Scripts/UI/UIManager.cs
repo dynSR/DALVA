@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
 
     public void HideValidationPopup(GameObject popup)
     {
-        if (!popup.activeInHierarchy) popup.SetActive(false);
+        if (popup.activeInHierarchy) popup.SetActive(false);
     }
     #endregion
 
@@ -106,22 +106,29 @@ public class UIManager : MonoBehaviour
 
     public void HidePauseMenu()
     {
-        if (pauseMenu.activeInHierarchy) pauseMenu.SetActive(false);
+        if (pauseMenu.activeInHierarchy)
+        {
+            pauseMenu.SetActive(false);
+            GameManager.Instance.SetGameToPlayMod();
+        }
     }
 
     public void GetBackToMainMenu()
     {
+        GameManager.Instance.SetGameToPlayMod();
         SceneManager.LoadScene("Scene_MainMenu");
     }
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().ToString(), LoadSceneMode.Single);
+        GameManager.Instance.SetGameToPlayMod();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitGame()
     {
         Application.Quit();
+        Debug.Log("Quit Game");
     }
 
     #endregion

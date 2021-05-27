@@ -19,17 +19,24 @@ public class SteleBillboard : Billboard
     {
         stele.OnInteraction += DisplayBuildButtons;
         stele.OnEndOFInteraction += HideBuildButtons;
-        stele.OnPurchase += HideBuildButtons;
 
+        stele.OnPurchase += HidePlayerSteleTooltip;
+        stele.OnSell += HidePlayerSteleTooltip;
+
+        //stele.OnActivation += DisplayBuildButtons();
         //stele.OnActivation += DisplayHealthBar;
-        //stele.OnSteleDeath += HideHealthBar;
     }
 
     protected override void OnDisable()
     {
         stele.OnInteraction -= DisplayBuildButtons;
         stele.OnEndOFInteraction -= HideBuildButtons;
-        stele.OnPurchase -= HideBuildButtons;
+
+        stele.OnPurchase -= HidePlayerSteleTooltip;
+        stele.OnSell -= HidePlayerSteleTooltip;
+
+        //stele.OnActivation -= DisplayBuildButtons();
+        //stele.OnActivation -= DisplayHealthBar;
     }
 
     protected override void Awake()
@@ -67,8 +74,12 @@ public class SteleBillboard : Billboard
 
     public void HideBuildButtons()
     {
-        GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.SetActive(false);
         buttonsSectionsHolder.SetActive(false);
+    }
+
+    private void HidePlayerSteleTooltip()
+    {
+        GameManager.Instance.Player.GetComponentInChildren<PlayerHUDManager>().SteleTooltip.SetActive(false);
     }
 
     //On Button

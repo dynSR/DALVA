@@ -38,6 +38,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("ITEMS IN GAME")]
     [SerializeField] private List<Item> itemsInGame;
+    public List<int> randomIndex = new List<int>();
 
     private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
     private EntityStats PlayerStats => Player.GetComponent<EntityStats>();
@@ -329,6 +330,7 @@ public class ShopManager : MonoBehaviour
     #region Shuffle
     public void ShuffleItemsInShop()
     {
+        //Create the correct amount of item button
         for (int i = 0; i < amntOfItemsToAddInThePool; i++)
         {
             GameObject _ItemButton = Instantiate(itemButton);
@@ -337,17 +339,25 @@ public class ShopManager : MonoBehaviour
 
             ItemButton itemButtonScript = _ItemButton.GetComponentInChildren<ItemButton>();
 
-            //Ajouter le fait qu'un item déjà présent dans cette liste ne soit pas choisi
-            if (!itemCreated.Contains(itemButtonScript))
-                itemCreated.Add(itemButtonScript);
+            itemCreated.Add(itemButtonScript);
         }
 
-        for (int i = itemCreated.Count - 1; i >= 0; i--)
+        int randomValue = Random.Range(0, itemsInGame.Count); Debug.Log("Random Value Obtained : " + randomValue);
+
+        do
         {
-            int randomValue = Random.Range(0, itemsInGame.Count);
+            if (!randomIndex.Contains(randomValue)) randomIndex.Add(randomValue);
+            else if (randomIndex.Contains(randomValue))
+            {
+                randomValue = Random.Range(0, itemsInGame.Count);
+                continue;
+            }
 
-            itemCreated[i].SetButtonInformations(this, itemsInGame[randomValue]);
+        } while (randomIndex.Count != amntOfItemsToAddInThePool);
 
+        for (int i = randomIndex.Count - 1; i >= 0; i--)
+        {
+            itemCreated[i].SetButtonInformations(this, itemsInGame[randomIndex[i]]);
             ShopIcon shopIcon = itemCreated[i].GetComponent<ShopIcon>();
             shopBoxesIcon.Add(shopIcon);
             RefreshShopData();
@@ -361,6 +371,7 @@ public class ShopManager : MonoBehaviour
             Destroy(itemCreated[i].transform.parent.gameObject);
         }
 
+        randomIndex.Clear();
         itemCreated.Clear();
         shopBoxesIcon.Clear();
     }
@@ -390,7 +401,7 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShopData()
     {
-        Debug.Log("REFRESH SHOP DATA");
+        //Debug.Log("REFRESH SHOP DATA");
 
         for (int i = 0; i < ShopBoxesIcon.Count; i++)
         {
@@ -400,7 +411,7 @@ public class ShopManager : MonoBehaviour
 
             if (!item.ItemIsAnAbility)
             {
-                Debug.Log(item.name + " " + item.ItemIsAnAbility);
+                //Debug.Log(item.name + " " + item.ItemIsAnAbility);
 
                 if (/*(*/!IsItemAlreadyInInventory(item)  
                     //&& !canStackSameItem
@@ -433,8 +444,8 @@ public class ShopManager : MonoBehaviour
             {
                 AbilityLogic ability = PlayerStats.EntityAbilities[item.AbilityIndex];
 
-                Debug.Log(PlayerStats.EntityAbilities[item.AbilityIndex].name);
-                Debug.Log(item.name + " " + item.ItemIsAnAbility);
+                //Debug.Log(PlayerStats.EntityAbilities[item.AbilityIndex].name);
+                //Debug.Log(item.name + " " + item.ItemIsAnAbility);
 
                 if (ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) || !CanPurchaseItem(ShopBoxesIcon[i].ItemButton.ButtonItem))
                 {
@@ -474,7 +485,7 @@ public class ShopManager : MonoBehaviour
         {
             if (PlayerInventory.InventoryBoxes[i].StoredItem == item)
             {
-                Debug.Log(item + " is already in inventory");
+                //Debug.Log(item + " is already in inventory");
                 return true;
             }
         }

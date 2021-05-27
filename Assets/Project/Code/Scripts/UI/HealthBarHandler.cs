@@ -103,12 +103,10 @@ public class HealthBarHandler : MonoBehaviour
     {
         if (stats.IsDead) yield break;
 
-        Color currentColor = healthBarFill.color;
-
         healthBarFill.color = Color.white;
 
         yield return new WaitForSeconds(delay);
 
-        healthBarFill.color = currentColor;
+        healthBarFill.color = defaultColor;
     }
 }

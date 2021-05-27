@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6368101644547824006}
-  - component: {fileID: 5130984901534465492}
+  - component: {fileID: 2766031967086549308}
+  - component: {fileID: 5157111336705701108}
   m_Layer: 2
   m_Name: Projectile
   m_TagString: Untagged
@@ -24,16 +25,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456001342462090835}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 3.5, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2508108928454388142}
   m_Father: {fileID: 4764105082548335593}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &5130984901534465492
-SphereCollider:
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!136 &2766031967086549308
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -42,9 +43,25 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.5
+  m_Height: 5
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5157111336705701108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456001342462090835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b4aab966da08d439a465dd76d0663e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileDamage: 25
+  delayBeforeReappearing: 3
+  root: {fileID: 11400000, guid: e99a7feffeecfb649b0d47b3a23a50dd, type: 2}
 --- !u!1 &919132148870901582
 GameObject:
   m_ObjectHideFlags: 0
@@ -46461,7 +46478,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 11, y: 11}
+  m_Size: {x: 12, y: 12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -46654,7 +46671,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7016734314507601571}
-  - component: {fileID: 1039826223671238187}
+  - component: {fileID: 5983227336983961944}
+  - component: {fileID: 8039027998148978642}
   m_Layer: 2
   m_Name: Projectile
   m_TagString: Untagged
@@ -46669,16 +46687,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6328619598085091097}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -3.5, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2092482886538007471}
   m_Father: {fileID: 4764105082548335593}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1039826223671238187
-SphereCollider:
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!136 &5983227336983961944
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -46687,9 +46705,25 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.5
+  m_Height: 5
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8039027998148978642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6328619598085091097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b4aab966da08d439a465dd76d0663e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileDamage: 25
+  delayBeforeReappearing: 3
+  root: {fileID: 11400000, guid: e99a7feffeecfb649b0d47b3a23a50dd, type: 2}
 --- !u!1 &7298471603275986868
 GameObject:
   m_ObjectHideFlags: 0
@@ -46847,7 +46881,8 @@ MonoBehaviour:
   upgradeDescriptionII: "D\xE9g\xE2ts par seconde augment\xE9s de <color=#ffa500ff>+100%</color>."
   upgradeDescriptionFinalEvolution: "Vitesse d'attaque <color=#ffa500ff>+20%</color>.\n<color=#ffa500ff>Ajout
     d'un nouvel effet :</color>\nDeux projectiles tournoient aux extr\xE9mit\xE9s
-    de la zone. \xC0 l'impact, ils infligent des d\xE9g\xE2ts magiques."
+    de la zone. \n\xC0 l'impact, ils infligent des d\xE9g\xE2ts magiques et immobilisent
+    la cible pendant <color=#ffa500ff>3 secondes</color>."
   renderers: {fileID: 919132148870901582}
   nMObstacle: {fileID: 8080816707480801911}
   rampartDamageZone: {fileID: 504768919502243268}

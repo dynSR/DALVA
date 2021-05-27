@@ -16,6 +16,7 @@ public class PlayerHUDManager : MonoBehaviour
     [SerializeField] private GameObject shopWindow;
     public bool isShopWindowOpen = false;
     [SerializeField] private TextMeshProUGUI shopPlayerRessourcesValueText;
+    [SerializeField] private ShopInformationPanel shopInformationPanel;
 
     [Header("INVENTORY")]
     [SerializeField] private TextMeshProUGUI inventoryPlayerRessourcesValueText;
@@ -165,14 +166,18 @@ public class PlayerHUDManager : MonoBehaviour
 
         if (shop.ShuffleItemsOnlyWhenFifthWaveIsOver && GameManager.Instance.WaveDone == 6)
         {
-            shop.DeleteDraw();
-            shop.ShuffleItemsInShop();
+            shop.ResetDrawAndShuffleAgain();
         }
-        else if (!shop.ShuffleItemsOnlyWhenFifthWaveIsOver) shop.ShuffleItemsInShop();
 
         ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();
         ResetShopWindowSelectionsOnBoxes();
+
+        if(shop.ShopItemIsSelected)
+        {
+            shopInformationPanel.HideContent();
+            shop.ShopItemIsSelected = false;
+        }
 
         for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
         {
@@ -190,11 +195,10 @@ public class PlayerHUDManager : MonoBehaviour
 
         IsShopWindowOpen = false;
 
+        shop.SelectedItem = null;
+
         UtilityClass.PlaySoundGroupImmediatly(closingShopSoundGroup, UtilityClass.GetMainCamera().transform);
         //MasterAudio.PlaySound(closingShopSoundGroup);
-
-        if (shop.ShuffleItemsOnlyWhenFifthWaveIsOver && GameManager.Instance.WaveDone == 6) shop.DeleteDraw();
-        else if (!shop.ShuffleItemsOnlyWhenFifthWaveIsOver) shop.DeleteDraw();
     }
 
     void ResetShopWindowSelectionsOnBoxes()

@@ -15,8 +15,6 @@ public class ResetShopButton : UIButtonWithTooltip, IPointerEnterHandler, IPoint
     Color initialResetDrawCostTextColor;
     private CharacterRessources PlayerRessources => shop.Player.GetComponent<CharacterRessources>();
 
-    Button buttonComponent => GetComponent<Button>();
-
     protected override void OnEnable()
     {
         base.OnEnable();

@@ -119,8 +119,7 @@ public class SpawnerSystem : MonoBehaviour
         Wave currentWave = Waves[IndexOfCurrentWave];
         Debug.Log(currentWave.waveName);
 
-        //For each minions in it, loop spawning
-        for (int i = 0; i < currentWave.minionsData.Count; i++)
+        for (int i = currentWave.minionsData.Count - 1; i >= 0; i--)
         {
             for (int j = 0; j < currentWave.minionsData[i].minionsUsedInTheWave.Length; j++)
             {
@@ -146,7 +145,7 @@ public class SpawnerSystem : MonoBehaviour
                 yield return new WaitForSeconds(spawnRate);
 
                 //Update GameManager
-                if(j == minionData.minionsUsedInTheWave.Length - 1 && !spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
+                if (j == minionData.minionsUsedInTheWave.Length - 1 && !spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
                 {
                     GameManager.Instance.UpdateWaveCount();
                     //Spawn Sound Event : Portal Closing

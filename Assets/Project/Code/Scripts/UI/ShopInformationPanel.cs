@@ -47,13 +47,6 @@ public class ShopInformationPanel : MonoBehaviour
         buyButton.gameObject.SetActive(true);
 
         SetBuyButton();
-
-        //if (shopManager.CanPurchaseItem(selectedItem) && !shopManager.IsItemAlreadyInInventory(selectedItem))
-        //{
-        //    buyButton.interactable = true;
-        //    buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().HighlightColor);
-        //}
-        //else buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
     }
 
     void SetBuyButton()
@@ -95,14 +88,20 @@ public class ShopInformationPanel : MonoBehaviour
 
     void DisplayContent()
     {
-        firstPartContent.SetActive(true);
-        secondPartContent.SetActive(true);
+        if (!firstPartContent.activeInHierarchy)
+            firstPartContent.SetActive(true);
+
+        if (!secondPartContent.activeInHierarchy)
+            secondPartContent.SetActive(true);
     }
 
-    void HideContent()
+    public void HideContent()
     {
-        firstPartContent.SetActive(false);
-        secondPartContent.SetActive(false);
+        if(firstPartContent.activeInHierarchy)
+            firstPartContent.SetActive(false);
+
+        if (secondPartContent.activeInHierarchy)
+            secondPartContent.SetActive(false);
     }
     #endregion
 }

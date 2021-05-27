@@ -23,6 +23,8 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     [SerializeField] private GameObject stunVFX;
     [SerializeField] private GameObject rootedVFX;
     [SerializeField] private GameObject[] slowedVFX;
+    [SerializeField] private GameObject burningVFX;
+    [SerializeField] private GameObject poisonnedVFX;
     public GameObject StunVFX { get => stunVFX; }
     public GameObject RootedVFX { get => rootedVFX; }
 
@@ -143,11 +145,13 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
         RootedVFX.SetActive(false);
     }
 
+    #region VFX Toggle
     public void ActivateSlowVFX()
     {
         foreach (var item in slowedVFX)
         {
-            item.SetActive(true);
+            if(!item.activeInHierarchy)
+                item.SetActive(true);
         }
     }
 
@@ -155,9 +159,35 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     {
         foreach (var item in slowedVFX)
         {
-            item.SetActive(false);
+            if (item.activeInHierarchy)
+                item.SetActive(false);
         }
     }
+
+    public void ActivateBurnVFX()
+    {
+        if (!burningVFX.activeInHierarchy)
+            burningVFX.SetActive(true);
+    }
+
+    public void DeactivateBurnVFX()
+    {
+        if (!burningVFX.activeInHierarchy)
+            burningVFX.SetActive(true);
+    }
+
+    public void ActivatePoisonVFX()
+    {
+        if (!poisonnedVFX.activeInHierarchy)
+            poisonnedVFX.SetActive(true);
+    }
+
+    public void DeactivatePoisonVFX()
+    {
+        if (!poisonnedVFX.activeInHierarchy)
+            poisonnedVFX.SetActive(true);
+    }
+    #endregion
     #endregion
 
     #region Network Needs

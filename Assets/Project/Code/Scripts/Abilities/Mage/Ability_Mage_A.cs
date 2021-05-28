@@ -1,6 +1,5 @@
 ﻿public class Ability_Mage_A : AbilityLogic
 {
-    protected override void Awake() => base.Awake();
     protected override void Update() => base.Update();
 
     protected override void Cast()
@@ -32,15 +31,5 @@
                 StartCoroutine(ThrowingProjectile.ThrowProjectile(Ability.AbilityEffectObject, Ability.AbilityTimeToCast, ThrowingProjectile.AimProjectileEmiterPos, Ability, false, true, true));
                 break;
         }
-    }
-
-    public override void SetAbilityAfterAPurchase()
-    {
-        base.SetAbilityAfterAPurchase();
-    }
-
-    protected override void ResetAbilityAttributes()
-    {
-
     }
 }

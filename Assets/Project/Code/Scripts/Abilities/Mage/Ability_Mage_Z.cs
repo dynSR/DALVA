@@ -15,10 +15,8 @@ public class Ability_Mage_Z : AbilityLogic
     //private float normalAbilityRange = 0f;
     //private float normalAreaOfEffect = 0f;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         markDuration = Ability.AbilityMarkDuration;
         Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
         //normalAbilityRange = Ability.AbilityRange;
@@ -61,15 +59,5 @@ public class Ability_Mage_Z : AbilityLogic
                 //SetRange(normalAbilityRange, normalAreaOfEffect, normalRange, augmentedRange, true);
                 break;
         }
-    }
-
-    public override void SetAbilityAfterAPurchase()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override void ResetAbilityAttributes()
-    {
-
     }
 }

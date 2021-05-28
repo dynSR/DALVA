@@ -15,6 +15,7 @@ public class WeaknessZone : StatusEffectZoneCore
 
     protected override void ApplyAffect(EntityStats target)
     {
+        target.Controller.ActivatePoisonVFX();
         target.GetStat(StatType.PhysicalResistances).AddModifier(new StatModifier(-PhysicalResistancesReduction, StatType.PhysicalResistances, StatModType.PercentAdd, this));
         target.GetStat(StatType.MagicalResistances).AddModifier(new StatModifier(-MagicalResistancesReduction, StatType.MagicalResistances, StatModType.PercentAdd, this));
 
@@ -26,6 +27,7 @@ public class WeaknessZone : StatusEffectZoneCore
 
     protected override void RemoveEffect(EntityStats target)
     {
+        target.Controller.DeactivatePoisonVFX();
         target.GetStat(StatType.PhysicalResistances).RemoveAllModifiersFromSource(this);
         target.GetStat(StatType.MagicalResistances).RemoveAllModifiersFromSource(this);
 

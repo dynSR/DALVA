@@ -4,36 +4,31 @@ using UnityEngine;
 
 public class Ability_Warrior_Z : AbilityLogic
 {
-    protected override void Update()
-    {
-        base.Update();
-    }
+    [SerializeField] private float delay;
+    [SerializeField] private GameObject damageZone;
+    private float shieldValue;
+
+    protected override void Update() => base.Update();
 
     protected override void Cast()
     {
-        UsedEffectIndex = AbilityEffect.I; //debug
+        PlayAbilityAnimation("UsesSecondAbility", true);
 
-        switch (UsedEffectIndex)
-        {
-            case AbilityEffect.I:
-                PlayAbilityAnimation("UsesSecondAbility", true, true);
-                break;
-            case AbilityEffect.II:
-                break;
-            case AbilityEffect.III:
-                break;
-            case AbilityEffect.IV:
-                break;
-        }
+        StartCoroutine(ApplyShieldOnOneTarget(Stats, Ability.AbilityTimeToCast));
+
+        StartCoroutine(ActivateDamageZone());
     }
 
-    public override void SetAbilityAfterAPurchase()
+    private IEnumerator ActivateDamageZone()
     {
-        base.SetAbilityAfterAPurchase();
+        yield return new WaitForSeconds(delay);
+
+        damageZone.SetActive(true);
+        damageZone.GetComponent<Warrior_Z_DamageZone>().SetDamage(CalculateShieldValue());
     }
 
-    protected override void ResetAbilityAttributes()
+    private float CalculateShieldValue()
     {
-
+        return shieldValue = (Ability.AbilityShieldValue + (Stats.GetStat(StatType.Health).MaxValue * Ability.ShieldHealthRatio)) * 0.5f;
     }
 }

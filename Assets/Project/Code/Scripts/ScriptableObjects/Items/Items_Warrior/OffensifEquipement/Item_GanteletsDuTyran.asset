@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Gantelets du Tyran
   itemIcon: {fileID: 21300000, guid: 22044e354a5d641795e8c3ebb744c759, type: 3}
   itemDescription: "+ 40 puissance\n+ 400 vie maximale\n+ 10% r\xE9cup\xE9ration
-    comp\xE9tences\n+ 10% robustesse"
+    comp\xE9tences"
   itemCost: 2200
   itemIsAnAbility: 0
   abilityIndex: 0
@@ -27,9 +27,6 @@ MonoBehaviour:
   - Value: 400
     StatType: 0
     Type: 100
-  - Value: 0.1
+  - Value: 10
     StatType: 18
-    Type: 200
-  - Value: 0.1
-    StatType: 20
-    Type: 200
+    Type: 100

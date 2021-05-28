@@ -28,14 +28,4 @@ public class Ability_Warrior_R : AbilityLogic
                 break;
         }
     }
-
-    public override void SetAbilityAfterAPurchase()
-    {
-        base.SetAbilityAfterAPurchase();
-    }
-
-    protected override void ResetAbilityAttributes()
-    {
-
-    }
 }

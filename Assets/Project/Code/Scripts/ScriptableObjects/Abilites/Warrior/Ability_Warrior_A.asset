@@ -16,16 +16,43 @@ MonoBehaviour:
   abilityDescription: "La prochaine attaque inflige (20 + 30% PP) d\xE9g\xE2ts physiques
     suppl\xE9mentaires et ralentit la cible touch\xE9e de 60% VD pendant 1 seconde. "
   abilityKey: 97
-  abilityIcon: {fileID: 21300000, guid: fb9bcc3943d1ca94497fd61e5e8c2fde, type: 3}
+  abilityIcon: {fileID: 21300000, guid: 593d064ad8fc9d2c6ac1b75c68f1d3f1, type: 3}
+  abilityCost: 0
   abilityEffectObject: {fileID: 0}
+  isPointAndClick: 0
+  isABuff: 1
   abilityPhysicalDamage: 0
   abilityMagicalDamage: 0
   abilityPhysicalRatio: 0.3
   abilityMagicalRatio: 0
+  targetHealthThreshold: 0
+  abilityAddedDamageOnTargetHealthThreshold: 0
+  abilityHealValue: 0
+  abilityCanHealTarget: 0
+  healMagicalRatio: 0
+  healHealthRatio: 0
+  abilityShieldValue: 0
+  shieldMagicalRatio: 0
+  shieldHealthRatio: 0
+  scaleUponMagicalPower: 0
+  scaleUponMaxHealth: 0
+  defaultEffectAppliedOnAlly: {fileID: 0}
+  defaultEffectAppliedOnEnemy: {fileID: 0}
+  abilityMarkDuration: 0
+  abilityDamageBonusOnMarkedTarget: 0
+  abilityHealBonusOnMarkedTarget: 0
+  abilityCanMark: 0
+  abilityCanConsumeMark: 0
+  effectAppliedOnMarkedAlly: {fileID: 0}
+  effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 0
   abilityAreaOfEffect: 0
-  abilityCooldown: 0.5
-  abilityCastingTime: 0
+  noneType: 1
+  targetedType: 0
+  aimedType: 0
+  zoneType: 0
+  abilityCooldown: 5
+  abilityTimeToCast: 0.175
   abilityDuration: 0
   instantCasting: 1
-  automaticallyPutInCooldown: 0
+  delayBeforeApplyingDamageOrEffect: 0

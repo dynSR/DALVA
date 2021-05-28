@@ -28,28 +28,13 @@ public class Ability_Warrior_A : AbilityLogic
                 AbilityGivesABuff(Stats, StatType.BonusPhysicalPower, 20 + (Stats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio), this);
                 ActivateVFX(AbilityVFXToActivate);
                 break;
-            case AbilityEffect.II:
-                break;
-            case AbilityEffect.III:
-                break;
-            case AbilityEffect.IV:
-                break;
         }
     }
 
     void RemoveEffect()
     {
+        Debug.Log("RemoveEffect");
         RemoveBuffGivenByAnAbility(StatType.BonusPhysicalPower, this);
         DeactivateVFX(AbilityVFXToActivate);
-    }
-
-    public override void SetAbilityAfterAPurchase()
-    {
-        base.SetAbilityAfterAPurchase();
-    }
-
-    protected override void ResetAbilityAttributes()
-    {
-
     }
 }

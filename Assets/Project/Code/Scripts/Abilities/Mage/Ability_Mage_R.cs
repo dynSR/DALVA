@@ -26,7 +26,6 @@ public class Ability_Mage_R : AbilityLogic
     [SerializeField] private GameObject damageZone;
     [SerializeField] private GameObject healZone;
 
-    protected override void Awake() => base.Awake();
     protected override void Update() => base.Update();
 
     protected override void Cast()
@@ -84,20 +83,5 @@ public class Ability_Mage_R : AbilityLogic
 
         yield return new WaitForEndOfFrame();
         Controller.IsCasting = false;
-    }
-
-    public override void SetAbilityAfterAPurchase()
-    {
-        base.SetAbilityAfterAPurchase();
-    }
-
-    protected override void ResetAbilityAttributes()
-    {
-        Ability.AbilityCooldown = 0;
-
-        if (Stats.BaseUsedEntity.EntityType == EntityType.Sorcerer)
-        {
-            Ability.AbilityMagicalRatio = magicalRatioAtStartForSorcerer;
-        }
     }
 }

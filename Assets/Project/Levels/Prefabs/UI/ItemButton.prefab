@@ -1922,6 +1922,7 @@ GameObject:
   - component: {fileID: 4711331005696503726}
   - component: {fileID: 4711331005696503720}
   - component: {fileID: 4711331005696503724}
+  - component: {fileID: 3187998708999030477}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -2074,6 +2075,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 1
+--- !u!114 &3187998708999030477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711331005696503722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_GoldCoin
+  playSoundOnHover: 1
+  playSoundOnClick: 0
 --- !u!1 &4711331005913899666
 GameObject:
   m_ObjectHideFlags: 0

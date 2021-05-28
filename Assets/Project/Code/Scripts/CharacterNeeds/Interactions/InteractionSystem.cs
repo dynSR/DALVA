@@ -91,8 +91,8 @@ public class InteractionSystem : MonoBehaviour
     #region Moving to a target
     public void MoveTowardsAnExistingTarget(Transform _target, float minDistance)
     {
-        Debug.Log(_target.name);
-        Debug.Log("Moving Towards Target");
+        //Debug.Log(_target.name);
+        //Debug.Log("Moving Towards Target");
 
         if (_target != null)
         {
@@ -118,7 +118,7 @@ public class InteractionSystem : MonoBehaviour
 
             Target = null;
 
-            Debug.Log("TARGET IS DEAD WHILE INTERACTING");
+            //Debug.Log("TARGET IS DEAD WHILE INTERACTING");
             return;
         }
 
@@ -196,9 +196,9 @@ public class InteractionSystem : MonoBehaviour
                 totalPhysicalDamage -= totalPhysicalDamage * Stats.GetStat(StatType.DamageReduction).Value;
                 totalMagicalDamage -= totalMagicalDamage * Stats.GetStat(StatType.DamageReduction).Value;
 
-                Debug.Log("REDUCING DAMAGE", transform);
-                Debug.Log(totalPhysicalDamage, transform);
-                Debug.Log(totalMagicalDamage, transform);
+                //Debug.Log("REDUCING DAMAGE", transform);
+                //Debug.Log(totalPhysicalDamage, transform);
+                //Debug.Log(totalMagicalDamage, transform);
             }
 
             if (targetStat.GetStat(StatType.IncreasedDamageTaken).Value > 0)
@@ -206,7 +206,7 @@ public class InteractionSystem : MonoBehaviour
                 totalPhysicalDamage += totalPhysicalDamage * Stats.GetStat(StatType.IncreasedDamageTaken).Value;
                 totalMagicalDamage += totalMagicalDamage * Stats.GetStat(StatType.IncreasedDamageTaken).Value;
 
-                Debug.Log("AUGMENTING DAMAGE", transform);
+                //Debug.Log("AUGMENTING DAMAGE", transform);
             }
 
             targetStat.TakeDamage(
@@ -270,11 +270,6 @@ public class InteractionSystem : MonoBehaviour
         }
     }
     #endregion
-
-    public void AttackEvent()
-    {
-        OnAttacking?.Invoke();
-    }
 
     public virtual void ResetInteractionState()
     {

@@ -1,14 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public enum ZoneType
+{
+    None,
+    Frost,
+    Weakness, 
+    Burn
+}
+
 public abstract class StatusEffectZoneCore : MonoBehaviour
 {
+    [SerializeField] private ZoneType zoneType = ZoneType.None;
     public List<EntityStats> statsOfEntitiesInTrigger = new List<EntityStats>();
 
     protected abstract void ApplyAffect(EntityStats target);
     protected abstract void RemoveEffect(EntityStats target);
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         RemoveEffectOnEachEntitiesFound();
     }
@@ -42,6 +51,8 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
 
     void SortEntities()
     {
+        if (statsOfEntitiesInTrigger.Count >= 1) return;
+
         for (int i = 0; i < statsOfEntitiesInTrigger.Count; i++)
         {
             if (statsOfEntitiesInTrigger[i].IsDead)
@@ -51,15 +62,36 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
                 statsOfEntitiesInTrigger.Sort();
             }
         }
+
     }
 
     public void RemoveEffectOnEachEntitiesFound()
     {
+        if (statsOfEntitiesInTrigger.Count == 0) return;
+
+        Debug.Log("RemoveEffectOnEachEntitiesFound");
+
         for (int i = 0; i < statsOfEntitiesInTrigger.Count; i++)
         {
             RemoveEffect(statsOfEntitiesInTrigger[i]);
-            statsOfEntitiesInTrigger.Clear();
+
+            Debug.Log("EH OH WHY IT IS NOT WORKING ?");
+
+            switch (zoneType)
+            {
+                case ZoneType.Frost:
+                    statsOfEntitiesInTrigger[i].Controller.DeactivateSlowVFX();
+                    break;
+                case ZoneType.Weakness:
+                    statsOfEntitiesInTrigger[i].Controller.DeactivatePoisonVFX();
+                    break;
+                case ZoneType.Burn:
+                    statsOfEntitiesInTrigger[i].Controller.DeactivateBurnVFX();
+                    break;
+            }
         }
+
+        statsOfEntitiesInTrigger.Clear();
     }
 
     public void AugmentZoneRange(float scaleValue)

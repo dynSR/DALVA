@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
             if (Spawner == null)
                 Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
 
-            Debug.Log("COUCOU", transform);
+            //Debug.Log("COUCOU", transform);
         }
     }
     #endregion
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public bool WaveCountHasBeenSet { get => waveCountHasBeenSet; set => waveCountHasBeenSet = value; }
     public bool ItIsABossWave = false;
     public int RemainingMonstersValue = 0;
+    private bool gameWasInPlayMod = false;
 
     public Transform Player { get; set; }
     
@@ -72,7 +73,8 @@ public class GameManager : MonoBehaviour
             }
             else if (GameIsInPause())
             {
-                SetGameToPlayMod();
+                SetGameToProperMod();
+                //SetGameToPlayMod();
             }
         }
     }
@@ -145,6 +147,10 @@ public class GameManager : MonoBehaviour
     #region Pause
     public void PauseGame()
     {
+        //Save previous state here
+        if (GameIsInPlayMod()) gameWasInPlayMod = true;
+        else if (GameIsInStandBy()) gameWasInPlayMod = false;
+
         GameState = GameState.Pause;
         Time.timeScale = 0;
 
@@ -158,6 +164,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region PlayMod
+    public void SetGameToProperMod()
+    {
+        if (!gameWasInPlayMod) SetGameToStandbyMod();
+        else if (gameWasInPlayMod) SetGameToPlayMod();
+    }
+
     public void SetGameToPlayMod()
     {
         GameState = GameState.PlayMod;
@@ -176,7 +188,10 @@ public class GameManager : MonoBehaviour
     public void SetGameToStandbyMod()
     {
         GameState = GameState.StandbyMod;
-        //Time.timeScale = 0;
+
+        if (Time.timeScale != 1) Time.timeScale = 1;
+
+        UIManager.Instance.HidePauseMenu();
     }
 
     public bool GameIsInStandBy()

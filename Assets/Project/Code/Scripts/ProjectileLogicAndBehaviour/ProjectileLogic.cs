@@ -144,7 +144,6 @@ public class ProjectileLogic : MonoBehaviour
         if (targetStat.EntityIsMarked)
         {
             CanBounce = true;
-            targetStat.EntityIsMarked = false;
             markBonusDamage = Ability.AbilityDamageBonusOnMarkedTarget;
         }
         else
@@ -189,7 +188,13 @@ public class ProjectileLogic : MonoBehaviour
         ProjectileSenderStats.GetStat(StatType.PhysicalPenetration).Value,
         ProjectileSenderStats.GetStat(StatType.MagicalPenetration).Value);
 
-        if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, ProjectileSenderStats.EntityTeam));
+        if (Ability.AbilityCanConsumeMark && targetStat.EntityIsMarked)
+        {
+            targetStat.DeactivateMarkFeedback();
+            targetStat.ConsumeMark();
+        }
+
+        if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration));
 
         DestroyProjectile();
     }
@@ -295,8 +300,7 @@ public class ProjectileLogic : MonoBehaviour
         {
             EntityStats nearTargetStats = targetColliders.GetComponent<EntityStats>();
 
-            if (nearTargetStats != null && Target != null && targetColliders.gameObject != Target.gameObject
-                && !nearTargets.Contains(targetColliders.transform))
+            if (nearTargetStats != null && Target != null && !nearTargets.Contains(targetColliders.transform))
             {
                 if (CanHeal && ProjectileSenderStats.EntityTeam == nearTargetStats.EntityTeam 
                     && nearTargetStats.EntityIsMarked 
@@ -304,12 +308,16 @@ public class ProjectileLogic : MonoBehaviour
                 {
                     nearTargets.Add(targetColliders.transform);
                 }
-                else if (ProjectileSender.gameObject != targetColliders.gameObject && ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
+                else if (/*ProjectileSender.gameObject != targetColliders.gameObject 
+                    &&*/ ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
                 {
                     nearTargets.Add(targetColliders.transform);
 
-                    if (Ability.AbilityCanConsumeMark)
+                    if (Ability.AbilityCanConsumeMark && nearTargetStats.EntityIsMarked)
+                    {
                         nearTargetStats.DeactivateMarkFeedback();
+                        nearTargetStats.ConsumeMark();
+                    }  
                 }
             }
 

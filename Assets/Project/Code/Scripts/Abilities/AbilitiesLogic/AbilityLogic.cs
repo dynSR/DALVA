@@ -39,6 +39,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     [SerializeField] private List<GameObject> abilityVFXToActivate;
     private bool canBeUsed = true;
     private bool characterIsTryingToCast = false;
+    private bool abilityIsInUse = false;
     public Vector3 CastLocation = Vector3.zero;
 
     float DistanceFromCastingPosition => Vector3.Distance(transform.position, CastLocation);
@@ -64,19 +65,13 @@ public abstract class AbilityLogic : MonoBehaviourPun
     public float TotalMagicalDamage { get; set; }
     public AbilityContainerLogic Container { get; set; }
 
-    protected abstract void Cast();
+    bool shieldIsApplied = false;
 
-    protected virtual void Awake()
-    {
-        //UsedEffectIndex = AbilityEffect.I;
-        //if (Stats.EntityAbilities.Count != 0) Stats.EntityAbilities[3].CanBeUsed = false;
-    }
+    protected abstract void Cast();
 
     protected virtual void Update()
     {
-        if (GameObject.Find("GameNetworkManager") != null && !photonView.IsMine && PhotonNetwork.IsConnected 
-            || Stats.IsDead 
-            || !GameManager.Instance.GameIsInPlayMod()) { return; }
+        if (!GameManager.Instance.GameIsInPlayMod()) { return; }
 
         if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed || Controller.IsStunned) return;
 
@@ -85,12 +80,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Interactions.ResetTarget();
 
             #region Point and Click
-            EntityDetection knownTargetDetected = null;
-
             if (Ability.IsPointAndClick && Interactions.KnownTarget != null)
             {
                 //Assigning knowtarget entity detection script
-                knownTargetDetected = Interactions.KnownTarget.GetComponent<EntityDetection>();
+                EntityDetection knownTargetDetected = Interactions.KnownTarget.GetComponent<EntityDetection>();
 
                 if (knownTargetDetected.ThisTargetIsAStele(knownTargetDetected) 
                     || knownTargetDetected.ThisTargetIsAHarvester(knownTargetDetected) 
@@ -101,7 +94,6 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 else
                 {
                     AbilityTarget = Interactions.KnownTarget;
-                    CastLocation = AbilityTarget.position;
                 }
             }
             else if (Ability.IsPointAndClick && Interactions.KnownTarget == null)
@@ -129,6 +121,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
             }
             else if (smartCast)
             {
+                if (Ability.IsABuff) Container.DisplayAbilityInUseFeedback();
+
                 characterIsTryingToCast = true;
 
                 AdjustCharacterPositioning();
@@ -155,7 +149,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
             //Find the ability container corresponding to the ability key pressed
             //Then deactivate the feedback with the animation
-            Container.HideAbilityInUseFeedback();
+            if (!Ability.IsABuff)
+                Container.HideAbilityInUseFeedback();
+
             Container.Parent.HideGlowEffect();
 
             AdjustCharacterPositioning();
@@ -209,9 +205,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (characterIsTryingToCast && !rangeDisplayer.activeInHierarchy && !Controller.IsCasting && (Ability.AbilityRange == 0 || IsInRangeToCast) 
             || Ability.IsPointAndClick && AbilityTarget == transform
-            || Ability.IsPointAndClick && characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange <= 0 || IsInRangeToCast))
+            || Ability.IsPointAndClick && characterIsTryingToCast && !Controller.IsCasting && (Ability.AbilityRange == 0 || IsInRangeToCast))
         {
             Debug.Log("Close enough, can cast now !");
+
             Controller.IsCasting = true;
             Controller.CanMove = false;
 
@@ -224,6 +221,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
             characterIsTryingToCast = false;
 
             Container.Parent.UnlockOtherUnusedAbilities(Ability.AbilityKey);
+
+            if (Ability.IsABuff) abilityIsInUse = true;
         }
     }
 
@@ -233,7 +232,8 @@ public abstract class AbilityLogic : MonoBehaviourPun
         //else it is gonna wait before puttin ability in cooldown
         yield return new WaitForSeconds(delay);
         
-        AbilitiesCooldownHandler.PutAbilityOnCooldown(this);
+        if(!Ability.IsABuff)
+            AbilitiesCooldownHandler.PutAbilityOnCooldown(this);
     }
     #endregion
 
@@ -251,13 +251,18 @@ public abstract class AbilityLogic : MonoBehaviourPun
 
     protected void RemoveBuffGivenByAnAbility(StatType affectedStat, object source = null)
     {
-        if (!CanBeUsed)
-        {
-            if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this)) return;
+        if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || !abilityIsInUse) return;
 
-            AbilitiesCooldownHandler.PutAbilityOnCooldown(this);
-            Stats.GetStat(affectedStat).RemoveAllModifiersFromSource(source);
-        }
+        Debug.Log("RemoveBuffGivenByAnAbility");
+
+        AbilitiesCooldownHandler.PutAbilityOnCooldown(this);
+        Stats.GetStat(affectedStat).RemoveAllModifiersFromSource(source);
+
+        CanBeUsed = true;
+
+        Container.HideAbilityInUseFeedback();
+
+        abilityIsInUse = false;
     }
     #endregion
 
@@ -322,7 +327,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 #endregion
 
                 #region Appllying ability damage to target(s)
-                Debug.Log("Applying Damage");
+                //Debug.Log("Applying Damage");
 
                 collider.GetComponent<EntityStats>().TakeDamage
                 (transform,
@@ -348,14 +353,13 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 }
 
                 //Target's Marked
-                else
+                else if(targetStat.EntityIsMarked)
                 {
                     Ability.EffectAppliedOnMarkedEnemy.StatusEffectDuration = targetStat.ExtentedMarkTime;
                     Ability.EffectAppliedOnMarkedEnemy.ApplyEffect(collider.transform);
                 }
             }
             #endregion
-
             #region Effect applied on ally target whether it is marked or not
             else if ((Ability.DefaultEffectAppliedOnAlly != null || Ability.EffectAppliedOnMarkedAlly != null) && targetStat.EntityTeam == Stats.EntityTeam)
             {
@@ -365,17 +369,22 @@ public abstract class AbilityLogic : MonoBehaviourPun
                     Ability.DefaultEffectAppliedOnAlly.ApplyEffect(collider.transform);
                 }
                 //Target's Marked
-                else
+                else if (targetStat.EntityIsMarked)
                 {
                     Ability.EffectAppliedOnMarkedAlly.StatusEffectDuration = targetStat.ExtentedMarkTime;
                     Ability.EffectAppliedOnMarkedAlly.ApplyEffect(collider.transform);
                 }
             }
 
-            if(Ability.AbilityCanConsumeMark) /*targetStat.EntityIsMarked = false;*/ targetStat.DeactivateMarkFeedback();
+            //Factorisé pour les deux cas, peu importe la team de la cible
+            if (Ability.AbilityCanConsumeMark)
+            {
+                targetStat.DeactivateMarkFeedback();
+                targetStat.ConsumeMark();
+            }
 
             //Applying mark to target(s), if the ability can mark it/them
-            if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration, Stats.EntityTeam));
+            if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration));
 
             #endregion
 
@@ -384,14 +393,44 @@ public abstract class AbilityLogic : MonoBehaviourPun
             abilityTarget = null;
         }
     }
+
+    protected IEnumerator ApplyShieldOnOneTarget(EntityStats abilityTargetStats, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (!shieldIsApplied)
+        {
+            float shieldValue = Ability.AbilityShieldValue;
+            float shieldEffectiveness = Stats.GetStat(StatType.HealAndShieldEffectiveness).Value;
+
+            if (Ability.ScaleUponMaxHealth)
+            {
+                shieldValue += Stats.GetStat(StatType.Health).MaxValue * Ability.ShieldHealthRatio;
+            }
+            else if (Ability.ScaleUponMagicalPower)
+            {
+                shieldValue += Stats.GetStat(StatType.MagicalPower).Value * Ability.ShieldMagicalRatio;
+            }
+
+            if (abilityTargetStats != null
+                && abilityTargetStats.EntityTeam == Stats.EntityTeam
+                && abilityTargetStats.GetStat(StatType.Shield) != null)
+            {
+                Ability.DefaultEffectAppliedOnAlly.StatModifiers[0].Value = shieldValue;
+
+                Ability.DefaultEffectAppliedOnAlly.ApplyEffect(abilityTargetStats.transform);
+                abilityTargetStats.ApplyShieldOnTarget(abilityTargetStats.transform, shieldValue, shieldEffectiveness, true);
+            }
+
+            shieldIsApplied = true;
+        }
+
+        shieldIsApplied = false;
+    }
+
     #endregion
 
     #region Modifying ability's attributes
-    public virtual void SetAbilityAfterAPurchase()
-    {
-        Container.UpdateContainerTooltip();
-    }
-
     protected void SetAbilityMarkDuration(float duration)
     {
         if (Ability.AbilityCanMark) Ability.AbilityMarkDuration = duration;
@@ -448,11 +487,4 @@ public abstract class AbilityLogic : MonoBehaviourPun
             Gizmos.DrawWireSphere(transform.position, Ability.AbilityRange);
     }
     #endregion
-
-    protected abstract void ResetAbilityAttributes();
-
-    private void OnApplicationQuit()
-    {
-        ResetAbilityAttributes();
-    }
 }

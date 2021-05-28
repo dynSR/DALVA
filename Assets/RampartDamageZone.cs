@@ -18,6 +18,7 @@ public class RampartDamageZone : StatusEffectZoneCore
 
     protected override void ApplyAffect(EntityStats target)
     {
+        target.Controller.ActivateBurnVFX();
         target.TakeDamage(null, 0, 0 /*statsOfEntitiesInTrigger[i].GetStat(StatType.MagicalResistances).Value*/, 0, damagePerSecond, 0, 0, 0, 0);
     }
 
@@ -40,6 +41,6 @@ public class RampartDamageZone : StatusEffectZoneCore
 
     protected override void RemoveEffect(EntityStats target)
     {
-        //NOTHING
+        target.Controller.DeactivateBurnVFX();
     }
 }

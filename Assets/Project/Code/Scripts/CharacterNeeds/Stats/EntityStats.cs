@@ -108,13 +108,15 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         UpdateStats();
     }
 
-    private void Update() { 
-        OnDeath(); 
+    private void Update() 
+    { 
+        OnDeath();
+
         if (Input.GetKeyDown(KeyCode.L)) TakeDamage(transform, 0, 0, 50, 50, 0, 175, 0, 0); 
         if (Input.GetKeyDown(KeyCode.M)) Heal(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
-        if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
-        if (Input.GetKeyDown(KeyCode.J)) Controller.StunTarget();
-        if (Input.GetKeyDown(KeyCode.N)) Controller.RootTarget();
+        //if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
+        //if (Input.GetKeyDown(KeyCode.J)) Controller.StunTarget();
+        //if (Input.GetKeyDown(KeyCode.N)) Controller.RootTarget();
     }
 
     #region Settings at start of the game
@@ -251,7 +253,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             HealthPercentage = CalculateLifePercentage();
             #endregion
 
-            Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower, transform);
+            //Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower, transform);
 
             NPCController npcController = GetComponent<NPCController>();
             if (npcController != null && npcController.IsACampNPC) npcController.CompareTargetAndSourceOfDamagePositions();
@@ -349,6 +351,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #region Shield Section
     public void ApplyShieldOnTarget(Transform target, float shieldValue, float shieldEffectiveness, bool comesFromAnEffect = false)
     {
+        Debug.Log("APPLYING SHIELD ON TARGET");
+
         EntityStats targetStats = target.GetComponent<EntityStats>();
 
         if (targetStats.GetStat(StatType.Shield) != null && targetStats.GetStat(StatType.HealAndShieldEffectiveness) != null)
@@ -444,25 +448,13 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     void GiveRessourcesToAPlayerOnDeath(float valueToGive)
     {
-        //if (SourceOfDamage != null
-        //    && SourceOfDamage.GetComponent<CharacterRessources>() != null)
-        //{
-        //    SourceOfDamage = GameManager.Instance.Player;
+        if (this != GameManager.Instance.Player.GetComponent<EntityStats>())
+        {
+            StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
+            GameManager.Instance.Player.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
-        //    StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
-        //    SourceOfDamage.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
-
-        //    if (SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX != null)
-        //        SourceOfDamage.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
-
-        //    //Debug.Log("Ressources have been given to a player, the last stored source of damage");
-        //}
-
-        StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
-        GameManager.Instance.Player.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
-
-        if (GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX != null)
             GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+        }
     }
 
     private void Die()
@@ -494,9 +486,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     private IEnumerator ProcessDeathTimer(float delay)
     {
         Die();
-
-        //yield return new WaitForSeconds(0.5f);
-        //VisibilityState.SetToInvisible();
 
         yield return new WaitForSeconds(delay - 0.5f);
 
@@ -555,15 +544,17 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #endregion
 
     #region Handle entity mark
-    public IEnumerator MarkEntity(float markDuration, EntityTeam sourceTeam)
+    public IEnumerator MarkEntity(float markDuration)
     {
         //Debug
         if (allyMarkObject == null || enemyMarkObject == null) Debug.LogError("No mark object detected, need to assign them");
 
         if (EntityIsMarked) ExtentedMarkTime += markDuration;
-        else if (!EntityIsMarked) { ExtentedMarkTime = markDuration; ActivateMarkFeedback(); }
-
-        ActivateMarkFeedback();
+        else if (!EntityIsMarked) 
+        { 
+            ExtentedMarkTime = markDuration; 
+            ActivateMarkFeedback(); 
+        }
 
         do
         {
@@ -573,24 +564,31 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         ExtentedMarkTime = 0f;
 
-        DeactivateMarkFeedback();
+        //DeactivateMarkFeedback();
     }
 
     public void ActivateMarkFeedback()
     {
+        Debug.Log("ActivateMarkFeedback");
+
         EntityIsMarked = true;
 
         if (EntityTeam == EntityTeam.DALVA) allyMarkObject.SetActive(true);
-        else if (EntityTeam == EntityTeam.HULRYCK) enemyMarkObject.SetActive(true);
+        else if (EntityTeam == EntityTeam.HULRYCK || EntityTeam == EntityTeam.NEUTRAL) enemyMarkObject.SetActive(true);
     }
 
     public void DeactivateMarkFeedback()
     {
+        Debug.Log("DeactivateMarkFeedback");
+
         if (allyMarkObject.activeInHierarchy) allyMarkObject.SetActive(false);
         else if (enemyMarkObject.activeInHierarchy) enemyMarkObject.SetActive(false);
 
         EntityIsMarked = false;
+    }
 
+    public void ConsumeMark()
+    {
         if (consumedMarkVFX != null && !consumedMarkVFX.activeInHierarchy) consumedMarkVFX.SetActive(true);
     }
     #endregion

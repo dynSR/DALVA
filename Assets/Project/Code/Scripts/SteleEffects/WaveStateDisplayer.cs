@@ -67,12 +67,12 @@ public class WaveStateDisplayer : MonoBehaviour
         if (!GameManager.Instance.GameIsInPlayMod() && button.activeInHierarchy)
         {
             button.SetActive(false);
-            Debug.Log("ToggleButtonState - OFF");
+            //Debug.Log("ToggleButtonState - OFF");
         }
         else if (GameManager.Instance.GameIsInPlayMod() && !button.activeInHierarchy)
         {
             button.SetActive(true);
-            Debug.Log("ToggleButtonState - ON");
+            //Debug.Log("ToggleButtonState - ON");
         }
     }
 }

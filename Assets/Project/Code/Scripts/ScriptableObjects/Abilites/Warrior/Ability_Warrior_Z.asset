@@ -15,16 +15,43 @@ MonoBehaviour:
   abilityName: Test
   abilityDescription: Its a test
   abilityKey: 122
-  abilityIcon: {fileID: 21300000, guid: 4184495d79c523148bd19006e6e88b2d, type: 3}
+  abilityIcon: {fileID: 21300000, guid: 587df5237f8974b30ddebba50f9fbc0b, type: 3}
+  abilityCost: 0
   abilityEffectObject: {fileID: 7698714164152369823, guid: f8f0cfca40865cf4fbd1d233068c1efd, type: 3}
+  isPointAndClick: 1
+  isABuff: 0
   abilityPhysicalDamage: 0
-  abilityMagicalDamage: 50
+  abilityMagicalDamage: 0
   abilityPhysicalRatio: 0
-  abilityMagicalRatio: 0.5
+  abilityMagicalRatio: 0
+  targetHealthThreshold: 0
+  abilityAddedDamageOnTargetHealthThreshold: 0
+  abilityHealValue: 0
+  abilityCanHealTarget: 0
+  healMagicalRatio: 0
+  healHealthRatio: 0
+  abilityShieldValue: 75
+  shieldMagicalRatio: 0
+  shieldHealthRatio: 0.1
+  scaleUponMagicalPower: 0
+  scaleUponMaxHealth: 1
+  defaultEffectAppliedOnAlly: {fileID: 11400000, guid: 767ac9f8ce675fd42b96ee69ac0c2db7, type: 2}
+  defaultEffectAppliedOnEnemy: {fileID: 0}
+  abilityMarkDuration: 0
+  abilityDamageBonusOnMarkedTarget: 0
+  abilityHealBonusOnMarkedTarget: 0
+  abilityCanMark: 0
+  abilityCanConsumeMark: 0
+  effectAppliedOnMarkedAlly: {fileID: 0}
+  effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 0
   abilityAreaOfEffect: 0
-  abilityCooldown: 5
-  abilityCastingTime: 0
+  noneType: 0
+  targetedType: 0
+  aimedType: 0
+  zoneType: 0
+  abilityCooldown: 11
+  abilityTimeToCast: 0.25
   abilityDuration: 0
   instantCasting: 0
-  automaticallyPutInCooldown: 1
+  delayBeforeApplyingDamageOrEffect: 0

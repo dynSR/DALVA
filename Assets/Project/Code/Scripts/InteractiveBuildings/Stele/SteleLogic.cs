@@ -200,7 +200,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
     public void SellEffect()
     {
-        Destroy(SpawnedEffectObject);
+        OnSell?.Invoke();
 
         UtilityClass.PlaySoundGroupImmediatly(sellingSFX, transform);
 
@@ -215,7 +215,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         activatedVFX.SetActive(false);
 
-        OnSell?.Invoke();
+        Destroy(SpawnedEffectObject);
     }
 
     public void UpgradeEffect()

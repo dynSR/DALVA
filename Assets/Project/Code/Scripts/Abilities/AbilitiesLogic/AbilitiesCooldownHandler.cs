@@ -71,7 +71,7 @@ public class AbilitiesCooldownHandler : MonoBehaviour
         {
             if (allAbilitiesOnCooldown[i].cooldown <= 0)
             {
-                if (!allAbilitiesOnCooldown[i].ability.CanBeUsed)
+                if (!allAbilitiesOnCooldown[i].ability.CanBeUsed && !allAbilitiesOnCooldown[i].ability.Ability.IsABuff)
                     allAbilitiesOnCooldown[i].ability.CanBeUsed = true;
 
                 allAbilitiesOnCooldown.RemoveAt(i);

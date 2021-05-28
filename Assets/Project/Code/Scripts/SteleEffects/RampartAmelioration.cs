@@ -3,13 +3,7 @@ using UnityEngine.AI;
 
 public class RampartAmelioration : SteleAmelioration
 {
-    [SerializeField] private NavMeshObstacle nMObstacle;
     [SerializeField] private RampartDamageZone rampartDamageZone;
-
-    private void Start()
-    {
-        nMObstacle.enabled = true;
-    }
 
     public override void UpgradeEffect()
     {

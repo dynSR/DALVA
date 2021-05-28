@@ -67,7 +67,7 @@ public class SpawnerSystem : MonoBehaviour
         if (HasEntityToSpawn())
             OnWavePossibilityToSpawnState?.Invoke(1);
 
-        Debug.Log(HasEntityToSpawn(), transform);
+        //Debug.Log(HasEntityToSpawn(), transform);
            
         //Set Fill amount here for the first delay
         Countdown = DelayBetweenWaves;

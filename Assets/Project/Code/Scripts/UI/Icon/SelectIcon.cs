@@ -24,7 +24,7 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Pointer in " + gameObject.name);
+        //Debug.Log("Pointer in " + gameObject.name);
 
         if (!IsSelected)
             DisplayIcon();
@@ -39,13 +39,13 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
         {
             if (!IsSelected)
             {
-                Debug.Log("Pointer Click, toggle on");
+                //Debug.Log("Pointer Click, toggle on");
                 ToggleOn();
                 SetSelection();
             }
             else if (IsSelected)
             {
-                Debug.Log("Pointer Click, toggle off");
+                //Debug.Log("Pointer Click, toggle off");
                 ToggleOff();
                 ResetSelection();
             }
@@ -54,7 +54,7 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Pointer out of " + gameObject.name);
+        //Debug.Log("Pointer out of " + gameObject.name);
 
         if (!IsSelected)
             HideIcon();
@@ -65,14 +65,14 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
     #region Toggle On / Off Selection
     protected void ToggleOn()
     {
-        Debug.Log("ICON WASNT SHOWN");
+        //Debug.Log("ICON WASNT SHOWN");
         DisplayIcon();
         IsSelected = true;
     }
 
     public void ToggleOff()
     {
-        Debug.Log("ICON WAS ALREADY SHOWN");
+        //Debug.Log("ICON WAS ALREADY SHOWN");
         HideIcon();
         IsSelected = false;
     }

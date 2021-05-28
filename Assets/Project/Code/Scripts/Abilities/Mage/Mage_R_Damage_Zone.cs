@@ -27,8 +27,6 @@ public class Mage_R_Damage_Zone : MonoBehaviour
             //Consume d'abord et applique ensuite si peut
 
             AbilityUsed.ApplyingDamageOnTarget(other);
-
-            if (CanMark) StartCoroutine(targetStats.MarkEntity(AbilityUsed.Ability.AbilityMarkDuration, UserStats.EntityTeam));
         }
     }
 }

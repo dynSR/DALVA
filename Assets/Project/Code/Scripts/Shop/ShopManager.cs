@@ -40,6 +40,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private List<Item> itemsInGame;
     public List<int> randomIndex = new List<int>();
 
+    [Header("SFX")]
+    [SoundGroup] [SerializeField] private string coinsSFX;
+
     private CharacterRessources PlayerRessources => Player.GetComponent<CharacterRessources>();
     private EntityStats PlayerStats => Player.GetComponent<EntityStats>();
     public InventoryManager PlayerInventory { get => PlayerRessources.PlayerInventory;  }
@@ -236,7 +239,8 @@ public class ShopManager : MonoBehaviour
            0,
            abilityEffect));
         }
-        
+
+        UtilityClass.PlaySoundGroupImmediatly(coinsSFX, transform);
     }
     #endregion
 
@@ -299,6 +303,8 @@ public class ShopManager : MonoBehaviour
                     return;
                 }
             }
+
+            UtilityClass.PlaySoundGroupImmediatly(coinsSFX, transform);
         }
     }
 

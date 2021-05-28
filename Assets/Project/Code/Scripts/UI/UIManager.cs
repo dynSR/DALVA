@@ -109,7 +109,8 @@ public class UIManager : MonoBehaviour
         if (pauseMenu.activeInHierarchy)
         {
             pauseMenu.SetActive(false);
-            GameManager.Instance.SetGameToPlayMod();
+            GameManager.Instance.SetGameToProperMod();
+            //GameManager.Instance.SetGameToPlayMod();
         }
     }
 

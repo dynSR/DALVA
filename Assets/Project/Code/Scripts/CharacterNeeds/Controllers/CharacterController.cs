@@ -172,8 +172,8 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void DeactivateBurnVFX()
     {
-        if (!burningVFX.activeInHierarchy)
-            burningVFX.SetActive(true);
+        if (burningVFX.activeInHierarchy)
+            burningVFX.SetActive(false);
     }
 
     public void ActivatePoisonVFX()
@@ -184,8 +184,8 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void DeactivatePoisonVFX()
     {
-        if (!poisonnedVFX.activeInHierarchy)
-            poisonnedVFX.SetActive(true);
+        if (poisonnedVFX.activeInHierarchy)
+            poisonnedVFX.SetActive(false);
     }
     #endregion
     #endregion

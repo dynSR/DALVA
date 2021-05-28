@@ -86,8 +86,6 @@ public class StatusEffect : ScriptableObject
 
             EntityStats targetStats = target.GetComponent<EntityStats>();
 
-            if (targetStats != null && targetStats.EntityIsMarked) targetStats.DeactivateMarkFeedback();
-
             GetTargetStatusEffectHandler(target).AddNewEffect(this);
             CreateVFXOnApplication(StatusEffectVFXPrefab, target);
         }

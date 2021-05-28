@@ -116,7 +116,7 @@ public static class UtilityClass
 
         MasterAudio.PlaySound3DAtTransform(sound, originCenter);
 
-        Debug.Log("Firing Sound Event !");
+        //Debug.Log("Firing Sound Event !");
     }
 
     public static void PlaySoundGroupImmediatly(string sound, Transform originCenter)

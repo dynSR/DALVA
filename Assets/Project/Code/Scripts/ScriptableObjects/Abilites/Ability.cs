@@ -11,6 +11,7 @@ public class Ability : ScriptableObject
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private GameObject abilityEffectObject;
     [SerializeField] private bool isPointAndClick = false;
+    [SerializeField] private bool isABuff = false;
 
     [Header("DAMAGE ATTRIBUTES")]
     [SerializeField] private float abilityPhysicalDamage = 0f;
@@ -30,6 +31,8 @@ public class Ability : ScriptableObject
     [SerializeField] private float abilityShieldValue = 0f;
     [Range(0.0f, 10f)] [SerializeField] private float shieldMagicalRatio = 0f;
     [Range(0.0f, 10f)] [SerializeField] private float shieldHealthRatio = 0f;
+    [SerializeField] private bool scaleUponMagicalPower = false;
+    [SerializeField] private bool scaleUponMaxHealth = false;
 
     [Header("STATUS EFFECT")]
     [SerializeField] private StatusEffect defaultEffectAppliedOnAlly;
@@ -113,5 +116,8 @@ public class Ability : ScriptableObject
 
     public bool InstantCasting { get => instantCasting; set => instantCasting = value; }
     public float DelayBeforeApplyingDamageOrEffect { get => delayBeforeApplyingDamageOrEffect; set => delayBeforeApplyingDamageOrEffect = value; }
+    public bool IsABuff { get => isABuff; set => isABuff = value; }
+    public bool ScaleUponMagicalPower { get => scaleUponMagicalPower; set => scaleUponMagicalPower = value; }
+    public bool ScaleUponMaxHealth { get => scaleUponMaxHealth; set => scaleUponMaxHealth = value; }
     #endregion
 }

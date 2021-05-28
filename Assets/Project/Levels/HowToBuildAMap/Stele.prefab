@@ -374,7 +374,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409590597581731349}
   m_LocalRotation: {x: 0, y: -0.5, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: -2.5, y: 0, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 376790545447198695}
@@ -2839,10 +2839,10 @@ MonoBehaviour:
   buttonTooltip: {fileID: 4392920030531143331}
   affectedStele: {fileID: 5856840166989928446}
   effectDescription:
-    effectName: Rampart
+    effectName: Inferno
     steleEffect: 5
-    description: "Invoque un bloc de boucliers protecteurs \xE0 proximit\xE9 de la
-      st\xE8le.\r\nCe bloc est invuln\xE9rable."
+    description: "Au fil du temps, les ennemis pr\xE9sents dans la zone subissent
+      des d\xE9g\xE2ts magiques."
     effectIcon: {fileID: 21300000, guid: 5dd259ac47253d04999c221c8773f141, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 1685944015758270407}
@@ -3392,7 +3392,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.9339623, g: 0.8245127, b: 0.2863564, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3415,12 +3415,12 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 0.25
   m_fontSizeMax: 0.35
-  m_fontStyle: 33
+  m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: -10
+  m_characterSpacing: -5
+  m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
@@ -10653,8 +10653,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.185
-  m_fontSizeBase: 0.185
+  m_fontSize: 0.18
+  m_fontSizeBase: 0.18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0.1
@@ -25944,10 +25944,9 @@ MonoBehaviour:
   buttonTooltip: {fileID: 4392920030531143331}
   affectedStele: {fileID: 5856840166989928446}
   effectDescription:
-    effectName: Zone de Faiblesse
+    effectName: "Mal\xE9diction"
     steleEffect: 3
-    description: "Les r\xE9sistances des ennemis, pr\xE9sents dans la zone, sont
-      r\xE9duites."
+    description: "Les r\xE9sistances des ennemis pr\xE9sents dans la zone sont r\xE9duites."
     effectIcon: {fileID: 21300000, guid: ef0075fcbd8ae0a41805a7e2b994078c, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 1839687330476701980}
@@ -26328,10 +26327,10 @@ MonoBehaviour:
   buttonTooltip: {fileID: 4392920030531143331}
   affectedStele: {fileID: 5856840166989928446}
   effectDescription:
-    effectName: Zone de Gel
+    effectName: Blizzard
     steleEffect: 2
-    description: "La vitesses de d'attaque et la vitesse de d\xE9placement des ennemis,
-      pr\xE9sents dans la zone, sont r\xE9duites."
+    description: "La vitesses de d'attaque et la vitesse de d\xE9placement des ennemis
+      pr\xE9sents dans la zone sont r\xE9duites."
     effectIcon: {fileID: 21300000, guid: 1836675502c0fa348bfbbb019590c060, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 7164559377256134742}

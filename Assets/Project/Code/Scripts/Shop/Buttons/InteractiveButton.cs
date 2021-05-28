@@ -27,36 +27,36 @@ public abstract class InteractiveButton : MonoBehaviour, IPointerDownHandler
 
     public void ObjectIsNotDisponible()
     {
-        Debug.Log("ObjectIsNotDisponible");
+        //Debug.Log("ObjectIsNotDisponible");
         undisponibilityGameObject.SetActive(true);
     }
 
     public void ObjectIsDisponible()
     {
-        Debug.Log("ObjectIsDisponible");
+        //Debug.Log("ObjectIsDisponible");
         undisponibilityGameObject.SetActive(false);
     }
 
     public void DisplayPadlock()
     {
-        Debug.Log("DisplayPadlock");
+        //Debug.Log("DisplayPadlock");
         padlockImage.SetActive(true);
     }
     public void HidePadlock()
     {
-        Debug.Log("HidePadlock");
+        //Debug.Log("HidePadlock");
         padlockImage.SetActive(false);
     }
 
     public void DisplayCheckMark()
     {
-        Debug.Log("DisplayCheckMark");
+        //Debug.Log("DisplayCheckMark");
         checkMark.enabled = true;
     }
 
     public void HideCheckMark()
     {
-        Debug.Log("HideCheckMark");
+        //Debug.Log("HideCheckMark");
         checkMark.enabled = false;
     }
 }

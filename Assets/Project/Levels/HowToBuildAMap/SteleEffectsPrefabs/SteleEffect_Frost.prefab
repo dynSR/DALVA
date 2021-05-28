@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stele: {fileID: 0}
-  steleEffectName: Zone de Gel
+  steleEffectName: Blizzard
   steleIconImage: {fileID: 21300000, guid: 1836675502c0fa348bfbbb019590c060, type: 3}
   upgradeDescriptionI: "R\xE9ductions de vitesse d'attaque et de d\xE9placement 
     <color=#ffa500ff>+10%</color>."
@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7fb68354eea7d43a48cf3f79fe1069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneType: 1
   statsOfEntitiesInTrigger: []
   movementSpeedReduction: 0.15
   attackSpeedReduction: 0.15

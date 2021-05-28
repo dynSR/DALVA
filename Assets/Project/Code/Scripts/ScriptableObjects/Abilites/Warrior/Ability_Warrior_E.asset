@@ -16,15 +16,43 @@ MonoBehaviour:
   abilityDescription: Strikes a lightning at a location, dealing 150 magical damage
     (+0.5% PM), at all enemies, in the targeted zone.
   abilityKey: 101
-  abilityIcon: {fileID: 21300000, guid: 4637953d65a24364aab3372a525b9ed2, type: 3}
+  abilityIcon: {fileID: 21300000, guid: 02a38cd6a372a07f63f4c3417085ecec, type: 3}
   abilityCost: 0
   abilityEffectObject: {fileID: 3496865379352093655, guid: 09817140c6833ac4982bb322fed34f8f, type: 3}
+  isPointAndClick: 0
+  isABuff: 0
   abilityPhysicalDamage: 0
   abilityMagicalDamage: 150
   abilityPhysicalRatio: 0
   abilityMagicalRatio: 0.5
+  targetHealthThreshold: 0
+  abilityAddedDamageOnTargetHealthThreshold: 0
+  abilityHealValue: 0
+  abilityCanHealTarget: 0
+  healMagicalRatio: 0
+  healHealthRatio: 0
+  abilityShieldValue: 0
+  shieldMagicalRatio: 0
+  shieldHealthRatio: 0
+  scaleUponMagicalPower: 0
+  scaleUponMaxHealth: 0
+  defaultEffectAppliedOnAlly: {fileID: 0}
+  defaultEffectAppliedOnEnemy: {fileID: 0}
+  abilityMarkDuration: 0
+  abilityDamageBonusOnMarkedTarget: 0
+  abilityHealBonusOnMarkedTarget: 0
+  abilityCanMark: 0
+  abilityCanConsumeMark: 0
+  effectAppliedOnMarkedAlly: {fileID: 0}
+  effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 10
   abilityAreaOfEffect: 4
-  abilityCooldown: 3
-  abilityDuration: 0.15
+  noneType: 0
+  targetedType: 0
+  aimedType: 0
+  zoneType: 0
+  abilityCooldown: 8
+  abilityTimeToCast: 0.3
+  abilityDuration: 0
   instantCasting: 0
+  delayBeforeApplyingDamageOrEffect: 0

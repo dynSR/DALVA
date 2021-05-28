@@ -13,7 +13,7 @@ public class GetCharacterAbilities : MonoBehaviour
     [SerializeField] private GameObject abilityContainerPrefab;
 
     [Header("ABILITY IN USE FEEDBACK")]
-    [SerializeField] private GameObject glowFeedbackAnimator;
+    [SerializeField] private GameObject glowFeedbackObject;
 
     private readonly List<AbilityContainerLogic> abilityContainers = new List<AbilityContainerLogic>();
     
@@ -70,12 +70,12 @@ public class GetCharacterAbilities : MonoBehaviour
     public void DisplayGlowEffect()
     {
         //Start Glow Animation
-        glowFeedbackAnimator.SetActive(true);
+        glowFeedbackObject.SetActive(true);
     }
 
     public void HideGlowEffect()
     {
         //Stop Glow Animation
-        glowFeedbackAnimator.SetActive(false);
+        glowFeedbackObject.SetActive(false);
     }
 }

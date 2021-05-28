@@ -15,6 +15,7 @@ public class FrostZone : StatusEffectZoneCore
 
     protected override void ApplyAffect(EntityStats target)
     {
+        target.Controller.ActivateSlowVFX();
         target.GetStat(StatType.MovementSpeed).AddModifier(new StatModifier(-MovementSpeedReduction, StatType.MovementSpeed, StatModType.PercentAdd, this));
         target.GetStat(StatType.AttackSpeed).AddModifier(new StatModifier(-AttackSpeedReduction, StatType.AttackSpeed, StatModType.PercentAdd, this));
 
@@ -26,6 +27,7 @@ public class FrostZone : StatusEffectZoneCore
 
     protected override void RemoveEffect(EntityStats target)
     {
+        target.Controller.DeactivateSlowVFX();
         target.GetStat(StatType.MovementSpeed).RemoveAllModifiersFromSource(this);
         target.GetStat(StatType.AttackSpeed).RemoveAllModifiersFromSource(this);
 

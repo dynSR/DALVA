@@ -152,4 +152,9 @@ public class CharacterRessources : MonoBehaviour
             UIManagerAnimator.SetTrigger("TriggerFeedbackOut");
         }
     }
+
+    public void ResetPlayerHUDFeedbackAnimator()
+    {
+        ressourcesLossFeedbackPlayerHUD.GetComponent<Animator>().ResetTrigger("TriggerFeedback");
+    }
 }

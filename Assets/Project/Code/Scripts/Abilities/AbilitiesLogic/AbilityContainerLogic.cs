@@ -36,6 +36,8 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
     [SerializeField] private Sprite targetedType;
     [SerializeField] private Sprite zoneType;
 
+    float storedCooldown = 0f;
+
     public KeyCode AbilityKey { get => abilityKey; set => abilityKey = value; }
     public AbilityLogic ContainedAbility { get => containedAbility; set => containedAbility = value; }
     public GetCharacterAbilities Parent { get; set; }
@@ -60,6 +62,8 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
 
             if (containedAbility.Ability.AbilityIcon != null)
                 containedAbilityIcon.sprite = containedAbility.Ability.AbilityIcon;
+
+        storedCooldown = ContainedAbility.Ability.AbilityCooldown;
     }
 
     private void UpdateAbilityCooldownUI(AbilityLogic containedAbility)
@@ -78,7 +82,14 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
     {
         yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
 
-        float storedCooldown = containedAbility.Ability.AbilityCooldown;
+        storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+
+        if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
+            storedCooldown -= ContainedAbility.Ability.AbilityCooldown * (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value / 100);
+
+        else if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value == 0)
+            storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+
 
         do
         {
@@ -180,11 +191,19 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
             textToSet.SetText("Sort Ciblé");
         }
 
+        storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+
+        if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
+            storedCooldown -= ContainedAbility.Ability.AbilityCooldown * (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value / 100);
+
+        else if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value == 0)
+            storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+
         //SETTING THE TOOLTIP WITH THE WANTED INFORMATIONS
         tooltipSetter.SetTooltip(
             ContainedAbility.Ability.AbilityName,
             ContainedAbility.Ability.AbilityDescription,
-            ContainedAbility.Ability.AbilityCooldown.ToString("0" + "s"),
+            storedCooldown.ToString("0" + "s"),
             spriteToSend);
     }
     #endregion

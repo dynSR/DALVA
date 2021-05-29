@@ -19,7 +19,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
 {
     #region Refs
     public Transform Player => GetComponent<Transform>();
-    protected EntityStats Stats => GetComponent<EntityStats>();
+    public EntityStats Stats => GetComponent<EntityStats>();
     protected CharacterController Controller => GetComponent<CharacterController>();
     protected PlayerInteractions Interactions => GetComponent<PlayerInteractions>();
     public AbilitiesCooldownHandler AbilitiesCooldownHandler => GetComponent<AbilitiesCooldownHandler>();

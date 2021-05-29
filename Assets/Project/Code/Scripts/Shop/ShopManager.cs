@@ -88,6 +88,11 @@ public class ShopManager : MonoBehaviour
         ShuffleItemsInShop();
     }
 
+    private void OnDisable()
+    {
+        PlayerRessources.ResetPlayerHUDFeedbackAnimator();
+    }
+
     #region Buy an item
     public void AddShopActionOnPurchase(InventoryBox inventoryBoxItem = null, Item item = null)
     {

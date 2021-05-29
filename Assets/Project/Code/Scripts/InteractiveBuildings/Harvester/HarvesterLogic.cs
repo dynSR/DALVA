@@ -17,6 +17,7 @@ public class HarvesterLogic : InteractiveBuilding
     [SerializeField] private float delayBeforeHarvesting = 30f;
     float timeSpentHarvesting = 0f;
     [SerializeField] private float totalTimeToHarvest = 10f;
+    [SerializeField] private float harvestingTimeMultiplier = 1f;
 
     [Header("FEEDBACKS")]
     [SerializeField] private Image harvestingFeedbackImage;
@@ -69,7 +70,7 @@ public class HarvesterLogic : InteractiveBuilding
             return;
         }
 
-        if (CurrentHarvestedRessourcesValue >= 1.25f)
+        if (CurrentHarvestedRessourcesValue >= 1f)
         {
             IsInteractable = true;
             glowEffectObject.SetActive(true);
@@ -78,7 +79,7 @@ public class HarvesterLogic : InteractiveBuilding
         if (!LimitReached && GameManager.Instance.GameIsInPlayMod())
         {
             if (!harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(true);
-            CurrentHarvestedRessourcesValue += Time.deltaTime;
+            CurrentHarvestedRessourcesValue += Time.deltaTime * harvestingTimeMultiplier;
             OnHarvestingRessources?.Invoke(CurrentHarvestedRessourcesValue, maxHarvestableRessourcesValue);
         }
         else if (LimitReached && harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(false);

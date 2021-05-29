@@ -38,7 +38,6 @@ public class SpawnerSystem : MonoBehaviour
     private float countdown = 0f;
     private int indexOfCurrentWave = 0; // to delete after tests
     [SerializeField] private List<Transform> paths;
-    [SerializeField] private GameObject spawnObjectFeedback;
 
     [Header("WAVES")]
     [SerializeField] private List<Wave> waves;
@@ -116,22 +115,16 @@ public class SpawnerSystem : MonoBehaviour
 
     private IEnumerator SpawnWaveCoroutine()
     {
-        if (!HasEntityToSpawn()) yield break;
-
         waveState = WaveState.IsSpawning;
 
         //Hide Spawn State Displayer(s)
         OnWavePossibilityToSpawnState?.Invoke(0);
 
-        if (spawnObjectFeedback != null)
-            spawnObjectFeedback.SetActive(true);
-        else Debug.LogError("Add the spawnObjectFeedback in the empty field");
-
         //Waves[0,1,2...]
         Wave currentWave = Waves[IndexOfCurrentWave];
         Debug.Log(currentWave.waveName);
 
-        for (int i = currentWave.minionsData.Count - 1; i >= 0; i--)
+        for (int i = 0; i < currentWave.minionsData.Count; i++)
         {
             for (int j = 0; j < currentWave.minionsData[i].minionsUsedInTheWave.Length; j++)
             {
@@ -180,14 +173,14 @@ public class SpawnerSystem : MonoBehaviour
     {
         bool hasEntityToSpawn = false;
 
-        if (Waves.Count < IndexOfCurrentWave
+        if (Waves.Count <= IndexOfCurrentWave
             || GameManager.Instance.ItIsABossWave
             || Waves[IndexOfCurrentWave].minionsData.Count == 0)
         {
             hasEntityToSpawn = false;
             OnWavePossibilityToSpawnState?.Invoke(0);
         }
-        else if (Waves.Count >= IndexOfCurrentWave)
+        else if (Waves.Count > IndexOfCurrentWave)
         {
             hasEntityToSpawn = true;
             OnWavePossibilityToSpawnState?.Invoke(1);
@@ -222,10 +215,6 @@ public class SpawnerSystem : MonoBehaviour
 
     public void UpdateElementsOnSpawnFinished()
     {
-        //Deactive Portal effect
-        if (spawnObjectFeedback != null)
-            spawnObjectFeedback.SetActive(false);
-
         //Display or Hide wave spawn state
         if (HasEntityToSpawn()) OnWavePossibilityToSpawnState?.Invoke(1);
         else OnWavePossibilityToSpawnState?.Invoke(0);

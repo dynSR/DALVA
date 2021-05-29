@@ -57,7 +57,7 @@ public class WaveStateDisplayer : MonoBehaviour
     {
         if (!GameManager.Instance.GameIsInPlayMod()) return;
         
-        StartCoroutine(spawner.SpawnWave());
+        spawner.CallSpawnEvent();
         ToggleContent(0);
         button.GetComponent<UIButtonWithTooltip>().Tooltip.SetActive(false);
     }

@@ -44,7 +44,10 @@ public class SpawnerSystem : MonoBehaviour
     [SerializeField] private List<Wave> waves;
 
     [Header("SOUNDS")]
-    [SoundGroup] public string spawnCustomEvent;
+    [SoundGroup] public string portalLoopSFX;
+    [SoundGroup] public string closePortalSFX;
+
+    private Animator MyAnimator => GetComponent<Animator>();
 
     public bool spawnEventEndedHasBeenHandled = false;
 
@@ -83,7 +86,8 @@ public class SpawnerSystem : MonoBehaviour
 
             if (Countdown <= 0 && waveState != WaveState.IsSpawning)
             {
-                StartCoroutine(SpawnWave());
+                CallSpawnEvent();
+                //StartCoroutine(SpawnWaveCoroutine());
             }
         }
         else if (waveState == WaveState.WaitUntilStartOfTheGame && FirstCountdown > 0)
@@ -92,24 +96,32 @@ public class SpawnerSystem : MonoBehaviour
 
             if (FirstCountdown <= 0 && waveState != WaveState.IsSpawning)
             {
-                StartCoroutine(SpawnWave());
+                CallSpawnEvent();
+                //StartCoroutine(SpawnWaveCoroutine());
             }
         }
     }
 
-    public IEnumerator SpawnWave()
+    public void CallSpawnEvent()
     {
-        //yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
+        MyAnimator.SetTrigger("OpenPortal");
+        //Spawn Sound Event : Oppening Portal
+        UtilityClass.PlaySoundGroupImmediatly(portalLoopSFX, transform);
+    }
 
+    public void SpawnWave()
+    {
+        StartCoroutine(SpawnWaveCoroutine());
+    }
+
+    private IEnumerator SpawnWaveCoroutine()
+    {
         if (!HasEntityToSpawn()) yield break;
 
         waveState = WaveState.IsSpawning;
 
         //Hide Spawn State Displayer(s)
         OnWavePossibilityToSpawnState?.Invoke(0);
-
-        //Spawn Sound Event : Oppening Portal
-        UtilityClass.PlaySoundGroupImmediatly(spawnCustomEvent, transform);
 
         if (spawnObjectFeedback != null)
             spawnObjectFeedback.SetActive(true);
@@ -124,9 +136,6 @@ public class SpawnerSystem : MonoBehaviour
             for (int j = 0; j < currentWave.minionsData[i].minionsUsedInTheWave.Length; j++)
             {
                 //Spawn Sound Event : Portal Loop
-                //if(MasterAudio.SoundsReady)
-                //     UtilityClass.PlaySoundGroupImmediatly(spawnCustomEvent, transform);
-
                 MinionsData minionData = currentWave.minionsData[i];
 
                 Debug.Log(minionData.minionsUsedInTheWave.Length);
@@ -148,16 +157,23 @@ public class SpawnerSystem : MonoBehaviour
                 if (j == minionData.minionsUsedInTheWave.Length - 1 && !spawnEventEndedHasBeenHandled && !GameManager.Instance.WaveCountHasBeenSet)
                 {
                     GameManager.Instance.UpdateWaveCount();
-                    //Spawn Sound Event : Portal Closing
-                    // UtilityClass.PlaySoundGroupImmediatly(spawnCustomEvent, transform);
-                    //Spawn Sound Event : Stop Looping spawning
-                    //MasterAudio.StopAllOfSound(spawnCustomEvent);
                 }
             }
         }
 
+        //Close trigger
+        MyAnimator.SetTrigger("ClosePortal");
+
         //Change spawner state
         waveState = WaveState.Standby;
+    }
+
+    public void PlayClosingPortalSFX()
+    {
+        //Spawn Sound Event: Stop Looping spawning
+        MasterAudio.StopAllOfSound(portalLoopSFX);
+        //Spawn Sound Event: Portal Closing
+        UtilityClass.PlaySoundGroupImmediatly(closePortalSFX, transform);
     }
 
     public bool HasEntityToSpawn()

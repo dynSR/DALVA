@@ -159,6 +159,13 @@ public class SpawnerSystem : MonoBehaviour
 
         //Change spawner state
         waveState = WaveState.Standby;
+
+        if (IndexOfCurrentWave == Waves.Count - 1)
+        {
+            Debug.Log("END OF WAVES");
+            GameManager.Instance.itsFinalWave = true;
+            GameManager.Instance.RecountRemainingMonster();
+        }
     }
 
     public void PlayClosingPortalSFX()

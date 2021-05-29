@@ -118,8 +118,11 @@ public class PlayerInteractions : InteractionSystem
 
     void ResetAgentState()
     {
-        Controller.Agent.isStopped = false;
-        Controller.Agent.stoppingDistance = 0.2f;
+        if(Controller.Agent.enabled)
+        {
+            Controller.Agent.isStopped = false;
+            Controller.Agent.stoppingDistance = 0.2f;
+        }
     }
 
     public override void Interact()

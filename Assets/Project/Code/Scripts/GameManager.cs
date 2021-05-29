@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
     public int RemainingMonstersValue = 0;
     private bool gameWasInPlayMod = false;
 
+    public bool itsFinalWave = false;
+    public bool mapIsEasy = false;
+
     public Transform Player { get; set; }
     
     void Start()
@@ -103,6 +106,12 @@ public class GameManager : MonoBehaviour
 
         if (RemainingMonstersValue == 0 && ItIsABossWave)
         {
+            if (itsFinalWave)
+            {
+                Victory();
+                return;
+            }
+
             ResetWhenBossWaveIsDone();
             //Hide UI
         }
@@ -113,6 +122,25 @@ public class GameManager : MonoBehaviour
         ItIsABossWave = false;
         UpdateWaveCount();
         UpdateSpawnersState();
+    }
+
+    public void RecountRemainingMonster()
+    {
+        EntityDetection[] entitiesDetected = (EntityDetection[])FindObjectsOfType(typeof(EntityDetection));
+        int value = 0;
+
+        foreach (EntityDetection entity in entitiesDetected)
+        {
+            EntityStats entityStats = entity.gameObject.GetComponent<EntityStats>();
+
+            if (entity.ThisTargetIsAMinion(entity) && !entityStats.IsDead)
+            {
+                value++;
+            }  
+        }
+
+        RemainingMonstersValue = value;
+        //Update UI;
     }
 
     public void UpdateWaveCount()
@@ -136,11 +164,12 @@ public class GameManager : MonoBehaviour
         }
     }
     
-
     public void ShopPhase()
     {
         SetGameToStandbyMod();
-        PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
+
+        if (!mapIsEasy)
+            PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
     }
 
     #region Game Mods

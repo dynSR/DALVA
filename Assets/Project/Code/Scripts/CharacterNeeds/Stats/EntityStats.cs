@@ -471,6 +471,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         GiveRessourcesToAPlayerOnDeath(GetStat(StatType.RessourcesGiven).Value);
 
         MyCollider.enabled = false;
+        Controller.Agent.enabled = false;
 
         if (transform.GetComponent<PlayerController>() != null)
             transform.GetComponent<PlayerController>().IsPlayerInHisBase = true;
@@ -523,6 +524,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             respawnVFX.SetActive(true);
 
         //Visibility State
+        Controller.Agent.enabled = true;
         EntityDetection.enabled = true;
         MyCollider.enabled = true;
 

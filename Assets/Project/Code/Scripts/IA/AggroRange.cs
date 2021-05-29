@@ -10,6 +10,8 @@ public class AggroRange : MonoBehaviour
     private EntityStats Stats => GetComponentInParent<EntityStats>();
     #endregion
 
+    public bool isAGuardian = false;
+
     private void OnTriggerEnter(Collider other)
     {
         AssignTarget(other);
@@ -28,12 +30,12 @@ public class AggroRange : MonoBehaviour
 
         if (entityStats != null 
             && entityStats.EntityTeam != Stats.EntityTeam
-            && entityStats.EntityTeam != EntityTeam.NEUTRAL
-            && !entityFound.ThisTargetIsAMonster(entityFound) 
+            //&& entityStats.EntityTeam != EntityTeam.NEUTRAL
+            && ((!entityFound.ThisTargetIsAMonster(entityFound) && !isAGuardian) || (entityFound.ThisTargetIsAMonster(entityFound) && isAGuardian))
             && !entityFound.ThisTargetIsAStele(entityFound)
             && !entityFound.ThisTargetIsASteleEffect(entityFound))
         {
-            if (!entityStats.IsDead /*&& other.GetComponent<VisibilityState>().IsVisible*/)
+            if (!entityStats.IsDead)
             {
                 Debug.Log(entityStats.name, transform);
 

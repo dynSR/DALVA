@@ -19738,6 +19738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d257e5b38a499384db779c534f42382c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneType: 0
   statsOfEntitiesInTrigger: []
   guardianStatusEffect: {fileID: 11400000, guid: 2b51864a301f1a04e9c39c853d3de2c4, type: 2}
   delayBeforeApplyingEffect: 3
@@ -29672,6 +29673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e1efdf66137b444a58f6392c954c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAGuardian: 1
 --- !u!1 &3112521692212516114
 GameObject:
   m_ObjectHideFlags: 0
@@ -95666,6 +95668,8 @@ MonoBehaviour:
   stunVFX: {fileID: 3801016840393662399}
   rootedVFX: {fileID: 1496706903331998080}
   slowedVFX: []
+  burningVFX: {fileID: 0}
+  poisonnedVFX: {fileID: 0}
   networkPosition: {x: 0, y: 0, z: 0}
   networkRotation: {x: 0, y: 0, z: 0, w: 1}
   networkSpeed: 0

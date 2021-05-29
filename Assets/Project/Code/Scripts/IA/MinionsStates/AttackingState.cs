@@ -12,7 +12,9 @@ class AttackingState : IState
 
     public void Exit()
     {
-        controller.Agent.isStopped = false;
+        if(controller.Agent.enabled)
+            controller.Agent.isStopped = false;
+
         controller.NPCInteractions.StoppingDistance = 0.2f;
 
         controller.NPCInteractions.ResetInteractionState();

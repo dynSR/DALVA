@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c75cf5b6273234cb185f17d227fc4c, type: 3}
+  m_Name: Item_LameRuniqueDeCuChulainn
+  m_EditorClassIdentifier: 
+  itemName: "Lame Runique de C\xF9 Chulainn"
+  itemIcon: {fileID: 21300000, guid: a97fef4b3955f8d94c867cfbefd149db, type: 3}
+  itemDescription: "+ 50 puissance magique\n+ 50 puissance physique\n+ 300 sant\xE9\n+
+    20% r\xE9duction temps recharge"
+  itemCost: 3000
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
+  itemModifiers:
+  - Value: 50
+    StatType: 9
+    Type: 100
+  - Value: 50
+    StatType: 8
+    Type: 100
+  - Value: 300
+    StatType: 0
+    Type: 100
+  - Value: 0.2
+    StatType: 18
+    Type: 200

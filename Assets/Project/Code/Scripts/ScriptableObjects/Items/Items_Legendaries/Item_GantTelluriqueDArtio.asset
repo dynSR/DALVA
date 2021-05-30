@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c75cf5b6273234cb185f17d227fc4c, type: 3}
+  m_Name: Item_GantTelluriqueDArtio
+  m_EditorClassIdentifier: 
+  itemName: Gant Tellurique d'Artio
+  itemIcon: {fileID: 21300000, guid: 593d064ad8fc9d2c6ac1b75c68f1d3f1, type: 3}
+  itemDescription: "+ 35% chance critique\n+ 50 resistance magique\n+ 50 resistance
+    physique\n- 20% d\xE9gats re\xE7u"
+  itemCost: 3000
+  itemIsAnAbility: 0
+  abilityIndex: 0
+  abilityEffectToAssign: 0
+  itemModifiers:
+  - Value: 0.35
+    StatType: 17
+    Type: 200
+  - Value: 50
+    StatType: 5
+    Type: 100
+  - Value: 50
+    StatType: 4
+    Type: 100
+  - Value: 0.2
+    StatType: 23
+    Type: 200

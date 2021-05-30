@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour
             Instance = this;
             //DontDestroyOnLoad(gameObject);
 
-            Player = GameObject.FindGameObjectWithTag("Player").transform;
-
             if (Spawner == null)
                 Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
+
+            ActivateTheRightCharacter();
 
             //Debug.Log("COUCOU", transform);
         }
@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour
 
         DalvaLifePoints = CalculateDalvaLifePoints();
         UIManager.Instance.UpdatePlaceToDefendHealth(DalvaLifePoints);
+
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
@@ -111,6 +113,19 @@ public class GameManager : MonoBehaviour
         }
 
         return value;
+    }
+
+    private void ActivateTheRightCharacter()
+    {
+        if (GameParameters.classIsMage)
+        {
+            MageCharacter.SetActive(true);
+        }
+        else if (!GameParameters.classIsMage)
+        {
+            WarriorCharacter.SetActive(true);
+        }
+        else MageCharacter.SetActive(true);
     }
 
     private void UpdateInternalCounter()

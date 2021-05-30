@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Ability_Warrior_A
   m_EditorClassIdentifier: 
   abilityName: Warrior_A
-  abilityDescription: "La prochaine attaque inflige (20 + 30% PP) d\xE9g\xE2ts physiques
-    suppl\xE9mentaires et ralentit la cible touch\xE9e de 60% VD pendant 1 seconde. "
+  abilityDescription: "La prochaine attaque inflige des d\xE9g\xE2ts physiques suppl\xE9mentaires."
   abilityKey: 97
   abilityIcon: {fileID: 21300000, guid: 593d064ad8fc9d2c6ac1b75c68f1d3f1, type: 3}
   abilityCost: 0
@@ -47,8 +46,8 @@ MonoBehaviour:
   effectAppliedOnMarkedEnemy: {fileID: 0}
   abilityRange: 0
   abilityAreaOfEffect: 0
-  noneType: 1
-  targetedType: 0
+  noneType: 0
+  targetedType: 1
   aimedType: 0
   zoneType: 0
   abilityCooldown: 5

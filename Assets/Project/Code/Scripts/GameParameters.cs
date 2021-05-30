@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameParameters : MonoBehaviour
 {
-    public enum Class { None, Mage, Warrior }
-
-    public Class classChosen = Class.None;
+    public static bool classIsMage = false;
 
     #region Singleton
     public static GameParameters Instance;
@@ -25,33 +21,13 @@ public class GameParameters : MonoBehaviour
     }
     #endregion
 
-    private void Start()
-    {
-        ActivateTheRightCharacter();
-    }
-
-    public void ActivateTheRightCharacter()
-    {
-        if(GameManager.Instance != null)
-        {
-            if (classChosen == Class.Mage)
-            {
-                GameManager.Instance.MageCharacter.SetActive(true);
-            }
-            else if (classChosen == Class.Warrior)
-            {
-                GameManager.Instance.WarriorCharacter.SetActive(true);
-            }
-        }
-    }
-
     public void SetClassChosenToMage()
     {
-        classChosen = Class.Mage;
+        classIsMage = true;
     }
 
     public void SetClassChosenToWarrior()
     {
-        classChosen = Class.Warrior;
+        classIsMage = false;
     }
 }

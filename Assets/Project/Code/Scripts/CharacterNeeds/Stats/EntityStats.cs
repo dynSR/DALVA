@@ -303,8 +303,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         EntityStats targetStats = target.GetComponent<EntityStats>();
 
-        ActiveHealVFX();
-
         if (targetStats != null)
         {
             if (targetStats.GetStat(StatType.Health).Value == targetStats.GetStat(StatType.Health).MaxValue) return;
@@ -316,10 +314,12 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             {
                 healAmount = targetStats.GetStat(StatType.Health).MaxValue - targetStats.GetStat(StatType.Health).Value;
                 targetStats.GetStat(StatType.Health).Value += healAmount;
+                ActiveHealVFX();
             }
             else
             {
                 targetStats.GetStat(StatType.Health).Value += healAmount;
+                ActiveHealVFX();
             }
 
             HealthPercentage = CalculateLifePercentage();

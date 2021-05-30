@@ -9,6 +9,7 @@ public enum GameState
     StandbyMod,
     Victory,
     Defeat,
+    Tutorial,
 }
 
 public class GameManager : MonoBehaviour
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             //DontDestroyOnLoad(gameObject);
+
+            Player = GameObject.FindGameObjectWithTag("Player").transform;
 
             if (Spawner == null)
                 Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
@@ -57,13 +60,23 @@ public class GameManager : MonoBehaviour
 
     public bool itsFinalWave = false;
     public bool mapIsEasy = false;
+    public bool tutorielDisplayed = false;
+
+    public int DalvaLifePoints = 0;
+    public List<PlaceToDefend> placesToDefend;
+
+    public GameObject MageCharacter;
+    public GameObject WarriorCharacter;
 
     public Transform Player { get; set; }
     
     void Start()
     {
-        ShopPhase();
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (!mapIsEasy) ShopPhase();
+        else SetGameToTutorialMod();
+
+        DalvaLifePoints = CalculateDalvaLifePoints();
+        UIManager.Instance.UpdatePlaceToDefendHealth(DalvaLifePoints);
     }
 
     void Update()
@@ -88,6 +101,18 @@ public class GameManager : MonoBehaviour
             UpdateSpawnersState();
     }
 
+    private int CalculateDalvaLifePoints()
+    {
+        int value = 0;
+
+        foreach (PlaceToDefend item in placesToDefend)
+        {
+            value += item.health;
+        }
+
+        return value;
+    }
+
     private void UpdateInternalCounter()
     {
         InternalCounter++;
@@ -101,6 +126,8 @@ public class GameManager : MonoBehaviour
 
     public void UpdateRemainingMonsterValue(int value)
     {
+        Debug.Log("UpdateRemainingMonsterValue");
+
         RemainingMonstersValue += value;
         //Display & Update UI
 
@@ -166,10 +193,10 @@ public class GameManager : MonoBehaviour
     
     public void ShopPhase()
     {
-        SetGameToStandbyMod();
-
-        if (!mapIsEasy)
+        if (!tutorielDisplayed)
             PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
+
+        SetGameToStandbyMod();
     }
 
     #region Game Mods
@@ -218,7 +245,7 @@ public class GameManager : MonoBehaviour
     {
         GameState = GameState.StandbyMod;
 
-        if (Time.timeScale != 1) Time.timeScale = 1;
+        Time.timeScale = 0;
 
         UIManager.Instance.HidePauseMenu();
     }
@@ -229,15 +256,27 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public void SetGameToTutorialMod()
+    {
+        GameState = GameState.Tutorial;
+
+        if (mapIsEasy && tutorielDisplayed)
+            PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+    }
+
     public void Victory()
     {
         GameState = GameState.Victory;
+        UIManager.Instance.DisplayVictory();
+
         Time.timeScale = 0;
     }
 
     public void Defeat()
     {
         GameState = GameState.Defeat;
+        UIManager.Instance.DisplayDefeat();
+
         Time.timeScale = 0;
     }
     #endregion

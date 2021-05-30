@@ -31,7 +31,7 @@ public class AggroRange : MonoBehaviour
         if (entityStats != null 
             && entityStats.EntityTeam != Stats.EntityTeam
             //&& entityStats.EntityTeam != EntityTeam.NEUTRAL
-            && ((!entityFound.ThisTargetIsAMonster(entityFound) && !isAGuardian) || (entityFound.ThisTargetIsAMonster(entityFound) && isAGuardian))
+            && ((!entityFound.ThisTargetIsAMonster(entityFound) && (!isAGuardian || isAGuardian)) || (entityFound.ThisTargetIsAMonster(entityFound) && isAGuardian))
             && !entityFound.ThisTargetIsAStele(entityFound)
             && !entityFound.ThisTargetIsASteleEffect(entityFound))
         {

@@ -16,37 +16,8 @@
 
         protected virtual void Awake()
         {
-
             GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
             playerHUD.SetActive(true);
-
-            //DontDestroyOnLoad(gameObject);
-            ////Reseau
-            //if (GameObject.Find("GameNetworkManager") != null && photonView != null && photonView.IsMine)
-            //{
-            //    localPlayerInstance = gameObject;
-            //    localPlayerInstance.GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
-            //}
-            ////Local
-            //else if (GameObject.Find("GameNetworkManager") == null)
-            //{
-            //    GetComponent<PlayerController>().InstantiateCharacterCameraAtStartOfTheGame();
-            //    playerHUD.SetActive(true);
-            //}
-        }
-
-        private void Start()
-        {
-            ////Everything that belong to the local player
-            //if (photonView.IsMine)
-            //{
-            //    playerHUD.SetActive(true);
-            //    isMine = true;
-            //}
-
-            ////Match the team of the player and the character
-            //if(photonView.Owner.CustomProperties["Team"].ToString() == "0") photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.DALVA;
-            //else photonView.GetComponent<EntityStats>().EntityTeam = EntityTeam.HULRYCK;
         }
     }
 

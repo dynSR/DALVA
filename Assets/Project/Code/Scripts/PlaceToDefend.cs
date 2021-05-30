@@ -9,26 +9,37 @@ public class PlaceToDefend : MonoBehaviour
 
     public int health;
     public EntityTeam team;
+    public GameObject passingThroughPortalVFX;
 
     private void Start()
     {
-        OnHealthValueChanged?.Invoke(health);
+        OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         EntityStats stats = other.GetComponent<EntityStats>();
+        NPCController npcController = other.GetComponent<NPCController>();
 
-        if(stats != null && stats.EntityTeam != team && stats.EntityTeam != EntityTeam.NEUTRAL)
+        if (stats != null && stats.EntityTeam != team && stats.EntityTeam != EntityTeam.NEUTRAL)
         {
-            health -= stats.DamageAppliedToThePlaceToDefend;
+            GameManager.Instance.DalvaLifePoints -= stats.DamageAppliedToThePlaceToDefend;
             Destroy(stats.gameObject);
 
-            OnHealthValueChanged?.Invoke(health);
+            OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
 
-            if (health <= 0)
+            if(!passingThroughPortalVFX.activeInHierarchy)
+                passingThroughPortalVFX.SetActive(true);
+
+            if (GameManager.Instance.DalvaLifePoints <= 0)
             {
                 GameManager.Instance.Defeat();
+            }
+
+            if (npcController != null && npcController.IsABossWaveMember 
+                || npcController != null && GameManager.Instance.itsFinalWave)
+            {
+                GameManager.Instance.UpdateRemainingMonsterValue(-1);
             }
         }
     }

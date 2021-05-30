@@ -25,8 +25,8 @@ public class WaveStateDisplayer : MonoBehaviour
     {
         ToggleButtonState();
 
-
-        if (!GameManager.Instance.GameIsInPlayMod()) return;
+        if (!GameManager.Instance.GameIsInPlayMod()
+            || spawner.waveState == WaveState.IsSpawning) return;
 
         UpdateFillAmount();
     }

@@ -4,43 +4,54 @@ using UnityEngine;
 
 public class GameParameters : MonoBehaviour
 {
-    #region Fields
-    //singleton
-    public static GameParameters singleton;
+    public enum Class { None, Mage, Warrior }
 
-    //Game informations
-    public bool characterClass;
-    public int lifeMalus;
-    public int attackMalus;
-    public int speedMalus;
-    public int steleMalus;
+    public Class classChosen = Class.None;
 
-    #endregion
+    #region Singleton
+    public static GameParameters Instance;
 
     private void Awake()
     {
-        if (singleton == null) singleton = this;
-        else Destroy(this);
+        if (Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            DontDestroyOnLoad(this);
+            Instance = this;
+        }
+    }
+    #endregion
+
+    private void Start()
+    {
+        ActivateTheRightCharacter();
     }
 
-    void Start()
+    public void ActivateTheRightCharacter()
     {
-        DontDestroyOnLoad(this);
-
-        characterClass = false;
-        lifeMalus = 0;
-        attackMalus = 0;
-        speedMalus = 0;
-        steleMalus = 0;
-
+        if(GameManager.Instance != null)
+        {
+            if (classChosen == Class.Mage)
+            {
+                GameManager.Instance.MageCharacter.SetActive(true);
+            }
+            else if (classChosen == Class.Warrior)
+            {
+                GameManager.Instance.WarriorCharacter.SetActive(true);
+            }
+        }
     }
 
-    public void SetGameParameters(bool charaClass, int lifeMalusValue, int attackMalusValue, int speedMalusValue, int steleMalusValue)
+    public void SetClassChosenToMage()
     {
-        characterClass = charaClass;
-        lifeMalus = lifeMalusValue;
-        attackMalus = attackMalusValue;
-        speedMalus = speedMalusValue;
-        steleMalus = steleMalusValue;
+        classChosen = Class.Mage;
+    }
+
+    public void SetClassChosenToWarrior()
+    {
+        classChosen = Class.Warrior;
     }
 }

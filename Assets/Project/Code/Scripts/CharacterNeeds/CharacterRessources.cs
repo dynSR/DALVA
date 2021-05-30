@@ -42,7 +42,7 @@ public class CharacterRessources : MonoBehaviour
     private void Start()
     {
         UpdatePlayerRessourcesValueText(CurrentAmountOfPlayerRessources);
-        //InvokeRepeating(nameof(AddRessourcesOvertime), passiveEarningDelay, 1);
+        InvokeRepeating(nameof(AddRessourcesOvertime), passiveEarningDelay, 1);
     }
 
     void Update()

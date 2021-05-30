@@ -140,7 +140,7 @@ public class MainMenuUIManager : MonoBehaviour
     {
         //Init
         myAnimator = GetComponentInParent<Animator>();
-        myGameParameters = GameParameters.singleton;
+        myGameParameters = GameParameters.Instance;
 
         //Play Tab
         //currentLifeMalus = myGameParameters.lifeMalus;

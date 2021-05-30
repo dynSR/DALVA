@@ -19,6 +19,10 @@ public class UIManager : MonoBehaviour
     [Header("WAVE COUNT")]
     [SerializeField] private TextMeshProUGUI waveCountText;
 
+    [Header("WAVE COUNT")]
+    public GameObject victoryScreen;
+    public GameObject defeatScreen;
+
     float timeValue = 0f;
 
     public GameObject pauseMenu;
@@ -132,5 +136,14 @@ public class UIManager : MonoBehaviour
         Debug.Log("Quit Game");
     }
 
+    public void DisplayVictory()
+    {
+        victoryScreen.SetActive(true);
+    }
+
+    public void DisplayDefeat()
+    {
+        defeatScreen.SetActive(true);
+    }
     #endregion
 }

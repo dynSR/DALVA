@@ -36,6 +36,10 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         cameraConfiner = GameObject.FindWithTag("CameraConfiner").GetComponent<BoxCollider>();
+    }
+
+    private void Start()
+    {
         FollowATarget(TargetToFollow);
     }
 

@@ -12,6 +12,10 @@ public class SpawnerSystem : MonoBehaviour
     public event WaveAlertHandler OnWaveStartinSoon;
     public event WaveAlertHandler OnWavePossibilityToSpawnState;
 
+    public delegate void TutorialHandler();
+    public event TutorialHandler OnFirstWaveSpawned;
+    public event TutorialHandler OnFirstBossWaveSpawned;
+
     [System.Serializable]
     public class Wave
     {
@@ -79,11 +83,11 @@ public class SpawnerSystem : MonoBehaviour
     {
         if (!GameManager.Instance.GameIsInPlayMod()) return;
 
-        if (waveState == WaveState.Standby && Countdown > 0)
+        if (waveState == WaveState.Standby && Countdown > 0 && !GameManager.Instance.itsFinalWave)
         {
             Countdown -= Time.deltaTime;
 
-            if (Countdown <= 0 && waveState != WaveState.IsSpawning)
+            if (Countdown <= 0)
             {
                 CallSpawnEvent();
                 //StartCoroutine(SpawnWaveCoroutine());
@@ -103,6 +107,7 @@ public class SpawnerSystem : MonoBehaviour
 
     public void CallSpawnEvent()
     {
+        waveState = WaveState.IsSpawning;
         MyAnimator.SetTrigger("OpenPortal");
         //Spawn Sound Event : Oppening Portal
         UtilityClass.PlaySoundGroupImmediatly(portalLoopSFX, transform);
@@ -137,12 +142,18 @@ public class SpawnerSystem : MonoBehaviour
                 if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
                 {
                     GameManager.Instance.ItIsABossWave = true;
+                    OnFirstBossWaveSpawned?.Invoke();
                 }
 
                 SpawnMinions(
                    minionData.minionsUsedInTheWave[j],
                     minionData.spawnLocation,
                     minionData.usedPathIndex);
+
+                if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
+                    OnFirstBossWaveSpawned?.Invoke();
+
+                OnFirstWaveSpawned?.Invoke();
 
                 yield return new WaitForSeconds(spawnRate);
 

@@ -254,9 +254,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             #endregion
 
             //Debug.Log("Health = " + GetStat(StatType.Health).Value + " physical damage = " + (int)characterPhysicalPower + " magic damage = " + (int)characterMagicalPower, transform);
-
-            NPCController npcController = GetComponent<NPCController>();
-            if (npcController != null && npcController.IsACampNPC) npcController.CompareTargetAndSourceOfDamagePositions();
         }
         else if (!CanTakeDamage)
         {
@@ -435,7 +432,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             //For NPCs
             NPCController npcController = GetComponent<NPCController>();
 
-            if (npcController != null && npcController.IsABossWaveMember)
+            if (npcController != null && npcController.IsABossWaveMember || npcController != null && GameManager.Instance.itsFinalWave)
             {
                 GameManager.Instance.UpdateRemainingMonsterValue(-1);
             }

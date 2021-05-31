@@ -154,10 +154,17 @@ public class InteractionSystem : MonoBehaviour
                 }
             }
        }
+        else ResetInteractionState();
     }
 
     IEnumerator AttackInterval(Transform target)
     {
+        if (target == null)
+        {
+            ResetInteractionState();
+            yield break;
+        }
+
         //Debug.Log("Attack Interval");
         Controller.CanMove = false;
 
@@ -220,6 +227,8 @@ public class InteractionSystem : MonoBehaviour
                 Stats.GetStat(StatType.PhysicalPenetration).Value,
                 Stats.GetStat(StatType.MagicalPenetration).Value);
 
+            if (targetStat.IsDead) ResetInteractionState();
+
 
             //Peut être utilisé pour marquer les cibles avec des auto attaques de mélée ?_?
             //if (AutoAttackCanMark) targetStat.MarkEntity(0.5f, targetStat.EntityTeam);
@@ -230,6 +239,7 @@ public class InteractionSystem : MonoBehaviour
 
             OnAttacking?.Invoke();
         }
+        else ResetInteractionState();
     }
 
     public void RangedAttack()
@@ -273,6 +283,8 @@ public class InteractionSystem : MonoBehaviour
 
     public virtual void ResetInteractionState()
     {
+        Debug.Log("ResetInteractionState");
+
         if (!Controller.IsCasting && !Controller.IsRooted && !Controller.IsStunned)
             Controller.CanMove = true;
 

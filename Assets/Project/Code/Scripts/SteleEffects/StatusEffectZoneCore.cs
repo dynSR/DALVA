@@ -73,21 +73,24 @@ public abstract class StatusEffectZoneCore : MonoBehaviour
 
         for (int i = 0; i < statsOfEntitiesInTrigger.Count; i++)
         {
-            RemoveEffect(statsOfEntitiesInTrigger[i]);
-
-            Debug.Log("EH OH WHY IT IS NOT WORKING ?");
-
-            switch (zoneType)
+            if (statsOfEntitiesInTrigger[i] != null)
             {
-                case ZoneType.Frost:
-                    statsOfEntitiesInTrigger[i].Controller.DeactivateSlowVFX();
-                    break;
-                case ZoneType.Weakness:
-                    statsOfEntitiesInTrigger[i].Controller.DeactivatePoisonVFX();
-                    break;
-                case ZoneType.Burn:
-                    statsOfEntitiesInTrigger[i].Controller.DeactivateBurnVFX();
-                    break;
+                RemoveEffect(statsOfEntitiesInTrigger[i]);
+
+                Debug.Log("EH OH WHY IT IS NOT WORKING ?");
+
+                switch (zoneType)
+                {
+                    case ZoneType.Frost:
+                        statsOfEntitiesInTrigger[i].Controller.DeactivateSlowVFX();
+                        break;
+                    case ZoneType.Weakness:
+                        statsOfEntitiesInTrigger[i].Controller.DeactivatePoisonVFX();
+                        break;
+                    case ZoneType.Burn:
+                        statsOfEntitiesInTrigger[i].Controller.DeactivateBurnVFX();
+                        break;
+                }
             }
         }
 

@@ -31,6 +31,14 @@ public class EntityAnimationsEventHandler : MonoBehaviour
 
     public void MeleeAttack_AnimationEvent()
     {
+        if (Interactions.Target == null)
+        {
+            Interactions.ResetInteractionState();
+            ResetAttackState_AnimationEvent();
+            MyAnimator.SetLayerWeight(1, 0);
+            return;
+        }
+
         Interactions.MeleeAttack();
     }
 

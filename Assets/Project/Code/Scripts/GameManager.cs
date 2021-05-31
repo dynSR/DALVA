@@ -285,6 +285,8 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.DisplayVictory();
 
         Time.timeScale = 0;
+
+        Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
     }
 
     public void Defeat()
@@ -293,6 +295,8 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.DisplayDefeat();
 
         Time.timeScale = 0;
+
+        Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
     }
     #endregion
 }

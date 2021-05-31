@@ -563,7 +563,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         ExtentedMarkTime = 0f;
 
-        //DeactivateMarkFeedback();
+        DeactivateMarkFeedback();
     }
 
     public void ActivateMarkFeedback()

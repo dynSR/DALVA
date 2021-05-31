@@ -22,4 +22,10 @@ public class MainMenuRedirector : MonoBehaviour
     {
         uiManager.StartGame();
     }
+
+    public void AnimatorEvent()
+    {
+        Animator animator = GetComponent<Animator>();
+        animator.SetBool("UsesSecondAbility", false);
+    }
 }

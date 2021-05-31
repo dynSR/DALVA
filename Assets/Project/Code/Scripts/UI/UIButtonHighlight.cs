@@ -52,6 +52,8 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         ChangeTextColor(HighlightColor);
 
+        if (isAMainMenuButton && !myButton.IsInteractable()) return;
+
         DisplayBorder();
     }
 

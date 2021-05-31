@@ -4,6 +4,8 @@ public class GameParameters : MonoBehaviour
 {
     public static bool classIsMage = false;
 
+    public int maxLevelDone;
+
     #region Singleton
     public static GameParameters Instance;
 

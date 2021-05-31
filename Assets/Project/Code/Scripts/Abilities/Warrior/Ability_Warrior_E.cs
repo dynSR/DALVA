@@ -15,7 +15,7 @@ public class Ability_Warrior_E : AbilityLogic
 
     protected override void Cast()
     {
-        PlayAbilityAnimation("UsesThirdAbility", true);
+        PlayAbilityAnimation("UsesThirdAbility");
 
         StartCoroutine(ActivateDamageZone());
     }

@@ -23,7 +23,7 @@ public class Ability_Warrior_A : AbilityLogic
         switch (UsedEffectIndex)
         {
             case AbilityEffect.I:
-                PlayAbilityAnimation("UsesFirstAbility", true);
+                PlayAbilityAnimation("UsesFirstAbility");
                 Debug.Log("using first ability");
                 AbilityGivesABuff(Stats, StatType.BonusPhysicalPower, 20 + (Stats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio), this);
                 ActivateVFX(AbilityVFXToActivate);

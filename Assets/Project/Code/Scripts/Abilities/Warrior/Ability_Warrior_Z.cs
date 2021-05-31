@@ -12,7 +12,7 @@ public class Ability_Warrior_Z : AbilityLogic
 
     protected override void Cast()
     {
-        PlayAbilityAnimation("UsesSecondAbility", true);
+        PlayAbilityAnimation("UsesSecondAbility");
 
         StartCoroutine(ApplyShieldOnOneTarget(Stats, Ability.AbilityTimeToCast));
 

@@ -154,17 +154,10 @@ public class InteractionSystem : MonoBehaviour
                 }
             }
        }
-        else ResetInteractionState();
     }
 
     IEnumerator AttackInterval(Transform target)
     {
-        if (target == null)
-        {
-            ResetInteractionState();
-            yield break;
-        }
-
         //Debug.Log("Attack Interval");
         Controller.CanMove = false;
 
@@ -229,7 +222,6 @@ public class InteractionSystem : MonoBehaviour
 
             if (targetStat.IsDead) ResetInteractionState();
 
-
             //Peut être utilisé pour marquer les cibles avec des auto attaques de mélée ?_?
             //if (AutoAttackCanMark) targetStat.MarkEntity(0.5f, targetStat.EntityTeam);
 
@@ -239,7 +231,6 @@ public class InteractionSystem : MonoBehaviour
 
             OnAttacking?.Invoke();
         }
-        else ResetInteractionState();
     }
 
     public void RangedAttack()

@@ -50967,6 +50967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e1efdf66137b444a58f6392c954c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAGuardian: 0
 --- !u!1 &1781813707790909194
 GameObject:
   m_ObjectHideFlags: 0
@@ -61129,10 +61130,10 @@ MonoBehaviour:
   entityAbilities: []
   damageAppliedToThePlaceToDefend: 1
   entityStats:
-  - name: Health - 1700
+  - name: Health - 300
     statType: 0
     icon: {fileID: 0}
-    baseValue: 1700
+    baseValue: 300
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -61153,18 +61154,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 2
+  - name: MovementSpeed - 2,5
     statType: 3
     icon: {fileID: 0}
-    baseValue: 2
+    baseValue: 2.5
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 20
+  - name: PhysicalResistances - 15
     statType: 4
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 15
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -61193,18 +61194,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 40
+  - name: PhysicalPower - 0
     statType: 8
     icon: {fileID: 0}
-    baseValue: 40
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalPower - 0
+  - name: MagicalPower - 20
     statType: 9
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 20
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -61297,10 +61298,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 300
+  - name: RessourcesGiven - 150
     statType: 21
     icon: {fileID: 0}
-    baseValue: 300
+    baseValue: 150
     capValue: 0
     Value: 0
     MaxValue: 0

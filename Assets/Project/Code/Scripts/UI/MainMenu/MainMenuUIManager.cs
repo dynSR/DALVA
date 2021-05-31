@@ -33,6 +33,10 @@ public class MainMenuUIManager : MonoBehaviour
     public GameObject warriorText;
     [Tooltip("The Mage class button.")]
     public GameObject mageText;
+    [Tooltip("The warrior animator.")]
+    public Animator warriorAnimator;
+    [Tooltip("The mage animator.")]
+    public Animator mageAnimator;
     [Space(10)]
     //Difficulty
     //Life assets
@@ -244,7 +248,6 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }*/
     //Update the general difficulty text
-    //(Miam le bon code d'UI)
 
     private void ClassTextHighlight()
     {
@@ -279,6 +282,12 @@ public class MainMenuUIManager : MonoBehaviour
             warriorText.SetActive(true);
             mageText.SetActive(false);
         }
+    }
+
+    private void ResetAnimator()
+    {
+        Animator animator = GetComponent<Animator>();
+        animator.SetBool("UsesSecondAbility", false);
     }
 
     private void DifficultyTextHighlight()
@@ -423,6 +432,7 @@ public class MainMenuUIManager : MonoBehaviour
             mageButton.interactable = false;
 
             myAnimator.SetBool("isMage", true);
+            mageAnimator.SetBool("UsesSecondAbility", true);
 
             warriorText.SetActive(false);
             mageText.SetActive(true);
@@ -434,6 +444,7 @@ public class MainMenuUIManager : MonoBehaviour
             mageButton.GetComponent<UIButtonHighlight>().HideBorder();
 
             myAnimator.SetBool("isMage", false);
+            warriorAnimator.SetBool("UsesSecondAbility", true);
 
             warriorText.SetActive(true);
             mageText.SetActive(false);

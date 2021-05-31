@@ -174,7 +174,9 @@ public abstract class AbilityLogic : MonoBehaviourPun
         if (Ability.InstantCasting) return;
 
         TurnCharacterTowardsLaunchDirection();
-        Controller.Agent.ResetPath();
+
+        if(Controller.Agent.enabled)
+            Controller.Agent.ResetPath();
     }
 
     private void TurnCharacterTowardsLaunchDirection()

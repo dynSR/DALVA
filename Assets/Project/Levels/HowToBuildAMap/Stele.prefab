@@ -1321,6 +1321,7 @@ GameObject:
   - component: {fileID: 4777012961527885216}
   - component: {fileID: 5416440322511961975}
   - component: {fileID: 171545030578814410}
+  - component: {fileID: 802799415712314561}
   m_Layer: 14
   m_Name: SellButton
   m_TagString: Untagged
@@ -1505,6 +1506,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &802799415712314561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764450964322180549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: 
+  playSoundOnHover: 1
+  playSoundOnClick: 0
 --- !u!1 &1012371855373252895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1590,6 +1607,7 @@ GameObject:
   - component: {fileID: 6926286975899290486}
   - component: {fileID: 264433961808073573}
   - component: {fileID: 1185320012870868166}
+  - component: {fileID: 795173893932905956}
   m_Layer: 14
   m_Name: Button - Guardian
   m_TagString: Untagged
@@ -1775,6 +1793,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &795173893932905956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070251050370553541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretBuild
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &1076029084391815505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,6 +1898,7 @@ GameObject:
   - component: {fileID: 7127332201787258507}
   - component: {fileID: 4587423035297727989}
   - component: {fileID: 3272927123931455976}
+  - component: {fileID: 3364123743713716862}
   m_Layer: 14
   m_Name: SellButton
   m_TagString: Untagged
@@ -2048,6 +2083,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &3364123743713716862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137173443870666515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: 
+  playSoundOnHover: 1
+  playSoundOnClick: 0
 --- !u!1 &1168166709963182508
 GameObject:
   m_ObjectHideFlags: 0
@@ -2754,6 +2805,7 @@ GameObject:
   - component: {fileID: 7621076140511581313}
   - component: {fileID: 1948549906778333667}
   - component: {fileID: 689058783273294655}
+  - component: {fileID: 3482055427819331452}
   m_Layer: 14
   m_Name: Button - Rampart
   m_TagString: Untagged
@@ -2939,6 +2991,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &3482055427819331452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639042672437821688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretBuild
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &1731390688384353396
 GameObject:
   m_ObjectHideFlags: 0
@@ -8510,6 +8578,7 @@ GameObject:
   - component: {fileID: 1850125553670472997}
   - component: {fileID: 821117028383582485}
   - component: {fileID: 5024353502579899548}
+  - component: {fileID: 3128138874115783095}
   m_Layer: 14
   m_Name: UpgradeButton
   m_TagString: Untagged
@@ -8718,6 +8787,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &3128138874115783095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2443956041171553505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretLevelUP
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &2707735978650817088
 GameObject:
   m_ObjectHideFlags: 0
@@ -9193,6 +9278,7 @@ GameObject:
   - component: {fileID: 7313481659756190632}
   - component: {fileID: 5757608854224001532}
   - component: {fileID: 9215113601239755760}
+  - component: {fileID: 429401298011149821}
   m_Layer: 14
   m_Name: UpgradeButton
   m_TagString: Untagged
@@ -9377,6 +9463,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &429401298011149821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2924109012822038691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretLevelUP
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &2964555428144080386
 GameObject:
   m_ObjectHideFlags: 0
@@ -19086,6 +19188,7 @@ GameObject:
   - component: {fileID: 7518546932694101301}
   - component: {fileID: 7705189380982838656}
   - component: {fileID: 6767293394647868401}
+  - component: {fileID: 7332952878754522841}
   m_Layer: 14
   m_Name: UpgradeButton
   m_TagString: Untagged
@@ -19282,6 +19385,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &7332952878754522841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5340860900553490523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretLevelUP
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &5365199025892404859
 GameObject:
   m_ObjectHideFlags: 0
@@ -25859,6 +25978,7 @@ GameObject:
   - component: {fileID: 7821889963714923622}
   - component: {fileID: 7143961190338040018}
   - component: {fileID: 2646530533982186866}
+  - component: {fileID: 7631210495995641486}
   m_Layer: 14
   m_Name: Button - Weakness
   m_TagString: Untagged
@@ -26043,6 +26163,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &7631210495995641486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6423092651302310720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretBuild
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &6427157380558372930
 GameObject:
   m_ObjectHideFlags: 0
@@ -26242,6 +26378,7 @@ GameObject:
   - component: {fileID: 6254933553665610262}
   - component: {fileID: 4311963392468697422}
   - component: {fileID: 3280447526929998753}
+  - component: {fileID: 743689571729809471}
   m_Layer: 14
   m_Name: Button - Frost
   m_TagString: Untagged
@@ -26427,6 +26564,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &743689571729809471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6553065130216743576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretBuild
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &6559144951927961102
 GameObject:
   m_ObjectHideFlags: 0
@@ -27027,6 +27180,7 @@ GameObject:
   - component: {fileID: 4909092595442195450}
   - component: {fileID: 8787791972162489322}
   - component: {fileID: 7812508398679316035}
+  - component: {fileID: 365712290488192241}
   m_Layer: 14
   m_Name: SellButton
   m_TagString: Untagged
@@ -27211,6 +27365,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &365712290488192241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7064481978942504066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: 
+  playSoundOnHover: 1
+  playSoundOnClick: 0
 --- !u!1 &7154973831855600226
 GameObject:
   m_ObjectHideFlags: 0
@@ -33890,6 +34060,7 @@ GameObject:
   - component: {fileID: 6137102945416905876}
   - component: {fileID: 432346395451807606}
   - component: {fileID: 505290802728018846}
+  - component: {fileID: 4514859055498186833}
   m_Layer: 14
   m_Name: Button - Sentinel
   m_TagString: Untagged
@@ -34074,6 +34245,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &4514859055498186833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9016993686571034550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UITurretBuild
+  playSoundOnHover: 1
+  playSoundOnClick: 1
 --- !u!1 &9048102449117166834
 GameObject:
   m_ObjectHideFlags: 0

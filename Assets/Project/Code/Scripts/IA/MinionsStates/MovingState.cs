@@ -95,7 +95,7 @@ class MovingState : IState
     void MoveTowardsWaypoint()
     {
         //Distance is too high towards next waypoint - Keep moving towards it...
-        Debug.Log("Moving towards waypoint");
+        //Debug.Log("Moving towards waypoint");
 
         if (controller.Agent.stoppingDistance != 0f)
             controller.Agent.stoppingDistance = 0f;

@@ -20,7 +20,7 @@ public class AggroRange : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         ResetTarget(other);
-        CheckForNewTarget();
+        //CheckForNewTarget();
     }
 
     private void AssignTarget(Collider other)

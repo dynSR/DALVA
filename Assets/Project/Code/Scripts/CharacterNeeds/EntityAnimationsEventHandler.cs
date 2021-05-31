@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DarkTonic.MasterAudio;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EntityAnimationsEventHandler : MonoBehaviour
@@ -13,6 +14,9 @@ public class EntityAnimationsEventHandler : MonoBehaviour
 
     bool attackAnimationHasBeenChosen = false;
 
+    [Header("SFX ANIMATION")]
+    [SoundGroup][SerializeField] private string meleeAttackSound;
+
     private void Awake()
     {
         if (Stats != null)
@@ -23,27 +27,29 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     public void RangedAttack_AnimationEvent()
     {
         Interactions.RangedAttack();
-        //PickAnAttackAnimation();
     }
 
     public void MeleeAttack_AnimationEvent()
     {
         Interactions.MeleeAttack();
-        //PickAnAttackAnimation();
     }
 
     public void ResetAttackState_AnimationEvent()
     {
         Interactions.CanPerformAttack = true;
         Interactions.HasPerformedAttack = false;
-        //attackAnimationHasBeenChosen = false;
+    }
+
+    public void PlayMeleeAttackSound()
+    {
+        UtilityClass.PlaySoundGroupImmediatly(meleeAttackSound, transform);
     }
     #endregion
 
     #region Abilities
     public void LockCharacterInPlaceBeforeCasting(int boolValue)
     {
-        if (boolValue == 1)
+        if (boolValue == 1 && Controller.Agent.enabled)
             Controller.Agent.ResetPath();
     }
 

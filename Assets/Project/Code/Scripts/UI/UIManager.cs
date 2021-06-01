@@ -120,13 +120,13 @@ public class UIManager : MonoBehaviour
 
     public void GetBackToMainMenu()
     {
-        GameManager.Instance.SetGameToPlayMod();
+        Time.timeScale = 1;
         SceneManager.LoadScene("Scene_MainMenu");
     }
 
     public void RestartLevel()
     {
-        GameManager.Instance.SetGameToPlayMod();
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

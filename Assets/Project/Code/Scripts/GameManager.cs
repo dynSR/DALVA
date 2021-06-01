@@ -125,7 +125,6 @@ public class GameManager : MonoBehaviour
         {
             WarriorCharacter.SetActive(true);
         }
-        else MageCharacter.SetActive(true);
     }
 
     private void UpdateInternalCounter()

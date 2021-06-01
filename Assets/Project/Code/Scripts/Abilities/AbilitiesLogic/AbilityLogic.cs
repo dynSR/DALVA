@@ -466,7 +466,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
         for (int i = 0; i < effects.Count; i++)
         {
             if (effects.Count > 0)
-                effects[i].SetActive(true);
+            {
+                if (!effects[i].activeInHierarchy)
+                    effects[i].SetActive(true);
+            }
         }
     }
 
@@ -475,7 +478,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
         for (int i = 0; i < effects.Count; i++)
         {
             if (effects.Count > 0)
-                effects[i].SetActive(false);
+            {
+                if(effects[i].activeInHierarchy)
+                    effects[i].SetActive(false);
+            }  
         }
     }
     #endregion

@@ -12,17 +12,20 @@ public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerDownHa
     [SerializeField] private bool playSoundOnHover = true;
     [SerializeField] private bool playSoundOnClick = true;
 
+    public bool PlaySoundOnClick { get => playSoundOnClick; set => playSoundOnClick = value; }
+    public bool PlaySoundOnHover { get => playSoundOnHover; set => playSoundOnHover = value; }
+
     void Start() { }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(playSoundOnClick)
+        if(PlaySoundOnClick)
             UtilityClass.PlaySoundGroupImmediatly(onClickSound, transform);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(playSoundOnHover)
+        if(PlaySoundOnHover)
             UtilityClass.PlaySoundGroupImmediatly(onHoverSound, transform);
     }
 }

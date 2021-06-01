@@ -16,6 +16,7 @@ public class EntityDetection : MonoBehaviour
 
     public Outline Outline;
     public GameObject SelectionObject;
+    public Color defaultOutlineColor;
 
     private void Awake()
     {
@@ -75,8 +76,8 @@ public class EntityDetection : MonoBehaviour
 
     public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
     {
-        if (targetOutlineFound.OutlineColor != Color.black)
-            targetOutlineFound.OutlineColor = Color.black;
+        if (targetOutlineFound.OutlineColor != defaultOutlineColor)
+            targetOutlineFound.OutlineColor = defaultOutlineColor;
 
         //Debug.Log("SETTING OUTLINE TO BLACK COLOR", transform);
         //targetOutlineFound.enabled = false;

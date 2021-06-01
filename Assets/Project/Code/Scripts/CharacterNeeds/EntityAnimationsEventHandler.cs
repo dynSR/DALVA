@@ -64,7 +64,7 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     public void SetAbilityAnimationToFalse(string animationName)
     {
         MyAnimator.SetBool(animationName, false);
-        MyAnimator.SetLayerWeight(2, 0);
+        MyAnimator.SetLayerWeight(2, 1);
     }
     #endregion
 

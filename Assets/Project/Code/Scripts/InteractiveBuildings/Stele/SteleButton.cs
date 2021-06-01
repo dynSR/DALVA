@@ -12,6 +12,7 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [SerializeField] private Image selectionImage;
 
     Button ButtonComponent => GetComponent<Button>();
+    UIButtonSound ButtonSound => GetComponent<UIButtonSound>();
 
     public bool IsASellingButton { get => isASellingButton; set => isASellingButton = value; }
 
@@ -32,10 +33,12 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             if (playerRessources >= affectedStele.CurrentPurchaseCost() && impossibilityToPurchaseImage.gameObject.activeInHierarchy)
             {
                 impossibilityToPurchaseImage.gameObject.SetActive(false);
+                ButtonSound.PlaySoundOnClick = true;
             }
             else if (playerRessources < affectedStele.CurrentPurchaseCost() && !impossibilityToPurchaseImage.gameObject.activeInHierarchy)
             {
                 impossibilityToPurchaseImage.gameObject.SetActive(true);
+                ButtonSound.PlaySoundOnClick = false;
             }
         }
     }
@@ -53,7 +56,13 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < affectedStele.CurrentPurchaseCost())
+        {
             ButtonComponent.interactable = false;
+        }
+        else if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= affectedStele.CurrentPurchaseCost())
+        {
+            ButtonComponent.interactable = true;
+        }
 
         if (!selectionImage.gameObject.activeInHierarchy)
             selectionImage.gameObject.SetActive(true);
@@ -173,12 +182,19 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         Debug.Log("COUCOU STELE BUTTON CLIQUÉ");
 
-        if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < affectedStele.CurrentPurchaseCost())
-            ButtonComponent.interactable = false;
-        else if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= affectedStele.CurrentPurchaseCost())
-            ButtonComponent.interactable = true;
+        //if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources < affectedStele.CurrentPurchaseCost())
+        //{
+        //    ButtonSound.enabled = false;
+        //    ButtonComponent.interactable = false;
+        //} 
+        if (!IsASellingButton && affectedStele.InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources >= affectedStele.CurrentPurchaseCost())
+        {
+            //ButtonSound.enabled = true;
+            //ButtonComponent.interactable = true;
+            selectionImage.gameObject.SetActive(false);
+        }
 
-        selectionImage.gameObject.SetActive(false);
+        //selectionImage.gameObject.SetActive(false);
     }
 
     public void OnPointerUp(PointerEventData eventData)

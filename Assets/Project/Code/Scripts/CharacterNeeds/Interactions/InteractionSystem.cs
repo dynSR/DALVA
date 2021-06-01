@@ -67,7 +67,7 @@ public class InteractionSystem : MonoBehaviour
 
         if (Target != null)
         {
-            if (!CanPerformAttack) return;
+            //if (!CanPerformAttack) return;
 
             distance = Vector3.Distance(transform.position, Target.position);
 
@@ -109,7 +109,7 @@ public class InteractionSystem : MonoBehaviour
     {
         EntityStats targetStats = Target.GetComponent<EntityStats>();
 
-        if (targetStats != null && targetStats.IsDead)
+        if (targetStats != null && targetStats.IsDead || Target == null)
         {
             ResetInteractionState();
 
@@ -118,7 +118,7 @@ public class InteractionSystem : MonoBehaviour
 
             Target = null;
 
-            //Debug.Log("TARGET IS DEAD WHILE INTERACTING");
+            Debug.Log("TARGET IS DEAD WHILE INTERACTING");
             return;
         }
 
@@ -130,27 +130,22 @@ public class InteractionSystem : MonoBehaviour
        if (Target != null)
        {
             EntityDetection targetFound = Target.GetComponent<EntityDetection>();
-            InteractiveBuilding interactiveBuilding = Target.GetComponent<InteractiveBuilding>();
 
-            if (interactiveBuilding != null && interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL) return;
+            //COMMENTED - REMOVE IF ERRORS OCCURS
+            //InteractiveBuilding interactiveBuilding = Target.GetComponent<InteractiveBuilding>();
+            //if (interactiveBuilding != null && interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL) return;
 
             if (CanPerformAttack)
             {
-                //if its a building
-                if (targetFound.ThisTargetIsAStele(targetFound) && interactiveBuilding != null && interactiveBuilding.EntityTeam != Stats.EntityTeam)
-                {
-                    StartCoroutine(AttackInterval(Target));
-                    //Debug.Log("Attack performed on building !");
-                }
-                //else if its an entity
-                else if (Target.GetComponent<EntityStats>() != null
+                if (Target.GetComponent<EntityStats>() != null
+                    && !Target.GetComponent<EntityStats>().IsDead
                     && (targetFound.ThisTargetIsAPlayer(targetFound)
                     || targetFound.ThisTargetIsAMinion(targetFound)
                     || targetFound.ThisTargetIsAMonster(targetFound))
                     && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
                 {
                     StartCoroutine(AttackInterval(Target));
-                    //Debug.Log("Attack performed on entity!");
+                    Debug.Log("Attack performed on entity!");
                 }
             }
        }
@@ -158,7 +153,7 @@ public class InteractionSystem : MonoBehaviour
 
     IEnumerator AttackInterval(Transform target)
     {
-        //Debug.Log("Attack Interval");
+        Debug.Log("Attack Interval");
         Controller.CanMove = false;
 
         Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
@@ -220,8 +215,6 @@ public class InteractionSystem : MonoBehaviour
                 Stats.GetStat(StatType.PhysicalPenetration).Value,
                 Stats.GetStat(StatType.MagicalPenetration).Value);
 
-            if (targetStat.IsDead) ResetInteractionState();
-
             //Peut être utilisé pour marquer les cibles avec des auto attaques de mélée ?_?
             //if (AutoAttackCanMark) targetStat.MarkEntity(0.5f, targetStat.EntityTeam);
 
@@ -278,9 +271,6 @@ public class InteractionSystem : MonoBehaviour
 
         if (!Controller.IsCasting && !Controller.IsRooted && !Controller.IsStunned)
             Controller.CanMove = true;
-
-        if (Target != null)
-            Animator.SetTrigger("NoTarget");
 
         Animator.SetBool("Attack", false);
         Animator.SetLayerWeight(1, 0);

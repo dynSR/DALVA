@@ -592,41 +592,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     }
     #endregion
 
-    #region Ascension
-    //public void AscendEntity(EntityType newBaseEntity)
-    //{
-    //    BaseUsedEntity.EntityType = newBaseEntity;
-    //    EntityIsAscended = true;
-    //    EntityAbilities[3].CanBeUsed = true;
-
-    //    switch (newBaseEntity)
-    //    {
-    //        //Prowler
-    //        case EntityType.Archer:
-    //            //Augmenter la portée
-    //            break;
-    //        case EntityType.DaggerMaster:
-    //            //Les attaques de base(2) et les compétences(5) appliquent l'effet "
-    //            //"Faiblesse"". (3 secondes) Faiblesse: réduit de 1 % la RP.Max 15 % (15 marques)"
-    //            break;
-
-    //        //Warrior
-    //        case EntityType.Berzerk:
-    //            break;
-    //        case EntityType.Coloss:
-    //            break;
-
-    //        //Mage
-    //        case EntityType.Priest:
-    //            Controller.CharacterAnimator.SetBool("IsSorcerer", false);
-    //            break;
-    //        case EntityType.Sorcerer:
-    //            Controller.CharacterAnimator.SetBool("IsSorcerer", true);
-    //            break;
-    //    }
-    //}
-    #endregion
-
     #region Handle Stats
     void InitStats()
     {
@@ -715,16 +680,4 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
     }
     #endregion
-
-    private void OnApplicationQuit()
-    {
-        //if (BaseUsedEntity.EntityType == EntityType.Berzerk || BaseUsedEntity.EntityType == EntityType.Coloss)
-        //    BaseUsedEntity.EntityType = EntityType.Warrior;
-
-        //else if (BaseUsedEntity.EntityType == EntityType.Sorcerer || BaseUsedEntity.EntityType == EntityType.Priest)
-        //    BaseUsedEntity.EntityType = EntityType.Mage;
-
-        //else if (BaseUsedEntity.EntityType == EntityType.Archer || BaseUsedEntity.EntityType == EntityType.DaggerMaster)
-        //    BaseUsedEntity.EntityType = EntityType.Prowler;
-    }
 }

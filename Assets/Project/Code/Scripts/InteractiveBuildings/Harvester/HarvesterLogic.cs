@@ -23,6 +23,7 @@ public class HarvesterLogic : InteractiveBuilding
     [SerializeField] private Image harvestingFeedbackImage;
     [SerializeField] private GameObject glowEffectObject;
     [SerializeField] private GameObject harvestingEffectObject;
+    [SerializeField] private GameObject maxEffectObject;
     public HarvestState harvestState; //Its in public for debug purpose
     private bool LimitReached => CurrentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
 
@@ -82,7 +83,11 @@ public class HarvesterLogic : InteractiveBuilding
             CurrentHarvestedRessourcesValue += Time.deltaTime * harvestingTimeMultiplier;
             OnHarvestingRessources?.Invoke(CurrentHarvestedRessourcesValue, maxHarvestableRessourcesValue);
         }
-        else if (LimitReached && harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(false);
+        else if (LimitReached && harvestingEffectObject.activeInHierarchy)
+        {
+            harvestingEffectObject.SetActive(false);
+            maxEffectObject.SetActive(true);
+        }
     }
 
     private void Interaction()
@@ -91,6 +96,8 @@ public class HarvesterLogic : InteractiveBuilding
 
             timeSpentHarvesting += Time.deltaTime;
         harvestingFeedbackImage.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
+
+        GetComponentInChildren<Animator>().SetBool("Channeling", true);
 
         if (timeSpentHarvesting >= totalTimeToHarvest)
         {
@@ -112,6 +119,7 @@ public class HarvesterLogic : InteractiveBuilding
         base.ResetAfterInteraction();
 
         harvestState = HarvestState.IsHarvesting;
+        GetComponentInChildren<Animator>().SetBool("Channeling", false);
         ResetHarvestingFeedback();
     }
 
@@ -126,6 +134,8 @@ public class HarvesterLogic : InteractiveBuilding
         InitHarvester();
 
         glowEffectObject.SetActive(false);
+        maxEffectObject.SetActive(false);
+        GetComponentInChildren<Animator>().SetBool("Channeling", false);
 
         timeSpentHarvesting = 0;
 

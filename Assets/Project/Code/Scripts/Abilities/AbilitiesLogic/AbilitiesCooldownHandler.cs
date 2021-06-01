@@ -44,7 +44,7 @@ public class AbilitiesCooldownHandler : MonoBehaviour
         if (stats.GetStat(StatType.Cooldown_Reduction) != null 
             && stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
         {
-            cooldownValue -= ability.Ability.AbilityCooldown * (stats.GetStat(StatType.Cooldown_Reduction).Value / 100);
+            cooldownValue = ability.Ability.AbilityCooldown - (ability.Ability.AbilityCooldown * (stats.GetStat(StatType.Cooldown_Reduction).Value / 100));
         }
         else if (stats.GetStat(StatType.Cooldown_Reduction) == null 
             || stats.GetStat(StatType.Cooldown_Reduction) != null 

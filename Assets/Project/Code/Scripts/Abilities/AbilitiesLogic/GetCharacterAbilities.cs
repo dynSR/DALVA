@@ -48,8 +48,8 @@ public class GetCharacterAbilities : MonoBehaviour
     {
         for (int i = abilitiesInputKeys.Count - 1; i >= 0; i--)
         {
-            if (abilityContainers[i].AbilityKey != input && !abilityContainers[i].ContainedAbility.AbilitiesCooldownHandler.IsAbilityOnCooldown(abilityContainers[i].ContainedAbility)
-                || !abilityContainers[i].ContainedAbility.AbilitiesCooldownHandler.IsAbilityOnCooldown(abilityContainers[i].ContainedAbility))
+            if (abilityContainers[i].AbilityKey != input 
+               /* && !abilityContainers[i].ContainedAbility.AbilitiesCooldownHandler.IsAbilityOnCooldown(abilityContainers[i].ContainedAbility)*/)
             {
                 abilityContainers[i].ContainedAbility.CanBeUsed = false;
             }
@@ -61,8 +61,8 @@ public class GetCharacterAbilities : MonoBehaviour
     {
         for (int i = abilitiesInputKeys.Count - 1; i >= 0; i--)
         {
-            if (abilityContainers[i].AbilityKey != input && !abilityContainers[i].ContainedAbility.AbilitiesCooldownHandler.IsAbilityOnCooldown(abilityContainers[i].ContainedAbility)
-                || !abilityContainers[i].ContainedAbility.AbilitiesCooldownHandler.IsAbilityOnCooldown(abilityContainers[i].ContainedAbility))
+            if (abilityContainers[i].AbilityKey != input 
+                /*&& !abilityContainers[i].ContainedAbility.AbilitiesCooldownHandler.IsAbilityOnCooldown(abilityContainers[i].ContainedAbility)*/)
             {
                 abilityContainers[i].ContainedAbility.CanBeUsed = true;
             }

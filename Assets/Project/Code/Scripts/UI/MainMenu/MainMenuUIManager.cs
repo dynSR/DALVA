@@ -284,12 +284,6 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
 
-    private void ResetAnimator()
-    {
-        Animator animator = GetComponent<Animator>();
-        animator.SetBool("UsesSecondAbility", false);
-    }
-
     private void DifficultyTextHighlight()
     {
         if (!hasPickedADifficulty)

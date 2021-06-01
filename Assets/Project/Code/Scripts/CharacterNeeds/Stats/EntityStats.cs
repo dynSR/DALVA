@@ -432,7 +432,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             //For NPCs
             NPCController npcController = GetComponent<NPCController>();
 
-            if (npcController.IsACampNPC && (npcController != null && npcController.IsABossWaveMember || npcController != null && GameManager.Instance.itsFinalWave))
+            if (!npcController.IsACampNPC && (npcController != null && npcController.IsABossWaveMember || npcController != null && GameManager.Instance.itsFinalWave))
             {
                 GameManager.Instance.UpdateRemainingMonsterValue(-1);
             }

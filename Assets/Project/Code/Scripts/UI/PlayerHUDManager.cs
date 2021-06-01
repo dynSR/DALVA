@@ -77,6 +77,7 @@ public class PlayerHUDManager : MonoBehaviour
 
         if (statusEffectLayoutGroup.childCount > 0)
         {
+
             for (int i = 0; i < statusEffectLayoutGroup.childCount; i++)
             {
                 if (!statusEffectHandler.IsEffectAlreadyApplied(statusEffect))
@@ -86,7 +87,7 @@ public class PlayerHUDManager : MonoBehaviour
                     return;
                 }
 
-                if (statusEffectHandler.AppliedStatusEffects[i].statusEffect.StatusEffectId == statusEffect.StatusEffectId)
+                if (statusEffect.StatusEffectId == statusEffectHandler.AppliedStatusEffects[i].statusEffect.StatusEffectId)
                 {
                     Debug.Log("Same Effect ID");
                     StatusEffect foundStatusEffect = statusEffectHandler.AppliedStatusEffects[i].statusEffect;
@@ -94,7 +95,7 @@ public class PlayerHUDManager : MonoBehaviour
                     foundStatusEffect.StatusEffectContainer.ResetTimer();
 
                     //Stackable increment something here
-                    if(foundStatusEffect.IsStackable)
+                    if (foundStatusEffect.IsStackable)
                     {
                         //Do something here
                     }

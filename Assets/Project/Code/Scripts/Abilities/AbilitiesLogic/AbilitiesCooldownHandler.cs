@@ -39,10 +39,12 @@ public class AbilitiesCooldownHandler : MonoBehaviour
     {
         float cooldownValue = 0;
 
+        Debug.Log("CD Initial Value : " + cooldownValue);
+
         if (stats.GetStat(StatType.Cooldown_Reduction) != null 
             && stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
         {
-            cooldownValue -= ability.Ability.AbilityCooldown * (stats.GetStat(StatType.Cooldown_Reduction).Value / 100);
+            cooldownValue = ability.Ability.AbilityCooldown - (ability.Ability.AbilityCooldown * (stats.GetStat(StatType.Cooldown_Reduction).Value / 100));
         }
         else if (stats.GetStat(StatType.Cooldown_Reduction) == null 
             || stats.GetStat(StatType.Cooldown_Reduction) != null 
@@ -55,6 +57,8 @@ public class AbilitiesCooldownHandler : MonoBehaviour
         allAbilitiesOnCooldown.Add(new AbilityCooldownData(ability, cooldownValue));
 
         OnAbitilityUsed?.Invoke(ability);
+
+        Debug.Log("CD New Value : " + cooldownValue);
     }
 
     private void ApplyAbilityCooldown()

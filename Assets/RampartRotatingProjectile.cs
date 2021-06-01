@@ -15,6 +15,7 @@ public class RampartRotatingProjectile : MonoBehaviour
         if (canUpdateTimer)
         {
             localTimer += Time.deltaTime;
+            Debug.Log("canUpdateTimer" + canUpdateTimer);
 
             if (localTimer >= delayBeforeReappearing)
             {

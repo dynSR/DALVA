@@ -95734,6 +95734,7 @@ MonoBehaviour:
   typeOfEntity: 1
   Outline: {fileID: 537685724}
   SelectionObject: {fileID: 0}
+  defaultOutlineColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &7946902092973499997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95872,6 +95873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202f1c13af9706f4884d7122506f8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeAttackSound: 
 --- !u!1 &7946902093342609027
 GameObject:
   m_ObjectHideFlags: 0
@@ -110739,6 +110741,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3200983502664052144}
     m_Modifications:
+    - target: {fileID: 4363914639203344733, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4363914639395512194, guid: 554c8b6dd06dc9e468957be9ea6e783d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

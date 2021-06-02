@@ -29252,11 +29252,12 @@ MonoBehaviour:
   CurrentStateName: 
   isACampNPC: 1
   isABoss: 0
+  startingPosition: {fileID: 0}
   positionToLookAt: {fileID: 0}
-  aggressionLimitsValue: 2
+  aggressionLimitsValue: 3.1
   delayBeforeDecreasingAggroSteps: 0.5
-  maxAggroStep: 8
-  aggroStep: 8
+  maxAggroStep: 6
+  aggroStep: 6
 --- !u!114 &761721908316458073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29308,6 +29309,7 @@ MonoBehaviour:
   typeOfEntity: 2
   Outline: {fileID: 905860254}
   SelectionObject: {fileID: 1809557528}
+  defaultOutlineColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &761721908316458077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29475,6 +29477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202f1c13af9706f4884d7122506f8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeAttackSound: 
 --- !u!1 &761721909255786950
 GameObject:
   m_ObjectHideFlags: 0

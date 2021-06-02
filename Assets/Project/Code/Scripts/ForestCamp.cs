@@ -30,8 +30,8 @@ public class ForestCamp : MonoBehaviour
     {
         for (int i = 0; i < npcControllers.Count; i++)
         {
-            npcControllers[i].StartingPosition = startingPositions[i];
-            npcControllers[i].transform.LookAt(startingPositions[i]);
+            npcControllers[i].StartingPosition = npcControllers[i].StartingPosition;
+            npcControllers[i].transform.LookAt(npcControllers[i].PositionToLookAt);
         }
     }
 

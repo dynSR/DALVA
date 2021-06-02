@@ -49,8 +49,17 @@ public class WaveStateDisplayer : MonoBehaviour
 
     void ToggleContent(float boolValue)
     {
-        if (boolValue == 0 && content.activeInHierarchy) content.SetActive(false);
-        else if (boolValue == 1 && !content.activeInHierarchy) content.SetActive(true);
+        if (boolValue == 0 && content.activeInHierarchy)
+        {
+            content.SetActive(false);
+
+            UIButtonWithTooltip buttonTooltip = button.GetComponent<UIButtonWithTooltip>();
+            buttonTooltip.HideTooltip(buttonTooltip.Tooltip);
+        }
+        else if (boolValue == 1 && !content.activeInHierarchy)
+        { 
+            content.SetActive(true); 
+        }
     }
 
     public void SpawnWaveOnButtonClick()

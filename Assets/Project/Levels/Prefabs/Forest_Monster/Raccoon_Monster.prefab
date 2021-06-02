@@ -100261,11 +100261,12 @@ MonoBehaviour:
   CurrentStateName: 
   isACampNPC: 1
   isABoss: 0
+  startingPosition: {fileID: 0}
   positionToLookAt: {fileID: 0}
-  aggressionLimitsValue: 2
+  aggressionLimitsValue: 3.1
   delayBeforeDecreasingAggroSteps: 0.5
-  maxAggroStep: 8
-  aggroStep: 8
+  maxAggroStep: 6
+  aggroStep: 6
 --- !u!114 &5403029630810353592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100317,6 +100318,7 @@ MonoBehaviour:
   typeOfEntity: 2
   Outline: {fileID: 1502782790}
   SelectionObject: {fileID: 1024194769}
+  defaultOutlineColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5403029630810353596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100688,6 +100690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202f1c13af9706f4884d7122506f8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeAttackSound: 
 --- !u!1 &5403029631742244888
 GameObject:
   m_ObjectHideFlags: 0
@@ -115705,8 +115708,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.1577}
-  m_SizeDelta: {x: 0.20232435, y: 0.15770163}
+  m_AnchoredPosition: {x: 0, y: 0.37}
+  m_SizeDelta: {x: 0.4772253, y: 0.37197304}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8535684606271790256
 CanvasRenderer:
@@ -115736,7 +115739,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7a950e38b89c3e747835fb223034b54f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 68dcca393d977a349b84259574a6fece, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class AggroGaugeBarHandler : MonoBehaviour
@@ -18,7 +16,7 @@ public class AggroGaugeBarHandler : MonoBehaviour
     {
         controller.Stats.OnDamageTaken += DisplayAggroImage;
         controller.OnExitingIdleState += DisplayAggroImage;
-        controller.OnEnteringIdleState += HideAggroImage;
+        controller.OnMovingToStartPosition += HideAggroImage;
         controller.OnAggroValueChanged += SetAggroGauge;
     }
 
@@ -26,7 +24,7 @@ public class AggroGaugeBarHandler : MonoBehaviour
     {
         controller.Stats.OnDamageTaken -= DisplayAggroImage;
         controller.OnExitingIdleState -= DisplayAggroImage;
-        controller.OnEnteringIdleState -= HideAggroImage;
+        controller.OnMovingToStartPosition -= HideAggroImage;
         controller.OnAggroValueChanged -= SetAggroGauge;
     }
 

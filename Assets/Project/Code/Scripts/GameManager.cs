@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour
 
     [Header("WAVE")]
     [SerializeField] private int waveDone = 0;
-    private int InternalCounter = 0;
     private bool waveCountHasBeenSet = false;
 
     [Header("SPAWNERS")]
@@ -54,7 +53,6 @@ public class GameManager : MonoBehaviour
     public SpawnerSystem Spawner { get => spawner; }
     public int WaveDone { get => waveDone; set => waveDone = value; }
     public bool WaveCountHasBeenSet { get => waveCountHasBeenSet; set => waveCountHasBeenSet = value; }
-    public bool ItIsABossWave = false;
     public int RemainingMonstersValue = 0;
     private bool gameWasInPlayMod = false;
 
@@ -85,6 +83,12 @@ public class GameManager : MonoBehaviour
     {
         if (UtilityClass.IsKeyPressed(KeyCode.Escape))
         {
+            if(PlayerHUDManager.Instance.isShopWindowOpen && GameIsInPlayMod())
+            {
+                PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+                return;
+            }
+
             if (!GameIsInPause())
             {
                 PauseGame();
@@ -92,14 +96,13 @@ public class GameManager : MonoBehaviour
             else if (GameIsInPause())
             {
                 SetGameToProperMod();
-                //SetGameToPlayMod();
             }
         }
     }
 
     private void LateUpdate()
     {
-        if(GameIsInPlayMod() && !ItIsABossWave)
+        if(GameIsInPlayMod())
             UpdateSpawnersState();
     }
 
@@ -127,42 +130,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void UpdateInternalCounter()
-    {
-        InternalCounter++;
-
-        if (InternalCounter == 6)
-        {
-            InternalCounter = 0;
-            ShopPhase();
-        }
-    }
-
     public void UpdateRemainingMonsterValue(int value)
     {
         Debug.Log("UpdateRemainingMonsterValue");
 
         RemainingMonstersValue += value;
-        //Display & Update UI
-
-        if (RemainingMonstersValue == 0 && ItIsABossWave)
+        
+        if (RemainingMonstersValue == 0)
         {
             if (itsFinalWave)
             {
                 Victory();
                 return;
             }
-
-            ResetWhenBossWaveIsDone();
-            //Hide UI
         }
-    }
-
-    public void ResetWhenBossWaveIsDone()
-    {
-        ItIsABossWave = false;
-        UpdateWaveCount();
-        UpdateSpawnersState();
     }
 
     public void RecountRemainingMonster()
@@ -188,8 +169,11 @@ public class GameManager : MonoBehaviour
     {
         WaveDone++;
         UIManager.Instance.UpdateWaveCount(WaveDone);
-        UpdateInternalCounter(); 
+
+        //Not needed anymore the 5th waves rotation doesn't matter
+        //UpdateInternalCounter(); 
         WaveCountHasBeenSet = true;
+
     }
 
     public void UpdateSpawnersState()

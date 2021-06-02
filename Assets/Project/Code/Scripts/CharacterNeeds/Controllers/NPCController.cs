@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class NPCController : CharacterController
 {
-    public delegate void IdleStateHandler();
-    public event IdleStateHandler OnEnteringIdleState;
-    public event IdleStateHandler OnExitingIdleState;
+    public delegate void AgressionStateHandler();
+    public event AgressionStateHandler OnEnteringIdleState;
+    public event AgressionStateHandler OnExitingIdleState;
+    public event AgressionStateHandler OnMovingToStartPosition;
 
     public delegate void AggroStepHandler(float aggroStep);
     public event AggroStepHandler OnAggroValueChanged;
@@ -24,6 +25,7 @@ public class NPCController : CharacterController
     [SerializeField] private bool isABoss = false;
 
     [Header("FOREST CAMP NPCS ATTRIBUTES")]
+    [SerializeField] private Transform startingPosition;
     [SerializeField] private Transform positionToLookAt;
     [SerializeField] private float aggressionLimitsValue = 2.5f;
     [SerializeField] private float delayBeforeDecreasingAggroSteps = .5f;
@@ -35,7 +37,7 @@ public class NPCController : CharacterController
     public Transform PositionToLookAt { get => positionToLookAt; }
     public int AggroStep { get => aggroStep; set => aggroStep = value; }
     public int MaxAgroStep { get => maxAggroStep; }
-    public Transform StartingPosition { get; set; }
+    public Transform StartingPosition { get => startingPosition; set => startingPosition = value; }
     public bool IsInIdleState { get; set; }
     public bool AggressionLimitsReached { get => aggressionLimitsReached; set => aggressionLimitsReached = value; }
     public bool AnAllyHasBeenAttacked { get => anAllyHasBeenAttacked; set => anAllyHasBeenAttacked = value; }
@@ -103,6 +105,8 @@ public class NPCController : CharacterController
 
     private void Reset()
     {
+        OnMovingToStartPosition?.Invoke();
+
         Debug.Log("Reset");
 
         ChangeState(new MovingState());
@@ -138,43 +142,6 @@ public class NPCController : CharacterController
             {
                 NPCInteractions.Target = Stats.SourceOfDamage;
                 ChangeState(new AttackingState());
-            }
-            //else if (NPCInteractions.HasATarget)
-            //{
-            //    CompareTargetAndSourceOfDamagePositions();
-            //}
-        }
-    }
-
-    public void CompareTargetAndSourceOfDamagePositions()
-    {
-        EntityStats sourceOfDamageStats = Stats.SourceOfDamage.GetComponent<EntityStats>();
-        VisibilityState sourceOfDamageVisibilityState = Stats.SourceOfDamage.GetComponent<VisibilityState>();
-
-        //if an entity did damage to me and its different from my current target then...
-        if (Stats.SourceOfDamage != null && Stats.SourceOfDamage != NPCInteractions.Target)
-        {
-            //first make sure that this entity (not my target) is not dead and still visible - We directly check the opposite and return if it is true.
-            if (sourceOfDamageStats.IsDead || !sourceOfDamageVisibilityState.IsVisible)
-            {
-                Stats.SourceOfDamage = null;
-                return;
-            }
-
-            float distanceWithCurrentTarget = Vector3.Distance(transform.position, NPCInteractions.Target.position);
-            float distanceWithSourceOfDamage = Vector3.Distance(transform.position, Stats.SourceOfDamage.position);
-
-            //else if the entity did damage to me and is nearer than my actual target, this entity becomes my new current target.
-            if (distanceWithCurrentTarget <= distanceWithSourceOfDamage) return;
-
-            if (distanceWithCurrentTarget > distanceWithSourceOfDamage)
-            {
-                //Debug.Log("Current target was too far, need to swap");
-                NPCInteractions.Target = Stats.SourceOfDamage;
-                AggroStep--;
-                OnAggroValueChanged?.Invoke(AggroStep);
-
-                if (AggroStep <= 0) Reset();
             }
         }
     }

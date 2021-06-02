@@ -90,7 +90,6 @@ public class SpawnerSystem : MonoBehaviour
             if (Countdown <= 0)
             {
                 CallSpawnEvent();
-                //StartCoroutine(SpawnWaveCoroutine());
             }
         }
         else if (waveState == WaveState.WaitUntilStartOfTheGame && FirstCountdown > 0)
@@ -100,7 +99,6 @@ public class SpawnerSystem : MonoBehaviour
             if (FirstCountdown <= 0 && waveState != WaveState.IsSpawning)
             {
                 CallSpawnEvent();
-                //StartCoroutine(SpawnWaveCoroutine());
             }
         }
     }
@@ -109,8 +107,12 @@ public class SpawnerSystem : MonoBehaviour
     {
         waveState = WaveState.IsSpawning;
         MyAnimator.SetTrigger("OpenPortal");
+
         //Spawn Sound Event : Oppening Portal
         UtilityClass.PlaySoundGroupImmediatly(portalLoopSFX, transform);
+
+        //Hide Spawn State Displayer(s)
+        OnWavePossibilityToSpawnState?.Invoke(0);
     }
 
     public void SpawnWave()
@@ -120,11 +122,6 @@ public class SpawnerSystem : MonoBehaviour
 
     private IEnumerator SpawnWaveCoroutine()
     {
-        waveState = WaveState.IsSpawning;
-
-        //Hide Spawn State Displayer(s)
-        OnWavePossibilityToSpawnState?.Invoke(0);
-
         //Waves[0,1,2...]
         Wave currentWave = Waves[IndexOfCurrentWave];
         Debug.Log(currentWave.waveName);
@@ -139,9 +136,9 @@ public class SpawnerSystem : MonoBehaviour
                 Debug.Log(minionData.minionsUsedInTheWave.Length);
                 NPCController spawningMinionController = minionData.minionsUsedInTheWave[j].GetComponent<NPCController>();
 
-                if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
+                //Need to be modified here to tutorial purpose - show when the first boss spawn
+                if (spawningMinionController.IsABoss)
                 {
-                    GameManager.Instance.ItIsABossWave = true;
                     OnFirstBossWaveSpawned?.Invoke();
                 }
 
@@ -149,9 +146,6 @@ public class SpawnerSystem : MonoBehaviour
                    minionData.minionsUsedInTheWave[j],
                     minionData.spawnLocation,
                     minionData.usedPathIndex);
-
-                if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
-                    OnFirstBossWaveSpawned?.Invoke();
 
                 OnFirstWaveSpawned?.Invoke();
 
@@ -171,6 +165,7 @@ public class SpawnerSystem : MonoBehaviour
         //Change spawner state
         waveState = WaveState.Standby;
 
+        //Its final wave
         if (IndexOfCurrentWave == Waves.Count - 1)
         {
             Debug.Log("END OF WAVES");
@@ -192,7 +187,6 @@ public class SpawnerSystem : MonoBehaviour
         bool hasEntityToSpawn = false;
 
         if (Waves.Count <= IndexOfCurrentWave
-            || GameManager.Instance.ItIsABossWave
             || Waves[IndexOfCurrentWave].minionsData.Count == 0)
         {
             hasEntityToSpawn = false;
@@ -212,16 +206,6 @@ public class SpawnerSystem : MonoBehaviour
         Debug.Log(minion.name + " spawned !");
 
         GameObject currentMinion = Instantiate(minion, spawnLocation.position, spawnLocation.rotation);
-
-        NPCController spawningMinionController = currentMinion.GetComponent<NPCController>();
-
-        if (GameManager.Instance.ItIsABossWave)
-        {
-            GameManager.Instance.UpdateRemainingMonsterValue(1);
-            spawningMinionController.IsABossWaveMember = true;
-
-            Debug.Log("SET SPAWNED MINION AS A BOSS WAVE MEMBER !!!!!!!!!!!!");
-        }
 
         Transform pathUsed = Paths[pathIndex];
 

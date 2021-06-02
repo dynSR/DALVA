@@ -58,6 +58,8 @@ public class UIManager : MonoBehaviour
         timerText.SetText("00 : 00");
         PopulateSpawnersList();
 
+        UpdateWaveCount(spawner.IndexOfCurrentWave);
+
         UpdapteGameTimer();
     }
 
@@ -82,7 +84,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateWaveCount(int amnt)
     {
-        waveCountText.SetText(amnt.ToString("0"));
+        waveCountText.SetText("Vague : " + amnt.ToString("0") + " / " + spawner.Waves.Count.ToString("0"));
     }
 
     public void UpdatePlaceToDefendHealth(int amnt)
@@ -105,7 +107,11 @@ public class UIManager : MonoBehaviour
     #region PauseMenu
     public void DisplayPauseMenu()
     {
-        if (!pauseMenu.activeInHierarchy) pauseMenu.SetActive(true);
+        if (!pauseMenu.activeInHierarchy)
+        {
+            pauseMenu.SetActive(true);
+            GameManager.Instance.Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
+        }
     }
 
     public void HidePauseMenu()
@@ -114,7 +120,6 @@ public class UIManager : MonoBehaviour
         {
             pauseMenu.SetActive(false);
             GameManager.Instance.SetGameToProperMod();
-            //GameManager.Instance.SetGameToPlayMod();
         }
     }
 

@@ -163,12 +163,6 @@ public class PlayerHUDManager : MonoBehaviour
 
         IsShopWindowOpen = true;
         UtilityClass.PlaySoundGroupImmediatly(oppeningShopSoundGroup, UtilityClass.GetMainCamera().transform);
-        //MasterAudio.PlaySound(oppeningShopSoundGroup);
-
-        if (shop.ShuffleItemsOnlyWhenFifthWaveIsOver && GameManager.Instance.WaveDone == 6)
-        {
-            shop.ResetDrawAndShuffleAgain();
-        }
 
         ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();
@@ -199,7 +193,6 @@ public class PlayerHUDManager : MonoBehaviour
         shop.SelectedItem = null;
 
         UtilityClass.PlaySoundGroupImmediatly(closingShopSoundGroup, UtilityClass.GetMainCamera().transform);
-        //MasterAudio.PlaySound(closingShopSoundGroup);
     }
 
     void ResetShopWindowSelectionsOnBoxes()

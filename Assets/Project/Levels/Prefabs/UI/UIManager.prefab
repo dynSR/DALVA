@@ -5312,6 +5312,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TutorialHandler, Assembly-CSharp
+        m_MethodName: DeactivateGivenObject
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1853504247}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &293262312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7854,8 +7866,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<color=#ff0000ff><size=22><size=26>C</size>orruption</size></color> se
-    manifeste, ses sbires arrivent !\n<size=22>C</size>haque fois que se son rententira
-    et que les portails s'activeront, ils se r\xE9pandront sur le continent ! \n<size=22>S</size>toppez
+    manifeste, ses sbires arrivent !\n<size=22>C</size>haque fois que les portails
+    s'activeront, ils se r\xE9pandront sur le continent ! \n<size=22>S</size>toppez
     les !\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -17109,8 +17121,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=22>E</size>ntit\xE9s magiques, ils moissonnent l'essence de la for\xEAt,
-    le flux magique.\n<size=22>A</size>vec le temps, ils en d\xE9bordent, et r\xE9compensent,
+  m_text: "<size=22>E</size>ntit\xE9s magiques, ils moissonnent l'essence de la for\xEAt
+    : le flux magique.\n<size=22>A</size>vec le temps, ils en d\xE9bordent et r\xE9compensent,
     de leur butin, tous les diciples h\xF6lmiens."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -22400,8 +22412,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "COMMENT PROT\xE9GER le <color=#ffa500ff><size=24>portail</size></color>
-    ?"
+  m_text: LE FLUX MAGIQUE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
   m_sharedMaterial: {fileID: 4767160750087613683, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -25709,6 +25720,94 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1316290531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316290532}
+  - component: {fileID: 1316290535}
+  - component: {fileID: 1316290534}
+  - component: {fileID: 1316290533}
+  m_Layer: 5
+  m_Name: RaycastBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1316290532
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316290531}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4899948438070526810}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1316290535
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316290531}
+  m_CullTransparentMesh: 0
+--- !u!114 &1316290534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316290531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.627451}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1316290533
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316290531}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1316565545
 GameObject:
   m_ObjectHideFlags: 0
@@ -25962,11 +26061,11 @@ MonoBehaviour:
       m_Calls: []
   m_text: "<size=22>L</size>e continent de h\xF6lme est en danger, notre cr\xE9ateur,
     Fyfynh, est \xE0 la merci du fl\xE9au <color=#ff0000ff><size=22>Corruption</size></color>,
-    si nous ne le prot\xE9geons pas, il dispara\xEEtra et nous dispara\xEEtrons !\n\n<color=#ff0000ff><size=22><size=24>C</size>orruption</size></color>
-    utilise nos semblables et se sert d'eux pour nous atteindre, ils viendront par
-    dizaines, puis par centaines, ils engloutiront tout sur leur passage !\n\n<size=22>V</size>ous
-    devez absolument les emp\xEAcher de nous atteindre, sous aucun pr\xE9texte, ils
-    ne doivent passer par le portail !"
+    il faut le sauver !\n\n<color=#ff0000ff><size=22><size=24>C</size>orruption</size></color>
+    utilise nos semblables et se sert d'eux pour nous atteindre, si \xE7a continue,
+    ils engloutiront tout sur leur passage !\n\n<size=22>V</size>ous devez absolument
+    les emp\xEAcher de nous atteindre, sous aucun pr\xE9texte, ils ne doivent passer
+    le portail !"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
   m_sharedMaterial: {fileID: 4767160750087613683, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -29059,9 +29158,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<size=22>D</size>es animaux corrompus immortels vivent dans ces tani\xE8res
-    naturelles.\n<size=22>i</size>ls la prot\xE8ge, ils veillent et corrompent la
-    for\xEAt.\n<size=22>V</size>aincus, ils r\xE9apparaitront plus fort.\n<size=22>I</size>ls
-    peuvent \xEAtres solitaires ou accompagn\xE9s."
+    naturelles.\n<size=22>i</size>ls la prot\xE8gent, ils veillent et corrompent
+    la for\xEAt.\n<size=22>V</size>aincus, ils r\xE9apparaitront plus fort.\n<size=22>I</size>ls
+    peuvent \xEAtres solitaires ou en meute."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
   m_sharedMaterial: {fileID: 4767160750087613683, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -32427,8 +32526,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<size=22>L</size>es st\xE8les sont les pierres magiques de H\xF6lme, fa\xE7onn\xE9es
-    par les plus \xE2g\xE9s des disciples h\xF6lmiens, elles permettent \xE0 ceux-ci
-    de cr\xE9er des influences protectrices, capables de terrasser les corrompus."
+    par les plus \xE2g\xE9s des disciples h\xF6lmiens, elles leur permet de cr\xE9er
+    des influences protectrices, capables de terrasser les corrompus."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
   m_sharedMaterial: {fileID: 4767160750087613683, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -36767,7 +36866,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=22>V</size>oici le portail que vous devez prot\xE9gez \xE0 tout
+  m_text: "<size=22>V</size>oici le portail que vous devez prot\xE9ger \xE0 tout
     prix !\nChaque fois qu'un animal corrompu le franchira, une partie de fyfynh
     sera endomag\xE9e !"
   m_isRightToLeft: 0
@@ -37809,7 +37908,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "PROT\xE9GEZ LE <color=#ffa500ff>PORTAIL</color>"
+  m_text: "PROT\xE9GEZ LE PORTAIL"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
   m_sharedMaterial: {fileID: 4767160750087613683, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -39655,13 +39754,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=22>P</size>our prot\xE9ger le portail il faudra b\xE2tir des d\xE9fenses,
-    gr\xE2ce aux st\xE8les et devenir plus fort, afin de repousser les vagues d'animaux
-    corrompus.\n<size=22>V</size>ous devrez r\xE9colter et utiliser le flux magique
-    pr\xE9sent sur le continent.\n<size=22>C</size>'est une ressource que vous obtiendrez
-    en vainquant des animaux corrompus, ceux invoqu\xE9e par <color=#ff0000ff><size=22>Corruption</size></color>,
-    ou ceux pr\xE9sents dans les camps de for\xEAt, mais aussi en moissonnant les
-    r\xE9colteurs."
+  m_text: "<size=22>P</size>our prot\xE9ger le portail il faudra b\xE2tir des d\xE9fenses
+    en utilisant le pouvoir des st\xE8les, mais surtout en devenir plus fort.\n<size=22>V</size>ous
+    devrez r\xE9colter et utiliser le flux magique pr\xE9sent sur le continent.\n<size=22>C</size>'est
+    une ressource que vous obtiendrez en vainquant des animaux corrompus, ceux invoqu\xE9s
+    par <color=#ff0000ff><size=22>Corruption</size></color>, ou ceux pr\xE9sents
+    dans les camps de for\xEAt, mais aussi en moissonnant les r\xE9colteurs."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
   m_sharedMaterial: {fileID: 4767160750087613683, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
@@ -42290,7 +42388,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.45
+  m_fontSize: 18
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -42904,7 +43002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1014497029026466856
 RectTransform:
   m_ObjectHideFlags: 0
@@ -43256,7 +43354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1014497029328475686
 RectTransform:
   m_ObjectHideFlags: 0
@@ -44632,7 +44730,7 @@ RectTransform:
   m_Father: {fileID: 1224185825755949987}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5425691, y: 0}
+  m_AnchorMin: {x: 0.5955629, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -44665,12 +44763,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '0
-
-'
+  m_text: 'Vague : 1 / 5'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ac773cde664a6e74faaf1bf8aeb5f038, type: 2}
-  m_sharedMaterial: {fileID: -8275589194869782772, guid: ac773cde664a6e74faaf1bf8aeb5f038, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6c38767038a59c442890af96ba0f374b, type: 2}
+  m_sharedMaterial: {fileID: -710365080650085836, guid: 6c38767038a59c442890af96ba0f374b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -44694,13 +44790,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 4
   m_fontSizeMax: 24
-  m_fontStyle: 1
+  m_fontStyle: 17
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -45420,10 +45516,10 @@ RectTransform:
   m_Father: {fileID: 4579629252846923908}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -151.5733}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 181.09052, y: -151.6463}
+  m_SizeDelta: {x: 375, y: 80}
   m_Pivot: {x: 0.49999976, y: 0.5}
 --- !u!1 &1897617034295639867
 GameObject:
@@ -45884,6 +45980,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1316290532}
   - {fileID: 509221268619518659}
   - {fileID: 2701204889049643566}
   m_Father: {fileID: 1014497029705220986}
@@ -46395,8 +46492,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '00 : 00'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
-  m_sharedMaterial: {fileID: 4767160750087613683, guid: 7d6ad96bd011c1b498c9bfe44b82db0c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6c38767038a59c442890af96ba0f374b, type: 2}
+  m_sharedMaterial: {fileID: -710365080650085836, guid: 6c38767038a59c442890af96ba0f374b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -46420,23 +46517,23 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.3
-  m_fontSizeBase: 36
+  m_fontSize: 27
+  m_fontSizeBase: 27
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 4
-  m_fontSizeMax: 24
-  m_fontStyle: 1
+  m_fontSizeMax: 21
+  m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -10
+  m_characterSpacing: 5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -49077,10 +49174,10 @@ RectTransform:
   m_Father: {fileID: 4579629252846923908}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -51.573364}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 181.09052, y: -51.6463}
+  m_SizeDelta: {x: 375, y: 80}
   m_Pivot: {x: 0.49999976, y: 0.5}
 --- !u!1 &4235676221985846748
 GameObject:
@@ -50392,10 +50489,10 @@ RectTransform:
   m_Father: {fileID: 4579629252846923908}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -351.5733}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 181.09052, y: -351.6463}
+  m_SizeDelta: {x: 375, y: 80}
   m_Pivot: {x: 0.49999976, y: 0.5}
 --- !u!1 &4903552291928649333
 GameObject:
@@ -50767,10 +50864,10 @@ RectTransform:
   m_Father: {fileID: 4579629252846923908}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -251.5733}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 181.09052, y: -251.6463}
+  m_SizeDelta: {x: 375, y: 80}
   m_Pivot: {x: 0.49999976, y: 0.5}
 --- !u!1 &5112720144906113934
 GameObject:
@@ -51065,7 +51162,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4899948438070526810}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -52120,7 +52217,7 @@ RectTransform:
   - {fileID: 4579629252846923908}
   - {fileID: 8148435698271545918}
   m_Father: {fileID: 4899948438070526810}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

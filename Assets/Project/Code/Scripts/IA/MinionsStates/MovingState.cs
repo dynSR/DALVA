@@ -32,7 +32,7 @@ class MovingState : IState
         }
         
         if(!controller.IsACampNPC)
-            controller.CheckDistanceFromWaypoint(/*controller.waypoints[controller.WaypointIndex]*/ controller.waypointTarget);
+            controller.CheckDistanceFromWaypoint(controller.waypointTarget);
         else controller.CompareCurrentPositionFromStartingPosition();
     }
 
@@ -49,8 +49,8 @@ class MovingState : IState
 
         if (aggroRange != null) aggroRange.gameObject.GetComponent<SphereCollider>().enabled = false;
 
-        if (distanceFromStartingPosition > 0.1f) /*controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);*/ controller.SetAgentDestination(controller.Agent, controller.StartingPosition.position);
-        else if (distanceFromStartingPosition <= 0.1f) controller.ChangeState(new IdlingState());
+        if (distanceFromStartingPosition > 0.05f) /*controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);*/ controller.SetAgentDestination(controller.Agent, controller.StartingPosition.position);
+        else if (distanceFromStartingPosition <= 0.05f) controller.ChangeState(new IdlingState());
 
         //Debug.Log("< " + distanceFromStartingPosition + " >");
     }

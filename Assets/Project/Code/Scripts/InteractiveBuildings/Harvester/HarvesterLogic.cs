@@ -97,7 +97,7 @@ public class HarvesterLogic : InteractiveBuilding
             timeSpentHarvesting += Time.deltaTime;
         harvestingFeedbackImage.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
 
-        GetComponentInChildren<Animator>().SetBool("Channeling", true);
+        GetComponentInChildren<Animator>().SetBool("Harvesting", true);
 
         if (timeSpentHarvesting >= totalTimeToHarvest)
         {
@@ -119,7 +119,7 @@ public class HarvesterLogic : InteractiveBuilding
         base.ResetAfterInteraction();
 
         harvestState = HarvestState.IsHarvesting;
-        GetComponentInChildren<Animator>().SetBool("Channeling", false);
+        GetComponentInChildren<Animator>().SetBool("Harvesting", false);
         ResetHarvestingFeedback();
     }
 
@@ -135,7 +135,7 @@ public class HarvesterLogic : InteractiveBuilding
 
         glowEffectObject.SetActive(false);
         maxEffectObject.SetActive(false);
-        GetComponentInChildren<Animator>().SetBool("Channeling", false);
+        GetComponentInChildren<Animator>().SetBool("Harvesting", false);
 
         timeSpentHarvesting = 0;
 

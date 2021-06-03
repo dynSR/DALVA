@@ -432,7 +432,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             //For NPCs
             NPCController npcController = GetComponent<NPCController>();
 
-            if (!npcController.IsACampNPC && (npcController != null && npcController.IsABossWaveMember || npcController != null && GameManager.Instance.itsFinalWave))
+            if (npcController != null && !npcController.IsACampNPC && (npcController.IsABossWaveMember || npcController != null && GameManager.Instance.itsFinalWave))
             {
                 GameManager.Instance.UpdateRemainingMonsterValue(-1);
             }
@@ -450,7 +450,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
             GameManager.Instance.Player.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
-            GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+            //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
         }
     }
 

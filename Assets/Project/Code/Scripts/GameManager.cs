@@ -71,7 +71,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         if (!mapIsEasy) ShopPhase();
-        else SetGameToTutorialMod();
+        else
+        {
+            PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+            SetGameToTutorialMod();
+        }
 
         DalvaLifePoints = CalculateDalvaLifePoints();
         UIManager.Instance.UpdatePlaceToDefendHealth(DalvaLifePoints);
@@ -91,7 +95,7 @@ public class GameManager : MonoBehaviour
 
             if (!GameIsInPause())
             {
-                PauseGame();
+                PauseGame(true);
             }
             else if (GameIsInPause())
             {
@@ -195,11 +199,17 @@ public class GameManager : MonoBehaviour
             PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
 
         SetGameToStandbyMod();
+        //SetTimeScale(0);
+    }
+
+    public void SetTimeScale(int value)
+    {
+        Time.timeScale = value;
     }
 
     #region Game Mods
     #region Pause
-    public void PauseGame()
+    public void PauseGame(bool displayPauseMenu = false)
     {
         //Save previous state here
         if (GameIsInPlayMod()) gameWasInPlayMod = true;
@@ -208,10 +218,11 @@ public class GameManager : MonoBehaviour
         GameState = GameState.Pause;
         Time.timeScale = 0;
 
-        UIManager.Instance.DisplayPauseMenu();
+        if (displayPauseMenu)
+            UIManager.Instance.DisplayPauseMenu();
     }
 
-    private bool GameIsInPause()
+    public bool GameIsInPause()
     {
         return GameState == GameState.Pause;
     }

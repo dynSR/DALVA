@@ -1,9 +1,8 @@
 ﻿using DarkTonic.MasterAudio;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
@@ -12,6 +11,10 @@ public class ShopManager : MonoBehaviour
     public event ShopActionsHandler OnSellingAnItem;
     public event ShopActionsHandler OnShopActionCancel;
     public event ShopActionsHandler OnShopDrawSetResetCost;
+
+    public delegate void ShopShuffleHandler();
+    public event ShopShuffleHandler OnShuffleDone;
+    public event ShopShuffleHandler OnShuffle;
 
     public Transform Player;
 
@@ -30,7 +33,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private bool costScalesUP = false;
     [SerializeField] private int costAugmentation;
     [SerializeField] private int amntOfItemsToAddInThePool;
-    [SerializeField] private List<ItemButton> itemCreated;
+    //[HideInInspector]
+    public List<ItemButton> itemCreated;
 
     [Header("ITEM BUTTON")]
     [SerializeField] private Transform itemButtonsParent;
@@ -39,6 +43,12 @@ public class ShopManager : MonoBehaviour
     [Header("ITEMS IN GAME")]
     [SerializeField] private List<Item> itemsInGame;
     public List<int> randomIndex = new List<int>();
+
+    [Header("SHUFFLE ANIMATOR")]
+    public Animator shuffleAnimator;
+
+    [Header("ITEM PANEL")]
+    public ItemPanel itemPanel;
 
     [Header("SFX")]
     [SoundGroup] [SerializeField] private string coinsSFX;
@@ -84,13 +94,16 @@ public class ShopManager : MonoBehaviour
             ResetDrawCost = costAugmentation;
             OnShopDrawSetResetCost?.Invoke(ResetDrawCost);
         }
-
-        ShuffleItemsInShop();
     }
 
     private void OnDisable()
     {
         PlayerRessources.ResetPlayerHUDFeedbackAnimator();
+    }
+
+    private void LateUpdate()
+    {
+        ToggleShuffleAnimatorState();
     }
 
     #region Buy an item
@@ -142,7 +155,7 @@ public class ShopManager : MonoBehaviour
         {
             if(!shopItem.ItemIsAnAbility)
             {
-                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem) /*&& !canStackSameItem*/) return;
+                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem)) return;
 
                 PlayerInventory.AddItemToInventory(shopItem, true);
             }
@@ -178,9 +191,7 @@ public class ShopManager : MonoBehaviour
     public void SellItem()
     {
         if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase 
-            || PlayerInventory.InventoryIsEmpty 
-            //|| !InventoryItemIsSelected 
-            /*|| SelectedInventoryBox == null*/) return;
+            || PlayerInventory.InventoryIsEmpty) return;
 
         InventoryBox inventoryBox = null;
 
@@ -339,6 +350,35 @@ public class ShopManager : MonoBehaviour
     #endregion
 
     #region Shuffle
+    private void ToggleShuffleAnimatorState()
+    {
+        if (GameManager.Instance.GameIsInPause() && shuffleAnimator.enabled)
+        {
+            shuffleAnimator.enabled = false;
+        }
+        else if (!GameManager.Instance.GameIsInPause() && !shuffleAnimator.enabled)
+        {
+            shuffleAnimator.enabled = true;
+        }
+    }
+
+    public void ShuffleFirstAnimation()
+    {
+        OnShuffle?.Invoke();
+        DeleteDraw();
+        shuffleAnimator.SetTrigger("Shuffle");
+    }
+
+    public void ShuffleAnimation()
+    {
+        if (ResetDrawCost <= PlayerRessources.CurrentAmountOfPlayerRessources)
+        {
+            OnShuffle?.Invoke();
+            DeleteDraw();
+            shuffleAnimator.SetTrigger("Shuffle");
+        } 
+    }
+
     public void ShuffleItemsInShop()
     {
         //Create the correct amount of item button
@@ -369,16 +409,23 @@ public class ShopManager : MonoBehaviour
         for (int i = randomIndex.Count - 1; i >= 0; i--)
         {
             itemCreated[i].SetButtonInformations(this, itemsInGame[randomIndex[i]]);
+            itemCreated[i].ButtonItem.ItemIsInShop = true;
+
             ShopIcon shopIcon = itemCreated[i].GetComponent<ShopIcon>();
             shopBoxesIcon.Add(shopIcon);
+
             RefreshShopData();
         }
+
+        Debug.Log("Call OnShuffleDone");
+        OnShuffleDone?.Invoke();
     }
 
     public void DeleteDraw()
     {
         for (int i = itemCreated.Count - 1; i >= 0; i--)
         {
+            itemCreated[i].ButtonItem.ItemIsInShop = false;
             Destroy(itemCreated[i].transform.parent.gameObject);
         }
 
@@ -397,8 +444,8 @@ public class ShopManager : MonoBehaviour
         {
             ResetTimes++;
             OnShopDrawSetResetCost?.Invoke(ResetDrawCost);
-            DeleteDraw();
-            ShuffleItemsInShop();
+            //DeleteDraw();
+            //ShuffleItemsInShop();
             OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - ResetDrawCost);
             RefreshShopData();
         }

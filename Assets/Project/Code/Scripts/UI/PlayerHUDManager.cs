@@ -140,18 +140,32 @@ public class PlayerHUDManager : MonoBehaviour
     #region Open - Close
     public void OpenWindow(GameObject window)
     {
-        window.SetActive(true);
-
         if (window == ShopWindow)
+        {
+            CanvasGroup cG = window.GetComponent<CanvasGroup>();
+            cG.alpha = 1;
+            cG.blocksRaycasts = true;
+
             OnOpenningShopWindow();
+            return;
+        }
+
+        window.SetActive(true);
     }
 
     public void CloseWindow(GameObject window)
     {
-        window.SetActive(false);
-
         if (window == ShopWindow)
+        {
+            CanvasGroup cG = window.GetComponent<CanvasGroup>();
+            cG.alpha = 0;
+            cG.blocksRaycasts = false;
+
             OnClosingShopWindow();
+            return;
+        }
+
+        window.SetActive(false);
     }
     #endregion
     #endregion
@@ -160,6 +174,8 @@ public class PlayerHUDManager : MonoBehaviour
     void OnOpenningShopWindow()
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
+
+        shop.itemPanel.EnableAllCanvasGroup();
 
         IsShopWindowOpen = true;
         UtilityClass.PlaySoundGroupImmediatly(oppeningShopSoundGroup, UtilityClass.GetMainCamera().transform);
@@ -177,22 +193,34 @@ public class PlayerHUDManager : MonoBehaviour
         for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
         {
             shop.ShopBoxesIcon[i].ToggleOff();
+            shop.ShopBoxesIcon[i].EnableCanvasGroup();
 
             if (!shop.ShopBoxesIcon[i].Tooltip.activeInHierarchy) continue;
 
             shop.ShopBoxesIcon[i].HideTooltip(shop.ShopBoxesIcon[i].Tooltip);
         }
+
+        GameManager.Instance.SetTimeScale(0);
     }
 
     void OnClosingShopWindow()
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
 
+        for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
+        {
+            shop.ShopBoxesIcon[i].DisableCanvasGroup();
+        }
+
+        shop.itemPanel.DisableAllCanvasGroup();
+
         IsShopWindowOpen = false;
 
         shop.SelectedItem = null;
 
         UtilityClass.PlaySoundGroupImmediatly(closingShopSoundGroup, UtilityClass.GetMainCamera().transform);
+
+        GameManager.Instance.SetTimeScale(1);
     }
 
     void ResetShopWindowSelectionsOnBoxes()
@@ -204,7 +232,7 @@ public class PlayerHUDManager : MonoBehaviour
     void ResetShopWindowAnchoredPosition()
     {
         Vector2 offset = Vector2.zero;
-        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x, offset.y + 50f);
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x + 150, offset.y -10 /*+ 50f*/);
     }
     #endregion
 }

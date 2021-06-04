@@ -8,6 +8,12 @@ public class ForestCamp : MonoBehaviour
     [SerializeField] private List<NPCController> npcControllers;
     [SerializeField] private List<Transform> startingPositions;
 
+    [Header("SCALING")]
+    public float scalingFactor = 0.01f;
+    public List<Stat> statsToScale;
+
+    public bool canScaleStats = false;
+
     private void OnEnable()
     {
         for (int i = 0; i < npcControllers.Count; i++)
@@ -25,6 +31,12 @@ public class ForestCamp : MonoBehaviour
     }
 
     void Awake() => SetNPCPositionAndRotation();
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+            ScaleEntitiesStats();
+    }
 
     void SetNPCPositionAndRotation()
     {
@@ -61,6 +73,27 @@ public class ForestCamp : MonoBehaviour
                     {
                         npcControllers[j].Stats.SourceOfDamage = npcControllers[index].Stats.SourceOfDamage;
                         npcControllers[j].SetSourceOfDamageAsTarget();
+                    }
+                }
+            }
+        }
+    }
+
+    void ScaleEntitiesStats()
+    {
+        if (!canScaleStats) return;
+
+        foreach (NPCController item in npcControllers)
+        {
+            for (int i = 0; i < statsToScale.Count; i++)
+            {
+                for (int j = 0; j < item.Stats.entityStats.Count; j++)
+                {
+                    if (statsToScale[i].StatType  == item.Stats.entityStats[j].StatType)
+                    {
+                        if (item.Stats.entityStats[j].Value <= 0) continue;
+
+                        item.Stats.entityStats[j].AddModifier(new StatModifier(scalingFactor, statsToScale[i].StatType, StatModType.PercentAdd, this));
                     }
                 }
             }

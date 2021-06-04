@@ -27,7 +27,7 @@ public class EntityDetection : MonoBehaviour
 
     void SetOutlineColor()
     {
-        Outline.OutlineColor = Color.black;
+        Outline.OutlineColor = defaultOutlineColor;
     }
 
     #region Found entity type

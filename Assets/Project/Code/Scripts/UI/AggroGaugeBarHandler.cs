@@ -15,6 +15,7 @@ public class AggroGaugeBarHandler : MonoBehaviour
     private void OnEnable()
     {
         controller.Stats.OnDamageTaken += DisplayAggroImage;
+        controller.OnEnteringIdleState += HideAggroImage;
         controller.OnExitingIdleState += DisplayAggroImage;
         controller.OnMovingToStartPosition += HideAggroImage;
         controller.OnAggroValueChanged += SetAggroGauge;
@@ -24,6 +25,7 @@ public class AggroGaugeBarHandler : MonoBehaviour
     private void OnDisable()
     {
         controller.Stats.OnDamageTaken -= DisplayAggroImage;
+        controller.OnEnteringIdleState -= HideAggroImage;
         controller.OnExitingIdleState -= DisplayAggroImage;
         controller.OnMovingToStartPosition -= HideAggroImage;
         controller.OnAggroValueChanged -= SetAggroGauge;

@@ -53,7 +53,7 @@ class MovingState : IState
             controller.SetAgentDestination(controller.Agent, controller.StartingPosition.position);
         else if (distanceFromStartingPosition <= controller.distanceFromStartingPosition) controller.ChangeState(new IdlingState());
 
-        Debug.Log("< " + distanceFromStartingPosition + " >");
+        //Debug.Log("< " + distanceFromStartingPosition + " >");
     }
 
     void MoveTowardsTarget()

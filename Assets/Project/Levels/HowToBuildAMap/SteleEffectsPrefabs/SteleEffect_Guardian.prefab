@@ -93830,7 +93830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 1
-  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineColor: {r: 0.39607844, g: 0.42352942, b: 0.5019608, a: 1}
   outlineWidth: 1.25
   precomputeOutline: 1
   bakeKeys:
@@ -95680,7 +95680,6 @@ GameObject:
   - component: {fileID: 7946902092973499984}
   - component: {fileID: 7946902092973499987}
   - component: {fileID: 7946902092973499986}
-  - component: {fileID: 7946902092973499997}
   - component: {fileID: 7946902092973499996}
   m_Layer: 2
   m_Name: Golem
@@ -96091,25 +96090,7 @@ MonoBehaviour:
   typeOfEntity: 1
   Outline: {fileID: 537685724}
   SelectionObject: {fileID: 0}
-  defaultOutlineColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &7946902092973499997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7946902092973499993}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 4
-  outlineColor: {r: 0, g: 0.07363987, b: 1, a: 1}
-  outlineWidth: 1.5
-  precomputeOutline: 1
-  bakeKeys: []
-  bakeValues: []
+  defaultOutlineColor: {r: 0.39735097, g: 0.4238411, b: 0.5, a: 1}
 --- !u!114 &7946902092973499996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111164,13 +111145,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1b0e2bc591d9b94faea4df00754f555, type: 3}
---- !u!4 &3801016840393662398 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5556341388255712802, guid: f1b0e2bc591d9b94faea4df00754f555, type: 3}
-  m_PrefabInstance: {fileID: 8765125967446886812}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3801016840393662399 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5556341388255712803, guid: f1b0e2bc591d9b94faea4df00754f555, type: 3}
+  m_PrefabInstance: {fileID: 8765125967446886812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3801016840393662398 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5556341388255712802, guid: f1b0e2bc591d9b94faea4df00754f555, type: 3}
   m_PrefabInstance: {fileID: 8765125967446886812}
   m_PrefabAsset: {fileID: 0}

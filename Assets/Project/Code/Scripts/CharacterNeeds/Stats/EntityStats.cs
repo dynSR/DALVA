@@ -478,6 +478,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         else if (Controller.StunVFX == null || Controller.RootedVFX == null) Debug.LogError("Need to fill the controller stun or rooted field -!-");
 
+        DeactivateMarkFeedback();
+
         OnEntityDeath?.Invoke();
     }
 
@@ -563,7 +565,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         ExtentedMarkTime = 0f;
 
-        DeactivateMarkFeedback();
+        if (!IsDead)
+            DeactivateMarkFeedback();
     }
 
     public void ActivateMarkFeedback()

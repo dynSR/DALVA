@@ -125,13 +125,23 @@ public class GameManager : MonoBehaviour
 
     private void ActivateTheRightCharacter()
     {
-        if (GameParameters.classIsMage)
+        if (GameParameters.Instance == null)
         {
             MageCharacter.SetActive(true);
+            //WarriorCharacter.SetActive(true);
+            Debug.Log("Default class chosen at Start !");
+            return;
         }
-        else if (!GameParameters.classIsMage)
+
+        if (GameParameters.Instance.classIsMage)
+        {
+            MageCharacter.SetActive(true);
+            Debug.Log("GameParameters Value : " + GameParameters.Instance.classIsMage + " Mage chosen at Start !");
+        }
+        else if (!GameParameters.Instance.classIsMage)
         {
             WarriorCharacter.SetActive(true);
+            Debug.Log("GameParameters Value : " + GameParameters.Instance.classIsMage + " Warrior chosen at Start !");
         }
     }
 

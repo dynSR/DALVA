@@ -12,7 +12,8 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     private EntityDetection EDetection => GetComponentInParent<EntityDetection>();
     #endregion
 
-    bool attackAnimationHasBeenChosen = false;
+    [Header("VFX ANIMATION")]
+    public GameObject meleeAttackEffect;
 
     [Header("SFX ANIMATION")]
     [SoundGroup][SerializeField] private string meleeAttackSound;
@@ -32,6 +33,9 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     public void MeleeAttack_AnimationEvent()
     {
         Interactions.MeleeAttack();
+
+        if (meleeAttackEffect != null)
+            Instantiate(meleeAttackEffect, Interactions.Target.position, meleeAttackEffect.transform.rotation);
     }
 
     public void ResetAttackState_AnimationEvent()

@@ -285,8 +285,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 0.1
+      minMaxState: 0
+      scalar: 0.4
       minScalar: 0.1
       maxCurve:
         serializedVersion: 2
@@ -338,7 +338,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -391,7 +391,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -18629,3 +18629,4 @@ MonoBehaviour:
   projectileStatusEffect: {fileID: 0}
   onHitVFX: {fileID: 4360343412489667583, guid: 427f8d85fece1fa478ee89bbcfc74370, type: 3}
   destructionVFX: {fileID: 5544391137096342156, guid: 35dbf2dbfc63a654fbe47989a60bbd48, type: 3}
+  damageZone: {fileID: 0}

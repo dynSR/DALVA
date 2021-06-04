@@ -232,7 +232,7 @@ public class PlayerHUDManager : MonoBehaviour
     void ResetShopWindowAnchoredPosition()
     {
         Vector2 offset = Vector2.zero;
-        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x + 150, offset.y -10 /*+ 50f*/);
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x + 150, offset.y +10);
     }
     #endregion
 }

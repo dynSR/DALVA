@@ -2,7 +2,7 @@
 
 public class GameParameters : MonoBehaviour
 {
-    public static bool classIsMage = false;
+    public bool classIsMage = false;
 
     public int maxLevelDone;
 

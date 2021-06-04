@@ -49,10 +49,11 @@ class MovingState : IState
 
         if (aggroRange != null) aggroRange.gameObject.GetComponent<SphereCollider>().enabled = false;
 
-        if (distanceFromStartingPosition > 0.05f) /*controller.NPCInteractions.MoveTowardsAnExistingTarget(controller.StartingPosition, 0);*/ controller.SetAgentDestination(controller.Agent, controller.StartingPosition.position);
-        else if (distanceFromStartingPosition <= 0.05f) controller.ChangeState(new IdlingState());
+        if (distanceFromStartingPosition > controller.distanceFromStartingPosition)
+            controller.SetAgentDestination(controller.Agent, controller.StartingPosition.position);
+        else if (distanceFromStartingPosition <= controller.distanceFromStartingPosition) controller.ChangeState(new IdlingState());
 
-        //Debug.Log("< " + distanceFromStartingPosition + " >");
+        Debug.Log("< " + distanceFromStartingPosition + " >");
     }
 
     void MoveTowardsTarget()

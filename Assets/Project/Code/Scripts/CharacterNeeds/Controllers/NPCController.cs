@@ -34,6 +34,9 @@ public class NPCController : CharacterController
     private bool aggressionLimitsReached = false;
     private bool anAllyHasBeenAttacked = false;
 
+    [Header("STARTING POS")]
+    public float distanceFromStartingPosition = 0.1f;
+
     public Transform PositionToLookAt { get => positionToLookAt; }
     public int AggroStep { get => aggroStep; set => aggroStep = value; }
     public int MaxAgroStep { get => maxAggroStep; }

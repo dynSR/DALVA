@@ -34,7 +34,8 @@ public class IdlingState : IState
         //controller.Stats.GetStat(StatType.Health).Value = controller.Stats.GetStat(StatType.Health).MaxValue;
         controller.Stats.CanTakeDamage = true;
 
-        controller.transform.position = controller.StartingPosition.position;
+        if (controller.StartingPosition != null)
+            controller.transform.position = controller.StartingPosition.position;
 
         //Rotation
         controller.transform.LookAt(controller.PositionToLookAt);

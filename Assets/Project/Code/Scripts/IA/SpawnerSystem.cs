@@ -137,7 +137,7 @@ public class SpawnerSystem : MonoBehaviour
                 NPCController spawningMinionController = minionData.minionsUsedInTheWave[j].GetComponent<NPCController>();
 
                 //Need to be modified here to tutorial purpose - show when the first boss spawn
-                if (spawningMinionController.IsABoss)
+                if (ItIsABossWave())
                 {
                     OnFirstBossWaveSpawned?.Invoke();
                 }
@@ -172,6 +172,34 @@ public class SpawnerSystem : MonoBehaviour
             GameManager.Instance.itsFinalWave = true;
             GameManager.Instance.RecountRemainingMonster();
         }
+    }
+
+    public bool ItIsABossWave()
+    {
+        bool itIsABossWave = false;
+        Wave currentWave = Waves[IndexOfCurrentWave];
+
+        for (int i = 0; i < currentWave.minionsData.Count; i++)
+        {
+            for (int j = 0; j < currentWave.minionsData[i].minionsUsedInTheWave.Length; j++)
+            {
+                //Spawn Sound Event : Portal Loop
+                MinionsData minionData = currentWave.minionsData[i];
+                NPCController spawningMinionController = minionData.minionsUsedInTheWave[j].GetComponent<NPCController>();
+
+                //Need to be modified here to tutorial purpose - show when the first boss spawn
+                if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
+                {
+                    itIsABossWave = true;
+                }
+                else if (spawningMinionController.IsABoss && GameManager.Instance.ItIsABossWave)
+                {
+                    itIsABossWave = false;
+                }
+            }
+        }
+
+        return itIsABossWave;
     }
 
     public void PlayClosingPortalSFX()

@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public SpawnerSystem Spawner { get => spawner; }
     public int WaveDone { get => waveDone; set => waveDone = value; }
     public bool WaveCountHasBeenSet { get => waveCountHasBeenSet; set => waveCountHasBeenSet = value; }
+    public bool ItIsABossWave = false;
     public int RemainingMonstersValue = 0;
     private bool gameWasInPlayMod = false;
 

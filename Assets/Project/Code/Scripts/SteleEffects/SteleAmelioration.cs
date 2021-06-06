@@ -17,5 +17,13 @@ public abstract class SteleAmelioration : MonoBehaviour
     public string SteleEffectName { get => steleEffectName; set => steleEffectName = value; }
     public Sprite SteleIconImage { get => steleIconImage; set => steleIconImage = value; }
 
+    private Animator myAnimator;
+    public Animator MyAnimator { get => myAnimator; set => myAnimator = value; }
+
+    public void Start()
+    {
+        myAnimator = GetComponent<Animator>();
+    }
+
     public abstract void UpgradeEffect();
 }

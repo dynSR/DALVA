@@ -37,7 +37,7 @@ public class Stat
     public string Name { get => name; set => name = value; }
     public StatType StatType { get => statType; set => statType = value; }
     public float BaseValue { get => baseValue; set => baseValue = value; }
-    public float CapValue { get => capValue; }
+    public float CapValue { get => capValue; set => capValue = value; }
     public Sprite Icon { get => icon; set => icon = value; }
     #endregion
 

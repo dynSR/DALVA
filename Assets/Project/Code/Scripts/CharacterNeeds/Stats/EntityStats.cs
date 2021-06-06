@@ -679,6 +679,15 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 {
                     entityStats[i].BaseValue = 0;
                 }
+
+                if (baseUsedEntity.EntityStats[i].CapValue > 0)
+                {
+                    entityStats[i].CapValue = baseUsedEntity.EntityStats[i].CapValue;
+                }
+                else
+                {
+                    entityStats[i].CapValue = 0;
+                }
             }
         }
     }

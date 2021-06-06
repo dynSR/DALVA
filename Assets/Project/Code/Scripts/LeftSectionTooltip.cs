@@ -16,6 +16,10 @@ public class LeftSectionTooltip : MonoBehaviour
     [SerializeField] private TextMeshProUGUI penetrationValueText;
     [SerializeField] private TextMeshProUGUI lifeStealValueText;
 
+    [Header("TEXT COLORS")]
+    public Color defaultColor;
+    public Color cappedColor;
+
     public EntityStats CharacterStats { get => characterStats; }
 
     private void OnEnable()
@@ -31,12 +35,45 @@ public class LeftSectionTooltip : MonoBehaviour
     void SetLeftSectionInformations(EntityStats stats)
     {
         attackValueText.SetText((stats.GetStat(StatType.PhysicalPower).Value + stats.GetStat(StatType.MagicalPower).Value).ToString("0"));
+
         attackSpeedValueText.SetText(stats.GetStat(StatType.AttackSpeed).Value.ToString("0.0"));
+
         resistances.SetText((stats.GetStat(StatType.PhysicalResistances).Value + stats.GetStat(StatType.MagicalResistances).Value).ToString("0"));
-        chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0") + "%");
-        cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0"));
+
+        if (stats.GetStat(StatType.CriticalStrikeChance).Value >= stats.GetStat(StatType.CriticalStrikeChance).CapValue)
+        {
+            if (chanceOfCriticalStrikesValueText.color != cappedColor)
+                chanceOfCriticalStrikesValueText.color = cappedColor;
+
+            chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0"));
+        }
+        else if (stats.GetStat(StatType.CriticalStrikeChance).Value < stats.GetStat(StatType.CriticalStrikeChance).CapValue)
+        {
+            if (chanceOfCriticalStrikesValueText.color != defaultColor)
+                chanceOfCriticalStrikesValueText.color = defaultColor;
+
+            chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0"));
+        }
+
+        if (stats.GetStat(StatType.Cooldown_Reduction).Value >= stats.GetStat(StatType.Cooldown_Reduction).CapValue)
+        {
+            if(cooldownReductionValueText.color != cappedColor)
+                cooldownReductionValueText.color = cappedColor;
+
+            cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0"));
+        }
+        else if(stats.GetStat(StatType.Cooldown_Reduction).Value < stats.GetStat(StatType.Cooldown_Reduction).CapValue)
+        {
+            if (cooldownReductionValueText.color != defaultColor)
+                cooldownReductionValueText.color = defaultColor;
+
+            cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0"));
+        }
+
         movementSpeedValueText.SetText((stats.GetStat(StatType.MovementSpeed).Value * 10).ToString("0"));
+
         penetrationValueText.SetText((stats.GetStat(StatType.PhysicalPenetration).Value + stats.GetStat(StatType.MagicalPenetration).Value).ToString("0") + "%");
+
         lifeStealValueText.SetText((stats.GetStat(StatType.PhysicalLifesteal).Value + stats.GetStat(StatType.MagicalLifesteal).Value).ToString("0") + "%");
 
         //Trigger animation

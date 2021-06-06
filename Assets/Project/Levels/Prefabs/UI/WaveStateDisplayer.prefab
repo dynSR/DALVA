@@ -65,6 +65,10 @@ MonoBehaviour:
   timerAssigned: 0
   localTimer: 0
   button: {fileID: 1556440642505647291}
+  waveIconImage: {fileID: 1028435340584055790}
+  waveIcons:
+  - {fileID: 21300000, guid: 3493391bd9b7d0448a17501a9d42872d, type: 3}
+  - {fileID: 21300000, guid: 9eae01e8c04d4e34f86064f55a9de9d2, type: 3}
 --- !u!95 &2022329758
 Animator:
   serializedVersion: 3
@@ -697,8 +701,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_EMageSlow
-  onClickSound: SFX_GoldCoin
+  onHoverSound: SFX_UI_MouseOnButton
+  onClickSound: SFX_UIMouseClickButton
   playSoundOnHover: 1
   playSoundOnClick: 1
 --- !u!114 &5968456996834123197

@@ -105,4 +105,26 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
             tooltip.SetActive(false);
     }
     #endregion
+
+    public void DisableCanvasGroup()
+    {
+        CanvasGroup cG = GetComponent<CanvasGroup>();
+
+        if (cG != null)
+        {
+            cG.alpha = 0;
+            cG.blocksRaycasts = false;
+        }
+    }
+
+    public void EnableCanvasGroup()
+    {
+        CanvasGroup cG = GetComponent<CanvasGroup>();
+
+        if (cG != null)
+        {
+            cG.alpha = 1;
+            cG.blocksRaycasts = true;
+        }
+    }
 }

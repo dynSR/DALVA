@@ -9,6 +9,7 @@ public class Item : ScriptableObject
     [Multiline][SerializeField] private string itemDescription;
     [SerializeField] private int itemCost;
     [SerializeReference] private bool itemIsAnAbility = false;
+    [SerializeReference] private bool itemIsInShop = false;
 
     [Header("ITEM AS AN ABILITY")]
     [SerializeField] private int abilityIndex = 0;
@@ -27,6 +28,7 @@ public class Item : ScriptableObject
     public bool ItemIsAnAbility { get => itemIsAnAbility; }
     public AbilityEffect AbilityEffectToAssign { get => abilityEffectToAssign; }
     public int AbilityIndex { get => abilityIndex; }
+    public bool ItemIsInShop { get => itemIsInShop; set => itemIsInShop = value; }
 
     #region Equipment
     public void EquipItemAsEquipement(EntityStats c)

@@ -28,7 +28,12 @@ class AttackingState : IState
         if (!controller.NPCInteractions.HasATarget)
         {
             Debug.Log("Has no target");
-            
+
+            if (controller.AggroRange != null)
+            {
+                controller.AggroRange.CheckForNewTarget();
+            }
+
             controller.ChangeState(new MovingState());
             return;
         }

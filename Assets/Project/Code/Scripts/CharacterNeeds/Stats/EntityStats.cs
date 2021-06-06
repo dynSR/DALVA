@@ -432,7 +432,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             //For NPCs
             NPCController npcController = GetComponent<NPCController>();
 
-            if (!npcController.IsACampNPC && (npcController != null && npcController.IsABossWaveMember || npcController != null && GameManager.Instance.itsFinalWave))
+            if (npcController != null && !npcController.IsACampNPC && (npcController.IsABossWaveMember || npcController != null && GameManager.Instance.itsFinalWave))
             {
                 GameManager.Instance.UpdateRemainingMonsterValue(-1);
             }
@@ -450,7 +450,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
             GameManager.Instance.Player.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
 
-            GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+            //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
         }
     }
 
@@ -477,6 +477,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         if (Controller.RootedVFX != null && Controller.RootedVFX.activeInHierarchy) Controller.RootedVFX.SetActive(false);
 
         else if (Controller.StunVFX == null || Controller.RootedVFX == null) Debug.LogError("Need to fill the controller stun or rooted field -!-");
+
+        DeactivateMarkFeedback();
 
         OnEntityDeath?.Invoke();
     }
@@ -563,7 +565,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         ExtentedMarkTime = 0f;
 
-        DeactivateMarkFeedback();
+        if (!IsDead)
+            DeactivateMarkFeedback();
     }
 
     public void ActivateMarkFeedback()
@@ -675,6 +678,15 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
                 else
                 {
                     entityStats[i].BaseValue = 0;
+                }
+
+                if (baseUsedEntity.EntityStats[i].CapValue > 0)
+                {
+                    entityStats[i].CapValue = baseUsedEntity.EntityStats[i].CapValue;
+                }
+                else
+                {
+                    entityStats[i].CapValue = 0;
                 }
             }
         }

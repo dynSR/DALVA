@@ -69,13 +69,16 @@ public class HealthBarHandler : MonoBehaviour
 
         if (regenerationValueText != null)
         {
-            if (currentValue >= maxValue || stats.IsDead) { regenerationValueText.gameObject.SetActive(false);}
+            regenerationValueText.gameObject.SetActive(true);
+            regenerationValueText.text = "Régénération " + " + " + stats.GetStat(StatType.HealthRegeneration).Value.ToString("0.0");
 
-            else if (currentValue < maxValue && !regenerationValueText.gameObject.activeInHierarchy)
-            {
-                regenerationValueText.gameObject.SetActive(true);
-                regenerationValueText.text = " + " + stats.GetStat(StatType.HealthRegeneration).Value.ToString("0.0");
-            }
+            //if (currentValue >= maxValue || stats.IsDead) { regenerationValueText.gameObject.SetActive(false);}
+
+            //else if (currentValue < maxValue && !regenerationValueText.gameObject.activeInHierarchy)
+            //{
+            //    regenerationValueText.gameObject.SetActive(true);
+            //    regenerationValueText.text = " + " + stats.GetStat(StatType.HealthRegeneration).Value.ToString("0.0");
+            //}
         }
     }
 

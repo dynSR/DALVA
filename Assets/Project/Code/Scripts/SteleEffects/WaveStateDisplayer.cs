@@ -9,6 +9,8 @@ public class WaveStateDisplayer : MonoBehaviour
     public float timerAssigned;
     public float localTimer;
     [SerializeField] private GameObject button;
+    public Image waveIconImage;
+    public Sprite[] waveIcons;
 
     private void OnEnable()
     {
@@ -58,7 +60,18 @@ public class WaveStateDisplayer : MonoBehaviour
         }
         else if (boolValue == 1 && !content.activeInHierarchy)
         { 
-            content.SetActive(true); 
+            content.SetActive(true);
+
+            if (spawner.ItIsABossWave())
+            {
+                waveIconImage.sprite = waveIcons[1];
+            }
+            else if (spawner.ItIsABossWave())
+            {
+                waveIconImage.sprite = waveIcons[0];
+            }
+
+            GameManager.Instance.ItIsABossWave = spawner.ItIsABossWave();
         }
     }
 

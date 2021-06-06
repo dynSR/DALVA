@@ -155,7 +155,7 @@ public class TutorialHandler : MonoBehaviour
 
     public void DisplayShop()
     {
-        PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
+        GameManager.Instance.ShopPhase();
     }
 
     public void SetCMVirtualPriorityValue(GameObject _object)

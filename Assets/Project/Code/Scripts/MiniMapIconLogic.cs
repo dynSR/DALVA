@@ -1,34 +1,64 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MiniMapIconLogic : MonoBehaviour
 {
-    private EntityStats Stats => GetComponentInParent<EntityStats>();
+    public EntityStats Stats;
+    public bool IsABossEntity = false;
 
     private void OnEnable()
     {
-        if (Stats == null) return;
+        if (Stats == null)
+        {
+            Debug.LogError("Missing stats reference, please populate" + transform);
+            return;
+        }
+        
 
         Stats.OnEntityDeath += HideMiniMapIcon;
         Stats.OnEntityRespawn += DisplayMiniMapIcon;
+
+        if (IsABossEntity)
+            FreezeLocalRotation();
     }
 
     private void OnDisable()
     {
-        if (Stats == null) return;
+        if (Stats == null)
+        {
+            Debug.LogError("Missing stats reference, please populate" + transform);
+            return;
+        }
 
         Stats.OnEntityDeath -= HideMiniMapIcon;
         Stats.OnEntityRespawn -= DisplayMiniMapIcon;
     }
 
+
+    protected virtual void LateUpdate()
+    {
+        if (IsABossEntity)
+            FreezeLocalRotation();
+    }
+
+    private void FreezeLocalRotation()
+    {
+        transform.eulerAngles = new Vector3(90, 0f, 0f);
+    }
+
     void DisplayMiniMapIcon()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
+        foreach (Transform item in transform)
+        {
+            item.gameObject.SetActive(true);
+        }
+        
     }
 
     void HideMiniMapIcon()
     {
-        transform.GetChild(0).gameObject.SetActive(false);
+        foreach (Transform item in transform)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 }

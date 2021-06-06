@@ -1,6 +1,7 @@
 ﻿using DarkTonic.MasterAudio;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler
 {
@@ -19,13 +20,13 @@ public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerDownHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(PlaySoundOnClick)
+        if(PlaySoundOnClick && GetComponent<Button>().enabled)
             UtilityClass.PlaySoundGroupImmediatly(onClickSound, transform);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(PlaySoundOnHover)
+        if(PlaySoundOnHover && GetComponent<Button>().enabled)
             UtilityClass.PlaySoundGroupImmediatly(onHoverSound, transform);
     }
 }

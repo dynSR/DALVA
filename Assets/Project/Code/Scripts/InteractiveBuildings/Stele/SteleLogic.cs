@@ -292,14 +292,14 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         {
             EntityTeam = EntityTeam.DALVA;
             //EntityDetection.TypeOfEntity = TypeOfEntity.AllyStele;
-            Outline.OutlineColor = Color.blue;
+            //Outline.OutlineColor = Color.blue;
         }
         else if (InteractingPlayer.GetComponent<EntityStats>().EntityTeam == EntityTeam.HULRYCK
             /*InteractingPlayer.GetComponent<EntityDetection>().TypeOfEntity == TypeOfEntity.EnemyPlayer*/)
         {
             EntityTeam = EntityTeam.HULRYCK;
             //EntityDetection.TypeOfEntity = TypeOfEntity.EnemyStele;
-            Outline.OutlineColor = Color.red;
+            //Outline.OutlineColor = Color.red;
         }
     }
     #endregion

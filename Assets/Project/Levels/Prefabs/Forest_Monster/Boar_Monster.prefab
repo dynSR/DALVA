@@ -6264,8 +6264,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.6077081, g: 0, b: 0.8235294, a: 0}
-        key1: {r: 0.31643012, g: 0, b: 0.7058823, a: 0.99834883}
+        key0: {r: 0.15686275, g: 0.9019608, b: 0, a: 0}
+        key1: {r: 0.15686275, g: 0.9019608, b: 0, a: 0.99834883}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -78187,9 +78187,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9915822, g: 0.3897059, b: 1, a: 0}
-        key1: {r: 0.8206897, g: 0, b: 1, a: 0.99834883}
-        key2: {r: 0, g: 0, b: 0, a: 0.9764706}
+        key0: {r: 0.15686275, g: 0.9019608, b: 0, a: 0}
+        key1: {r: 0.15686275, g: 0.9019608, b: 0, a: 0.99834883}
+        key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -78204,8 +78204,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 3084
-        atime2: 43947
+        atime1: 30840
+        atime2: 65535
         atime3: 65535
         atime4: 0
         atime5: 0
@@ -78213,7 +78213,7 @@ ParticleSystem:
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 4
+        m_NumAlphaKeys: 3
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -89734,8 +89734,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeOfEntity: 2
   Outline: {fileID: 53359024}
+  SecondOutline: {fileID: 0}
   SelectionObject: {fileID: 209833994}
   defaultOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  otherDefaultOutlineColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &8207488550710344033
 MonoBehaviour:
   m_ObjectHideFlags: 0

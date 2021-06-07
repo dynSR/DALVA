@@ -15,6 +15,7 @@ public class EntityDetection : MonoBehaviour
     public TypeOfEntity TypeOfEntity { get => typeOfEntity; set => typeOfEntity = value; }
 
     public Outline Outline;
+    public Outline SecondOutline;
     public GameObject SelectionObject;
     public Color defaultOutlineColor;
 
@@ -27,7 +28,11 @@ public class EntityDetection : MonoBehaviour
 
     void SetOutlineColor()
     {
-        Outline.OutlineColor = defaultOutlineColor;
+        if(Outline != null)
+            Outline.OutlineColor = defaultOutlineColor;
+
+        if (SecondOutline != null)
+            SecondOutline.OutlineColor = defaultOutlineColor;
     }
 
     #region Found entity type
@@ -72,12 +77,23 @@ public class EntityDetection : MonoBehaviour
     {
         targetOutlineFound.enabled = true;
         targetOutlineFound.OutlineColor = outlineColor;
+
+        if (SecondOutline != null)
+        {
+            SecondOutline.enabled = true;
+            SecondOutline.OutlineColor = defaultOutlineColor;
+        }  
     }
 
     public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
     {
         if (targetOutlineFound.OutlineColor != defaultOutlineColor)
             targetOutlineFound.OutlineColor = defaultOutlineColor;
+
+        if (SecondOutline != null && SecondOutline.OutlineColor != defaultOutlineColor)
+        {
+            SecondOutline.OutlineColor = defaultOutlineColor;
+        }
 
         //Debug.Log("SETTING OUTLINE TO BLACK COLOR", transform);
         //targetOutlineFound.enabled = false;

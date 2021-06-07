@@ -126,7 +126,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         activationVFX.SetActive(true);
         UtilityClass.PlaySoundGroupImmediatly(activationSFX, transform);
 
-        activatedVFX.SetActive(true);
+        //activatedVFX.SetActive(true);
 
 
         //To keep !
@@ -213,7 +213,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         if (InteractingPlayer != null)
             InteractingPlayer = null;
 
-        activatedVFX.SetActive(false);
+        //activatedVFX.SetActive(false);
 
         Destroy(SpawnedEffectObject);
     }

@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1c83e1dd48e1cf74db27405e4fc78af6, type: 2}
+  - {fileID: 2100000, guid: 96c2e2f72a1abd347968ba93e8d12855, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -310,7 +310,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 727e96b26f927a7439aaf9cccaa62a4c, type: 3}
-  m_Color: {r: 0.3202325, g: 0.19335175, b: 0.745283, a: 1}
+  m_Color: {r: 0.11794877, g: 1, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -350,7 +350,7 @@ GameObject:
   - component: {fileID: 8005357607211367302}
   - component: {fileID: 8006939187256300362}
   m_Layer: 2
-  m_Name: FX_Poison_Purple_Smoke_01
+  m_Name: FX_Poison_Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -558,9 +558,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 0.08521294, g: 0.8584906, b: 0.06074225, a: 1}
-      maxColor: {r: 0.60784316, g: 0, b: 0.8235294, a: 1}
+      maxColor: {r: 0.08627451, g: 0.85882354, b: 0.0627451, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -622,7 +622,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.7
+      scalar: 0.3
       minScalar: 0.1
       maxCurve:
         serializedVersion: 2
@@ -1203,7 +1203,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 7
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5162,7 +5162,7 @@ GameObject:
   - component: {fileID: 8005886340040106434}
   - component: {fileID: 8007066296817389796}
   m_Layer: 2
-  m_Name: FX_Poison_Purple_01
+  m_Name: FX_Poison_Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5266,8 +5266,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: 1
+      scalar: 5
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5371,9 +5371,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 0.08627451, g: 0.85882354, b: 0.0627451, a: 1}
-      maxColor: {r: 0.60784316, g: 0, b: 0.8235294, a: 1}
+      maxColor: {r: 0.08627451, g: 0.85882354, b: 0.0627451, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5435,7 +5435,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.4
+      scalar: 0.5
       minScalar: 0.1
       maxCurve:
         serializedVersion: 2
@@ -6016,7 +6016,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 8
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -10138,6 +10138,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.15
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: aa50de9d492063d4eaa2aa798a7d6096, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 96c2e2f72a1abd347968ba93e8d12855, type: 2}
     - target: {fileID: 919132149155446097, guid: aa50de9d492063d4eaa2aa798a7d6096, type: 3}
       propertyPath: m_Name
       value: Stele_Afaiblissement_Zone_NV3
@@ -10220,6 +10224,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.15
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b40c85ef86a7e6f4c9e8c0edde08e4e1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 96c2e2f72a1abd347968ba93e8d12855, type: 2}
     - target: {fileID: 919132149155446097, guid: b40c85ef86a7e6f4c9e8c0edde08e4e1, type: 3}
       propertyPath: m_Name
       value: Stele_Afaiblissement_Zone_NV2

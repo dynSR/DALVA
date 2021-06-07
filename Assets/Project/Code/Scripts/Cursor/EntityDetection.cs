@@ -14,10 +14,16 @@ public class EntityDetection : MonoBehaviour
     [SerializeField] private TypeOfEntity typeOfEntity;
     public TypeOfEntity TypeOfEntity { get => typeOfEntity; set => typeOfEntity = value; }
 
+    [Header("OUTLINES")]
     public Outline Outline;
     public Outline SecondOutline;
+
+    [Header("SELECTION GO")]
     public GameObject SelectionObject;
+
+    [Header("COLORS")]
     public Color defaultOutlineColor;
+    public Color otherDefaultOutlineColor;
 
     private void Awake()
     {
@@ -32,7 +38,7 @@ public class EntityDetection : MonoBehaviour
             Outline.OutlineColor = defaultOutlineColor;
 
         if (SecondOutline != null)
-            SecondOutline.OutlineColor = defaultOutlineColor;
+            SecondOutline.OutlineColor = otherDefaultOutlineColor;
     }
 
     #region Found entity type
@@ -81,7 +87,7 @@ public class EntityDetection : MonoBehaviour
         if (SecondOutline != null)
         {
             SecondOutline.enabled = true;
-            SecondOutline.OutlineColor = defaultOutlineColor;
+            SecondOutline.OutlineColor = outlineColor;
         }  
     }
 
@@ -92,7 +98,7 @@ public class EntityDetection : MonoBehaviour
 
         if (SecondOutline != null && SecondOutline.OutlineColor != defaultOutlineColor)
         {
-            SecondOutline.OutlineColor = defaultOutlineColor;
+            SecondOutline.OutlineColor = otherDefaultOutlineColor;
         }
 
         //Debug.Log("SETTING OUTLINE TO BLACK COLOR", transform);

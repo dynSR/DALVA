@@ -14,18 +14,18 @@ public class AbilityAreaOfEffectDisplayer : MonoBehaviour
 
     private void OnDisable()
     {
-        if(targets.Count >= 1)
+        for (int i = 0; i < targets.Count; i++)
         {
-            for (int i = 0; i < targets.Count; i++)
-            {
-                EntityDetection targetFound = targets[i].GetComponent<EntityDetection>();
+            EntityDetection targetFound = targets[i].GetComponent<EntityDetection>();
 
-                if (targetFound != null)
-                    targetFound.DeactivateTargetOutlineOnHover(targetFound.Outline);
+            if (targetFound != null)
+                targetFound.DeactivateTargetOutlineOnHover(targetFound.Outline);
 
-                targets[i].gameObject.layer = 12;
-            }
+            targets[i].gameObject.layer = 12;
+        }
 
+        if (targets.Count >= 1)
+        {
             targets.Clear();
         }
     }

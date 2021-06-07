@@ -32,11 +32,13 @@ public class SteleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
             if (playerRessources >= affectedStele.CurrentPurchaseCost() && impossibilityToPurchaseImage.gameObject.activeInHierarchy)
             {
+                ButtonComponent.interactable = true;
                 impossibilityToPurchaseImage.gameObject.SetActive(false);
                 ButtonSound.PlaySoundOnClick = true;
             }
             else if (playerRessources < affectedStele.CurrentPurchaseCost() && !impossibilityToPurchaseImage.gameObject.activeInHierarchy)
             {
+                ButtonComponent.interactable = false;
                 impossibilityToPurchaseImage.gameObject.SetActive(true);
                 ButtonSound.PlaySoundOnClick = false;
             }

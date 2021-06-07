@@ -59,7 +59,7 @@ public class TutorialHandler : MonoBehaviour
             DeactivateMainCamera();
             Time.timeScale = 0;
 
-            MasterAudio.PauseSoundGroup(portalLoopSFX);
+            MasterAudio.FadeSoundGroupToVolume(portalLoopSFX, 0, 0.15f, null, true);
         }
     }
 

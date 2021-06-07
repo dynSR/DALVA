@@ -18556,6 +18556,7 @@ GameObject:
   - component: {fileID: 7344833928259837053}
   - component: {fileID: 4331988364427824006}
   - component: {fileID: 7400162026258699874}
+  - component: {fileID: 7644647700437153557}
   m_Layer: 2
   m_Name: Mage_Ability_A_SubProjectile
   m_TagString: Untagged
@@ -18630,3 +18631,19 @@ MonoBehaviour:
   onHitVFX: {fileID: 4360343412489667583, guid: 427f8d85fece1fa478ee89bbcfc74370, type: 3}
   destructionVFX: {fileID: 5544391137096342156, guid: 35dbf2dbfc63a654fbe47989a60bbd48, type: 3}
   damageZone: {fileID: 0}
+--- !u!114 &7644647700437153557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8403224405550740081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941d7a042c0c18446be8173cad68d466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxToPlayOnEnable: SFX_SE_Mage_A_Launch
+  sfxToPlayOnTriggerEnter: SFX_SE_Mage_A_Impact
+  playSoundOnEnable: 1
+  playSoundOnTriggerEnter: 1

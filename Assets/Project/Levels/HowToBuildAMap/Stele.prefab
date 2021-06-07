@@ -363,9 +363,9 @@ MonoBehaviour:
   effectEntitySpawnLocation: {fileID: 376790545447198695}
   activationVFX: {fileID: 5365687198021498025}
   activatedVFX: {fileID: 4624818938947075589}
-  activationSFX: 
-  upgradeSFX: 
-  sellingSFX: SFX_GoldCoin
+  activationSFX: SFX_UI_Stele_Build
+  upgradeSFX: SFX_UI_Stele_LevelUp
+  sellingSFX: SFX_UI_GoldCoin
   spawnedEffectTransformDatas:
   - effectName: Guardian
     position: {fileID: 8407607806129844979}
@@ -399,8 +399,8 @@ MonoBehaviour:
   Outline: {fileID: 8546557210748374566}
   SecondOutline: {fileID: 3645150576627506659}
   SelectionObject: {fileID: 2206538423329895679}
-  defaultOutlineColor: {r: 0.62352943, g: 0.5647059, b: 0.4666667, a: 1}
-  otherDefaultOutlineColor: {r: 0.794, g: 0.72302794, b: 0.6076984, a: 1}
+  defaultOutlineColor: {r: 0.62352943, g: 0.5647059, b: 0.46666667, a: 1}
+  otherDefaultOutlineColor: {r: 0.7921569, g: 0.72156864, b: 0.60784316, a: 1}
 --- !u!114 &372359284529317514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_UI_MouseOnButton
+  onHoverSound: SFX_UI_MouseOver
   onClickSound: 
   playSoundOnHover: 1
   playSoundOnClick: 0
@@ -1452,7 +1452,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 727e96b26f927a7439aaf9cccaa62a4c, type: 3}
-  m_Color: {r: 0, g: 0.9529412, b: 1, a: 0.21960784}
+  m_Color: {r: 0, g: 0.9587312, b: 1, a: 0.21960784}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -1964,7 +1964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_UI_MouseOnButton
+  onHoverSound: SFX_UI_MouseOver
   onClickSound: 
   playSoundOnHover: 1
   playSoundOnClick: 0
@@ -8628,10 +8628,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_UI_MouseOnButton
-  onClickSound: SFX_UITurretLevelUP
+  onHoverSound: SFX_UI_MouseOver
+  onClickSound: '[None]'
   playSoundOnHover: 1
-  playSoundOnClick: 1
+  playSoundOnClick: 0
 --- !u!1 &2707735978650817088
 GameObject:
   m_ObjectHideFlags: 0
@@ -9304,10 +9304,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_UI_MouseOnButton
-  onClickSound: SFX_UITurretLevelUP
+  onHoverSound: SFX_UI_MouseOver
+  onClickSound: '[None]'
   playSoundOnHover: 1
-  playSoundOnClick: 1
+  playSoundOnClick: 0
 --- !u!1 &2964555428144080386
 GameObject:
   m_ObjectHideFlags: 0
@@ -16873,7 +16873,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5017403445124320505}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.25, y: 0.2, z: 1.25}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7997403817323442370}
@@ -17642,10 +17642,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_UI_MouseOnButton
-  onClickSound: SFX_UITurretLevelUP
+  onHoverSound: SFX_UI_MouseOver
+  onClickSound: '[None]'
   playSoundOnHover: 1
-  playSoundOnClick: 1
+  playSoundOnClick: 0
 --- !u!1 &5365199025892404859
 GameObject:
   m_ObjectHideFlags: 0
@@ -25748,7 +25748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_UI_MouseOnButton
+  onHoverSound: SFX_UI_MouseOver
   onClickSound: 
   playSoundOnHover: 1
   playSoundOnClick: 0

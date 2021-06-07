@@ -205,7 +205,8 @@ public class SpawnerSystem : MonoBehaviour
     public void PlayClosingPortalSFX()
     {
         //Spawn Sound Event: Stop Looping spawning
-        MasterAudio.StopAllOfSound(portalLoopSFX);
+        MasterAudio.FadeSoundGroupToVolume(portalLoopSFX, 0, 0.15f, null, true);
+        //MasterAudio.StopAllOfSound(portalLoopSFX);
         //Spawn Sound Event: Portal Closing
         UtilityClass.PlaySoundGroupImmediatly(closePortalSFX, transform);
     }

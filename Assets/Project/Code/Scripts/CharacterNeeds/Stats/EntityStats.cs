@@ -493,7 +493,13 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         yield return new WaitForSeconds(1.3f);
 
-        Respawn();
+        //For NPCs
+        NPCController npcController = GetComponent<NPCController>();
+
+        if (!npcController || npcController && !npcController.IsACampNPC)
+        {
+            Respawn();
+        }
 
         yield return new WaitForSeconds(0.25f);
 

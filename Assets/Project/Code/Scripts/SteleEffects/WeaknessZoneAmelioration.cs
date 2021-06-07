@@ -12,6 +12,8 @@ public class WeaknessZoneAmelioration : SteleAmelioration
                 weaknessZone.PhysicalResistancesReduction = 0.25f;
                 weaknessZone.MagicalResistancesReduction = 0.25f;
 
+                MyAnimator.SetBool("Upgraded", true);
+
                 Debug.Log("UPGRADE 1");
                 break;
             case SteleLevel.EvolutionII: // reductions +15%

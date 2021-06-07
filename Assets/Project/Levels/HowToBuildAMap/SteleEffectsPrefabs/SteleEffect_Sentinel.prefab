@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 5891933870460082954}
   - component: {fileID: 2372240202247375385}
   - component: {fileID: 1244458506}
+  - component: {fileID: 908121511527238917}
   m_Layer: 2
   m_Name: SteleEffect_Sentinel
   m_TagString: Untagged
@@ -291,7 +292,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5, z: 1}
+  m_Size: {x: 0.5, y: 5, z: 0.5}
   m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!114 &2372240202247375380
 MonoBehaviour:
@@ -540,13 +541,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2372240202247375388}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1e417e156e64740997068200fc14df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOfEntity: 4
-  Outline: {fileID: 5927232821447361380}
+  typeOfEntity: 5
+  Outline: {fileID: 0}
   SecondOutline: {fileID: 0}
   SelectionObject: {fileID: 0}
   defaultOutlineColor: {r: 0, g: 0, b: 0, a: 0}
@@ -617,12 +618,29 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.495, y: 2.5, z: 0.5}
+  m_Extents: {x: 0.375, y: 2.5, z: 0.375}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 2.5, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &908121511527238917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372240202247375388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b97fe1e8aa514d4e92f6491a8392e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlines:
+  - {fileID: 5927232821447361380}
+  - {fileID: 4278958434991848249}
+  - {fileID: 3053869126167194611}
+  defaultColor: {r: 0.30588236, g: 0.33333334, b: 0.4117647, a: 1}
 --- !u!1 &2372240202464609773
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,6 +670,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2372240202247375386}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4380621359089723681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3999415573618914203}
+  m_Layer: 2
+  m_Name: Stele_Sentinel_NV3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3999415573618914203
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4380621359089723681}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0714285, y: 1.0714288, z: 1.0714288}
+  m_Children:
+  - {fileID: 1556116131435139957}
+  - {fileID: 2595442747987568051}
+  m_Father: {fileID: 197291011582773418}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4604823632515694318
 GameObject:
@@ -10012,6 +10062,36 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &4687346752762353805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1556116131435139957}
+  m_Layer: 2
+  m_Name: Object001
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1556116131435139957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4687346752762353805}
+  m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3999415573618914203}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4955272722532180756
 GameObject:
   m_ObjectHideFlags: 0
@@ -11822,6 +11902,168 @@ MonoBehaviour:
     - {x: -0.32014266, y: -0.65780896, z: 0.6817595}
     - {x: -0.40505344, y: -0.91126573, z: -0.07434027}
     - {x: 0.72172886, y: -0.38031697, z: 0.5783308}
+--- !u!1 &6526576899310192113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5897709662405910347}
+  - component: {fileID: 7383374673441509614}
+  - component: {fileID: 4725388080902054948}
+  m_Layer: 2
+  m_Name: Stele_Sentinel_NV2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5897709662405910347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6526576899310192113}
+  m_LocalRotation: {x: 0.000000021420417, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6391560081549065200}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7383374673441509614
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6526576899310192113}
+  m_Mesh: {fileID: 9123964951988712819, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
+--- !u!23 &4725388080902054948
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6526576899310192113}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1c83e1dd48e1cf74db27405e4fc78af6, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6566607571577569385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2595442747987568051}
+  - component: {fileID: 5931040255153698696}
+  - component: {fileID: 1962275697507345632}
+  m_Layer: 2
+  m_Name: Stele_Sentinel_NV3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2595442747987568051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566607571577569385}
+  m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3999415573618914203}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5931040255153698696
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566607571577569385}
+  m_Mesh: {fileID: 1401398872587747869, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
+--- !u!23 &1962275697507345632
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566607571577569385}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1c83e1dd48e1cf74db27405e4fc78af6, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6872005599334409926
 GameObject:
   m_ObjectHideFlags: 0
@@ -12698,167 +12940,3 @@ MonoBehaviour:
     - {x: -0.32014266, y: -0.65780896, z: 0.6817595}
     - {x: -0.40505344, y: -0.91126573, z: -0.07434027}
     - {x: 0.72172886, y: -0.38031697, z: 0.5783308}
---- !u!1001 &3461718056529892464
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 197291011582773418}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.0714285
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.0714288
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.0714288
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_Name
-      value: Stele_Sentinel_NV3
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7722328592775943193, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8144394004440419581, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
---- !u!4 &3999415573618914203 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0622e71e820d70e418ebfc9039b56fb2, type: 3}
-  m_PrefabInstance: {fileID: 3461718056529892464}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6220147069071046816
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 6391560081549065200}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.000000021420417
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_Name
-      value: Stele_Sentinel_NV2
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
---- !u!4 &5897709662405910347 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6be8aa4460e95c641808687d71ba094f, type: 3}
-  m_PrefabInstance: {fileID: 6220147069071046816}
-  m_PrefabAsset: {fileID: 0}

@@ -59,6 +59,7 @@ public class EntityDetection : MonoBehaviour
         if (targetFound.TypeOfEntity == TypeOfEntity.Minion) return true;
         return false;
     }
+
     public bool ThisTargetIsAStele(EntityDetection targetFound)
     {
         if (targetFound.TypeOfEntity == TypeOfEntity.Stele) return true;
@@ -81,6 +82,8 @@ public class EntityDetection : MonoBehaviour
     #region Outline Toggle
     public void ActivateTargetOutlineOnHover(Outline targetOutlineFound, Color outlineColor)
     {
+        if (!targetOutlineFound) return;
+
         targetOutlineFound.enabled = true;
         targetOutlineFound.OutlineColor = outlineColor;
 
@@ -93,6 +96,8 @@ public class EntityDetection : MonoBehaviour
 
     public void DeactivateTargetOutlineOnHover(Outline targetOutlineFound)
     {
+        if (!targetOutlineFound) return;
+
         if (targetOutlineFound.OutlineColor != defaultOutlineColor)
             targetOutlineFound.OutlineColor = defaultOutlineColor;
 

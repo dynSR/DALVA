@@ -302,14 +302,8 @@ public class ProjectileLogic : MonoBehaviour
 
             if (nearTargetStats != null && Target != null && !nearTargets.Contains(targetColliders.transform))
             {
-                if (CanHeal && ProjectileSenderStats.EntityTeam == nearTargetStats.EntityTeam 
-                    && nearTargetStats.EntityIsMarked 
-                    && nearTargetStats.GetStat(StatType.Health).Value < nearTargetStats.GetStat(StatType.Health).MaxValue)
-                {
-                    nearTargets.Add(targetColliders.transform);
-                }
-                else if (/*ProjectileSender.gameObject != targetColliders.gameObject 
-                    &&*/ ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
+                if (Target.gameObject != targetColliders.gameObject 
+                    && ProjectileSenderStats.EntityTeam != nearTargetStats.EntityTeam)
                 {
                     nearTargets.Add(targetColliders.transform);
 

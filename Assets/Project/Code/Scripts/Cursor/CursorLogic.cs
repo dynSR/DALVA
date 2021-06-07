@@ -92,7 +92,10 @@ public class CursorLogic : MonoBehaviour
                     case TypeOfEntity.Stele:
                         SetCursorToInteractionAppearance();
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.yellow);
-                                                break;
+
+                        SetSentinelOutline(knownTargetDetected.transform, true);
+
+                        break;
                     case TypeOfEntity.Harvester:
                         SetCursorToInteractionAppearance();
                         knownTargetDetected.ActivateTargetOutlineOnHover(knownTargetDetected.Outline, Color.yellow);
@@ -110,6 +113,8 @@ public class CursorLogic : MonoBehaviour
                     {
                         Interactions.KnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.KnownTarget.GetComponent<EntityDetection>().Outline);
                         Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);
+
+                        SetSentinelOutline(Interactions.KnownTarget, false);
 
                         //Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);
                         Interactions.LastKnownTarget = null;
@@ -157,6 +162,8 @@ public class CursorLogic : MonoBehaviour
                 if (Interactions.LastKnownTarget != Interactions.KnownTarget && Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline.enabled)
                 {
                     Interactions.LastKnownTarget.GetComponent<EntityDetection>().DeactivateTargetOutlineOnHover(Interactions.LastKnownTarget.GetComponent<EntityDetection>().Outline);
+
+                    SetSentinelOutline(Interactions.LastKnownTarget, false);
                 }
             }
             else
@@ -165,5 +172,26 @@ public class CursorLogic : MonoBehaviour
                 Interactions.KnownTarget = targetFound.transform;
             }
         }
+    }
+
+    private void SetSentinelOutline(Transform target, bool activate)
+    {
+        SteleLogic steleLogic = target.GetComponent<SteleLogic>();
+
+        if (steleLogic == null) return;
+
+        if (steleLogic.SteleEffect == SteleEffect.Sentinel)
+        {
+            if (activate)
+            {
+                SteleOutline steleOutline = steleLogic.SpawnedEffectObject.GetComponent<SteleOutline>();
+                steleOutline.SetOutlineInteractionColor();
+            }
+            else if (!activate)
+            {
+                SteleOutline steleOutline = steleLogic.SpawnedEffectObject.GetComponent<SteleOutline>();
+                steleOutline.SetOutlineDefaultColor();
+            }
+        } 
     }
 }

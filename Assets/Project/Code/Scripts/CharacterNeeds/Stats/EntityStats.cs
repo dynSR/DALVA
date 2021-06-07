@@ -261,7 +261,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         }
     }
 
-    private IEnumerator CreateDamagePopUpWithDelay(float delay, float value, StatType statType, Sprite icon, bool targetIsInvulnerable = false)
+    public IEnumerator CreateDamagePopUpWithDelay(float delay, float value, StatType statType, Sprite icon, bool targetIsInvulnerable = false)
     {
         yield return new WaitForSeconds(delay);
 

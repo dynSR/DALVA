@@ -230,31 +230,19 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         PurchaseSteleEffect();
 
-        EntityDetection entityDetection = GetComponent<EntityDetection>();
-
         switch (SteleLevel)
         {
             case SteleLevel.EvolutionI:
                 if(SteleEffect == SteleEffect.Sentinel)
                 {
-                    SpawnedEffectObject.transform.localScale = new Vector3(1, 1, 1);
+                    steleAmeliorationScript.renderers.transform.GetChild(0).localScale = new Vector3(0.85f, 0.65f, 0.85f);
                 }
                 break;
             case SteleLevel.EvolutionII:
-                if (SteleEffect == SteleEffect.Sentinel)
-                {
-                    entityDetection.Outline = steleAmeliorationScript.renderers.transform.GetChild(1).GetComponent<Outline>();
-                }
-
                 steleAmeliorationScript.renderers.transform.GetChild(0).gameObject.SetActive(false);
                 steleAmeliorationScript.renderers.transform.GetChild(1).gameObject.SetActive(true);
                 break;
             case SteleLevel.FinalEvolution:
-                if (SteleEffect == SteleEffect.Sentinel)
-                {
-                    entityDetection.Outline = steleAmeliorationScript.renderers.transform.GetChild(2).GetComponent<Outline>();
-                }
-
                 steleAmeliorationScript.renderers.transform.GetChild(1).gameObject.SetActive(false);
                 steleAmeliorationScript.renderers.transform.GetChild(2).gameObject.SetActive(true);
                 break;

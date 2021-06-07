@@ -2,14 +2,13 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Popup : MonoBehaviourPun
 {
     [Header("NUMERIC PARAMETERS")]
     [SerializeField] private float popUpLifeTime = 0.5f;
-    [SerializeField] private float moveXSpeed = 3f;
-    [SerializeField] private float moveYSpeed = 3f;
+    [SerializeField] private float moveXSpeed = 1f;
+    [SerializeField] private float moveYSpeed = 1f;
     [SerializeField] private float desappearSpeed = 3f;
 
     [Header("COLORS")]
@@ -46,6 +45,9 @@ public class Popup : MonoBehaviourPun
 
     private void OnEnable()
     {
+        //SetMoveXValue();
+        //SetMoveYValue();
+
         StartCoroutine(FadeAndDestroy(popUpLifeTime, desappearSpeed, gameObject));
         initRot = transform.eulerAngles;
     }
@@ -60,16 +62,25 @@ public class Popup : MonoBehaviourPun
         transform.eulerAngles = initRot;
     }
 
+    private void SetMoveXValue()
+    {
+        moveYSpeed = Random.Range(-3, 3);
+    }
+
+    private void SetMoveYValue()
+    {
+        moveYSpeed = Random.Range(-3,3);
+    }
+
     private void MoveUp()
     {
         FreezeLocalRotation();
+
         transform.position += new Vector3(moveXSpeed, moveYSpeed) * Time.deltaTime;
     }
 
     private void Setup(float value, StatType stat, Sprite icon, bool isCritical = false, bool targetIsInvulnerable = false)
     {
-        //ChangeRectScale(new Vector3(1.5f, 1.5f, 1.5f));
-
         if (targetIsInvulnerable)
         {
             ValueText.SetText(value.ToString("INVULNERABLE"));
@@ -77,12 +88,6 @@ public class Popup : MonoBehaviourPun
         }
 
         if (isCritical) ValueText.SetText(value.ToString("0") + " !");
-        //else if (itsAHeal)
-        //{
-        //    //ChangeRectScale(new Vector3(2.5f, 2.5f, 2.5f));
-        //    textColor = healColor;
-        //    ValueText.SetText("+ " + value.ToString("0"));
-        //}
         else ValueText.SetText(value.ToString("0"));
 
         switch (stat)
@@ -113,12 +118,6 @@ public class Popup : MonoBehaviourPun
         //Commented in case you want to use icon to represent damage type uncomment and use it
         //if (icon != null)
         //    Icon.sprite = icon;
-    }
-
-    private void ChangeRectScale(Vector3 newValue)
-    {
-        RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.localScale = new Vector3(newValue.x, newValue.y, newValue.z);
     }
 
     private IEnumerator FadeAndDestroy(float delay, float fadingSpeed, GameObject popup)

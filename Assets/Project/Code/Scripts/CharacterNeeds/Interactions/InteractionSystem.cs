@@ -81,8 +81,13 @@ public class InteractionSystem : MonoBehaviour
             else if (distance <= StoppingDistance)
             {
                 //Debug.Log("Close enough to target");
-                Controller.Agent.ResetPath();
-                Controller.Agent.isStopped = true;
+
+                if(Controller.Agent.enabled)
+                {
+                    Controller.Agent.ResetPath();
+                    Controller.Agent.isStopped = true;
+                }
+                
                 Interact();
             }
         }

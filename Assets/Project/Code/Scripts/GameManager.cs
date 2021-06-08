@@ -127,8 +127,8 @@ public class GameManager : MonoBehaviour
     {
         if (GameParameters.Instance == null)
         {
-            MageCharacter.SetActive(true);
-            //WarriorCharacter.SetActive(true);
+            //MageCharacter.SetActive(true);
+            WarriorCharacter.SetActive(true);
             Debug.Log("Default class chosen at Start !");
             return;
         }

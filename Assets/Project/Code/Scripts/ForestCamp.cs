@@ -42,8 +42,13 @@ public class ForestCamp : MonoBehaviour
     {
         if(EveryEntityIsDead() && !deathEventIsHandled)
         {
-            deathEventIsHandled = true;
             ProcessRespawnForEntities();
+            deathEventIsHandled = true;
+        }
+
+        if (EveryEntityIsUp() && deathEventIsHandled)
+        {
+            ScaleEntitiesStats();
         }
     }
 
@@ -51,7 +56,6 @@ public class ForestCamp : MonoBehaviour
     {
         foreach (NPCController controller in npcControllers)
         {
-            ScaleEntitiesStats();
             StartCoroutine(controller.Stats.ProcessRespawnTimer(controller.Stats.TimeToRespawn));
         }
     }
@@ -76,6 +80,28 @@ public class ForestCamp : MonoBehaviour
         }
 
         return everyEntityIsDead;
+    }
+
+    bool EveryEntityIsUp()
+    {
+        bool everyEntityIsUp = false;
+        int count = 0;
+
+        foreach (NPCController controller in npcControllers)
+        {
+            if (!controller.Stats.IsDead)
+            {
+                count++;
+            }
+
+            if (count >= npcControllers.Count)
+            {
+                everyEntityIsUp = true;
+            }
+            else everyEntityIsUp = false;
+        }
+
+        return everyEntityIsUp;
     }
 
     void SetNPCPositionAndRotation()
@@ -123,21 +149,27 @@ public class ForestCamp : MonoBehaviour
     {
         if (!canScaleStats) return;
 
-        foreach (NPCController item in npcControllers)
+        Debug.Log("Scaling npc stats properties !");
+
+        foreach (NPCController controller in npcControllers)
         {
             for (int i = 0; i < statsToScale.Count; i++)
             {
-                for (int j = 0; j < item.Stats.entityStats.Count; j++)
+                for (int j = 0; j < controller.Stats.entityStats.Count; j++)
                 {
-                    if (statsToScale[i].StatType  == item.Stats.entityStats[j].StatType)
+                    if (statsToScale[i].StatType  == controller.Stats.entityStats[j].StatType)
                     {
-                        if (item.Stats.entityStats[j].Value <= 0) continue;
+                        if (controller.Stats.entityStats[j].Value <= 0) continue;
 
-                        item.Stats.entityStats[j].AddModifier(new StatModifier(scalingFactor, statsToScale[i].StatType, StatModType.PercentAdd, this));
+                        controller.Stats.entityStats[j].AddModifier(new StatModifier(scalingFactor, statsToScale[i].StatType, StatModType.PercentAdd, this));
                     }
                 }
             }
+
+            controller.Stats.UpdateStats();
         }
+
+        deathEventIsHandled = false;
     }
 
     private void OnDrawGizmos()

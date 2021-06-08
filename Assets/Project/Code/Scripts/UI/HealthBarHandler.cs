@@ -32,6 +32,8 @@ public class HealthBarHandler : MonoBehaviour
             SetHealthBar(stats.GetStat(StatType.Health).Value, stats.GetStat(StatType.Health).MaxValue);
 
         ResetHealthBarColor();
+
+        SetHealthRegenerationValue(stats);
     }
 
     private void OnEnable()
@@ -44,6 +46,7 @@ public class HealthBarHandler : MonoBehaviour
             stats.OnEntityRespawn += ResetHealthBarColor;
             stats.OnDamageTaken += SetHealthBarColor;
             stats.OnShieldValueChanged += SetShieldBar;
+            stats.OnStatsValueChanged += SetHealthRegenerationValue;
         }
     }
 
@@ -57,6 +60,7 @@ public class HealthBarHandler : MonoBehaviour
             stats.OnEntityRespawn -= ResetHealthBarColor;
             stats.OnDamageTaken -= SetHealthBarColor;
             stats.OnShieldValueChanged -= SetShieldBar;
+            stats.OnStatsValueChanged -= SetHealthRegenerationValue;
         }
     }
 
@@ -66,20 +70,6 @@ public class HealthBarHandler : MonoBehaviour
 
         if (healthValueText != null)
             healthValueText.text = currentValue.ToString("0") + " / " + maxValue.ToString("0");
-
-        if (regenerationValueText != null)
-        {
-            regenerationValueText.gameObject.SetActive(true);
-            regenerationValueText.text = "Régénération " + " + " + stats.GetStat(StatType.HealthRegeneration).Value.ToString("0.0");
-
-            //if (currentValue >= maxValue || stats.IsDead) { regenerationValueText.gameObject.SetActive(false);}
-
-            //else if (currentValue < maxValue && !regenerationValueText.gameObject.activeInHierarchy)
-            //{
-            //    regenerationValueText.gameObject.SetActive(true);
-            //    regenerationValueText.text = " + " + stats.GetStat(StatType.HealthRegeneration).Value.ToString("0.0");
-            //}
-        }
     }
 
     void SetShieldBar(float currentValue, float maxValue)
@@ -88,6 +78,15 @@ public class HealthBarHandler : MonoBehaviour
             shieldBarFill.fillAmount = currentValue / maxValue;
 
         if (shieldBarFill.fillAmount >= 0.5f) shieldBarFill.fillAmount = 0.5f;
+    }
+
+    void SetHealthRegenerationValue(EntityStats stats)
+    {
+        if (regenerationValueText != null)
+        {
+            regenerationValueText.gameObject.SetActive(true);
+            regenerationValueText.text = "Régénération " + " + " + stats.GetStat(StatType.HealthRegeneration).Value.ToString("0.0");
+        }
     }
 
     void ResetHealthBarColor()

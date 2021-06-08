@@ -552,7 +552,9 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         NPCController npcController = GetComponent<NPCController>();
 
         if(npcController != null && npcController.IsACampNPC)
+        {
             npcController.transform.position = npcController.StartingPosition.position;
+        }
 
         SourceOfDamage = null;
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityEngine.UI;using UnityEngine.EventSystems;
+
 
 public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IButtonTooltip
 {
@@ -62,8 +62,6 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
 
             if (containedAbility.Ability.AbilityIcon != null)
                 containedAbilityIcon.sprite = containedAbility.Ability.AbilityIcon;
-
-        storedCooldown = ContainedAbility.Ability.AbilityCooldown;
     }
 
     private void UpdateAbilityCooldownUI(AbilityLogic containedAbility)
@@ -82,41 +80,36 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
     {
         yield return new WaitUntil(() => GameManager.Instance.GameIsInPlayMod());
 
-        storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+        SetAbilityCooldown();
 
-        if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
-            storedCooldown -= ContainedAbility.Ability.AbilityCooldown * (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value / 100);
-
-        else if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value == 0)
-            storedCooldown = ContainedAbility.Ability.AbilityCooldown;
-
+        float cooldownCountdown = storedCooldown;
 
         do
         {
-            storedCooldown -= Time.deltaTime;
+            cooldownCountdown -= Time.deltaTime;
 
             //Mettre à jour le timer text
             if (onlySeconds)
             {
-                cooldownText.SetText(storedCooldown.ToString("0"));
+                cooldownText.SetText(cooldownCountdown.ToString("0"));
             }
             else if (!onlySeconds)
             {
                 //Calcul minutes + secondes
-                string minutes = Mathf.Floor(storedCooldown / 60).ToString("0");
-                string seconds = Mathf.Floor(storedCooldown % 60).ToString("00");
+                string minutes = Mathf.Floor(cooldownCountdown / 60).ToString("0");
+                string seconds = Mathf.Floor(cooldownCountdown % 60).ToString("00");
 
                 cooldownText.SetText(minutes + ":" + seconds);
             }
 
-            if (storedCooldown <= 1)
-                cooldownText.SetText(storedCooldown.ToString("0.0"));
+            if (cooldownCountdown <= 1)
+                cooldownText.SetText(cooldownCountdown.ToString("0.0"));
 
             //Update l'image filled
-            cooldownFiller.fillAmount = storedCooldown / containedAbility.Ability.AbilityCooldown;
+            cooldownFiller.fillAmount = cooldownCountdown / containedAbility.Ability.AbilityCooldown;
 
             yield return new WaitForEndOfFrame();
-        } while (storedCooldown > 0.1f);
+        } while (cooldownCountdown > 0.1f);
 
         //Désactiver le timer text et l'image filled
         cooldownContainerGameObject.SetActive(false);
@@ -191,13 +184,7 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
             textToSet.SetText("Sort Ciblé");
         }
 
-        storedCooldown = ContainedAbility.Ability.AbilityCooldown;
-
-        if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
-            storedCooldown -= ContainedAbility.Ability.AbilityCooldown * (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value / 100);
-
-        else if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value == 0)
-            storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+        SetAbilityCooldown();
 
         //SETTING THE TOOLTIP WITH THE WANTED INFORMATIONS
         tooltipSetter.SetTooltip(
@@ -207,4 +194,15 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
             spriteToSend);
     }
     #endregion
+
+    void SetAbilityCooldown()
+    {
+        storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+
+        if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value > 0)
+            storedCooldown -= ContainedAbility.Ability.AbilityCooldown * (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value / 100);
+
+        else if (ContainedAbility.Stats.GetStat(StatType.Cooldown_Reduction).Value == 0)
+            storedCooldown = ContainedAbility.Ability.AbilityCooldown;
+    }
 }

@@ -28,6 +28,8 @@ public class Tower : MonoBehaviour
         attackProjectile.ProjectileSender = transform;
         attackProjectile.Target = targetStats.transform;
 
+        GetComponent<TowerAmelioration>().MyAnimator.SetTrigger("Attack");
+
         if (ProjectileCanApplyDamageInZone) attackProjectile.CanApplyDamageInZone = true;
 
         CanAttack = false;

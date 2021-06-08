@@ -23,6 +23,16 @@ public class GameParameters : MonoBehaviour
     }
     #endregion
 
+    private void FixedUpdate()
+    {
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+            if(maxLevelDone<3)
+            {
+                maxLevelDone++;
+            }
+        }
+    }
     public void SetClassChosenToMage()
     {
         classIsMage = true;

@@ -74,9 +74,14 @@ public class InteractionSystem : MonoBehaviour
             if (distance > StoppingDistance)
             {
                 //Debug.Log("Far from target");
-                ResetInteractionState();
-                Controller.Agent.isStopped = false;
-                Controller.SetAgentDestination(Controller.Agent, Target.position);
+                if (CanPerformAttack)
+                    ResetInteractionState();
+
+                if (Controller.Agent.enabled)
+                {
+                    Controller.Agent.isStopped = false;
+                    Controller.SetAgentDestination(Controller.Agent, Target.position);
+                }
             }
             else if (distance <= StoppingDistance)
             {

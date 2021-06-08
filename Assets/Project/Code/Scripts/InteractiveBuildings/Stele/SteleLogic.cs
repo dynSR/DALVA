@@ -61,6 +61,9 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     private CharacterRessources interactingPlayerRessources;
     public List<GameObject> steleEffects;
 
+    BoxCollider BoxCollider => GetComponent<BoxCollider>();
+
+
     [System.Serializable]
     public class EffectDescription
     {
@@ -126,8 +129,13 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         activationVFX.SetActive(true);
         UtilityClass.PlaySoundGroupImmediatly(activationSFX, transform);
 
-        //activatedVFX.SetActive(true);
+        if (SteleEffect == SteleEffect.Sentinel)
+        {
+            BoxCollider.size = new Vector3(BoxCollider.size.x, 9, BoxCollider.size.z);
+        }
+        else BoxCollider.size = new Vector3(BoxCollider.size.x, 2, BoxCollider.size.z);
 
+        //activatedVFX.SetActive(true);
 
         //To keep !
         //InteractingPlayer.Target = null;
@@ -201,6 +209,8 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     public void SellEffect()
     {
         OnSell?.Invoke();
+
+        BoxCollider.size = new Vector3(BoxCollider.size.x, 2, BoxCollider.size.z);
 
         UtilityClass.PlaySoundGroupImmediatly(sellingSFX, transform);
 

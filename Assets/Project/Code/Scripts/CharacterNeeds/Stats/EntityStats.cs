@@ -506,6 +506,15 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
 
+    public IEnumerator ProcessRespawnTimer(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Respawn();
+
+        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
+    }
+
     private void Respawn()
     {
         Debug.Log("Respawn");
@@ -539,6 +548,11 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         //Set Position At Spawn Location
         if (spawnLocation != null)
             transform.localPosition = spawnLocation.position;
+
+        NPCController npcController = GetComponent<NPCController>();
+
+        if(npcController != null && npcController.IsACampNPC)
+            npcController.transform.position = npcController.StartingPosition.position;
 
         SourceOfDamage = null;
 

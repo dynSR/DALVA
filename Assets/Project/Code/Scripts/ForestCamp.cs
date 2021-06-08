@@ -6,6 +6,7 @@ public class ForestCamp : MonoBehaviour
 {
     [SerializeField] private List<NPCController> npcControllers;
     [SerializeField] private List<Transform> startingPositions;
+    private bool deathEventIsHandled = false;
 
     [Header("SCALING")]
     public float scalingFactor = 0.01f;
@@ -35,6 +36,46 @@ public class ForestCamp : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
             ScaleEntitiesStats();
+    }
+
+    private void LateUpdate()
+    {
+        if(EveryEntityIsDead() && !deathEventIsHandled)
+        {
+            deathEventIsHandled = true;
+            ProcessRespawnForEntities();
+        }
+    }
+
+    private void ProcessRespawnForEntities()
+    {
+        foreach (NPCController controller in npcControllers)
+        {
+            ScaleEntitiesStats();
+            StartCoroutine(controller.Stats.ProcessRespawnTimer(controller.Stats.TimeToRespawn));
+        }
+    }
+
+    bool EveryEntityIsDead()
+    {
+        bool everyEntityIsDead = false;
+        int count = 0;
+
+        foreach (NPCController controller in npcControllers)
+        {
+            if (controller.Stats.IsDead)
+            {
+                count++;
+            }
+
+            if (count >= npcControllers.Count)
+            {
+                everyEntityIsDead = true;
+            }
+            else everyEntityIsDead = false;
+        }
+
+        return everyEntityIsDead;
     }
 
     void SetNPCPositionAndRotation()

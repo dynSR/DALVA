@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: "Orbe d'\xC9nergie"
   abilityDescription: "Projette une orbe magique. \nSi l'ennemi touch\xE9 est marqu\xE9,
-    ce projectile inflige des d\xE9g\xE2ts suppl\xE9mentaires et rebondit sur les
-    ennemis proches de la cible.\nLa marque est consum\xE9e."
+    elle inflige des d\xE9g\xE2ts suppl\xE9mentaires et rebondit sur les ennemis
+    proches.\nLes d\xE9g\xE2ts de cette comp\xE9tence d\xE9pendent de votre puissance
+    magique."
   abilityKey: 97
   abilityIcon: {fileID: 21300000, guid: 2baffb6b5a0f9cf37637a7131641f493, type: 3}
   abilityCost: 75
   abilityEffectObject: {fileID: 8403224405550740081, guid: fc8cf052bd4191546be55ee2d6d05568, type: 3}
   isPointAndClick: 0
+  isABuff: 0
   abilityPhysicalDamage: 0
   abilityMagicalDamage: 50
   abilityPhysicalRatio: 0
@@ -34,6 +36,8 @@ MonoBehaviour:
   abilityShieldValue: 0
   shieldMagicalRatio: 0
   shieldHealthRatio: 0
+  scaleUponMagicalPower: 0
+  scaleUponMaxHealth: 0
   defaultEffectAppliedOnAlly: {fileID: 0}
   defaultEffectAppliedOnEnemy: {fileID: 0}
   abilityMarkDuration: 0

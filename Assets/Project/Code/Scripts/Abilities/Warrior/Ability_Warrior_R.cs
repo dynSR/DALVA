@@ -17,7 +17,7 @@ public class Ability_Warrior_R : AbilityLogic
         {
             case AbilityEffect.I:
                 PlayAbilityAnimation("UsesFourthAbility", true);
-                Stats.Heal(transform, 75f + (75 * (Stats.GetStat(StatType.PhysicalResistances).Value * 0.15f)), Stats.GetStat(StatType.HealAndShieldEffectiveness).Value);
+                Stats.Heal(transform, 75f + (75 * (Stats.GetStat(StatType.PhysicalResistances).Value * 0.075f)), Stats.GetStat(StatType.HealAndShieldEffectiveness).Value);
                 break;
         }
     }

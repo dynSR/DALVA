@@ -6,12 +6,24 @@ public enum EntityType
     Warrior,
     Sorcerer,
     Dummy,
-    //Bear, Boar, Cougar, Deer, Fox, Moose, Rabbit, Raccoon, Tiger, Wolf,
     Minion,
     ForestMonster,
     Boss,
     Stele, SteleEffect,
     None
+}
+
+public enum Species
+{
+    None,
+    Bear, 
+    Boar,
+    Cougar,
+    Deer,
+    Moose,
+    Rabbit,
+    Raccoon,
+    Wolf,
 }
 
 [CreateAssetMenu(fileName = "Entity_", menuName = "ScriptableObjects/Entities", order = 2)]
@@ -20,7 +32,9 @@ public class BaseEntity : ScriptableObject
     [Header("INFORMATIONS")]
     [SerializeField] private string entityName = "[Type in]";
     [SerializeField] private EntityType entityType = EntityType.None;
+    [SerializeField] private Species entitySpecies = Species.None;
     public EntityType EntityType { get => entityType; set => entityType = value; }
+    public Species EntitySpecies { get => entitySpecies; set => entitySpecies = value; }
 
     [SerializeField] private CombatType combatType = CombatType.None;
     [SerializeField] private List<Stat> entityStats;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DarkTonic.MasterAudio;
+using System.Collections;
 using UnityEngine;
 
 public enum CombatType { MeleeCombat, RangedCombat, None }
@@ -229,6 +230,8 @@ public class InteractionSystem : MonoBehaviour
             //if (AutoAttackCanMark) targetStat.MarkEntity(0.5f, targetStat.EntityTeam);
 
             if (AutoAttackEffect != null) AutoAttackEffect.ApplyEffect(Target);
+
+            UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Impact", targetStat.transform);
 
             HasPerformedAttack = true;
 

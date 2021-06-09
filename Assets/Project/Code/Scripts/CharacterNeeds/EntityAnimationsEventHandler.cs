@@ -1,6 +1,5 @@
 ﻿using DarkTonic.MasterAudio;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EntityAnimationsEventHandler : MonoBehaviour
 {
@@ -46,7 +45,36 @@ public class EntityAnimationsEventHandler : MonoBehaviour
 
     public void PlayMeleeAttackSound()
     {
-        UtilityClass.PlaySoundGroupImmediatly(meleeAttackSound, transform);
+        switch (Stats.BaseUsedEntity.EntitySpecies)
+        {
+            case Species.None:
+                UtilityClass.PlaySoundGroupImmediatly(meleeAttackSound, transform);
+                break;
+            case Species.Bear:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Bear_Attack", transform);
+                break;
+            case Species.Boar:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Boar_Attack", transform);
+                break;
+            case Species.Cougar:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Cougar_Attack", transform);
+                break;
+            case Species.Deer:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Deer_Attack", transform);
+                break;
+            case Species.Moose:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Moose_Attack", transform);
+                break;
+            case Species.Rabbit:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Rabbit_Attack", transform);
+                break;
+            case Species.Raccoon:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Raccoon_Attack", transform);
+                break;
+            case Species.Wolf:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Wolf_Attack", transform);
+                break;
+        }
     }
     #endregion
 

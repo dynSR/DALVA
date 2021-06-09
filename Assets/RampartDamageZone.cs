@@ -32,7 +32,7 @@ public class RampartDamageZone : StatusEffectZoneCore
             {
                 statsOfEntitiesInTrigger.Remove(statsOfEntitiesInTrigger[i]);
 
-                if(statsOfEntitiesInTrigger.Count > 1)
+                if(statsOfEntitiesInTrigger.Count >= 2)
                     statsOfEntitiesInTrigger.Sort();
                 return;
             }

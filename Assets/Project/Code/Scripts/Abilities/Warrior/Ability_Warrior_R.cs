@@ -8,7 +8,10 @@ public class Ability_Warrior_R : AbilityLogic
 
     protected override void Cast()
     {
-        //if (Stats.GetStat(StatType.Health).Value == Stats.GetStat(StatType.Health).MaxValue) return;
+        //if (Stats.GetStat(StatType.Health).Value == Stats.GetStat(StatType.Health).MaxValue)
+        //{
+        //    return;
+        //}
 
         switch (UsedEffectIndex)
         {

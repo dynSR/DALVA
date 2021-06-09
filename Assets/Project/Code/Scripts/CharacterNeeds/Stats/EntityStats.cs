@@ -419,10 +419,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             EntityDetection.enabled = false;
 
-            if (!EntityDetection.Outline.enabled)
-                EntityDetection.Outline.enabled = true;
-
-            EntityDetection.Outline.OutlineColor = Color.black;
+            EntityDetection.DeactivateTargetOutlineOnHover(EntityDetection.Outline);
 
             if (GetComponent<CursorLogic>() != null) GetComponent<CursorLogic>().SetCursorToNormalAppearance();
 

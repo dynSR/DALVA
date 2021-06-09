@@ -30,6 +30,6 @@ public class Ability_Warrior_E : AbilityLogic
 
     private float CalculateDamageValue()
     {
-        return damageValue = (Ability.AbilityPhysicalDamage + (Stats.GetStat(StatType.PhysicalPower).Value * Ability.AbilityPhysicalRatio));
+        return damageValue = (Ability.AbilityPhysicalDamage + (Stats.GetStat(StatType.MagicalPower).Value * Ability.AbilityPhysicalRatio));
     }
 }

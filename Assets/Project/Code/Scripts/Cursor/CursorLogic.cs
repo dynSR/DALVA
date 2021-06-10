@@ -34,10 +34,14 @@ public class CursorLogic : MonoBehaviour
     #region Set cursor appearance when its hovering an entity
     void SetCursorAppearance()
     {
-        if (Controller.IsCursorHoveringUIElement 
-            || Controller.IsStunned 
-            || Interactions.PlayerIsTryingToAttack 
-            || !GameManager.Instance.GameIsInPlayMod()) return;
+        if (Controller.IsCursorHoveringUIElement
+            || Controller.IsStunned
+            || Interactions.PlayerIsTryingToAttack
+            || !GameManager.Instance.GameIsInPlayMod())
+        {
+            SetCursorToNormalAppearance();
+            return;
+        }
 
         if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out cursorHit, Mathf.Infinity))
         {
@@ -130,18 +134,22 @@ public class CursorLogic : MonoBehaviour
     public void SetCursorToNormalAppearance()
     {
         //Debug.Log("Normal Cursor");
+
         Cursor.SetCursor(NormalCursorIcon, Vector2.zero, CursorMode.Auto);
     }
 
     private void SetCursorToAttackAppearance()
     {
         //Debug.Log("Attack Cursor");
-        Cursor.SetCursor(AttackCursorIcon, Vector2.zero, CursorMode.Auto);
+
+        if (!PlayerHUDManager.Instance.IsShopWindowOpen)
+            Cursor.SetCursor(AttackCursorIcon, Vector2.zero, CursorMode.Auto);
     }
 
     private void SetCursorToInteractionAppearance()
     {
-        Cursor.SetCursor(InteractionCursorIcon, Vector2.zero, CursorMode.Auto);
+        if (!PlayerHUDManager.Instance.IsShopWindowOpen)
+            Cursor.SetCursor(InteractionCursorIcon, Vector2.zero, CursorMode.Auto);
     }
 
     public void SetCursorToAttackOnMoveAppearance()

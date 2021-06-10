@@ -8,6 +8,8 @@ public class ForestCamp : MonoBehaviour
     [SerializeField] private List<Transform> startingPositions;
     private bool deathEventIsHandled = false;
 
+    public GameObject minimapObject;
+
     [Header("SCALING")]
     public float scalingFactor = 0.01f;
     public List<Stat> statsToScale;
@@ -60,6 +62,22 @@ public class ForestCamp : MonoBehaviour
         }
     }
 
+    void DisplayCampMinimapIcon()
+    {
+        if (!minimapObject.activeInHierarchy)
+        {
+            minimapObject.SetActive(true);
+        }
+    }
+
+    void HideCampMinimapIcon()
+    {
+        if (minimapObject.activeInHierarchy)
+        {
+            minimapObject.SetActive(false);
+        }
+    }
+
     bool EveryEntityIsDead()
     {
         bool everyEntityIsDead = false;
@@ -75,6 +93,7 @@ public class ForestCamp : MonoBehaviour
             if (count >= npcControllers.Count)
             {
                 everyEntityIsDead = true;
+                HideCampMinimapIcon();
             }
             else everyEntityIsDead = false;
         }
@@ -97,6 +116,7 @@ public class ForestCamp : MonoBehaviour
             if (count >= npcControllers.Count)
             {
                 everyEntityIsUp = true;
+                DisplayCampMinimapIcon();
             }
             else everyEntityIsUp = false;
         }

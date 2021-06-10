@@ -6,6 +6,7 @@ public class ItemPanelButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     public Image buttonImage;
     public Image iconItemIsInShop;
+    public GameObject rotatingFeedback;
 
     public TooltipSetter tooltipSetter = null;
 
@@ -36,14 +37,16 @@ public class ItemPanelButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
     #endregion
 
-    public void DisplayItemIsntInShop()
+    public void ItemIsntInShop()
     {
         iconItemIsInShop.gameObject.SetActive(true);
+        rotatingFeedback.SetActive(false);
     }
 
-    public void HideThatItemIsInShop()
+    public void ItemIsInShop()
     {
         iconItemIsInShop.gameObject.SetActive(false);
+        rotatingFeedback.SetActive(true);
     }
 
     public void DisableCanvasGroup()

@@ -46,9 +46,13 @@ public class SpawnerSystem : MonoBehaviour
     [Header("WAVES")]
     [SerializeField] private List<Wave> waves;
 
+    [Header("SPAWN PINGS EFFECTS")]
+    public GameObject[] spawnPingsObjects;
+
     [Header("SOUNDS")]
     [SoundGroup] public string portalLoopSFX;
     [SoundGroup] public string closePortalSFX;
+    [SoundGroup] public string passingThroughSFX;
 
     private Animator MyAnimator => GetComponent<Animator>();
 
@@ -108,6 +112,8 @@ public class SpawnerSystem : MonoBehaviour
         waveState = WaveState.IsSpawning;
         MyAnimator.SetTrigger("OpenPortal");
 
+        SendSpawnPings();
+
         //Spawn Sound Event : Oppening Portal
         UtilityClass.PlaySoundGroupImmediatly(portalLoopSFX, transform);
 
@@ -147,7 +153,11 @@ public class SpawnerSystem : MonoBehaviour
                     minionData.spawnLocation,
                     minionData.usedPathIndex);
 
+                UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, minionData.spawnLocation);
+
                 OnFirstWaveSpawned?.Invoke();
+
+                
 
                 yield return new WaitForSeconds(spawnRate);
 
@@ -164,6 +174,8 @@ public class SpawnerSystem : MonoBehaviour
 
         //Change spawner state
         waveState = WaveState.Standby;
+
+        RemoveSpawnPings();
 
         //Its final wave
         if (IndexOfCurrentWave == Waves.Count - 1)
@@ -200,6 +212,51 @@ public class SpawnerSystem : MonoBehaviour
         }
 
         return itIsABossWave;
+    }
+
+    public void SendSpawnPings()
+    {
+        Wave currentWave = Waves[IndexOfCurrentWave];
+
+        for (int i = 0; i < currentWave.minionsData.Count; i++)
+        {
+            for (int j = 0; j < currentWave.minionsData[i].minionsUsedInTheWave.Length; j++)
+            {
+                //Spawn Sound Event : Portal Loop
+                MinionsData minionData = currentWave.minionsData[i];
+
+                if (minionData.spawnLocation == transform.GetChild(0))
+                {
+                    Debug.Log("Above location");
+                    spawnPingsObjects[0].SetActive(true);
+                }
+                else if (minionData.spawnLocation == transform.GetChild(1))
+                {
+                    spawnPingsObjects[1].SetActive(true);
+                    Debug.Log("Middle location");
+                }
+                else if (minionData.spawnLocation == transform.GetChild(2))
+                {
+                    spawnPingsObjects[2].SetActive(true);
+                    Debug.Log("Bottom location");
+                }
+                else
+                {
+                    Debug.Log("Nothing can be returned");
+                }
+            }
+        }
+    }
+
+    public void RemoveSpawnPings()
+    {
+        foreach (GameObject obj in spawnPingsObjects)
+        {
+            if (obj.activeInHierarchy)
+            {
+                obj.SetActive(false);
+            }
+        }
     }
 
     public void PlayClosingPortalSFX()

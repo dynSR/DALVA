@@ -66,12 +66,12 @@ public class ItemPanel : MonoBehaviour
         {
             if (itemPanelComponentsCreated[i].AttributedItem.ItemIsInShop)
             {
-                itemPanelComponentsCreated[i].HideThatItemIsInShop();
+                itemPanelComponentsCreated[i].ItemIsInShop();
                 Debug.Log("Item is in shop " + itemPanelComponentsCreated[i].AttributedItem.ItemName + " " + itemPanelComponentsCreated[i].AttributedItem.ItemIsInShop);
             }
             else if (!itemPanelComponentsCreated[i].AttributedItem.ItemIsInShop)
             {
-                itemPanelComponentsCreated[i].DisplayItemIsntInShop();
+                itemPanelComponentsCreated[i].ItemIsntInShop();
                 Debug.Log("Item is not in shop " + itemPanelComponentsCreated[i].AttributedItem.ItemName + " " + itemPanelComponentsCreated[i].AttributedItem.ItemIsInShop);
             }
         }
@@ -81,7 +81,7 @@ public class ItemPanel : MonoBehaviour
     {
         for (int i = 0; i < itemPanelComponentsCreated.Count; i++)
         {
-            itemPanelComponentsCreated[i].DisplayItemIsntInShop();
+            itemPanelComponentsCreated[i].ItemIsntInShop();
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DarkTonic.MasterAudio;
 using UnityEngine;
 
 public class PlaceToDefend : MonoBehaviour
@@ -10,6 +9,8 @@ public class PlaceToDefend : MonoBehaviour
     public int health;
     public EntityTeam team;
     public GameObject passingThroughPortalVFX;
+
+    [SoundGroup] public string passingThroughSFX;
 
     private void Start()
     {
@@ -24,6 +25,9 @@ public class PlaceToDefend : MonoBehaviour
         if (stats != null && stats.EntityTeam != team && stats.EntityTeam != EntityTeam.NEUTRAL)
         {
             GameManager.Instance.DalvaLifePoints -= stats.DamageAppliedToThePlaceToDefend;
+
+            UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, stats.transform);
+
             Destroy(stats.gameObject);
 
             OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);

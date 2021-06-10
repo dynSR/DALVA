@@ -36,6 +36,8 @@ public class PlayerHUDManager : MonoBehaviour
     public Transform Player { get => player; }
     public GameObject SteleTooltip { get => steleTooltip; }
 
+    CursorLogic cursorLogic;
+
     #region Singleton
     public static PlayerHUDManager Instance;
 
@@ -48,7 +50,9 @@ public class PlayerHUDManager : MonoBehaviour
         else
         {
             Instance = this;
-            statusEffectHandler = player.GetComponent<StatusEffectHandler>();
+
+            statusEffectHandler = Player.GetComponent<StatusEffectHandler>();
+            cursorLogic = Player.GetComponent<CursorLogic>();
         }
     }
     #endregion
@@ -136,6 +140,22 @@ public class PlayerHUDManager : MonoBehaviour
             CloseWindow(window);
         }
     }
+
+    public void ToggleShopWindowOnButtonClick()
+    {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
+        if (IsShopWindowOpen)
+        {
+            Debug.Log("Shop was opened");
+            CloseWindow(ShopWindow);
+        }
+        else if (!IsShopWindowOpen && !GameManager.Instance.tutorielDisplayed)
+        {
+            Debug.Log("Shop was closed");
+            OpenWindow(ShopWindow);
+        }
+    }
     #endregion
     #region Open - Close
     public void OpenWindow(GameObject window)
@@ -147,6 +167,7 @@ public class PlayerHUDManager : MonoBehaviour
             cG.blocksRaycasts = true;
 
             OnOpenningShopWindow();
+
             return;
         }
 
@@ -177,8 +198,10 @@ public class PlayerHUDManager : MonoBehaviour
 
         shop.itemPanel.EnableAllCanvasGroup();
 
+        cursorLogic.SetCursorToNormalAppearance();
+
         IsShopWindowOpen = true;
-        UtilityClass.PlaySoundGroupImmediatly(oppeningShopSoundGroup, UtilityClass.GetMainCamera().transform);
+        UtilityClass.PlaySoundGroupImmediatly(oppeningShopSoundGroup, transform);
 
         ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();
@@ -218,7 +241,8 @@ public class PlayerHUDManager : MonoBehaviour
 
         shop.SelectedItem = null;
 
-        UtilityClass.PlaySoundGroupImmediatly(closingShopSoundGroup, UtilityClass.GetMainCamera().transform);
+        if (!GameManager.Instance.tutorielDisplayed)
+            UtilityClass.PlaySoundGroupImmediatly(closingShopSoundGroup, transform);
 
         GameManager.Instance.SetTimeScale(1);
     }
@@ -235,4 +259,14 @@ public class PlayerHUDManager : MonoBehaviour
         ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x + 150, offset.y +10);
     }
     #endregion
+
+
+    public void ToggleCameraStateOnButtonClick()
+    {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
+        CameraController cameraController = UtilityClass.GetMainCamera().GetComponent<CameraController>();
+
+        cameraController.SetCameraLockState();
+    }
 }

@@ -32,6 +32,8 @@ public class CameraController : MonoBehaviour
 
     public Transform TargetToFollow { get => targetToFollow; set => targetToFollow = value; }
     public CameraLockState CameraLockState { get => cameraLockState; set => cameraLockState = value; }
+    public KeyCode ChangeCameraLockStateKey { get => changeCameraLockStateKey; }
+    public KeyCode CameraFocusOnTargetKey { get => cameraFocusOnTargetKey; }
 
     private void Awake()
     {
@@ -45,19 +47,9 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if(UtilityClass.IsKeyPressed(changeCameraLockStateKey) && GameManager.Instance.GameIsInPlayMod())
+        if(UtilityClass.IsKeyPressed(ChangeCameraLockStateKey) && GameManager.Instance.GameIsInPlayMod())
         {
-            switch (CameraLockState)
-            {
-                case CameraLockState.Locked:
-                    CameraLockState = CameraLockState.Unlocked;
-                    break;
-                case CameraLockState.Unlocked:
-                    CameraLockState = CameraLockState.Locked;
-                    break;
-                default:
-                    break;
-            }
+            SetCameraLockState();
         }
     }
 
@@ -76,7 +68,7 @@ public class CameraController : MonoBehaviour
             MoveCameraWithDirectionnalArrows();
             MoveCameraOnHittingScreenEdges();
 
-            if (UtilityClass.IsKeyMaintained(cameraFocusOnTargetKey))
+            if (UtilityClass.IsKeyMaintained(CameraFocusOnTargetKey))
             {
                 FollowATarget(TargetToFollow);
             }
@@ -190,6 +182,19 @@ public class CameraController : MonoBehaviour
             );
 
         return newPos;
+    }
+
+    public void SetCameraLockState()
+    {
+        switch (CameraLockState)
+        {
+            case CameraLockState.Locked:
+                CameraLockState = CameraLockState.Unlocked;
+                break;
+            case CameraLockState.Unlocked:
+                CameraLockState = CameraLockState.Locked;
+                break;
+        }
     }
 
     #region Minimap Camera movements

@@ -20,7 +20,8 @@ public class GuardianStunZone : StatusEffectZoneCore
 
     protected override void ApplyAffect(EntityStats target)
     {
-        guardianStatusEffect.ApplyEffect(target.transform);
+        if (target != null)
+            guardianStatusEffect.ApplyEffect(target.transform);
     }
 
     protected override void RemoveEffect(EntityStats target)

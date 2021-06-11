@@ -24106,8 +24106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af414992177f041b85ba4f6b7867c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHoverSound: SFX_UI_MouseOnButton
-  onClickSound: SFX_UIMouseClickButton
+  onHoverSound: SFX_UI_MouseOver
+  onClickSound: SFX_UI_ButtonClick
   playSoundOnHover: 1
   playSoundOnClick: 1
 --- !u!114 &6741372511670496023
@@ -50810,7 +50810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -14.999996}
   m_SizeDelta: {x: 25, y: 15}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &572166925842972132
@@ -60507,7 +60507,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 35, y: 15}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2930524118722538796

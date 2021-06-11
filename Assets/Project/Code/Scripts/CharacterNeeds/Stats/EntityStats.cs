@@ -444,8 +444,12 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         if (this != GameManager.Instance.Player.GetComponent<EntityStats>())
         {
+            CharacterRessources characterRessources = GameManager.Instance.Player.GetComponent<CharacterRessources>();
+
             StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
-            GameManager.Instance.Player.GetComponent<CharacterRessources>().AddRessources((int)valueToGive);
+
+            characterRessources.AddRessources((int)valueToGive);
+            characterRessources.SetRessourcesFeedback(characterRessources.CurrentAmountOfPlayerRessources + (int)valueToGive);
 
             //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
         }

@@ -30,6 +30,8 @@ public class PlaceToDefend : MonoBehaviour
 
             Destroy(stats.gameObject);
 
+            UIManager.Instance.SetDamageLoss(stats.DamageAppliedToThePlaceToDefend);
+
             OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
 
             if(!passingThroughPortalVFX.activeInHierarchy)

@@ -121,7 +121,25 @@ public class NPCController : CharacterController
     }
 
     #region Handle waypoints
-    public virtual void CheckDistanceFromWaypoint(Transform waypoint)
+    public void CompareCurrentAndNextWaypointPositionsFromTransformPosition()
+    {
+        float distanceFromCurrentWaypoint = Vector3.Distance(transform.position, waypoints[WaypointIndex].position);
+
+        float distanceFromNextWaypoint = Vector3.Distance(transform.position, waypoints[WaypointIndex + 1].position);
+
+
+        if (distanceFromCurrentWaypoint > distanceFromNextWaypoint)
+        {
+            WaypointIndex++;
+            waypointTarget = waypoints[WaypointIndex];
+        }
+        else
+        {
+            waypointTarget = waypoints[WaypointIndex];
+        }
+    }
+
+    public void CheckDistanceFromWaypoint(Transform waypoint)
     {
         if (Vector3.Distance(transform.position, waypoint.position) <= 1f)
         {

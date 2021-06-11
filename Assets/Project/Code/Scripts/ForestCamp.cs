@@ -64,7 +64,7 @@ public class ForestCamp : MonoBehaviour
 
     void DisplayCampMinimapIcon()
     {
-        if (!minimapObject.activeInHierarchy)
+        if (minimapObject != null && !minimapObject.activeInHierarchy)
         {
             minimapObject.SetActive(true);
         }
@@ -72,7 +72,7 @@ public class ForestCamp : MonoBehaviour
 
     void HideCampMinimapIcon()
     {
-        if (minimapObject.activeInHierarchy)
+        if (minimapObject != null && minimapObject.activeInHierarchy)
         {
             minimapObject.SetActive(false);
         }

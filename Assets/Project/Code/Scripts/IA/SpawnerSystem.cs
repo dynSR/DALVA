@@ -148,6 +148,8 @@ public class SpawnerSystem : MonoBehaviour
                     OnFirstBossWaveSpawned?.Invoke();
                 }
 
+                UIManager.Instance.HideBossWavePing();
+
                 SpawnMinions(
                    minionData.minionsUsedInTheWave[j],
                     minionData.spawnLocation,
@@ -156,8 +158,6 @@ public class SpawnerSystem : MonoBehaviour
                 UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, minionData.spawnLocation);
 
                 OnFirstWaveSpawned?.Invoke();
-
-                
 
                 yield return new WaitForSeconds(spawnRate);
 
@@ -203,6 +203,7 @@ public class SpawnerSystem : MonoBehaviour
                 if (spawningMinionController.IsABoss && !GameManager.Instance.ItIsABossWave)
                 {
                     itIsABossWave = true;
+                    UIManager.Instance.DisplayBossWavePing();
                 }
                 else if (spawningMinionController.IsABoss && GameManager.Instance.ItIsABossWave)
                 {

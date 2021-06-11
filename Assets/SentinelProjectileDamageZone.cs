@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SentinelProjectileDamageZone : StatusEffectZoneCore
 {
@@ -19,11 +20,20 @@ public class SentinelProjectileDamageZone : StatusEffectZoneCore
                 StartCoroutine(target.CreateDamagePopUpWithDelay(0.1f, actualDamage, StatType.PhysicalPower, null, true));
             }
         }
-            //target.TakeDamage(null, 0, 0, 0, actualDamage, 0, 0, 0, 0);
+
+        StartCoroutine(ApplyDamage(target));
     }
 
     protected override void RemoveEffect(EntityStats target)
     {
         //NOTHING
+    }
+
+    IEnumerator ApplyDamage(EntityStats target)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (!target.IsDead)
+            target.TakeDamage(null, 0, 0, 0, actualDamage, 0, 0, 0, 0);
     }
 }

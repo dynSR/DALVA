@@ -31,9 +31,6 @@ public class RampartDamageZone : StatusEffectZoneCore
             if(statsOfEntitiesInTrigger[i].IsDead)
             {
                 statsOfEntitiesInTrigger.Remove(statsOfEntitiesInTrigger[i]);
-
-                if(statsOfEntitiesInTrigger.Count >= 2)
-                    statsOfEntitiesInTrigger.Sort();
                 return;
             }
 

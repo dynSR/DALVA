@@ -123,7 +123,6 @@ public class ProjectileLogic : MonoBehaviour
                     if (Ability != null)
                     {
                         if (ProjectileSenderStats.EntityTeam != targetStats.EntityTeam) ApplyProjectileAbilityDamage(targetStats);
-                        else if (CanHeal && ProjectileSenderStats.EntityTeam == targetStats.EntityTeam) ApplyProjectileAbilityHeal(targetStats);
                     }
                     else
                     {
@@ -195,26 +194,6 @@ public class ProjectileLogic : MonoBehaviour
         }
 
         if (Ability.AbilityCanMark) StartCoroutine(targetStat.MarkEntity(Ability.AbilityMarkDuration));
-
-        DestroyProjectile();
-    }
-
-    private void ApplyProjectileAbilityHeal(EntityStats targetStat)
-    {
-        if (!targetStat.EntityIsMarked) return;
-
-        float markBonusHeal;
-
-        if (targetStat.EntityIsMarked)
-        {
-            targetStat.DeactivateMarkFeedback();
-            markBonusHeal = Ability.AbilityHealBonusOnMarkedTarget;
-        }
-        else markBonusHeal = 0;
-
-        targetStat.Heal(targetStat.transform, Ability.AbilityHealValue + (
-            ProjectileSenderStats.GetStat(StatType.MagicalPower).Value * (Ability.AbilityMagicalRatio + markBonusHeal)), 
-            ProjectileSenderStats.GetStat(StatType.HealAndShieldEffectiveness).Value);
 
         DestroyProjectile();
     }

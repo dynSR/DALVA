@@ -19,13 +19,19 @@ public class UIManager : MonoBehaviour
     [Header("WAVE COUNT")]
     [SerializeField] private TextMeshProUGUI waveCountText;
 
-    [Header("WAVE COUNT")]
+    [Header("SCREENS")]
     public GameObject victoryScreen;
     public GameObject defeatScreen;
+
+    [Header("BASE DAMAGE LOSS")]
+    public Animator damageLossAnimator;
+    public TextMeshProUGUI damageLossText;
+    public int damageLossValue;
 
     float timeValue = 0f;
 
     public GameObject pauseMenu;
+    public GameObject waveBossPing;
 
     #region Singleton
     public static UIManager Instance;
@@ -87,9 +93,20 @@ public class UIManager : MonoBehaviour
         waveCountText.SetText("Vague : " + amnt.ToString("0") + " / " + spawner.Waves.Count.ToString("0"));
     }
 
+    public void SetDamageLoss(int value)
+    {
+        damageLossValue = value;
+    }
+
     public void UpdatePlaceToDefendHealth(int amnt)
     {
         placeToDefendHealtAmountText.SetText(amnt.ToString("0"));
+
+        if (damageLossValue > 0)
+        {
+            damageLossText.SetText("- " + damageLossValue.ToString("0"));
+            damageLossAnimator.SetTrigger("DamageFeedback");
+        }
     }
 
     #region Popup
@@ -151,4 +168,14 @@ public class UIManager : MonoBehaviour
         defeatScreen.SetActive(true);
     }
     #endregion
+
+    public void DisplayBossWavePing()
+    {
+        waveBossPing.SetActive(true);
+    }
+
+    public void HideBossWavePing()
+    {
+        waveBossPing.SetActive(false);
+    }
 }

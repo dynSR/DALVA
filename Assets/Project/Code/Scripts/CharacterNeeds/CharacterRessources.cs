@@ -110,10 +110,6 @@ public class CharacterRessources : MonoBehaviour
 
     public void SetRessourcesFeedback(int newValue)
     {
-        //Maybe add the logic for when we add gold to inventory
-        // --> Changing color / "+" or "-"
-        //Maybe play the animation in reverse to add contrast : in =/= out
-
         //Debug.Log("!!! SetRessourcesFeedback !!!");
 
         //PlayerHUD -----------------------------------------------------------------------------------------------------------------

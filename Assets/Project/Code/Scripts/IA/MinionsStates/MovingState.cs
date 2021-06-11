@@ -9,7 +9,9 @@ class MovingState : IState
         this.controller = controller;
 
         if (!controller.IsACampNPC)
-            controller.waypointTarget = controller.waypoints[controller.WaypointIndex];
+        {
+            controller.CompareCurrentAndNextWaypointPositionsFromTransformPosition();
+        }
     }
 
     public void Exit()

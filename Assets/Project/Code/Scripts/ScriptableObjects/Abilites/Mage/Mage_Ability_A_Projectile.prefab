@@ -18555,7 +18555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2219860754922102078}
   - component: {fileID: 7344833928259837053}
-  - component: {fileID: 4331988364427824006}
+  - component: {fileID: 8849867208587336181}
   - component: {fileID: 7400162026258699874}
   - component: {fileID: -4538603383139120075}
   - component: {fileID: -5257324664066655820}
@@ -18597,8 +18597,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &4331988364427824006
-SphereCollider:
+--- !u!136 &8849867208587336181
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -18607,8 +18607,9 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
   m_Radius: 0.2
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7400162026258699874
 MonoBehaviour:
@@ -18624,7 +18625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileType: 1
   projectileSpeed: 5.35
-  projectileAreaOfEffect: 4
+  projectileAreaOfEffect: 10
   entitiesLayerMaskValue:
     serializedVersion: 2
     m_Bits: 4096

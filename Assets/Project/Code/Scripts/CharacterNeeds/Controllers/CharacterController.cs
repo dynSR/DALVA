@@ -118,7 +118,9 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
     {
         OnTargetStunned?.Invoke();
 
-        Agent.ResetPath();
+        if (Agent.enabled)
+            Agent.ResetPath();
+
         Interactions.ResetInteractionState();
         Interactions.CanPerformAttack = false;
 

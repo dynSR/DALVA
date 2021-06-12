@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -101,16 +102,20 @@ public class ItemPanel : MonoBehaviour
         }
     }
 
-    public void EnableAllCanvasGroup()
+    public IEnumerator EnableAllCanvasGroup()
     {
+        yield return new WaitForEndOfFrame();
+
         for (int i = 0; i < itemPanelComponentsCreated.Count; i++)
         {
             itemPanelComponentsCreated[i].EnableCanvasGroup();
         }
     }
 
-    public void DisableAllCanvasGroup()
+    public IEnumerator DisableAllCanvasGroup()
     {
+        yield return new WaitForEndOfFrame();
+
         for (int i = 0; i < itemPanelComponentsCreated.Count; i++)
         {
             itemPanelComponentsCreated[i].DisableCanvasGroup();

@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ResetShopButton : UIButtonWithTooltip, IPointerEnterHandler, IPointerExitHandler
+public class ResetShopButton : UIButtonWithTooltip
 {
     [SerializeField] private ShopManager shop;
     [SerializeField] private TextMeshProUGUI resetDrawCostText;
@@ -31,16 +28,6 @@ public class ResetShopButton : UIButtonWithTooltip, IPointerEnterHandler, IPoint
     void Awake()
     {
         initialResetDrawCostTextColor = resetDrawCostText.color;
-    }
-
-    public override void OnPointerEnter(PointerEventData eventData)
-    {
-        base.OnPointerEnter(eventData);
-    }
-
-    public override void OnPointerExit(PointerEventData eventData)
-    {
-        base.OnPointerExit(eventData);
     }
 
     void SetResetDrawCostText(int value)

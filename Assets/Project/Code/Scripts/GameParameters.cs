@@ -27,7 +27,7 @@ public class GameParameters : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.N))
         {
-            if(maxLevelDone<3)
+            if(maxLevelDone  < 3)
             {
                 maxLevelDone++;
             }

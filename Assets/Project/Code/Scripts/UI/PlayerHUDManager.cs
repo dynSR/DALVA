@@ -196,7 +196,7 @@ public class PlayerHUDManager : MonoBehaviour
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
 
-        shop.itemPanel.EnableAllCanvasGroup();
+        StartCoroutine(shop.itemPanel.EnableAllCanvasGroup());
 
         cursorLogic.SetCursorToNormalAppearance();
 
@@ -235,7 +235,7 @@ public class PlayerHUDManager : MonoBehaviour
             shop.ShopBoxesIcon[i].DisableCanvasGroup();
         }
 
-        shop.itemPanel.DisableAllCanvasGroup();
+        StartCoroutine(shop.itemPanel.DisableAllCanvasGroup());
 
         IsShopWindowOpen = false;
 

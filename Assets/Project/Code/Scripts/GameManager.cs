@@ -292,6 +292,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
 
         Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
+
+        if (mapIsEasy)
+            GameParameters.Instance.maxLevelDone++;
     }
 
     public void Defeat()

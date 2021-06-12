@@ -505,7 +505,7 @@ public class MainMenuUIManager : MonoBehaviour
             easyButton.interactable = false;
             if(myGameParameters.maxLevelDone >= 1) mediumButton.interactable = true;
             mediumButton.GetComponent<UIButtonHighlight>().HideBorder();
-            if(myGameParameters.maxLevelDone >= 2) hardButton.interactable = true;
+            if(myGameParameters.maxLevelDone >= 1) hardButton.interactable = true;
             hardButton.GetComponent<UIButtonHighlight>().HideBorder();
 
             easyWindow.SetActive(true);
@@ -519,7 +519,7 @@ public class MainMenuUIManager : MonoBehaviour
             easyButton.interactable = true;
             easyButton.GetComponent<UIButtonHighlight>().HideBorder();
             mediumButton.interactable = false;
-            if (myGameParameters.maxLevelDone >= 2) hardButton.interactable = true;
+            if (myGameParameters.maxLevelDone >= 1) hardButton.interactable = true;
             hardButton.GetComponent<UIButtonHighlight>().HideBorder();
 
             easyWindow.SetActive(false);

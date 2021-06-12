@@ -108,6 +108,8 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public void DisableCanvasGroup()
     {
+        Debug.Log("DisableCanvasGroup");
+
         CanvasGroup cG = GetComponent<CanvasGroup>();
 
         if (cG != null)
@@ -119,6 +121,8 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public void EnableCanvasGroup()
     {
+        Debug.Log("EnableCanvasGroup");
+
         CanvasGroup cG = GetComponent<CanvasGroup>();
 
         if (cG != null)

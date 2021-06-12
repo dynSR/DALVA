@@ -9,7 +9,8 @@ public class UIButtonWithTooltip : MonoBehaviour, IPointerEnterHandler, IPointer
 
     protected virtual void OnEnable()
     {
-        HideTooltip(Tooltip);
+        if (Tooltip != null)
+            HideTooltip(Tooltip);
     }
 
     public void DisplayTooltip(GameObject tooltip)
@@ -26,11 +27,13 @@ public class UIButtonWithTooltip : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        DisplayTooltip(Tooltip);
+        if (Tooltip != null)
+         DisplayTooltip(Tooltip);
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        HideTooltip(Tooltip);
+        if (Tooltip != null)
+            HideTooltip(Tooltip);
     }
 }

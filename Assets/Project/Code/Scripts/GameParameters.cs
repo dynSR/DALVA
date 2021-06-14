@@ -17,7 +17,7 @@ public class GameParameters : MonoBehaviour
         }
         else
         {
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
             Instance = this;
         }
     }

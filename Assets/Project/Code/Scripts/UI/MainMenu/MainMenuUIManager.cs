@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
-
-public enum MalusType {Life = 0, Attack = 1, Speed = 2, Stele = 3, All = 4}
 
 public class MainMenuUIManager : MonoBehaviour
 {
@@ -109,35 +106,6 @@ public class MainMenuUIManager : MonoBehaviour
 
     private bool hasPickedAClass = false;
     private bool characterClass = false; //false = Warrior, true = mage
-
-    //Difficulty
-    /*[Header("Difficulty limits")]
-    public float mediumDifficulty;
-    public float hardDifficulty;
-    public float impossibleDifficulty;
-    private float totalDifficulty;
-
-    [Header("Difficulty meter values")]
-    public int maxLifeMalus;
-    private int currentLifeMalus;
-    public int maxLifePercent;
-    public float difficultyValueLifeMalus;
-
-    public int maxAttackMalus;
-    private int currentAttackMalus;
-    public int maxAttackPercent;
-    public float difficultyValueAttackMalus;
-
-    public int maxSpeedMalus;
-    private int currentSpeedMalus;
-    public int maxSpeedPercent;
-    public float difficultyValueSpeedMalus;
-
-    public int maxSteleMalus;
-    private int currentSteleMalus;
-    public int maxStelePercent;
-    public float difficultyValueSteleMalus;*/
-
     #endregion
 
     void Start()
@@ -148,15 +116,6 @@ public class MainMenuUIManager : MonoBehaviour
 
         //Level Progress
         LevelProgress();
-
-        //Play Tab
-        //currentLifeMalus = myGameParameters.lifeMalus;
-        //currentAttackMalus = myGameParameters.attackMalus;
-        //currentSpeedMalus = myGameParameters.speedMalus;
-        //currentSteleMalus = myGameParameters.steleMalus;
-
-        //Init text
-        //DifficultyMalusTextUpdate(MalusType.All);
 
         //Fade
         myAnimator.SetBool("fadingOut", true);
@@ -418,6 +377,7 @@ public class MainMenuUIManager : MonoBehaviour
     public void SwitchClass(bool charaClass)
     {
         characterClass = charaClass;
+        GameParameters.Instance.classIsMage = charaClass;
 
         if (characterClass)
         {
@@ -545,52 +505,12 @@ public class MainMenuUIManager : MonoBehaviour
         CanStartGameCheck();
     }
 
-    /*public void ChangeDifficultyButton(DifficultyButton button)
-    {
-        int sign = 0;
-        if (button.plus) sign = 1;
-        else sign = -1;
-
-        switch (button.malus)
-        {
-            case MalusType.Life:
-                currentLifeMalus += sign;
-                totalDifficulty += difficultyValueLifeMalus * sign;
-                DifficultyMalusTextUpdate(MalusType.Life);
-                DifficultyButtonsUpdate(currentLifeMalus, maxLifeMalus, minusLifeButton, plusLifeButton);
-                break;
-            case MalusType.Attack:
-                currentAttackMalus += sign;
-                totalDifficulty += difficultyValueAttackMalus * sign;
-                DifficultyMalusTextUpdate(MalusType.Attack);
-                DifficultyButtonsUpdate(currentAttackMalus, maxAttackMalus, minusAttackButton, plusAttackButton);
-                break;
-            case MalusType.Speed:
-                currentSpeedMalus += sign;
-                totalDifficulty += difficultyValueSpeedMalus * sign;
-                DifficultyMalusTextUpdate(MalusType.Speed);
-                DifficultyButtonsUpdate(currentSpeedMalus, maxSpeedMalus, minusSpeedButton, plusSpeedButton);
-                break;
-            case MalusType.Stele:
-                currentSteleMalus += sign;
-                totalDifficulty += difficultyValueSteleMalus * sign;
-                DifficultyMalusTextUpdate(MalusType.Stele);
-                DifficultyButtonsUpdate(currentSteleMalus, maxSteleMalus, minusSteleButton, plusSteleButton);
-                break;
-            case MalusType.All:
-                break;
-            default:
-                break;
-        }
-    }*/
-    //When a malus button is clicked, check which one (minus/plus), and remove/add an unit to the corresponding malus type.
-    //Also, makes the button non-interactable if it's out of range (0 to maxValue).
+   
 
     public void StartGameButton()
     {
         myAnimator.SetBool("fadingOut", false);
         myAnimator.SetBool("startGame", true);
-        //myGameParameters.SetGameParameters(characterClass, currentLifeMalus, currentAttackMalus, currentSpeedMalus, currentSteleMalus);
     }
 
 

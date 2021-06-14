@@ -1,9 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DifficultyButton : MonoBehaviour
 {
-    public MalusType malus;
-    public bool plus;
+    public GameObject padlockObject;
+
+    private void Update()
+    {
+        if (padlockObject.activeInHierarchy && GameParameters.Instance.maxLevelDone >= 1)
+        {
+            padlockObject.SetActive(false);
+        }
+    }
 }

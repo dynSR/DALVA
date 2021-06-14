@@ -106,8 +106,10 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
     }
     #endregion
 
-    public void DisableCanvasGroup()
+    public IEnumerator DisableCanvasGroup()
     {
+        yield return new WaitForEndOfFrame();
+
         Debug.Log("DisableCanvasGroup");
 
         CanvasGroup cG = GetComponent<CanvasGroup>();
@@ -119,8 +121,10 @@ public abstract class SelectIcon : MonoBehaviour, IPointerDownHandler, IPointerE
         }
     }
 
-    public void EnableCanvasGroup()
+    public IEnumerator EnableCanvasGroup()
     {
+        yield return new WaitForEndOfFrame();
+
         Debug.Log("EnableCanvasGroup");
 
         CanvasGroup cG = GetComponent<CanvasGroup>();

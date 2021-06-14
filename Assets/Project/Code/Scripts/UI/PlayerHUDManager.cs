@@ -1,4 +1,5 @@
 ﻿using DarkTonic.MasterAudio;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -207,16 +208,10 @@ public class PlayerHUDManager : MonoBehaviour
         shop.RefreshShopData();
         ResetShopWindowSelectionsOnBoxes();
 
-        if(shop.ShopItemIsSelected)
-        {
-            shopInformationPanel.HideContent();
-            shop.ShopItemIsSelected = false;
-        }
-
         for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
         {
             shop.ShopBoxesIcon[i].ToggleOff();
-            shop.ShopBoxesIcon[i].EnableCanvasGroup();
+            StartCoroutine(shop.ShopBoxesIcon[i].EnableCanvasGroup());
 
             if (!shop.ShopBoxesIcon[i].Tooltip.activeInHierarchy) continue;
 
@@ -228,23 +223,37 @@ public class PlayerHUDManager : MonoBehaviour
 
     void OnClosingShopWindow()
     {
+        GameManager.Instance.SetTimeScale(1);
+
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
 
         for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
         {
-            shop.ShopBoxesIcon[i].DisableCanvasGroup();
+            StartCoroutine(shop.ShopBoxesIcon[i].DisableCanvasGroup());
+            shop.ShopBoxesIcon[i].IsSelected = false;
+            shop.ShopBoxesIcon[i].ToggleOff();
         }
+
+        StartCoroutine(ResetSelectedShopItem(shop));
 
         StartCoroutine(shop.itemPanel.DisableAllCanvasGroup());
 
         IsShopWindowOpen = false;
 
-        shop.SelectedItem = null;
-
         if (!GameManager.Instance.tutorielDisplayed)
             UtilityClass.PlaySoundGroupImmediatly(closingShopSoundGroup, transform);
+    }
 
-        GameManager.Instance.SetTimeScale(1);
+    private IEnumerator ResetSelectedShopItem(ShopManager shop)
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (shop.ShopItemIsSelected)
+        {
+            shopInformationPanel.HideContent();
+            shop.ShopItemIsSelected = false;
+            shop.SelectedItem = null;
+        }
     }
 
     void ResetShopWindowSelectionsOnBoxes()

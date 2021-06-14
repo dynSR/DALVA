@@ -45,7 +45,8 @@ class MovingState : IState
         if (controller.Agent.stoppingDistance != 0f)
             controller.Agent.stoppingDistance = 0f;
 
-        controller.Stats.RegenerateHealth(controller.transform, controller.Stats.GetStat(StatType.Health).Value * 0.15f);
+        if (!controller.isAGuardian)
+            controller.Stats.RegenerateHealth(controller.transform, controller.Stats.GetStat(StatType.Health).Value * 0.15f);
 
         AggroRange aggroRange = controller.GetComponentInChildren<AggroRange>();
 

@@ -30,8 +30,9 @@ public class IdlingState : IState
     void ResetParametersWhenInIdle()
     {
         //Stats
-        controller.Stats.Heal(controller.transform, controller.Stats.GetStat(StatType.Health).MaxValue, 0);
-        //controller.Stats.GetStat(StatType.Health).Value = controller.Stats.GetStat(StatType.Health).MaxValue;
+        if (!controller.isAGuardian)
+            controller.Stats.Heal(controller.transform, controller.Stats.GetStat(StatType.Health).MaxValue, 0);
+
         controller.Stats.CanTakeDamage = true;
 
         if (controller.StartingPosition != null)

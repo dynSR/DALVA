@@ -25,6 +25,7 @@ public class NPCController : CharacterController
     [SerializeField] private bool isABoss = false;
 
     [Header("FOREST CAMP NPCS ATTRIBUTES")]
+    public bool isAGuardian = false;
     [SerializeField] private Transform startingPosition;
     [SerializeField] private Transform positionToLookAt;
     [SerializeField] private float aggressionLimitsValue = 2.5f;

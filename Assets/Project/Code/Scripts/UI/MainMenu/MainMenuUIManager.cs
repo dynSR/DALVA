@@ -104,6 +104,8 @@ public class MainMenuUIManager : MonoBehaviour
     private int currentOpenedTab;
     private int nextOpenedTab;
 
+    private int cinematicOpenedTab;
+
     private bool hasPickedAClass = false;
     private bool characterClass = false; //false = Warrior, true = mage
     #endregion
@@ -513,6 +515,12 @@ public class MainMenuUIManager : MonoBehaviour
         myAnimator.SetBool("startGame", true);
     }
 
+    public void ChangeOpenedCinematic(int tab)
+    {
+        if(cinematicOpenedTab == tab) myAnimator.SetInteger("openedTab", 0);
+        else myAnimator.SetInteger("openedTab", tab);
+    }
+    //0 = Idle, 1 = Intro, 2 = Doc1, 3 = Doc2, 4 = Doc3, 5 = Doc4, 6 = Doc5, 7 = Doc6
 
     public void QuitGameButton()
     {

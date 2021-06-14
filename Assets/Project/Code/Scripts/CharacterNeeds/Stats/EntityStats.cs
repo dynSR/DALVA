@@ -452,6 +452,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             characterRessources.SetRessourcesFeedback(characterRessources.CurrentAmountOfPlayerRessources + (int)valueToGive);
 
             //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
+
+            //activer le vfx de pieces
         }
     }
 

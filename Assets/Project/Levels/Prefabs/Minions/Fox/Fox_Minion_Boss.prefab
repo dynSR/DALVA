@@ -57874,6 +57874,7 @@ MonoBehaviour:
   shieldVFX: {fileID: 0}
   respawnVFX: {fileID: 0}
   ressourcesGainedVFX: {fileID: 0}
+  deathFX: {fileID: 4693618127836706585}
   spawnSoundGroup: 
   deathSoundGroup: 
 --- !u!114 &4044836312974895893
@@ -77860,7 +77861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4761186935590511058
 Transform:
   m_ObjectHideFlags: 0
@@ -77891,7 +77892,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -78127,8 +78128,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.18
-      minScalar: 0.1
+      scalar: 0.25
+      minScalar: 0.15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -82727,7 +82728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetimeValue: 1
   destroyAfterTime: 0
-  hideAfterTime: 1
+  hideAfterTime: 0
 --- !u!1 &5979078093236223578
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,6 +84,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public GameObject RessourcesGainedVFX { get => ressourcesGainedVFX; }
     public GameObject ShieldVFX { get => shieldVFX; }
 
+    public ParticleSystem deathFX;
+
     [Header("SOUNDS")]
     [SoundGroup] public string spawnSoundGroup;
     [SoundGroup] public string deathSoundGroup;
@@ -453,7 +455,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
 
-            //activer le vfx de pieces
+            deathFX.Play();
         }
     }
 

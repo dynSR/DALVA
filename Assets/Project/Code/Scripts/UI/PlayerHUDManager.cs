@@ -18,6 +18,10 @@ public class PlayerHUDManager : MonoBehaviour
     public bool isShopWindowOpen = false;
     [SerializeField] private TextMeshProUGUI shopPlayerRessourcesValueText;
     [SerializeField] private ShopInformationPanel shopInformationPanel;
+    public Vector2 offset = Vector2.zero;
+
+    [Header("PLAYER FRAME")]
+    public GameObject playerFrame;
 
     [Header("INVENTORY")]
     [SerializeField] private TextMeshProUGUI inventoryPlayerRessourcesValueText;
@@ -36,6 +40,7 @@ public class PlayerHUDManager : MonoBehaviour
     public bool IsShopWindowOpen { get => isShopWindowOpen; set => isShopWindowOpen = value; }
     public Transform Player { get => player; }
     public GameObject SteleTooltip { get => steleTooltip; }
+    public ShopInformationPanel ShopInformationPanel { get => shopInformationPanel; }
 
     CursorLogic cursorLogic;
 
@@ -197,7 +202,10 @@ public class PlayerHUDManager : MonoBehaviour
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
 
-        StartCoroutine(shop.itemPanel.EnableAllCanvasGroup());
+        foreach (ItemPanel itemPanel in shop.itemPanels)
+        {
+            StartCoroutine(itemPanel.EnableAllCanvasGroup());
+        }
 
         cursorLogic.SetCursorToNormalAppearance();
 
@@ -207,6 +215,8 @@ public class PlayerHUDManager : MonoBehaviour
         ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();
         ResetShopWindowSelectionsOnBoxes();
+
+        playerFrame.SetActive(false);
 
         for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
         {
@@ -234,9 +244,16 @@ public class PlayerHUDManager : MonoBehaviour
             shop.ShopBoxesIcon[i].ToggleOff();
         }
 
+        playerFrame.SetActive(true);
+
         StartCoroutine(ResetSelectedShopItem(shop));
 
-        StartCoroutine(shop.itemPanel.DisableAllCanvasGroup());
+        foreach (ItemPanel itemPanel in shop.itemPanels)
+        {
+            StartCoroutine(itemPanel.DisableAllCanvasGroup());
+        }
+
+        StartCoroutine(ShopInformationPanel.DesactivateObject(ShopInformationPanel.gameObject));
 
         IsShopWindowOpen = false;
 
@@ -250,7 +267,7 @@ public class PlayerHUDManager : MonoBehaviour
 
         if (shop.ShopItemIsSelected)
         {
-            shopInformationPanel.HideContent();
+            ShopInformationPanel.HideContent();
             shop.ShopItemIsSelected = false;
             shop.SelectedItem = null;
         }
@@ -264,8 +281,7 @@ public class PlayerHUDManager : MonoBehaviour
 
     void ResetShopWindowAnchoredPosition()
     {
-        Vector2 offset = Vector2.zero;
-        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x + 150, offset.y +10);
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x, offset.y);
     }
     #endregion
 

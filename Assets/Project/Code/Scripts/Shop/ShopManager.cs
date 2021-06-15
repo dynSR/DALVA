@@ -48,7 +48,7 @@ public class ShopManager : MonoBehaviour
     public Animator shuffleAnimator;
 
     [Header("ITEM PANEL")]
-    public ItemPanel itemPanel;
+    public ItemPanel[] itemPanels;
 
     [Header("SFX")]
     [SoundGroup] [SerializeField] private string coinsSFX;

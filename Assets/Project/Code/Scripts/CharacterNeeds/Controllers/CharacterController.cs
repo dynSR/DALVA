@@ -94,7 +94,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void HandleCharacterRotation(Transform transform)
     {
-        if (IsCasting || isStunned) return;
+        if (IsCasting || isStunned || Interactions.CanPerformAttack) return;
 
         if (Agent.velocity.sqrMagnitude > Mathf.Epsilon)
         {

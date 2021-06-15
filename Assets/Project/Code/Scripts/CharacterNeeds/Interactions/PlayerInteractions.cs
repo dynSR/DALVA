@@ -15,8 +15,6 @@ public class PlayerInteractions : InteractionSystem
     public bool IsHarvesting { get => isHarvesting; set => isHarvesting = value; }
     public bool IsInteractingWithAStele { get => isInteractingWithAStele; set => isInteractingWithAStele = value; }
 
-    private CursorLogic CursorLogicAttached => GetComponent<CursorLogic>();
-
     protected override void Update()
     {
         base.Update();
@@ -29,25 +27,10 @@ public class PlayerInteractions : InteractionSystem
     #region Set player's target when he clicks on an enemy entity
     void SetTargetOnMouseClick()
     {
-        //if (UtilityClass.IsKeyPressed(AttackOnMoveInput))
-        //{
-        //    CursorLogicAttached.SetCursorToAttackOnMoveAppearance();
-        //    SetAttackRangeSize();
-        //    DisplayAttackRange();
-        //    PlayerIsTryingToAttack = true;
-        //    return;
-        //}
-        //else if (PlayerIsTryingToAttack && UtilityClass.LeftClickIsPressed())
-        //{
-        //    HideAttackRange();
-        //    CursorLogicAttached.SetCursorToNormalAppearance();
-        //    PlayerIsTryingToAttack = false;
-        //}
-
         if (UtilityClass.RightClickIsPressed())
         {
             //Debug.Log("Set target on mouse click");
-            ResetTarget(true);
+            ResetTarget();
 
             if (GetComponent<PlayerController>().IsCursorHoveringUIElement) return;
 
@@ -81,6 +64,7 @@ public class PlayerInteractions : InteractionSystem
                 else
                 {
                     //Ground hit
+                    ResetTarget(true);
                     ResetAgentState();
                 }
             }
@@ -91,7 +75,7 @@ public class PlayerInteractions : InteractionSystem
     #region Interaction
     public void ResetTarget(bool canResetTarget = false)
     {
-        if (Target != null)
+        if (Target != null && Target != LastKnownTarget)
         {
             if (Target.GetComponent<HarvesterLogic>() != null)
             {

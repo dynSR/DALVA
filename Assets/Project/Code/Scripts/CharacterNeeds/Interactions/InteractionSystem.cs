@@ -184,7 +184,7 @@ public class InteractionSystem : MonoBehaviour
     #region Behaviours of every type of attack - Melee / Ranged
     public void MeleeAttack()
     {
-        if (Stats.IsDead) return;
+        if (Stats.IsDead || Target == null) return;
 
         EntityStats targetStat = Target.GetComponent<EntityStats>();
 
@@ -285,8 +285,14 @@ public class InteractionSystem : MonoBehaviour
         if (!Controller.IsCasting && !Controller.IsRooted && !Controller.IsStunned)
             Controller.CanMove = true;
 
-        Animator.SetBool("Attack", false);
-        Animator.SetLayerWeight(1, 0);
+        if(Target != null && Target.GetComponent<EntityStats>() != null && Target.GetComponent<EntityStats>().IsDead
+            || Target == null 
+            || Target != LastKnownTarget && CanPerformAttack
+            || Controller.IsCasting)
+        {
+            Animator.SetBool("Attack", false);
+            Animator.SetLayerWeight(1, 0);
+        }
 
         CanPerformAttack = true;
         HasPerformedAttack = false;

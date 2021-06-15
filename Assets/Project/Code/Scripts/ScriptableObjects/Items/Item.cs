@@ -29,6 +29,7 @@ public class Item : ScriptableObject
     public AbilityEffect AbilityEffectToAssign { get => abilityEffectToAssign; }
     public int AbilityIndex { get => abilityIndex; }
     public bool ItemIsInShop { get => itemIsInShop; set => itemIsInShop = value; }
+    public List<StatModifier> ItemModifiers { get => itemModifiers; set => itemModifiers = value; }
 
     #region Equipment
     public void EquipItemAsEquipement(EntityStats c)
@@ -37,13 +38,13 @@ public class Item : ScriptableObject
         {
             for (int i = 0; i < c.entityStats.Count; i++)
             {
-                for (int j = 0; j < itemModifiers.Count; j++)
+                for (int j = 0; j < ItemModifiers.Count; j++)
                 {
-                    if (c.entityStats[i].StatType == itemModifiers[j].StatType)
+                    if (c.entityStats[i].StatType == ItemModifiers[j].StatType)
                     {
-                        c.entityStats[i].AddModifier(new StatModifier(itemModifiers[j].Value, itemModifiers[j].StatType, itemModifiers[j].Type, this));
+                        c.entityStats[i].AddModifier(new StatModifier(ItemModifiers[j].Value, ItemModifiers[j].StatType, ItemModifiers[j].Type, this));
 
-                        if (itemModifiers[j].StatType == StatType.MovementSpeed)
+                        if (ItemModifiers[j].StatType == StatType.MovementSpeed)
                             c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
 
                         c.UpdateStats();
@@ -63,9 +64,9 @@ public class Item : ScriptableObject
                 c.entityStats[i].RemoveAllModifiersFromSource(this);
                 c.entityStats[i].MaxValue = c.entityStats[i].CalculateValue();
 
-                for (int j = 0; j < itemModifiers.Count; j++)
+                for (int j = 0; j < ItemModifiers.Count; j++)
                 {
-                    if (itemModifiers[j].StatType == StatType.MovementSpeed)
+                    if (ItemModifiers[j].StatType == StatType.MovementSpeed)
                         c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
                 }
 

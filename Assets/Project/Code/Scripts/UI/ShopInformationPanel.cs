@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class ShopInformationPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI selectedItemName;
     [SerializeField] private TextMeshProUGUI selectedItemCost;
     [SerializeField] private TextMeshProUGUI selectedItemDescription;
+    [SerializeField] private TextMeshProUGUI selectedItemDescription02;
 
     [Header("CONTENTS")]
     [SerializeField] private GameObject firstPartContent;
@@ -81,7 +83,29 @@ public class ShopInformationPanel : MonoBehaviour
     {
         selectedItemName.text = selectedItem.ItemName;
         selectedItemCost.text = selectedItem.ItemCost.ToString();
-        selectedItemDescription.text = selectedItem.ItemDescription;
+
+        var pieces = selectedItem.ItemDescription.Split(new[] { '\n' }, 4, System.StringSplitOptions.None);
+
+        if (selectedItem.ItemModifiers.Count == 1)
+        {
+            selectedItemDescription.text = pieces[0];
+            selectedItemDescription02.text = string.Empty;
+        }
+        else if (selectedItem.ItemModifiers.Count == 2)
+        {
+            selectedItemDescription.text = pieces[0] + '\n' + pieces[1];
+            selectedItemDescription02.text = string.Empty;
+        }
+        else if (selectedItem.ItemModifiers.Count == 3)
+        {
+            selectedItemDescription.text = pieces[0] + '\n' + pieces[1];
+            selectedItemDescription02.text = pieces[2];
+        }
+        else if (selectedItem.ItemModifiers.Count == 4)
+        {
+            selectedItemDescription.text = pieces[0] + '\n' + pieces[1];
+            selectedItemDescription02.text = pieces[2] + '\n' + pieces[3];
+        }
     }
 
     void DisplayContent()
@@ -95,7 +119,7 @@ public class ShopInformationPanel : MonoBehaviour
 
     public void HideContent()
     {
-        if(firstPartContent.activeInHierarchy)
+        if (firstPartContent.activeInHierarchy)
             firstPartContent.SetActive(false);
 
         if (secondPartContent.activeInHierarchy)
@@ -103,5 +127,20 @@ public class ShopInformationPanel : MonoBehaviour
 
         buyButton.gameObject.SetActive(false);
     }
+
+    public IEnumerator ActivateObject(GameObject objectToActivate)
+    {
+        yield return new WaitForEndOfFrame();
+
+        objectToActivate.SetActive(true);
+    }
+
+    public IEnumerator DesactivateObject(GameObject objectToDesactivate)
+    {
+        yield return new WaitForEndOfFrame();
+
+        objectToDesactivate.SetActive(false);
+    }
+
     #endregion
 }

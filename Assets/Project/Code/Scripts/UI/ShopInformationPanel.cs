@@ -21,6 +21,8 @@ public class ShopInformationPanel : MonoBehaviour
     [SerializeField] private GameObject firstPartContent;
     [SerializeField] private GameObject secondPartContent;
 
+    public CanvasGroup CGroup => GetComponent<CanvasGroup>();
+
     private void OnEnable()
     {
         ShopIcon.OnSelectingAnItem += SetInformationPanel;
@@ -110,20 +112,14 @@ public class ShopInformationPanel : MonoBehaviour
 
     void DisplayContent()
     {
-        if (!firstPartContent.activeInHierarchy)
-            firstPartContent.SetActive(true);
-
-        if (!secondPartContent.activeInHierarchy)
-            secondPartContent.SetActive(true);
+        firstPartContent.SetActive(true);
+        secondPartContent.SetActive(true);
     }
 
     public void HideContent()
-    {
-        if (firstPartContent.activeInHierarchy)
-            firstPartContent.SetActive(false);
-
-        if (secondPartContent.activeInHierarchy)
-            secondPartContent.SetActive(false);
+    {   
+        firstPartContent.SetActive(false);
+        secondPartContent.SetActive(false);
 
         buyButton.gameObject.SetActive(false);
     }
@@ -132,14 +128,16 @@ public class ShopInformationPanel : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        objectToActivate.SetActive(true);
+        CGroup.blocksRaycasts = true;
+        CGroup.alpha = 1;
     }
 
     public IEnumerator DesactivateObject(GameObject objectToDesactivate)
     {
         yield return new WaitForEndOfFrame();
 
-        objectToDesactivate.SetActive(false);
+        CGroup.blocksRaycasts = false;
+        CGroup.alpha = 0;
     }
 
     #endregion

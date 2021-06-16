@@ -8,19 +8,10 @@ public class Ability_Mage_Z : AbilityLogic
 
     [SerializeField] private StatusEffect statusEffectToAttribute;
 
-    //[SerializeField] private GameObject normalRange;
-    //[SerializeField] private GameObject augmentedRange;
-    //[SerializeField] private float augmentedAbilityRange;
-    //[SerializeField] private float augmentedAbilityAreaOfEffect;
-    //private float normalAbilityRange = 0f;
-    //private float normalAreaOfEffect = 0f;
-
     protected void Awake()
     {
         markDuration = Ability.AbilityMarkDuration;
         Ability.AbilityAddedDamageOnTargetHealthThreshold = 0f;
-        //normalAbilityRange = Ability.AbilityRange;
-        //normalAreaOfEffect = Ability.AbilityAreaOfEffect;
     }
 
     protected override void Update() => base.Update();

@@ -1,4 +1,5 @@
-﻿using UnityEngine.EventSystems;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -8,11 +9,20 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
 
     private ShopManager ShopManager => ShopWindow.GetComponentInChildren<ShopManager>();
     private ItemButton itemButton;
+
+    ShopInformationPanel shopInformationPanelRef;
+    PlayerHUDManager playerHUDManager;
     public ItemButton ItemButton { get => itemButton; }
 
     private void Awake()
     {
         if (GetComponentInParent<ItemButton>() != null) itemButton = GetComponentInParent<ItemButton>();
+    }
+
+    void Start()
+    {
+        shopInformationPanelRef = PlayerHUDManager.Instance.ShopInformationPanel;
+        playerHUDManager = PlayerHUDManager.Instance;
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
@@ -29,9 +39,13 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
     {
         ShopManager.ResetSelectionIcon(true);
 
-        ToggleShopInformationPanel();
-
         base.OnPointerDown(eventData);
+
+        // Mettre ici la désactivation de la partie information
+        DesactivateShopInformationPanel();
+
+        // Mettre ici l'activation de la partie information
+        ActivateShopInformationPanel();
     }
 
     public override void OnPointerExit(PointerEventData eventData)
@@ -41,8 +55,6 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
 
     protected override void SetSelection()
     {
-        // Mettre ici l'activation de la partie information
-
         ShopManager.ShopItemIsSelected = true;
         ShopManager.SelectedItem = itemButton.ButtonItem;
 
@@ -51,28 +63,30 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
 
     public override void ResetSelection()
     {
-        // Mettre ici la désactivation de la partie information
-
         ShopManager.ShopItemIsSelected = false;
         ShopManager.SelectedItem = null;
 
         OnDeselectingAnItem?.Invoke(null);
     }
 
-    void ToggleShopInformationPanel()
+    void ActivateShopInformationPanel()
     {
-        if (UtilityClass.LeftClickIsPressed())
+        if (UtilityClass.LeftClickIsPressed() && playerHUDManager.ShopInformationPanel.CGroup.alpha == 0)
         {
-            ShopInformationPanel shopInformationPanelRef = PlayerHUDManager.Instance.ShopInformationPanel;
+            StartCoroutine(shopInformationPanelRef.ActivateObject(shopInformationPanelRef.gameObject));
 
-            if (!PlayerHUDManager.Instance.ShopInformationPanel.gameObject.activeInHierarchy)
-            {
-                StartCoroutine(shopInformationPanelRef.ActivateObject(shopInformationPanelRef.gameObject));
-            }
-            else if (!PlayerHUDManager.Instance.ShopWindow.GetComponent<ShopManager>().ShopItemIsSelected && PlayerHUDManager.Instance.ShopInformationPanel.gameObject.activeInHierarchy)
-            {
-                StartCoroutine(shopInformationPanelRef.DesactivateObject(shopInformationPanelRef.gameObject));
-            }
+            playerHUDManager.RepositionShopWindow(425);
+        }
+    }
+
+    void DesactivateShopInformationPanel()
+    {
+        if (UtilityClass.LeftClickIsPressed() 
+            && playerHUDManager.ShopWindow.GetComponent<ShopManager>().SelectedItem == null)
+        {
+            StartCoroutine(shopInformationPanelRef.DesactivateObject(shopInformationPanelRef.gameObject));
+
+            playerHUDManager.RepositionShopWindow(495);
         }
     }
 }

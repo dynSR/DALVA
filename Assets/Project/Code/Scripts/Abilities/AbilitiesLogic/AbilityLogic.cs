@@ -455,7 +455,10 @@ public abstract class AbilityLogic : MonoBehaviourPun
     protected void PlayAbilityAnimation(string animationName, bool resetAutoAttack = false, bool lostTargetOnCast = false)
     {
         if (resetAutoAttack)
-            Interactions.ResetInteractionState();
+        {
+            Controller.CharacterAnimator.SetBool("Attack", false);
+            Controller.CharacterAnimator.SetLayerWeight(1, 0);
+        }
 
         if (lostTargetOnCast)
             Interactions.Target = null;

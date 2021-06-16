@@ -6,6 +6,7 @@ public class WaveStateDisplayer : MonoBehaviour
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject content;
     [SerializeField] private SpawnerSystem spawner;
+    [SerializeField] private GameObject breathingButtonVFX;
     public float timerAssigned;
     public float localTimer;
     [SerializeField] private GameObject button;
@@ -47,6 +48,11 @@ public class WaveStateDisplayer : MonoBehaviour
         {
             localTimer -= Time.deltaTime;
             fillImage.fillAmount = localTimer / timerAssigned;
+
+            if(!breathingButtonVFX.activeInHierarchy && GameManager.Instance.GameIsInPlayMod())
+            {
+                breathingButtonVFX.SetActive(true);
+            }
         }   
     }
 
@@ -58,6 +64,8 @@ public class WaveStateDisplayer : MonoBehaviour
 
             UIButtonWithTooltip buttonTooltip = button.GetComponent<UIButtonWithTooltip>();
             buttonTooltip.HideTooltip(buttonTooltip.Tooltip);
+
+            breathingButtonVFX.SetActive(false);
         }
         else if (boolValue == 1 && !content.activeInHierarchy)
         { 

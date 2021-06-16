@@ -153,17 +153,17 @@ public class ShopManager : MonoBehaviour
 
         if (UtilityClass.RightClickIsPressed())
         {
-            if(!shopItem.ItemIsAnAbility)
-            {
-                if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(shopItem)) return;
+            AddShopActionOnPurchase(null, shopItem);
+            shopItem.EquipItemAsAbility(PlayerStats.EntityAbilities[shopItem.AbilityIndex]);
+        }
 
-                PlayerInventory.AddItemToInventory(shopItem, true);
-            }
-            else
-            {
-                AddShopActionOnPurchase(null, shopItem);
-                shopItem.EquipItemAsAbility(PlayerStats.EntityAbilities[shopItem.AbilityIndex]);
-            }
+        PlayerHUDManager playerHUDManager = PlayerHUDManager.Instance;
+
+        if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
+        {
+            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject(playerHUDManager.ShopInformationPanel.gameObject));
+
+            playerHUDManager.RepositionShopWindow(495);
         }
     }
 
@@ -174,16 +174,15 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log("Buying item : " + SelectedItem.ItemName);
 
-        if (!SelectedItem.ItemIsAnAbility)
-        {
-            if (PlayerInventory.InventoryIsFull || IsItemAlreadyInInventory(SelectedItem) /*&& !canStackSameItem*/) return;
+        AddShopActionOnPurchase(null, SelectedItem);
 
-            PlayerInventory.AddItemToInventory(SelectedItem, true);
-        }
-        else
+        PlayerHUDManager playerHUDManager = PlayerHUDManager.Instance;
+
+        if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
         {
-            AddShopActionOnPurchase(null, SelectedItem); 
-            SelectedItem.EquipItemAsAbility(PlayerStats.EntityAbilities[SelectedItem.AbilityIndex]);
+            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject(playerHUDManager.ShopInformationPanel.gameObject));
+
+            playerHUDManager.RepositionShopWindow(495);
         }
     }
 

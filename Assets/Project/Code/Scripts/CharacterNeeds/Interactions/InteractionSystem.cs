@@ -287,8 +287,7 @@ public class InteractionSystem : MonoBehaviour
 
         if(Target != null && Target.GetComponent<EntityStats>() != null && Target.GetComponent<EntityStats>().IsDead
             || Target == null 
-            || Target != LastKnownTarget && CanPerformAttack
-            || Controller.IsCasting)
+            || Target != LastKnownTarget && CanPerformAttack)
         {
             Animator.SetBool("Attack", false);
             Animator.SetLayerWeight(1, 0);

@@ -198,6 +198,13 @@ public class PlayerHUDManager : MonoBehaviour
     #endregion
 
     #region Shop Window
+    public void RepositionShopWindow(float yValue)
+    {
+        RectTransform shopWindowRectTransform = ShopWindow.GetComponent<RectTransform>();
+
+        shopWindowRectTransform.position = new Vector3(shopWindowRectTransform.position.x, yValue, shopWindowRectTransform.position.z);
+    }
+
     void OnOpenningShopWindow()
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();

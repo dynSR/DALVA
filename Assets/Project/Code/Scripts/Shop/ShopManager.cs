@@ -35,6 +35,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private int amntOfItemsToAddInThePool;
     //[HideInInspector]
     public List<ItemButton> itemCreated;
+    public bool firstDrawDone = false;
+    public Animator[] itemPanelAnimators;
 
     [Header("ITEM BUTTON")]
     [SerializeField] private Transform itemButtonsParent;
@@ -161,7 +163,7 @@ public class ShopManager : MonoBehaviour
 
         if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
         {
-            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject(playerHUDManager.ShopInformationPanel.gameObject));
+            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject());
 
             playerHUDManager.RepositionShopWindow(495);
         }
@@ -180,7 +182,7 @@ public class ShopManager : MonoBehaviour
 
         if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
         {
-            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject(playerHUDManager.ShopInformationPanel.gameObject));
+            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject());
 
             playerHUDManager.RepositionShopWindow(495);
         }
@@ -365,7 +367,10 @@ public class ShopManager : MonoBehaviour
     {
         OnShuffle?.Invoke();
         DeleteDraw();
+
         shuffleAnimator.SetTrigger("Shuffle");
+
+        TriggerItemPanelAnimators();
     }
 
     public void ShuffleAnimation()
@@ -375,6 +380,13 @@ public class ShopManager : MonoBehaviour
             OnShuffle?.Invoke();
             DeleteDraw();
             shuffleAnimator.SetTrigger("Shuffle");
+
+            //Reset Shop datas / GO
+            if (SelectedItem != null) SelectedItem = null;
+            StartCoroutine(PlayerHUDManager.Instance.ShopInformationPanel.DesactivateObject());
+            //
+
+            TriggerItemPanelAnimators();
         } 
     }
 
@@ -561,6 +573,19 @@ public class ShopManager : MonoBehaviour
         else canPurchaseItem = false;
 
         return canPurchaseItem;
+    }
+
+    public void SetFirstDrawBooleanToTrue()
+    {
+        firstDrawDone = true;
+    }
+
+    private void TriggerItemPanelAnimators()
+    {
+        foreach (Animator animator in itemPanelAnimators)
+        {
+            animator.SetTrigger("GoToCenter");
+        }
     }
 
     #region Debuging

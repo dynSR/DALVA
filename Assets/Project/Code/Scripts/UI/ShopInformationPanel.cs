@@ -124,7 +124,7 @@ public class ShopInformationPanel : MonoBehaviour
         buyButton.gameObject.SetActive(false);
     }
 
-    public IEnumerator ActivateObject(GameObject objectToActivate)
+    public IEnumerator ActivateObject()
     {
         yield return new WaitForEndOfFrame();
 
@@ -132,7 +132,7 @@ public class ShopInformationPanel : MonoBehaviour
         CGroup.alpha = 1;
     }
 
-    public IEnumerator DesactivateObject(GameObject objectToDesactivate)
+    public IEnumerator DesactivateObject()
     {
         yield return new WaitForEndOfFrame();
 

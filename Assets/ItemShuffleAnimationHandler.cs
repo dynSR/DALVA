@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ItemShuffleAnimationHandler : MonoBehaviour
 {
     public ShopManager shopManager;
+    public GameObject endOfDrawEffect;
 
     [SoundGroup] public string startShuffleSFX;
     [SoundGroup] public string endShuffleSFX;
@@ -39,5 +40,16 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
     public void DisableResetButton()
     {
         resetButton.enabled = false;
+    }
+
+    public void ActivateEndOfDrawEffect()
+    {
+        if (!endOfDrawEffect.activeInHierarchy)
+            endOfDrawEffect.SetActive(true);
+        else
+        {
+            endOfDrawEffect.SetActive(false);
+            endOfDrawEffect.SetActive(true);
+        }
     }
 }

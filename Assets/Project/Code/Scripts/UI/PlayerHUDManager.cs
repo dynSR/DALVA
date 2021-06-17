@@ -260,7 +260,7 @@ public class PlayerHUDManager : MonoBehaviour
             StartCoroutine(itemPanel.DisableAllCanvasGroup());
         }
 
-        StartCoroutine(ShopInformationPanel.DesactivateObject(ShopInformationPanel.gameObject));
+        StartCoroutine(ShopInformationPanel.DesactivateObject());
 
         IsShopWindowOpen = false;
 

@@ -73,7 +73,7 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
     {
         if (UtilityClass.LeftClickIsPressed() && playerHUDManager.ShopInformationPanel.CGroup.alpha == 0)
         {
-            StartCoroutine(shopInformationPanelRef.ActivateObject(shopInformationPanelRef.gameObject));
+            StartCoroutine(shopInformationPanelRef.ActivateObject());
 
             playerHUDManager.RepositionShopWindow(425);
         }
@@ -84,7 +84,7 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
         if (UtilityClass.LeftClickIsPressed() 
             && playerHUDManager.ShopWindow.GetComponent<ShopManager>().SelectedItem == null)
         {
-            StartCoroutine(shopInformationPanelRef.DesactivateObject(shopInformationPanelRef.gameObject));
+            StartCoroutine(shopInformationPanelRef.DesactivateObject());
 
             playerHUDManager.RepositionShopWindow(495);
         }

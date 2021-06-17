@@ -10,6 +10,7 @@ public class ResetShopButton : UIButtonWithTooltip
     [SerializeField] private Color enabledColor;
     [SerializeField] private Color disabledColor;
     [SerializeField] private GameObject cantAffordFeedback;
+    public GameObject undisponibilityObject;
     Color initialResetDrawCostTextColor;
 
     private CharacterRessources PlayerRessources => shop.Player.GetComponent<CharacterRessources>();
@@ -30,6 +31,12 @@ public class ResetShopButton : UIButtonWithTooltip
     void Awake()
     {
         initialResetDrawCostTextColor = resetDrawCostText.color;
+    }
+
+    private void Update()
+    {
+        if (shop.firstDrawDone == true && undisponibilityObject.activeInHierarchy)
+            undisponibilityObject.SetActive(false);
     }
 
     void SetResetDrawCostText(int value)

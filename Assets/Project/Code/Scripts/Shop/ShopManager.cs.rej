@@ -1,0 +1,9 @@
+diff a/Assets/Project/Code/Scripts/Shop/ShopManager.cs b/Assets/Project/Code/Scripts/Shop/ShopManager.cs	(rejected hunks)
+@@ -182,7 +182,6 @@
+ 
+         if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
+         {
+-            AddShopActionOnPurchase(null, SelectedItem); 
+             StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject(playerHUDManager.ShopInformationPanel.gameObject));
+ 
+             playerHUDManager.RepositionShopWindow(495);

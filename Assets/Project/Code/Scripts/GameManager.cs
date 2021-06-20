@@ -120,6 +120,14 @@ public class GameManager : MonoBehaviour
             value += item.health;
         }
 
+        //Set UI Infos
+        UIManager.Instance.maxHealthAmount = value;
+
+        UIMainHealthBar.Instance.currentAmountOfHealth = value;
+        UIMainHealthBar.Instance.maxAmountOfLife = value;
+
+        UIMainHealthBar.Instance.SetHealthBarParameters(value);
+
         return value;
     }
 

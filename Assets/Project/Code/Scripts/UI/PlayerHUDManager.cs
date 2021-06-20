@@ -18,7 +18,6 @@ public class PlayerHUDManager : MonoBehaviour
     public bool isShopWindowOpen = false;
     [SerializeField] private TextMeshProUGUI shopPlayerRessourcesValueText;
     [SerializeField] private ShopInformationPanel shopInformationPanel;
-    public Vector2 offset = Vector2.zero;
 
     [Header("PLAYER FRAME")]
     public GameObject playerFrame;
@@ -288,7 +287,7 @@ public class PlayerHUDManager : MonoBehaviour
 
     void ResetShopWindowAnchoredPosition()
     {
-        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(offset.x, offset.y);
+        RepositionShopWindow(475);
     }
     #endregion
 

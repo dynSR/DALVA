@@ -12,12 +12,21 @@ public class PlaceToDefend : MonoBehaviour
 
     [SoundGroup] public string passingThroughSFX;
 
-    private void Start()
+    private void Update()
     {
-        OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            ApplyDamageDebug();
+        }
     }
 
+
     private void OnTriggerEnter(Collider other)
+    {
+        ApplyDamageToBase(other);
+    }
+
+    private void ApplyDamageToBase(Collider other)
     {
         EntityStats stats = other.GetComponent<EntityStats>();
         NPCController npcController = other.GetComponent<NPCController>();
@@ -34,7 +43,7 @@ public class PlaceToDefend : MonoBehaviour
 
             OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
 
-            if(!passingThroughPortalVFX.activeInHierarchy)
+            if (!passingThroughPortalVFX.activeInHierarchy)
                 passingThroughPortalVFX.SetActive(true);
 
             if (GameManager.Instance.DalvaLifePoints <= 0)
@@ -42,11 +51,25 @@ public class PlaceToDefend : MonoBehaviour
                 GameManager.Instance.Defeat();
             }
 
-            if (npcController != null && npcController.IsABossWaveMember 
+            if (npcController != null && npcController.IsABossWaveMember
                 || npcController != null && GameManager.Instance.itsFinalWave)
             {
                 GameManager.Instance.UpdateRemainingMonsterValue(-1);
             }
+        }
+    }
+
+    private void ApplyDamageDebug()
+    {
+        GameManager.Instance.DalvaLifePoints -= 1;
+
+        UIManager.Instance.SetDamageLoss(-1);
+
+        OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
+
+        if (GameManager.Instance.DalvaLifePoints <= 0)
+        {
+            GameManager.Instance.Defeat();
         }
     }
 

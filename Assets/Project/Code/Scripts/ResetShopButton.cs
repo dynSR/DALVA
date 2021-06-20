@@ -31,12 +31,16 @@ public class ResetShopButton : UIButtonWithTooltip
     void Awake()
     {
         initialResetDrawCostTextColor = resetDrawCostText.color;
+        GetComponent<UIButtonHighlight>().enabled = false;
     }
 
     private void Update()
     {
         if (shop.firstDrawDone == true && undisponibilityObject.activeInHierarchy)
+        {
+            GetComponent<UIButtonHighlight>().enabled = true;
             undisponibilityObject.SetActive(false);
+        }
     }
 
     void SetResetDrawCostText(int value)

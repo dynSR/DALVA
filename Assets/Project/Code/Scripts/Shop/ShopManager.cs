@@ -149,14 +149,17 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void BuyItem(Item shopItem)
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || !CanPurchaseItem(shopItem)) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase 
+            || !CanPurchaseItem(shopItem)
+            || PlayerInventory.InventoryIsFull 
+            || IsItemAlreadyInInventory(shopItem)) return;
 
         Debug.Log("Buying item : " + shopItem.ItemName);
 
         if (UtilityClass.RightClickIsPressed())
         {
             AddShopActionOnPurchase(null, shopItem);
-            shopItem.EquipItemAsAbility(PlayerStats.EntityAbilities[shopItem.AbilityIndex]);
+            PlayerInventory.AddItemToInventory(shopItem, true);
         }
 
         PlayerHUDManager playerHUDManager = PlayerHUDManager.Instance;
@@ -172,11 +175,15 @@ public class ShopManager : MonoBehaviour
     //Its on a button
     public void BuySelectedItemOnClickingOnButton()
     {
-        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase || !CanPurchaseItem(SelectedItem)) return;
+        if (!Player.GetComponent<PlayerController>().IsPlayerInHisBase 
+            || !CanPurchaseItem(SelectedItem)
+            || PlayerInventory.InventoryIsFull 
+            || IsItemAlreadyInInventory(SelectedItem)) return;
 
         Debug.Log("Buying item : " + SelectedItem.ItemName);
 
         AddShopActionOnPurchase(null, SelectedItem);
+        PlayerInventory.AddItemToInventory(SelectedItem, true);
 
         PlayerHUDManager playerHUDManager = PlayerHUDManager.Instance;
 

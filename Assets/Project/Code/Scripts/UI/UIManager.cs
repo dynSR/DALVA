@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     [Header("WAVE COUNT")]
     [SerializeField] private TextMeshProUGUI placeToDefendHealtAmountText;
+    public int maxHealthAmount;
 
     [Header("WAVE")]
     [SerializeField] private GameObject waveIndicationUI;
@@ -100,7 +101,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePlaceToDefendHealth(int amnt)
     {
-        placeToDefendHealtAmountText.SetText(amnt.ToString("0"));
+        placeToDefendHealtAmountText.SetText(amnt.ToString("0") +  " / " + maxHealthAmount.ToString("0"));
 
         if (damageLossValue > 0)
         {

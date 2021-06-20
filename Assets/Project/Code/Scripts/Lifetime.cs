@@ -30,6 +30,11 @@ public class Lifetime : MonoBehaviour
             StartCoroutine(HideAfterATime(LifetimeValue));
     }
 
+    private void OnDisable()
+    {
+        //StopAllCoroutines();
+    }
+
     public IEnumerator DestroyAfterATime(float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);

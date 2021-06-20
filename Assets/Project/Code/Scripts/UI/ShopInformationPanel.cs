@@ -130,6 +130,7 @@ public class ShopInformationPanel : MonoBehaviour
 
         CGroup.blocksRaycasts = true;
         CGroup.alpha = 1;
+        PlayerHUDManager.Instance.RepositionShopWindow(425);
     }
 
     public IEnumerator DesactivateObject()
@@ -138,6 +139,9 @@ public class ShopInformationPanel : MonoBehaviour
 
         CGroup.blocksRaycasts = false;
         CGroup.alpha = 0;
+
+        buyButton.gameObject.SetActive(false);
+        PlayerHUDManager.Instance.RepositionShopWindow(475);
     }
 
     #endregion

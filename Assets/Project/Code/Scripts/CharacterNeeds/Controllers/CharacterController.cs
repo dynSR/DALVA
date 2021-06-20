@@ -55,15 +55,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     protected virtual void Update()
     {
-        //Local
-        if (GameObject.Find("GameNetworkManager") == null)
-        {
-            HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
-            return;
-        }
-
-        //Reseau
-        if (GetComponent<PhotonView>() != null && !photonView.IsMine) UpdateNetworkPosition();
+        HandleMotionAnimation(Agent, CharacterAnimator, "MoveSpeed", MotionSmoothTime);
     }
 
     #region Character Destination and motion handling, including rotation
@@ -74,7 +66,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void SetAgentDestination(NavMeshAgent agent, Vector3 pos)
     {
-        if (!CanMove || isStunned || IsRooted) return;
+        if (!CanMove || IsStunned || IsRooted) return;
 
         agent.destination = pos;
         //agent.SetDestination(pos);
@@ -94,7 +86,7 @@ public class CharacterController : MonoBehaviourPun, IPunObservable
 
     public void HandleCharacterRotation(Transform transform)
     {
-        if (IsCasting || isStunned || Interactions.CanPerformAttack) return;
+        if (IsCasting || IsStunned) return;
 
         if (Agent.velocity.sqrMagnitude > Mathf.Epsilon)
         {

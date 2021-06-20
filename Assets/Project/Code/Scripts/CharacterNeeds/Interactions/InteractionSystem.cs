@@ -29,8 +29,9 @@ public class InteractionSystem : MonoBehaviour
 
     [Header("INTERACTIONS STATE")]
     [SerializeField] private bool canPerformAttack = true;
+    [SerializeField] private bool hasPerformedAttack = false;
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
-    public bool HasPerformedAttack { get; set; }
+    public bool HasPerformedAttack { get => hasPerformedAttack; set => hasPerformedAttack = value; }
     public float InteractionRange { get => interactionRange; set => interactionRange = value; }
     public bool AutoAttackCanMark { get => autoAttackCanMark; set => autoAttackCanMark = value; }
     public StatusEffect AutoAttackEffect { get => autoAttackEffect; set => autoAttackEffect = value; }
@@ -107,7 +108,7 @@ public class InteractionSystem : MonoBehaviour
 
         if (_target != null)
         {
-            if(CanPerformAttack)
+            if(Controller.CanMove)
                 Controller.HandleCharacterRotationBeforeCasting(transform, _target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
             Controller.Agent.stoppingDistance = minDistance;
@@ -167,7 +168,8 @@ public class InteractionSystem : MonoBehaviour
         Debug.Log("Attack Interval");
         Controller.CanMove = false;
 
-        Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
+        if (Controller.CanMove)
+            Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
         Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.AttackSpeed).Value);
 
@@ -287,7 +289,13 @@ public class InteractionSystem : MonoBehaviour
 
         if(Target != null && Target.GetComponent<EntityStats>() != null && Target.GetComponent<EntityStats>().IsDead
             || Target == null 
-            || Target != LastKnownTarget && CanPerformAttack)
+            || Target != LastKnownTarget && CanPerformAttack
+            || Target.GetComponent<EntityStats>().EntityTeam == EntityTeam.DALVA)
+        {
+            Animator.SetBool("Attack", false);
+            Animator.SetLayerWeight(1, 0);
+        }
+        else if (GetComponent<NPCController>() != null && GetComponent<NPCController>().IsACampNPC)
         {
             Animator.SetBool("Attack", false);
             Animator.SetLayerWeight(1, 0);

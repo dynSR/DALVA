@@ -222,7 +222,8 @@ public class PlayerHUDManager : MonoBehaviour
         shop.RefreshShopData();
         ResetShopWindowSelectionsOnBoxes();
 
-        playerFrame.SetActive(false);
+
+        HidePlayerFrame();
 
         for (int i = 0; i < shop.ShopBoxesIcon.Count; i++)
         {
@@ -250,7 +251,7 @@ public class PlayerHUDManager : MonoBehaviour
             shop.ShopBoxesIcon[i].ToggleOff();
         }
 
-        playerFrame.SetActive(true);
+        DisplayPlayerFrame();
 
         StartCoroutine(ResetSelectedShopItem(shop));
 
@@ -299,5 +300,19 @@ public class PlayerHUDManager : MonoBehaviour
         CameraController cameraController = UtilityClass.GetMainCamera().GetComponent<CameraController>();
 
         cameraController.SetCameraLockState();
+    }
+
+    private void DisplayPlayerFrame()
+    {
+        CanvasGroup cG = playerFrame.GetComponent<CanvasGroup>();
+        cG.blocksRaycasts = true;
+        cG.alpha = 1;
+    }
+
+    private void HidePlayerFrame()
+    {
+        CanvasGroup cG = playerFrame.GetComponent<CanvasGroup>();
+        cG.blocksRaycasts = false;
+        cG.alpha = 0;
     }
 }

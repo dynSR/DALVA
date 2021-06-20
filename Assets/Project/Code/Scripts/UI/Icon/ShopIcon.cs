@@ -64,7 +64,7 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
     public override void ResetSelection()
     {
         ShopManager.ShopItemIsSelected = false;
-        ShopManager.SelectedItem = null;
+        //ShopManager.SelectedItem = null;
 
         OnDeselectingAnItem?.Invoke(null);
     }
@@ -74,19 +74,15 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
         if (UtilityClass.LeftClickIsPressed() && playerHUDManager.ShopInformationPanel.CGroup.alpha == 0)
         {
             StartCoroutine(shopInformationPanelRef.ActivateObject());
-
-            playerHUDManager.RepositionShopWindow(425);
         }
     }
 
     void DesactivateShopInformationPanel()
     {
         if (UtilityClass.LeftClickIsPressed() 
-            && playerHUDManager.ShopWindow.GetComponent<ShopManager>().SelectedItem == null)
+            && !playerHUDManager.ShopWindow.GetComponent<ShopManager>().ShopItemIsSelected)
         {
             StartCoroutine(shopInformationPanelRef.DesactivateObject());
-
-            playerHUDManager.RepositionShopWindow(495);
         }
     }
 }

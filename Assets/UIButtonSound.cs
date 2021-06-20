@@ -20,13 +20,17 @@ public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerDownHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (UtilityClass.RightClickIsPressedOnUIElement(eventData)) return;
+
         if(PlaySoundOnClick && GetComponent<Button>().enabled)
             UtilityClass.PlaySoundGroupImmediatly(onClickSound, transform);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(PlaySoundOnHover && GetComponent<Button>().enabled)
+        if (UtilityClass.RightClickIsPressedOnUIElement(eventData)) return;
+
+        if (PlaySoundOnHover && GetComponent<Button>().enabled)
             UtilityClass.PlaySoundGroupImmediatly(onHoverSound, transform);
     }
 }

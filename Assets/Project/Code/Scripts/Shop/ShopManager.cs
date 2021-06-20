@@ -109,7 +109,7 @@ public class ShopManager : MonoBehaviour
     }
 
     #region Buy an item
-    public void AddShopActionOnPurchase(InventoryBox inventoryBoxItem = null, Item item = null)
+    public void AddShopActionOnPurchase(InventoryBox inventoryBoxItem = null)
     {
         numberOfShopActionsDone++;
         ResetSelectionIcon();
@@ -125,22 +125,6 @@ public class ShopManager : MonoBehaviour
             AddShopActionData(shopActionDataName, ShopActionData.ShopActionType.Purchase, null, inventoryBoxItem);
 
             OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - inventoryBoxItem.StoredItem.ItemCost);
-        }
-
-        if(item != null) // Item Ability
-        {
-            string shopActionDataName = "Purchase " + item.ItemName;
-
-            AddShopActionData(
-                shopActionDataName, 
-                ShopActionData.ShopActionType.Purchase, 
-                item, 
-                null, 
-                PlayerStats.EntityAbilities[item.AbilityIndex].UsedEffectIndex);
-
-            OnBuyingAnItem?.Invoke(PlayerRessources.CurrentAmountOfPlayerRessources - item.ItemCost);
-
-            RefreshShopData();
         }
     }
     #endregion
@@ -158,7 +142,7 @@ public class ShopManager : MonoBehaviour
 
         if (UtilityClass.RightClickIsPressed())
         {
-            AddShopActionOnPurchase(null, shopItem);
+            //AddShopActionOnPurchase(null, shopItem);
             PlayerInventory.AddItemToInventory(shopItem, true);
         }
 
@@ -167,8 +151,6 @@ public class ShopManager : MonoBehaviour
         if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
         {
             StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject());
-
-            playerHUDManager.RepositionShopWindow(495);
         }
     }
 
@@ -181,8 +163,6 @@ public class ShopManager : MonoBehaviour
             || IsItemAlreadyInInventory(SelectedItem)) return;
 
         Debug.Log("Buying item : " + SelectedItem.ItemName);
-
-        AddShopActionOnPurchase(null, SelectedItem);
         PlayerInventory.AddItemToInventory(SelectedItem, true);
 
         PlayerHUDManager playerHUDManager = PlayerHUDManager.Instance;
@@ -190,8 +170,6 @@ public class ShopManager : MonoBehaviour
         if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
         {
             StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject());
-
-            playerHUDManager.RepositionShopWindow(495);
         }
     }
 
@@ -274,6 +252,8 @@ public class ShopManager : MonoBehaviour
     {
         if (numberOfShopActionsDone > 0)
         {
+            UtilityClass.PlaySoundGroupImmediatly(coinsSFX, transform);
+
             for (int i = shopActions.Count - 1; i >= 0; i--)
             {
                 //Undo A Purchase
@@ -327,8 +307,6 @@ public class ShopManager : MonoBehaviour
                     return;
                 }
             }
-
-            UtilityClass.PlaySoundGroupImmediatly(coinsSFX, transform);
         }
     }
 
@@ -390,6 +368,7 @@ public class ShopManager : MonoBehaviour
 
             //Reset Shop datas / GO
             if (SelectedItem != null) SelectedItem = null;
+
             StartCoroutine(PlayerHUDManager.Instance.ShopInformationPanel.DesactivateObject());
             //
 

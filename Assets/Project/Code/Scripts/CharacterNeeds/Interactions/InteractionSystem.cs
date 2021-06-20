@@ -30,6 +30,7 @@ public class InteractionSystem : MonoBehaviour
     [Header("INTERACTIONS STATE")]
     [SerializeField] private bool canPerformAttack = true;
     [SerializeField] private bool hasPerformedAttack = false;
+    public bool IsAttacking = false;
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
     public bool HasPerformedAttack { get => hasPerformedAttack; set => hasPerformedAttack = value; }
     public float InteractionRange { get => interactionRange; set => interactionRange = value; }
@@ -66,6 +67,12 @@ public class InteractionSystem : MonoBehaviour
         }
 
         if (Controller.IsStunned || Controller.IsRooted) return;
+
+        if(Target == null && IsAttacking)
+        {
+            IsAttacking = false;
+        }
+
 
         if (Target != null)
         {
@@ -108,7 +115,7 @@ public class InteractionSystem : MonoBehaviour
 
         if (_target != null)
         {
-            if(Controller.CanMove)
+            if(!IsAttacking)
                 Controller.HandleCharacterRotationBeforeCasting(transform, _target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
             Controller.Agent.stoppingDistance = minDistance;
@@ -134,7 +141,7 @@ public class InteractionSystem : MonoBehaviour
             return;
         }
 
-        AttackInteraction();
+       AttackInteraction();
     }
 
     void AttackInteraction()
@@ -142,19 +149,16 @@ public class InteractionSystem : MonoBehaviour
        if (Target != null)
        {
             EntityDetection targetFound = Target.GetComponent<EntityDetection>();
+            EntityStats targetStats = Target.GetComponent<EntityStats>();
 
-            //COMMENTED - REMOVE IF ERRORS OCCURS
-            //InteractiveBuilding interactiveBuilding = Target.GetComponent<InteractiveBuilding>();
-            //if (interactiveBuilding != null && interactiveBuilding.EntityTeam == EntityTeam.NEUTRAL) return;
-
-            if (CanPerformAttack)
+            if (CanPerformAttack && !IsAttacking)
             {
-                if (Target.GetComponent<EntityStats>() != null
-                    && !Target.GetComponent<EntityStats>().IsDead
+                if (targetStats != null
+                    && targetStats.EntityTeam != Stats.EntityTeam
+                    && !targetStats.IsDead
                     && (targetFound.ThisTargetIsAPlayer(targetFound)
                     || targetFound.ThisTargetIsAMinion(targetFound)
-                    || targetFound.ThisTargetIsAMonster(targetFound))
-                    && Target.GetComponent<EntityStats>().EntityTeam != Stats.EntityTeam)
+                    || targetFound.ThisTargetIsAMonster(targetFound)))
                 {
                     StartCoroutine(AttackInterval(Target));
                     Debug.Log("Attack performed on entity!");
@@ -168,7 +172,7 @@ public class InteractionSystem : MonoBehaviour
         Debug.Log("Attack Interval");
         Controller.CanMove = false;
 
-        if (Controller.CanMove)
+        if (!IsAttacking)
             Controller.HandleCharacterRotationBeforeCasting(transform, target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
         Animator.SetFloat("AttackSpeed", Stats.GetStat(StatType.AttackSpeed).Value);
@@ -178,6 +182,7 @@ public class InteractionSystem : MonoBehaviour
 
         //MeleeAttack(); //Debug without animation
 
+        IsAttacking = true;
         CanPerformAttack = false;
 
         yield return new WaitForSeconds(1 / Stats.GetStat(StatType.AttackSpeed).Value);
@@ -236,9 +241,12 @@ public class InteractionSystem : MonoBehaviour
             UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Impact", targetStat.transform);
 
             HasPerformedAttack = true;
+            IsAttacking = false;
 
             OnAttacking?.Invoke();
         }
+
+        CheckIfStillNeedToAttackOrTargetIsStillAvailable();
     }
 
     public void RangedAttack()
@@ -270,13 +278,16 @@ public class InteractionSystem : MonoBehaviour
 
             if (AutoAttackEffect != null) attackProjectile.ProjectileStatusEffect = AutoAttackEffect;
 
-            HasPerformedAttack = true; 
+            HasPerformedAttack = true;
+            IsAttacking = false;
 
             OnAttacking?.Invoke();
 
             attackProjectile.TotalPhysicalDamage = Stats.GetStat(StatType.PhysicalPower).Value + pPBonus;
             attackProjectile.TotalMagicalDamage = Stats.GetStat(StatType.MagicalPower).Value + mPBonus;
         }
+
+        CheckIfStillNeedToAttackOrTargetIsStillAvailable();
     }
     #endregion
 
@@ -287,22 +298,31 @@ public class InteractionSystem : MonoBehaviour
         if (!Controller.IsCasting && !Controller.IsRooted && !Controller.IsStunned)
             Controller.CanMove = true;
 
-        if(Target != null && Target.GetComponent<EntityStats>() != null && Target.GetComponent<EntityStats>().IsDead
-            || Target == null 
-            || Target != LastKnownTarget && CanPerformAttack
-            || Target.GetComponent<EntityStats>().EntityTeam == EntityTeam.DALVA)
+        if (!IsAttacking 
+            || Target != null && Target.GetComponent<EntityStats>().IsDead
+            || Target == null)
         {
-            Animator.SetBool("Attack", false);
             Animator.SetLayerWeight(1, 0);
-        }
-        else if (GetComponent<NPCController>() != null && GetComponent<NPCController>().IsACampNPC)
-        {
             Animator.SetBool("Attack", false);
-            Animator.SetLayerWeight(1, 0);
         }
 
         CanPerformAttack = true;
         HasPerformedAttack = false;
     }
     #endregion
+
+    void CheckIfStillNeedToAttackOrTargetIsStillAvailable()
+    {
+        if (IsAttacking
+            && (Target != null && Target.GetComponent<EntityStats>().IsDead
+            || Target == null))
+        {
+            Animator.SetLayerWeight(1, 0);
+            Animator.SetBool("Attack", false);
+
+            IsAttacking = false;
+            CanPerformAttack = true;
+            HasPerformedAttack = false;
+        }
+    }
 }

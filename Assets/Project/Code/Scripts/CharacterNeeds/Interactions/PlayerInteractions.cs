@@ -41,7 +41,10 @@ public class PlayerInteractions : InteractionSystem
 
                 if (targetFound != null && targetFound.enabled && !targetFound.ThisTargetIsASteleEffect(targetFound))
                 {
+
+                    //Ajouter la détection d'une autre cible éventuelle pour la mettre en queue ppour pouvoir l'attaquer en suivant
                     Target = targetFound.transform;
+
                     targetFound.DisplaySelectionEffect();
 
                     //Needs to be modified to only include Player -Interactive building - Monster - Minion
@@ -64,6 +67,8 @@ public class PlayerInteractions : InteractionSystem
                 else
                 {
                     //Ground hit
+                    IsAttacking = false;
+
                     ResetTarget(true);
                     ResetAgentState();
                 }
@@ -87,7 +92,7 @@ public class PlayerInteractions : InteractionSystem
                 Target.GetComponent<SteleLogic>().InteractingPlayer = null;
                 Target = null;
             }
-            else if(canResetTarget)
+            else if (canResetTarget)
             {
                 Target = null;
             }
@@ -165,24 +170,6 @@ public class PlayerInteractions : InteractionSystem
 
         IsHarvesting = false;
         Animator.SetBool("IsCollecting", false);
-    }
-
-    private void SetAttackRangeSize()
-    {
-        attackRange.GetComponent<SphereCollider>().radius = Stats.GetStat(StatType.AttackRange).Value;
-
-        SpriteRenderer attackRangeRenderer = attackRange.GetComponent<SpriteRenderer>();
-        attackRangeRenderer.size = new Vector2(Stats.GetStat(StatType.AttackRange).Value * 2, Stats.GetStat(StatType.AttackRange).Value * 2);
-    }
-
-    private void DisplayAttackRange()
-    {
-        attackRange.GetComponent<SpriteRenderer>().enabled = true;
-    }
-
-    private void HideAttackRange()
-    {
-        attackRange.GetComponent<SpriteRenderer>().enabled = false;
     }
     #endregion
 }

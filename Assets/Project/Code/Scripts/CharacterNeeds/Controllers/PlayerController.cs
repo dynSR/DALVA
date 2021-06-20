@@ -51,7 +51,7 @@ public class PlayerController : CharacterController
 
             SetAgentDestination(Agent, raycastHit.point);
 
-            if (Interactions.Target != null) return;
+            //if (Interactions.Target != null) return;
             
             HandleCharacterRotation(transform);
 

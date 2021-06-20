@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityName: '[Type in]'
   entityType: 7
+  entitySpecies: 0
   combatType: 1
   entityStats:
   - name: Health - 1500
@@ -64,10 +65,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackSpeed - 0,6
+  - name: AttackSpeed - 0,65
     statType: 6
     icon: {fileID: 0}
-    baseValue: 0.6
+    baseValue: 0.65
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -80,10 +81,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 45
+  - name: PhysicalPower - 40
     statType: 8
     icon: {fileID: 0}
-    baseValue: 45
+    baseValue: 40
     capValue: 0
     Value: 0
     MaxValue: 0

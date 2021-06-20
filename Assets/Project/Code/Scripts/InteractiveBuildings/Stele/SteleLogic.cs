@@ -151,19 +151,19 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         switch (SteleLevel)
         {
             case SteleLevel.Default:
-                cost = 150;
+                cost = 450;
                 break;
             case SteleLevel.EvolutionI:
-                cost = 300;
+                cost = 900;
                 break;
             case SteleLevel.EvolutionII:
-                cost = 600;
+                cost = 1200;
                 break;
             case SteleLevel.FinalEvolution:
-                cost = 1050;
+                cost = 1500;
                 break;
             case SteleLevel.OnlySell:
-                cost = 1050;
+                cost = 1500;
                 break;
         }
 

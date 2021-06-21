@@ -94496,12 +94496,12 @@ MonoBehaviour:
   entityTeam: 2
   baseUsedEntity: {fileID: 11400000, guid: e6856f99a73556b4b9325f531d977412, type: 2}
   entityAbilities: []
-  damageAppliedToThePlaceToDefend: 1
+  damageAppliedToThePlaceToDefend: 0
   entityStats:
-  - name: Health - 1000
+  - name: Health - 300
     statType: 0
     icon: {fileID: 0}
-    baseValue: 1000
+    baseValue: 300
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -94530,18 +94530,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 20
+  - name: PhysicalResistances - 0
     statType: 4
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 20
+  - name: MagicalResistances - 10
     statType: 5
     icon: {fileID: 0}
-    baseValue: 20
+    baseValue: 10
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -94666,10 +94666,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 110
+  - name: RessourcesGiven - 80
     statType: 21
     icon: {fileID: 0}
-    baseValue: 110
+    baseValue: 80
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -94748,9 +94748,6 @@ MonoBehaviour:
   - {fileID: 778054861}
   burningVFX: {fileID: 4341412669410061241}
   poisonnedVFX: {fileID: 9213069556882143782}
-  networkPosition: {x: 0, y: 0, z: 0}
-  networkRotation: {x: 0, y: 0, z: 0, w: 1}
-  networkSpeed: 0
   waypointTarget: {fileID: 0}
   waypoints: []
   CurrentStateName: 
@@ -94786,6 +94783,8 @@ MonoBehaviour:
   rangedAttackEmiterPosition: {fileID: 5396686404154370383}
   rangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
   canPerformAttack: 1
+  hasPerformedAttack: 0
+  IsAttacking: 0
   distance: 0
 --- !u!114 &5396686405339889377
 MonoBehaviour:

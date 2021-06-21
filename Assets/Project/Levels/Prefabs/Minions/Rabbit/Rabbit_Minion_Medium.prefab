@@ -99893,10 +99893,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 25
+  - name: PhysicalPower - 40
     statType: 8
     icon: {fileID: 0}
-    baseValue: 25
+    baseValue: 40
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -99997,10 +99997,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 100
+  - name: RessourcesGiven - 50
     statType: 21
     icon: {fileID: 0}
-    baseValue: 100
+    baseValue: 50
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -100079,9 +100079,6 @@ MonoBehaviour:
   - {fileID: 972832860}
   burningVFX: {fileID: 9159583487100531892}
   poisonnedVFX: {fileID: 8579500113348581270}
-  networkPosition: {x: 0, y: 0, z: 0}
-  networkRotation: {x: 0, y: 0, z: 0, w: 1}
-  networkSpeed: 0
   waypointTarget: {fileID: 0}
   waypoints: []
   CurrentStateName: 
@@ -100117,6 +100114,8 @@ MonoBehaviour:
   rangedAttackEmiterPosition: {fileID: 5396686404154370383}
   rangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
   canPerformAttack: 1
+  hasPerformedAttack: 0
+  IsAttacking: 0
   distance: 0
 --- !u!114 &5396686405339889377
 MonoBehaviour:

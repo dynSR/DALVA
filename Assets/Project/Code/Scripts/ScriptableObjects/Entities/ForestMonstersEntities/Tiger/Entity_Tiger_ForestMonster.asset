@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityName: '[Type in]'
   entityType: 3
+  entitySpecies: 0
   combatType: 0
   entityStats:
-  - name: Health - 1000
+  - name: Health - 600
     statType: 0
     icon: {fileID: 0}
-    baseValue: 1000
+    baseValue: 600
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -80,18 +81,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 40
+  - name: PhysicalPower - 0
     statType: 8
     icon: {fileID: 0}
-    baseValue: 40
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalPower - 0
+  - name: MagicalPower - 120
     statType: 9
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 120
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -184,10 +185,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 110
+  - name: RessourcesGiven - 150
     statType: 21
     icon: {fileID: 0}
-    baseValue: 110
+    baseValue: 150
     capValue: 0
     Value: 0
     MaxValue: 0

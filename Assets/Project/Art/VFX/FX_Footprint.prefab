@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 6241297856667828463}
   - component: {fileID: 6490611309682069426}
   m_Layer: 0
-  m_Name: FX_Boar_Footprint
+  m_Name: FX_Footprint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9111,8 +9111,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   CustomDataModule:
     enabled: 0
-    mode0: 1
-    vectorComponentCount0: 3
+    mode0: 0
+    vectorComponentCount0: 1
     color0:
       serializedVersion: 2
       minMaxState: 0
@@ -9180,7 +9180,7 @@ ParticleSystem:
     vector0_0:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2

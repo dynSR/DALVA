@@ -38274,34 +38274,34 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MovementSpeed - 2,25
+  - name: MovementSpeed - 2,5
     statType: 3
     icon: {fileID: 0}
-    baseValue: 2.25
+    baseValue: 2.5
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalResistances - 30
+  - name: PhysicalResistances - 15
     statType: 4
     icon: {fileID: 0}
-    baseValue: 30
+    baseValue: 15
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalResistances - 30
+  - name: MagicalResistances - 15
     statType: 5
     icon: {fileID: 0}
-    baseValue: 30
+    baseValue: 15
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: AttackSpeed - 0,5
+  - name: AttackSpeed - 0,55
     statType: 6
     icon: {fileID: 0}
-    baseValue: 0.5
+    baseValue: 0.55
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -38314,18 +38314,18 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: PhysicalPower - 85
+  - name: PhysicalPower - 0
     statType: 8
     icon: {fileID: 0}
-    baseValue: 85
+    baseValue: 0
     capValue: 0
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: MagicalPower - 0
+  - name: MagicalPower - 120
     statType: 9
     icon: {fileID: 0}
-    baseValue: 0
+    baseValue: 120
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -38418,10 +38418,10 @@ MonoBehaviour:
     Value: 0
     MaxValue: 0
     statModifiers: []
-  - name: RessourcesGiven - 150
+  - name: RessourcesGiven - 75
     statType: 21
     icon: {fileID: 0}
-    baseValue: 150
+    baseValue: 75
     capValue: 0
     Value: 0
     MaxValue: 0
@@ -38500,9 +38500,6 @@ MonoBehaviour:
   - {fileID: 1632474952}
   burningVFX: {fileID: 6276540465788377781}
   poisonnedVFX: {fileID: 655648498580267768}
-  networkPosition: {x: 0, y: 0, z: 0}
-  networkRotation: {x: 0, y: 0, z: 0, w: 1}
-  networkSpeed: 0
   waypointTarget: {fileID: 0}
   waypoints: []
   CurrentStateName: 
@@ -38538,6 +38535,8 @@ MonoBehaviour:
   rangedAttackEmiterPosition: {fileID: 677056947118391587}
   rangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
   canPerformAttack: 1
+  hasPerformedAttack: 0
+  IsAttacking: 0
   distance: 0
 --- !u!114 &677056945882420877
 MonoBehaviour:

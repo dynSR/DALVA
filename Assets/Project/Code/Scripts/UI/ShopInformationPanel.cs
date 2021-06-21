@@ -141,7 +141,7 @@ public class ShopInformationPanel : MonoBehaviour
         CGroup.alpha = 0;
 
         buyButton.gameObject.SetActive(false);
-        PlayerHUDManager.Instance.RepositionShopWindow(475);
+        PlayerHUDManager.Instance.RepositionShopWindow(463);
     }
 
     #endregion

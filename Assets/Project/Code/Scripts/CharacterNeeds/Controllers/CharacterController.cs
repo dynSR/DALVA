@@ -110,6 +110,8 @@ public class CharacterController : MonoBehaviourPun
         IsStunned = true;
 
         StunVFX.SetActive(true);
+
+        Interactions.IsAttacking = false;
     }
     public void UnStunTarget()
     {

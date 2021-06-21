@@ -12,6 +12,8 @@ class MovingState : IState
         {
             controller.CompareCurrentAndNextWaypointPositionsFromTransformPosition();
         }
+
+        controller.NPCInteractions.IsAttacking = false;
     }
 
     public void Exit()

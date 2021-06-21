@@ -8,7 +8,6 @@ public class PlayerInteractions : InteractionSystem
     private bool playerIsTryingToAttack = false;
     public bool PlayerIsTryingToAttack { get => playerIsTryingToAttack; set => playerIsTryingToAttack = value; }
 
-
     [SerializeField] private bool isHarvesting = false;
     [SerializeField] private bool isInteractingWithAStele = false;
     public KeyCode AttackOnMoveInput { get => attackOnMoveInput; set => attackOnMoveInput = value; }
@@ -41,9 +40,10 @@ public class PlayerInteractions : InteractionSystem
 
                 if (targetFound != null && targetFound.enabled && !targetFound.ThisTargetIsASteleEffect(targetFound))
                 {
-
                     //Ajouter la détection d'une autre cible éventuelle pour la mettre en queue ppour pouvoir l'attaquer en suivant
-                    Target = targetFound.transform;
+                    //Target = targetFound.transform;
+
+                    AssignTarget(targetFound.transform);
 
                     targetFound.DisplaySelectionEffect();
 
@@ -118,6 +118,8 @@ public class PlayerInteractions : InteractionSystem
     {
         if (Controller.IsCasting) return;
 
+        Controller.HandleCharacterRotationBeforeCasting(transform, Target.position, Controller.RotateVelocity, Controller.RotationSpeed);
+
         base.Interact();
 
         HarvesterInteraction();
@@ -172,4 +174,33 @@ public class PlayerInteractions : InteractionSystem
         Animator.SetBool("IsCollecting", false);
     }
     #endregion
+
+    private void AssignTarget(Transform targetFound)
+    {
+        if(Target == null)
+        {
+            Target = targetFound;
+        }
+        else if (Target != null && IsAttacking)
+        {
+            //Cas d'une cible récolteur ou stèle
+            EntityDetection entityDetected = targetFound.GetComponent<EntityDetection>();
+
+            if (entityDetected != null
+                && (entityDetected.ThisTargetIsAHarvester(entityDetected)
+                || entityDetected.ThisTargetIsAStele(entityDetected)))
+            {
+                Target = targetFound;
+
+                if (QueuedTarget != null) QueuedTarget = null;
+
+                IsAttacking = false;
+                
+                return;
+            }
+            //
+
+            QueuedTarget = targetFound;
+        }
+    }
 }

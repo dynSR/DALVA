@@ -225,6 +225,9 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         //activatedVFX.SetActive(false);
 
+        SteleBillboard steleBillboard = GetComponentInChildren<SteleBillboard>();
+        steleBillboard.DisplayBuildButtons();
+
         Destroy(SpawnedEffectObject);
     }
 
@@ -255,6 +258,11 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
             case SteleLevel.FinalEvolution:
                 steleAmeliorationScript.renderers.transform.GetChild(1).gameObject.SetActive(false);
                 steleAmeliorationScript.renderers.transform.GetChild(2).gameObject.SetActive(true);
+
+
+                InteractingPlayer.Target = null;
+                InteractingPlayer = null;
+                
                 break;
         }
     }

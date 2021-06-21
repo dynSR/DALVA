@@ -288,7 +288,7 @@ public class PlayerHUDManager : MonoBehaviour
 
     void ResetShopWindowAnchoredPosition()
     {
-        RepositionShopWindow(475);
+        RepositionShopWindow(463);
     }
     #endregion
 

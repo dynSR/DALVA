@@ -222,6 +222,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
                 }
             }
 
+            Interactions.IsAttacking = false;
             Controller.IsCasting = true;
             Controller.CanMove = false;
 

@@ -145,13 +145,6 @@ public class ShopManager : MonoBehaviour
             //AddShopActionOnPurchase(null, shopItem);
             PlayerInventory.AddItemToInventory(shopItem, true);
         }
-
-        PlayerHUDManager playerHUDManager = PlayerHUDManager.Instance;
-
-        if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
-        {
-            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject());
-        }
     }
 
     //Its on a button
@@ -164,13 +157,6 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log("Buying item : " + SelectedItem.ItemName);
         PlayerInventory.AddItemToInventory(SelectedItem, true);
-
-        PlayerHUDManager playerHUDManager = PlayerHUDManager.Instance;
-
-        if (playerHUDManager.ShopInformationPanel.CGroup.alpha == 1)
-        {
-            StartCoroutine(playerHUDManager.ShopInformationPanel.DesactivateObject());
-        }
     }
 
     //Its on a button
@@ -369,8 +355,7 @@ public class ShopManager : MonoBehaviour
             //Reset Shop datas / GO
             if (SelectedItem != null) SelectedItem = null;
 
-            StartCoroutine(PlayerHUDManager.Instance.ShopInformationPanel.DesactivateObject());
-            //
+            PlayerHUDManager.Instance.ShopInformationPanel.HideContent();
 
             TriggerItemPanelAnimators();
         } 
@@ -493,32 +478,6 @@ public class ShopManager : MonoBehaviour
                     ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
                     ShopBoxesIcon[i].ItemButton.DisplayPadlock();
                 }
-            }
-
-            if (item.ItemIsAnAbility)
-            {
-                AbilityLogic ability = PlayerStats.EntityAbilities[item.AbilityIndex];
-
-                //Debug.Log(PlayerStats.EntityAbilities[item.AbilityIndex].name);
-                //Debug.Log(item.name + " " + item.ItemIsAnAbility);
-
-                if (ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) || !CanPurchaseItem(ShopBoxesIcon[i].ItemButton.ButtonItem))
-                {
-                    ShopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
-                }
-                else if (!ability.AbilitiesCooldownHandler.IsAbilityOnCooldown(ability) && CanPurchaseItem(ShopBoxesIcon[i].ItemButton.ButtonItem))
-                {
-                    ShopBoxesIcon[i].ItemButton.ObjectIsDisponible();
-                    ShopBoxesIcon[i].ItemButton.HideCheckMark();
-                    ShopBoxesIcon[i].ItemButton.HidePadlock();
-                }
-                ////Si already equipped
-                //else if (!CanPurchaseItem(shopBoxesIcon[i].ItemButton.ButtonItem))
-                //{
-                //    shopBoxesIcon[i].ItemButton.ObjectIsNotDisponible();
-                //    shopBoxesIcon[i].ItemButton.DisplayCheckMark();
-                //    shopBoxesIcon[i].ItemButton.DisplayPadlock();
-                //}
             }
         }
     }

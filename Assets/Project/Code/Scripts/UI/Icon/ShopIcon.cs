@@ -37,15 +37,9 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        ShopManager.ResetSelectionIcon(true);
+        ShopManager.ResetSelectionIcon();
 
         base.OnPointerDown(eventData);
-
-        // Mettre ici la désactivation de la partie information
-        DesactivateShopInformationPanel();
-
-        // Mettre ici l'activation de la partie information
-        ActivateShopInformationPanel();
     }
 
     public override void OnPointerExit(PointerEventData eventData)
@@ -64,25 +58,8 @@ public class ShopIcon : SelectIcon, IPointerDownHandler, IPointerEnterHandler, I
     public override void ResetSelection()
     {
         ShopManager.ShopItemIsSelected = false;
-        //ShopManager.SelectedItem = null;
+        ShopManager.SelectedItem = null;
 
         OnDeselectingAnItem?.Invoke(null);
-    }
-
-    void ActivateShopInformationPanel()
-    {
-        if (UtilityClass.LeftClickIsPressed() && playerHUDManager.ShopInformationPanel.CGroup.alpha == 0)
-        {
-            StartCoroutine(shopInformationPanelRef.ActivateObject());
-        }
-    }
-
-    void DesactivateShopInformationPanel()
-    {
-        if (UtilityClass.LeftClickIsPressed() 
-            && !playerHUDManager.ShopWindow.GetComponent<ShopManager>().ShopItemIsSelected)
-        {
-            StartCoroutine(shopInformationPanelRef.DesactivateObject());
-        }
     }
 }

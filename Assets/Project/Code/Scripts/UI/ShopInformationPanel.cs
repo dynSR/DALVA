@@ -59,13 +59,17 @@ public class ShopInformationPanel : MonoBehaviour
         if (shopManager.CanPurchaseItem(selectedItem) && !shopManager.IsItemAlreadyInInventory(selectedItem))
         {
             buyButton.interactable = true;
+
             buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().HighlightColor);
+
             UIButtonSoundScript.enabled = true;
         }
         else
         {
-            buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
             buyButton.interactable = false;
+
+            buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
+
             UIButtonSoundScript.enabled = false;
         }
     }
@@ -76,7 +80,9 @@ public class ShopInformationPanel : MonoBehaviour
             buyButton.gameObject.SetActive(false);
 
         buyButton.interactable = false;
+
         buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
+
         HideContent();
     }
 
@@ -123,26 +129,5 @@ public class ShopInformationPanel : MonoBehaviour
 
         buyButton.gameObject.SetActive(false);
     }
-
-    public IEnumerator ActivateObject()
-    {
-        yield return new WaitForEndOfFrame();
-
-        CGroup.blocksRaycasts = true;
-        CGroup.alpha = 1;
-        PlayerHUDManager.Instance.RepositionShopWindow(425);
-    }
-
-    public IEnumerator DesactivateObject()
-    {
-        yield return new WaitForEndOfFrame();
-
-        CGroup.blocksRaycasts = false;
-        CGroup.alpha = 0;
-
-        buyButton.gameObject.SetActive(false);
-        PlayerHUDManager.Instance.RepositionShopWindow(463);
-    }
-
     #endregion
 }

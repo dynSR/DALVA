@@ -260,8 +260,6 @@ public class PlayerHUDManager : MonoBehaviour
             StartCoroutine(itemPanel.DisableAllCanvasGroup());
         }
 
-        StartCoroutine(ShopInformationPanel.DesactivateObject());
-
         IsShopWindowOpen = false;
 
         if (!GameManager.Instance.tutorielDisplayed)
@@ -288,7 +286,7 @@ public class PlayerHUDManager : MonoBehaviour
 
     void ResetShopWindowAnchoredPosition()
     {
-        RepositionShopWindow(463);
+        RepositionShopWindow(443);
     }
     #endregion
 

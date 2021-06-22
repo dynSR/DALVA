@@ -32,12 +32,12 @@ public class InteractionSystem : MonoBehaviour
     [SerializeField] private bool canPerformAttack = true;
     [SerializeField] private bool hasPerformedAttack = false;
     public bool IsAttacking = false;
+    public bool NeedToMove = false;
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
     public bool HasPerformedAttack { get => hasPerformedAttack; set => hasPerformedAttack = value; }
     public float InteractionRange { get => interactionRange; set => interactionRange = value; }
     public bool AutoAttackCanMark { get => autoAttackCanMark; set => autoAttackCanMark = value; }
     public StatusEffect AutoAttackEffect { get => autoAttackEffect; set => autoAttackEffect = value; }
-
 
     public Transform Target { get => target; set => target = value; }
     public Transform KnownTarget { get => knownTarget; set => knownTarget = value; }
@@ -84,6 +84,9 @@ public class InteractionSystem : MonoBehaviour
                 if (CanPerformAttack)
                     ResetInteractionState();
 
+                NeedToMove = true;
+                IsAttacking = false;
+
                 if (Controller.Agent.enabled)
                 {
                     Controller.Agent.isStopped = false;
@@ -94,7 +97,9 @@ public class InteractionSystem : MonoBehaviour
             {
                 //Debug.Log("Close enough to target");
 
-                if(Controller.Agent.enabled)
+                NeedToMove = false;
+
+                if (Controller.Agent.enabled)
                 {
                     Controller.Agent.ResetPath();
                     Controller.Agent.isStopped = true;
@@ -145,12 +150,6 @@ public class InteractionSystem : MonoBehaviour
 
     void AttackInteraction()
     {
-        if (QueuedTarget != null && HasPerformedAttack)
-        {
-            Target = QueuedTarget;
-            QueuedTarget = null;
-        }
-
         if (Target != null)
         {
             EntityDetection targetFound = Target.GetComponent<EntityDetection>();
@@ -304,7 +303,8 @@ public class InteractionSystem : MonoBehaviour
             || Target != null && Target.GetComponent<InteractiveBuilding>() != null
             || Target != null && Target.GetComponent<EntityStats>() != null && Target.GetComponent<EntityStats>().IsDead 
             || Target == null 
-            || GetComponent<NPCController>() != null && GetComponent<NPCController>().IsACampNPC)
+            || GetComponent<NPCController>() != null && GetComponent<NPCController>().IsACampNPC
+            || NeedToMove)
         {
             Animator.SetLayerWeight(1, 0);
             Animator.SetBool("Attack", false);

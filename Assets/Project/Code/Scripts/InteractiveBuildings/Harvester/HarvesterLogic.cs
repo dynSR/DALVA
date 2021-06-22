@@ -24,6 +24,8 @@ public class HarvesterLogic : InteractiveBuilding
     [SerializeField] private GameObject glowEffectObject;
     [SerializeField] private GameObject harvestingEffectObject;
     [SerializeField] private GameObject maxEffectObject;
+    [SerializeField] private GameObject progressBarObject;
+    [SerializeField] private Image progressBar;
     public HarvestState harvestState; //Its in public for debug purpose
     private bool LimitReached => CurrentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
 
@@ -68,6 +70,7 @@ public class HarvesterLogic : InteractiveBuilding
         {
             harvestState = HarvestState.PlayerIsHarvestingRessources;
             if (harvestingEffectObject.activeInHierarchy) harvestingEffectObject.SetActive(false);
+            StopAllCoroutines();
             return;
         }
 
@@ -94,8 +97,11 @@ public class HarvesterLogic : InteractiveBuilding
     {
         if (!GameManager.Instance.GameIsInPlayMod()) return;
 
-            timeSpentHarvesting += Time.deltaTime;
+        timeSpentHarvesting += Time.deltaTime;
         harvestingFeedbackImage.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
+
+        progressBarObject.SetActive(true);
+        progressBar.fillAmount = timeSpentHarvesting / totalTimeToHarvest;
 
         GetComponentInChildren<Animator>().SetBool("Harvesting", true);
 
@@ -126,6 +132,10 @@ public class HarvesterLogic : InteractiveBuilding
     private void ResetHarvestingFeedback()
     {
         harvestingFeedbackImage.fillAmount = 0f / totalTimeToHarvest;
+
+        progressBarObject.SetActive(false);
+        progressBar.fillAmount = 0f / totalTimeToHarvest;
+
         timeSpentHarvesting = 0f;
     }
 

@@ -9,6 +9,8 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     private EntityStats Stats => GetComponentInParent<EntityStats>();
     private CharacterController Controller => GetComponentInParent<CharacterController>();
     private EntityDetection EDetection => GetComponentInParent<EntityDetection>();
+
+    private EntityStats queuedTargetStats;
     #endregion
 
     [Header("VFX ANIMATION")]
@@ -21,6 +23,21 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     {
         if (Stats != null)
             MyAnimator.runtimeAnimatorController = Stats.BaseUsedEntity.AnimatorController;
+    }
+
+    public void SetQueuedTargetAsTarget()
+    {
+        if (Interactions.QueuedTarget != null)
+        {
+            queuedTargetStats = Interactions.QueuedTarget.GetComponent<EntityStats>();
+
+            if (queuedTargetStats != null && !queuedTargetStats.IsDead)
+            {
+                Interactions.IsAttacking = false;
+                Interactions.Target = Interactions.QueuedTarget;
+                Interactions.QueuedTarget = null;
+            }
+        }
     }
 
     #region Attack animation

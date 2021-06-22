@@ -38,7 +38,9 @@ public class PlayerInteractions : InteractionSystem
                 EntityDetection targetFound = hit.collider.GetComponent<EntityDetection>();
                 InteractiveBuilding interactiveBuilding = hit.collider.GetComponent<InteractiveBuilding>();
 
-                if (targetFound != null && targetFound.enabled && !targetFound.ThisTargetIsASteleEffect(targetFound))
+                if (targetFound != null 
+                    && targetFound.enabled 
+                    && !targetFound.ThisTargetIsASteleEffect(targetFound))
                 {
                     //Ajouter la détection d'une autre cible éventuelle pour la mettre en queue ppour pouvoir l'attaquer en suivant
                     //Target = targetFound.transform;
@@ -177,6 +179,12 @@ public class PlayerInteractions : InteractionSystem
 
     private void AssignTarget(Transform targetFound)
     {
+        if(targetFound.gameObject == gameObject)
+        {
+            Debug.Log("Its character mage gameObject");
+            return;
+        }
+
         if(Target == null)
         {
             Target = targetFound;
@@ -199,8 +207,8 @@ public class PlayerInteractions : InteractionSystem
                 return;
             }
             //
-
-            QueuedTarget = targetFound;
+            if (targetFound != Target)
+                QueuedTarget = targetFound;
         }
     }
 }

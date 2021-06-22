@@ -8,7 +8,7 @@ public class PlaceToDefend : MonoBehaviour
 
     public int health;
     public EntityTeam team;
-    public GameObject passingThroughPortalVFX;
+    public ParticleSystem passingThroughPortalVFX;
 
     private Animator myAnimator;
     private int maxHealth;
@@ -52,8 +52,7 @@ public class PlaceToDefend : MonoBehaviour
 
             CheckForLifeAnimation();
 
-            if (!passingThroughPortalVFX.activeInHierarchy)
-                passingThroughPortalVFX.SetActive(true);
+            passingThroughPortalVFX.Play();
 
             if (GameManager.Instance.DalvaLifePoints <= 0)
             {

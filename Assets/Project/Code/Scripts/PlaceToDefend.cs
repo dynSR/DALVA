@@ -10,7 +10,16 @@ public class PlaceToDefend : MonoBehaviour
     public EntityTeam team;
     public GameObject passingThroughPortalVFX;
 
+    private Animator myAnimator;
+    private int maxHealth;
+
     [SoundGroup] public string passingThroughSFX;
+
+    private void Start()
+    {
+        myAnimator = GetComponentInParent<Animator>();
+        maxHealth = health * GameManager.Instance.placesToDefend.Count;
+    }
 
     private void Update()
     {
@@ -43,6 +52,8 @@ public class PlaceToDefend : MonoBehaviour
 
             OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
 
+            CheckForLifeAnimation();
+
             if (!passingThroughPortalVFX.activeInHierarchy)
                 passingThroughPortalVFX.SetActive(true);
 
@@ -71,6 +82,21 @@ public class PlaceToDefend : MonoBehaviour
         {
             GameManager.Instance.Defeat();
         }
+    }
+
+    private void CheckForLifeAnimation()
+    {
+        if (GameManager.Instance.DalvaLifePoints > maxHealth * 2 / 3)
+        {
+            myAnimator.SetInteger("Status", 2);
+            return;
+        }
+        else if (GameManager.Instance.DalvaLifePoints > maxHealth / 3)
+        {
+            myAnimator.SetInteger("Status", 1);
+            return;
+        }
+        else myAnimator.SetInteger("Status", 0);
     }
 
 }

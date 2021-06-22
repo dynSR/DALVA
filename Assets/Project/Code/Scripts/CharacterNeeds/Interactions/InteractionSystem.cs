@@ -225,6 +225,8 @@ public class InteractionSystem : MonoBehaviour
                 //Debug.Log("AUGMENTING DAMAGE", transform);
             }
 
+            ReduceTimeScaleOnKillingLastMonster(totalPhysicalDamage, totalMagicalDamage);
+
             targetStat.TakeDamage(
                 transform,
                 targetStat.GetStat(StatType.PhysicalResistances).Value,
@@ -247,8 +249,6 @@ public class InteractionSystem : MonoBehaviour
 
             OnAttacking?.Invoke();
         }
-
-        CheckIfStillNeedToAttackOrTargetIsStillAvailable();
     }
 
     public void RangedAttack()
@@ -286,9 +286,9 @@ public class InteractionSystem : MonoBehaviour
 
             attackProjectile.TotalPhysicalDamage = Stats.GetStat(StatType.PhysicalPower).Value + pPBonus;
             attackProjectile.TotalMagicalDamage = Stats.GetStat(StatType.MagicalPower).Value + mPBonus;
-        }
 
-        CheckIfStillNeedToAttackOrTargetIsStillAvailable();
+            ReduceTimeScaleOnKillingLastMonster(attackProjectile.TotalPhysicalDamage, attackProjectile.TotalMagicalDamage);
+        }
     }
     #endregion
 
@@ -313,20 +313,15 @@ public class InteractionSystem : MonoBehaviour
         CanPerformAttack = true;
         HasPerformedAttack = false;
     }
-    #endregion
 
-    void CheckIfStillNeedToAttackOrTargetIsStillAvailable()
+    private void ReduceTimeScaleOnKillingLastMonster(float physicalDamage, float magicalDamage)
     {
-        if (IsAttacking
-            && (Target != null && Target.GetComponent<EntityStats>().IsDead
-            || Target == null))
+        if (GameManager.Instance.RemainingMonstersValue == 1
+                && (physicalDamage + magicalDamage) >= Target.GetComponent<EntityStats>().GetStat(StatType.Health).Value)
         {
-            Animator.SetLayerWeight(1, 0);
-            Animator.SetBool("Attack", false);
-
-            IsAttacking = false;
-            CanPerformAttack = true;
-            HasPerformedAttack = false;
+            Debug.Log("Last monster taking damage");
+            Time.timeScale = 0.25f;
         }
     }
+    #endregion
 }

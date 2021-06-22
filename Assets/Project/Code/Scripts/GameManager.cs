@@ -301,7 +301,7 @@ public class GameManager : MonoBehaviour
 
         Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
 
-        if (mapIsEasy)
+        if (GameParameters.Instance != null && mapIsEasy)
             GameParameters.Instance.maxLevelDone++;
     }
 

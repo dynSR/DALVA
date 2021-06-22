@@ -46,8 +46,6 @@ public class PlaceToDefend : MonoBehaviour
 
             UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, stats.transform);
 
-            Destroy(stats.gameObject);
-
             UIManager.Instance.SetDamageLoss(stats.DamageAppliedToThePlaceToDefend);
 
             OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
@@ -67,6 +65,8 @@ public class PlaceToDefend : MonoBehaviour
             {
                 GameManager.Instance.UpdateRemainingMonsterValue(-1);
             }
+
+            Destroy(stats.gameObject);
         }
     }
 

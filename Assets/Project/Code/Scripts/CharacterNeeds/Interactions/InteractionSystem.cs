@@ -225,8 +225,6 @@ public class InteractionSystem : MonoBehaviour
                 //Debug.Log("AUGMENTING DAMAGE", transform);
             }
 
-            ReduceTimeScaleOnKillingLastMonster(totalPhysicalDamage, totalMagicalDamage);
-
             targetStat.TakeDamage(
                 transform,
                 targetStat.GetStat(StatType.PhysicalResistances).Value,
@@ -286,8 +284,6 @@ public class InteractionSystem : MonoBehaviour
 
             attackProjectile.TotalPhysicalDamage = Stats.GetStat(StatType.PhysicalPower).Value + pPBonus;
             attackProjectile.TotalMagicalDamage = Stats.GetStat(StatType.MagicalPower).Value + mPBonus;
-
-            ReduceTimeScaleOnKillingLastMonster(attackProjectile.TotalPhysicalDamage, attackProjectile.TotalMagicalDamage);
         }
     }
     #endregion
@@ -312,16 +308,6 @@ public class InteractionSystem : MonoBehaviour
 
         CanPerformAttack = true;
         HasPerformedAttack = false;
-    }
-
-    private void ReduceTimeScaleOnKillingLastMonster(float physicalDamage, float magicalDamage)
-    {
-        if (GameManager.Instance.RemainingMonstersValue == 1
-                && (physicalDamage + magicalDamage) >= Target.GetComponent<EntityStats>().GetStat(StatType.Health).Value)
-        {
-            Debug.Log("Last monster taking damage");
-            Time.timeScale = 0.25f;
-        }
     }
     #endregion
 }

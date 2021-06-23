@@ -56,7 +56,7 @@ public class PlaceToDefend : MonoBehaviour
 
             if (GameManager.Instance.DalvaLifePoints <= 0)
             {
-                GameManager.Instance.Defeat();
+                StartCoroutine(GameManager.Instance.Defeat(0.75f));
             }
 
             if (npcController != null && npcController.IsABossWaveMember
@@ -77,9 +77,11 @@ public class PlaceToDefend : MonoBehaviour
 
         OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
 
+        CheckForLifeAnimation();
+
         if (GameManager.Instance.DalvaLifePoints <= 0)
         {
-            GameManager.Instance.Defeat();
+            StartCoroutine(GameManager.Instance.Defeat(0.75f));
         }
     }
 

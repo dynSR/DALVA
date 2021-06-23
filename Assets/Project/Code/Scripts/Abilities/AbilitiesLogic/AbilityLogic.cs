@@ -457,6 +457,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (resetAutoAttack)
         {
+            Interactions.IsAttacking = false;
             Controller.CharacterAnimator.SetBool("Attack", false);
             Controller.CharacterAnimator.SetLayerWeight(1, 0);
         }

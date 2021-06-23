@@ -12,6 +12,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<InventoryBox> inventoryBoxes;
     [SerializeField] private List<SelectIcon> parentOfSelectedIcons;
 
+    public GameObject highlightObject;
+
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
     public bool InventoryIsEmpty=> NumberOfFullInventoryBoxes <= 0;
 
@@ -35,6 +37,8 @@ public class InventoryManager : MonoBehaviour
         inventoryBox.ResetInventoryBoxStoredItem(inventoryBox);
         Shop.RefreshShopData();
 
+        DisplayHighlight();
+
         //Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
     }
 
@@ -54,6 +58,8 @@ public class InventoryManager : MonoBehaviour
                     Shop.AddShopActionOnPurchase(InventoryBoxes[i]);
 
                 Shop.RefreshShopData();
+
+                DisplayHighlight();
 
                 //Debug.Log("Add " + item.ItemName + " to inventory");
                 //Debug.Log("Number of full inventory boxes : " + NumberOfFullInventoryBoxes);
@@ -90,6 +96,15 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void DisplayHighlight()
+    {
+        if(highlightObject.activeInHierarchy)
+        {
+            highlightObject.SetActive(false);
+            highlightObject.SetActive(true);
+        }
+        else highlightObject.SetActive(true);
+    }
     #endregion
 
     #region Functions used for item swapping in the inventory - Commented for the moment

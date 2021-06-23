@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,6 +68,9 @@ public class GameManager : MonoBehaviour
     public GameObject MageCharacter;
     public GameObject WarriorCharacter;
 
+    public GameObject victoryVirtualCameraObject;
+    public GameObject defeatVirtualCameraObject;
+
     public Transform Player { get; set; }
     
     void Start()
@@ -86,7 +90,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (UtilityClass.IsKeyPressed(KeyCode.Escape))
+        if (UtilityClass.IsKeyPressed(KeyCode.Escape) 
+            && (GameState != GameState.Victory || GameState != GameState.Defeat))
         {
             if(PlayerHUDManager.Instance.isShopWindowOpen && GameIsInPlayMod())
             {
@@ -163,7 +168,7 @@ public class GameManager : MonoBehaviour
         {
             if (itsFinalWave)
             {
-                Victory();
+                StartCoroutine(Victory(0.75f));
                 return;
             }
         }
@@ -292,12 +297,23 @@ public class GameManager : MonoBehaviour
             PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
     }
 
-    public void Victory()
+    public IEnumerator Victory(float delay)
     {
-        GameState = GameState.Victory;
-        UIManager.Instance.DisplayVictory();
+        Debug.Log("Victory");
 
-        Time.timeScale = 0;
+        GameState = GameState.Victory;
+
+        if (PlayerHUDManager.Instance.IsShopWindowOpen)
+        {
+            PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+        }
+
+        yield return new WaitForSeconds(delay);
+
+        //Time.timeScale = 1;
+        //CAMERA TRAVEL HERE
+        CameraTravel(true, false);
+        //UIManager.Instance.DisplayVictory();
 
         Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
 
@@ -305,14 +321,48 @@ public class GameManager : MonoBehaviour
             GameParameters.Instance.maxLevelDone++;
     }
 
-    public void Defeat()
+    public IEnumerator Defeat(float delay)
     {
-        GameState = GameState.Defeat;
-        UIManager.Instance.DisplayDefeat();
+        Debug.Log("Defeat");
 
-        Time.timeScale = 0;
+        GameState = GameState.Defeat;
+
+        if (PlayerHUDManager.Instance.IsShopWindowOpen)
+        {
+            PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+        }
+
+        yield return new WaitForSeconds(delay);
+
+        //Time.timeScale = 1;
+
+        //CAMERA TRAVEL HERE
+        CameraTravel(false, true);
+
+        //UIManager.Instance.DisplayDefeat();
 
         Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
+    }
+
+
+    private void CameraTravel(bool victory = false, bool defeat = false)
+    {
+        Debug.Log("Camera Travel");
+
+        UtilityClass.GetMainCamera().gameObject.SetActive(false);
+
+        if (victory)
+        {
+            CinemachineVirtualCamera cinemachineVirtualCamera = victoryVirtualCameraObject.GetComponent<CinemachineVirtualCamera>();
+
+            cinemachineVirtualCamera.Priority = 11;
+        }
+        else if (defeat)
+        {
+            CinemachineVirtualCamera cinemachineVirtualCamera = defeatVirtualCameraObject.GetComponent<CinemachineVirtualCamera>();
+
+            cinemachineVirtualCamera.Priority = 11;
+        }
     }
     #endregion
 }

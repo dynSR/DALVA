@@ -36,6 +36,11 @@ public class EntityAnimationsEventHandler : MonoBehaviour
                 Interactions.IsAttacking = false;
                 Interactions.Target = Interactions.QueuedTarget;
                 Interactions.QueuedTarget = null;
+
+                if (MyAnimator.GetLayerWeight(1) == 0)
+                {
+                    MyAnimator.SetLayerWeight(1, 1);
+                }
             }
         }
     }
@@ -114,7 +119,7 @@ public class EntityAnimationsEventHandler : MonoBehaviour
     {
         MyAnimator.SetBool(animationName, false);
 
-        Interactions.CanPerformAttack = true;
+        SetQueuedTargetAsTarget();
     }
     #endregion
 

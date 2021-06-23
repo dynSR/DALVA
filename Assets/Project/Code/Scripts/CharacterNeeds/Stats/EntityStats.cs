@@ -455,7 +455,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
             //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
 
-            deathFX.Play();
+            if(deathFX != null)
+                deathFX.Play();
         }
     }
 

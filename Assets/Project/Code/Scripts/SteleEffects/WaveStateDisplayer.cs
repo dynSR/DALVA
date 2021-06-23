@@ -48,11 +48,6 @@ public class WaveStateDisplayer : MonoBehaviour
         {
             localTimer -= Time.deltaTime;
             fillImage.fillAmount = localTimer / timerAssigned;
-
-            if(!breathingButtonVFX.activeInHierarchy && GameManager.Instance.GameIsInPlayMod())
-            {
-                breathingButtonVFX.SetActive(true);
-            }
         }   
     }
 
@@ -70,6 +65,11 @@ public class WaveStateDisplayer : MonoBehaviour
         else if (boolValue == 1 && !content.activeInHierarchy)
         { 
             content.SetActive(true);
+
+            if (!breathingButtonVFX.activeInHierarchy && GameManager.Instance.GameIsInPlayMod())
+            {
+                breathingButtonVFX.SetActive(true);
+            }
 
             if (spawner.ItIsABossWave())
             {

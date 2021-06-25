@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5552887835634776341
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  mode:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &-4055633956975437229
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -16,14 +33,38 @@ MonoBehaviour:
   m_AdvancedMode: 0
   temperature:
     m_OverrideState: 1
-    m_Value: -14
+    m_Value: -26.5
     min: -100
     max: 100
   tint:
     m_OverrideState: 1
-    m_Value: 55
+    m_Value: 65.5
     min: -100
     max: 100
+--- !u!114 &-3474896897096899452
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb60a22f311433c4c962b888d1393f88, type: 3}
+  m_Name: PaniniProjection
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  distance:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 1
+  cropToFit:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
 --- !u!114 &-2946614668127150999
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -36,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   color:
     m_OverrideState: 1
@@ -49,16 +90,16 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.356
+    m_Value: 0.316
     min: 0
     max: 1
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.197
+    m_Value: 0.137
     min: 0.01
     max: 1
   rounded:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
 --- !u!114 &-1104811312106904968
 MonoBehaviour:
@@ -83,7 +124,7 @@ MonoBehaviour:
     min: 0
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 500
+    m_Value: 750
     min: 0
   gaussianMaxRadius:
     m_OverrideState: 1
@@ -158,13 +199,13 @@ MonoBehaviour:
   m_AdvancedMode: 0
   lift:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_Value: {x: 0.9915665, y: 1, z: 0.9831304, w: 0.015337424}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.082730085}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.2226201}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.051706303}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.17835501}
 --- !u!114 &2512245014071246110
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -181,13 +222,13 @@ MonoBehaviour:
   m_AdvancedMode: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.75709796, y: 0.9380113, z: 1, w: -0.32509744}
+    m_Value: {x: 0.75709796, y: 0.9380113, z: 1, w: -0.23931873}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 0.9302875, y: 1, z: 0.98167837, w: -0.34352025}
+    m_Value: {x: 0.9302875, y: 1, z: 0.98167837, w: -0.19639185}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 0.6819923, y: 1, z: 0.928781, w: 0.05282733}
+    m_Value: {x: 0.9460751, y: 0.99708724, z: 1, w: 0.0724682}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
@@ -204,6 +245,23 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
     min: 0
+--- !u!114 &6699146150099370511
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  mode:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &7808342831457448698
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -220,10 +278,10 @@ MonoBehaviour:
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.03
+    m_Value: -0.35
   contrast:
     m_OverrideState: 1
-    m_Value: 2.3
+    m_Value: 10.48
     min: -100
     max: 100
   colorFilter:
@@ -265,13 +323,13 @@ MonoBehaviour:
     m_Value: 0.1
     min: 0
   scatter:
-    m_OverrideState: 0
-    m_Value: 0.25
+    m_OverrideState: 1
+    m_Value: 1
     min: 0
     max: 1
   clamp:
     m_OverrideState: 0
-    m_Value: 65472
+    m_Value: 32000
     min: 0
   tint:
     m_OverrideState: 0
@@ -280,7 +338,7 @@ MonoBehaviour:
     showAlpha: 0
     showEyeDropper: 1
   highQualityFiltering:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   dirtTexture:
     m_OverrideState: 0

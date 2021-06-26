@@ -10,6 +10,7 @@ public class ShopInformationPanel : MonoBehaviour
 
     [Header("BUTTON TO BUY")]
     [SerializeField] private Button buyButton;
+    [SerializeField] private GameObject cantAffordObject;
 
     [Header("SELECTED ITEM ATTRIBUTES")]
     [SerializeField] private TextMeshProUGUI selectedItemName;
@@ -64,6 +65,8 @@ public class ShopInformationPanel : MonoBehaviour
             buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().HighlightColor);
 
             UIButtonSoundScript.enabled = true;
+
+            if(cantAffordObject.activeInHierarchy) cantAffordObject.SetActive(false);
         }
         else
         {
@@ -72,6 +75,8 @@ public class ShopInformationPanel : MonoBehaviour
             buyButton.GetComponent<UIButtonHighlight>().ChangeTextColor(buyButton.GetComponent<UIButtonHighlight>().NormalColor);
 
             UIButtonSoundScript.enabled = false;
+
+            if (!cantAffordObject.activeInHierarchy) cantAffordObject.SetActive(true);
         }
     }
 

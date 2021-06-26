@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +33,7 @@ public class UIManager : MonoBehaviour
     float timeValue = 0f;
 
     public GameObject pauseMenu;
+    public GameObject popupsParent;
     public GameObject waveBossPing;
 
     #region Singleton
@@ -138,18 +140,41 @@ public class UIManager : MonoBehaviour
         {
             pauseMenu.SetActive(false);
             GameManager.Instance.SetGameToProperMod();
+
+            foreach (Transform item in popupsParent.transform)
+            {
+                item.gameObject.SetActive(false);
+            }
         }
     }
 
     public void GetBackToMainMenu()
     {
+        StartCoroutine(GetBackToMainMenuCoroutine());
+    }
+
+    private IEnumerator GetBackToMainMenuCoroutine()
+    {
+        InGameSceneTransitionManager.Instance.TriggerFadeIn();
         Time.timeScale = 1;
+
+        yield return new WaitForSeconds(1.25f);
+
         SceneManager.LoadScene("Scene_MainMenu");
     }
 
-    public void RestartLevel()
+    public void RestartLevel ()
     {
+        StartCoroutine(RestartLevelCoroutine());
+    }
+
+    private IEnumerator RestartLevelCoroutine()
+    {
+        InGameSceneTransitionManager.Instance.TriggerFadeIn();
         Time.timeScale = 1;
+
+        yield return new WaitForSeconds(1.25f);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

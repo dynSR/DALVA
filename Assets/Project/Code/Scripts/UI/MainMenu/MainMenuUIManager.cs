@@ -110,6 +110,14 @@ public class MainMenuUIManager : MonoBehaviour
     private bool characterClass = false; //false = Warrior, true = mage
     #endregion
 
+    private void Awake ()
+    {
+        if (!fadeInImage.gameObject.activeInHierarchy)
+        {
+            fadeInImage.gameObject.SetActive(true);
+        }
+    }
+
     void Start()
     {
         //Init

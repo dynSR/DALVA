@@ -90,7 +90,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (UtilityClass.IsKeyPressed(KeyCode.Escape) 
+        if (UtilityClass.IsKeyPressed(KeyCode.Escape)
+            && !tutorielDisplayed
             && (GameState != GameState.Victory || GameState != GameState.Defeat))
         {
             if(PlayerHUDManager.Instance.isShopWindowOpen && GameIsInPlayMod())

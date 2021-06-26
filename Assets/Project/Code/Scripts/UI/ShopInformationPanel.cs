@@ -20,6 +20,7 @@ public class ShopInformationPanel : MonoBehaviour
     [Header("CONTENTS")]
     [SerializeField] private GameObject firstPartContent;
     [SerializeField] private GameObject secondPartContent;
+    [SerializeField] private GameObject infoStateTextObject;
 
     public CanvasGroup CGroup => GetComponent<CanvasGroup>();
 
@@ -120,6 +121,8 @@ public class ShopInformationPanel : MonoBehaviour
     {
         firstPartContent.SetActive(true);
         secondPartContent.SetActive(true);
+
+        infoStateTextObject.SetActive(false);
     }
 
     public void HideContent()
@@ -128,6 +131,7 @@ public class ShopInformationPanel : MonoBehaviour
         secondPartContent.SetActive(false);
 
         buyButton.gameObject.SetActive(false);
+        infoStateTextObject.SetActive(true);
     }
     #endregion
 }

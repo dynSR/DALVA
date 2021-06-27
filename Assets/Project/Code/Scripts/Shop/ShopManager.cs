@@ -16,7 +16,7 @@ public class ShopManager : MonoBehaviour
     public event ShopShuffleHandler OnShuffleDone;
     public event ShopShuffleHandler OnShuffle;
 
-    public Transform Player;
+    public Transform Player => transform.parent.transform.parent.transform.parent;
 
     [Header("SHOP ACTIONS MADE")]
     [SerializeField] private List<ShopActionData> shopActions = new List<ShopActionData>();

@@ -157,7 +157,8 @@ public class SpawnerSystem : MonoBehaviour
 
                 UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, minionData.spawnLocation);
 
-                OnFirstWaveSpawned?.Invoke();
+                if(GameManager.Instance.tutorialsAreEnabled)
+                    OnFirstWaveSpawned?.Invoke();
 
                 yield return new WaitForSeconds(spawnRate);
 

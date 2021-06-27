@@ -17,13 +17,18 @@ public class CharacterRessources : MonoBehaviour
 
     [Header("PLAYER RESSOURCES FEEDBACK TEXTS")]
     [SerializeField] private GameObject ressourcesLossFeedbackPlayerHUD;
-    [SerializeField] private GameObject ressourcesLossFeedbackUIManager;
+    private GameObject ressourcesLossFeedbackUIManager;
 
     private PlayerHUDManager PlayerHUD => GetComponentInChildren<PlayerHUDManager>();
     private TextMeshProUGUI ShopPlayerRessourcesValueText => PlayerHUD.ShopPlayerRessourcesValueText;
     private TextMeshProUGUI InventoryPlayerRessourcesValueText => PlayerHUD.InventoryPlayerRessourcesValueText;
     public InventoryManager PlayerInventory { get => playerInventory; set => playerInventory = value; }
     public int CurrentAmountOfPlayerRessources { get => currentAmountOfPlayerRessources; set => currentAmountOfPlayerRessources = value; }
+
+    private void Awake ()
+    {
+        ressourcesLossFeedbackUIManager = UIManager.Instance.ressourcesLossFeedback;
+    }
 
     private void OnEnable()
     {

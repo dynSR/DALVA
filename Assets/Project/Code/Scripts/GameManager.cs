@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     private bool gameWasInPlayMod = false;
 
     public bool itsFinalWave = false;
-    public bool mapIsEasy = false;
+    public bool tutorialsAreEnabled = false;
     public bool tutorielDisplayed = false;
 
     public int DalvaLifePoints = 0;
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        if (!mapIsEasy) ShopPhase();
+        if (!tutorialsAreEnabled) ShopPhase();
         else
         {
             PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
@@ -141,8 +141,8 @@ public class GameManager : MonoBehaviour
     {
         if (GameParameters.Instance == null)
         {
-            MageCharacter.SetActive(true);
-            //WarriorCharacter.SetActive(true);
+            //MageCharacter.SetActive(true);
+            WarriorCharacter.SetActive(true);
             Debug.Log("Default class chosen at Start !");
             return;
         }
@@ -294,13 +294,15 @@ public class GameManager : MonoBehaviour
     {
         GameState = GameState.Tutorial;
 
-        if (mapIsEasy && tutorielDisplayed)
+        if (tutorialsAreEnabled && tutorielDisplayed)
             PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
     }
 
     public IEnumerator Victory(float delay)
     {
         Debug.Log("Victory");
+
+        CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
 
         GameState = GameState.Victory;
 
@@ -318,13 +320,22 @@ public class GameManager : MonoBehaviour
 
         Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
 
-        if (GameParameters.Instance != null && mapIsEasy)
+        if (GameParameters.Instance != null && tutorialsAreEnabled)
             GameParameters.Instance.maxLevelDone++;
+
+        //Represents 90% of the actual delay, to initiate the animation just before the blend is over
+        yield return new WaitForSeconds((cinemachineBrain.m_DefaultBlend.BlendTime * 0.9f));
+
+        //Call Victory animation here !
+
+        Debug.Log("Brain blend is over !");
     }
 
     public IEnumerator Defeat(float delay)
     {
         Debug.Log("Defeat");
+
+        CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
 
         GameState = GameState.Defeat;
 
@@ -343,6 +354,12 @@ public class GameManager : MonoBehaviour
         //UIManager.Instance.DisplayDefeat();
 
         Player.GetComponent<CursorLogic>().SetCursorToNormalAppearance();
+
+        //Represents 90% of the actual delay, to initiate the animation just before the blend is over
+        yield return new WaitForSeconds((cinemachineBrain.m_DefaultBlend.BlendTime * 0.9f));
+
+        //Call Victory animation here !
+        Debug.Log("Brain blend is over !");
     }
 
 

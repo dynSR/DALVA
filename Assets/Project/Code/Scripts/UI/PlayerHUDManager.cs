@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerHUDManager : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    private Transform player;
 
     [Header("STATUS EFFECT PARAMETERS")]
     [SerializeField] private Transform statusEffectLayoutGroup;
@@ -37,7 +37,7 @@ public class PlayerHUDManager : MonoBehaviour
     public TextMeshProUGUI InventoryPlayerRessourcesValueText { get => inventoryPlayerRessourcesValueText; }
 
     public bool IsShopWindowOpen { get => isShopWindowOpen; set => isShopWindowOpen = value; }
-    public Transform Player { get => player; }
+    public Transform Player { get => player; private set => player = value; }
     public GameObject SteleTooltip { get => steleTooltip; }
     public ShopInformationPanel ShopInformationPanel { get => shopInformationPanel; }
 
@@ -56,6 +56,7 @@ public class PlayerHUDManager : MonoBehaviour
         {
             Instance = this;
 
+            Player = transform.parent.transform;
             statusEffectHandler = Player.GetComponent<StatusEffectHandler>();
             cursorLogic = Player.GetComponent<CursorLogic>();
         }
@@ -312,5 +313,11 @@ public class PlayerHUDManager : MonoBehaviour
         CanvasGroup cG = playerFrame.GetComponent<CanvasGroup>();
         cG.blocksRaycasts = false;
         cG.alpha = 0;
+    }
+
+    //Its on a button
+    public void SetGameManagerToPlayModeOnClosingElement()
+    {
+        GameManager.Instance.SetGameToPlayMod();
     }
 }

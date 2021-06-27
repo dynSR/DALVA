@@ -40,34 +40,46 @@ public class LeftSectionTooltip : MonoBehaviour
 
         resistances.SetText((stats.GetStat(StatType.PhysicalResistances).Value + stats.GetStat(StatType.MagicalResistances).Value).ToString("0"));
 
+        //CC MAX - REACHED
         if (stats.GetStat(StatType.CriticalStrikeChance).Value >= stats.GetStat(StatType.CriticalStrikeChance).CapValue)
         {
             if (chanceOfCriticalStrikesValueText.color != cappedColor)
                 chanceOfCriticalStrikesValueText.color = cappedColor;
 
-            chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0"));
+            chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0")
+                + " / "
+                + stats.GetStat(StatType.CriticalStrikeChance).CapValue.ToString("0"));
         }
+        //CC MAX - NOT REACHED
         else if (stats.GetStat(StatType.CriticalStrikeChance).Value < stats.GetStat(StatType.CriticalStrikeChance).CapValue)
         {
             if (chanceOfCriticalStrikesValueText.color != defaultColor)
                 chanceOfCriticalStrikesValueText.color = defaultColor;
 
-            chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0"));
+            chanceOfCriticalStrikesValueText.SetText(stats.GetStat(StatType.CriticalStrikeChance).Value.ToString("0")
+                + " / "
+                + stats.GetStat(StatType.CriticalStrikeChance).CapValue.ToString("0"));
         }
 
+        //CDR MAX - REACHED
         if (stats.GetStat(StatType.Cooldown_Reduction).Value >= stats.GetStat(StatType.Cooldown_Reduction).CapValue)
         {
             if(cooldownReductionValueText.color != cappedColor)
                 cooldownReductionValueText.color = cappedColor;
 
-            cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0"));
+            cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0")
+                + " / "
+                + stats.GetStat(StatType.Cooldown_Reduction).CapValue.ToString("0"));
         }
+        //CDR MAX - NOT REACHED
         else if(stats.GetStat(StatType.Cooldown_Reduction).Value < stats.GetStat(StatType.Cooldown_Reduction).CapValue)
         {
             if (cooldownReductionValueText.color != defaultColor)
                 cooldownReductionValueText.color = defaultColor;
 
-            cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0"));
+            cooldownReductionValueText.SetText(stats.GetStat(StatType.Cooldown_Reduction).Value.ToString("0")
+                + " / "
+                + stats.GetStat(StatType.Cooldown_Reduction).CapValue.ToString("0"));
         }
 
         movementSpeedValueText.SetText((stats.GetStat(StatType.MovementSpeed).Value * 10).ToString("0"));

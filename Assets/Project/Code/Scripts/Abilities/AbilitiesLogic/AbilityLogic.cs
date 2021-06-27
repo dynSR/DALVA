@@ -211,13 +211,13 @@ public abstract class AbilityLogic : MonoBehaviourPun
         {
             Debug.Log("Close enough, can cast now !");
 
-
             if(Stats.BaseUsedEntity.EntityType == EntityType.Warrior && Ability.AbilityKey == KeyCode.R)
             {
                 Debug.Log("Warrior R used");
                 if (Stats.GetStat(StatType.Health).Value == Stats.GetStat(StatType.Health).MaxValue)
                 {
                     characterIsTryingToCast = false;
+                    Container.Parent.UnlockOtherUnusedAbilities(Ability.AbilityKey);
                     return;
                 }
             }

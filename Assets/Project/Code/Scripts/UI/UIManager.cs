@@ -30,6 +30,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI damageLossText;
     public int damageLossValue;
 
+    [Header("RESSOURCES")]
+    public GameObject ressourcesLossFeedback;
+
     float timeValue = 0f;
 
     public GameObject pauseMenu;

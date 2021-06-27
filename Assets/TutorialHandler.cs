@@ -31,7 +31,7 @@ public class TutorialHandler : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.Instance.mapIsEasy)
+        if (GameManager.Instance.tutorialsAreEnabled)
         {
             OpenAWindow(0);
             SetTutorielMod(1);

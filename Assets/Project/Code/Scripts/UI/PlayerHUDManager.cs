@@ -19,6 +19,9 @@ public class PlayerHUDManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI shopPlayerRessourcesValueText;
     [SerializeField] private ShopInformationPanel shopInformationPanel;
 
+    [Header("MINI MAP")]
+    public GameObject minimapGameObject;
+
     [Header("PLAYER FRAME")]
     public GameObject playerFrame;
 

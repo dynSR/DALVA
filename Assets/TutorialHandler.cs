@@ -1,7 +1,6 @@
 ﻿using Cinemachine;
 using DarkTonic.MasterAudio;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialHandler : MonoBehaviour
@@ -11,7 +10,6 @@ public class TutorialHandler : MonoBehaviour
     public Camera mainCameraBrain;
     private bool firstSpawnExplained = false;
     private bool bossWaveExplained = false;
-    public GameObject enemyPortalPosObj;
     [SoundGroup] [SerializeField] private string portalLoopSFX;
     public bool skipTutorials = false;
     public SpawnerSystem spawner;
@@ -50,8 +48,6 @@ public class TutorialHandler : MonoBehaviour
             firstSpawnExplained = true;
             OpenAWindow(7);
 
-            SetCMVirtualPriorityValue(enemyPortalPosObj);
-
             GameManager.Instance.SetGameToStandbyMod();
 
             GameManager.Instance.tutorielDisplayed = true;
@@ -71,8 +67,6 @@ public class TutorialHandler : MonoBehaviour
 
             bossWaveExplained = true;
             OpenAWindow(8);
-
-            SetCMVirtualPriorityValue(enemyPortalPosObj);
 
             GameManager.Instance.SetGameToStandbyMod();
 
@@ -125,6 +119,8 @@ public class TutorialHandler : MonoBehaviour
         {
             item.SetActive(true);
         }
+
+        PlayerHUDManager.Instance.minimapGameObject.SetActive(true);
     }
 
     public IEnumerator DesactivateUIManagerComponents(float delay)
@@ -135,6 +131,8 @@ public class TutorialHandler : MonoBehaviour
         {
             item.SetActive(false);
         }
+
+        PlayerHUDManager.Instance.minimapGameObject.SetActive(false);
     }
 
     public void ActivateMainCamera()

@@ -217,6 +217,9 @@ public class PlayerHUDManager : MonoBehaviour
             StartCoroutine(itemPanel.EnableAllCanvasGroup());
         }
 
+        minimapGameObject.SetActive(false);
+        UIManager.Instance.waveIndicationUI.SetActive(false);
+
         cursorLogic.SetCursorToNormalAppearance();
 
         IsShopWindowOpen = true;
@@ -254,6 +257,9 @@ public class PlayerHUDManager : MonoBehaviour
             shop.ShopBoxesIcon[i].IsSelected = false;
             shop.ShopBoxesIcon[i].ToggleOff();
         }
+
+        minimapGameObject.SetActive(true);
+        UIManager.Instance.waveIndicationUI.SetActive(true);
 
         DisplayPlayerFrame();
 

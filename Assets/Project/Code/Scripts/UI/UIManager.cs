@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     public int maxHealthAmount;
 
     [Header("WAVE")]
-    [SerializeField] private GameObject waveIndicationUI;
+    public GameObject waveIndicationUI;
     [SerializeField] private GameObject waveDisplayerParent;
 
     [Header("TIMER")]

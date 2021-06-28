@@ -75,10 +75,10 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        if (!tutorialsAreEnabled) ShopPhase();
-        else
+        PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+
+        if (tutorialsAreEnabled)
         {
-            PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
             SetGameToTutorialMod();
         }
 

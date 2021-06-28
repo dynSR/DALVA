@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class InGameSceneTransitionManager : MonoBehaviour
 {
@@ -22,6 +19,7 @@ public class InGameSceneTransitionManager : MonoBehaviour
         }
     }
     #endregion
+
     private void Start ()
     {
         TriggerFadeOut();
@@ -36,5 +34,11 @@ public class InGameSceneTransitionManager : MonoBehaviour
     {
         Debug.Log("TriggerFadeOut");
         Animator.SetTrigger("FadeOut");
+    }
+
+    //Animation Event
+    public void DisplayEntireMapAnimationEvent()
+    {
+        IntroMapHandler.Instance.CallDisplayEntireMapMethod();
     }
 }

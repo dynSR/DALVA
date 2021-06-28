@@ -12,12 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c75cf5b6273234cb185f17d227fc4c, type: 3}
   m_Name: Item_LegendaireEmblemeDuMarchant
   m_EditorClassIdentifier: 
-  itemName: "L\xE9gendaire embl\xE8me du Marchant"
+  itemName: "L\xE9gendaire Glyphe de Dagda"
   itemIcon: {fileID: 21300000, guid: 742546497aac871aa062c005e9d57e6d, type: 3}
-  itemDescription: '!!!!!!!!! CHANGER L''ITEM REAL QUICK !!!!!!!!!'
-  itemCost: 3000
+  itemDescription: "<b>+ 110</b> <color=#CA8300> puissance physique</color>\n<b>+
+    15%</b> <color=#A64D15> vol de vie physique</color>\n<b>+ 15%</b> <color=#BB9063>
+    p\xE9n\xE9tration physique</color>\n<b>+ 30%</b> <color=#D9001C> coups critiques</color>"
+  itemCost: 2500
   itemIsAnAbility: 0
   itemIsInShop: 0
   abilityIndex: 0
   abilityEffectToAssign: 0
-  itemModifiers: []
+  itemModifiers:
+  - Value: 110
+    StatType: 8
+    Type: 100
+  - Value: 15
+    StatType: 15
+    Type: 100
+  - Value: 15
+    StatType: 14
+    Type: 100
+  - Value: 30
+    StatType: 17
+    Type: 100

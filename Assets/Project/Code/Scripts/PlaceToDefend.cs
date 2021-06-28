@@ -9,6 +9,7 @@ public class PlaceToDefend : MonoBehaviour
     public int health;
     public EntityTeam team;
     public ParticleSystem passingThroughPortalVFX;
+    public ParticleSystem changeStateVFX;
 
     private Animator myAnimator;
     private int maxHealth;
@@ -87,12 +88,17 @@ public class PlaceToDefend : MonoBehaviour
 
     private void CheckForLifeAnimation()
     {
-        if (GameManager.Instance.DalvaLifePoints > maxHealth * 2 / 3)
+        if (GameManager.Instance.DalvaLifePoints == Mathf.Round(maxHealth * 3 / 4) ||
+            GameManager.Instance.DalvaLifePoints == Mathf.Round(maxHealth * 2 / 4) ||
+            GameManager.Instance.DalvaLifePoints == Mathf.Round(maxHealth / 4)) changeStateVFX.Play();
+
+        if (GameManager.Instance.DalvaLifePoints > maxHealth * 3 / 4) return;
+        if (GameManager.Instance.DalvaLifePoints > maxHealth * 2 / 4)
         {
             myAnimator.SetInteger("Status", 2);
             return;
         }
-        else if (GameManager.Instance.DalvaLifePoints > maxHealth / 3)
+        else if (GameManager.Instance.DalvaLifePoints > maxHealth / 4)
         {
             myAnimator.SetInteger("Status", 1);
             return;

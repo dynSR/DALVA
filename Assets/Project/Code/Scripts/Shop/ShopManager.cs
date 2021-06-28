@@ -568,6 +568,9 @@ public class ShopManager : MonoBehaviour
     {
         foreach (Animator animator in itemPanelAnimators)
         {
+            if(!animator.gameObject.activeInHierarchy)
+                animator.gameObject.SetActive(true);
+
             animator.SetTrigger("GoToCenter");
         }
     }

@@ -11,6 +11,7 @@ public enum GameState
     Victory,
     Defeat,
     Tutorial,
+    Intro,
 }
 
 public class GameManager : MonoBehaviour
@@ -37,6 +38,11 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Need to add at least one spawner in the field array of --Spawner--", transform);
 
             ActivateTheRightCharacter();
+
+            if (!sceneTransition.activeInHierarchy)
+            {
+                sceneTransition.SetActive(true);
+            }
 
             //Debug.Log("COUCOU", transform);
         }
@@ -71,13 +77,19 @@ public class GameManager : MonoBehaviour
     public GameObject victoryVirtualCameraObject;
     public GameObject defeatVirtualCameraObject;
 
+    public GameObject sceneTransition;
+
     public Transform Player { get; set; }
     
     void Start()
     {
         PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
 
-        if (tutorialsAreEnabled)
+        if (!tutorialsAreEnabled)
+        {
+            SetGameToIntroMod();
+        }
+        else if (tutorialsAreEnabled)
         {
             SetGameToTutorialMod();
         }
@@ -141,8 +153,8 @@ public class GameManager : MonoBehaviour
     {
         if (GameParameters.Instance == null)
         {
-            //MageCharacter.SetActive(true);
-            WarriorCharacter.SetActive(true);
+            MageCharacter.SetActive(true);
+            //WarriorCharacter.SetActive(true);
             Debug.Log("Default class chosen at Start !");
             return;
         }
@@ -289,6 +301,13 @@ public class GameManager : MonoBehaviour
         return GameState == GameState.StandbyMod;
     }
     #endregion
+
+    public void SetGameToIntroMod()
+    {
+        GameState = GameState.Intro;
+
+        SetTimeScale(1);
+    }
 
     public void SetGameToTutorialMod()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using System.Linq;
 
 public class ShopManager : MonoBehaviour
 {
@@ -36,6 +36,7 @@ public class ShopManager : MonoBehaviour
     //[HideInInspector]
     public List<ItemButton> itemCreated;
     public bool firstDrawDone = false;
+    public bool itemInPoolAreTargeted = false;
     public Animator[] itemPanelAnimators;
 
     [Header("ITEM BUTTON")]
@@ -87,6 +88,11 @@ public class ShopManager : MonoBehaviour
             this.transactionID = transactionID;
             this.abilityEffect = abilityEffect;
         }
+    }
+
+    private void Awake ()
+    {
+        itemsInGame = itemsInGame.OrderBy(itemsInGame => itemsInGame.ItemCost).ToList();
     }
 
     private void Start()
@@ -336,6 +342,8 @@ public class ShopManager : MonoBehaviour
 
     public void ShuffleFirstAnimation()
     {
+        itemInPoolAreTargeted = true;
+
         OnShuffle?.Invoke();
         DeleteDraw();
 
@@ -348,6 +356,8 @@ public class ShopManager : MonoBehaviour
     {
         if (ResetDrawCost <= PlayerRessources.CurrentAmountOfPlayerRessources)
         {
+            itemInPoolAreTargeted = false;
+
             OnShuffle?.Invoke();
             DeleteDraw();
             shuffleAnimator.SetTrigger("Shuffle");
@@ -361,9 +371,10 @@ public class ShopManager : MonoBehaviour
         } 
     }
 
-    public void ShuffleItemsInShop()
+    //  -!- It is used by an animator event -!-
+    public void ShuffleItemsInShop ()
     {
-        //Create the correct amount of item button
+        //Create the correct amount of item buttons
         for (int i = 0; i < amntOfItemsToAddInThePool; i++)
         {
             GameObject _ItemButton = Instantiate(itemButton);
@@ -375,19 +386,47 @@ public class ShopManager : MonoBehaviour
             itemCreated.Add(itemButtonScript);
         }
 
-        int randomValue = Random.Range(0, itemsInGame.Count); Debug.Log("Random Value Obtained : " + randomValue);
-
-        do
+        if (!itemInPoolAreTargeted)
         {
-            if (!randomIndex.Contains(randomValue)) randomIndex.Add(randomValue);
-            else if (randomIndex.Contains(randomValue))
+            int randomValue = Random.Range(0, itemsInGame.Count); Debug.Log("Random Value Obtained : " + randomValue);
+
+            //Found different random index until 4 of them have been found
+            do
             {
-                randomValue = Random.Range(0, itemsInGame.Count);
-                continue;
-            }
+                if (!randomIndex.Contains(randomValue))
+                {
+                    randomIndex.Add(randomValue);
+                }
+                else if (randomIndex.Contains(randomValue))
+                {
+                    randomValue = Random.Range(0, itemsInGame.Count);
+                    continue;
+                }
 
-        } while (randomIndex.Count != amntOfItemsToAddInThePool);
+            } while (randomIndex.Count != amntOfItemsToAddInThePool);
+        }
+        else
+        {
+            int randomValue = Random.Range(0, 18); Debug.Log("Random Value Obtained : " + randomValue);
 
+            //Found different random index until 4 of them have been found
+            do
+            {
+                if (!randomIndex.Contains(randomValue))
+                {
+                    randomIndex.Add(randomValue);
+                }
+                else if (randomIndex.Contains(randomValue))
+                {
+                    randomValue = Random.Range(0, 18);
+                    continue;
+                }
+
+            } while (randomIndex.Count != amntOfItemsToAddInThePool);
+        }
+       
+
+        //When all the index have been found => set/populate the item buttons created
         for (int i = randomIndex.Count - 1; i >= 0; i--)
         {
             itemCreated[i].SetButtonInformations(this, itemsInGame[randomIndex[i]]);

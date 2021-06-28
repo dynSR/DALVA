@@ -24,6 +24,7 @@ public class HarvesterLogic : InteractiveBuilding
     [SerializeField] private GameObject glowEffectObject;
     [SerializeField] private GameObject harvestingEffectObject;
     [SerializeField] private GameObject maxEffectObject;
+    [SerializeField] private ParticleSystem moneyVFX;
     [SerializeField] private GameObject progressBarObject;
     [SerializeField] private Image progressBar;
     public HarvestState harvestState; //Its in public for debug purpose
@@ -112,6 +113,8 @@ public class HarvesterLogic : InteractiveBuilding
             GiveRessourcesToPlayer((int)CurrentHarvestedRessourcesValue);
             harvestState = HarvestState.Reinitialization;
             Popup.Create(interactingPlayerStat.CharacterHalfSize, interactingPlayerStat.Popup, CurrentHarvestedRessourcesValue, StatType.RessourcesGiven, interactingPlayerStat.GetStat(StatType.RessourcesGiven).Icon);
+
+            moneyVFX.Play();
         }
     }
 

@@ -36,8 +36,8 @@ public class ForestCamp : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-            ScaleEntitiesStats();
+        //if (Input.GetKeyDown(KeyCode.W))
+        //    ScaleEntitiesStats();
     }
 
     private void LateUpdate()
@@ -45,7 +45,6 @@ public class ForestCamp : MonoBehaviour
         if(EveryEntityIsDead() && !deathEventIsHandled)
         {
             ProcessRespawnForEntities();
-            deathEventIsHandled = true;
         }
 
         if (EveryEntityIsUp() && deathEventIsHandled)
@@ -117,6 +116,8 @@ public class ForestCamp : MonoBehaviour
             {
                 everyEntityIsUp = true;
                 DisplayCampMinimapIcon();
+                deathEventIsHandled = false;
+                StopAllCoroutines();
             }
             else everyEntityIsUp = false;
         }
@@ -188,8 +189,6 @@ public class ForestCamp : MonoBehaviour
 
             controller.Stats.UpdateStats();
         }
-
-        deathEventIsHandled = false;
     }
 
     private void OnDrawGizmos()

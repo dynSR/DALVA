@@ -517,6 +517,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         yield return new WaitForSeconds(delay);
 
         Respawn();
+
+        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
 
     private void Respawn()
@@ -525,8 +527,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
         HealthPercentage = CalculateLifePercentage();
-
-        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
 
         CanTakeDamage = true;
 

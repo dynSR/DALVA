@@ -72,13 +72,10 @@ public class WaveStateDisplayer : MonoBehaviour
 
             UIButtonWithTooltip buttonTooltip = button.GetComponent<UIButtonWithTooltip>();
             buttonTooltip.HideTooltip(buttonTooltip.Tooltip);
-
-            timerText.transform.parent.gameObject.SetActive(false);
         }
         else if (boolValue == 1 && !content.activeInHierarchy)
         { 
             content.SetActive(true);
-            timerText.transform.parent.gameObject.SetActive(true);
 
             if (spawner.ItIsABossWave())
             {

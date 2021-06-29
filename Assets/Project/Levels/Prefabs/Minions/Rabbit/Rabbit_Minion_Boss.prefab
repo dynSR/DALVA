@@ -9300,13 +9300,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368224291}
-  m_LocalRotation: {x: -0.81931597, y: 0.5686987, z: 0.026046688, w: -0.06800636}
-  m_LocalPosition: {x: -0.18576702, y: -0.14210182, z: -0.0070001916}
+  m_LocalRotation: {x: -0.92906445, y: 0.36930028, z: 0.00930188, w: 0.019237831}
+  m_LocalPosition: {x: -0.052, y: -0.031, z: -0.002}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 260229660565846065}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 4.693, y: -173.083, z: 249.814}
+  m_LocalEulerAnglesHint: {x: -2.442, y: -179.824, z: 223.352}
 --- !u!33 &368224295
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -126385,6 +126385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAStele: 0
   defaultColor: {r: 1, g: 0, b: 0, a: 1}
+  blinkImage: {fileID: 0}
+  isAPlayerHealthBar: 0
   healthBarCanBlink: 1
   healthBarBlinkDuration: 0.001
   healthBarFill: {fileID: 8513592138741806996}

@@ -8,6 +8,8 @@ public class HealthBarHandler : MonoBehaviour
     [Header("PROPERTIES")]
     [SerializeField] private bool isAStele = false;
     [SerializeField] private Color defaultColor;
+    [SerializeField] private GameObject blinkImage;
+    [SerializeField] private bool isAPlayerHealthBar = false;
 
     [Header("HEALTHBAR UI")]
     [SerializeField] private bool healthBarCanBlink = true;
@@ -22,14 +24,15 @@ public class HealthBarHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI regenerationValueText;
     [SerializeField] private EntityStats stats;
     [SerializeField] private SteleLogic stele;
+    private Animator MyAnimator => GetComponent<Animator>();
 
     private void Awake()
     {
         if (stats == null || isAStele && stele == null)
             Debug.LogError("You need to reference root parent's SteleLogic or EntityStats script. ", transform);
 
-        if (healthValueText != null)
-            SetHealthBar(stats.GetStat(StatType.Health).Value, stats.GetStat(StatType.Health).MaxValue);
+        //if (healthValueText != null)
+        //    SetHealthBar(stats.GetStat(StatType.Health).Value, stats.GetStat(StatType.Health).MaxValue);
 
         ResetHealthBarColor();
 
@@ -70,6 +73,26 @@ public class HealthBarHandler : MonoBehaviour
 
         if (healthValueText != null)
             healthValueText.text = currentValue.ToString("0") + " / " + maxValue.ToString("0");
+
+        //Under 20% HP
+        if (isAPlayerHealthBar)
+        {
+            if (stats.HealthPercentage <= 0.2f)
+            {
+                blinkImage.SetActive(true);
+                MyAnimator.SetBool("Blink", true);
+            }
+            else if (stats.HealthPercentage <= 0)
+            {
+                MyAnimator.SetBool("Blink", false);
+                blinkImage.SetActive(false);
+            }
+            else
+            {
+                MyAnimator.SetBool("Blink", false);
+                blinkImage.SetActive(false);
+            }
+        }
     }
 
     void SetShieldBar(float currentValue, float maxValue)

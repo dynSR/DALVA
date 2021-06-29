@@ -56,7 +56,7 @@ public class IntroMapHandler : MonoBehaviour
         Debug.Log(cinemachineBrain.name);
         Debug.Log(cinemachineBrain.m_DefaultBlend.BlendTime);
 
-        yield return new WaitForSeconds(timer * 0.75f);
+        yield return new WaitForSeconds(timer * 1f);
 
         MyAnimator.SetTrigger("Intro");
     }

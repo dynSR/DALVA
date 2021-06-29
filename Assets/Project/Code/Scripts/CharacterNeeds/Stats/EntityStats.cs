@@ -114,7 +114,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     { 
         OnDeath();
 
-        if (Input.GetKeyDown(KeyCode.L)) TakeDamage(transform, 0, 0, 50, 50, 0, 175, 0, 0); 
+        if (Input.GetKeyDown(KeyCode.L)) TakeDamage(transform, 0, 0, 25, 0, 0, 175, 0, 0); 
         if (Input.GetKeyDown(KeyCode.M)) Heal(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
         //if (Input.GetKeyDown(KeyCode.K)) ApplyShieldOnTarget(transform, 50f, GetStat(StatType.HealAndShieldEffectiveness).Value);
         //if (Input.GetKeyDown(KeyCode.J)) Controller.StunTarget();
@@ -274,6 +274,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     #region Heal / Regeneration Section
     public void RegenerateHealth(Transform target, float regenerationThreshold)
     {
+        if (IsDead) return;
+
         EntityStats targetStats = target.GetComponent<EntityStats>();
 
         if (targetStats != null && targetStats.GetStat(StatType.Health).Value < targetStats.GetStat(StatType.Health).MaxValue)
@@ -296,8 +298,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     void RegenerateHealthOverTime()
     {
-        if (IsDead) return;
-
         RegenerateHealth(transform, GetStat(StatType.HealthRegeneration).Value);
     }
 
@@ -517,8 +517,6 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         yield return new WaitForSeconds(delay);
 
         Respawn();
-
-        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
 
     private void Respawn()
@@ -527,6 +525,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
         GetStat(StatType.Health).Value = GetStat(StatType.Health).CalculateValue();
         HealthPercentage = CalculateLifePercentage();
+
+        OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
 
         CanTakeDamage = true;
 
@@ -668,6 +668,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     public void UpdateStats()
     {
         OnStatsValueChanged?.Invoke(this);
+
+        HealthPercentage = CalculateLifePercentage();
         OnHealthValueChanged?.Invoke(GetStat(StatType.Health).Value, GetStat(StatType.Health).MaxValue);
     }
 

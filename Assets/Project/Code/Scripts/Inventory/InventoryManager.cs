@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DarkTonic.MasterAudio;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<SelectIcon> parentOfSelectedIcons;
 
     public GameObject highlightObject;
+    [SoundGroup] public string equipItemSFX;
 
     public bool InventoryIsFull => NumberOfFullInventoryBoxes >= InventoryBoxes.Count;
     public bool InventoryIsEmpty=> NumberOfFullInventoryBoxes <= 0;
@@ -21,7 +23,7 @@ public class InventoryManager : MonoBehaviour
     public List<InventoryBox> InventoryBoxes { get => inventoryBoxes; }
     public List<SelectIcon> ParentOfSelectedIcons { get => parentOfSelectedIcons; }
     public ShopManager Shop { get => shop; set => shop = value; }
-
+    private Animator MyAnimator => GetComponent<Animator>();
 
     #region Inventory - Shop Management
     // Function used to remove an item from inventory
@@ -59,6 +61,8 @@ public class InventoryManager : MonoBehaviour
 
                 Shop.RefreshShopData();
 
+                MyAnimator.SetTrigger("PlaySFX");
+
                 DisplayHighlight();
 
                 //Debug.Log("Add " + item.ItemName + " to inventory");
@@ -66,6 +70,12 @@ public class InventoryManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    //Animation Event
+    public void PlayEquipingSFX()
+    {
+        UtilityClass.PlaySoundGroupImmediatly(equipItemSFX, transform);
     }
 
     //Function that resets the state of all boxes selection icons that have been toggled on

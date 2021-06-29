@@ -1,19 +1,22 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class WaveStateDisplayer : MonoBehaviour
 {
+    [Header("COMPONENTS")]
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject content;
     [SerializeField] private SpawnerSystem spawner;
-    [SerializeField] private GameObject breathingButtonVFX;
-    public float timerAssigned;
-    public float localTimer;
+    public TextMeshProUGUI timerText;
     [SerializeField] private GameObject button;
     public Image waveIconImage;
-    //public Sprite[] waveIcons;
     public GameObject crownIcon;
 
+    [Header("NUMERIC VARIABLES")]
+    public float timerAssigned;
+    public float localTimer;
+    
     private void OnEnable()
     {
         spawner.OnWaveStartinSoon += SetWaveDisplayerFillAmount;
@@ -48,6 +51,16 @@ public class WaveStateDisplayer : MonoBehaviour
         {
             localTimer -= Time.deltaTime;
             fillImage.fillAmount = localTimer / timerAssigned;
+            
+            //Update text timer here
+            //Minutes + secondes
+            string minutes = Mathf.Floor(localTimer / 60).ToString("0");
+            string seconds = Mathf.Floor(localTimer % 60).ToString("00");
+
+            timerText.SetText(minutes + " : " + seconds);
+
+            if (localTimer <= 1)
+                timerText.SetText(localTimer.ToString("0.0"));
         }   
     }
 
@@ -60,26 +73,20 @@ public class WaveStateDisplayer : MonoBehaviour
             UIButtonWithTooltip buttonTooltip = button.GetComponent<UIButtonWithTooltip>();
             buttonTooltip.HideTooltip(buttonTooltip.Tooltip);
 
-            breathingButtonVFX.SetActive(false);
+            timerText.transform.parent.gameObject.SetActive(false);
         }
         else if (boolValue == 1 && !content.activeInHierarchy)
         { 
             content.SetActive(true);
-
-            if (!breathingButtonVFX.activeInHierarchy && GameManager.Instance.GameIsInPlayMod())
-            {
-                breathingButtonVFX.SetActive(true);
-            }
+            timerText.transform.parent.gameObject.SetActive(true);
 
             if (spawner.ItIsABossWave())
             {
                 crownIcon.SetActive(true);
-                //waveIconImage.sprite = waveIcons[1];
             }
             else if (!spawner.ItIsABossWave())
             {
                 crownIcon.SetActive(false);
-                //waveIconImage.sprite = waveIcons[0];
             }
 
             GameManager.Instance.ItIsABossWave = spawner.ItIsABossWave();

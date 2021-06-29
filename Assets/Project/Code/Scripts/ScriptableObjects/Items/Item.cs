@@ -34,6 +34,8 @@ public class Item : ScriptableObject
     #region Equipment
     public void EquipItemAsEquipement(EntityStats c)
     {
+        float currentHealth = c.GetStat(StatType.Health).Value;
+
         if (!ItemIsAnAbility)
         {
             for (int i = 0; i < c.entityStats.Count; i++)
@@ -47,6 +49,7 @@ public class Item : ScriptableObject
                         if (ItemModifiers[j].StatType == StatType.MovementSpeed)
                             c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
 
+                        c.GetStat(StatType.Health).Value = currentHealth;
                         c.UpdateStats();
                     }
                 }
@@ -56,6 +59,8 @@ public class Item : ScriptableObject
 
     public void UnequipItemAsEquipement(EntityStats c)
     {
+        float currentHealth = c.GetStat(StatType.Health).Value;
+
         if (!ItemIsAnAbility)
         {
             for (int i = c.entityStats.Count - 1; i >= 0; i--)
@@ -70,6 +75,7 @@ public class Item : ScriptableObject
                         c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
                 }
 
+                c.GetStat(StatType.Health).Value = currentHealth;
                 c.UpdateStats();
             }
         }   

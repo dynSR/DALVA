@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class InventoryBox : MonoBehaviour
 {
+    public GameObject equipVFX;
     private int storedItemTransactionID;
     public InventoryManager PlayerInventory { get => GetComponentInParent<InventoryManager>(); }
     public Item StoredItem { get; set; }
@@ -17,6 +18,17 @@ public class InventoryBox : MonoBehaviour
 
     public void ChangeInventoryBoxStoredItem(Item newItemToStore, Sprite newStoredItemIcon)
     {
+        //Activate VFX on the box
+        if (!equipVFX.activeInHierarchy)
+        {
+            equipVFX.SetActive(true);
+        }
+        else if (equipVFX.activeInHierarchy)
+        {
+            equipVFX.SetActive(false);
+            equipVFX.SetActive(true);
+        }
+
         StoredItem = newItemToStore;
         StoredItem.InventoryBox = this;
 

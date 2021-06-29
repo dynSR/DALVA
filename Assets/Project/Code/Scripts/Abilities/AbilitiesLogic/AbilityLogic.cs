@@ -73,7 +73,7 @@ public abstract class AbilityLogic : MonoBehaviourPun
     {
         if (!GameManager.Instance.GameIsInPlayMod()) { return; }
 
-        if (AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed || Controller.IsStunned) return;
+        if (Stats.IsDead || AbilitiesCooldownHandler.IsAbilityOnCooldown(this) || Controller.IsCasting || !CanBeUsed || Controller.IsStunned) return;
 
         if (UtilityClass.IsKeyPressed(Ability.AbilityKey))
         {

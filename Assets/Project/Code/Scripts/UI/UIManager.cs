@@ -161,7 +161,7 @@ public class UIManager : MonoBehaviour
         InGameSceneTransitionManager.Instance.TriggerFadeIn();
         Time.timeScale = 1;
 
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(0.2f);
 
         SceneManager.LoadScene("Scene_MainMenu");
     }
@@ -176,7 +176,7 @@ public class UIManager : MonoBehaviour
         InGameSceneTransitionManager.Instance.TriggerFadeIn();
         Time.timeScale = 1;
 
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(0.2f);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

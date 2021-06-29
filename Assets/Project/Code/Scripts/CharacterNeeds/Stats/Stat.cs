@@ -33,7 +33,6 @@ public class Stat
 
     #region Public variables
     public List<StatModifier> statModifiers;
-
     public string Name { get => name; set => name = value; }
     public StatType StatType { get => statType; set => statType = value; }
     public float BaseValue { get => baseValue; set => baseValue = value; }

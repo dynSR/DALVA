@@ -493,6 +493,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
     {
         Die();
 
+        yield return new WaitForEndOfFrame();
         yield return new WaitForSeconds(delay - 0.5f);
 
         UtilityClass.PlaySoundGroupImmediatly(spawnSoundGroup, spawnLocation);

@@ -55,6 +55,8 @@ public class ItemPanel : MonoBehaviour
 
             itemPanelButton.AttributedItem = itemInGame[i];
             itemPanelButton.buttonImage.sprite = itemInGame[i].ItemIcon;
+
+            itemPanelButton.ItemPanelParent = this;
         }
     }
 
@@ -119,6 +121,16 @@ public class ItemPanel : MonoBehaviour
         for (int i = 0; i < itemPanelComponentsCreated.Count; i++)
         {
             itemPanelComponentsCreated[i].DisableCanvasGroup();
+        }
+    }
+
+    public IEnumerator ToggleEveryNeededCantAffordFeedback()
+    {
+        yield return new WaitForEndOfFrame();
+
+        for (int i = 0; i < itemPanelComponentsCreated.Count; i++)
+        {
+            itemPanelComponentsCreated [ i ].ToggleCantAffordFeedback();
         }
     }
 }

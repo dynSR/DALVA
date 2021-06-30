@@ -35465,6 +35465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placeToDefendHealtAmountText: {fileID: 1014497029705717630}
   maxHealthAmount: 0
+  treeLifeObject: {fileID: 1014497030060110489}
   waveIndicationUI: {fileID: 3312812567061376367}
   waveDisplayerParent: {fileID: 1224185824652379377}
   timerText: {fileID: 6264466526009162305}
@@ -35696,6 +35697,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1014497030060110488}
+  - component: {fileID: 1523283765009171455}
   m_Layer: 0
   m_Name: Hearts
   m_TagString: Untagged
@@ -35725,6 +35727,27 @@ RectTransform:
   m_AnchoredPosition: {x: -93.49697, y: 0}
   m_SizeDelta: {x: 146.9939, y: 28.405746}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &1523283765009171455
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014497030060110489}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1059841856482886361
 GameObject:
   m_ObjectHideFlags: 0
@@ -38073,6 +38096,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4899948438070526810}
+  - component: {fileID: 5157048582049426282}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -38102,6 +38126,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &5157048582049426282
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2322581243531499772}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 3000
+  m_TargetDisplay: 0
 --- !u!1 &2334106819271017472
 GameObject:
   m_ObjectHideFlags: 0
@@ -40120,7 +40165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 219.09961, y: -6.2299805}
+  m_AnchoredPosition: {x: 219.09961, y: -6.231079}
   m_SizeDelta: {x: 300.34195, y: 46.618935}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &3317928495315585337

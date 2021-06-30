@@ -518,6 +518,16 @@ public class ShopManager : MonoBehaviour
                     ShopBoxesIcon[i].ItemButton.DisplayPadlock();
                 }
             }
+
+            RefreshAllPanelItemsAffordableState();
+        }
+    }
+
+    private void RefreshAllPanelItemsAffordableState()
+    {
+        for (int i = 0; i < itemPanels.Length; i++)
+        {
+            StartCoroutine(itemPanels[i].ToggleEveryNeededCantAffordFeedback());
         }
     }
 

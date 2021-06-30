@@ -69,9 +69,6 @@ public class WaveStateDisplayer : MonoBehaviour
         if (boolValue == 0 && content.activeInHierarchy)
         {
             content.SetActive(false);
-
-            UIButtonWithTooltip buttonTooltip = button.GetComponent<UIButtonWithTooltip>();
-            buttonTooltip.HideTooltip(buttonTooltip.Tooltip);
         }
         else if (boolValue == 1 && !content.activeInHierarchy)
         { 
@@ -96,7 +93,6 @@ public class WaveStateDisplayer : MonoBehaviour
         
         spawner.CallSpawnEvent();
         ToggleContent(0);
-        button.GetComponent<UIButtonWithTooltip>().Tooltip.SetActive(false);
     }
 
     private void ToggleButtonState()

@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
     public bool tutorielDisplayed = false;
 
     public int DalvaLifePoints = 0;
+    public int damageAppliedByPlayerToTheTree = 0;
     public List<PlaceToDefend> placesToDefend;
 
     public GameObject MageCharacter;
@@ -98,6 +99,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.UpdatePlaceToDefendHealth(DalvaLifePoints);
 
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        Player.GetComponent<EntityStats>().DamageAppliedToThePlaceToDefend = damageAppliedByPlayerToTheTree;
     }
 
     void Update()

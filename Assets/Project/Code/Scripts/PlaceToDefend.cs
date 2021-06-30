@@ -36,37 +36,54 @@ public class PlaceToDefend : MonoBehaviour
         ApplyDamageToBase(other);
     }
 
-    private void ApplyDamageToBase(Collider other)
+    public void ApplyDamageToBase(Collider other = null, bool applyDamageByPlayer = false)
     {
-        EntityStats stats = other.GetComponent<EntityStats>();
-        NPCController npcController = other.GetComponent<NPCController>();
-
-        if (stats != null && stats.EntityTeam != team && stats.EntityTeam != EntityTeam.NEUTRAL)
+        if (other)
         {
-            GameManager.Instance.DalvaLifePoints -= stats.DamageAppliedToThePlaceToDefend;
+            EntityStats stats = other.GetComponent<EntityStats>();
+            NPCController npcController = other.GetComponent<NPCController>();
 
-            UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, stats.transform);
-
-            UIManager.Instance.SetDamageLoss(stats.DamageAppliedToThePlaceToDefend);
-
-            OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
-
-            CheckForLifeAnimation();
-
-            passingThroughPortalVFX.Play();
-
-            if (GameManager.Instance.DalvaLifePoints <= 0)
+            if (stats != null && stats.EntityTeam != team && stats.EntityTeam != EntityTeam.NEUTRAL)
             {
-                StartCoroutine(GameManager.Instance.Defeat(0.75f));
-            }
+                GameManager.Instance.DalvaLifePoints -= stats.DamageAppliedToThePlaceToDefend;
 
-            if (npcController != null && npcController.IsABossWaveMember
-                || npcController != null && GameManager.Instance.itsFinalWave)
-            {
-                GameManager.Instance.UpdateRemainingMonsterValue(-1);
-            }
+                UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, stats.transform);
 
-            Destroy(stats.gameObject);
+                UIManager.Instance.SetDamageLoss(stats.DamageAppliedToThePlaceToDefend);
+
+                //OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
+
+                //CheckForLifeAnimation();
+
+                passingThroughPortalVFX.Play();
+
+                if (npcController != null && npcController.IsABossWaveMember
+                    || npcController != null && GameManager.Instance.itsFinalWave)
+                {
+                    GameManager.Instance.UpdateRemainingMonsterValue(-1);
+                }
+
+                Destroy(stats.gameObject);
+            }
+        }
+        else if (!other && applyDamageByPlayer)
+        {
+            int damageApplied = GameManager.Instance.damageAppliedByPlayerToTheTree;
+
+            GameManager.Instance.DalvaLifePoints -= damageApplied;
+
+            UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, GameManager.Instance.placesToDefend[0].transform);
+
+            UIManager.Instance.SetDamageLoss(damageApplied);
+        }
+
+        OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
+
+        CheckForLifeAnimation();
+
+        if (GameManager.Instance.DalvaLifePoints <= 0)
+        {
+            StartCoroutine(GameManager.Instance.Defeat(0.75f));
         }
     }
 

@@ -11,6 +11,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI placeToDefendHealtAmountText;
     public int maxHealthAmount;
 
+    [Header("TREE LIFE COMPONENTS")]
+    public GameObject treeLifeObject;
+
     [Header("WAVE")]
     public GameObject waveIndicationUI;
     [SerializeField] private GameObject waveDisplayerParent;

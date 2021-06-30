@@ -4,11 +4,13 @@ using UnityEngine.UI;
 
 public class ItemPanelButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public ItemPanel ItemPanelParent { get; set; }
     public Image buttonImage;
     public Image iconItemIsInShop;
     public GameObject rotatingFeedback;
 
     public TooltipSetter tooltipSetter = null;
+    public GameObject cantAffordFeedbackObject;
 
     public Item AttributedItem { get; set; }
 
@@ -36,6 +38,11 @@ public class ItemPanelButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             tooltipSetter.gameObject.SetActive(true);
     }
     #endregion
+
+    private void Start ()
+    {
+        ToggleCantAffordFeedback();
+    }
 
     public void ItemIsntInShop()
     {
@@ -73,5 +80,14 @@ public class ItemPanelButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             cG.alpha = 1;
             cG.blocksRaycasts = true;
         }
+    }
+
+    public void ToggleCantAffordFeedback ()
+    {
+        if (ItemPanelParent.shopManager.CanPurchaseItem(AttributedItem))
+        {
+            cantAffordFeedbackObject.SetActive(false);
+        }
+        else cantAffordFeedbackObject.SetActive(true);
     }
 }

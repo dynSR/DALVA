@@ -1476,8 +1476,10 @@ MonoBehaviour:
   effectDescription:
     effectName: Gardien
     steleEffect: 1
-    description: "Invoque un golem \xE0 proximit\xE9 de la st\xE8le.\r\nS'il meurt,
-      il r\xE9appara\xEEt apr\xE8s un certain d\xE9lai."
+    description: "Invoque un golem \xE0 proximit\xE9 de la st\xE8le.\nIl attaque
+      l'ennemi le plus proche jusqu'\xE0 ce qu'il soit \xE9limin\xE9. Dans ce cas,
+      il change de cible ou retourne \xE0 sa position de d\xE9part.\nS'il est vaincu,
+      il r\xE9appara\xEEt \xE0 sa position de d\xE9part, apr\xE8s un certain d\xE9lai."
     effectIcon: {fileID: 21300000, guid: 9e88194509777c74aa3a0957de700148, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 8188925741992910825}
@@ -2466,7 +2468,7 @@ MonoBehaviour:
   effectDescription:
     effectName: Inferno
     steleEffect: 5
-    description: "Au fil du temps, les ennemis pr\xE9sents dans la zone subissent
+    description: "Toutes les 0.1 secondes, les ennemis pr\xE9sents dans la zone subissent
       des d\xE9g\xE2ts magiques."
     effectIcon: {fileID: 21300000, guid: 5dd259ac47253d04999c221c8773f141, type: 3}
   isASellingButton: 0
@@ -19320,7 +19322,8 @@ MonoBehaviour:
   effectDescription:
     effectName: "Mal\xE9diction"
     steleEffect: 3
-    description: "Les r\xE9sistances des ennemis pr\xE9sents dans la zone sont r\xE9duites."
+    description: "Les r\xE9sistances des ennemis pr\xE9sents dans la zone sont r\xE9duites.\nUne
+      fois sorti de la zone, les ennemis ne sont plus affect\xE9s."
     effectIcon: {fileID: 21300000, guid: ef0075fcbd8ae0a41805a7e2b994078c, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 1839687330476701980}
@@ -19689,8 +19692,9 @@ MonoBehaviour:
   effectDescription:
     effectName: Blizzard
     steleEffect: 2
-    description: "La vitesses de d'attaque et la vitesse de d\xE9placement des ennemis
-      pr\xE9sents dans la zone sont r\xE9duites."
+    description: "La vitesse d'attaque et la vitesse de d\xE9placement des ennemis
+      pr\xE9sents dans la zone sont r\xE9duites.\nUne fois sorti de la zone, les
+      ennemis ne sont plus affect\xE9s."
     effectIcon: {fileID: 21300000, guid: 1836675502c0fa348bfbbb019590c060, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 7164559377256134742}
@@ -27074,7 +27078,9 @@ MonoBehaviour:
   effectDescription:
     effectName: Sentinelle
     steleEffect: 4
-    description: "Invoque une tour \xE0 proximit\xE9 de la st\xE8le."
+    description: "Invoque une tour \xE0 proximit\xE9 de la st\xE8le.\nElle attaque
+      le premier ennemi \xE0 port\xE9e jusqu'\xE0 ce qu'il soit \xE9limin\xE9. Dans
+      ce cas, elle change de cible ou arr\xEAte d'attaquer."
     effectIcon: {fileID: 21300000, guid: 8ca9a3a8f82e01d428c13b07b5d40638, type: 3}
   isASellingButton: 0
   impossibilityToPurchaseImage: {fileID: 9019411871053626412}

@@ -2,7 +2,7 @@
 
 public class InGameSceneTransitionManager : MonoBehaviour
 {
-    private Animator Animator => GetComponent<Animator>();
+    public Animator Animator => GetComponent<Animator>();
 
     #region Singleton
     public static InGameSceneTransitionManager Instance;
@@ -30,6 +30,11 @@ public class InGameSceneTransitionManager : MonoBehaviour
         Animator.SetTrigger("FadeIn");
     }
 
+    public void TriggerFadeInEndScreen()
+    {
+        Animator.SetTrigger("FadeInEndScreen");
+    }
+
     public void TriggerFadeOut()
     {
         Debug.Log("TriggerFadeOut");
@@ -40,5 +45,10 @@ public class InGameSceneTransitionManager : MonoBehaviour
     public void DisplayEntireMapAnimationEvent()
     {
         IntroMapHandler.Instance.CallDisplayEntireMapMethod();
+    }
+
+    public void CallGMTriggerEndScreenAnimation()
+    {
+        GameManager.Instance.DisplayEndScreenWithDelay();
     }
 }

@@ -69,10 +69,15 @@ public class DeathHandler : MonoBehaviour
         {
             localTimer -= Time.deltaTime;
 
-            respawnTimerText.SetText("Réapparition dans : " + localTimer.ToString("0"));
+            respawnTimerText.SetText("Réapparition dans :  " + localTimer.ToString(" 0"));
 
             if (localTimer <= 1)
-                respawnTimerText.SetText("Réapparition dans : " + localTimer.ToString("0.0"));
+                respawnTimerText.SetText("Réapparition dans :  " + localTimer.ToString(" 0.0"));
+
+            if (localTimer <= 0)
+            {
+                respawnTimerText.SetText("Réapparition.");
+            }
         }
     }
 

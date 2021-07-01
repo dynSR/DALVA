@@ -103340,6 +103340,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAStele: 0
   defaultColor: {r: 0.11764706, g: 0.5294118, b: 0.18431373, a: 1}
+  blinkImage: {fileID: 0}
+  isAPlayerHealthBar: 0
   healthBarCanBlink: 1
   healthBarBlinkDuration: 0.001
   healthBarFill: {fileID: 5948034757785000326}
@@ -103693,7 +103695,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4047575011961585449
 Transform:
   m_ObjectHideFlags: 0

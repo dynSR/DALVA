@@ -73,7 +73,7 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
 
     [Header("UI PARAMETERS")]
     [SerializeField] private GameObject popup;
-    [SerializeField] private GameObject deathHUD;
+    public GameObject deathHUD;
     public GameObject Popup { get => popup; }
 
     [Header("VFX")]

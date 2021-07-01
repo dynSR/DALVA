@@ -105,22 +105,30 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (UtilityClass.IsKeyPressed(KeyCode.Escape)
-            && !tutorielDisplayed
-            && (GameState != GameState.Victory || GameState != GameState.Defeat))
+            && !tutorielDisplayed)
         {
-            if(PlayerHUDManager.Instance.isShopWindowOpen && GameIsInPlayMod())
+            if(UIManager.Instance.aValidationPopupIsCurrentlyDisplayed)
             {
-                PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+                UIManager.Instance.HideAllPopup();
                 return;
             }
 
-            if (!GameIsInPause())
+            if (GameState != GameState.Victory || GameState != GameState.Defeat)
             {
-                PauseGame(true);
-            }
-            else if (GameIsInPause())
-            {
-                SetGameToProperMod();
+                if (PlayerHUDManager.Instance.isShopWindowOpen && GameIsInPlayMod())
+                {
+                    PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
+                    return;
+                }
+
+                if (!GameIsInPause())
+                {
+                    PauseGame(true);
+                }
+                else if (GameIsInPause())
+                {
+                    SetGameToProperMod();
+                }
             }
         }
     }
@@ -155,8 +163,8 @@ public class GameManager : MonoBehaviour
     {
         if (GameParameters.Instance == null)
         {
-            MageCharacter.SetActive(true);
-            //WarriorCharacter.SetActive(true);
+            //MageCharacter.SetActive(true);
+            WarriorCharacter.SetActive(true);
             Debug.Log("Default class chosen at Start !");
             return;
         }
@@ -332,6 +340,11 @@ public class GameManager : MonoBehaviour
             PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
         }
 
+        if (Player.GetComponent<EntityStats>().deathHUD.activeInHierarchy)
+        {
+            Player.GetComponent<EntityStats>().deathHUD.SetActive(false);
+        }
+
         yield return new WaitForSeconds(delay);
 
         //Time.timeScale = 1;
@@ -365,6 +378,11 @@ public class GameManager : MonoBehaviour
             PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
         }
 
+        if (Player.GetComponent<EntityStats>().deathHUD.activeInHierarchy)
+        {
+            Player.GetComponent<EntityStats>().deathHUD.SetActive(false);
+        }
+
         yield return new WaitForSeconds(delay);
 
         //Time.timeScale = 1;
@@ -388,7 +406,11 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Camera Travel");
 
+        CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
+
         UtilityClass.GetMainCamera().gameObject.SetActive(false);
+
+        StartCoroutine(DisplayScreenTransitionWithDelay((cinemachineBrain.m_DefaultBlend.BlendTime * 0.85f)));
 
         if (victory)
         {
@@ -402,6 +424,25 @@ public class GameManager : MonoBehaviour
 
             cinemachineVirtualCamera.Priority = 11;
         }
+    }
+
+    public void DisplayEndScreenWithDelay()
+    {
+        if (GameState == GameState.Victory)
+        {
+            UIManager.Instance.DisplayVictory();
+        }
+        else if (GameState == GameState.Defeat)
+        {
+            UIManager.Instance.DisplayDefeat();
+        }
+    }
+
+    private IEnumerator DisplayScreenTransitionWithDelay(float delay)
+    {
+       yield return new WaitForSeconds(delay);
+
+        InGameSceneTransitionManager.Instance.TriggerFadeInEndScreen();
     }
     #endregion
 }

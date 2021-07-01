@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
     [Header("SCREENS")]
     public GameObject victoryScreen;
     public GameObject defeatScreen;
+    public GameObject [ ] characterIcons;
+    public GameObject [ ] endScreenComponents;
+    public Animator[ ] endScreenAnimators;
 
     [Header("BASE DAMAGE LOSS")]
     public Animator damageLossAnimator;
@@ -39,8 +42,11 @@ public class UIManager : MonoBehaviour
     float timeValue = 0f;
 
     public GameObject pauseMenu;
-    public GameObject popupsParent;
+    public GameObject[] popups;
     public GameObject waveBossPing;
+
+    public bool aValidationPopupIsCurrentlyDisplayed = false;
+    public bool debugClass = false;
 
     #region Singleton
     public static UIManager Instance;
@@ -121,12 +127,18 @@ public class UIManager : MonoBehaviour
     #region Popup
     public void DisplayValidationPopup(GameObject popup)
     {
+        HideAllPopup();
+
         if (!popup.activeInHierarchy) popup.SetActive(true);
+
+        aValidationPopupIsCurrentlyDisplayed = true;
     }
 
     public void HideValidationPopup(GameObject popup)
     {
         if (popup.activeInHierarchy) popup.SetActive(false);
+
+        aValidationPopupIsCurrentlyDisplayed = false;
     }
     #endregion
 
@@ -147,10 +159,16 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(false);
             GameManager.Instance.SetGameToProperMod();
 
-            foreach (Transform item in popupsParent.transform)
-            {
-                item.gameObject.SetActive(false);
-            }
+            HideAllPopup();
+        }
+    }
+
+    public void HideAllPopup()
+    {
+        foreach (GameObject item in popups)
+        {
+            item.SetActive(false);
+            aValidationPopupIsCurrentlyDisplayed = false;
         }
     }
 
@@ -192,12 +210,40 @@ public class UIManager : MonoBehaviour
 
     public void DisplayVictory()
     {
+        if (GameParameters.Instance && GameParameters.Instance.classIsMage || UIManager.Instance.debugClass)
+        {
+            characterIcons [ 0 ].SetActive(true);
+        }
+        else
+        {
+            characterIcons [ 1 ].SetActive(true);
+        }
+
         victoryScreen.SetActive(true);
+
+        foreach (Animator animator in endScreenAnimators)
+        {
+            animator.SetTrigger("Victory");
+        }
     }
 
     public void DisplayDefeat()
     {
+        if (GameParameters.Instance && GameParameters.Instance.classIsMage || UIManager.Instance.debugClass)
+        {
+            characterIcons [ 2 ].SetActive(true);
+        }
+        else
+        {
+            characterIcons [ 3 ].SetActive(true);
+        }
+
         defeatScreen.SetActive(true);
+
+        foreach (Animator animator in endScreenAnimators)
+        {
+            animator.SetTrigger("Defeat");
+        }
     }
     #endregion
 

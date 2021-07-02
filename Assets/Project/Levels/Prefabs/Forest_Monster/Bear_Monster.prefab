@@ -29021,7 +29021,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 761721908316458078}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.75
+  m_Radius: 0.25
   m_Speed: 3.25
   m_Acceleration: 120
   avoidancePriority: 50
@@ -29358,6 +29358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   knownTarget: {fileID: 0}
+  QueuedTarget: {fileID: 0}
   characterAnimator: {fileID: 761721909082024652}
   rotationSpeed: 0.075
   interactionRange: 1.5
@@ -29368,6 +29369,7 @@ MonoBehaviour:
   canPerformAttack: 1
   hasPerformedAttack: 0
   IsAttacking: 0
+  NeedToMove: 0
   distance: 0
 --- !u!114 &761721908316458072
 MonoBehaviour:
@@ -99919,11 +99921,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: defaultColor.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: defaultColor.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4378267671923903532, guid: d02c084cfd48b79479d2e0ad9b460b40, type: 3}
       propertyPath: defaultColor.a

@@ -48063,7 +48063,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1119424895599660426}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.75
+  m_Radius: 0.25
   m_Speed: 3.25
   m_Acceleration: 120
   avoidancePriority: 50
@@ -48373,9 +48373,6 @@ MonoBehaviour:
   - {fileID: 1927112551}
   burningVFX: {fileID: 1088711075613996240}
   poisonnedVFX: {fileID: 7373654947381980474}
-  networkPosition: {x: 0, y: 0, z: 0}
-  networkRotation: {x: 0, y: 0, z: 0, w: 1}
-  networkSpeed: 0
   waypointTarget: {fileID: 0}
   waypoints: []
   CurrentStateName: 
@@ -48403,6 +48400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   knownTarget: {fileID: 0}
+  QueuedTarget: {fileID: 0}
   characterAnimator: {fileID: 1119424894213352216}
   rotationSpeed: 0.075
   interactionRange: 1.5
@@ -48411,6 +48409,9 @@ MonoBehaviour:
   rangedAttackEmiterPosition: {fileID: 1119424894665873954}
   rangedAttackProjectile: {fileID: 7698714164152369823, guid: 0e43b17f7d6dd6846afb99fe6b32264f, type: 3}
   canPerformAttack: 1
+  hasPerformedAttack: 0
+  IsAttacking: 0
+  NeedToMove: 0
   distance: 0
 --- !u!114 &1119424895599660428
 MonoBehaviour:
@@ -53926,6 +53927,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAStele: 0
   defaultColor: {r: 1, g: 0, b: 0, a: 1}
+  blinkImage: {fileID: 0}
+  isAPlayerHealthBar: 0
   healthBarCanBlink: 1
   healthBarBlinkDuration: 0.001
   healthBarFill: {fileID: 3695841498039289081}

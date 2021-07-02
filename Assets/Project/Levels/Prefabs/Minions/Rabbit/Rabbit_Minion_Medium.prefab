@@ -99769,7 +99769,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5396686405339889383}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.35
+  m_Radius: 0.25
   m_Speed: 3.25
   m_Acceleration: 120
   avoidancePriority: 50
@@ -100106,6 +100106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   knownTarget: {fileID: 0}
+  QueuedTarget: {fileID: 0}
   characterAnimator: {fileID: 5396686403970275445}
   rotationSpeed: 0.075
   interactionRange: 1.5
@@ -100116,6 +100117,7 @@ MonoBehaviour:
   canPerformAttack: 1
   hasPerformedAttack: 0
   IsAttacking: 0
+  NeedToMove: 0
   distance: 0
 --- !u!114 &5396686405339889377
 MonoBehaviour:
@@ -120003,6 +120005,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAStele: 0
   defaultColor: {r: 1, g: 0, b: 0, a: 1}
+  blinkImage: {fileID: 0}
+  isAPlayerHealthBar: 0
   healthBarCanBlink: 1
   healthBarBlinkDuration: 0.001
   healthBarFill: {fileID: 8513592138741806996}

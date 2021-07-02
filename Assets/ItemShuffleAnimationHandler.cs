@@ -11,6 +11,7 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
     [SoundGroup] public string endShuffleSFX;
 
     public Button resetButton;
+    public Button [ ] closingShopButtons;
 
     private void Awake()
     {
@@ -50,6 +51,22 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
         {
             endOfDrawEffect.SetActive(false);
             endOfDrawEffect.SetActive(true);
+        }
+    }
+
+    public void DisableClosingShopButtons()
+    {
+        foreach (Button item in closingShopButtons)
+        {
+            item.enabled = false;
+        }
+    }
+
+    public void EnableClosingShopButtons ()
+    {
+        foreach (Button item in closingShopButtons)
+        {
+            item.enabled = true;
         }
     }
 }

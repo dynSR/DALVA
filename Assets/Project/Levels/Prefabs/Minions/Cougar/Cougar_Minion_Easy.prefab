@@ -67366,7 +67366,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 677056945882420875}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.6
+  m_Radius: 0.25
   m_Speed: 3.25
   m_Acceleration: 120
   avoidancePriority: 50
@@ -67703,6 +67703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   knownTarget: {fileID: 0}
+  QueuedTarget: {fileID: 0}
   characterAnimator: {fileID: 677056947268808729}
   rotationSpeed: 0.075
   interactionRange: 1.5
@@ -67713,6 +67714,7 @@ MonoBehaviour:
   canPerformAttack: 1
   hasPerformedAttack: 0
   IsAttacking: 0
+  NeedToMove: 0
   distance: 0
 --- !u!114 &677056945882420877
 MonoBehaviour:

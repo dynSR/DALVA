@@ -32,7 +32,7 @@ public class PlayerHUDManager : MonoBehaviour
     [SerializeField] private GameObject steleTooltip;
 
     [Header("UI SOUNDS")]
-    [SoundGroup] public string oppeningShopSoundGroup;
+    [SoundGroup] public string openingShopSoundGroup;
     [SoundGroup] public string closingShopSoundGroup;
 
     public GameObject ShopWindow { get => shopWindow; }
@@ -175,7 +175,7 @@ public class PlayerHUDManager : MonoBehaviour
             cG.alpha = 1;
             cG.blocksRaycasts = true;
 
-            OnOpenningShopWindow();
+            OnOpeningShopWindow();
 
             return;
         }
@@ -208,7 +208,7 @@ public class PlayerHUDManager : MonoBehaviour
         shopWindowRectTransform.position = new Vector3(shopWindowRectTransform.position.x, yValue, shopWindowRectTransform.position.z);
     }
 
-    void OnOpenningShopWindow()
+    void OnOpeningShopWindow()
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
 
@@ -223,7 +223,7 @@ public class PlayerHUDManager : MonoBehaviour
         cursorLogic.SetCursorToNormalAppearance();
 
         IsShopWindowOpen = true;
-        UtilityClass.PlaySoundGroupImmediatly(oppeningShopSoundGroup, transform);
+        UtilityClass.PlaySoundGroupImmediatly(openingShopSoundGroup, transform);
 
         ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();

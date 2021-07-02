@@ -51,10 +51,6 @@ public class PlaceToDefend : MonoBehaviour
 
                 UIManager.Instance.SetDamageLoss(stats.DamageAppliedToThePlaceToDefend);
 
-                //OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
-
-                //CheckForLifeAnimation();
-
                 passingThroughPortalVFX.Play();
 
                 if (npcController != null && npcController.IsABossWaveMember
@@ -75,6 +71,8 @@ public class PlaceToDefend : MonoBehaviour
             UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, GameManager.Instance.placesToDefend[0].transform);
 
             UIManager.Instance.SetDamageLoss(damageApplied);
+
+            passingThroughPortalVFX.Play();
         }
 
         OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);

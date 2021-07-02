@@ -6305,6 +6305,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneNameToLoad: 
+  victoryScreen_ClassChoiceButtonHandler:
+  - {fileID: 3690869793405599455}
+  - {fileID: 2926941692950734848}
 --- !u!1 &410109484
 GameObject:
   m_ObjectHideFlags: 0
@@ -35395,8 +35398,8 @@ GameObject:
   - component: {fileID: 2905830218740120096}
   - component: {fileID: 8896235169813154792}
   - component: {fileID: 2000215251624841422}
-  - component: {fileID: 3349651891463554825}
   - component: {fileID: 7865397696430260290}
+  - component: {fileID: 3690869793405599455}
   m_Layer: 0
   m_Name: ValidationButton
   m_TagString: Untagged
@@ -35520,23 +35523,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3349651891463554825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1065286904475553135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 508fbc78384797d4fac4ac4dc863e2b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalColor: {r: 1, g: 1, b: 1, a: 0.49019608}
-  highlightColor: {r: 1, g: 1, b: 1, a: 1}
-  pressedColor: {r: 0.4745098, g: 0.8862745, b: 0.90588236, a: 1}
-  myBorder: {fileID: 901585831138825183}
-  isAMainMenuButton: 0
 --- !u!114 &7865397696430260290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35553,6 +35539,21 @@ MonoBehaviour:
   onClickSound: SFX_UI_ButtonClick
   playSoundOnHover: 1
   playSoundOnClick: 1
+--- !u!114 &3690869793405599455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065286904475553135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c214274b7296446be7a7cd3ae0bfe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightObject: {fileID: 901585831138825183}
+  isSelected: 0
+  victoryPopupBehaviourHandler: {fileID: 6523057962357682772}
 --- !u!1 &1075600265760754979
 GameObject:
   m_ObjectHideFlags: 0
@@ -56066,8 +56067,8 @@ GameObject:
   - component: {fileID: 6489222393600389375}
   - component: {fileID: 648814504596171869}
   - component: {fileID: 2305551109642270156}
-  - component: {fileID: 6113242855974368959}
   - component: {fileID: 1200620432757043296}
+  - component: {fileID: 2926941692950734848}
   m_Layer: 0
   m_Name: ValidationButton
   m_TagString: Untagged
@@ -56191,23 +56192,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6113242855974368959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8565081302454144578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 508fbc78384797d4fac4ac4dc863e2b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalColor: {r: 1, g: 1, b: 1, a: 0.49019608}
-  highlightColor: {r: 1, g: 1, b: 1, a: 1}
-  pressedColor: {r: 0.4745098, g: 0.8862745, b: 0.90588236, a: 1}
-  myBorder: {fileID: 4969252099867012187}
-  isAMainMenuButton: 0
 --- !u!114 &1200620432757043296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56224,6 +56208,21 @@ MonoBehaviour:
   onClickSound: SFX_UI_ButtonClick
   playSoundOnHover: 1
   playSoundOnClick: 1
+--- !u!114 &2926941692950734848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8565081302454144578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c214274b7296446be7a7cd3ae0bfe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightObject: {fileID: 4969252099867012187}
+  isSelected: 0
+  victoryPopupBehaviourHandler: {fileID: 6523057962357682772}
 --- !u!1 &8588384801318311002
 GameObject:
   m_ObjectHideFlags: 0

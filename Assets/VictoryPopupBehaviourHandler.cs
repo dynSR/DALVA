@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 public class VictoryPopupBehaviourHandler : MonoBehaviour
 {
     public string sceneNameToLoad;
+    public VictoryScreen_ClassChoiceButtonHandler [ ] victoryScreen_ClassChoiceButtonHandler;
 
     private void OnDisable ()
     {
         sceneNameToLoad = string.Empty;
+        ResetAllClassChoiseButtonSelection();
     }
 
     public void SetSceneToLoadAsString (string sceneName)
@@ -23,5 +25,14 @@ public class VictoryPopupBehaviourHandler : MonoBehaviour
     public void SetChosenClass(bool value)
     {
         GameParameters.Instance.classIsMage = value;
+    }
+
+    public void ResetAllClassChoiseButtonSelection()
+    {
+        foreach (VictoryScreen_ClassChoiceButtonHandler item in victoryScreen_ClassChoiceButtonHandler)
+        {
+            item.isSelected = false;
+            item.highlightObject.SetActive(false);
+        }
     }
 }

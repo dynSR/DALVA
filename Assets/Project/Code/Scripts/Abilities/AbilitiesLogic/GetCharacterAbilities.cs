@@ -72,12 +72,14 @@ public class GetCharacterAbilities : MonoBehaviour
     public void DisplayGlowEffect()
     {
         //Start Glow Animation
-        glowFeedbackObject.SetActive(true);
+        if (glowFeedbackObject != null)
+            glowFeedbackObject.SetActive(true);
     }
 
     public void HideGlowEffect()
     {
         //Stop Glow Animation
-        glowFeedbackObject.SetActive(false);
+        if (glowFeedbackObject != null)
+            glowFeedbackObject.SetActive(false);
     }
 }

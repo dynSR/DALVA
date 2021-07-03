@@ -93,7 +93,7 @@ public class InteractionSystem : MonoBehaviour
                     Controller.SetAgentDestination(Controller.Agent, Target.position);
                 }
             }
-            else if (distance <= StoppingDistance)
+            else if (distance < StoppingDistance)
             {
                 //Debug.Log("Close enough to target");
 
@@ -120,7 +120,7 @@ public class InteractionSystem : MonoBehaviour
         {
             Controller.HandleCharacterRotationBeforeCasting(transform, _target.position, Controller.RotateVelocity, Controller.RotationSpeed);
 
-            Controller.Agent.stoppingDistance = minDistance;
+            //Controller.Agent.stoppingDistance = minDistance;
         }
     }
     #endregion

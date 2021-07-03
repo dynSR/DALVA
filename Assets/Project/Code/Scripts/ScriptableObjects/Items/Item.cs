@@ -75,7 +75,15 @@ public class Item : ScriptableObject
                         c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
                 }
 
-                c.GetStat(StatType.Health).Value = currentHealth;
+                if (currentHealth > c.GetStat(StatType.Health).MaxValue)
+                {
+                    c.GetStat(StatType.Health).Value = c.GetStat(StatType.Health).MaxValue;
+                }
+                else if (currentHealth <= c.GetStat(StatType.Health).MaxValue)
+                {
+                    c.GetStat(StatType.Health).Value = currentHealth;
+                }
+
                 c.UpdateStats();
             }
         }   

@@ -170,6 +170,8 @@ public class SpawnerSystem : MonoBehaviour
             }
         }
 
+        GameManager.Instance.RecountRemainingMonster();
+
         //Close trigger
         MyAnimator.SetTrigger("ClosePortal");
 
@@ -183,7 +185,7 @@ public class SpawnerSystem : MonoBehaviour
         {
             Debug.Log("END OF WAVES");
             GameManager.Instance.itsFinalWave = true;
-            GameManager.Instance.RecountRemainingMonster();
+            //GameManager.Instance.RecountRemainingMonster();
         }
     }
 
@@ -303,8 +305,11 @@ public class SpawnerSystem : MonoBehaviour
         }
     }
 
-    public void UpdateElementsOnSpawnFinished()
+    public IEnumerator UpdateElementsOnSpawnFinished()
     {
+        yield return new WaitForSeconds(5);
+        yield return new WaitForEndOfFrame();
+
         //Display or Hide wave spawn state
         if (HasEntityToSpawn()) OnWavePossibilityToSpawnState?.Invoke(1);
         else OnWavePossibilityToSpawnState?.Invoke(0);

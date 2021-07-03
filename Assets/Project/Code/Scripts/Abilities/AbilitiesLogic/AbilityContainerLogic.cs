@@ -35,6 +35,8 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
     [SerializeField] private Sprite aimedType;
     [SerializeField] private Sprite targetedType;
     [SerializeField] private Sprite zoneType;
+    [SerializeField] private Sprite buffType;
+    [SerializeField] private Sprite healType;
 
     float storedCooldown = 0f;
 
@@ -182,6 +184,18 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             spriteToSend = targetedType;
             textToSet.SetText("Sort Ciblé");
+        }
+        //BUFF
+        else if (ContainedAbility.Ability.IsABuff)
+        {
+                spriteToSend = buffType;
+                textToSet.SetText("Buff");
+        }
+        //Heal
+        else if (ContainedAbility.Ability.AbilityCanHealTarget)
+        {
+            spriteToSend = healType;
+            textToSet.SetText("Soin");
         }
 
         SetAbilityCooldown();

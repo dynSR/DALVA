@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public static GameState GameState;
+    public GameState GameState;
 
     [Header("WAVE")]
     [SerializeField] private int waveDone = 0;
@@ -107,6 +107,8 @@ public class GameManager : MonoBehaviour
         if (UtilityClass.IsKeyPressed(KeyCode.Escape)
             && !tutorielDisplayed)
         {
+            if (GameState == GameState.Intro) return;
+
             if(UIManager.Instance.aValidationPopupIsCurrentlyDisplayed)
             {
                 UIManager.Instance.HideAllPopup();
@@ -123,10 +125,12 @@ public class GameManager : MonoBehaviour
 
                 if (!GameIsInPause())
                 {
+                    Debug.Log("Pause Game Call");
                     PauseGame(true);
                 }
                 else if (GameIsInPause())
                 {
+                    Debug.Log("SetGameToProperMod");
                     SetGameToProperMod();
                 }
             }
@@ -234,7 +238,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Update Check", transform);
             spawner.IndexOfCurrentWave++;
             spawner.spawnEventEndedHasBeenHandled = true;
-            spawner.UpdateElementsOnSpawnFinished();
+            StartCoroutine(spawner.UpdateElementsOnSpawnFinished());
 
             WaveCountHasBeenSet = false;
         }

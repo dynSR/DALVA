@@ -59,6 +59,8 @@ public class PlaceToDefend : MonoBehaviour
                     GameManager.Instance.UpdateRemainingMonsterValue(-1);
                 }
 
+                OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
+
                 Destroy(stats.gameObject);
             }
         }
@@ -73,9 +75,9 @@ public class PlaceToDefend : MonoBehaviour
             UIManager.Instance.SetDamageLoss(damageApplied);
 
             passingThroughPortalVFX.Play();
-        }
 
-        OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
+            OnHealthValueChanged?.Invoke(GameManager.Instance.DalvaLifePoints);
+        }
 
         CheckForLifeAnimation();
 

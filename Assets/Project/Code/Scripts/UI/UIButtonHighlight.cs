@@ -43,18 +43,21 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         Debug.Log("Click on the button", transform);
 
-        ChangeTextColor(pressedColor);
+        if (myButton.IsInteractable())
+            ChangeTextColor(pressedColor);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("In the button", transform);
 
-        ChangeTextColor(HighlightColor);
+        if (myButton.IsInteractable())
+            ChangeTextColor(HighlightColor);
 
         if (isAMainMenuButton && !myButton.IsInteractable()) return;
 
-        DisplayBorder();
+        if (myButton.IsInteractable())
+            DisplayBorder();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -65,7 +68,8 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         if (isAMainMenuButton && !myButton.IsInteractable()) return;
 
-        HideBorder();
+        if (myButton.IsInteractable())
+            HideBorder();
     }
 
     public void OnPointerUp(PointerEventData eventData)

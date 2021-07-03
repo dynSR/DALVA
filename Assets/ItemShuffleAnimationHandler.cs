@@ -12,6 +12,7 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
 
     public Button resetButton;
     public Button [ ] closingShopButtons;
+    public GameObject [ ] disabledButtonFeedbacks;
 
     private void Awake()
     {
@@ -60,6 +61,11 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
         {
             item.enabled = false;
         }
+
+        foreach (GameObject item in disabledButtonFeedbacks)
+        {
+            item.SetActive(true);
+        }
     }
 
     public void EnableClosingShopButtons ()
@@ -67,6 +73,11 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
         foreach (Button item in closingShopButtons)
         {
             item.enabled = true;
+        }
+
+        foreach (GameObject item in disabledButtonFeedbacks)
+        {
+            item.SetActive(false);
         }
     }
 }

@@ -93,8 +93,8 @@ public class EntityAnimationsEventHandler : MonoBehaviour
             case Species.Raccoon:
                 UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Raccoon_Attack", transform);
                 break;
-            case Species.Wolf:
-                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Wolf_Attack", transform);
+            case Species.Tiger:
+                UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Minion_Tiger_Attack", transform);
                 break;
         }
     }

@@ -23,7 +23,7 @@ public enum Species
     Moose,
     Rabbit,
     Raccoon,
-    Wolf,
+    Tiger,
 }
 
 [CreateAssetMenu(fileName = "Entity_", menuName = "ScriptableObjects/Entities", order = 2)]

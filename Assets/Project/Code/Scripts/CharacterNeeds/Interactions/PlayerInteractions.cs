@@ -28,10 +28,10 @@ public class PlayerInteractions : InteractionSystem
     {
         if (UtilityClass.RightClickIsPressed())
         {
+            if (GetComponent<PlayerController>().IsCursorHoveringUIElement) return;
+
             //Debug.Log("Set target on mouse click");
             ResetTarget();
-
-            if (GetComponent<PlayerController>().IsCursorHoveringUIElement) return;
 
             if (Physics.Raycast(UtilityClass.RayFromMainCameraToMousePosition(), out RaycastHit hit, Mathf.Infinity))
             {

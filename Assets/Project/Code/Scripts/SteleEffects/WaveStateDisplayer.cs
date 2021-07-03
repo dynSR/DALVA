@@ -28,6 +28,11 @@ public class WaveStateDisplayer : MonoBehaviour
         spawner.OnWavePossibilityToSpawnState -= ToggleContent;
     }
 
+    private void Start ()
+    {
+        SetTextTimer(spawner.DelayBeforeSpawningFirstWave);
+    }
+
     private void Update()
     {
         ToggleButtonState();
@@ -51,17 +56,22 @@ public class WaveStateDisplayer : MonoBehaviour
         {
             localTimer -= Time.deltaTime;
             fillImage.fillAmount = localTimer / timerAssigned;
-            
-            //Update text timer here
-            //Minutes + secondes
-            string minutes = Mathf.Floor(localTimer / 60).ToString("0");
-            string seconds = Mathf.Floor(localTimer % 60).ToString("00");
 
-            timerText.SetText(minutes + " : " + seconds);
+            SetTextTimer(localTimer);
 
             if (localTimer <= 1)
                 timerText.SetText(localTimer.ToString("0.0"));
         }   
+    }
+
+    void SetTextTimer(float value)
+    {
+        //Update text timer here
+        //Minutes + secondes
+        string minutes = Mathf.Floor(value / 60).ToString("0");
+        string seconds = Mathf.Floor(value % 60).ToString("00");
+
+        timerText.SetText(minutes + " : " + seconds);
     }
 
     void ToggleContent(float boolValue)

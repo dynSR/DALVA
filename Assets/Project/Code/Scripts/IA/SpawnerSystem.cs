@@ -12,10 +12,6 @@ public class SpawnerSystem : MonoBehaviour
     public event WaveAlertHandler OnWaveStartinSoon;
     public event WaveAlertHandler OnWavePossibilityToSpawnState;
 
-    public delegate void TutorialHandler();
-    public event TutorialHandler OnFirstWaveSpawned;
-    public event TutorialHandler OnFirstBossWaveSpawned;
-
     [System.Serializable]
     public class Wave
     {
@@ -142,12 +138,6 @@ public class SpawnerSystem : MonoBehaviour
                 Debug.Log(minionData.minionsUsedInTheWave.Length);
                 NPCController spawningMinionController = minionData.minionsUsedInTheWave[j].GetComponent<NPCController>();
 
-                //Need to be modified here to tutorial purpose - show when the first boss spawn
-                if (ItIsABossWave())
-                {
-                    OnFirstBossWaveSpawned?.Invoke();
-                }
-
                 UIManager.Instance.HideBossWavePing();
 
                 SpawnMinions(
@@ -156,9 +146,6 @@ public class SpawnerSystem : MonoBehaviour
                     minionData.usedPathIndex);
 
                 UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, minionData.spawnLocation);
-
-                if(GameManager.Instance.tutorialsAreEnabled)
-                    OnFirstWaveSpawned?.Invoke();
 
                 yield return new WaitForSeconds(spawnRate);
 

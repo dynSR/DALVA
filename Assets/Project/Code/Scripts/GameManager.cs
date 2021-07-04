@@ -86,14 +86,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerHUDManager.Instance.CloseWindow(PlayerHUDManager.Instance.ShopWindow);
 
-        if (!tutorialsAreEnabled)
-        {
-            SetGameToIntroMod();
-        }
-        else if (tutorialsAreEnabled)
-        {
-            SetGameToTutorialMod();
-        }
+        SetGameToIntroMod();
 
         DalvaLifePoints = CalculateDalvaLifePoints();
         UIManager.Instance.UpdatePlaceToDefendHealth(DalvaLifePoints);

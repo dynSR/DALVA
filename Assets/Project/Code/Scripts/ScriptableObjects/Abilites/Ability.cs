@@ -56,10 +56,12 @@ public class Ability : ScriptableObject
     [SerializeField] private bool targetedType = false;
     [SerializeField] private bool aimedType = false;
     [SerializeField] private bool zoneType = false;
+    [SerializeField] private bool buffType = false;
     public bool NoneType { get => noneType; set => noneType = value; }
     public bool TargetedType { get => targetedType; set => targetedType = value; }
     public bool AimedType { get => aimedType; set => aimedType = value; }
     public bool ZoneType { get => zoneType; set => zoneType = value; }
+    public bool BuffType { get => buffType; set => buffType = value; }
 
     [Header("TIMERS")]
     [SerializeField] private float abilityCooldown = 0f;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DarkTonic.MasterAudio;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +29,11 @@ public class HarvesterLogic : InteractiveBuilding
     [SerializeField] private GameObject progressBarObject;
     [SerializeField] private Image progressBar;
     public HarvestState harvestState; //Its in public for debug purpose
+
+    [Header("SFX")]
+    [SoundGroup] public string harvestingLoopSFX;
+    [SoundGroup] public string harvestingDoneSFX;
+    [SoundGroup] public string limitReachedSFX;
     private bool LimitReached => CurrentHarvestedRessourcesValue >= maxHarvestableRessourcesValue;
 
     void Start() => InitHarvester();
@@ -89,8 +95,13 @@ public class HarvesterLogic : InteractiveBuilding
         }
         else if (LimitReached && harvestingEffectObject.activeInHierarchy)
         {
+            CurrentHarvestedRessourcesValue = maxHarvestableRessourcesValue;
+            OnHarvestingRessources?.Invoke(CurrentHarvestedRessourcesValue, maxHarvestableRessourcesValue);
+
             harvestingEffectObject.SetActive(false);
             maxEffectObject.SetActive(true);
+
+            UtilityClass.PlaySoundGroupImmediatly(limitReachedSFX, transform);
         }
     }
 
@@ -106,9 +117,15 @@ public class HarvesterLogic : InteractiveBuilding
 
         GetComponentInChildren<Animator>().SetBool("Harvesting", true);
 
+        UtilityClass.PlaySoundGroupImmediatly(harvestingLoopSFX, transform);
+
         if (timeSpentHarvesting >= totalTimeToHarvest)
         {
             EntityStats interactingPlayerStat = InteractingPlayer.GetComponent<EntityStats>();
+
+            UtilityClass.PlaySoundGroupImmediatly(harvestingDoneSFX, transform);
+
+            MasterAudio.StopAllOfSound(harvestingLoopSFX);
 
             GiveRessourcesToPlayer((int)CurrentHarvestedRessourcesValue);
             harvestState = HarvestState.Reinitialization;
@@ -130,6 +147,7 @@ public class HarvesterLogic : InteractiveBuilding
         harvestState = HarvestState.IsHarvesting;
         GetComponentInChildren<Animator>().SetBool("Harvesting", false);
         ResetHarvestingFeedback();
+        MasterAudio.StopAllOfSound(harvestingLoopSFX);
     }
 
     private void ResetHarvestingFeedback()

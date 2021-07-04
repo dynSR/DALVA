@@ -81,7 +81,8 @@ public class IntroMapHandler : MonoBehaviour
 
         UtilityClass.GetMainCamera().GetComponent<UniversalAdditionalCameraData>().renderType = CameraRenderType.Base;
 
-        UtilityClass.GetMainCamera().transform.GetChild(2).gameObject.SetActive(true);
+        if (UtilityClass.GetMainCamera().transform.childCount > 1)
+            UtilityClass.GetMainCamera().transform.GetChild(2).gameObject.SetActive(true);
 
         GameManager.Instance.ShopPhase();
     }
@@ -99,6 +100,16 @@ public class IntroMapHandler : MonoBehaviour
         for (int i = 0; i < colors.Count; i++)
         {
             outlines [ i ].OutlineColor = colors [ i ];
+        }
+    }
+
+    public void CheckIfTutorialsAreEnabled()
+    {
+        if (GameManager.Instance.tutorialsAreEnabled)
+        {
+            GameManager.Instance.SetGameToTutorialMod();
+
+            TutorialHandler.Instance.SetTutorials();
         }
     }
 }

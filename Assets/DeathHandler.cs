@@ -76,7 +76,7 @@ public class DeathHandler : MonoBehaviour
 
             if (localTimer <= 0)
             {
-                respawnTimerText.SetText("Réapparition.");
+                respawnTimerText.SetText("<b>Réapparition</b>.");
             }
         }
     }
@@ -84,7 +84,7 @@ public class DeathHandler : MonoBehaviour
     public void UpdateRemainingDeathsText()
     {
         Debug.Log("UpdateRemainingDeathsText");
-        remainingDeathsText.SetText(deathMessages[ remainingAmtOfDeath ] + " " + PlayerStats.DamageAppliedToThePlaceToDefend + " points de vie.");
+        remainingDeathsText.SetText(deathMessages[ remainingAmtOfDeath ] + " " + "<color=#ff0000ff><b>" + PlayerStats.DamageAppliedToThePlaceToDefend + " points de vie." + "</b></color>");
     }
 
     public void CheckRemainingDeathAmount()

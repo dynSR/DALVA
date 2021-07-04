@@ -2,6 +2,7 @@
 using DarkTonic.MasterAudio;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class TutorialHandler : MonoBehaviour
 {
@@ -15,29 +16,21 @@ public class TutorialHandler : MonoBehaviour
     public SpawnerSystem spawner;
     public GameObject skipTutorialButton;
 
-    private void OnEnable()
-    {
-        spawner.OnFirstWaveSpawned += DisplayWaveTutorial;
-        spawner.OnFirstBossWaveSpawned += DisplayBossTutorial;
-    }
+    #region Singleton
+    public static TutorialHandler Instance;
 
-    private void OnDisable()
+    private void Awake ()
     {
-        spawner.OnFirstWaveSpawned -= DisplayWaveTutorial;
-        spawner.OnFirstBossWaveSpawned -= DisplayBossTutorial;
-    }
-
-    private void Start()
-    {
-        if (GameManager.Instance.tutorialsAreEnabled)
+        if (Instance != null)
         {
-            OpenAWindow(0);
-            SetTutorielMod(1);
-            DeactivateMainCamera();
-            StartCoroutine(DesactivateUIManagerComponents(0.01f));
-            skipTutorialButton.SetActive(true);
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
         }
     }
+    #endregion
 
     private void DisplayWaveTutorial()
     {
@@ -141,6 +134,8 @@ public class TutorialHandler : MonoBehaviour
 
         GameManager.Instance.Player.GetComponent<PlayerController>().CharacterCamera.enabled = true;
         GameManager.Instance.Player.GetComponent<PlayerController>().CharacterCamera.gameObject.tag = "MainCamera";
+
+        UtilityClass.GetMainCamera().GetComponent<UniversalAdditionalCameraData>().renderType = CameraRenderType.Base;
     }
 
     public void DeactivateMainCamera()
@@ -159,12 +154,33 @@ public class TutorialHandler : MonoBehaviour
     public void SetCMVirtualPriorityValue(GameObject _object)
     {
         CinemachineVirtualCamera virtualCam = _object.GetComponent<CinemachineVirtualCamera>();
-        virtualCam.Priority = 11;
+        virtualCam.Priority = 13;
     }
 
     public void ResetCMVirtualPriorityValue(GameObject _object)
     {
         CinemachineVirtualCamera virtualCam = _object.GetComponent<CinemachineVirtualCamera>();
-        virtualCam.Priority = 10;
+        virtualCam.Priority = 9;
+    }
+
+    public void SetTutorials()
+    {
+        if (GameManager.Instance.tutorialsAreEnabled)
+        {
+            OpenAWindow(0);
+            SetTutorielMod(1);
+            DeactivateMainCamera();
+            StartCoroutine(DesactivateUIManagerComponents(0.01f));
+            skipTutorialButton.SetActive(true);
+        }
+    }
+
+    public void CloseTutorialBySkippingIt()
+    {
+        SetTutorielMod(0);
+        ActivateMainCamera();
+        DisplayShop();
+        ReactivateUIManagerComponents();
+        SetSkipTutorialToTrue();
     }
 }

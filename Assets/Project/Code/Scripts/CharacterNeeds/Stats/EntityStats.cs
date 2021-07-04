@@ -448,7 +448,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
         {
             CharacterRessources characterRessources = GameManager.Instance.Player.GetComponent<CharacterRessources>();
 
-            StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
+            if(GetComponent<NPCController>() != null && !GetComponent<NPCController>().isAGuardian)
+                StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
 
             characterRessources.AddRessources((int)valueToGive);
             characterRessources.SetRessourcesFeedback(characterRessources.CurrentAmountOfPlayerRessources + (int)valueToGive);

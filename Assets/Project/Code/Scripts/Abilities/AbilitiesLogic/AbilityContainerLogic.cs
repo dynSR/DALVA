@@ -186,10 +186,10 @@ public class AbilityContainerLogic : MonoBehaviour, IPointerEnterHandler, IPoint
             textToSet.SetText("Sort Ciblé");
         }
         //BUFF
-        else if (ContainedAbility.Ability.IsABuff)
+        else if (ContainedAbility.Ability.BuffType)
         {
                 spriteToSend = buffType;
-                textToSet.SetText("Buff");
+                textToSet.SetText("Amélioration");
         }
         //Heal
         else if (ContainedAbility.Ability.AbilityCanHealTarget)

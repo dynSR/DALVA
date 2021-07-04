@@ -2,6 +2,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHUDManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerHUDManager : MonoBehaviour
     public bool isShopWindowOpen = false;
     [SerializeField] private TextMeshProUGUI shopPlayerRessourcesValueText;
     [SerializeField] private ShopInformationPanel shopInformationPanel;
+    public GameObject [ ] itemPanels;
 
     [Header("MINI MAP")]
     public GameObject minimapGameObject;
@@ -328,5 +330,23 @@ public class PlayerHUDManager : MonoBehaviour
     public void SetGameManagerToPlayModeOnClosingElement()
     {
         GameManager.Instance.SetGameToPlayMod();
+    }
+
+    public void EnableShopItemPanels()
+    {
+        foreach (GameObject item in itemPanels)
+        {
+            item.GetComponent<Canvas>().sortingOrder = 0;
+            item.GetComponent<GraphicRaycaster>().enabled = true;
+        }
+    }
+
+    public void DisableShopItemPanels ()
+    {
+        foreach (GameObject item in itemPanels)
+        {
+            item.GetComponent<Canvas>().sortingOrder = 2501;
+            item.GetComponent<GraphicRaycaster>().enabled = false;
+        }
     }
 }

@@ -138,6 +138,8 @@ public class HarvesterLogic : InteractiveBuilding
     private void GiveRessourcesToPlayer(int amnt)
     {
         InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources += amnt;
+
+        InteractingPlayer.GetComponent<CharacterRessources>().SetRessourcesFeedback(InteractingPlayer.GetComponent<CharacterRessources>().CurrentAmountOfPlayerRessources + amnt);
     }
 
     public override void ResetAfterInteraction()

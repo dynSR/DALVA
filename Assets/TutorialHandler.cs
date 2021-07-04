@@ -6,15 +6,22 @@ using UnityEngine.Rendering.Universal;
 
 public class TutorialHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject[] windows;
-    [SerializeField] private GameObject[] uiManagerComponentsToActivate;
+    [Header("COMPONENTS")]
     public Camera mainCameraBrain;
-    private bool firstSpawnExplained = false;
-    private bool bossWaveExplained = false;
-    [SoundGroup] [SerializeField] private string portalLoopSFX;
-    public bool skipTutorials = false;
     public SpawnerSystem spawner;
     public GameObject skipTutorialButton;
+    public Transform tutorialUIObject;
+    [SerializeField] private GameObject[] windows;
+    [SerializeField] private GameObject[] uiManagerComponentsToActivate;
+    
+    [Header("FEEDBACKS")]
+    [SoundGroup] [SerializeField] private string portalLoopSFX;
+
+    [Header("SETTINGS")]
+    public bool skipTutorials = false;
+    public bool harvesterTutorialHasBeenDone = false;
+    public bool steleTutorialHasBeenDone = false;
+    public bool enemyInteractionHasBeenExplained = false;
 
     #region Singleton
     public static TutorialHandler Instance;
@@ -31,46 +38,6 @@ public class TutorialHandler : MonoBehaviour
         }
     }
     #endregion
-
-    private void DisplayWaveTutorial()
-    {
-        if (!firstSpawnExplained && !skipTutorials)
-        {
-            GameManager.Instance.SetGameToTutorialMod();
-
-            firstSpawnExplained = true;
-            OpenAWindow(7);
-
-            GameManager.Instance.SetGameToStandbyMod();
-
-            GameManager.Instance.tutorielDisplayed = true;
-
-            DeactivateMainCamera();
-            Time.timeScale = 0;
-
-            MasterAudio.FadeSoundGroupToVolume(portalLoopSFX, 0, 0.15f, null, true);
-        }
-    }
-
-    private void DisplayBossTutorial()
-    {
-        if (!bossWaveExplained && !skipTutorials)
-        {
-            GameManager.Instance.SetGameToTutorialMod();
-
-            bossWaveExplained = true;
-            OpenAWindow(8);
-
-            GameManager.Instance.SetGameToStandbyMod();
-
-            GameManager.Instance.tutorielDisplayed = true;
-
-            DeactivateMainCamera();
-            Time.timeScale = 0;
-
-            MasterAudio.PauseSoundGroup(portalLoopSFX);
-        }
-    }
 
     public void DeactivateGivenObject(GameObject gObj)
     {
@@ -148,7 +115,9 @@ public class TutorialHandler : MonoBehaviour
 
     public void DisplayShop()
     {
-        GameManager.Instance.ShopPhase();
+        PlayerHUDManager.Instance.OpenWindow(PlayerHUDManager.Instance.ShopWindow);
+        PlayerHUDManager.Instance.minimapGameObject.SetActive(false);
+        UIManager.Instance.waveIndicationUI.SetActive(false);
     }
 
     public void SetCMVirtualPriorityValue(GameObject _object)
@@ -161,6 +130,16 @@ public class TutorialHandler : MonoBehaviour
     {
         CinemachineVirtualCamera virtualCam = _object.GetComponent<CinemachineVirtualCamera>();
         virtualCam.Priority = 9;
+    }
+
+    public void DisplayObject(GameObject _object)
+    {
+        _object.SetActive(true);
+    }
+
+    public void HideObject (GameObject _object)
+    {
+        _object.SetActive(false);
     }
 
     public void SetTutorials()
@@ -178,9 +157,29 @@ public class TutorialHandler : MonoBehaviour
     public void CloseTutorialBySkippingIt()
     {
         SetTutorielMod(0);
+
         ActivateMainCamera();
+
         DisplayShop();
+
         ReactivateUIManagerComponents();
         SetSkipTutorialToTrue();
+
+        foreach (Transform item in tutorialUIObject)
+        {
+            item.gameObject.SetActive(false);
+        }
+
+        tutorialUIObject.gameObject.SetActive(false);
+    }
+
+    public void EnablePHUDShopItemPanels ()
+    {
+        PlayerHUDManager.Instance.EnableShopItemPanels();
+    }
+
+    public void DisablePHUDShopItemPanels()
+    {
+        PlayerHUDManager.Instance.DisableShopItemPanels();
     }
 }

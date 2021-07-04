@@ -24,11 +24,11 @@ public class InteractiveBuilding : MonoBehaviour
 
     protected void EntityDetectionEnableState(bool isInteractive)
     {
-        if (isInteractive)
+        if (isInteractive && !EntityDetection.enabled)
         {
             EntityDetection.enabled = true;
         }
-        else
+        else if (!isInteractive && EntityDetection.enabled)
         {
             EntityDetection.enabled = false;
         }

@@ -454,6 +454,8 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             characterRessources.AddRessources((int)valueToGive);
             characterRessources.SetRessourcesFeedback(characterRessources.CurrentAmountOfPlayerRessources + (int)valueToGive);
 
+            UtilityClass.PlaySoundGroupWithDelay("SFX_SE_Character_HarvestingDone", transform, 0.1f);
+
             //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
 
             if(deathFX != null)

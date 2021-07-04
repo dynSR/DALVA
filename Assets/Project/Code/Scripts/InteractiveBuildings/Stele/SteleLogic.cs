@@ -1,5 +1,4 @@
 ﻿using DarkTonic.MasterAudio;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -61,6 +60,12 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     private CharacterRessources interactingPlayerRessources;
     public List<GameObject> steleEffects;
 
+    [Header("FEEDBACK")]
+    public GameObject upgradeBillboard;
+
+    public SpriteRenderer minimapIcon;
+    public Color [ ] iconColors;
+
     BoxCollider BoxCollider => GetComponent<BoxCollider>();
 
 
@@ -94,16 +99,41 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     {
         base.LateUpdate();
 
+        if (!interactingPlayerRessources)
+        {
+            interactingPlayerRessources = GameManager.Instance.Player.GetComponent<CharacterRessources>();
+        }
+
         if (InteractingPlayer != null && !interactionIsHandled)
         {
             OnInteraction?.Invoke();
             interactionIsHandled = true;
-            interactingPlayerRessources = InteractingPlayer.GetComponent<CharacterRessources>();
         }
         else if (InteractingPlayer == null && interactionIsHandled)
         {
             OnEndOFInteraction?.Invoke();
             interactionIsHandled = false;
+        }
+
+
+        //Upgrade Billboard
+        if (!GameManager.Instance.GameIsInPlayMod())
+        {
+            upgradeBillboard.SetActive(false);
+            return;
+        }
+
+        if (interactingPlayerRessources 
+            && interactingPlayerRessources.CurrentAmountOfPlayerRessources >= CurrentPurchaseCost()
+            && !upgradeBillboard.activeInHierarchy)
+        {
+            upgradeBillboard.SetActive(true);
+        }
+        else if (interactingPlayerRessources
+            && interactingPlayerRessources.CurrentAmountOfPlayerRessources < CurrentPurchaseCost()
+            && upgradeBillboard.activeInHierarchy)
+        {
+            upgradeBillboard.SetActive(false);
         }
     }
 
@@ -125,6 +155,8 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         SpawnEntityEffect(steleEffects[index]);
 
         SetSpawnedEffectTransformValues(index);
+
+        minimapIcon.color = iconColors [ 1 ];
 
         activationVFX.SetActive(true);
         UtilityClass.PlaySoundGroupImmediatly(activationSFX, transform);
@@ -220,6 +252,8 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
         SteleLevel = SteleLevel.Default;
         SetSteleEffect(0);
 
+        minimapIcon.color = iconColors [ 0 ];
+
         if (InteractingPlayer != null)
             InteractingPlayer = null;
 
@@ -297,6 +331,7 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
     {
         IsInteractable = true;
         SteleState = SteleState.Inactive;
+        minimapIcon.color = iconColors [ 0 ];
     }
 
     public void SetSpawnedEffectTransformValues(int concernedIndex)

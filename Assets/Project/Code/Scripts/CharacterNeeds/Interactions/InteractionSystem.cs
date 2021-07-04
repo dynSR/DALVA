@@ -33,6 +33,7 @@ public class InteractionSystem : MonoBehaviour
     [SerializeField] private bool hasPerformedAttack = false;
     public bool IsAttacking = false;
     public bool NeedToMove = false;
+
     public bool CanPerformAttack { get => canPerformAttack; set => canPerformAttack = value; }
     public bool HasPerformedAttack { get => hasPerformedAttack; set => hasPerformedAttack = value; }
     public float InteractionRange { get => interactionRange; set => interactionRange = value; }

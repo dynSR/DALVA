@@ -33,6 +33,7 @@ public class GameParameters : MonoBehaviour
             }
         }
     }
+
     public void SetClassChosenToMage()
     {
         classIsMage = true;

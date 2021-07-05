@@ -449,14 +449,12 @@ public class EntityStats : MonoBehaviour, IDamageable, IKillable, ICurable, IReg
             CharacterRessources characterRessources = GameManager.Instance.Player.GetComponent<CharacterRessources>();
 
             if(GetComponent<NPCController>() != null && !GetComponent<NPCController>().isAGuardian)
-                StartCoroutine(CreateDamagePopUpWithDelay(0.5f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
+                StartCoroutine(CreateDamagePopUpWithDelay(0.75f, valueToGive, StatType.RessourcesGiven, GetStat(StatType.RessourcesGiven).Icon));
 
             characterRessources.AddRessources((int)valueToGive);
             characterRessources.SetRessourcesFeedback(characterRessources.CurrentAmountOfPlayerRessources + (int)valueToGive);
 
             UtilityClass.PlaySoundGroupWithDelay("SFX_SE_Character_HarvestingDone", transform, 0.1f);
-
-            //GameManager.Instance.Player.GetComponent<EntityStats>().RessourcesGainedVFX.SetActive(true);
 
             if(deathFX != null)
                 deathFX.Play();

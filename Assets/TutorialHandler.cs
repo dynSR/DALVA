@@ -160,10 +160,12 @@ public class TutorialHandler : MonoBehaviour
 
         ActivateMainCamera();
 
+        ReactivateUIManagerComponents();
         DisplayShop();
 
-        ReactivateUIManagerComponents();
         SetSkipTutorialToTrue();
+
+        EnablePHUDShopItemPanels();
 
         foreach (Transform item in tutorialUIObject)
         {

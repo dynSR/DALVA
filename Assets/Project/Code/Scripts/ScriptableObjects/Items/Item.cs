@@ -35,6 +35,7 @@ public class Item : ScriptableObject
     public void EquipItemAsEquipement(EntityStats c)
     {
         float currentHealth = c.GetStat(StatType.Health).Value;
+        bool wasMaxHealth = c.GetStat(StatType.Health).Value == c.GetStat(StatType.Health).MaxValue;
 
         if (!ItemIsAnAbility)
         {
@@ -49,7 +50,15 @@ public class Item : ScriptableObject
                         if (ItemModifiers[j].StatType == StatType.MovementSpeed)
                             c.UpdateNavMeshAgentSpeed(StatType.MovementSpeed);
 
-                        c.GetStat(StatType.Health).Value = currentHealth;
+                        if (wasMaxHealth)
+                        {
+                            c.GetStat(StatType.Health).Value = c.GetStat(StatType.Health).MaxValue;
+                        }
+                        else if (currentHealth <= c.GetStat(StatType.Health).MaxValue)
+                        {
+                            c.GetStat(StatType.Health).Value = currentHealth;
+                        }
+
                         c.UpdateStats();
                     }
                 }

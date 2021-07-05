@@ -112,6 +112,8 @@ public class ItemPanel : MonoBehaviour
         {
             itemPanelComponentsCreated[i].EnableCanvasGroup();
         }
+
+        PlayerHUDManager.Instance.EnableShopItemPanels();
     }
 
     public IEnumerator DisableAllCanvasGroup()
@@ -122,6 +124,8 @@ public class ItemPanel : MonoBehaviour
         {
             itemPanelComponentsCreated[i].DisableCanvasGroup();
         }
+
+        PlayerHUDManager.Instance.DisableShopItemPanels();
     }
 
     public IEnumerator ToggleEveryNeededCantAffordFeedback()

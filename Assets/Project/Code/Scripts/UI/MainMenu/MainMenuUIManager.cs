@@ -135,6 +135,8 @@ public class MainMenuUIManager : MonoBehaviour
     {
         ClassTextHighlight();
         DifficultyTextHighlight();
+
+        //if()
     }
 
     #region Methods

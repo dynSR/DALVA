@@ -371,7 +371,13 @@ public class MainMenuUIManager : MonoBehaviour
 
     private void CanStartGameCheck()
     {
-        if (hasPickedAClass && hasPickedADifficulty) startGameButton.interactable = true;
+        if (hasPickedAClass && hasPickedADifficulty)
+        {
+            startGameButton.interactable = true;
+            startGameButton.GetComponent<UIButtonHighlight>().StartButtonTextColor();
+        }
+
+        
         else startGameButton.interactable = false;
     }
 

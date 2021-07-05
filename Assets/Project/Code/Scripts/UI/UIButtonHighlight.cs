@@ -8,6 +8,7 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private Color normalColor;
     [SerializeField] private Color highlightColor;
     [SerializeField] private Color pressedColor;
+    [SerializeField] private Color noninteractableColor;
 
     public GameObject myBorder;
 
@@ -22,6 +23,7 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         HideBorder();
         ChangeTextColor(NormalColor);
+        if (noninteractableColor.a == 0) noninteractableColor.a = 1;
     }
 
     void Start()
@@ -34,7 +36,8 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
         //J'en ai besoin pour les boutons du shop
         if (!myButton.IsInteractable())
         {
-            ChangeTextColor(NormalColor);
+            if (noninteractableColor == Color.black) ChangeTextColor(NormalColor);
+            else ChangeTextColor(noninteractableColor);
             if(!isAMainMenuButton) HideBorder();
         }
     }
@@ -87,6 +90,11 @@ public class UIButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 transform.GetChild(i).GetComponent<TextMeshProUGUI>().color = colorToAssign;
             }
         }
+    }
+
+    public void StartButtonTextColor()
+    {
+        ChangeTextColor(normalColor);
     }
 
     public void DisplayBorder()

@@ -51,7 +51,12 @@ public class Billboard : MonoBehaviourPun
 
     private void FreezeLocalRotation()
     {
-        transform.eulerAngles = new Vector3(initRot.x, 0f, 0f);
+        Vector3 v3ToAssign = new Vector3(initRot.x, 0f, 0f);
+
+        if (transform.eulerAngles != v3ToAssign)
+        {
+            transform.eulerAngles = v3ToAssign;
+        }
     }
 
     void SetCharacterName()

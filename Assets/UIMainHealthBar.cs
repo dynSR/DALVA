@@ -10,6 +10,7 @@ public class UIMainHealthBar : MonoBehaviour
     public Image healthBarTreeImage;
     public Animator parentAnimator;
     public Animator healthBarAnimator;
+    public Animator treeTookDamageEffectAnimator;
 
     [Header("DEBUG NUMERIC VALUES")]
     public int currentAmountOfHealth;
@@ -49,12 +50,34 @@ public class UIMainHealthBar : MonoBehaviour
         PlaceToDefend.OnHealthValueChanged -= SetHealthBarParameters;
     }
 
+
+    bool isPlaying (Animator anim, string stateName)
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
+                anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+            return true;
+        else
+            return false;
+    }
+
     public void SetHealthBarParameters(int healthValue)
     {
+        if (!GameManager.Instance.GameIsInPlayMod()) return;
+
         healthBarFillImage.fillAmount = (float)healthValue / (float)maxAmountOfLife;
         healthPercentage = ((float)healthValue / (float)maxAmountOfLife) * 100f;
 
-        if (healthPercentage < 100) TriggerAnimator();
+        if (healthPercentage < 100)
+        {
+            if (isPlaying(treeTookDamageEffectAnimator, "Anim_HUD_TreeTookDamage"))
+            {
+                treeTookDamageEffectAnimator.ResetTrigger("DamageTaken");
+            }
+
+            treeTookDamageEffectAnimator.SetTrigger("DamageTaken");
+
+            TriggerAnimator();
+        }
 
         // Set tree icon and heathbar color to match health percentage 100 / 4 > 100 - 75 - 50 - 25
         if (healthPercentage <= 100 && healthPercentage >= 75f)

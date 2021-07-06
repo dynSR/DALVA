@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DarkTonic.MasterAudio;
 
 public class MainMenuUIManager : MonoBehaviour
 {
@@ -89,6 +90,11 @@ public class MainMenuUIManager : MonoBehaviour
     [Tooltip("The button that start the game.")]
     public Button startGameButton;
 
+    [Tooltip("The intro video clip.")]
+    public GameObject introVideoPlayer;
+    [Tooltip("The music playlist controller.")]
+    public GameObject playlistCtlr;
+
     #endregion
 
     #region Fields
@@ -136,7 +142,8 @@ public class MainMenuUIManager : MonoBehaviour
         ClassTextHighlight();
         DifficultyTextHighlight();
 
-        //if()
+        if (introVideoPlayer.activeSelf) playlistCtlr.GetComponent<PlaylistController>().PlaylistVolume = 0;
+        else playlistCtlr.GetComponent<PlaylistController>().PlaylistVolume = 1;
     }
 
     #region Methods

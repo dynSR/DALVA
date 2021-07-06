@@ -14,7 +14,7 @@ public class PlaceToDefend : MonoBehaviour
     private Animator myAnimator;
     private int maxHealth;
 
-    [SoundGroup] public string passingThroughSFX;
+    [SoundGroup] public string treeLosingHealthSFX;
 
     private void Start()
     {
@@ -47,7 +47,7 @@ public class PlaceToDefend : MonoBehaviour
             {
                 GameManager.Instance.DalvaLifePoints -= stats.DamageAppliedToThePlaceToDefend;
 
-                UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, stats.transform);
+                UtilityClass.PlaySoundGroupImmediatly(treeLosingHealthSFX, stats.transform);
 
                 UIManager.Instance.SetDamageLoss(stats.DamageAppliedToThePlaceToDefend);
 
@@ -70,7 +70,7 @@ public class PlaceToDefend : MonoBehaviour
 
             GameManager.Instance.DalvaLifePoints -= damageApplied;
 
-            UtilityClass.PlaySoundGroupImmediatly(passingThroughSFX, GameManager.Instance.placesToDefend[0].transform);
+            UtilityClass.PlaySoundGroupImmediatly(treeLosingHealthSFX, GameManager.Instance.placesToDefend[0].transform);
 
             UIManager.Instance.SetDamageLoss(damageApplied);
 
@@ -120,7 +120,10 @@ public class PlaceToDefend : MonoBehaviour
             myAnimator.SetInteger("Status", 1);
             return;
         }
-        else myAnimator.SetInteger("Status", 0);
+        else
+        {
+            myAnimator.SetInteger("Status", 0);
+        }
     }
 
 }

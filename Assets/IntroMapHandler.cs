@@ -3,6 +3,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Rendering.Universal;
+using DarkTonic.MasterAudio;
 
 public class IntroMapHandler : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class IntroMapHandler : MonoBehaviour
 
     public Outline [ ] outlines;
     public List<Color> colors;
+
 
     #region Singleton
     public static IntroMapHandler Instance;
@@ -85,6 +87,8 @@ public class IntroMapHandler : MonoBehaviour
             UtilityClass.GetMainCamera().transform.GetChild(2).gameObject.SetActive(true);
 
         GameManager.Instance.ShopPhase();
+
+        UtilityClass.PlaySoundGroupImmediatly("OST_InGame", transform);
     }
 
     public void SetOutlinesColorToWhite ()

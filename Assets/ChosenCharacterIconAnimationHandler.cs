@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DarkTonic.MasterAudio;
+using UnityEngine;
 
 public class ChosenCharacterIconAnimationHandler : MonoBehaviour
 {
@@ -8,5 +9,10 @@ public class ChosenCharacterIconAnimationHandler : MonoBehaviour
         {
             gO.SetActive(true);
         }
+    }
+
+    public void FadeGameStateProperSFX(string soundName)
+    {
+        MasterAudio.FadeSoundGroupToVolume(soundName, 1, 1.5f, null, true, true);
     }
 }

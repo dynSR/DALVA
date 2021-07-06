@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using DarkTonic.MasterAudio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -328,6 +329,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Victory");
 
+        MasterAudio.FadeSoundGroupToVolume("OST_InGame", 0, 5, null, true, true);
+        //MasterAudio.StopAllOfSound("OST_InGame");
+
         CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
 
         GameState = GameState.Victory;
@@ -365,6 +369,9 @@ public class GameManager : MonoBehaviour
     public IEnumerator Defeat(float delay)
     {
         Debug.Log("Defeat");
+
+        MasterAudio.FadeSoundGroupToVolume("OST_InGame", 0, 5, null, true, true);
+        //MasterAudio.StopAllOfSound("OST_InGame");
 
         CinemachineBrain cinemachineBrain = FindObjectOfType<CinemachineBrain>();
 

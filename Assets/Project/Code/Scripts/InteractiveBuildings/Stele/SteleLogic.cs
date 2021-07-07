@@ -125,12 +125,18 @@ public class SteleLogic : InteractiveBuilding/*, IKillable, IDamageable*/
 
         if (interactingPlayerRessources 
             && interactingPlayerRessources.CurrentAmountOfPlayerRessources >= CurrentPurchaseCost()
-            && !upgradeBillboard.activeInHierarchy)
+            && !upgradeBillboard.activeInHierarchy
+            && SteleLevel != SteleLevel.OnlySell)
         {
             upgradeBillboard.SetActive(true);
         }
         else if (interactingPlayerRessources
             && interactingPlayerRessources.CurrentAmountOfPlayerRessources < CurrentPurchaseCost()
+            && upgradeBillboard.activeInHierarchy)
+        {
+            upgradeBillboard.SetActive(false);
+        }
+        else if (SteleLevel == SteleLevel.OnlySell 
             && upgradeBillboard.activeInHierarchy)
         {
             upgradeBillboard.SetActive(false);

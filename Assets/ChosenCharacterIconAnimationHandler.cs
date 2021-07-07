@@ -13,6 +13,6 @@ public class ChosenCharacterIconAnimationHandler : MonoBehaviour
 
     public void FadeGameStateProperSFX(string soundName)
     {
-        MasterAudio.FadeSoundGroupToVolume(soundName, 1, 1.5f, null, true, true);
+        UtilityClass.PlaySoundGroupImmediatly(soundName, transform);
     }
 }

@@ -8,6 +8,11 @@ public class Warrior_Z_DamageZone : MonoBehaviour
     private float damage;
     [SerializeField] private StatusEffect effectToApply;
 
+    private void OnEnable()
+    {
+        UtilityClass.PlaySoundGroupImmediatly("SFX_SE_Warrior_Z_ShieldExplode", transform);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         ApplyAffect(other.GetComponent<EntityStats>());

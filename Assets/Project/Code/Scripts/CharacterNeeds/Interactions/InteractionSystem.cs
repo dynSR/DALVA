@@ -231,7 +231,7 @@ public class InteractionSystem : MonoBehaviour
                 targetStat.GetStat(StatType.PhysicalResistances).Value,
                 targetStat.GetStat(StatType.MagicalResistances).Value,
                 totalPhysicalDamage,
-                0,
+                totalMagicalDamage,
                 Stats.GetStat(StatType.CriticalStrikeChance).Value,
                 175f,
                 Stats.GetStat(StatType.PhysicalPenetration).Value,

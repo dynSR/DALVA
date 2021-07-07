@@ -36,25 +36,27 @@ public class ForestCamp : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.W))
-        //    ScaleEntitiesStats();
+        if (Input.GetKeyDown(KeyCode.W))
+            ScaleEntitiesStats();
     }
 
     private void LateUpdate()
     {
         if(EveryEntityIsDead() && !deathEventIsHandled)
         {
+            Debug.Log("Respawn forest camp entities");
             ProcessRespawnForEntities();
         }
-
-        if (EveryEntityIsUp() && deathEventIsHandled)
+        else if (EveryEntityIsUp() && deathEventIsHandled)
         {
-            ScaleEntitiesStats();
+            ResetEntitiesState();
         }
     }
 
     private void ProcessRespawnForEntities()
     {
+        deathEventIsHandled = true;
+
         foreach (NPCController controller in npcControllers)
         {
             StartCoroutine(controller.Stats.ProcessRespawnTimer(controller.Stats.TimeToRespawn));
@@ -115,14 +117,22 @@ public class ForestCamp : MonoBehaviour
             if (count >= npcControllers.Count)
             {
                 everyEntityIsUp = true;
-                DisplayCampMinimapIcon();
-                deathEventIsHandled = false;
-                StopAllCoroutines();
             }
             else everyEntityIsUp = false;
         }
 
         return everyEntityIsUp;
+    }
+
+    void ResetEntitiesState()
+    {
+        DisplayCampMinimapIcon();
+
+        deathEventIsHandled = false;
+
+        ScaleEntitiesStats();
+
+        StopAllCoroutines();
     }
 
     void SetNPCPositionAndRotation()
@@ -170,6 +180,7 @@ public class ForestCamp : MonoBehaviour
     {
         if (!canScaleStats) return;
 
+        Debug.Log("Scale forest camp entities");
         Debug.Log("Scaling npc stats properties !");
 
         foreach (NPCController controller in npcControllers)

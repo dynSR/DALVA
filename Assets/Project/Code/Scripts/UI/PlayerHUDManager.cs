@@ -20,6 +20,7 @@ public class PlayerHUDManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI shopPlayerRessourcesValueText;
     [SerializeField] private ShopInformationPanel shopInformationPanel;
     public GameObject [ ] itemPanels;
+    public Vector2 offset;
 
     [Header("MINI MAP")]
     public GameObject minimapGameObject;
@@ -205,11 +206,11 @@ public class PlayerHUDManager : MonoBehaviour
     #endregion
 
     #region Shop Window
-    public void RepositionShopWindow(float yValue)
+    public void RepositionShopWindow()
     {
         RectTransform shopWindowRectTransform = ShopWindow.GetComponent<RectTransform>();
 
-        shopWindowRectTransform.position = new Vector3(shopWindowRectTransform.position.x, yValue, shopWindowRectTransform.position.z);
+        shopWindowRectTransform.position = offset;
     }
 
     void OnOpeningShopWindow()
@@ -229,7 +230,6 @@ public class PlayerHUDManager : MonoBehaviour
         IsShopWindowOpen = true;
         UtilityClass.PlaySoundGroupImmediatly(openingShopSoundGroup, transform);
 
-        ResetShopWindowAnchoredPosition();
         shop.RefreshShopData();
         ResetShopWindowSelectionsOnBoxes();
 
@@ -296,11 +296,6 @@ public class PlayerHUDManager : MonoBehaviour
     {
         ShopManager shop = ShopWindow.GetComponent<ShopManager>();
         shop.PlayerInventory.ResetAllSelectedIcons();
-    }
-
-    void ResetShopWindowAnchoredPosition()
-    {
-        RepositionShopWindow(443);
     }
     #endregion
 

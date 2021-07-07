@@ -211,13 +211,11 @@ public class ProjectileLogic : MonoBehaviour
         }
         else TotalPhysicalDamage = 0;
 
-        /*if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
+        if (ProjectileSenderStats.GetStat(StatType.MagicalPower).Value > 0)
         {
             TotalMagicalDamage = ProjectileSenderStats.GetStat(StatType.MagicalPower).Value;
         }
-        else TotalMagicalDamage = 0;*/
-
-        TotalMagicalDamage = 0;
+        else TotalMagicalDamage = 0;
 
         if (ProjectileSenderStats.GetStat(StatType.DamageReduction).Value > 0)
         {

@@ -7396,7 +7396,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 2
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8034,6 +8034,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4711331007614227869}
   - component: {fileID: 4711331007614227868}
+  - component: {fileID: 5814219200062244298}
   m_Layer: 0
   m_Name: Tooltip
   m_TagString: Untagged
@@ -8077,6 +8078,27 @@ MonoBehaviour:
   objectDescription: {fileID: 1829739370469401777}
   objectCost: {fileID: 7237116606650658388}
   image: {fileID: 0}
+--- !u!223 &5814219200062244298
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711331007614227870}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 151
+  m_TargetDisplay: 0
 --- !u!1 &4711331007698882879
 GameObject:
   m_ObjectHideFlags: 0

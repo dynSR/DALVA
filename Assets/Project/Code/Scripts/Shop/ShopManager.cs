@@ -38,8 +38,9 @@ public class ShopManager : MonoBehaviour
     public bool firstDrawDone = false;
     public bool itemInPoolAreTargeted = false;
     public Animator[] itemPanelAnimators;
+    public bool isDoingADraw;
 
-    [Header("ITEM BUTTON")]
+    [ Header("ITEM BUTTON")]
     [SerializeField] private Transform itemButtonsParent;
     [SerializeField] private GameObject itemButton;
 

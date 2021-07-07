@@ -29,6 +29,7 @@ public class HarvesterLogic : InteractiveBuilding
     [SerializeField] private GameObject progressBarObject;
     [SerializeField] private Image progressBar;
     public HarvestState harvestState; //Its in public for debug purpose
+    public GameObject harvesterLimitReachedPingObject;
 
     [Header("SFX")]
     [SoundGroup] public string harvestingLoopSFX;
@@ -102,6 +103,8 @@ public class HarvesterLogic : InteractiveBuilding
             maxEffectObject.SetActive(true);
 
             UtilityClass.PlaySoundGroupImmediatly(limitReachedSFX, transform);
+
+            harvesterLimitReachedPingObject.SetActive(true);
         }
     }
 

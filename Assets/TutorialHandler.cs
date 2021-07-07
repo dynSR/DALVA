@@ -13,9 +13,6 @@ public class TutorialHandler : MonoBehaviour
     public Transform tutorialUIObject;
     [SerializeField] private GameObject[] windows;
     [SerializeField] private GameObject[] uiManagerComponentsToActivate;
-    
-    [Header("FEEDBACKS")]
-    [SoundGroup] [SerializeField] private string portalLoopSFX;
 
     [Header("SETTINGS")]
     public bool skipTutorials = false;

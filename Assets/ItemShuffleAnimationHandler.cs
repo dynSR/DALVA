@@ -26,12 +26,18 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
 
     public void StartShuffleSoundCall()
     {
-        UtilityClass.PlaySoundGroupImmediatly(startShuffleSFX, transform);
+        if (PlayerHUDManager.Instance.IsShopWindowOpen)
+            UtilityClass.PlaySoundGroupImmediatly(startShuffleSFX, transform);
+
+        shopManager.isDoingADraw = true;
     }
 
     public void EndShuffleSoundCall()
     {
-        UtilityClass.PlaySoundGroupImmediatly(endShuffleSFX, transform);
+        if (PlayerHUDManager.Instance.IsShopWindowOpen)
+            UtilityClass.PlaySoundGroupImmediatly(endShuffleSFX, transform);
+
+        shopManager.isDoingADraw = false;
     }
 
     public void EnableResetButton()
@@ -60,6 +66,7 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
         foreach (Button item in closingShopButtons)
         {
             item.enabled = false;
+            item.GetComponent<UIButtonHighlight>().enabled = false;
         }
 
         foreach (GameObject item in disabledButtonFeedbacks)
@@ -73,6 +80,7 @@ public class ItemShuffleAnimationHandler : MonoBehaviour
         foreach (Button item in closingShopButtons)
         {
             item.enabled = true;
+            item.GetComponent<UIButtonHighlight>().enabled = true;
         }
 
         foreach (GameObject item in disabledButtonFeedbacks)

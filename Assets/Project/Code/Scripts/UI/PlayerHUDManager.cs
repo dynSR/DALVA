@@ -81,7 +81,9 @@ public class PlayerHUDManager : MonoBehaviour
     void Update()
     {
         //To comment
-        if (UtilityClass.IsKeyPressed(toggleInputKey) && GameManager.Instance.GameIsInPlayMod())
+        if (UtilityClass.IsKeyPressed(toggleInputKey) 
+            && GameManager.Instance.GameIsInPlayMod()
+            && !ShopWindow.GetComponent<ShopManager>().isDoingADraw)
             ToggleAWindow(IsShopWindowOpen, ShopWindow);
     }
 
@@ -336,7 +338,7 @@ public class PlayerHUDManager : MonoBehaviour
     {
         foreach (GameObject item in itemPanels)
         {
-            item.GetComponent<Canvas>().sortingOrder = 0;
+            item.GetComponent<Canvas>().sortingOrder = 150;
             item.GetComponent<GraphicRaycaster>().enabled = true;
         }
     }
